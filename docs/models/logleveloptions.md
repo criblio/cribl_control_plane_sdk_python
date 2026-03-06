@@ -1,13 +1,13 @@
-# InputOffice365MsgTraceLogLevel
+# LogLevelOptions
 
 Log Level (verbosity) for collection runtime behavior.
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import InputOffice365MsgTraceLogLevel
+from cribl_control_plane.models import LogLevelOptions
 
-value = InputOffice365MsgTraceLogLevel.ERROR
+value = LogLevelOptions.ERROR
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

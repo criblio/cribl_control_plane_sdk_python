@@ -5,6 +5,9 @@ from .authenticationmethodoptions import AuthenticationMethodOptions
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
+from .authenticationmethodoptionsmanualoauth import (
+    AuthenticationMethodOptionsManualOauth,
+)
 from .authenticationmethodoptionsmanualsecret import (
     AuthenticationMethodOptionsManualSecret,
 )
@@ -22,6 +25,7 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
+from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
 from .createinputsystembypack_type_tcpjson import (
     CreateInputSystemByPackInputAppscope,
     CreateInputSystemByPackInputAppscopeTypedDict,
@@ -114,6 +118,7 @@ from .kafkaschemaregistryauthenticationtype import (
     KafkaSchemaRegistryAuthenticationType,
     KafkaSchemaRegistryAuthenticationTypeTypedDict,
 )
+from .logleveloptions import LogLevelOptions
 from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
 from .outputmodeoptionssplunkcollectorconf import OutputModeOptionsSplunkCollectorConf
 from .pqtype import PqType, PqTypeTypedDict
@@ -2089,63 +2094,318 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeOffice365MsgTrace(str, Enum):
-    OFFICE365_MSG_TRACE = "office365_msg_trace"
+class CreateInputSystemByPackTypeMicrosoftGraph(str, Enum):
+    MICROSOFT_GRAPH = "microsoft_graph"
 
 
-class CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputSystemByPackTypeMicrosoftGraph
+    url: str
+    r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
+    interval: int
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    start_date: NotRequired[str]
+    r"""Backward offset for the search range's head. (E.g.: -3h@h) Microsoft Graph data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
+    end_date: NotRequired[str]
+    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Microsoft Graph data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
+    timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
+    disable_time_filter: NotRequired[bool]
+    r"""Disables time filtering of events when a date range is specified."""
+    auth_type: NotRequired[AuthenticationMethodOptionsManualOauth]
+    r"""Select authentication method."""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    reschedule_dropped_tasks: NotRequired[bool]
+    r"""Reschedule tasks that failed with non-fatal errors"""
+    max_task_reschedule: NotRequired[float]
+    r"""Maximum number of times a task can be rescheduled"""
+    log_level: NotRequired[LogLevelOptions]
+    r"""Log Level (verbosity) for collection runtime behavior."""
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    description: NotRequired[str]
+    username: NotRequired[str]
+    r"""Username to run Microsoft Graph API call."""
+    password: NotRequired[str]
+    r"""Password to run Microsoft Graph API call."""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials."""
+    client_secret: NotRequired[str]
+    r"""client_secret to pass in the OAuth request parameter."""
+    tenant_id: NotRequired[str]
+    r"""Directory ID (tenant identifier) in Azure Active Directory."""
+    client_id: NotRequired[str]
+    r"""client_id to pass in the OAuth request parameter."""
+    resource: NotRequired[str]
+    r"""Resource to pass in the OAuth request parameter."""
+    plan_type: NotRequired[SubscriptionPlanOptions]
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    text_secret: NotRequired[str]
+    r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
+    cert_options: NotRequired[CertOptionsTypeTypedDict]
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_resource: NotRequired[str]
+    r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
+
+
+class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputSystemByPackTypeMicrosoftGraph
+
+    url: str
+    r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
+
+    interval: int
+    r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    start_date: Annotated[Optional[str], pydantic.Field(alias="startDate")] = None
+    r"""Backward offset for the search range's head. (E.g.: -3h@h) Microsoft Graph data is delayed; this parameter (with Date range end) compensates for delay and gaps."""
+
+    end_date: Annotated[Optional[str], pydantic.Field(alias="endDate")] = None
+    r"""Backward offset for the search range's tail. (E.g.: -2h@h) Microsoft Graph data is delayed; this parameter (with Date range start) compensates for delay and gaps."""
+
+    timeout: Optional[float] = None
+    r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
+
+    disable_time_filter: Annotated[
+        Optional[bool], pydantic.Field(alias="disableTimeFilter")
+    ] = None
+    r"""Disables time filtering of events when a date range is specified."""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptionsManualOauth],
+        pydantic.Field(alias="authType"),
+    ] = None
     r"""Select authentication method."""
 
-    MANUAL = "manual"
-    SECRET = "secret"
-    OAUTH = "oauth"
-    OAUTH_SECRET = "oauthSecret"
-    OAUTH_CERT = "oauthCert"
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = None
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
 
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
-class CreateInputSystemByPackLogLevelOffice365MsgTrace(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = None
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = None
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = None
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    reschedule_dropped_tasks: Annotated[
+        Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
+    ] = None
+    r"""Reschedule tasks that failed with non-fatal errors"""
+
+    max_task_reschedule: Annotated[
+        Optional[float], pydantic.Field(alias="maxTaskReschedule")
+    ] = None
+    r"""Maximum number of times a task can be rescheduled"""
+
+    log_level: Annotated[
+        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+    ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
-    ERROR = "error"
-    WARN = "warn"
-    INFO = "info"
-    DEBUG = "debug"
-    SILLY = "silly"
-
-
-class CreateInputSystemByPackCertOptionsTypedDict(TypedDict):
-    priv_key_path: str
-    r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
-    cert_path: str
-    r"""Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS."""
-    certificate_name: NotRequired[str]
-    r"""The name of the predefined certificate."""
-    passphrase: NotRequired[str]
-    r"""Passphrase to use to decrypt the private key."""
-
-
-class CreateInputSystemByPackCertOptions(BaseModel):
-    priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
-    r"""Path to the private key to use. Key should be in PEM format. Can reference $ENV_VARS."""
-
-    cert_path: Annotated[str, pydantic.Field(alias="certPath")]
-    r"""Path to the certificate to use. Certificate should be in PEM format. Can reference $ENV_VARS."""
-
-    certificate_name: Annotated[
-        Optional[str], pydantic.Field(alias="certificateName")
+    retry_rules: Annotated[
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
-    r"""The name of the predefined certificate."""
 
-    passphrase: Optional[str] = None
-    r"""Passphrase to use to decrypt the private key."""
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+    r"""Username to run Microsoft Graph API call."""
+
+    password: Optional[str] = None
+    r"""Password to run Microsoft Graph API call."""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials."""
+
+    client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
+    r"""client_secret to pass in the OAuth request parameter."""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""Directory ID (tenant identifier) in Azure Active Directory."""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""client_id to pass in the OAuth request parameter."""
+
+    resource: Optional[str] = None
+    r"""Resource to pass in the OAuth request parameter."""
+
+    plan_type: Annotated[
+        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
+    ] = None
+    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
+
+    cert_options: Annotated[
+        Optional[CertOptionsType], pydantic.Field(alias="certOptions")
+    ] = None
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_resource: Annotated[
+        Optional[str], pydantic.Field(alias="__template_resource")
+    ] = None
+    r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsManualOauth(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("log_level")
+    def serialize_log_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.LogLevelOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("plan_type")
+    def serialize_plan_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SubscriptionPlanOptions(value)
+            except ValueError:
+                return value
+        return value
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["certificateName", "passphrase"])
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "startDate",
+                "endDate",
+                "timeout",
+                "disableTimeFilter",
+                "authType",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "rescheduleDroppedTasks",
+                "maxTaskReschedule",
+                "logLevel",
+                "retryRules",
+                "description",
+                "username",
+                "password",
+                "credentialsSecret",
+                "clientSecret",
+                "tenantId",
+                "clientId",
+                "resource",
+                "planType",
+                "textSecret",
+                "certOptions",
+                "__template_url",
+                "__template_tenantId",
+                "__template_clientId",
+                "__template_resource",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -2160,13 +2420,17 @@ class CreateInputSystemByPackCertOptions(BaseModel):
         return m
 
 
+class CreateInputSystemByPackTypeOffice365MsgTrace(str, Enum):
+    OFFICE365_MSG_TRACE = "office365_msg_trace"
+
+
 class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeOffice365MsgTrace
     url: str
     r"""URL to use when retrieving report data."""
-    interval: float
+    interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -2190,18 +2454,12 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace]
+    auth_type: NotRequired[AuthenticationMethodOptionsManualOauth]
     r"""Select authentication method."""
-    reschedule_dropped_tasks: NotRequired[bool]
-    r"""Reschedule tasks that failed with non-fatal errors"""
-    max_task_reschedule: NotRequired[float]
-    r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[CreateInputSystemByPackLogLevelOffice365MsgTrace]
-    r"""Log Level (verbosity) for collection runtime behavior."""
-    job_timeout: NotRequired[str]
-    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
     max_missed_keep_alives: NotRequired[float]
     r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
     ttl: NotRequired[str]
@@ -2210,6 +2468,12 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
+    reschedule_dropped_tasks: NotRequired[bool]
+    r"""Reschedule tasks that failed with non-fatal errors"""
+    max_task_reschedule: NotRequired[float]
+    r"""Maximum number of times a task can be rescheduled"""
+    log_level: NotRequired[LogLevelOptions]
+    r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
@@ -2230,7 +2494,7 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
-    cert_options: NotRequired[CreateInputSystemByPackCertOptionsTypedDict]
+    cert_options: NotRequired[CertOptionsTypeTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -2250,7 +2514,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     url: str
     r"""URL to use when retrieving report data."""
 
-    interval: float
+    interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     disabled: Optional[bool] = None
@@ -2292,34 +2556,18 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace],
+        Optional[AuthenticationMethodOptionsManualOauth],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
-
-    reschedule_dropped_tasks: Annotated[
-        Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
-    ] = None
-    r"""Reschedule tasks that failed with non-fatal errors"""
-
-    max_task_reschedule: Annotated[
-        Optional[float], pydantic.Field(alias="maxTaskReschedule")
-    ] = None
-    r"""Maximum number of times a task can be rescheduled"""
-
-    log_level: Annotated[
-        Optional[CreateInputSystemByPackLogLevelOffice365MsgTrace],
-        pydantic.Field(alias="logLevel"),
-    ] = None
-    r"""Log Level (verbosity) for collection runtime behavior."""
-
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
-    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
     ] = None
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
     max_missed_keep_alives: Annotated[
         Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
@@ -2336,6 +2584,21 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
 
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
+
+    reschedule_dropped_tasks: Annotated[
+        Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
+    ] = None
+    r"""Reschedule tasks that failed with non-fatal errors"""
+
+    max_task_reschedule: Annotated[
+        Optional[float], pydantic.Field(alias="maxTaskReschedule")
+    ] = None
+    r"""Maximum number of times a task can be rescheduled"""
+
+    log_level: Annotated[
+        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+    ] = None
+    r"""Log Level (verbosity) for collection runtime behavior."""
 
     retry_rules: Annotated[
         Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
@@ -2375,8 +2638,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
 
     cert_options: Annotated[
-        Optional[CreateInputSystemByPackCertOptions],
-        pydantic.Field(alias="certOptions"),
+        Optional[CertOptionsType], pydantic.Field(alias="certOptions")
     ] = None
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
@@ -2403,11 +2665,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return (
-                    models.CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace(
-                        value
-                    )
-                )
+                return models.AuthenticationMethodOptionsManualOauth(value)
             except ValueError:
                 return value
         return value
@@ -2416,7 +2674,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackLogLevelOffice365MsgTrace(value)
+                return models.LogLevelOptions(value)
             except ValueError:
                 return value
         return value
@@ -2447,15 +2705,15 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
                 "timeout",
                 "disableTimeFilter",
                 "authType",
-                "rescheduleDroppedTasks",
-                "maxTaskReschedule",
-                "logLevel",
-                "jobTimeout",
                 "keepAliveTime",
+                "jobTimeout",
                 "maxMissedKeepAlives",
                 "ttl",
                 "ignoreGroupJobsLimit",
                 "metadata",
+                "rescheduleDroppedTasks",
+                "maxTaskReschedule",
+                "logLevel",
                 "retryRules",
                 "description",
                 "username",
@@ -8523,9 +8781,9 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputCriblmetricsTypedDict,
         CreateInputSystemByPackInputKubeMetricsTypedDict,
         CreateInputSystemByPackInputCollectionTypedDict,
+        CreateInputSystemByPackInputSystemStateTypedDict,
         CreateInputSystemByPackInputSystemMetricsTypedDict,
         CreateInputSystemByPackInputWindowsMetricsTypedDict,
-        CreateInputSystemByPackInputSystemStateTypedDict,
         CreateInputSystemByPackInputJournalFilesTypedDict,
         CreateInputSystemByPackInputKubeLogsTypedDict,
         CreateInputSystemByPackInputModelDrivenTelemetryTypedDict,
@@ -8539,9 +8797,9 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputOpenaiTypedDict,
         CreateInputSystemByPackInputTcpjsonTypedDict,
         CreateInputSystemByPackInputGooglePubsubTypedDict,
+        CreateInputSystemByPackInputWizTypedDict,
         CreateInputSystemByPackInputFirehoseTypedDict,
         CreateInputSystemByPackInputCriblHTTPTypedDict,
-        CreateInputSystemByPackInputWizTypedDict,
         CreateInputSystemByPackInputOffice365ServiceTypedDict,
         CreateInputSystemByPackInputTCPTypedDict,
         CreateInputSystemByPackInputDatadogAgentTypedDict,
@@ -8550,30 +8808,31 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputOffice365MgmtTypedDict,
         CreateInputSystemByPackInputWefTypedDict,
         CreateInputSystemByPackInputAppscopeTypedDict,
-        CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputWizWebhookTypedDict,
-        CreateInputSystemByPackInputEventhubTypedDict,
-        CreateInputSystemByPackInputCloudflareHecTypedDict,
-        CreateInputSystemByPackInputZscalerHecTypedDict,
-        CreateInputSystemByPackInputKafkaTypedDict,
+        CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputHTTPTypedDict,
-        CreateInputSystemByPackInputConfluentCloudTypedDict,
+        CreateInputSystemByPackInputKafkaTypedDict,
+        CreateInputSystemByPackInputZscalerHecTypedDict,
         CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
+        CreateInputSystemByPackInputCloudflareHecTypedDict,
+        CreateInputSystemByPackInputConfluentCloudTypedDict,
+        CreateInputSystemByPackInputEventhubTypedDict,
         CreateInputSystemByPackInputLokiTypedDict,
         CreateInputSystemByPackInputPrometheusRwTypedDict,
-        CreateInputSystemByPackInputOpenTelemetryTypedDict,
         CreateInputSystemByPackInputAzureBlobTypedDict,
+        CreateInputSystemByPackInputOpenTelemetryTypedDict,
         CreateInputSystemByPackInputElasticTypedDict,
-        CreateInputSystemByPackInputSplunkHecTypedDict,
         CreateInputSystemByPackInputSqsTypedDict,
+        CreateInputSystemByPackInputSplunkHecTypedDict,
         CreateInputSystemByPackInputSplunkSearchTypedDict,
         CreateInputSystemByPackInputKinesisTypedDict,
         CreateInputSystemByPackInputOffice365MsgTraceTypedDict,
-        CreateInputSystemByPackInputCrowdstrikeTypedDict,
+        CreateInputSystemByPackInputMicrosoftGraphTypedDict,
         CreateInputSystemByPackInputEdgePrometheusTypedDict,
+        CreateInputSystemByPackInputCrowdstrikeTypedDict,
         CreateInputSystemByPackInputMskTypedDict,
-        CreateInputSystemByPackInputPrometheusTypedDict,
         CreateInputSystemByPackInputS3TypedDict,
+        CreateInputSystemByPackInputPrometheusTypedDict,
         CreateInputSystemByPackInputSecurityLakeTypedDict,
         CreateInputSystemByPackInputS3InventoryTypedDict,
         CreateInputSystemByPackInputSyslogUnionTypedDict,
@@ -8607,6 +8866,7 @@ CreateInputSystemByPackRequestBody = Annotated[
         Annotated[
             CreateInputSystemByPackInputOffice365MsgTrace, Tag("office365_msg_trace")
         ],
+        Annotated[CreateInputSystemByPackInputMicrosoftGraph, Tag("microsoft_graph")],
         Annotated[CreateInputSystemByPackInputEventhub, Tag("eventhub")],
         Annotated[CreateInputSystemByPackInputExec, Tag("exec")],
         Annotated[CreateInputSystemByPackInputFirehose, Tag("firehose")],
@@ -8728,7 +8988,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackCertOptions.model_rebuild()
+    CreateInputSystemByPackInputMicrosoftGraph.model_rebuild()
 except NameError:
     pass
 try:

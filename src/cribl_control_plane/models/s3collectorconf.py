@@ -92,8 +92,6 @@ class S3AwsAuthenticationMethodSecretTypedDict(TypedDict):
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_aws_authentication_method: NotRequired[str]
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
@@ -207,11 +205,6 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
-    template_aws_authentication_method: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAuthenticationMethod")
-    ] = None
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
-
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
@@ -280,7 +273,6 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
                 "disableTimeFilter",
                 "__template_bucket",
                 "__template_region",
-                "__template_awsAuthenticationMethod",
                 "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
@@ -375,8 +367,6 @@ class S3AwsAuthenticationMethodManualTypedDict(TypedDict):
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_aws_authentication_method: NotRequired[str]
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
@@ -495,11 +485,6 @@ class S3AwsAuthenticationMethodManual(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
-    template_aws_authentication_method: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAuthenticationMethod")
-    ] = None
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
-
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
@@ -569,7 +554,6 @@ class S3AwsAuthenticationMethodManual(BaseModel):
                 "disableTimeFilter",
                 "__template_bucket",
                 "__template_region",
-                "__template_awsAuthenticationMethod",
                 "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
@@ -660,8 +644,6 @@ class S3AwsAuthenticationMethodAutoTypedDict(TypedDict):
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_aws_authentication_method: NotRequired[str]
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
@@ -772,11 +754,6 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
-    template_aws_authentication_method: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAuthenticationMethod")
-    ] = None
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
-
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
@@ -844,7 +821,6 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
                 "disableTimeFilter",
                 "__template_bucket",
                 "__template_region",
-                "__template_awsAuthenticationMethod",
                 "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
@@ -937,8 +913,6 @@ class S3PartitioningSchemeNoneTypedDict(TypedDict):
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_aws_authentication_method: NotRequired[str]
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
@@ -1052,11 +1026,6 @@ class S3PartitioningSchemeNone(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
-    template_aws_authentication_method: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAuthenticationMethod")
-    ] = None
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
-
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
@@ -1125,7 +1094,6 @@ class S3PartitioningSchemeNone(BaseModel):
                 "disableTimeFilter",
                 "__template_bucket",
                 "__template_region",
-                "__template_awsAuthenticationMethod",
                 "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
@@ -1216,8 +1184,6 @@ class S3PartitioningSchemeDdssTypedDict(TypedDict):
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_aws_authentication_method: NotRequired[str]
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
@@ -1328,11 +1294,6 @@ class S3PartitioningSchemeDdss(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
-    template_aws_authentication_method: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsAuthenticationMethod")
-    ] = None
-    r"""Binds 'awsAuthenticationMethod' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAuthenticationMethod' at runtime."""
-
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
@@ -1400,7 +1361,6 @@ class S3PartitioningSchemeDdss(BaseModel):
                 "disableTimeFilter",
                 "__template_bucket",
                 "__template_region",
-                "__template_awsAuthenticationMethod",
                 "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",

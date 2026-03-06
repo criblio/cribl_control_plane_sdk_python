@@ -71,3 +71,9 @@ class PipelineFunctionLocalSearchDatatypeParser(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionLocalSearchDatatypeParser.model_rebuild()
+except NameError:
+    pass

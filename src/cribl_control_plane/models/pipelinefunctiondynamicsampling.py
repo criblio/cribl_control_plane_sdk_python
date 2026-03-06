@@ -136,3 +136,13 @@ class PipelineFunctionDynamicSampling(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionDynamicSamplingConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionDynamicSampling.model_rebuild()
+except NameError:
+    pass

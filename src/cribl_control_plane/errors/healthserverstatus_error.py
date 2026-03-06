@@ -13,7 +13,7 @@ from typing_extensions import Annotated
 
 class HealthServerStatusErrorData(BaseModel):
     start_time: Annotated[float, pydantic.Field(alias="startTime")]
-    status: models_healthserverstatus.Status
+    status: models_healthserverstatus.HealthServerStatusStatus
     role: Optional[models_healthserverstatus.Role] = None
 
 

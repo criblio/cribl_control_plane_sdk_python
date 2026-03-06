@@ -41,3 +41,9 @@ TLSSettingsUnionTypedDict = TypeAliasType(
 
 
 TLSSettingsUnion = TypeAliasType("TLSSettingsUnion", Union[TLSSettings2, TLSSettings1])
+
+
+try:
+    TLSSettings1.model_rebuild()
+except NameError:
+    pass

@@ -87,3 +87,9 @@ class FunctionCef(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionCef.model_rebuild()
+except NameError:
+    pass

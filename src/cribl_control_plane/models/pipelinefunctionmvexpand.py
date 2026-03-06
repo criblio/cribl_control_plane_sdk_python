@@ -140,3 +140,13 @@ class PipelineFunctionMvExpand(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionMvExpandConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionMvExpand.model_rebuild()
+except NameError:
+    pass

@@ -87,3 +87,9 @@ class FunctionGeoip(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionGeoip.model_rebuild()
+except NameError:
+    pass

@@ -87,3 +87,9 @@ class FunctionDropDimensions(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionDropDimensions.model_rebuild()
+except NameError:
+    pass

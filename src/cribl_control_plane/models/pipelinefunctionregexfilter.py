@@ -71,3 +71,9 @@ class PipelineFunctionRegexFilter(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionRegexFilter.model_rebuild()
+except NameError:
+    pass

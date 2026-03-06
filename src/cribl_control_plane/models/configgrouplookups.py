@@ -49,3 +49,9 @@ class ConfigGroupLookups(BaseModel):
     context: str
 
     lookups: List[ConfigGroupLookupsLookup]
+
+
+try:
+    ConfigGroupLookupsLookup.model_rebuild()
+except NameError:
+    pass

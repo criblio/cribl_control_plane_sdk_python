@@ -6,12 +6,12 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
-from cribl_control_plane import models, utils
+from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
+    PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
+)
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -24,24 +24,13 @@ class InputSnmpType(str, Enum):
     SNMP = "snmp"
 
 
-class PrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
-    # None
-    NONE = "none"
-    # DES
-    DES = "des"
-    # AES128
-    AES = "aes"
-    # AES256b (Blumenthal)
-    AES256B = "aes256b"
-    # AES256r (Reeder)
-    AES256R = "aes256r"
-
-
 class InputSnmpV3UserTypedDict(TypedDict):
     name: str
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
     auth_key: NotRequired[str]
-    priv_protocol: NotRequired[PrivacyProtocol]
+    priv_protocol: NotRequired[
+        PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
+    ]
     priv_key: NotRequired[str]
 
 
@@ -56,7 +45,8 @@ class InputSnmpV3User(BaseModel):
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[
-        Optional[PrivacyProtocol], pydantic.Field(alias="privProtocol")
+        Optional[PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone],
+        pydantic.Field(alias="privProtocol"),
     ] = None
 
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
@@ -74,7 +64,9 @@ class InputSnmpV3User(BaseModel):
     def serialize_priv_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.PrivacyProtocol(value)
+                return models.PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -166,7 +158,7 @@ class InputSnmpTypedDict(TypedDict):
     r"""Maximum number of events to buffer when downstream is blocking."""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to send data"""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
@@ -175,6 +167,10 @@ class InputSnmpTypedDict(TypedDict):
     best_effort_parsing: NotRequired[bool]
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class InputSnmp(BaseModel):
@@ -228,7 +224,7 @@ class InputSnmp(BaseModel):
     ] = None
     r"""Regex matching IP addresses that are allowed to send data"""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     udp_socket_rx_buf_size: Annotated[
@@ -247,6 +243,16 @@ class InputSnmp(BaseModel):
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
 
     description: Optional[str] = None
+
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -269,6 +275,8 @@ class InputSnmp(BaseModel):
                 "varbindsWithTypes",
                 "bestEffortParsing",
                 "description",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -283,3 +291,17 @@ class InputSnmp(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputSnmpV3User.model_rebuild()
+except NameError:
+    pass
+try:
+    SNMPv3Authentication.model_rebuild()
+except NameError:
+    pass
+try:
+    InputSnmp.model_rebuild()
+except NameError:
+    pass

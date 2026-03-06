@@ -1,5 +1,13 @@
 # InputOpenTelemetryType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputOpenTelemetryType
+
+value = InputOpenTelemetryType.OPEN_TELEMETRY
+```
+
 
 ## Values
 

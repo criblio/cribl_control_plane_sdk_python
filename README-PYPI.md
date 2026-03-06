@@ -4,7 +4,7 @@ The Cribl Python SDK for the control plane provides operational control over Cri
 
 In addition to the usage examples in this repository, the Cribl documentation includes [code examples for common use cases](https://docs.cribl.io/cribl-as-code/code-examples).
 
-Complementary API reference documentation is available at https://docs.cribl.io/cribl-as-code/api-reference. Product documentation is available at https://docs.cribl.io.
+Complementary API reference documentation is available at [https://docs.cribl.io/cribl-as-code/api/](https://docs.cribl.io/cribl-as-code/api-reference/control-plane/cribl-core/). Product documentation is available at https://docs.cribl.io.
 
 > [!IMPORTANT]
 > **Preview Feature**
@@ -23,6 +23,8 @@ Complementary API reference documentation is available at https://docs.cribl.io/
   * [SDK Example Usage](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#sdk-example-usage)
   * [Authentication](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#authentication)
   * [Available Resources and Operations](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#available-resources-and-operations)
+  * [Json Streaming](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#json-streaming)
+  * [Pagination](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#pagination)
   * [File uploads](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#file-uploads)
   * [Retries](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#retries)
   * [Error Handling](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/#error-handling)
@@ -79,7 +81,7 @@ It's also possible to write a standalone Python script without needing to set up
 ```python
 #!/usr/bin/env -S uv run --script
 # /// script
-# requires-python = ">=3.9"
+# requires-python = ">=3.10"
 # dependencies = [
 #     "cribl-control-plane",
 # ]
@@ -226,6 +228,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#get) - Get a Collector
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/collectorssdk/README.md#update) - Update a Collector
 
+### [DatabaseConnections](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md)
+
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#create) - Create Database Connection
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#delete) - Delete a Database Connection
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#get) - Get a Database Connection
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#update) - Update a Database Connection
+
 ### [Destinations](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#list) - List all Destinations
@@ -234,15 +243,20 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#update) - Update a Destination
 * [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinations/README.md#delete) - Delete a Destination
 
-#### [Destinations.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pq/README.md)
+#### [Destinations.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md)
 
-* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pq/README.md#clear) - Clear the persistent queue for a Destination
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
+* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md#clear) - Clear the persistent queue for a Destination
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination
 
 #### [Destinations.Samples](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md)
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md#get) - Get sample event data for a Destination
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/samples/README.md#create) - Send sample event data to a Destination
+
+#### [Destinations.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationsstatuses/README.md)
+
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationsstatuses/README.md#get) - Get the status of a Destination
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/destinationsstatuses/README.md#list) - List the status of all Destinations
 
 ### [Functions](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/functions/README.md)
 
@@ -276,20 +290,22 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [LakeDatasets](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md)
 
-* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets
-* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
 
 ### [Nodes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md)
 
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker and Edge Nodes
-* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#count) - Get a count of Worker and Edge Nodes
+* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#count) - Get a count of Worker or Edge Nodes
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#get) - Get detailed metadata for a Worker or Edge Node
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker or Edge Nodes
+* [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#restart) - Restart Worker or Edge Nodes
 
 #### [Nodes.Summaries](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment for a specific product
 
 ### [Packs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md)
 
@@ -300,19 +316,80 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#get) - Get a Pack
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md#update) - Upgrade a Pack
 
+#### [Packs.Destinations](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinations/README.md)
+
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinations/README.md#list) - List all Destinations within a Pack
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinations/README.md#create) - Create a Destination within a Pack
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinations/README.md#get) - Get a Destination within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinations/README.md#update) - Update a Destination within a Pack
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinations/README.md#delete) - Delete a Destination within a Pack
+
+##### [Packs.Destinations.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinationspq/README.md)
+
+* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinationspq/README.md#clear) - Clear the persistent queue for a Destination within a Pack
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinationspq/README.md#get) - Get information about the latest job to clear the persistent queue for a Destination within a Pack
+
+##### [Packs.Destinations.Samples](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md)
+
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#get) - Get sample event data for a Destination within a Pack
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssamples/README.md#create) - Send sample event data to a Destination within a Pack
+
+##### [Packs.Destinations.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinationsstatuses/README.md)
+
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinationsstatuses/README.md#get) - Get the status of a Destination within a Pack
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsdestinationsstatuses/README.md#list) - List the status of all Destinations within a Pack
+
+#### [Packs.Pipelines](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md)
+
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#create) - Create a Pipeline within a Pack
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#list) - List all Pipelines within a Pack
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#delete) - Delete a Pipeline within a Pack
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#get) - Get a Pipeline within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packspipelines/README.md#update) - Update a Pipeline within a Pack
+
+#### [Packs.Routes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md)
+
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#update) - Update a Route within a Pack
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#list) - List all Routes within a Pack
+* [append](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#append) - Add a Route to the end of the Routing table within a Pack
+
+#### [Packs.Sources](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md)
+
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md#list) - List all Sources within a Pack
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md#create) - Create a Source within a Pack
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md#get) - Get a Source within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md#update) - Update a Source within a Pack
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md#delete) - Delete a Source within a Pack
+
+##### [Packs.Sources.HecTokens](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packshectokens/README.md)
+
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packshectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packshectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source within a Pack
+
+##### [Packs.Sources.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md)
+
+* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md#clear) - Clear the persistent queue for a Source within a Pack
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source within a Pack
+
+##### [Packs.Sources.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcesstatuses/README.md)
+
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcesstatuses/README.md#get) - Get the status of a Source within a Pack
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssourcesstatuses/README.md#list) - List the status of all Sources within a Pack
+
 ### [Pipelines](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md)
 
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#list) - List all Pipelines
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#create) - Create a Pipeline
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#list) - List all Pipelines
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#delete) - Delete a Pipeline
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#get) - Get a Pipeline
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#update) - Update a Pipeline
-* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/pipelines/README.md#delete) - Delete a Pipeline
 
 ### [Routes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md)
 
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#list) - List all Routes
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#get) - Get a Routing table
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#update) - Update a Route
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#list) - List all Routes
 * [append](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#append) - Add a Route to the end of the Routing table
 
 ### [Sources](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md)
@@ -328,7 +405,25 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/hectokens/README.md#create) - Add an HEC token and optional metadata to a Splunk HEC Source
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/hectokens/README.md#update) - Update metadata for an HEC token for a Splunk HEC Source
 
-### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
+#### [Sources.Pq](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md)
+
+* [clear](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#clear) - Clear the persistent queue for a Source
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcespq/README.md#get) - Get information about the latest job to clear the persistent queue for a Source
+
+#### [Sources.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcesstatuses/README.md)
+
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcesstatuses/README.md#get) - Get the status of a Source
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sourcesstatuses/README.md#list) - List the status of all Sources
+
+### [System.Captures](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md)
+
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md#create) - Capture live incoming data
+
+### [System.Settings](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/settings/README.md)
+
+* [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/settings/README.md#restart) - Restart the Cribl server
+
+#### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#list) - Get Cribl system settings
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#update) - Update Cribl system settings
@@ -357,12 +452,80 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versionsconfigs/README.md#get) - Get the configuration and status for the Git integration
 
-### [Versions.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/statuses/README.md)
+### [Versions.Statuses](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versionsstatuses/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/statuses/README.md#get) - Get the status of the current working tree
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versionsstatuses/README.md#get) - Get the status of the current working tree
 
 </details>
 <!-- End Available Resources and Operations [operations] -->
+
+<!-- Start Json Streaming [jsonl] -->
+## Json Streaming
+
+Json Streaming ([jsonl][jsonl-format] / [x-ndjson][x-ndjson]) content type can be used to stream content from certain operations. These operations will expose the stream as [Generator][generator] that
+can be consumed using a simple `for` loop. The loop will
+terminate when the server no longer has any events to send and closes the
+underlying connection.
+
+The stream is also a [Context Manager][context-manager] and can be used with the `with` statement and will close the
+underlying connection when the context is exited.
+
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.system.captures.create(duration=5, filter_="sourcetype===\"pan:traffic\"", level=models.CaptureLevel.BEFORE_PRE_PROCESSING_PIPELINE, max_events=100)
+
+    with res as jsonl_stream:
+        for event in jsonl_stream:
+            # handle event
+            print(event, flush=True)
+
+```
+
+[jsonl-format]: https://jsonlines.org/
+[x-ndjson]: https://github.com/ndjson/ndjson-spec
+[generator]: https://book.pythontips.com/en/latest/generators.html
+[context-manager]: https://book.pythontips.com/en/latest/context_managers.html
+<!-- End Json Streaming [jsonl] -->
+
+<!-- Start Pagination [pagination] -->
+## Pagination
+
+Some of the endpoints in this SDK support pagination. To use pagination, you make your SDK calls as usual, but the
+returned response object will have a `Next` method that can be called to pull down the next group of results. If the
+return value of `Next` is `None`, then there are no more pages to be fetched.
+
+Here's an example of one such pagination call:
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.nodes.list(product=models.ProductsBase.STREAM)
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+<!-- End Pagination [pagination] -->
 
 <!-- Start File uploads [file-upload] -->
 ## File uploads
@@ -380,7 +543,7 @@ import os
 
 
 with CriblControlPlane(
-    server_url="https://api.example.com",
+    "https://api.example.com",
     security=models.Security(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
@@ -592,7 +755,7 @@ import os
 def main():
 
     with CriblControlPlane(
-        server_url="https://api.example.com",
+        "https://api.example.com",
         security=models.Security(
             bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
         ),
@@ -604,7 +767,7 @@ def main():
 async def amain():
 
     async with CriblControlPlane(
-        server_url="https://api.example.com",
+        "https://api.example.com",
         security=models.Security(
             bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
         ),

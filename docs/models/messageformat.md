@@ -2,6 +2,16 @@
 
 The syslog message format depending on the receiver's support
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import MessageFormat
+
+value = MessageFormat.RFC3164
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

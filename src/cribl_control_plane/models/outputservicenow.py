@@ -476,3 +476,9 @@ class OutputServiceNow(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputServiceNow.model_rebuild()
+except NameError:
+    pass

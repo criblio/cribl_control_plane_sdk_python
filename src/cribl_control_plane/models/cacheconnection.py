@@ -85,3 +85,9 @@ class CacheConnection(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    CacheConnection.model_rebuild()
+except NameError:
+    pass

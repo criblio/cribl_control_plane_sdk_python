@@ -108,3 +108,13 @@ class PipelineFunctionTee(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionTeeConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionTee.model_rebuild()
+except NameError:
+    pass

@@ -87,3 +87,9 @@ class FunctionSnmpTrapSerialize(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSnmpTrapSerialize.model_rebuild()
+except NameError:
+    pass

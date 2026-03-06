@@ -22,6 +22,7 @@ WORKSPACE_NAME = "your-workspace-name"
 WORKER_GROUP_ID = "your-cloud-worker-group-id"  # Use the same Worker Group ID as in previous examples
 
 base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
+group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
 async def main():
     # Create authenticated SDK client
@@ -37,10 +38,10 @@ async def main():
 
     # Commit configuration changes
     commit_response = cribl.versions.commits.create(
-        group_id=WORKER_GROUP_ID,
         message="Commit for Cribl Stream example",
         effective=True,
-        files=["."]
+        files=["."],
+        server_url=group_url
     )
     
     if not commit_response.items or len(commit_response.items) == 0:

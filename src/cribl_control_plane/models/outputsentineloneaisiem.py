@@ -528,3 +528,9 @@ class OutputSentinelOneAiSiem(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputSentinelOneAiSiem.model_rebuild()
+except NameError:
+    pass

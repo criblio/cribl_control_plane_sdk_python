@@ -29,3 +29,9 @@ PiiSettingsUnionTypedDict = TypeAliasType(
 
 
 PiiSettingsUnion = TypeAliasType("PiiSettingsUnion", Union[PiiSettings2, PiiSettings1])
+
+
+try:
+    PiiSettings1.model_rebuild()
+except NameError:
+    pass

@@ -384,3 +384,9 @@ class OutputWavefront(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputWavefront.model_rebuild()
+except NameError:
+    pass

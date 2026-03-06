@@ -130,3 +130,13 @@ class FunctionConfSchemaCefInput(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaCef.model_rebuild()
+except NameError:
+    pass
+try:
+    FunctionConfSchemaCefInput.model_rebuild()
+except NameError:
+    pass

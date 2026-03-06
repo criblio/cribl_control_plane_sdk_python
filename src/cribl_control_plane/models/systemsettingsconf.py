@@ -123,3 +123,9 @@ class SystemSettingsConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SystemSettingsConf.model_rebuild()
+except NameError:
+    pass

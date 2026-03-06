@@ -96,7 +96,7 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     auth_tokens: NotRequired[List[ItemsTypeAuthTokens1TypedDict]]
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     use_round_robin_dns: NotRequired[bool]
@@ -132,6 +132,8 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputCriblSearchEnginePqControlsTypedDict]
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
 class OutputCriblSearchEngine(BaseModel):
@@ -243,7 +245,7 @@ class OutputCriblSearchEngine(BaseModel):
     auth_tokens: Annotated[
         Optional[List[ItemsTypeAuthTokens1]], pydantic.Field(alias="authTokens")
     ] = None
-    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl HTTP Source in Cribl.Cloud."""
+    r"""Shared secrets to be used by connected environments to authorize connections. These tokens should also be installed in Cribl Search Source in Cribl.Cloud."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -322,6 +324,11 @@ class OutputCriblSearchEngine(BaseModel):
     pq_controls: Annotated[
         Optional[OutputCriblSearchEnginePqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
     @field_serializer("compression")
     def serialize_compression(self, value):
@@ -424,6 +431,7 @@ class OutputCriblSearchEngine(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
+                "__template_url",
             ]
         )
         serialized = handler(self)
@@ -438,3 +446,9 @@ class OutputCriblSearchEngine(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputCriblSearchEngine.model_rebuild()
+except NameError:
+    pass

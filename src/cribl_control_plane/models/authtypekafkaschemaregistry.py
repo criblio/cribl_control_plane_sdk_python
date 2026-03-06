@@ -41,3 +41,9 @@ class AuthTypeKafkaSchemaRegistry(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    AuthTypeKafkaSchemaRegistry.model_rebuild()
+except NameError:
+    pass

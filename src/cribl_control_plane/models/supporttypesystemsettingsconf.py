@@ -39,3 +39,9 @@ class SupportTypeSystemSettingsConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SupportTypeSystemSettingsConf.model_rebuild()
+except NameError:
+    pass

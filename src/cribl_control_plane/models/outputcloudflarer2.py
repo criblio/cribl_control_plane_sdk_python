@@ -21,7 +21,7 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -32,9 +32,10 @@ class OutputCloudflareR2Type(str, Enum):
 class OutputCloudflareR2AuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
+    # Auto
     AUTO = "auto"
+    # Secret Key pair
     SECRET = "secret"
-    MANUAL = "manual"
 
 
 class OutputCloudflareR2TypedDict(TypedDict):
@@ -59,14 +60,12 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
-    region: NotRequired[Any]
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     dest_path: NotRequired[str]
     r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
     signature_version: NotRequired[SignatureVersionOptions5]
     r"""Signature version to use for signing MinIO requests"""
-    object_acl: NotRequired[Any]
     storage_class: NotRequired[StorageClassOptions2]
     r"""Storage class to select for uploaded objects"""
     server_side_encryption: NotRequired[ServerSideEncryptionOptions]
@@ -111,8 +110,6 @@ class OutputCloudflareR2TypedDict(TypedDict):
     max_concurrent_file_parts: NotRequired[float]
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
     description: NotRequired[str]
-    aws_api_key: NotRequired[str]
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptions2]
@@ -149,6 +146,10 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
 
 class OutputCloudflareR2(BaseModel):
@@ -191,8 +192,6 @@ class OutputCloudflareR2(BaseModel):
     )
     r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
 
-    region: Optional[Any] = None
-
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
     ] = None
@@ -205,8 +204,6 @@ class OutputCloudflareR2(BaseModel):
         Optional[SignatureVersionOptions5], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing MinIO requests"""
-
-    object_acl: Annotated[Optional[Any], pydantic.Field(alias="objectACL")] = None
 
     storage_class: Annotated[
         Optional[StorageClassOptions2], pydantic.Field(alias="storageClass")
@@ -319,9 +316,6 @@ class OutputCloudflareR2(BaseModel):
 
     description: Optional[str] = None
 
-    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
-
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
@@ -408,6 +402,16 @@ class OutputCloudflareR2(BaseModel):
         None
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
@@ -519,11 +523,9 @@ class OutputCloudflareR2(BaseModel):
                 "streamtags",
                 "awsAuthenticationMethod",
                 "awsSecretKey",
-                "region",
                 "addIdToStagePath",
                 "destPath",
                 "signatureVersion",
-                "objectACL",
                 "storageClass",
                 "serverSideEncryption",
                 "reuseConnections",
@@ -547,7 +549,6 @@ class OutputCloudflareR2(BaseModel):
                 "maxFileIdleTimeSec",
                 "maxConcurrentFileParts",
                 "description",
-                "awsApiKey",
                 "awsSecret",
                 "compress",
                 "compressionLevel",
@@ -566,6 +567,8 @@ class OutputCloudflareR2(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
+                "__template_bucket",
+                "__template_format",
             ]
         )
         serialized = handler(self)
@@ -580,3 +583,9 @@ class OutputCloudflareR2(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputCloudflareR2.model_rebuild()
+except NameError:
+    pass

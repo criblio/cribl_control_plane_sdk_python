@@ -42,3 +42,9 @@ class SslTypeSystemSettingsConfAPI(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    SslTypeSystemSettingsConfAPI.model_rebuild()
+except NameError:
+    pass

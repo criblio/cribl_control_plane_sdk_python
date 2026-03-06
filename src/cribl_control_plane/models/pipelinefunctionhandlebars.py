@@ -151,3 +151,13 @@ class PipelineFunctionHandlebars(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionHandlebarsConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionHandlebars.model_rebuild()
+except NameError:
+    pass

@@ -110,3 +110,13 @@ class PipelineFunctionXMLUnroll(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionXMLUnrollConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionXMLUnroll.model_rebuild()
+except NameError:
+    pass

@@ -28,10 +28,8 @@ class Commits(BaseSDK):
         self,
         *,
         message: str,
-        group_id: Optional[str] = None,
         effective: Optional[bool] = None,
         files: Optional[List[str]] = None,
-        group: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -42,10 +40,8 @@ class Commits(BaseSDK):
         Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
         :param message:
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to create a new commit for.
         :param effective:
         :param files:
-        :param group:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -61,14 +57,10 @@ class Commits(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateVersionCommitRequest(
-            group_id=group_id,
-            git_commit_params=models.GitCommitParams(
-                effective=effective,
-                files=files,
-                group=group,
-                message=message,
-            ),
+        request = models.GitCommitBody(
+            effective=effective,
+            files=files,
+            message=message,
         )
 
         req = self._build_request(
@@ -85,7 +77,7 @@ class Commits(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.git_commit_params, False, False, "json", models.GitCommitParams
+                request, False, False, "json", models.GitCommitBody
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -137,10 +129,8 @@ class Commits(BaseSDK):
         self,
         *,
         message: str,
-        group_id: Optional[str] = None,
         effective: Optional[bool] = None,
         files: Optional[List[str]] = None,
-        group: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -151,10 +141,8 @@ class Commits(BaseSDK):
         Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
         :param message:
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to create a new commit for.
         :param effective:
         :param files:
-        :param group:
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -170,14 +158,10 @@ class Commits(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateVersionCommitRequest(
-            group_id=group_id,
-            git_commit_params=models.GitCommitParams(
-                effective=effective,
-                files=files,
-                group=group,
-                message=message,
-            ),
+        request = models.GitCommitBody(
+            effective=effective,
+            files=files,
+            message=message,
         )
 
         req = self._build_request_async(
@@ -194,7 +178,7 @@ class Commits(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.git_commit_params, False, False, "json", models.GitCommitParams
+                request, False, False, "json", models.GitCommitBody
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -246,9 +230,8 @@ class Commits(BaseSDK):
         self,
         *,
         commit: Optional[str] = None,
-        group_id: Optional[str] = None,
         filename: Optional[str] = None,
-        diff_line_limit: Optional[float] = None,
+        diff_line_limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -259,7 +242,6 @@ class Commits(BaseSDK):
         Get the diff for a commit. Default is the latest commit (HEAD).
 
         :param commit: The Git commit hash to get the diff for.
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the diff for.
         :param filename: The relative path of the file to get the diff for.
         :param diff_line_limit: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
         :param retries: Override the default retry configuration for this method
@@ -279,7 +261,6 @@ class Commits(BaseSDK):
 
         request = models.GetVersionDiffRequest(
             commit=commit,
-            group_id=group_id,
             filename=filename,
             diff_line_limit=diff_line_limit,
         )
@@ -347,9 +328,8 @@ class Commits(BaseSDK):
         self,
         *,
         commit: Optional[str] = None,
-        group_id: Optional[str] = None,
         filename: Optional[str] = None,
-        diff_line_limit: Optional[float] = None,
+        diff_line_limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -360,7 +340,6 @@ class Commits(BaseSDK):
         Get the diff for a commit. Default is the latest commit (HEAD).
 
         :param commit: The Git commit hash to get the diff for.
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the diff for.
         :param filename: The relative path of the file to get the diff for.
         :param diff_line_limit: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
         :param retries: Override the default retry configuration for this method
@@ -380,7 +359,6 @@ class Commits(BaseSDK):
 
         request = models.GetVersionDiffRequest(
             commit=commit,
-            group_id=group_id,
             filename=filename,
             diff_line_limit=diff_line_limit,
         )
@@ -447,8 +425,7 @@ class Commits(BaseSDK):
     def list(
         self,
         *,
-        group_id: Optional[str] = None,
-        count: Optional[float] = None,
+        count: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -458,7 +435,6 @@ class Commits(BaseSDK):
 
         List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for.
         :param count: Maximum number of commits to return in the response for this request.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -476,7 +452,6 @@ class Commits(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetVersionRequest(
-            group_id=group_id,
             count=count,
         )
 
@@ -542,8 +517,7 @@ class Commits(BaseSDK):
     async def list_async(
         self,
         *,
-        group_id: Optional[str] = None,
-        count: Optional[float] = None,
+        count: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -553,7 +527,6 @@ class Commits(BaseSDK):
 
         List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the commit history for.
         :param count: Maximum number of commits to return in the response for this request.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -571,7 +544,6 @@ class Commits(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetVersionRequest(
-            group_id=group_id,
             count=count,
         )
 
@@ -808,7 +780,6 @@ class Commits(BaseSDK):
         self,
         *,
         commit: str,
-        group_id: Optional[str] = None,
         force: Optional[bool] = None,
         message: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -821,7 +792,6 @@ class Commits(BaseSDK):
         Revert a commit in the local repository.
 
         :param commit:
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments.
         :param force:
         :param message:
         :param retries: Override the default retry configuration for this method
@@ -839,13 +809,10 @@ class Commits(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateVersionRevertRequest(
-            group_id=group_id,
-            git_revert_params=models.GitRevertParams(
-                commit=commit,
-                force=force,
-                message=message,
-            ),
+        request = models.GitRevertParams(
+            commit=commit,
+            force=force,
+            message=message,
         )
 
         req = self._build_request(
@@ -862,7 +829,7 @@ class Commits(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.git_revert_params, False, False, "json", models.GitRevertParams
+                request, False, False, "json", models.GitRevertParams
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -914,7 +881,6 @@ class Commits(BaseSDK):
         self,
         *,
         commit: str,
-        group_id: Optional[str] = None,
         force: Optional[bool] = None,
         message: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -927,7 +893,6 @@ class Commits(BaseSDK):
         Revert a commit in the local repository.
 
         :param commit:
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to revert the commit for. Required in Distributed deployments. Omit in Single-instance deployments.
         :param force:
         :param message:
         :param retries: Override the default retry configuration for this method
@@ -945,13 +910,10 @@ class Commits(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateVersionRevertRequest(
-            group_id=group_id,
-            git_revert_params=models.GitRevertParams(
-                commit=commit,
-                force=force,
-                message=message,
-            ),
+        request = models.GitRevertParams(
+            commit=commit,
+            force=force,
+            message=message,
         )
 
         req = self._build_request_async(
@@ -968,7 +930,7 @@ class Commits(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.git_revert_params, False, False, "json", models.GitRevertParams
+                request, False, False, "json", models.GitRevertParams
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -1020,9 +982,8 @@ class Commits(BaseSDK):
         self,
         *,
         commit: Optional[str] = None,
-        group_id: Optional[str] = None,
         filename: Optional[str] = None,
-        diff_line_limit: Optional[float] = None,
+        diff_line_limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1033,7 +994,6 @@ class Commits(BaseSDK):
         Get the diff and log message for a commit. Default is the latest commit (HEAD).
 
         :param commit: The Git commit hash to retrieve the diff and log message for.
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for.
         :param filename: The relative path of the file to get the diff and log message for.
         :param diff_line_limit: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
         :param retries: Override the default retry configuration for this method
@@ -1053,7 +1013,6 @@ class Commits(BaseSDK):
 
         request = models.GetVersionShowRequest(
             commit=commit,
-            group_id=group_id,
             filename=filename,
             diff_line_limit=diff_line_limit,
         )
@@ -1121,9 +1080,8 @@ class Commits(BaseSDK):
         self,
         *,
         commit: Optional[str] = None,
-        group_id: Optional[str] = None,
         filename: Optional[str] = None,
-        diff_line_limit: Optional[float] = None,
+        diff_line_limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -1134,7 +1092,6 @@ class Commits(BaseSDK):
         Get the diff and log message for a commit. Default is the latest commit (HEAD).
 
         :param commit: The Git commit hash to retrieve the diff and log message for.
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for.
         :param filename: The relative path of the file to get the diff and log message for.
         :param diff_line_limit: Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines.
         :param retries: Override the default retry configuration for this method
@@ -1154,7 +1111,6 @@ class Commits(BaseSDK):
 
         request = models.GetVersionShowRequest(
             commit=commit,
-            group_id=group_id,
             filename=filename,
             diff_line_limit=diff_line_limit,
         )
@@ -1221,17 +1177,15 @@ class Commits(BaseSDK):
     def undo(
         self,
         *,
-        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedObject:
+    ) -> models.CountedBoolean:
         r"""Discard uncommitted (staged) changes
 
         Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
 
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1246,17 +1200,12 @@ class Commits(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
-
-        request = models.CreateVersionUndoRequest(
-            group_id=group_id,
-        )
-
         req = self._build_request(
             method="POST",
             path="/version/undo",
             base_url=base_url,
             url_variables=url_variables,
-            request=request,
+            request=None,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -1297,7 +1246,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedObject, http_res)
+            return unmarshal_json_response(models.CountedBoolean, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -1313,17 +1262,15 @@ class Commits(BaseSDK):
     async def undo_async(
         self,
         *,
-        group_id: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedObject:
+    ) -> models.CountedBoolean:
         r"""Discard uncommitted (staged) changes
 
         Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
 
-        :param group_id: The <code>id</code> of the Worker Group or Edge Fleet to undo the uncommited changes for.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1338,17 +1285,12 @@ class Commits(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
-
-        request = models.CreateVersionUndoRequest(
-            group_id=group_id,
-        )
-
         req = self._build_request_async(
             method="POST",
             path="/version/undo",
             base_url=base_url,
             url_variables=url_variables,
-            request=request,
+            request=None,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -1389,7 +1331,7 @@ class Commits(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedObject, http_res)
+            return unmarshal_json_response(models.CountedBoolean, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

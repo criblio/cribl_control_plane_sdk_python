@@ -14,3 +14,9 @@ class CertificateTypeAzureBlobAuthTypeClientCertTypedDict(TypedDict):
 class CertificateTypeAzureBlobAuthTypeClientCert(BaseModel):
     certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
     r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+
+try:
+    CertificateTypeAzureBlobAuthTypeClientCert.model_rebuild()
+except NameError:
+    pass

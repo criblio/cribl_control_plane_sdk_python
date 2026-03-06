@@ -49,3 +49,9 @@ class ItemsTypeResponseRetrySettings(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    ItemsTypeResponseRetrySettings.model_rebuild()
+except NameError:
+    pass

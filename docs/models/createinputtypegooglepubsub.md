@@ -1,5 +1,13 @@
 # CreateInputTypeGooglePubsub
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputTypeGooglePubsub
+
+value = CreateInputTypeGooglePubsub.GOOGLE_PUBSUB
+```
+
 
 ## Values
 

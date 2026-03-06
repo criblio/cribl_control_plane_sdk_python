@@ -1,5 +1,15 @@
 # RestAuthenticationBasicCollectMethod
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import RestAuthenticationBasicCollectMethod
+
+value = RestAuthenticationBasicCollectMethod.GET
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

@@ -71,3 +71,9 @@ class PipelineFunctionCode(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionCode.model_rebuild()
+except NameError:
+    pass

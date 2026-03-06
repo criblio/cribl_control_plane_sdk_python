@@ -98,3 +98,9 @@ class PipelineFunctionJSONUnroll(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionJSONUnroll.model_rebuild()
+except NameError:
+    pass

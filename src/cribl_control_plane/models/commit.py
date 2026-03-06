@@ -45,3 +45,9 @@ class Commit(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    Commit.model_rebuild()
+except NameError:
+    pass

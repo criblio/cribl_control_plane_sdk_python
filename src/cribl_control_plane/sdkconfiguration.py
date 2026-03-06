@@ -22,8 +22,8 @@ class SDKConfiguration:
     async_client: Union[AsyncHttpClient, None]
     async_client_supplied: bool
     debug_logger: Logger
-    server_url: str
     security: Optional[Union[models.Security, Callable[[], models.Security]]] = None
+    server_url: str = ""
     language: str = "python"
     openapi_doc_version: str = __openapi_doc_version__
     sdk_version: str = __version__
@@ -33,4 +33,4 @@ class SDKConfiguration:
     timeout_ms: Optional[int] = None
 
     def get_server_details(self) -> Tuple[str, Dict[str, str]]:
-        return remove_suffix(self.server_url, "/"), {}
+        return remove_suffix(self.server_url or "", "/"), {}

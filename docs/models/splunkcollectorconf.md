@@ -33,15 +33,3 @@ value: models.SplunkAuthenticationToken = /* values here */
 value: models.SplunkAuthenticationTokenSecret = /* values here */
 ```
 
-### `models.SplunkAuthenticationLogin`
-
-```python
-value: models.SplunkAuthenticationLogin = /* values here */
-```
-
-### `models.SplunkAuthenticationLoginSecret`
-
-```python
-value: models.SplunkAuthenticationLoginSecret = /* values here */
-```
-

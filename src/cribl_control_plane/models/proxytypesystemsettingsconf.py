@@ -12,3 +12,9 @@ class ProxyTypeSystemSettingsConfTypedDict(TypedDict):
 
 class ProxyTypeSystemSettingsConf(BaseModel):
     use_env_vars: Annotated[bool, pydantic.Field(alias="useEnvVars")]
+
+
+try:
+    ProxyTypeSystemSettingsConf.model_rebuild()
+except NameError:
+    pass

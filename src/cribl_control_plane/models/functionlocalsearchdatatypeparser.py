@@ -87,3 +87,9 @@ class FunctionLocalSearchDatatypeParser(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionLocalSearchDatatypeParser.model_rebuild()
+except NameError:
+    pass

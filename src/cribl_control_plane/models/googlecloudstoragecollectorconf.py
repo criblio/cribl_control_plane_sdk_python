@@ -3,11 +3,13 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils import get_discriminator
+from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
+from functools import partial
 import pydantic
-from pydantic import Discriminator, Tag, field_serializer, model_serializer
-from typing import List, Optional, Union
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
@@ -439,11 +441,51 @@ GoogleCloudStorageCollectorConfTypedDict = TypeAliasType(
 )
 
 
+class UnknownGoogleCloudStorageCollectorConf(BaseModel):
+    r"""A GoogleCloudStorageCollectorConf variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    auth_type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_GOOGLE_CLOUD_STORAGE_COLLECTOR_CONF_VARIANTS: dict[str, Any] = {
+    "auto": GoogleCloudStorageAuthTypeAuto,
+    "manual": GoogleCloudStorageAuthTypeManual,
+    "secret": GoogleCloudStorageAuthTypeSecret,
+}
+
+
 GoogleCloudStorageCollectorConf = Annotated[
     Union[
-        Annotated[GoogleCloudStorageAuthTypeAuto, Tag("auto")],
-        Annotated[GoogleCloudStorageAuthTypeManual, Tag("manual")],
-        Annotated[GoogleCloudStorageAuthTypeSecret, Tag("secret")],
+        GoogleCloudStorageAuthTypeAuto,
+        GoogleCloudStorageAuthTypeManual,
+        GoogleCloudStorageAuthTypeSecret,
+        UnknownGoogleCloudStorageCollectorConf,
     ],
-    Discriminator(lambda m: get_discriminator(m, "auth_type", "authType")),
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="authType",
+            variants=_GOOGLE_CLOUD_STORAGE_COLLECTOR_CONF_VARIANTS,
+            unknown_cls=UnknownGoogleCloudStorageCollectorConf,
+            union_name="GoogleCloudStorageCollectorConf",
+        )
+    ),
 ]
+
+
+try:
+    GoogleCloudStorageAuthTypeSecret.model_rebuild()
+except NameError:
+    pass
+try:
+    GoogleCloudStorageAuthTypeManual.model_rebuild()
+except NameError:
+    pass
+try:
+    GoogleCloudStorageAuthTypeAuto.model_rebuild()
+except NameError:
+    pass

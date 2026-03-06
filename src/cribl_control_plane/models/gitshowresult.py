@@ -17,3 +17,9 @@ class GitShowResult(BaseModel):
     commit_message: Annotated[str, pydantic.Field(alias="commitMessage")]
 
     diff_json: Annotated[List[DiffFiles], pydantic.Field(alias="diffJson")]
+
+
+try:
+    GitShowResult.model_rebuild()
+except NameError:
+    pass

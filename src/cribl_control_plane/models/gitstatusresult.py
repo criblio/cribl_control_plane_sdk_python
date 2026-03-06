@@ -68,3 +68,9 @@ class GitStatusResult(BaseModel):
     renamed: List[Renamed]
 
     staged: List[str]
+
+
+try:
+    Renamed.model_rebuild()
+except NameError:
+    pass

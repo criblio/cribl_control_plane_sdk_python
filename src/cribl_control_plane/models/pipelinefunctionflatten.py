@@ -71,3 +71,9 @@ class PipelineFunctionFlatten(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionFlatten.model_rebuild()
+except NameError:
+    pass

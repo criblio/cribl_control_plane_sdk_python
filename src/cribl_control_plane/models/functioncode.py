@@ -87,3 +87,9 @@ class FunctionCode(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionCode.model_rebuild()
+except NameError:
+    pass

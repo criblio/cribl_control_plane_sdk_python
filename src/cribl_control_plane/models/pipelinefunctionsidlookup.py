@@ -71,3 +71,9 @@ class PipelineFunctionSidlookup(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionSidlookup.model_rebuild()
+except NameError:
+    pass

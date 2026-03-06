@@ -2,6 +2,16 @@
 
 Select the level of detail for CPU metrics
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputSystemMetricsCPUMode
+
+value = InputSystemMetricsCPUMode.BASIC
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

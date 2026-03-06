@@ -139,6 +139,8 @@ class OutputChronicleTypedDict(TypedDict):
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
     custom_labels: NotRequired[List[CustomLabelTypedDict]]
     r"""Custom labels to be added to every event"""
+    endpoint: NotRequired[str]
+    r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
     description: NotRequired[str]
     service_account_credentials: NotRequired[str]
     r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
@@ -165,6 +167,10 @@ class OutputChronicleTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_controls: NotRequired[OutputChroniclePqControlsTypedDict]
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
 
 class OutputChronicle(BaseModel):
@@ -302,6 +308,9 @@ class OutputChronicle(BaseModel):
     ] = None
     r"""Custom labels to be added to every event"""
 
+    endpoint: Optional[str] = None
+    r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
+
     description: Optional[str] = None
 
     service_account_credentials: Annotated[
@@ -361,6 +370,16 @@ class OutputChronicle(BaseModel):
     pq_controls: Annotated[
         Optional[OutputChroniclePqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
     @field_serializer("authentication_method")
     def serialize_authentication_method(self, value):
@@ -447,6 +466,7 @@ class OutputChronicle(BaseModel):
                 "namespace",
                 "logTextField",
                 "customLabels",
+                "endpoint",
                 "description",
                 "serviceAccountCredentials",
                 "serviceAccountCredentialsSecret",
@@ -461,6 +481,8 @@ class OutputChronicle(BaseModel):
                 "pqCompress",
                 "pqOnBackpressure",
                 "pqControls",
+                "__template_region",
+                "__template_endpoint",
             ]
         )
         serialized = handler(self)
@@ -475,3 +497,13 @@ class OutputChronicle(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    CustomLabel.model_rebuild()
+except NameError:
+    pass
+try:
+    OutputChronicle.model_rebuild()
+except NameError:
+    pass

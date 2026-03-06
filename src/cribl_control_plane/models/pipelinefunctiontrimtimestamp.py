@@ -71,3 +71,9 @@ class PipelineFunctionTrimTimestamp(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionTrimTimestamp.model_rebuild()
+except NameError:
+    pass

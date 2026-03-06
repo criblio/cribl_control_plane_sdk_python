@@ -1,9 +1,22 @@
 """
-Replace the placeholder values for ONPREM_SERVER_URL, ONPREM_USERNAME, and
-ONPREM_PASSWORD with your server URL and credentials. Your credentials are
-sensitive information and should be kept private.
+On-Prem Create Worker Group Example
 
-NOTE: This example is for on-prem deployments only.
+This example demonstrates how to create an on-prem Worker Group in Cribl Stream.
+
+This example performs the following operations:
+
+1. Connects to Cribl Stream and authenticates.
+2. Verifies that a Worker Group with the specified ID does not already exist.
+3. Creates the Worker Group.
+4. Commits the configuration changes to the Worker Group.
+5. Deploys the configuration changes to the Worker Group.
+
+Prerequisites:
+- Replace the placeholder values for ONPREM_SERVER_URL, ONPREM_USERNAME, and
+  ONPREM_PASSWORD with your server URL and credentials. Your credentials are
+  sensitive information and should be kept private.
+- Replace the WORKER_GROUP_ID placeholder value with the Worker Group ID that 
+  you want to use.
 """
 
 import asyncio
@@ -31,6 +44,9 @@ async def main():
     security = Security(bearer_auth=token)
     cribl = CriblControlPlane(server_url=base_url, security=security)
 
+    # Construct the base URL for the Worker Group
+    group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
+
     # Verify that Worker Group doesn't already exist
     worker_group_response = cribl.groups.get(id=WORKER_GROUP_ID, product=ProductsCore.STREAM)
     if worker_group_response.items and len(worker_group_response.items) > 0:
@@ -50,9 +66,29 @@ async def main():
     )
     print(f"✅ Worker Group created: {WORKER_GROUP_ID}")
 
+    # Commit configuration changes
+    commit_response = cribl.versions.commits.create(
+        message="Commit for Cribl Stream example for creating a Worker Group",
+        server_url=group_url,
+        effective=True,
+        files=["."],
+    )
+    if not commit_response.items or len(commit_response.items) == 0:
+        raise Exception("Failed to commit configuration changes")
+    
+    version = commit_response.items[0].commit
+    print(f"✅ Committed configuration changes to the group: {WORKER_GROUP_ID}, commit ID: {version}")
+
+    # Deploy configuration changes to the Worker Group
+    cribl.groups.deploy(
+        product=ProductsCore.STREAM,
+        id=WORKER_GROUP_ID,
+        version=version,
+    )
+    print(f"✅ Worker Group changes deployed: {WORKER_GROUP_ID}")
+
 if __name__ == "__main__":
     try:
         asyncio.run(main())
     except Exception as error:
         print(f"❌ Something went wrong: {error}")
-

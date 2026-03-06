@@ -71,3 +71,9 @@ class PipelineFunctionLimit(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionLimit.model_rebuild()
+except NameError:
+    pass

@@ -1,5 +1,13 @@
 # CreateOutputTypeMsk
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateOutputTypeMsk
+
+value = CreateOutputTypeMsk.MSK
+```
+
 
 ## Values
 

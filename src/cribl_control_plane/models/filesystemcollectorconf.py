@@ -69,3 +69,9 @@ class FilesystemCollectorConf(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FilesystemCollectorConf.model_rebuild()
+except NameError:
+    pass

@@ -1,4 +1,4 @@
-# AdditionalPropertiesTypeSavedJobEnrichedFieldsSavedState
+# AdditionalPropertiesTypeEnrichedFieldsSavedState
 
 
 ## Fields

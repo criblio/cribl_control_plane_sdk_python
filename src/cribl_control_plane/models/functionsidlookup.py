@@ -87,3 +87,9 @@ class FunctionSidlookup(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSidlookup.model_rebuild()
+except NameError:
+    pass

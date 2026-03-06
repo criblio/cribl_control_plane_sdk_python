@@ -1,10 +1,17 @@
 # FunctionConfSchemaOtlpTraces
 
 
-## Fields
+## Supported Types
 
-| Field                                                                  | Type                                                                   | Required                                                               | Description                                                            |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `drop_non_trace_events`                                                | *Optional[bool]*                                                       | :heavy_minus_sign:                                                     | N/A                                                                    |
-| `otlp_version`                                                         | [Optional[models.OtlpVersionOptions]](../models/otlpversionoptions.md) | :heavy_minus_sign:                                                     | N/A                                                                    |
-| `batch_otlp_traces`                                                    | *Optional[bool]*                                                       | :heavy_minus_sign:                                                     | Batch OTLP traces by shared top-level `resource` attributes            |
+### `models.OTLPTracesBatchOTLPTracesFalse`
+
+```python
+value: models.OTLPTracesBatchOTLPTracesFalse = /* values here */
+```
+
+### `models.OTLPTracesBatchOTLPTracesTrue`
+
+```python
+value: models.OTLPTracesBatchOTLPTracesTrue = /* values here */
+```
+

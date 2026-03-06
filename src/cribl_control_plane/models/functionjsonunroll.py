@@ -87,3 +87,9 @@ class FunctionJSONUnroll(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionJSONUnroll.model_rebuild()
+except NameError:
+    pass

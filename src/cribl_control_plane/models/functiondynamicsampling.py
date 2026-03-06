@@ -87,3 +87,9 @@ class FunctionDynamicSampling(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionDynamicSampling.model_rebuild()
+except NameError:
+    pass

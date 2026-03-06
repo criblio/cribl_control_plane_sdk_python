@@ -113,6 +113,12 @@ value: models.CreateInputInputOffice365Service = /* values here */
 value: models.CreateInputInputOffice365MsgTrace = /* values here */
 ```
 
+### `models.CreateInputInputMicrosoftGraph`
+
+```python
+value: models.CreateInputInputMicrosoftGraph = /* values here */
+```
+
 ### `models.CreateInputInputEventhub`
 
 ```python
@@ -333,6 +339,12 @@ value: models.CreateInputInputJournalFiles = /* values here */
 
 ```python
 value: models.CreateInputInputWiz = /* values here */
+```
+
+### `models.CreateInputInputOpenai`
+
+```python
+value: models.CreateInputInputOpenai = /* values here */
 ```
 
 ### `models.CreateInputInputWizWebhook`

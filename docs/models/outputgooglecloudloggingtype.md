@@ -1,5 +1,13 @@
 # OutputGoogleCloudLoggingType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputGoogleCloudLoggingType
+
+value = OutputGoogleCloudLoggingType.GOOGLE_CLOUD_LOGGING
+```
+
 
 ## Values
 

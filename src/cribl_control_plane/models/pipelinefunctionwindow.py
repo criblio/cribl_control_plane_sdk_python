@@ -114,3 +114,13 @@ class PipelineFunctionWindow(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionWindowConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionWindow.model_rebuild()
+except NameError:
+    pass

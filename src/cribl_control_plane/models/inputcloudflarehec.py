@@ -5,21 +5,20 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
+from .maximumtlsversionoptionskafkaschemaregistrytls import (
+    MaximumTLSVersionOptionsKafkaSchemaRegistryTLS,
+)
+from .minimumtlsversionoptionskafkaschemaregistrytls import (
+    MinimumTLSVersionOptionsKafkaSchemaRegistryTLS,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from .tlssettingsserversidetype import (
-    TLSSettingsServerSideType,
-    TLSSettingsServerSideTypeTypedDict,
-)
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -31,7 +30,6 @@ class InputCloudflareHecAuthenticationMethod(str, Enum, metaclass=utils.OpenEnum
     r"""Select Secret to use a text secret to authenticate"""
 
     SECRET = "secret"
-    MANUAL = "manual"
 
 
 class InputCloudflareHecAuthTokenTypedDict(TypedDict):
@@ -39,13 +37,11 @@ class InputCloudflareHecAuthTokenTypedDict(TypedDict):
     r"""Select Secret to use a text secret to authenticate"""
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    token: NotRequired[str]
-    r"""Shared secret to be provided by any client (Authorization: <token>)"""
     enabled: NotRequired[bool]
     description: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events referencing this token"""
 
 
@@ -59,9 +55,6 @@ class InputCloudflareHecAuthToken(BaseModel):
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored text secret"""
 
-    token: Optional[str] = None
-    r"""Shared secret to be provided by any client (Authorization: <token>)"""
-
     enabled: Optional[bool] = None
 
     description: Optional[str] = None
@@ -71,7 +64,7 @@ class InputCloudflareHecAuthToken(BaseModel):
     ] = None
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events referencing this token"""
 
     @field_serializer("auth_type")
@@ -89,11 +82,126 @@ class InputCloudflareHecAuthToken(BaseModel):
             [
                 "authType",
                 "tokenSecret",
-                "token",
                 "enabled",
                 "description",
                 "allowedIndexesAtToken",
                 "metadata",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k)
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class TLSSettingsServerSideTypedDict(TypedDict):
+    disabled: NotRequired[bool]
+    r"""Enable or disable TLS. Defaults to enabled for Cloudflare sources."""
+    request_cert: NotRequired[bool]
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+    common_name_regex: NotRequired[str]
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
+    certificate_name: NotRequired[str]
+    r"""The name of the predefined certificate"""
+    priv_key_path: NotRequired[str]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl private key when TLS is enabled."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+    cert_path: NotRequired[str]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled."""
+    ca_path: NotRequired[str]
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+    min_version: NotRequired[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS]
+    max_version: NotRequired[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS]
+
+
+class TLSSettingsServerSide(BaseModel):
+    disabled: Optional[bool] = None
+    r"""Enable or disable TLS. Defaults to enabled for Cloudflare sources."""
+
+    request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = None
+    r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's)"""
+
+    common_name_regex: Annotated[
+        Optional[str], pydantic.Field(alias="commonNameRegex")
+    ] = None
+    r"""Regex matching allowable common names in peer certificates' subject attribute"""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""The name of the predefined certificate"""
+
+    priv_key_path: Annotated[Optional[str], pydantic.Field(alias="privKeyPath")] = None
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl private key when TLS is enabled."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS. Defaults to the built-in Cribl certificate when TLS is enabled."""
+
+    ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    min_version: Annotated[
+        Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
+        pydantic.Field(alias="minVersion"),
+    ] = None
+
+    max_version: Annotated[
+        Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
+        pydantic.Field(alias="maxVersion"),
+    ] = None
+
+    @field_serializer("min_version")
+    def serialize_min_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.MinimumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("max_version")
+    def serialize_max_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.MaximumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "requestCert",
+                "rejectUnauthorized",
+                "commonNameRegex",
+                "certificateName",
+                "privKeyPath",
+                "passphrase",
+                "certPath",
+                "caPath",
+                "minVersion",
+                "maxVersion",
             ]
         )
         serialized = handler(self)
@@ -136,7 +244,7 @@ class InputCloudflareHecTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[InputCloudflareHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    tls: NotRequired[TLSSettingsServerSideTypedDict]
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -153,12 +261,11 @@ class InputCloudflareHecTypedDict(TypedDict):
     r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
     keep_alive_timeout: NotRequired[float]
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
-    enable_health_check: NotRequired[Any]
     ip_allowlist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
     allowed_indexes: NotRequired[List[str]]
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
@@ -173,6 +280,10 @@ class InputCloudflareHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
 class InputCloudflareHec(BaseModel):
@@ -219,7 +330,7 @@ class InputCloudflareHec(BaseModel):
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[TLSSettingsServerSideType] = None
+    tls: Optional[TLSSettingsServerSide] = None
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -261,10 +372,6 @@ class InputCloudflareHec(BaseModel):
     ] = None
     r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
 
-    enable_health_check: Annotated[
-        Optional[Any], pydantic.Field(alias="enableHealthCheck")
-    ] = None
-
     ip_allowlist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipAllowlistRegex")
     ] = None
@@ -275,7 +382,7 @@ class InputCloudflareHec(BaseModel):
     ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
 
     allowed_indexes: Annotated[
@@ -310,6 +417,16 @@ class InputCloudflareHec(BaseModel):
 
     description: Optional[str] = None
 
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -333,7 +450,6 @@ class InputCloudflareHec(BaseModel):
                 "requestTimeout",
                 "socketTimeout",
                 "keepAliveTimeout",
-                "enableHealthCheck",
                 "ipAllowlistRegex",
                 "ipDenylistRegex",
                 "metadata",
@@ -344,6 +460,8 @@ class InputCloudflareHec(BaseModel):
                 "accessControlAllowHeaders",
                 "emitTokenMetrics",
                 "description",
+                "__template_host",
+                "__template_port",
             ]
         )
         serialized = handler(self)
@@ -358,3 +476,17 @@ class InputCloudflareHec(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputCloudflareHecAuthToken.model_rebuild()
+except NameError:
+    pass
+try:
+    TLSSettingsServerSide.model_rebuild()
+except NameError:
+    pass
+try:
+    InputCloudflareHec.model_rebuild()
+except NameError:
+    pass

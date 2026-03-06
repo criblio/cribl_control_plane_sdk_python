@@ -10,24 +10,34 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class OutputTestResponseTypedDict(TypedDict):
     output_id: str
+    r"""The <code>id</code> of the Destination that was tested."""
     success: bool
+    r"""If <code>true</code>, the Destination test succeeded. Otherwise, <code>false</code>."""
     details: NotRequired[Dict[str, Any]]
+    r"""Additional details about the Destination test, such as per-event results and transport-level information."""
     error: NotRequired[str]
+    r"""Error message that describes a failed Destination test."""
     success_detail: NotRequired[str]
+    r"""Human-readable description for a successful Destination test result."""
 
 
 class OutputTestResponse(BaseModel):
     output_id: Annotated[str, pydantic.Field(alias="outputId")]
+    r"""The <code>id</code> of the Destination that was tested."""
 
     success: bool
+    r"""If <code>true</code>, the Destination test succeeded. Otherwise, <code>false</code>."""
 
     details: Optional[Dict[str, Any]] = None
+    r"""Additional details about the Destination test, such as per-event results and transport-level information."""
 
     error: Optional[str] = None
+    r"""Error message that describes a failed Destination test."""
 
     success_detail: Annotated[Optional[str], pydantic.Field(alias="successDetail")] = (
         None
     )
+    r"""Human-readable description for a successful Destination test result."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -44,3 +54,9 @@ class OutputTestResponse(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputTestResponse.model_rebuild()
+except NameError:
+    pass

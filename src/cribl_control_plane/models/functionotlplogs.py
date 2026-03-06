@@ -87,3 +87,9 @@ class FunctionOtlpLogs(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionOtlpLogs.model_rebuild()
+except NameError:
+    pass

@@ -12,11 +12,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class GetVersionShowRequestTypedDict(TypedDict):
     commit: NotRequired[str]
     r"""The Git commit hash to retrieve the diff and log message for."""
-    group_id: NotRequired[str]
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for."""
     filename: NotRequired[str]
     r"""The relative path of the file to get the diff and log message for."""
-    diff_line_limit: NotRequired[float]
+    diff_line_limit: NotRequired[int]
     r"""Number of lines of the diff to return. Default is 1000. Set to <code>0</code> to return the full diff, regardless of the number of lines."""
 
 
@@ -27,13 +25,6 @@ class GetVersionShowRequest(BaseModel):
     ] = None
     r"""The Git commit hash to retrieve the diff and log message for."""
 
-    group_id: Annotated[
-        Optional[str],
-        pydantic.Field(alias="groupId"),
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""The <code>id</code> of the Worker Group or Edge Fleet to get the diff and log message for."""
-
     filename: Annotated[
         Optional[str],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
@@ -41,7 +32,7 @@ class GetVersionShowRequest(BaseModel):
     r"""The relative path of the file to get the diff and log message for."""
 
     diff_line_limit: Annotated[
-        Optional[float],
+        Optional[int],
         pydantic.Field(alias="diffLineLimit"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
@@ -49,7 +40,7 @@ class GetVersionShowRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["commit", "groupId", "filename", "diffLineLimit"])
+        optional_fields = set(["commit", "filename", "diffLineLimit"])
         serialized = handler(self)
         m = {}
 

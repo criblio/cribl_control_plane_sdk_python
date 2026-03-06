@@ -55,3 +55,9 @@ class FunctionConfSchemaCode(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaCode.model_rebuild()
+except NameError:
+    pass

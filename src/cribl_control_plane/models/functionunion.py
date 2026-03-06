@@ -87,3 +87,9 @@ class FunctionUnion(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionUnion.model_rebuild()
+except NameError:
+    pass

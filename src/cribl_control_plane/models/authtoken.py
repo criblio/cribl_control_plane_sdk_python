@@ -15,3 +15,9 @@ class AuthToken(BaseModel):
     force_password_change: Annotated[bool, pydantic.Field(alias="forcePasswordChange")]
 
     token: str
+
+
+try:
+    AuthToken.model_rebuild()
+except NameError:
+    pass

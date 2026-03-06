@@ -1,5 +1,13 @@
 # FunctionOtlpLogsID
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import FunctionOtlpLogsID
+
+value = FunctionOtlpLogsID.OTLP_LOGS
+```
+
 
 ## Values
 

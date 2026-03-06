@@ -117,3 +117,13 @@ class PipelineFunctionMvPull(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionMvPullConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionMvPull.model_rebuild()
+except NameError:
+    pass

@@ -87,3 +87,9 @@ class FunctionOtlpTraces(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionOtlpTraces.model_rebuild()
+except NameError:
+    pass

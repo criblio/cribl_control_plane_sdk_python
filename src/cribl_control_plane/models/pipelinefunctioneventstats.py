@@ -110,3 +110,13 @@ class PipelineFunctionEventstats(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    EventstatsConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionEventstats.model_rebuild()
+except NameError:
+    pass

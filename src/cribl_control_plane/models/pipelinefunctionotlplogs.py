@@ -71,3 +71,9 @@ class PipelineFunctionOtlpLogs(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionOtlpLogs.model_rebuild()
+except NameError:
+    pass

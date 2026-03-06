@@ -82,3 +82,13 @@ class PipelineFunctionUnion(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    UnionConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionUnion.model_rebuild()
+except NameError:
+    pass

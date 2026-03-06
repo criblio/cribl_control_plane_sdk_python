@@ -50,3 +50,9 @@ class GitLogResult(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    GitLogResult.model_rebuild()
+except NameError:
+    pass

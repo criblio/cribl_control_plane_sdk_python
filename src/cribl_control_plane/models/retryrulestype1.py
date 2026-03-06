@@ -96,3 +96,9 @@ class RetryRulesType1(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    RetryRulesType1.model_rebuild()
+except NameError:
+    pass

@@ -2,6 +2,14 @@
 
 Collector type
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CollectorHealthCheckType
+
+value = CollectorHealthCheckType.HEALTH_CHECK
+```
+
 
 ## Values
 

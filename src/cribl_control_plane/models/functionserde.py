@@ -87,3 +87,9 @@ class FunctionSerde(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSerde.model_rebuild()
+except NameError:
+    pass

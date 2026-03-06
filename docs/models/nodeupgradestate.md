@@ -1,11 +1,21 @@
 # NodeUpgradeState
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import NodeUpgradeState
+
+value = NodeUpgradeState.ACTIVE
+
+# Open enum: unrecognized values are captured as UnrecognizedInt
+```
+
 
 ## Values
 
-| Name    | Value   |
-| ------- | ------- |
-| `ZERO`  | 0       |
-| `ONE`   | 1       |
-| `TWO`   | 2       |
-| `THREE` | 3       |
+| Name      | Value     |
+| --------- | --------- |
+| `ACTIVE`  | 0         |
+| `CURRENT` | 1         |
+| `FAILED`  | 2         |
+| `SKIPPED` | 3         |

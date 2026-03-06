@@ -1,5 +1,13 @@
 # CreateInputTypeZscalerHec
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputTypeZscalerHec
+
+value = CreateInputTypeZscalerHec.ZSCALER_HEC
+```
+
 
 ## Values
 

@@ -6,10 +6,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from cribl_control_plane import models, utils
@@ -25,11 +22,11 @@ class InputWizType(str, Enum):
     WIZ = "wiz"
 
 
-class ManageStateTypedDict(TypedDict):
+class InputWizManageStateTypedDict(TypedDict):
     pass
 
 
-class ManageState(BaseModel):
+class InputWizManageState(BaseModel):
     pass
 
 
@@ -62,7 +59,7 @@ class InputWizContentConfigTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[ManageStateTypedDict]
+    manage_state: NotRequired[InputWizManageStateTypedDict]
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
     log_level: NotRequired[InputWizLogLevel]
@@ -109,7 +106,7 @@ class InputWizContentConfig(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[ManageState], pydantic.Field(alias="manageState")
+        Optional[InputWizManageState], pydantic.Field(alias="manageState")
     ] = None
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
@@ -198,7 +195,7 @@ class InputWizTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions1]
@@ -208,6 +205,12 @@ class InputWizTypedDict(TypedDict):
     r"""The client secret of the Wiz application"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_auth_url: NotRequired[str]
+    r"""Binds 'authUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'authUrl' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
 
 class InputWiz(BaseModel):
@@ -281,7 +284,7 @@ class InputWiz(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     retry_rules: Annotated[
@@ -300,6 +303,21 @@ class InputWiz(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_auth_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_authUrl")
+    ] = None
+    r"""Binds 'authUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'authUrl' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -335,6 +353,9 @@ class InputWiz(BaseModel):
                 "description",
                 "clientSecret",
                 "textSecret",
+                "__template_endpoint",
+                "__template_authUrl",
+                "__template_clientId",
             ]
         )
         serialized = handler(self)
@@ -349,3 +370,13 @@ class InputWiz(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputWizContentConfig.model_rebuild()
+except NameError:
+    pass
+try:
+    InputWiz.model_rebuild()
+except NameError:
+    pass

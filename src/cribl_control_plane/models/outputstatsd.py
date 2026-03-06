@@ -282,3 +282,9 @@ class OutputStatsd(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputStatsd.model_rebuild()
+except NameError:
+    pass

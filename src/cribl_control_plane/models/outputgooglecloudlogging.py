@@ -644,3 +644,9 @@ class OutputGoogleCloudLogging(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputGoogleCloudLogging.model_rebuild()
+except NameError:
+    pass

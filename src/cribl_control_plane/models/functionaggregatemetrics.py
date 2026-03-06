@@ -87,3 +87,9 @@ class FunctionAggregateMetrics(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionAggregateMetrics.model_rebuild()
+except NameError:
+    pass

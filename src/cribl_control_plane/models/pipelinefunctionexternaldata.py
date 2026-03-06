@@ -71,3 +71,9 @@ class PipelineFunctionExternaldata(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionExternaldata.model_rebuild()
+except NameError:
+    pass

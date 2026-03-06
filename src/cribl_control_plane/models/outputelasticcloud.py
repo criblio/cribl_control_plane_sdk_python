@@ -381,3 +381,9 @@ class OutputElasticCloud(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputElasticCloud.model_rebuild()
+except NameError:
+    pass

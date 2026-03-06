@@ -1,5 +1,13 @@
 # InputCloudflareHecType
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import InputCloudflareHecType
+
+value = InputCloudflareHecType.CLOUDFLARE_HEC
+```
+
 
 ## Values
 

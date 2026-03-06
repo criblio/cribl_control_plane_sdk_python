@@ -4,9 +4,12 @@ from __future__ import annotations
 from .difflinecontext import DiffLineContext, DiffLineContextTypedDict
 from .difflinedelete import DiffLineDelete, DiffLineDeleteTypedDict
 from .difflineinsert import DiffLineInsert, DiffLineInsertTypedDict
-from cribl_control_plane.utils import get_discriminator
-from pydantic import Discriminator, Tag
-from typing import Union
+from cribl_control_plane.types import BaseModel
+from cribl_control_plane.utils.unions import parse_open_union
+from functools import partial
+from pydantic import ConfigDict
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, Literal, Union
 from typing_extensions import Annotated, TypeAliasType
 
 
@@ -16,11 +19,32 @@ DiffLineTypedDict = TypeAliasType(
 )
 
 
+class UnknownDiffLine(BaseModel):
+    r"""A DiffLine variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_DIFF_LINE_VARIANTS: dict[str, Any] = {
+    "delete": DiffLineDelete,
+    "insert": DiffLineInsert,
+    "context": DiffLineContext,
+}
+
+
 DiffLine = Annotated[
-    Union[
-        Annotated[DiffLineDelete, Tag("delete")],
-        Annotated[DiffLineInsert, Tag("insert")],
-        Annotated[DiffLineContext, Tag("context")],
-    ],
-    Discriminator(lambda m: get_discriminator(m, "type", "type")),
+    Union[DiffLineDelete, DiffLineInsert, DiffLineContext, UnknownDiffLine],
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_DIFF_LINE_VARIANTS,
+            unknown_cls=UnknownDiffLine,
+            union_name="DiffLine",
+        )
+    ),
 ]

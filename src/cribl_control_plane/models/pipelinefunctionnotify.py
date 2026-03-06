@@ -221,3 +221,13 @@ class PipelineFunctionNotify(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    NotifyConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionNotify.model_rebuild()
+except NameError:
+    pass

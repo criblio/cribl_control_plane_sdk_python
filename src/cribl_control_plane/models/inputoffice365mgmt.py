@@ -6,10 +6,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
-from .itemstypenotificationmetadata import (
-    ItemsTypeNotificationMetadata,
-    ItemsTypeNotificationMetadataTypedDict,
-)
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
@@ -118,7 +115,7 @@ class InputOffice365MgmtTypedDict(TypedDict):
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
-    metadata: NotRequired[List[ItemsTypeNotificationMetadataTypedDict]]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
@@ -134,6 +131,14 @@ class InputOffice365MgmtTypedDict(TypedDict):
     r"""Office 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_app_id: NotRequired[str]
+    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
+    template_publisher_identifier: NotRequired[str]
+    r"""Binds 'publisherIdentifier' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'publisherIdentifier' at runtime."""
+    template_client_secret: NotRequired[str]
+    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
 
 class InputOffice365Mgmt(BaseModel):
@@ -199,7 +204,7 @@ class InputOffice365Mgmt(BaseModel):
     ] = None
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
 
-    metadata: Optional[List[ItemsTypeNotificationMetadata]] = None
+    metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     publisher_identifier: Annotated[
@@ -234,6 +239,26 @@ class InputOffice365Mgmt(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_app_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_appId")
+    ] = None
+    r"""Binds 'appId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'appId' at runtime."""
+
+    template_publisher_identifier: Annotated[
+        Optional[str], pydantic.Field(alias="__template_publisherIdentifier")
+    ] = None
+    r"""Binds 'publisherIdentifier' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'publisherIdentifier' at runtime."""
+
+    template_client_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientSecret")
+    ] = None
+    r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
 
     @field_serializer("plan_type")
     def serialize_plan_type(self, value):
@@ -281,6 +306,10 @@ class InputOffice365Mgmt(BaseModel):
                 "description",
                 "clientSecret",
                 "textSecret",
+                "__template_tenantId",
+                "__template_appId",
+                "__template_publisherIdentifier",
+                "__template_clientSecret",
             ]
         )
         serialized = handler(self)
@@ -295,3 +324,13 @@ class InputOffice365Mgmt(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    InputOffice365MgmtContentConfig.model_rebuild()
+except NameError:
+    pass
+try:
+    InputOffice365Mgmt.model_rebuild()
+except NameError:
+    pass

@@ -119,3 +119,13 @@ class PipelineFunctionDistinct(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    DistinctConfiguration.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionDistinct.model_rebuild()
+except NameError:
+    pass

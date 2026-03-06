@@ -14,3 +14,9 @@ class GitDiffResultTypedDict(TypedDict):
 
 class GitDiffResult(BaseModel):
     diff_json: Annotated[List[DiffFiles], pydantic.Field(alias="diffJson")]
+
+
+try:
+    GitDiffResult.model_rebuild()
+except NameError:
+    pass

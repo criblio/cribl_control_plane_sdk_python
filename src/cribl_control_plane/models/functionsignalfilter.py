@@ -87,3 +87,9 @@ class FunctionSignalFilter(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSignalFilter.model_rebuild()
+except NameError:
+    pass

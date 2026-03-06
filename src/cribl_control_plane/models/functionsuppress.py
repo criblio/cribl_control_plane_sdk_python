@@ -87,3 +87,9 @@ class FunctionSuppress(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionSuppress.model_rebuild()
+except NameError:
+    pass

@@ -2,6 +2,16 @@
 
 Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value.
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputDatasetSeverity
+
+value = OutputDatasetSeverity.FINEST
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

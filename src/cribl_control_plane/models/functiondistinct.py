@@ -87,3 +87,9 @@ class FunctionDistinct(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionDistinct.model_rebuild()
+except NameError:
+    pass

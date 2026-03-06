@@ -82,3 +82,13 @@ class PipelineFunctionUnroll(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionUnrollConf.model_rebuild()
+except NameError:
+    pass
+try:
+    PipelineFunctionUnroll.model_rebuild()
+except NameError:
+    pass

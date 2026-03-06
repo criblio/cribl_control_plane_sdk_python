@@ -64,3 +64,9 @@ class OutputDevnull(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    OutputDevnull.model_rebuild()
+except NameError:
+    pass

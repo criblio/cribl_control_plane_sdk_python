@@ -23,3 +23,9 @@ class DiffLineDelete(BaseModel):
     old_number: Annotated[float, pydantic.Field(alias="oldNumber")]
 
     content: str
+
+
+try:
+    DiffLineDelete.model_rebuild()
+except NameError:
+    pass

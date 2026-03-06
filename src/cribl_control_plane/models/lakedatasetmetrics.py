@@ -15,3 +15,9 @@ class LakeDatasetMetrics(BaseModel):
     current_size_bytes: Annotated[float, pydantic.Field(alias="currentSizeBytes")]
 
     metrics_date: Annotated[str, pydantic.Field(alias="metricsDate")]
+
+
+try:
+    LakeDatasetMetrics.model_rebuild()
+except NameError:
+    pass

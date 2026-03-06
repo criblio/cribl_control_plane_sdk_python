@@ -15,3 +15,9 @@ class ItemsTypeSystemSettingsConfSupportFeatureFlagOverrides(BaseModel):
     disabled: bool
 
     flag_id: Annotated[str, pydantic.Field(alias="flagId")]
+
+
+try:
+    ItemsTypeSystemSettingsConfSupportFeatureFlagOverrides.model_rebuild()
+except NameError:
+    pass

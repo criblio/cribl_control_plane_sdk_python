@@ -1,5 +1,15 @@
 # AuthenticationProtocolOptionsV3User
 
+## Example Usage
+
+```python
+from cribl_control_plane.models import AuthenticationProtocolOptionsV3User
+
+value = AuthenticationProtocolOptionsV3User.NONE
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
 
 ## Values
 

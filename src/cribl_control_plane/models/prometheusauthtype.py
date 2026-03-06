@@ -82,3 +82,9 @@ class PrometheusAuthType(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PrometheusAuthType.model_rebuild()
+except NameError:
+    pass

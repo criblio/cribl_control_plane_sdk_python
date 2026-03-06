@@ -71,3 +71,9 @@ class PipelineFunctionSnmpTrapSerialize(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    PipelineFunctionSnmpTrapSerialize.model_rebuild()
+except NameError:
+    pass

@@ -9,8 +9,11 @@ This example performs the following operations:
 
 1. Connects to an existing on-prem Worker Group.
 2. Retrieves the current system settings for the Worker Group.
-3. Optimizes Worker Process settings following the scaling documentation:
-   - Process count: -2 (to reserve two CPU cores for system/API overhead)
+3. Optimizes Worker Process settings following the scaling documentation, 
+   assuming the Syslog Source load balancer is enabled on a Cribl Stream 
+   system with 6 physical cores hyperthreaded (12 vCPUs):
+   - Process count: -3 (to reserve two CPU cores for system/API overhead plus 
+     one for the load balancer process)
    - Memory: 2048 MB (2 GB per Worker Process)
    - Minimum Worker Process count: 2 (to spawn at least two Worker Processes)
 4. Updates the Worker Group's system settings with the optimized configuration.

@@ -181,7 +181,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -356,7 +356,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -516,7 +516,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -680,7 +680,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -844,7 +844,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1007,7 +1007,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1162,7 +1162,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1324,7 +1324,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1479,7 +1479,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestDiscoveryDiscov
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1685,7 +1685,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeR
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1761,7 +1761,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeR
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1819,7 +1819,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeR
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1908,7 +1908,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestPaginationTypeR
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2092,7 +2092,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeB
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2188,7 +2188,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeB
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2296,7 +2296,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeS
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2380,7 +2380,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueRestRetryRulesTypeS
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2499,7 +2499,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueStateTracking(BaseM
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2530,7 +2530,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrueScheduling(BaseMode
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2744,7 +2744,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2911,7 +2911,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3086,7 +3086,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3246,7 +3246,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3410,7 +3410,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3574,7 +3574,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3737,7 +3737,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3892,7 +3892,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4054,7 +4054,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4209,7 +4209,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestDiscoveryDisco
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4415,7 +4415,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4491,7 +4491,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4549,7 +4549,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4638,7 +4638,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestPaginationType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4822,7 +4822,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4918,7 +4918,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5026,7 +5026,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5110,7 +5110,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseRestRetryRulesType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5229,7 +5229,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseStateTracking(Base
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5260,7 +5260,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalseScheduling(BaseMod
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5484,7 +5484,7 @@ class RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5669,7 +5669,7 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5844,7 +5844,7 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -6004,7 +6004,7 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -6168,7 +6168,7 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -6332,7 +6332,7 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -6495,7 +6495,7 @@ class RestAuthenticationLoginGetAuthTokenFromHeaderTrueRestDiscoveryDiscoverType
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:

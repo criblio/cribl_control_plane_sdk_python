@@ -167,7 +167,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeJSON(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -340,7 +340,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -500,7 +500,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -662,7 +662,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -826,7 +826,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -989,7 +989,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeTrue(
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1144,7 +1144,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableDiscoverCodeFalse
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1306,7 +1306,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1461,7 +1461,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPEnableStrictDiscoverPar
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1653,7 +1653,7 @@ class RestAuthenticationHmacRestPaginationTypeRequestPage(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1725,7 +1725,7 @@ class RestAuthenticationHmacRestPaginationTypeRequestOffset(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1779,7 +1779,7 @@ class RestAuthenticationHmacRestPaginationTypeResponseHeaderLink(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1860,7 +1860,7 @@ class RestAuthenticationHmacRestPaginationTypeResponseBody(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2034,7 +2034,7 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderTrue(BaseModel)
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2128,7 +2128,7 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoffEnableHeaderFalse(BaseModel
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2234,7 +2234,7 @@ class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderTrue(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2316,7 +2316,7 @@ class RestAuthenticationHmacRestRetryRulesTypeStaticEnableHeaderFalse(BaseModel)
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2425,7 +2425,7 @@ class RestAuthenticationHmacStateTracking(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2452,7 +2452,7 @@ class RestAuthenticationHmacScheduling(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2603,7 +2603,7 @@ class RestAuthenticationHmac(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2770,7 +2770,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeJSON(BaseModel
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2945,7 +2945,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3105,7 +3105,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3269,7 +3269,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3433,7 +3433,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3596,7 +3596,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3751,7 +3751,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableDisc
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3913,7 +3913,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4068,7 +4068,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPEnableStri
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4268,7 +4268,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestPage(BaseModel
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4342,7 +4342,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestOffset(BaseMod
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4400,7 +4400,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeaderLink(
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4485,7 +4485,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseBody(BaseMode
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4661,7 +4661,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderTr
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4757,7 +4757,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffEnableHeaderFa
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4865,7 +4865,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderTru
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4949,7 +4949,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticEnableHeaderFal
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5058,7 +5058,7 @@ class RestAuthenticationGoogleOauthSecretStateTracking(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5087,7 +5087,7 @@ class RestAuthenticationGoogleOauthSecretScheduling(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5251,7 +5251,7 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5412,7 +5412,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeJSON(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5587,7 +5587,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5747,7 +5747,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5911,7 +5911,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -6075,7 +6075,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -6238,7 +6238,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPEnableDiscoverCo
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:

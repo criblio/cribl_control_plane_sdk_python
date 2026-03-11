@@ -208,7 +208,7 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSON(BaseMode
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -328,7 +328,7 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -453,7 +453,7 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -578,7 +578,7 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -769,7 +769,7 @@ class HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeBackoff(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -826,7 +826,7 @@ class HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeStatic(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1019,7 +1019,7 @@ class HealthCheckAuthenticationNone(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1194,7 +1194,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSON(
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1314,7 +1314,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDi
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1439,7 +1439,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDi
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1564,7 +1564,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPDi
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1758,7 +1758,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeBackoff(BaseM
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1817,7 +1817,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeStatic(BaseMo
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2020,7 +2020,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2195,7 +2195,7 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSON(BaseModel
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2315,7 +2315,7 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMe
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2440,7 +2440,7 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMe
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2565,7 +2565,7 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMe
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2757,7 +2757,7 @@ class HealthCheckCollectMethodPostHealthCheckRetryRulesTypeBackoff(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2814,7 +2814,7 @@ class HealthCheckCollectMethodPostHealthCheckRetryRulesTypeStatic(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3018,7 +3018,7 @@ class HealthCheckCollectMethodPost(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3208,7 +3208,7 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSON(BaseModel)
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3328,7 +3328,7 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMet
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3453,7 +3453,7 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMet
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3578,7 +3578,7 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPDiscoverMet
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3768,7 +3768,7 @@ class HealthCheckCollectMethodGetHealthCheckRetryRulesTypeBackoff(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3825,7 +3825,7 @@ class HealthCheckCollectMethodGetHealthCheckRetryRulesTypeStatic(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4029,7 +4029,7 @@ class HealthCheckCollectMethodGet(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:

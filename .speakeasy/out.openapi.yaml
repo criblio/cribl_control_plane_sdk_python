@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1772794130090-57a354e8
+  version: 4.17.1-alpha.1773270186742-a6cfcb14
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -33724,7 +33724,12 @@ components:
           minimum: 10
           maximum: 4200
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AwsAuthenticationMethodOptions"
+          type: string
+          enum:
+            - auto
+            - auto_rpc
+            - manual
+          x-speakeasy-unknown-values: allow
         format:
           $ref: "#/components/schemas/FormatOptions"
         maxConcurrentFileParts:
@@ -40898,13 +40903,6 @@ components:
         - JSON
         - Raw
       description: When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent.
-      x-speakeasy-unknown-values: allow
-    AwsAuthenticationMethodOptions:
-      type: string
-      enum:
-        - auto
-        - auto_rpc
-        - manual
       x-speakeasy-unknown-values: allow
     FormatOptions:
       type: string

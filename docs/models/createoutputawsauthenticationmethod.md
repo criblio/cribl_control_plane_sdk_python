@@ -1,11 +1,11 @@
-# AwsAuthenticationMethodOptions
+# CreateOutputAwsAuthenticationMethod
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import AwsAuthenticationMethodOptions
+from cribl_control_plane.models import CreateOutputAwsAuthenticationMethod
 
-value = AwsAuthenticationMethodOptions.AUTO
+value = CreateOutputAwsAuthenticationMethod.AUTO
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

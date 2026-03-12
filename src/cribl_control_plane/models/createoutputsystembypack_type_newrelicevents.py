@@ -17,7 +17,6 @@ from .authenticationtypeoptionsprometheusauth import (
 from .authenticationtypeoptionsprometheusauth1 import (
     AuthenticationTypeOptionsPrometheusAuth1,
 )
-from .awsauthenticationmethodoptions import AwsAuthenticationMethodOptions
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .compressionleveloptions import CompressionLevelOptions
@@ -668,7 +667,7 @@ class CreateOutputSystemByPackOutputCloudflareR2(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -821,7 +820,7 @@ class CreateOutputSystemByPackAuthentication(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1166,7 +1165,7 @@ class CreateOutputSystemByPackOutputMicrosoftFabric(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1624,7 +1623,7 @@ class CreateOutputSystemByPackOutputDatabricks(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -1667,7 +1666,7 @@ class CreateOutputSystemByPackCustomLabel(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2103,7 +2102,7 @@ class CreateOutputSystemByPackOutputChronicle(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -2607,7 +2606,7 @@ class CreateOutputSystemByPackOutputSentinelOneAiSiem(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3076,7 +3075,7 @@ class CreateOutputSystemByPackOutputDynatraceOtlp(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3564,7 +3563,7 @@ class CreateOutputSystemByPackOutputDynatraceHTTP(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3613,7 +3612,7 @@ class CreateOutputSystemByPackHostNetflow(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3704,7 +3703,7 @@ class CreateOutputSystemByPackOutputNetflow(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -3743,7 +3742,7 @@ class CreateOutputSystemByPackURLXsiam(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4148,7 +4147,7 @@ class CreateOutputSystemByPackOutputXsiam(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4226,7 +4225,7 @@ class CreateOutputSystemByPackStatsDestination(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4264,7 +4263,7 @@ class CreateOutputSystemByPackColumnMappingLocalSearchStorage(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4755,7 +4754,7 @@ class CreateOutputSystemByPackOutputLocalSearchStorage(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -4817,7 +4816,7 @@ class CreateOutputSystemByPackColumnMappingClickHouse(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5297,7 +5296,7 @@ class CreateOutputSystemByPackOutputClickHouse(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5404,7 +5403,7 @@ class CreateOutputSystemByPackOutputDiskSpool(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -5415,6 +5414,14 @@ class CreateOutputSystemByPackOutputDiskSpool(BaseModel):
 
 class CreateOutputSystemByPackTypeCriblLake(str, Enum):
     CRIBL_LAKE = "cribl_lake"
+
+
+class CreateOutputSystemByPackAwsAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    AUTO = "auto"
+    AUTO_RPC = "auto_rpc"
+    MANUAL = "manual"
 
 
 class CreateOutputSystemByPackOutputCriblLakeTypedDict(TypedDict):
@@ -5495,7 +5502,9 @@ class CreateOutputSystemByPackOutputCriblLakeTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself"""
     max_closing_files_to_backpressure: NotRequired[float]
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
-    aws_authentication_method: NotRequired[AwsAuthenticationMethodOptions]
+    aws_authentication_method: NotRequired[
+        CreateOutputSystemByPackAwsAuthenticationMethod
+    ]
     format_: NotRequired[FormatOptions]
     max_concurrent_file_parts: NotRequired[float]
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
@@ -5700,7 +5709,7 @@ class CreateOutputSystemByPackOutputCriblLake(BaseModel):
     r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
     aws_authentication_method: Annotated[
-        Optional[AwsAuthenticationMethodOptions],
+        Optional[CreateOutputSystemByPackAwsAuthenticationMethod],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = None
 
@@ -5821,7 +5830,7 @@ class CreateOutputSystemByPackOutputCriblLake(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AwsAuthenticationMethodOptions(value)
+                return models.CreateOutputSystemByPackAwsAuthenticationMethod(value)
             except ValueError:
                 return value
         return value
@@ -5898,7 +5907,7 @@ class CreateOutputSystemByPackOutputCriblLake(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -6499,7 +6508,7 @@ class CreateOutputSystemByPackOutputSecurityLake(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -7164,7 +7173,7 @@ class CreateOutputSystemByPackOutputDlS3(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -7546,7 +7555,7 @@ class CreateOutputSystemByPackOutputCrowdstrikeNextGenSiem(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -7924,7 +7933,7 @@ class CreateOutputSystemByPackOutputHumioHec(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -8340,7 +8349,7 @@ class CreateOutputSystemByPackOutputCriblSearchEngine(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -8754,7 +8763,7 @@ class CreateOutputSystemByPackOutputCriblHTTP(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -9100,7 +9109,7 @@ class CreateOutputSystemByPackOutputCriblTCP(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -9563,7 +9572,7 @@ class CreateOutputSystemByPackOutputDataset(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -10002,7 +10011,7 @@ class CreateOutputSystemByPackOutputServiceNow(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -10489,7 +10498,7 @@ class CreateOutputSystemByPackOutputOpenTelemetry(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -10635,7 +10644,7 @@ class CreateOutputSystemByPackOutputRing(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -11033,7 +11042,7 @@ class CreateOutputSystemByPackOutputPrometheus(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -11452,7 +11461,7 @@ class CreateOutputSystemByPackOutputLoki(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -11851,7 +11860,7 @@ class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -12252,7 +12261,7 @@ class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -12781,7 +12790,7 @@ class CreateOutputSystemByPackOutputDatadog(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -13166,7 +13175,7 @@ class CreateOutputSystemByPackOutputSumoLogic(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -13215,7 +13224,7 @@ class CreateOutputSystemByPackHostSnmp(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -13290,7 +13299,7 @@ class CreateOutputSystemByPackOutputSnmp(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -13740,7 +13749,7 @@ class CreateOutputSystemByPackOutputSqs(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -14116,7 +14125,7 @@ class CreateOutputSystemByPackOutputSns(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -14161,7 +14170,7 @@ class CreateOutputSystemByPackRule(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -14222,7 +14231,7 @@ class CreateOutputSystemByPackOutputRouter(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -14491,7 +14500,7 @@ class CreateOutputSystemByPackOutputGraphite(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -14760,7 +14769,7 @@ class CreateOutputSystemByPackOutputStatsdExt(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -15029,7 +15038,7 @@ class CreateOutputSystemByPackOutputStatsd(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -15624,7 +15633,7 @@ class CreateOutputSystemByPackOutputMinio(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -15990,7 +15999,7 @@ class CreateOutputSystemByPackOutputCloudwatch(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -16480,7 +16489,7 @@ class CreateOutputSystemByPackOutputInfluxdb(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -16491,14 +16500,6 @@ class CreateOutputSystemByPackOutputInfluxdb(BaseModel):
 
 class CreateOutputSystemByPackTypeNewrelicEvents(str, Enum):
     NEWRELIC_EVENTS = "newrelic_events"
-
-
-class CreateOutputSystemByPackPqControlsNewrelicEventsTypedDict(TypedDict):
-    pass
-
-
-class CreateOutputSystemByPackPqControlsNewrelicEvents(BaseModel):
-    pass
 
 
 try:

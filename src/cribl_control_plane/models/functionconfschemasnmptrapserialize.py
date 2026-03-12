@@ -52,7 +52,7 @@ class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNotNone(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -97,7 +97,7 @@ class SnmpTrapSerializeV3UserAuthProtocolNotNonePrivProtocolNone(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -158,7 +158,6 @@ SnmpTrapSerializeV3UserAuthProtocolNotNone = Annotated[
 class SnmpTrapSerializeV3UserAuthProtocolNoneTypedDict(TypedDict):
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
     name: NotRequired[str]
-    auth_key: NotRequired[str]
     priv_protocol: NotRequired[str]
 
 
@@ -169,8 +168,6 @@ class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
     ] = None
 
     name: Optional[str] = None
-
-    auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
 
     priv_protocol: Annotated[Optional[str], pydantic.Field(alias="privProtocol")] = None
 
@@ -185,13 +182,13 @@ class SnmpTrapSerializeV3UserAuthProtocolNone(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["authProtocol", "name", "authKey", "privProtocol"])
+        optional_fields = set(["authProtocol", "name", "privProtocol"])
         serialized = handler(self)
         m = {}
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -280,7 +277,7 @@ class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:

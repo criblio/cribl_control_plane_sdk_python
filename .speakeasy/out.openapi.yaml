@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1772751842453-480197ad
+  version: 4.18.0-alpha.1773270188020-3d1c4624
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -9041,6 +9041,9 @@ components:
           type: string
           title: Lake dataset
           description: Lake dataset to collect data from.
+        __template_dataset:
+          type: string
+          description: Binds 'dataset' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'dataset' at runtime.
     CollectorCriblLake:
       allOf:
         - $ref: "#/components/schemas/CollectorBase"
@@ -9086,6 +9089,9 @@ components:
                   type: boolean
                   title: Enabled
                   description: Enable tracking of collection progress between consecutive scheduled executions.
+        __template_query:
+          type: string
+          description: Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime.
     CollectorDatabase:
       allOf:
         - $ref: "#/components/schemas/CollectorBase"
@@ -9142,6 +9148,9 @@ components:
           title: Batch size limit (files)
           description: Maximum number of metadata files to batch before recording as results
           minimum: 1
+        __template_path:
+          type: string
+          description: Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime.
     CollectorFilesystem:
       allOf:
         - $ref: "#/components/schemas/CollectorBase"
@@ -9265,6 +9274,15 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
+        __template_bucket:
+          type: string
+          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_path:
+          type: string
+          description: Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/GoogleCloudStorageAuthTypeAuto"
@@ -9878,6 +9896,9 @@ components:
                   none: "#/components/schemas/HealthCheckRetryRulesTypeNone"
                   static: "#/components/schemas/HealthCheckRetryRulesTypeStatic"
                   backoff: "#/components/schemas/HealthCheckRetryRulesTypeBackoff"
+        __template_collectUrl:
+          type: string
+          description: Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/HealthCheckCollectMethodGet"
@@ -14110,6 +14131,9 @@ components:
         __template_prometheusAPI:
           type: string
           description: Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime.
+        __template_username:
+          type: string
+          description: Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime.
     InputPrometheus:
       type: object
       required:
@@ -14344,6 +14368,9 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
+        __template_discoveryType:
+          type: string
+          description: Binds 'discoveryType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoveryType' at runtime.
         __template_logLevel:
           type: string
           description: Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime.
@@ -14362,6 +14389,12 @@ components:
         __template_assumeRoleExternalId:
           type: string
           description: Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime.
+        __template_username:
+          type: string
+          description: Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime.
+        __template_password:
+          type: string
+          description: Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime.
     InputEdgePrometheus:
       type: object
       required:
@@ -22094,29 +22127,23 @@ components:
           type: array
           items:
             type: string
+          description: List of index names that the HEC token is allowed to write to.
         description:
           type: string
+          description: Brief description for the HEC token.
         enabled:
           type: boolean
+          description: If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>.
         metadata:
           type: array
           items:
             $ref: "#/components/schemas/EventBreakerRuleFields"
+          description: Array of key-value pairs to associate with the HEC token for tagging, categorization, or providing additional context. Each item in the array is an object with a <code>name</code> and a <code>value</code>.
         token:
           type: string
+          description: The HEC token value to add to the Splunk HEC Source.
       required:
         - token
-    CountedObject:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            type: object
-            additionalProperties: true
     CountedString:
       type: object
       properties:
@@ -22127,6 +22154,373 @@ components:
           type: array
           items:
             type: string
+    CountedJobInfo:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: number of items present in the items array
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/JobInfo"
+    RunnableJobCollection:
+      required:
+        - collector
+        - run
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeRunnableJobCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        workerAffinity:
+          type: boolean
+          title: Worker affinity
+          description: If enabled, tasks are created and run by the same Worker Node
+        collector:
+          $ref: "#/components/schemas/Collector"
+        input:
+          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
+        run:
+          type: object
+          required:
+            - mode
+          properties:
+            rescheduleDroppedTasks:
+              type: boolean
+              title: Reschedule tasks
+              description: Reschedule tasks that failed with non-fatal errors
+            maxTaskReschedule:
+              type: number
+              title: Task reschedule limit
+              description: Maximum number of times a task can be rescheduled
+              minimum: 1
+            logLevel:
+              $ref: "#/components/schemas/LogLevelOptionsRunnableJobCollectionScheduleRun"
+            jobTimeout:
+              title: Job timeout
+              type: string
+              description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+              pattern: \d+[sm]?$
+            mode:
+              type: string
+              title: Mode
+              description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
+              enum:
+                - list
+                - preview
+                - run
+              x-speakeasy-unknown-values: allow
+            timeRangeType:
+              type: string
+              title: Time range
+              enum:
+                - absolute
+                - relative
+              x-speakeasy-unknown-values: allow
+            earliest:
+              type: number
+              title: Earliest
+              description: Earliest time to collect data for the selected timezone
+            latest:
+              type: number
+              title: Latest
+              description: Latest time to collect data for the selected timezone
+            timestampTimezone:
+              type: string
+              title: Range timezone
+              description: Timezone to use for Earliest and Latest times
+            timeWarning:
+              $ref: "#/components/schemas/MetricsStore"
+            expression:
+              type: string
+              title: Filter
+              description: A filter for tokens in the provided collect path and/or the events being collected
+            minTaskSize:
+              type: string
+              title: Lower task bundle size
+              description: >-
+                Limits the bundle size for small tasks. For example,
+
+
+                        if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
+              pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+            maxTaskSize:
+              type: string
+              title: Upper task bundle size
+              description: >-
+                Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
+
+                        you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
+              pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+            discoverToRoutes:
+              type: boolean
+              title: Send to Routes
+              description: Send discover results to Routes
+            capture:
+              type: object
+              title: Capture Settings
+              properties:
+                duration:
+                  type: number
+                  title: Capture time (sec)
+                  description: Amount of time to keep capture open, in seconds
+                  minimum: 1
+                maxEvents:
+                  type: number
+                  title: Capture up to N events
+                  description: Maximum number of events to capture
+                  minimum: 1
+                  maximum: 10000
+                level:
+                  type: integer
+                  title: Where to capture
+                  enum:
+                    - 0
+                    - 1
+                    - 2
+                    - 3
+                  x-speakeasy-enum-descriptions:
+                    - 1. Before pre-processing Pipeline
+                    - 2. Before the Routes
+                    - 3. Before post-processing Pipeline
+                    - 4. Before the Destination
+                  x-speakeasy-unknown-values: allow
+                  x-speakeasy-enums:
+                    - BeforePreProcessingPipeline
+                    - BeforeTheRoutes
+                    - BeforePostProcessingPipeline
+                    - BeforeTheDestination
+      type: object
+    RunnableJobExecutor:
+      required:
+        - executor
+        - run
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeRunnableJobCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        executor:
+          $ref: "#/components/schemas/ExecutorTypeRunnableJobExecutor"
+        run:
+          type: object
+          properties:
+            rescheduleDroppedTasks:
+              type: boolean
+              title: Reschedule tasks
+              description: Reschedule tasks that failed with non-fatal errors
+            maxTaskReschedule:
+              type: number
+              title: Task reschedule limit
+              description: Maximum number of times a task can be rescheduled
+              minimum: 1
+            logLevel:
+              $ref: "#/components/schemas/LogLevelOptionsRunnableJobCollectionScheduleRun"
+            jobTimeout:
+              title: Job timeout
+              type: string
+              description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+              pattern: \d+[sm]?$
+      type: object
+    RunnableJobScheduledSearch:
+      required:
+        - savedQueryId
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeRunnableJobCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        savedQueryId:
+          type: string
+          title: ID of the SavedQuery
+          description: Identifies which search query to run
+      type: object
+    RunnableJob:
+      oneOf:
+        - $ref: "#/components/schemas/RunnableJobCollection"
+        - $ref: "#/components/schemas/RunnableJobExecutor"
+        - $ref: "#/components/schemas/RunnableJobScheduledSearch"
+    JobStatus:
+      type: object
+      properties:
+        reason:
+          type: object
+          additionalProperties: true
+        state:
+          type: integer
+          description: State of the Job
+          enum:
+            - 0
+            - 1
+            - 2
+            - 3
+            - 4
+            - 5
+            - 6
+            - 7
+            - 8
+            - 9
+          x-speakeasy-enums:
+            - Initializing
+            - Pending
+            - Running
+            - Paused
+            - Cancelled
+            - Finished
+            - Failed
+            - Orphaned
+            - Unknown
+            - Length
+          x-speakeasy-unknown-values: allow
+      required:
+        - state
+    JobInfo:
+      type: object
+      properties:
+        args:
+          $ref: "#/components/schemas/RunnableJob"
+        id:
+          type: string
+        keep:
+          type: boolean
+        stats:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AdditionalPropertiesTypeJobInfoStats"
+        status:
+          $ref: "#/components/schemas/JobStatus"
+      required:
+        - args
+        - id
+        - stats
+        - status
+    SourceType:
+      type: array
+      items:
+        type: string
     UpdateHecTokenRequest:
       type: object
       properties:
@@ -22134,14 +22528,18 @@ components:
           type: array
           items:
             type: string
+          description: List of index names that the HEC token is allowed to write to.
         description:
           type: string
+          description: Brief description for the HEC token.
         enabled:
           type: boolean
+          description: If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>.
         metadata:
           type: array
           items:
             $ref: "#/components/schemas/EventBreakerRuleFields"
+          description: Array of key-value pairs to associate with the HEC token for tagging, categorization, or providing additional context. Each item in the array is an object with a <code>name</code> and a <code>value</code>.
     OutputDefault:
       type: object
       required:
@@ -36716,369 +37114,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/Output"
-    CountedJobInfo:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          items:
-            $ref: "#/components/schemas/JobInfo"
-    RunnableJobCollection:
-      required:
-        - collector
-        - run
-      properties:
-        id:
-          type: string
-          title: Job ID
-          pattern: ^[a-zA-Z0-9_-]+$
-          description: Unique ID for this Job
-        description:
-          type: string
-          title: Description
-        type:
-          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
-        ttl:
-          type: string
-          title: Time to live
-          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
-          pattern: \d+[smh]$
-        ignoreGroupJobsLimit:
-          type: boolean
-          title: Ignore Worker Group job limits
-          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
-        removeFields:
-          type: array
-          title: Remove Discover fields
-          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
-          minItems: 0
-          items:
-            type: string
-            title: Items
-            description: List of fields to remove from Discover results
-        resumeOnBoot:
-          type: boolean
-          title: Resume job on boot
-          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
-        environment:
-          type: string
-          title: Environment
-          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        schedule:
-          $ref: "#/components/schemas/ScheduleTypeRunnableJobCollection"
-        streamtags:
-          type: array
-          title: Tags
-          description: Tags for filtering and grouping in @{product}
-          items:
-            type: string
-        workerAffinity:
-          type: boolean
-          title: Worker affinity
-          description: If enabled, tasks are created and run by the same Worker Node
-        collector:
-          $ref: "#/components/schemas/Collector"
-        input:
-          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
-        run:
-          type: object
-          required:
-            - mode
-          properties:
-            rescheduleDroppedTasks:
-              type: boolean
-              title: Reschedule tasks
-              description: Reschedule tasks that failed with non-fatal errors
-            maxTaskReschedule:
-              type: number
-              title: Task reschedule limit
-              description: Maximum number of times a task can be rescheduled
-              minimum: 1
-            logLevel:
-              $ref: "#/components/schemas/LogLevelOptionsRunnableJobCollectionScheduleRun"
-            jobTimeout:
-              title: Job timeout
-              type: string
-              description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
-              pattern: \d+[sm]?$
-            mode:
-              type: string
-              title: Mode
-              description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
-              enum:
-                - list
-                - preview
-                - run
-              x-speakeasy-unknown-values: allow
-            timeRangeType:
-              type: string
-              title: Time range
-              enum:
-                - absolute
-                - relative
-              x-speakeasy-unknown-values: allow
-            earliest:
-              type: number
-              title: Earliest
-              description: Earliest time to collect data for the selected timezone
-            latest:
-              type: number
-              title: Latest
-              description: Latest time to collect data for the selected timezone
-            timestampTimezone:
-              type: string
-              title: Range timezone
-              description: Timezone to use for Earliest and Latest times
-            timeWarning:
-              $ref: "#/components/schemas/MetricsStore"
-            expression:
-              type: string
-              title: Filter
-              description: A filter for tokens in the provided collect path and/or the events being collected
-            minTaskSize:
-              type: string
-              title: Lower task bundle size
-              description: >-
-                Limits the bundle size for small tasks. For example,
-
-
-                        if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
-              pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-            maxTaskSize:
-              type: string
-              title: Upper task bundle size
-              description: >-
-                Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
-
-
-                        you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
-              pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-            discoverToRoutes:
-              type: boolean
-              title: Send to Routes
-              description: Send discover results to Routes
-            capture:
-              type: object
-              title: Capture Settings
-              properties:
-                duration:
-                  type: number
-                  title: Capture time (sec)
-                  description: Amount of time to keep capture open, in seconds
-                  minimum: 1
-                maxEvents:
-                  type: number
-                  title: Capture up to N events
-                  description: Maximum number of events to capture
-                  minimum: 1
-                  maximum: 10000
-                level:
-                  type: integer
-                  title: Where to capture
-                  enum:
-                    - 0
-                    - 1
-                    - 2
-                    - 3
-                  x-speakeasy-enum-descriptions:
-                    - 1. Before pre-processing Pipeline
-                    - 2. Before the Routes
-                    - 3. Before post-processing Pipeline
-                    - 4. Before the Destination
-                  x-speakeasy-unknown-values: allow
-                  x-speakeasy-enums:
-                    - BeforePreProcessingPipeline
-                    - BeforeTheRoutes
-                    - BeforePostProcessingPipeline
-                    - BeforeTheDestination
-      type: object
-    RunnableJobExecutor:
-      required:
-        - executor
-        - run
-      properties:
-        id:
-          type: string
-          title: Job ID
-          pattern: ^[a-zA-Z0-9_-]+$
-          description: Unique ID for this Job
-        description:
-          type: string
-          title: Description
-        type:
-          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
-        ttl:
-          type: string
-          title: Time to live
-          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
-          pattern: \d+[smh]$
-        ignoreGroupJobsLimit:
-          type: boolean
-          title: Ignore Worker Group job limits
-          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
-        removeFields:
-          type: array
-          title: Remove Discover fields
-          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
-          minItems: 0
-          items:
-            type: string
-            title: Items
-            description: List of fields to remove from Discover results
-        resumeOnBoot:
-          type: boolean
-          title: Resume job on boot
-          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
-        environment:
-          type: string
-          title: Environment
-          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        schedule:
-          $ref: "#/components/schemas/ScheduleTypeRunnableJobCollection"
-        streamtags:
-          type: array
-          title: Tags
-          description: Tags for filtering and grouping in @{product}
-          items:
-            type: string
-        executor:
-          $ref: "#/components/schemas/ExecutorTypeRunnableJobExecutor"
-        run:
-          type: object
-          properties:
-            rescheduleDroppedTasks:
-              type: boolean
-              title: Reschedule tasks
-              description: Reschedule tasks that failed with non-fatal errors
-            maxTaskReschedule:
-              type: number
-              title: Task reschedule limit
-              description: Maximum number of times a task can be rescheduled
-              minimum: 1
-            logLevel:
-              $ref: "#/components/schemas/LogLevelOptionsRunnableJobCollectionScheduleRun"
-            jobTimeout:
-              title: Job timeout
-              type: string
-              description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
-              pattern: \d+[sm]?$
-      type: object
-    RunnableJobScheduledSearch:
-      required:
-        - savedQueryId
-        - type
-      properties:
-        id:
-          type: string
-          title: Job ID
-          pattern: ^[a-zA-Z0-9_-]+$
-          description: Unique ID for this Job
-        description:
-          type: string
-          title: Description
-        type:
-          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
-        ttl:
-          type: string
-          title: Time to live
-          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
-          pattern: \d+[smh]$
-        ignoreGroupJobsLimit:
-          type: boolean
-          title: Ignore Worker Group job limits
-          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
-        removeFields:
-          type: array
-          title: Remove Discover fields
-          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
-          minItems: 0
-          items:
-            type: string
-            title: Items
-            description: List of fields to remove from Discover results
-        resumeOnBoot:
-          type: boolean
-          title: Resume job on boot
-          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
-        environment:
-          type: string
-          title: Environment
-          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
-        schedule:
-          $ref: "#/components/schemas/ScheduleTypeRunnableJobCollection"
-        streamtags:
-          type: array
-          title: Tags
-          description: Tags for filtering and grouping in @{product}
-          items:
-            type: string
-        savedQueryId:
-          type: string
-          title: ID of the SavedQuery
-          description: Identifies which search query to run
-      type: object
-    RunnableJob:
-      oneOf:
-        - $ref: "#/components/schemas/RunnableJobCollection"
-        - $ref: "#/components/schemas/RunnableJobExecutor"
-        - $ref: "#/components/schemas/RunnableJobScheduledSearch"
-    JobStatus:
-      type: object
-      properties:
-        reason:
-          type: object
-          additionalProperties: true
-        state:
-          type: integer
-          description: State of the Job
-          enum:
-            - 0
-            - 1
-            - 2
-            - 3
-            - 4
-            - 5
-            - 6
-            - 7
-            - 8
-            - 9
-          x-speakeasy-enums:
-            - Initializing
-            - Pending
-            - Running
-            - Paused
-            - Cancelled
-            - Finished
-            - Failed
-            - Orphaned
-            - Unknown
-            - Length
-          x-speakeasy-unknown-values: allow
-      required:
-        - state
-    JobInfo:
-      type: object
-      properties:
-        args:
-          $ref: "#/components/schemas/RunnableJob"
-        id:
-          type: string
-        keep:
-          type: boolean
-        stats:
-          type: object
-          additionalProperties:
-            $ref: "#/components/schemas/AdditionalPropertiesTypeJobInfoStats"
-        status:
-          $ref: "#/components/schemas/JobStatus"
-      required:
-        - args
-        - id
-        - stats
-        - status
     DestinationType:
       type: string
       enum:
@@ -37482,7 +37517,7 @@ components:
       required:
         - id
         - status
-    CountedSavedJob:
+    CountedSavedJobResponse:
       type: object
       properties:
         count:
@@ -37491,7 +37526,191 @@ components:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/SavedJob"
+            $ref: "#/components/schemas/SavedJobResponse"
+    SavedJobResponseEnrichedFields:
+      type: object
+      properties:
+        savedState:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AdditionalPropertiesTypeEnrichedFieldsSavedState"
+          description: Runtime collection state.
+        notifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Notification"
+          description: Notification targets.
+    SavedJobResponseCollection:
+      required:
+        - collector
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        workerAffinity:
+          type: boolean
+          title: Worker affinity
+          description: If enabled, tasks are created and run by the same Worker Node
+        collector:
+          $ref: "#/components/schemas/Collector"
+        input:
+          $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint"
+      type: object
+    SavedJobResponseExecutor:
+      required:
+        - executor
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        executor:
+          $ref: "#/components/schemas/ExecutorTypeRunnableJobExecutor"
+      type: object
+    SavedJobResponseScheduledSearch:
+      required:
+        - savedQueryId
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        savedQueryId:
+          type: string
+          title: ID of the SavedQuery
+          description: Identifies which search query to run
+      type: object
+    SavedJobResponse:
+      allOf:
+        - $ref: "#/components/schemas/SavedJobResponseEnrichedFields"
+        - oneOf:
+            - $ref: "#/components/schemas/SavedJobResponseCollection"
+            - $ref: "#/components/schemas/SavedJobResponseExecutor"
+            - $ref: "#/components/schemas/SavedJobResponseScheduledSearch"
     SavedJobCollection:
       required:
         - collector
@@ -37534,7 +37753,7 @@ components:
           title: Environment
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
         schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
         streamtags:
           type: array
           title: Tags
@@ -37592,7 +37811,7 @@ components:
           title: Environment
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
         schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
         streamtags:
           type: array
           title: Tags
@@ -37644,7 +37863,7 @@ components:
           title: Environment
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
         schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
         streamtags:
           type: array
           title: Tags
@@ -37661,6 +37880,113 @@ components:
         - $ref: "#/components/schemas/SavedJobCollection"
         - $ref: "#/components/schemas/SavedJobExecutor"
         - $ref: "#/components/schemas/SavedJobScheduledSearch"
+    Notification:
+      type: object
+      required:
+        - id
+        - condition
+      properties:
+        id:
+          type: string
+          title: ID
+          pattern: ^[a-zA-Z0-9_-]+$
+        disabled:
+          type: boolean
+          title: Disabled
+        condition:
+          type: string
+          title: Condition
+        targets:
+          type: array
+          title: Notification targets
+          description: Targets to send any Notifications to
+          items:
+            type: string
+        targetConfigs:
+          type: array
+          title: Target configuration
+          items:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
+                title: Notification target ID
+                pattern: ^[a-zA-Z0-9_-]+$
+            anyOf:
+              - properties:
+                  conf:
+                    type: object
+                    title: Notification config for SMTP target
+                    properties:
+                      subject:
+                        type: string
+                        title: Subject
+                        description: Email subject
+                      body:
+                        type: string
+                        title: Message
+                        description: Email body
+                      emailRecipient:
+                        type: object
+                        required:
+                          - to
+                        properties:
+                          to:
+                            type: string
+                            title: To
+                            description: Recipients' email addresses
+                          cc:
+                            type: string
+                            title: Cc
+                            description: "Cc: Recipients' email addresses"
+                          bcc:
+                            type: string
+                            title: Bcc
+                            description: "Bcc: Recipients' email addresses"
+        conf:
+          type: object
+          title: Condition-specific configs
+          properties: {}
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        mode:
+          type: string
+          title: Mode
+          description: "Notification mode: direct or policy-based"
+          enum:
+            - direct
+            - policy
+          x-speakeasy-unknown-values: allow
+        templateTargetPairs:
+          type: array
+          title: Template & Target Pairs
+          description: Pairs of templates and targets for notification routing
+          items:
+            $ref: "#/components/schemas/ItemsTypePoliciesItemsTemplateTargetPairs"
+      oneOf:
+        - properties:
+            mode:
+              const: direct
+            templateTargetPairs:
+              minItems: 1
+          required:
+            - mode
+            - templateTargetPairs
+        - properties:
+            mode:
+              const: policy
+            templateTargetPairs:
+              maxItems: 0
+          required:
+            - mode
+        - properties:
+            mode: {}
     CloudProvider:
       type:
         - string
@@ -38185,6 +38511,12 @@ components:
         - tls
         - http2
       x-speakeasy-unknown-values: allow
+    ApiScheme:
+      type: string
+      enum:
+        - http
+        - https
+      x-speakeasy-unknown-values: allow
     LookupVersions:
       type: object
       additionalProperties:
@@ -38286,6 +38618,10 @@ components:
     NodeProvidedInfo:
       type: object
       properties:
+        apiPort:
+          type: number
+        apiScheme:
+          $ref: "#/components/schemas/ApiScheme"
         architecture:
           type: string
         aws:
@@ -38308,6 +38644,8 @@ components:
           $ref: "#/components/schemas/HostOsTypeHeartbeatMetadata"
         hostname:
           type: string
+        isCaptain:
+          type: boolean
         isSaasWorker:
           type: boolean
         kube:
@@ -38626,6 +38964,10 @@ components:
           type: boolean
         minLogStreamVersion:
           type: string
+        navItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemsTypePackInstallInfoNavItems"
         outputs:
           type: number
         settings:
@@ -38732,6 +39074,10 @@ components:
           type: boolean
         minLogStreamVersion:
           type: string
+        navItems:
+          type: array
+          items:
+            $ref: "#/components/schemas/ItemsTypePackInstallInfoNavItems"
         outputs:
           type: number
         settings:
@@ -39419,6 +39765,14 @@ components:
       required:
         - name
         - value
+    AdditionalPropertiesTypeEnrichedFieldsSavedState:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          additionalProperties: true
     EventBreakerTypeOptionsEventBreakerExistingOrNewNew:
       type: string
       title: Event Breaker type
@@ -40257,6 +40611,42 @@ components:
         value:
           type: string
           title: Value
+    JobTypeOptionsRunnableJobCollection:
+      type: string
+      title: Job type
+      enum:
+        - collection
+        - executor
+        - scheduledSearch
+      x-speakeasy-unknown-values: allow
+    RunnableJobCollectionTypeCollectionConstraint:
+      type: object
+      properties:
+        type:
+          enum:
+            - collection
+          x-speakeasy-unknown-values: allow
+    LogLevelOptionsRunnableJobCollectionScheduleRun:
+      type: string
+      title: Log level
+      description: Level at which to set task logging
+      enum:
+        - error
+        - warn
+        - info
+        - debug
+        - silly
+      x-speakeasy-unknown-values: allow
+    ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor:
+      type: object
+      title: Executor-specific settings
+      properties: {}
+    AdditionalPropertiesTypeJobInfoStats:
+      oneOf:
+        - type: number
+        - type: object
+          additionalProperties:
+            type: number
     MethodOptions:
       type: string
       title: Method
@@ -40936,42 +41326,6 @@ components:
         - Basic (credentials secret)
         - SSL User Certificate
       x-speakeasy-unknown-values: allow
-    JobTypeOptionsRunnableJobCollection:
-      type: string
-      title: Job type
-      enum:
-        - collection
-        - executor
-        - scheduledSearch
-      x-speakeasy-unknown-values: allow
-    RunnableJobCollectionTypeCollectionConstraint:
-      type: object
-      properties:
-        type:
-          enum:
-            - collection
-          x-speakeasy-unknown-values: allow
-    LogLevelOptionsRunnableJobCollectionScheduleRun:
-      type: string
-      title: Log level
-      description: Level at which to set task logging
-      enum:
-        - error
-        - warn
-        - info
-        - debug
-        - silly
-      x-speakeasy-unknown-values: allow
-    ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor:
-      type: object
-      title: Executor-specific settings
-      properties: {}
-    AdditionalPropertiesTypeJobInfoStats:
-      oneOf:
-        - type: number
-        - type: object
-          additionalProperties:
-            type: number
     ErrorTypeStatus:
       type: object
       properties:
@@ -41145,6 +41499,20 @@ components:
       required:
         - kind
         - name
+    ItemsTypePackInstallInfoNavItems:
+      type: object
+      properties:
+        description:
+          type: string
+        icon:
+          type: string
+        label:
+          type: string
+        path:
+          type: string
+      required:
+        - label
+        - path
     TagsTypePackInstallInfo:
       type: object
       properties:
@@ -41696,6 +42064,127 @@ components:
           description: Configure sets to collect process metrics
           items:
             $ref: "#/components/schemas/ItemsTypeProcessSets"
+    RunnableJobCollectionScheduleRunType:
+      type: object
+      required:
+        - mode
+      properties:
+        rescheduleDroppedTasks:
+          type: boolean
+          title: Reschedule tasks
+          description: Reschedule tasks that failed with non-fatal errors
+        maxTaskReschedule:
+          type: number
+          title: Task reschedule limit
+          description: Maximum number of times a task can be rescheduled
+          minimum: 1
+        logLevel:
+          $ref: "#/components/schemas/LogLevelOptionsRunnableJobCollectionScheduleRun"
+        jobTimeout:
+          title: Job timeout
+          type: string
+          description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+          pattern: \d+[sm]?$
+        mode:
+          type: string
+          title: Mode
+          description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
+        timeRangeType:
+          type: string
+          title: Time range
+        earliest:
+          type: number
+          title: Earliest
+          description: Earliest time to collect data for the selected timezone
+        latest:
+          type: number
+          title: Latest
+          description: Latest time to collect data for the selected timezone
+        timestampTimezone: {}
+        timeWarning:
+          $ref: "#/components/schemas/MetricsStore"
+        expression:
+          type: string
+          title: Filter
+          description: A filter for tokens in the provided collect path and/or the events being collected
+        minTaskSize:
+          type: string
+          title: Lower task bundle size
+          description: >-
+            Limits the bundle size for small tasks. For example,
+
+
+                    if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
+          pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+        maxTaskSize:
+          type: string
+          title: Upper task bundle size
+          description: >-
+            Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
+
+
+                    you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
+          pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+            - collection
+          x-speakeasy-unknown-values: allow
+        breakerRulesets:
+          type: array
+          title: Event Breaker rulesets
+          description: A list of event-breaking rulesets that will be applied, in order, to the input data stream
+          items:
+            type: string
+        staleChannelFlushMs:
+          type: number
+          title: Event Breaker buffer timeout (ms)
+          description: How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
+          minimum: 10
+          maximum: 4.32e+07
+        sendToRoutes:
+          type: boolean
+          title: Send to Routes
+          description: Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination.
+        preprocess:
+          $ref: "#/components/schemas/PreprocessType"
+        throttleRatePerSec:
+          type: string
+          title: Throttling
+          description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
+          pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process results
+        output:
+          type: string
+          title: Destination
+          description: Destination to send results to
+    ExecutorTypeRunnableJobExecutor:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          type: string
+          title: Executor type
+          description: The type of executor to run
+        storeTaskResults:
+          type: boolean
+          title: Store task results
+          description: Determines whether or not to write task results to disk
+        conf:
+          $ref: "#/components/schemas/ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor"
     TlsSettingsClientSideTypeCaPathCertPathExtended:
       type: object
       title: TLS settings (client side)
@@ -41851,127 +42340,6 @@ components:
           $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
           $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
-    RunnableJobCollectionScheduleRunType:
-      type: object
-      required:
-        - mode
-      properties:
-        rescheduleDroppedTasks:
-          type: boolean
-          title: Reschedule tasks
-          description: Reschedule tasks that failed with non-fatal errors
-        maxTaskReschedule:
-          type: number
-          title: Task reschedule limit
-          description: Maximum number of times a task can be rescheduled
-          minimum: 1
-        logLevel:
-          $ref: "#/components/schemas/LogLevelOptionsRunnableJobCollectionScheduleRun"
-        jobTimeout:
-          title: Job timeout
-          type: string
-          description: "Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."
-          pattern: \d+[sm]?$
-        mode:
-          type: string
-          title: Mode
-          description: Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job.
-        timeRangeType:
-          type: string
-          title: Time range
-        earliest:
-          type: number
-          title: Earliest
-          description: Earliest time to collect data for the selected timezone
-        latest:
-          type: number
-          title: Latest
-          description: Latest time to collect data for the selected timezone
-        timestampTimezone: {}
-        timeWarning:
-          $ref: "#/components/schemas/MetricsStore"
-        expression:
-          type: string
-          title: Filter
-          description: A filter for tokens in the provided collect path and/or the events being collected
-        minTaskSize:
-          type: string
-          title: Lower task bundle size
-          description: >-
-            Limits the bundle size for small tasks. For example,
-
-
-                    if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
-          pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-        maxTaskSize:
-          type: string
-          title: Upper task bundle size
-          description: >-
-            Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
-
-
-                    you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
-          pattern: ^((\d*\.?\d+)((KB|MB|GB|TB|PB|EB|ZB|YB|kb|mb|gb|tb|pb|eb|zb|yb){1}))$
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-            - collection
-          x-speakeasy-unknown-values: allow
-        breakerRulesets:
-          type: array
-          title: Event Breaker rulesets
-          description: A list of event-breaking rulesets that will be applied, in order, to the input data stream
-          items:
-            type: string
-        staleChannelFlushMs:
-          type: number
-          title: Event Breaker buffer timeout (ms)
-          description: How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
-          minimum: 10
-          maximum: 4.32e+07
-        sendToRoutes:
-          type: boolean
-          title: Send to Routes
-          description: Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination.
-        preprocess:
-          $ref: "#/components/schemas/PreprocessType"
-        throttleRatePerSec:
-          type: string
-          title: Throttling
-          description: "Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."
-          pattern: ^[\d.]+(\s[KMGTPEZYkmgtpezy][Bb])?$
-        metadata:
-          type: array
-          title: Fields
-          description: Fields to add to events from this input
-          items:
-            $ref: "#/components/schemas/ItemsTypeMetadata"
-        pipeline:
-          type: string
-          title: Pipeline
-          description: Pipeline to process results
-        output:
-          type: string
-          title: Destination
-          description: Destination to send results to
-    ExecutorTypeRunnableJobExecutor:
-      type: object
-      required:
-        - type
-      properties:
-        type:
-          type: string
-          title: Executor type
-          description: The type of executor to run
-        storeTaskResults:
-          type: boolean
-          title: Store task results
-          description: Determines whether or not to write task results to disk
-        conf:
-          $ref: "#/components/schemas/ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor"
     PqTypeStatus:
       type: object
       properties:
@@ -42060,6 +42428,10 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ItemsTypeSystemSettingsConfSupportFeatureFlagOverrides"
+        logFileMaxFiles:
+          type: number
+        logFileMaxSize:
+          type: string
     SystemTypeSystemSettingsConf:
       type: object
       properties:
@@ -42105,6 +42477,12 @@ components:
           $ref: "#/components/schemas/AuthType"
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+    RunSettingsTypeRunnableJobCollectionSchedule:
+      type: object
+      title: Run settings
+      allOf:
+        - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
+        - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
     KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout:
       type: object
       title: Kafka Schema Registry Authentication
@@ -42148,12 +42526,6 @@ components:
           type: number
           title: Default value schema ID
           description: Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default.
-    RunSettingsTypeRunnableJobCollectionSchedule:
-      type: object
-      title: Run settings
-      allOf:
-        - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
-        - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
     StatusType:
       type: object
       properties:
@@ -42179,7 +42551,7 @@ components:
         - healthCounts
         - timestamp
       description: Status information for the Source or Destination, aggregated across all Worker Processes.
-    RunSettingsTypeSavedJobCollectionSchedule:
+    RunSettingsTypeSavedJobResponseCollectionSchedule:
       type: object
       title: Run settings
       allOf:
@@ -42213,7 +42585,7 @@ components:
           minimum: 1
         run:
           $ref: "#/components/schemas/RunSettingsTypeRunnableJobCollectionSchedule"
-    ScheduleTypeSavedJobCollection:
+    ScheduleTypeSavedJobResponseCollection:
       type: object
       title: Schedule
       description: Configuration for a scheduled job
@@ -42240,7 +42612,7 @@ components:
           description: The maximum number of instances of this scheduled job that may be running at any time
           minimum: 1
         run:
-          $ref: "#/components/schemas/RunSettingsTypeSavedJobCollectionSchedule"
+          $ref: "#/components/schemas/RunSettingsTypeSavedJobResponseCollectionSchedule"
   examples:
     DatabaseConnectionExamplesMySQLWithConnectionString:
       summary: MySQL with connection string
@@ -42360,7 +42732,8 @@ components:
         connectionTimeout: 15000
         tags: secure,oracle,sensitive-data
     HecTokenExamplesHecToken:
-      summary: Basic Hec Token
+      summary: Basic HEC token
+      description: Example request body for adding an HEC token with metadata to a Splunk HEC Source.
       value:
         enabled: true
         metadata:
@@ -42368,7 +42741,8 @@ components:
             value: valueX
         token: "12345678901"
     HecTokenExamplesHecTokenWithIndexAccess:
-      summary: Hec Token with allowed indexes
+      summary: HEC token with allowed indexes
+      description: Example request body for adding an HEC token with index-level access control.
       value:
         enabled: true
         allowedIndexesAtToken:
@@ -45270,6 +45644,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      parameters:
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/SourceType"
+          description: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
     post:
       operationId: createInput
       x-speakeasy-group: sources
@@ -45414,7 +45795,7 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesZscalerHec"
       responses:
         "200":
-          description: a list of Source objects
+          description: the created Source object
           content:
             application/json:
               schema:
@@ -45447,7 +45828,7 @@ paths:
           description: The <code>id</code> of the Source to get.
       responses:
         "200":
-          description: a list of Source objects
+          description: a Source object
           content:
             application/json:
               schema:
@@ -45469,7 +45850,7 @@ paths:
       tags:
         - sources
       summary: Update a Source
-      description: Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
+      description: Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
       parameters:
         - name: id
           in: path
@@ -45611,7 +45992,7 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesZscalerHec"
       responses:
         "200":
-          description: a list of Source objects
+          description: the updated Source object
           content:
             application/json:
               schema:
@@ -45643,7 +46024,7 @@ paths:
           description: The <code>id</code> of the Source to delete.
       responses:
         "200":
-          description: a list of Source objects
+          description: the deleted Source object
           content:
             application/json:
               schema:
@@ -45669,7 +46050,7 @@ paths:
       description: Add an HEC token and optional metadata to the specified Splunk HEC Source.
       responses:
         "200":
-          description: a list of InputSplunkHec objects
+          description: the updated Splunk HEC Source with the new HEC token
           content:
             application/json:
               schema:
@@ -45746,11 +46127,11 @@ paths:
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Source.
       responses:
         "200":
-          description: a list of any objects
+          description: information about the latest job to clear the PQ for the Source
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedObject"
+                $ref: "#/components/schemas/CountedJobInfo"
         "401":
           description: Unauthorized
         "500":
@@ -45779,7 +46160,7 @@ paths:
       description: Update the metadata for the specified HEC token for the specified Splunk HEC Source.
       responses:
         "200":
-          description: a list of InputSplunkHec objects
+          description: the updated HEC token
           content:
             application/json:
               schema:
@@ -45816,7 +46197,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the HEC token to update.
+          description: The HEC token value to update.
   /p/{pack}/system/inputs:
     get:
       operationId: getInputSystemByPack
@@ -45844,6 +46225,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       parameters:
+        - name: type
+          in: query
+          required: false
+          schema:
+            $ref: "#/components/schemas/SourceType"
+          description: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         - name: pack
           in: path
           required: true
@@ -45994,7 +46381,7 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesZscalerHec"
       responses:
         "200":
-          description: a list of Source objects
+          description: the created Source object
           content:
             application/json:
               schema:
@@ -46040,7 +46427,7 @@ paths:
           description: The <code>id</code> of the Pack to get.
       responses:
         "200":
-          description: a list of Source objects
+          description: a Source object
           content:
             application/json:
               schema:
@@ -46062,7 +46449,7 @@ paths:
       tags:
         - sources
       summary: Update a Source within a Pack
-      description: Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
+      description: Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
       parameters:
         - name: id
           in: path
@@ -46210,7 +46597,7 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesZscalerHec"
       responses:
         "200":
-          description: a list of Source objects
+          description: the updated Source object
           content:
             application/json:
               schema:
@@ -46248,7 +46635,7 @@ paths:
           description: The <code>id</code> of the Pack to delete.
       responses:
         "200":
-          description: a list of Source objects
+          description: the deleted Source object
           content:
             application/json:
               schema:
@@ -46274,7 +46661,7 @@ paths:
       description: Add an HEC token and optional metadata to the specified Splunk HEC Source within the specified Pack.
       responses:
         "200":
-          description: a list of InputSplunkHec objects
+          description: the updated Splunk HEC Source with the new HEC token
           content:
             application/json:
               schema:
@@ -46363,11 +46750,11 @@ paths:
       description: Get information about the latest job to clear the persistent queue (PQ) for the specified Source within the specified Pack.
       responses:
         "200":
-          description: a list of any objects
+          description: information about the latest job to clear the PQ for the Source
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedObject"
+                $ref: "#/components/schemas/CountedJobInfo"
         "401":
           description: Unauthorized
         "500":
@@ -46402,7 +46789,7 @@ paths:
       description: Update the metadata for the specified HEC token for the specified Splunk HEC Source within the specified Pack.
       responses:
         "200":
-          description: a list of InputSplunkHec objects
+          description: the updated HEC token
           content:
             application/json:
               schema:
@@ -46439,7 +46826,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the HEC token to update.
+          description: The HEC token value to update.
         - name: pack
           in: path
           required: true
@@ -49075,11 +49462,11 @@ paths:
       description: Create a new Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -49114,13 +49501,6 @@ paths:
                 $ref: "#/components/examples/CollectorExamplesScript"
               CollectorExamplesCriblLake:
                 $ref: "#/components/examples/CollectorExamplesCriblLake"
-      parameters:
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack to create the Collector in.
     get:
       operationId: getSavedJob
       tags:
@@ -49133,11 +49513,11 @@ paths:
       description: Get a list of all Collectors.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -49153,18 +49533,6 @@ paths:
           schema:
             type: string
           description: Filter by collector type
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Pack ID
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Worker group ID
   /lib/jobs/{id}:
     delete:
       operationId: deleteSavedJobById
@@ -49178,11 +49546,11 @@ paths:
       description: Delete the specified Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -49198,18 +49566,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to delete.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to delete.
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group that includes the Collector to delete.
     get:
       operationId: getSavedJobById
       tags:
@@ -49222,11 +49578,11 @@ paths:
       description: Get the specified Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -49242,12 +49598,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to get.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to get.
     patch:
       operationId: updateSavedJobById
       tags:
@@ -49260,11 +49610,11 @@ paths:
       description: Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -49306,12 +49656,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to update.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to update.
   /products/{product}/groups:
     get:
       operationId: listConfigGroupByProduct

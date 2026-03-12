@@ -14,16 +14,16 @@ from typing import Any, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class RunSettingsTypeSavedJobCollectionScheduleType(
+class RunSettingsTypeSavedJobResponseCollectionScheduleType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     COLLECTION = "collection"
 
 
-class RunSettingsTypeSavedJobCollectionScheduleTypedDict(TypedDict):
+class RunSettingsTypeSavedJobResponseCollectionScheduleTypedDict(TypedDict):
     mode: str
     r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
-    type: NotRequired[RunSettingsTypeSavedJobCollectionScheduleType]
+    type: NotRequired[RunSettingsTypeSavedJobResponseCollectionScheduleType]
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
@@ -55,11 +55,11 @@ class RunSettingsTypeSavedJobCollectionScheduleTypedDict(TypedDict):
     """
 
 
-class RunSettingsTypeSavedJobCollectionSchedule(BaseModel):
+class RunSettingsTypeSavedJobResponseCollectionSchedule(BaseModel):
     mode: str
     r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
 
-    type: Optional[RunSettingsTypeSavedJobCollectionScheduleType] = None
+    type: Optional[RunSettingsTypeSavedJobResponseCollectionScheduleType] = None
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
@@ -119,7 +119,9 @@ class RunSettingsTypeSavedJobCollectionSchedule(BaseModel):
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RunSettingsTypeSavedJobCollectionScheduleType(value)
+                return models.RunSettingsTypeSavedJobResponseCollectionScheduleType(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -157,7 +159,7 @@ class RunSettingsTypeSavedJobCollectionSchedule(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -167,6 +169,6 @@ class RunSettingsTypeSavedJobCollectionSchedule(BaseModel):
 
 
 try:
-    RunSettingsTypeSavedJobCollectionSchedule.model_rebuild()
+    RunSettingsTypeSavedJobResponseCollectionSchedule.model_rebuild()
 except NameError:
     pass

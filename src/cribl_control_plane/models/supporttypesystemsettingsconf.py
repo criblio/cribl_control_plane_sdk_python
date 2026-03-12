@@ -16,6 +16,8 @@ class SupportTypeSystemSettingsConfTypedDict(TypedDict):
     feature_flag_overrides: NotRequired[
         List[ItemsTypeSystemSettingsConfSupportFeatureFlagOverridesTypedDict]
     ]
+    log_file_max_files: NotRequired[float]
+    log_file_max_size: NotRequired[str]
 
 
 class SupportTypeSystemSettingsConf(BaseModel):
@@ -24,15 +26,25 @@ class SupportTypeSystemSettingsConf(BaseModel):
         pydantic.Field(alias="featureFlagOverrides"),
     ] = None
 
+    log_file_max_files: Annotated[
+        Optional[float], pydantic.Field(alias="logFileMaxFiles")
+    ] = None
+
+    log_file_max_size: Annotated[
+        Optional[str], pydantic.Field(alias="logFileMaxSize")
+    ] = None
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["featureFlagOverrides"])
+        optional_fields = set(
+            ["featureFlagOverrides", "logFileMaxFiles", "logFileMaxSize"]
+        )
         serialized = handler(self)
         m = {}
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:

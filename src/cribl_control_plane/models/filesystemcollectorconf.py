@@ -34,6 +34,8 @@ class FilesystemCollectorConfTypedDict(TypedDict):
     r"""Recurse through subdirectories"""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata files to batch before recording as results"""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
 
 
 class FilesystemCollectorConf(BaseModel):
@@ -54,15 +56,22 @@ class FilesystemCollectorConf(BaseModel):
     )
     r"""Maximum number of metadata files to batch before recording as results"""
 
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["outputName", "extractors", "recurse", "maxBatchSize"])
+        optional_fields = set(
+            ["outputName", "extractors", "recurse", "maxBatchSize", "__template_path"]
+        )
         serialized = handler(self)
         m = {}
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:

@@ -3,14 +3,11 @@
 from __future__ import annotations
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
-from functools import partial
 import pydantic
-from pydantic import ConfigDict, field_serializer, model_serializer
-from pydantic.functional_validators import BeforeValidator
-from typing import Any, List, Literal, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from pydantic import field_serializer, model_serializer
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionLookupID(str, Enum):
@@ -19,180 +16,7 @@ class PipelineFunctionLookupID(str, Enum):
     LOOKUP = "lookup"
 
 
-class LookupDbLookupFalseMatchModeExactMatchMode(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Specifies the matching method based on the format and logic used in the lookup file"""
-
-    # Exact
-    EXACT = "exact"
-    # CIDR
-    CIDR = "cidr"
-    # Regex
-    REGEX = "regex"
-
-
-class LookupDbLookupFalseMatchModeExactInFieldTypedDict(TypedDict):
-    event_field: str
-    r"""Field name as it appears in events"""
-    lookup_field: NotRequired[str]
-    r"""Optional: The field name as it appears in the lookup file. Defaults to event field name"""
-
-
-class LookupDbLookupFalseMatchModeExactInField(BaseModel):
-    event_field: Annotated[str, pydantic.Field(alias="eventField")]
-    r"""Field name as it appears in events"""
-
-    lookup_field: Annotated[Optional[str], pydantic.Field(alias="lookupField")] = None
-    r"""Optional: The field name as it appears in the lookup file. Defaults to event field name"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["lookupField"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class LookupDbLookupFalseMatchModeExactOutFieldTypedDict(TypedDict):
-    lookup_field: str
-    r"""The field name as it appears in the lookup file"""
-    event_field: NotRequired[str]
-    r"""Optional: Field name to add to event. Defaults to lookup field name."""
-    default_value: NotRequired[str]
-    r"""Optional: Value to assign if lookup entry is not found"""
-
-
-class LookupDbLookupFalseMatchModeExactOutField(BaseModel):
-    lookup_field: Annotated[str, pydantic.Field(alias="lookupField")]
-    r"""The field name as it appears in the lookup file"""
-
-    event_field: Annotated[Optional[str], pydantic.Field(alias="eventField")] = None
-    r"""Optional: Field name to add to event. Defaults to lookup field name."""
-
-    default_value: Annotated[Optional[str], pydantic.Field(alias="defaultValue")] = None
-    r"""Optional: Value to assign if lookup entry is not found"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["eventField", "defaultValue"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class LookupDbLookupFalseMatchModeExactTypedDict(TypedDict):
-    file: str
-    r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
-    match_mode: NotRequired[LookupDbLookupFalseMatchModeExactMatchMode]
-    r"""Specifies the matching method based on the format and logic used in the lookup file"""
-    ignore_case: NotRequired[bool]
-    r"""Whether to ignore case when performing lookups using Match Mode: Exact"""
-    db_lookup: NotRequired[bool]
-    r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
-    reload_period_sec: NotRequired[float]
-    r"""Checks the lookup file periodically for changes and reloads it if modified. Set to -1 to disable reloading (default). Useful for lookups not managed by Stream or not updated by an external process. [Learn more](https://docs.cribl.io/stream/lookup-function/#advanced-settings)"""
-    in_fields: NotRequired[List[LookupDbLookupFalseMatchModeExactInFieldTypedDict]]
-    r"""Fields that should be used to key into the lookup table"""
-    out_fields: NotRequired[List[LookupDbLookupFalseMatchModeExactOutFieldTypedDict]]
-    r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
-    add_to_event: NotRequired[bool]
-    r"""Add the looked-up values to _raw, as key=value pairs"""
-
-
-class LookupDbLookupFalseMatchModeExact(BaseModel):
-    file: str
-    r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
-
-    match_mode: Annotated[
-        Optional[LookupDbLookupFalseMatchModeExactMatchMode],
-        pydantic.Field(alias="matchMode"),
-    ] = None
-    r"""Specifies the matching method based on the format and logic used in the lookup file"""
-
-    ignore_case: Annotated[Optional[bool], pydantic.Field(alias="ignoreCase")] = None
-    r"""Whether to ignore case when performing lookups using Match Mode: Exact"""
-
-    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = None
-    r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
-
-    reload_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="reloadPeriodSec")
-    ] = None
-    r"""Checks the lookup file periodically for changes and reloads it if modified. Set to -1 to disable reloading (default). Useful for lookups not managed by Stream or not updated by an external process. [Learn more](https://docs.cribl.io/stream/lookup-function/#advanced-settings)"""
-
-    in_fields: Annotated[
-        Optional[List[LookupDbLookupFalseMatchModeExactInField]],
-        pydantic.Field(alias="inFields"),
-    ] = None
-    r"""Fields that should be used to key into the lookup table"""
-
-    out_fields: Annotated[
-        Optional[List[LookupDbLookupFalseMatchModeExactOutField]],
-        pydantic.Field(alias="outFields"),
-    ] = None
-    r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
-
-    add_to_event: Annotated[Optional[bool], pydantic.Field(alias="addToEvent")] = None
-    r"""Add the looked-up values to _raw, as key=value pairs"""
-
-    @field_serializer("match_mode")
-    def serialize_match_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.LookupDbLookupFalseMatchModeExactMatchMode(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "matchMode",
-                "ignoreCase",
-                "dbLookup",
-                "reloadPeriodSec",
-                "inFields",
-                "outFields",
-                "addToEvent",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class LookupDbLookupFalseMatchModeCidrMatchMode(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class MatchMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Specifies the matching method based on the format and logic used in the lookup file"""
 
     # Exact
@@ -211,14 +35,14 @@ class MatchType(str, Enum, metaclass=utils.OpenEnumMeta):
     ALL = "all"
 
 
-class LookupDbLookupFalseMatchModeCidrInFieldTypedDict(TypedDict):
+class InFieldTypedDict(TypedDict):
     event_field: str
     r"""Field name as it appears in events"""
     lookup_field: NotRequired[str]
     r"""Optional: The field name as it appears in the lookup file. Defaults to event field name"""
 
 
-class LookupDbLookupFalseMatchModeCidrInField(BaseModel):
+class InField(BaseModel):
     event_field: Annotated[str, pydantic.Field(alias="eventField")]
     r"""Field name as it appears in events"""
 
@@ -233,7 +57,7 @@ class LookupDbLookupFalseMatchModeCidrInField(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -242,7 +66,7 @@ class LookupDbLookupFalseMatchModeCidrInField(BaseModel):
         return m
 
 
-class LookupDbLookupFalseMatchModeCidrOutFieldTypedDict(TypedDict):
+class OutFieldTypedDict(TypedDict):
     lookup_field: str
     r"""The field name as it appears in the lookup file"""
     event_field: NotRequired[str]
@@ -251,7 +75,7 @@ class LookupDbLookupFalseMatchModeCidrOutFieldTypedDict(TypedDict):
     r"""Optional: Value to assign if lookup entry is not found"""
 
 
-class LookupDbLookupFalseMatchModeCidrOutField(BaseModel):
+class OutField(BaseModel):
     lookup_field: Annotated[str, pydantic.Field(alias="lookupField")]
     r"""The field name as it appears in the lookup file"""
 
@@ -269,7 +93,7 @@ class LookupDbLookupFalseMatchModeCidrOutField(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -278,66 +102,66 @@ class LookupDbLookupFalseMatchModeCidrOutField(BaseModel):
         return m
 
 
-class LookupDbLookupFalseMatchModeCidrTypedDict(TypedDict):
+class PipelineFunctionLookupConfTypedDict(TypedDict):
     file: str
     r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
-    match_mode: NotRequired[LookupDbLookupFalseMatchModeCidrMatchMode]
+    db_lookup: NotRequired[bool]
+    r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
+    match_mode: NotRequired[MatchMode]
     r"""Specifies the matching method based on the format and logic used in the lookup file"""
     match_type: NotRequired[MatchType]
     r"""Further defines how to handle multiple matches: return the first match, the most specific match, or all matches"""
-    db_lookup: NotRequired[bool]
-    r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
     reload_period_sec: NotRequired[float]
     r"""Checks the lookup file periodically for changes and reloads it if modified. Set to -1 to disable reloading (default). Useful for lookups not managed by Stream or not updated by an external process. [Learn more](https://docs.cribl.io/stream/lookup-function/#advanced-settings)"""
-    in_fields: NotRequired[List[LookupDbLookupFalseMatchModeCidrInFieldTypedDict]]
+    in_fields: NotRequired[List[InFieldTypedDict]]
     r"""Fields that should be used to key into the lookup table"""
-    out_fields: NotRequired[List[LookupDbLookupFalseMatchModeCidrOutFieldTypedDict]]
+    out_fields: NotRequired[List[OutFieldTypedDict]]
     r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
     add_to_event: NotRequired[bool]
     r"""Add the looked-up values to _raw, as key=value pairs"""
+    ignore_case: NotRequired[bool]
+    r"""Whether to ignore case when performing lookups using Match Mode: Exact"""
 
 
-class LookupDbLookupFalseMatchModeCidr(BaseModel):
+class PipelineFunctionLookupConf(BaseModel):
     file: str
     r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
 
-    match_mode: Annotated[
-        Optional[LookupDbLookupFalseMatchModeCidrMatchMode],
-        pydantic.Field(alias="matchMode"),
-    ] = None
+    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = None
+    r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
+
+    match_mode: Annotated[Optional[MatchMode], pydantic.Field(alias="matchMode")] = None
     r"""Specifies the matching method based on the format and logic used in the lookup file"""
 
     match_type: Annotated[Optional[MatchType], pydantic.Field(alias="matchType")] = None
     r"""Further defines how to handle multiple matches: return the first match, the most specific match, or all matches"""
-
-    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = None
-    r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
 
     reload_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="reloadPeriodSec")
     ] = None
     r"""Checks the lookup file periodically for changes and reloads it if modified. Set to -1 to disable reloading (default). Useful for lookups not managed by Stream or not updated by an external process. [Learn more](https://docs.cribl.io/stream/lookup-function/#advanced-settings)"""
 
-    in_fields: Annotated[
-        Optional[List[LookupDbLookupFalseMatchModeCidrInField]],
-        pydantic.Field(alias="inFields"),
-    ] = None
+    in_fields: Annotated[Optional[List[InField]], pydantic.Field(alias="inFields")] = (
+        None
+    )
     r"""Fields that should be used to key into the lookup table"""
 
     out_fields: Annotated[
-        Optional[List[LookupDbLookupFalseMatchModeCidrOutField]],
-        pydantic.Field(alias="outFields"),
+        Optional[List[OutField]], pydantic.Field(alias="outFields")
     ] = None
     r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
 
     add_to_event: Annotated[Optional[bool], pydantic.Field(alias="addToEvent")] = None
     r"""Add the looked-up values to _raw, as key=value pairs"""
 
+    ignore_case: Annotated[Optional[bool], pydantic.Field(alias="ignoreCase")] = None
+    r"""Whether to ignore case when performing lookups using Match Mode: Exact"""
+
     @field_serializer("match_mode")
     def serialize_match_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.LookupDbLookupFalseMatchModeCidrMatchMode(value)
+                return models.MatchMode(value)
             except ValueError:
                 return value
         return value
@@ -355,13 +179,14 @@ class LookupDbLookupFalseMatchModeCidr(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "dbLookup",
                 "matchMode",
                 "matchType",
-                "dbLookup",
                 "reloadPeriodSec",
                 "inFields",
                 "outFields",
                 "addToEvent",
+                "ignoreCase",
             ]
         )
         serialized = handler(self)
@@ -369,184 +194,13 @@ class LookupDbLookupFalseMatchModeCidr(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
                     m[k] = val
 
         return m
-
-
-LookupDbLookupFalseTypedDict = TypeAliasType(
-    "LookupDbLookupFalseTypedDict",
-    Union[
-        LookupDbLookupFalseMatchModeCidrTypedDict,
-        LookupDbLookupFalseMatchModeExactTypedDict,
-    ],
-)
-
-
-class UnknownLookupDbLookupFalse(BaseModel):
-    r"""A LookupDbLookupFalse variant the SDK doesn't recognize. Preserves the raw payload."""
-
-    match_mode: Literal["UNKNOWN"] = "UNKNOWN"
-    raw: Any
-    is_unknown: Literal[True] = True
-
-    model_config = ConfigDict(frozen=True)
-
-
-_LOOKUP_DB_LOOKUP_FALSE_VARIANTS: dict[str, Any] = {
-    "cidr": LookupDbLookupFalseMatchModeCidr,
-    "exact": LookupDbLookupFalseMatchModeExact,
-}
-
-
-LookupDbLookupFalse = Annotated[
-    Union[
-        LookupDbLookupFalseMatchModeCidr,
-        LookupDbLookupFalseMatchModeExact,
-        UnknownLookupDbLookupFalse,
-    ],
-    BeforeValidator(
-        partial(
-            parse_open_union,
-            disc_key="matchMode",
-            variants=_LOOKUP_DB_LOOKUP_FALSE_VARIANTS,
-            unknown_cls=UnknownLookupDbLookupFalse,
-            union_name="LookupDbLookupFalse",
-        )
-    ),
-]
-
-
-class LookupDbLookupTrueInFieldTypedDict(TypedDict):
-    event_field: str
-    r"""Field name as it appears in events"""
-    lookup_field: NotRequired[str]
-    r"""Optional: The field name as it appears in the lookup file. Defaults to event field name"""
-
-
-class LookupDbLookupTrueInField(BaseModel):
-    event_field: Annotated[str, pydantic.Field(alias="eventField")]
-    r"""Field name as it appears in events"""
-
-    lookup_field: Annotated[Optional[str], pydantic.Field(alias="lookupField")] = None
-    r"""Optional: The field name as it appears in the lookup file. Defaults to event field name"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["lookupField"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class LookupDbLookupTrueOutFieldTypedDict(TypedDict):
-    lookup_field: str
-    r"""The field name as it appears in the lookup file"""
-    event_field: NotRequired[str]
-    r"""Optional: Field name to add to event. Defaults to lookup field name."""
-    default_value: NotRequired[str]
-    r"""Optional: Value to assign if lookup entry is not found"""
-
-
-class LookupDbLookupTrueOutField(BaseModel):
-    lookup_field: Annotated[str, pydantic.Field(alias="lookupField")]
-    r"""The field name as it appears in the lookup file"""
-
-    event_field: Annotated[Optional[str], pydantic.Field(alias="eventField")] = None
-    r"""Optional: Field name to add to event. Defaults to lookup field name."""
-
-    default_value: Annotated[Optional[str], pydantic.Field(alias="defaultValue")] = None
-    r"""Optional: Value to assign if lookup entry is not found"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["eventField", "defaultValue"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class LookupDbLookupTrueTypedDict(TypedDict):
-    file: str
-    r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
-    db_lookup: NotRequired[bool]
-    r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
-    in_fields: NotRequired[List[LookupDbLookupTrueInFieldTypedDict]]
-    r"""Fields that should be used to key into the lookup table"""
-    out_fields: NotRequired[List[LookupDbLookupTrueOutFieldTypedDict]]
-    r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
-    add_to_event: NotRequired[bool]
-    r"""Add the looked-up values to _raw, as key=value pairs"""
-
-
-class LookupDbLookupTrue(BaseModel):
-    file: str
-    r"""Path to the lookup file. Reference environment variables via $. Example: $HOME/file.csv"""
-
-    db_lookup: Annotated[Optional[bool], pydantic.Field(alias="dbLookup")] = None
-    r"""Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups."""
-
-    in_fields: Annotated[
-        Optional[List[LookupDbLookupTrueInField]], pydantic.Field(alias="inFields")
-    ] = None
-    r"""Fields that should be used to key into the lookup table"""
-
-    out_fields: Annotated[
-        Optional[List[LookupDbLookupTrueOutField]], pydantic.Field(alias="outFields")
-    ] = None
-    r"""Fields to add to events after matching lookup. Defaults to all if not specified."""
-
-    add_to_event: Annotated[Optional[bool], pydantic.Field(alias="addToEvent")] = None
-    r"""Add the looked-up values to _raw, as key=value pairs"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["dbLookup", "inFields", "outFields", "addToEvent"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k)
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-PipelineFunctionLookupConfTypedDict = TypeAliasType(
-    "PipelineFunctionLookupConfTypedDict",
-    Union[LookupDbLookupTrueTypedDict, LookupDbLookupFalseTypedDict],
-)
-
-
-PipelineFunctionLookupConf = TypeAliasType(
-    "PipelineFunctionLookupConf", Union[LookupDbLookupTrue, LookupDbLookupFalse]
-)
 
 
 class PipelineFunctionLookupTypedDict(TypedDict):
@@ -594,7 +248,7 @@ class PipelineFunctionLookup(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:
@@ -604,39 +258,15 @@ class PipelineFunctionLookup(BaseModel):
 
 
 try:
-    LookupDbLookupFalseMatchModeExactInField.model_rebuild()
+    InField.model_rebuild()
 except NameError:
     pass
 try:
-    LookupDbLookupFalseMatchModeExactOutField.model_rebuild()
+    OutField.model_rebuild()
 except NameError:
     pass
 try:
-    LookupDbLookupFalseMatchModeExact.model_rebuild()
-except NameError:
-    pass
-try:
-    LookupDbLookupFalseMatchModeCidrInField.model_rebuild()
-except NameError:
-    pass
-try:
-    LookupDbLookupFalseMatchModeCidrOutField.model_rebuild()
-except NameError:
-    pass
-try:
-    LookupDbLookupFalseMatchModeCidr.model_rebuild()
-except NameError:
-    pass
-try:
-    LookupDbLookupTrueInField.model_rebuild()
-except NameError:
-    pass
-try:
-    LookupDbLookupTrueOutField.model_rebuild()
-except NameError:
-    pass
-try:
-    LookupDbLookupTrue.model_rebuild()
+    PipelineFunctionLookupConf.model_rebuild()
 except NameError:
     pass
 try:

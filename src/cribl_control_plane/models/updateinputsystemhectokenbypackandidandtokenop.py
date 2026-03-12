@@ -11,7 +11,7 @@ class UpdateInputSystemHecTokenByPackAndIDAndTokenRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Splunk HEC Source."""
     token: str
-    r"""The <code>id</code> of the HEC token to update."""
+    r"""The HEC token value to update."""
     pack: str
     r"""The <code>id</code> of the Pack to update."""
     update_hec_token_request: UpdateHecTokenRequestTypedDict
@@ -27,7 +27,7 @@ class UpdateInputSystemHecTokenByPackAndIDAndTokenRequest(BaseModel):
     token: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the HEC token to update."""
+    r"""The HEC token value to update."""
 
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))

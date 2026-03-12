@@ -8,10 +8,15 @@ if TYPE_CHECKING:
     from .acknowledgmentsoptions import AcknowledgmentsOptions
     from .acknowledgmentsoptionsallleader import AcknowledgmentsOptionsAllLeader
     from .addhectokenrequest import AddHecTokenRequest, AddHecTokenRequestTypedDict
+    from .additionalpropertiestypeenrichedfieldssavedstate import (
+        AdditionalPropertiesTypeEnrichedFieldsSavedState,
+        AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict,
+    )
     from .additionalpropertiestypejobinfostats import (
         AdditionalPropertiesTypeJobInfoStats,
         AdditionalPropertiesTypeJobInfoStatsTypedDict,
     )
+    from .apischeme import APIScheme
     from .apitypesystemsettingsconf import (
         APITypeSystemSettingsConf,
         APITypeSystemSettingsConfTypedDict,
@@ -242,7 +247,6 @@ if TYPE_CHECKING:
         CountedMasterWorkerEntryTypedDict,
     )
     from .countednumber import CountedNumber, CountedNumberTypedDict
-    from .countedobject import CountedObject, CountedObjectTypedDict
     from .countedoutput import CountedOutput, CountedOutputTypedDict
     from .countedoutputsamplesresponse import (
         CountedOutputSamplesResponse,
@@ -268,7 +272,10 @@ if TYPE_CHECKING:
         CountedRestartResponseTypedDict,
     )
     from .countedroutes import CountedRoutes, CountedRoutesTypedDict
-    from .countedsavedjob import CountedSavedJob, CountedSavedJobTypedDict
+    from .countedsavedjobresponse import (
+        CountedSavedJobResponse,
+        CountedSavedJobResponseTypedDict,
+    )
     from .countedstring import CountedString, CountedStringTypedDict
     from .countedsystemrestartresponse import (
         CountedSystemRestartResponse,
@@ -1948,7 +1955,6 @@ if TYPE_CHECKING:
         CreateRoutesAppendByPackAndIDRequest,
         CreateRoutesAppendByPackAndIDRequestTypedDict,
     )
-    from .createsavedjobop import CreateSavedJobRequest, CreateSavedJobRequestTypedDict
     from .cribllakecollectorconf import (
         CriblLakeCollectorConf,
         CriblLakeCollectorConfTypedDict,
@@ -3700,6 +3706,10 @@ if TYPE_CHECKING:
     )
     from .itemstypeloglabels import ItemsTypeLogLabels, ItemsTypeLogLabelsTypedDict
     from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
+    from .itemstypepackinstallinfonavitems import (
+        ItemsTypePackInstallInfoNavItems,
+        ItemsTypePackInstallInfoNavItemsTypedDict,
+    )
     from .itemstypepoliciesitemstemplatetargetpairs import (
         ItemsTypePoliciesItemsTemplateTargetPairs,
         ItemsTypePoliciesItemsTemplateTargetPairsTypedDict,
@@ -3767,6 +3777,7 @@ if TYPE_CHECKING:
         ListConfigGroupByProductRequest,
         ListConfigGroupByProductRequestTypedDict,
     )
+    from .listinputop import ListInputRequest, ListInputRequestTypedDict
     from .listoutputop import ListOutputRequest, ListOutputRequestTypedDict
     from .logininfo import LoginInfo, LoginInfoTypedDict
     from .logleveloptions import LogLevelOptions
@@ -3814,6 +3825,49 @@ if TYPE_CHECKING:
     from .nodeskippedupgradestatus import NodeSkippedUpgradeStatus
     from .nodeupgradestate import NodeUpgradeState
     from .nodeupgradestatus import NodeUpgradeStatus, NodeUpgradeStatusTypedDict
+    from .notification_union import (
+        ConditionSpecificConfigs1,
+        ConditionSpecificConfigs1TypedDict,
+        ConditionSpecificConfigs2,
+        ConditionSpecificConfigs2TypedDict,
+        ConditionSpecificConfigs3,
+        ConditionSpecificConfigs3TypedDict,
+        EmailRecipient1,
+        EmailRecipient1TypedDict,
+        EmailRecipient2,
+        EmailRecipient2TypedDict,
+        EmailRecipient3,
+        EmailRecipient3TypedDict,
+        Notification1,
+        Notification1TypedDict,
+        Notification2,
+        Notification2TypedDict,
+        Notification3,
+        Notification3TypedDict,
+        NotificationConfigForSMTPTarget1,
+        NotificationConfigForSMTPTarget1TypedDict,
+        NotificationConfigForSMTPTarget2,
+        NotificationConfigForSMTPTarget2TypedDict,
+        NotificationConfigForSMTPTarget3,
+        NotificationConfigForSMTPTarget3TypedDict,
+        NotificationMode1,
+        NotificationMode2,
+        NotificationMode3,
+        NotificationUnion,
+        NotificationUnionTypedDict,
+        TargetConfig1,
+        TargetConfig1TypedDict,
+        TargetConfig2,
+        TargetConfig2TypedDict,
+        TargetConfig3,
+        TargetConfig3TypedDict,
+        TargetConfigUnion1,
+        TargetConfigUnion1TypedDict,
+        TargetConfigUnion2,
+        TargetConfigUnion2TypedDict,
+        TargetConfigUnion3,
+        TargetConfigUnion3TypedDict,
+    )
     from .objectacloptions import ObjectACLOptions
     from .objectacloptionsauthenticatedreadbucketownerfullcontrol import (
         ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol,
@@ -6788,10 +6842,10 @@ if TYPE_CHECKING:
         RunSettingsTypeRunnableJobCollectionScheduleType,
         RunSettingsTypeRunnableJobCollectionScheduleTypedDict,
     )
-    from .runsettingstypesavedjobcollectionschedule import (
-        RunSettingsTypeSavedJobCollectionSchedule,
-        RunSettingsTypeSavedJobCollectionScheduleType,
-        RunSettingsTypeSavedJobCollectionScheduleTypedDict,
+    from .runsettingstypesavedjobresponsecollectionschedule import (
+        RunSettingsTypeSavedJobResponseCollectionSchedule,
+        RunSettingsTypeSavedJobResponseCollectionScheduleType,
+        RunSettingsTypeSavedJobResponseCollectionScheduleTypedDict,
     )
     from .s3collectorconf import (
         S3AwsAuthenticationMethodAuto,
@@ -6830,6 +6884,16 @@ if TYPE_CHECKING:
     from .savedjob import SavedJob, SavedJobTypedDict
     from .savedjobcollection import SavedJobCollection, SavedJobCollectionTypedDict
     from .savedjobexecutor import SavedJobExecutor, SavedJobExecutorTypedDict
+    from .savedjobresponse import (
+        SavedJobResponse,
+        SavedJobResponseCollection,
+        SavedJobResponseCollectionTypedDict,
+        SavedJobResponseExecutor,
+        SavedJobResponseExecutorTypedDict,
+        SavedJobResponseScheduledSearch,
+        SavedJobResponseScheduledSearchTypedDict,
+        SavedJobResponseTypedDict,
+    )
     from .savedjobscheduledsearch import (
         SavedJobScheduledSearch,
         SavedJobScheduledSearchTypedDict,
@@ -6838,9 +6902,9 @@ if TYPE_CHECKING:
         ScheduleTypeRunnableJobCollection,
         ScheduleTypeRunnableJobCollectionTypedDict,
     )
-    from .scheduletypesavedjobcollection import (
-        ScheduleTypeSavedJobCollection,
-        ScheduleTypeSavedJobCollectionTypedDict,
+    from .scheduletypesavedjobresponsecollection import (
+        ScheduleTypeSavedJobResponseCollection,
+        ScheduleTypeSavedJobResponseCollectionTypedDict,
     )
     from .schemeclientoauth import SchemeClientOauth, SchemeClientOauthTypedDict
     from .scriptcollectorconf import (
@@ -7138,6 +7202,7 @@ if TYPE_CHECKING:
 
 __all__ = [
     "AISIEMEndpointPath",
+    "APIScheme",
     "APITypeSystemSettingsConf",
     "APITypeSystemSettingsConfTypedDict",
     "AcknowledgmentsOptions",
@@ -7146,6 +7211,8 @@ __all__ = [
     "AddHecTokenRequestTypedDict",
     "AdditionalField",
     "AdditionalFieldTypedDict",
+    "AdditionalPropertiesTypeEnrichedFieldsSavedState",
+    "AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict",
     "AdditionalPropertiesTypeJobInfoStats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict",
     "AdditionalProperty",
@@ -7308,6 +7375,12 @@ __all__ = [
     "CompressionOptionsPersistence",
     "CompressionOptionsPq",
     "Condition",
+    "ConditionSpecificConfigs1",
+    "ConditionSpecificConfigs1TypedDict",
+    "ConditionSpecificConfigs2",
+    "ConditionSpecificConfigs2TypedDict",
+    "ConditionSpecificConfigs3",
+    "ConditionSpecificConfigs3TypedDict",
     "ConditionTypedDict",
     "ConfInput",
     "ConfInputTypedDict",
@@ -7369,8 +7442,6 @@ __all__ = [
     "CountedMasterWorkerEntryTypedDict",
     "CountedNumber",
     "CountedNumberTypedDict",
-    "CountedObject",
-    "CountedObjectTypedDict",
     "CountedOutput",
     "CountedOutputSamplesResponse",
     "CountedOutputSamplesResponseTypedDict",
@@ -7391,8 +7462,8 @@ __all__ = [
     "CountedRestartResponseTypedDict",
     "CountedRoutes",
     "CountedRoutesTypedDict",
-    "CountedSavedJob",
-    "CountedSavedJobTypedDict",
+    "CountedSavedJobResponse",
+    "CountedSavedJobResponseTypedDict",
     "CountedString",
     "CountedStringTypedDict",
     "CountedSystemRestartResponse",
@@ -9029,8 +9100,6 @@ __all__ = [
     "CreateRoutesAppendByIDRequestTypedDict",
     "CreateRoutesAppendByPackAndIDRequest",
     "CreateRoutesAppendByPackAndIDRequestTypedDict",
-    "CreateSavedJobRequest",
-    "CreateSavedJobRequestTypedDict",
     "CriblLakeCollectorConf",
     "CriblLakeCollectorConfTypedDict",
     "CriblLakeDataset",
@@ -9133,6 +9202,12 @@ __all__ = [
     "ElasticVersion",
     "ElasticsearchMetadata",
     "ElasticsearchMetadataTypedDict",
+    "EmailRecipient1",
+    "EmailRecipient1TypedDict",
+    "EmailRecipient2",
+    "EmailRecipient2TypedDict",
+    "EmailRecipient3",
+    "EmailRecipient3TypedDict",
     "Endpoint",
     "EndpointConfiguration",
     "EndpointHeader",
@@ -10400,6 +10475,8 @@ __all__ = [
     "ItemsTypeLogLabelsTypedDict",
     "ItemsTypeMetadata",
     "ItemsTypeMetadataTypedDict",
+    "ItemsTypePackInstallInfoNavItems",
+    "ItemsTypePackInstallInfoNavItemsTypedDict",
     "ItemsTypePoliciesItemsTemplateTargetPairs",
     "ItemsTypePoliciesItemsTemplateTargetPairsTypedDict",
     "ItemsTypeProcessSets",
@@ -10446,6 +10523,8 @@ __all__ = [
     "LakehouseConnectionType",
     "ListConfigGroupByProductRequest",
     "ListConfigGroupByProductRequestTypedDict",
+    "ListInputRequest",
+    "ListInputRequestTypedDict",
     "ListOutputRequest",
     "ListOutputRequestTypedDict",
     "ListeningPorts",
@@ -10523,6 +10602,23 @@ __all__ = [
     "NodeUpgradeState",
     "NodeUpgradeStatus",
     "NodeUpgradeStatusTypedDict",
+    "Notification1",
+    "Notification1TypedDict",
+    "Notification2",
+    "Notification2TypedDict",
+    "Notification3",
+    "Notification3TypedDict",
+    "NotificationConfigForSMTPTarget1",
+    "NotificationConfigForSMTPTarget1TypedDict",
+    "NotificationConfigForSMTPTarget2",
+    "NotificationConfigForSMTPTarget2TypedDict",
+    "NotificationConfigForSMTPTarget3",
+    "NotificationConfigForSMTPTarget3TypedDict",
+    "NotificationMode1",
+    "NotificationMode2",
+    "NotificationMode3",
+    "NotificationUnion",
+    "NotificationUnionTypedDict",
     "NotifyConfiguration",
     "NotifyConfigurationTypedDict",
     "NumerifyFormatFix",
@@ -12995,9 +13091,9 @@ __all__ = [
     "RunSettingsTypeRunnableJobCollectionSchedule",
     "RunSettingsTypeRunnableJobCollectionScheduleType",
     "RunSettingsTypeRunnableJobCollectionScheduleTypedDict",
-    "RunSettingsTypeSavedJobCollectionSchedule",
-    "RunSettingsTypeSavedJobCollectionScheduleType",
-    "RunSettingsTypeSavedJobCollectionScheduleTypedDict",
+    "RunSettingsTypeSavedJobResponseCollectionSchedule",
+    "RunSettingsTypeSavedJobResponseCollectionScheduleType",
+    "RunSettingsTypeSavedJobResponseCollectionScheduleTypedDict",
     "RunnableJob",
     "RunnableJobCollection",
     "RunnableJobCollectionMode",
@@ -13053,6 +13149,14 @@ __all__ = [
     "SavedJobCollectionTypedDict",
     "SavedJobExecutor",
     "SavedJobExecutorTypedDict",
+    "SavedJobResponse",
+    "SavedJobResponseCollection",
+    "SavedJobResponseCollectionTypedDict",
+    "SavedJobResponseExecutor",
+    "SavedJobResponseExecutorTypedDict",
+    "SavedJobResponseScheduledSearch",
+    "SavedJobResponseScheduledSearchTypedDict",
+    "SavedJobResponseTypedDict",
     "SavedJobScheduledSearch",
     "SavedJobScheduledSearchTypedDict",
     "SavedJobTypedDict",
@@ -13060,8 +13164,8 @@ __all__ = [
     "ScheduleType",
     "ScheduleTypeRunnableJobCollection",
     "ScheduleTypeRunnableJobCollectionTypedDict",
-    "ScheduleTypeSavedJobCollection",
-    "ScheduleTypeSavedJobCollectionTypedDict",
+    "ScheduleTypeSavedJobResponseCollection",
+    "ScheduleTypeSavedJobResponseCollectionTypedDict",
     "SchemeClientOauth",
     "SchemeClientOauthTypedDict",
     "ScriptCollectorConf",
@@ -13265,6 +13369,18 @@ __all__ = [
     "TagsTypePackInstallInfo",
     "TagsTypePackInstallInfoTypedDict",
     "Target",
+    "TargetConfig1",
+    "TargetConfig1TypedDict",
+    "TargetConfig2",
+    "TargetConfig2TypedDict",
+    "TargetConfig3",
+    "TargetConfig3TypedDict",
+    "TargetConfigUnion1",
+    "TargetConfigUnion1TypedDict",
+    "TargetConfigUnion2",
+    "TargetConfigUnion2TypedDict",
+    "TargetConfigUnion3",
+    "TargetConfigUnion3TypedDict",
     "TargetContext",
     "TargetTypedDict",
     "TeamAccessControlList",
@@ -13475,8 +13591,11 @@ _dynamic_imports: dict[str, str] = {
     "AcknowledgmentsOptionsAllLeader": ".acknowledgmentsoptionsallleader",
     "AddHecTokenRequest": ".addhectokenrequest",
     "AddHecTokenRequestTypedDict": ".addhectokenrequest",
+    "AdditionalPropertiesTypeEnrichedFieldsSavedState": ".additionalpropertiestypeenrichedfieldssavedstate",
+    "AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict": ".additionalpropertiestypeenrichedfieldssavedstate",
     "AdditionalPropertiesTypeJobInfoStats": ".additionalpropertiestypejobinfostats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict": ".additionalpropertiestypejobinfostats",
+    "APIScheme": ".apischeme",
     "APITypeSystemSettingsConf": ".apitypesystemsettingsconf",
     "APITypeSystemSettingsConfTypedDict": ".apitypesystemsettingsconf",
     "AuthenticationMethodOptions": ".authenticationmethodoptions",
@@ -13653,8 +13772,6 @@ _dynamic_imports: dict[str, str] = {
     "CountedMasterWorkerEntryTypedDict": ".countedmasterworkerentry",
     "CountedNumber": ".countednumber",
     "CountedNumberTypedDict": ".countednumber",
-    "CountedObject": ".countedobject",
-    "CountedObjectTypedDict": ".countedobject",
     "CountedOutput": ".countedoutput",
     "CountedOutputTypedDict": ".countedoutput",
     "CountedOutputSamplesResponse": ".countedoutputsamplesresponse",
@@ -13675,8 +13792,8 @@ _dynamic_imports: dict[str, str] = {
     "CountedRestartResponseTypedDict": ".countedrestartresponse",
     "CountedRoutes": ".countedroutes",
     "CountedRoutesTypedDict": ".countedroutes",
-    "CountedSavedJob": ".countedsavedjob",
-    "CountedSavedJobTypedDict": ".countedsavedjob",
+    "CountedSavedJobResponse": ".countedsavedjobresponse",
+    "CountedSavedJobResponseTypedDict": ".countedsavedjobresponse",
     "CountedString": ".countedstring",
     "CountedStringTypedDict": ".countedstring",
     "CountedSystemRestartResponse": ".countedsystemrestartresponse",
@@ -15313,8 +15430,6 @@ _dynamic_imports: dict[str, str] = {
     "CreateRoutesAppendByIDRequestTypedDict": ".createroutesappendbyidop",
     "CreateRoutesAppendByPackAndIDRequest": ".createroutesappendbypackandidop",
     "CreateRoutesAppendByPackAndIDRequestTypedDict": ".createroutesappendbypackandidop",
-    "CreateSavedJobRequest": ".createsavedjobop",
-    "CreateSavedJobRequestTypedDict": ".createsavedjobop",
     "CriblLakeCollectorConf": ".cribllakecollectorconf",
     "CriblLakeCollectorConfTypedDict": ".cribllakecollectorconf",
     "CriblLakeDataset": ".cribllakedataset",
@@ -16774,6 +16889,8 @@ _dynamic_imports: dict[str, str] = {
     "ItemsTypeLogLabelsTypedDict": ".itemstypeloglabels",
     "ItemsTypeMetadata": ".itemstypemetadata",
     "ItemsTypeMetadataTypedDict": ".itemstypemetadata",
+    "ItemsTypePackInstallInfoNavItems": ".itemstypepackinstallinfonavitems",
+    "ItemsTypePackInstallInfoNavItemsTypedDict": ".itemstypepackinstallinfonavitems",
     "ItemsTypePoliciesItemsTemplateTargetPairs": ".itemstypepoliciesitemstemplatetargetpairs",
     "ItemsTypePoliciesItemsTemplateTargetPairsTypedDict": ".itemstypepoliciesitemstemplatetargetpairs",
     "ItemsTypeProcessSets": ".itemstypeprocesssets",
@@ -16817,6 +16934,8 @@ _dynamic_imports: dict[str, str] = {
     "LakehouseConnectionType": ".lakehouseconnectiontype",
     "ListConfigGroupByProductRequest": ".listconfiggroupbyproductop",
     "ListConfigGroupByProductRequestTypedDict": ".listconfiggroupbyproductop",
+    "ListInputRequest": ".listinputop",
+    "ListInputRequestTypedDict": ".listinputop",
     "ListOutputRequest": ".listoutputop",
     "ListOutputRequestTypedDict": ".listoutputop",
     "LoginInfo": ".logininfo",
@@ -16856,6 +16975,47 @@ _dynamic_imports: dict[str, str] = {
     "NodeUpgradeState": ".nodeupgradestate",
     "NodeUpgradeStatus": ".nodeupgradestatus",
     "NodeUpgradeStatusTypedDict": ".nodeupgradestatus",
+    "ConditionSpecificConfigs1": ".notification_union",
+    "ConditionSpecificConfigs1TypedDict": ".notification_union",
+    "ConditionSpecificConfigs2": ".notification_union",
+    "ConditionSpecificConfigs2TypedDict": ".notification_union",
+    "ConditionSpecificConfigs3": ".notification_union",
+    "ConditionSpecificConfigs3TypedDict": ".notification_union",
+    "EmailRecipient1": ".notification_union",
+    "EmailRecipient1TypedDict": ".notification_union",
+    "EmailRecipient2": ".notification_union",
+    "EmailRecipient2TypedDict": ".notification_union",
+    "EmailRecipient3": ".notification_union",
+    "EmailRecipient3TypedDict": ".notification_union",
+    "Notification1": ".notification_union",
+    "Notification1TypedDict": ".notification_union",
+    "Notification2": ".notification_union",
+    "Notification2TypedDict": ".notification_union",
+    "Notification3": ".notification_union",
+    "Notification3TypedDict": ".notification_union",
+    "NotificationConfigForSMTPTarget1": ".notification_union",
+    "NotificationConfigForSMTPTarget1TypedDict": ".notification_union",
+    "NotificationConfigForSMTPTarget2": ".notification_union",
+    "NotificationConfigForSMTPTarget2TypedDict": ".notification_union",
+    "NotificationConfigForSMTPTarget3": ".notification_union",
+    "NotificationConfigForSMTPTarget3TypedDict": ".notification_union",
+    "NotificationMode1": ".notification_union",
+    "NotificationMode2": ".notification_union",
+    "NotificationMode3": ".notification_union",
+    "NotificationUnion": ".notification_union",
+    "NotificationUnionTypedDict": ".notification_union",
+    "TargetConfig1": ".notification_union",
+    "TargetConfig1TypedDict": ".notification_union",
+    "TargetConfig2": ".notification_union",
+    "TargetConfig2TypedDict": ".notification_union",
+    "TargetConfig3": ".notification_union",
+    "TargetConfig3TypedDict": ".notification_union",
+    "TargetConfigUnion1": ".notification_union",
+    "TargetConfigUnion1TypedDict": ".notification_union",
+    "TargetConfigUnion2": ".notification_union",
+    "TargetConfigUnion2TypedDict": ".notification_union",
+    "TargetConfigUnion3": ".notification_union",
+    "TargetConfigUnion3TypedDict": ".notification_union",
     "ObjectACLOptions": ".objectacloptions",
     "ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol": ".objectacloptionsauthenticatedreadbucketownerfullcontrol",
     "OtlpVersionOptions": ".otlpversionoptions",
@@ -19546,9 +19706,9 @@ _dynamic_imports: dict[str, str] = {
     "RunSettingsTypeRunnableJobCollectionSchedule": ".runsettingstyperunnablejobcollectionschedule",
     "RunSettingsTypeRunnableJobCollectionScheduleType": ".runsettingstyperunnablejobcollectionschedule",
     "RunSettingsTypeRunnableJobCollectionScheduleTypedDict": ".runsettingstyperunnablejobcollectionschedule",
-    "RunSettingsTypeSavedJobCollectionSchedule": ".runsettingstypesavedjobcollectionschedule",
-    "RunSettingsTypeSavedJobCollectionScheduleType": ".runsettingstypesavedjobcollectionschedule",
-    "RunSettingsTypeSavedJobCollectionScheduleTypedDict": ".runsettingstypesavedjobcollectionschedule",
+    "RunSettingsTypeSavedJobResponseCollectionSchedule": ".runsettingstypesavedjobresponsecollectionschedule",
+    "RunSettingsTypeSavedJobResponseCollectionScheduleType": ".runsettingstypesavedjobresponsecollectionschedule",
+    "RunSettingsTypeSavedJobResponseCollectionScheduleTypedDict": ".runsettingstypesavedjobresponsecollectionschedule",
     "S3AwsAuthenticationMethodAuto": ".s3collectorconf",
     "S3AwsAuthenticationMethodAutoExtractor": ".s3collectorconf",
     "S3AwsAuthenticationMethodAutoExtractorTypedDict": ".s3collectorconf",
@@ -19585,12 +19745,20 @@ _dynamic_imports: dict[str, str] = {
     "SavedJobCollectionTypedDict": ".savedjobcollection",
     "SavedJobExecutor": ".savedjobexecutor",
     "SavedJobExecutorTypedDict": ".savedjobexecutor",
+    "SavedJobResponse": ".savedjobresponse",
+    "SavedJobResponseCollection": ".savedjobresponse",
+    "SavedJobResponseCollectionTypedDict": ".savedjobresponse",
+    "SavedJobResponseExecutor": ".savedjobresponse",
+    "SavedJobResponseExecutorTypedDict": ".savedjobresponse",
+    "SavedJobResponseScheduledSearch": ".savedjobresponse",
+    "SavedJobResponseScheduledSearchTypedDict": ".savedjobresponse",
+    "SavedJobResponseTypedDict": ".savedjobresponse",
     "SavedJobScheduledSearch": ".savedjobscheduledsearch",
     "SavedJobScheduledSearchTypedDict": ".savedjobscheduledsearch",
     "ScheduleTypeRunnableJobCollection": ".scheduletyperunnablejobcollection",
     "ScheduleTypeRunnableJobCollectionTypedDict": ".scheduletyperunnablejobcollection",
-    "ScheduleTypeSavedJobCollection": ".scheduletypesavedjobcollection",
-    "ScheduleTypeSavedJobCollectionTypedDict": ".scheduletypesavedjobcollection",
+    "ScheduleTypeSavedJobResponseCollection": ".scheduletypesavedjobresponsecollection",
+    "ScheduleTypeSavedJobResponseCollectionTypedDict": ".scheduletypesavedjobresponsecollection",
     "SchemeClientOauth": ".schemeclientoauth",
     "SchemeClientOauthTypedDict": ".schemeclientoauth",
     "EnvVar": ".scriptcollectorconf",

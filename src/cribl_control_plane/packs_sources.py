@@ -10,7 +10,7 @@ from cribl_control_plane.packs_sources_statuses import PacksSourcesStatuses
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union
+from typing import Any, List, Mapping, Optional, Union
 
 
 class PacksSources(BaseSDK):
@@ -38,6 +38,7 @@ class PacksSources(BaseSDK):
         self,
         *,
         pack: str,
+        type_: Optional[List[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -48,6 +49,7 @@ class PacksSources(BaseSDK):
         Get a list of all Sources within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack to list.
+        :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -64,6 +66,7 @@ class PacksSources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetInputSystemByPackRequest(
+            type=type_,
             pack=pack,
         )
 
@@ -130,6 +133,7 @@ class PacksSources(BaseSDK):
         self,
         *,
         pack: str,
+        type_: Optional[List[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -140,6 +144,7 @@ class PacksSources(BaseSDK):
         Get a list of all Sources within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack to list.
+        :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -156,6 +161,7 @@ class PacksSources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetInputSystemByPackRequest(
+            type=type_,
             pack=pack,
         )
 
@@ -635,7 +641,7 @@ class PacksSources(BaseSDK):
     ) -> models.CountedInput:
         r"""Update a Source within a Pack
 
-        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
+        Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Source to update.
         :param pack: The <code>id</code> of the Pack to update.
@@ -736,7 +742,7 @@ class PacksSources(BaseSDK):
     ) -> models.CountedInput:
         r"""Update a Source within a Pack
 
-        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
+        Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Source to update.
         :param pack: The <code>id</code> of the Pack to update.

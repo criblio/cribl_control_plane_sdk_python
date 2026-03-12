@@ -14,21 +14,29 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpdateHecTokenRequestTypedDict(TypedDict):
     allowed_indexes_at_token: NotRequired[List[str]]
+    r"""List of index names that the HEC token is allowed to write to."""
     description: NotRequired[str]
+    r"""Brief description for the HEC token."""
     enabled: NotRequired[bool]
+    r"""If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>."""
     metadata: NotRequired[List[EventBreakerRuleFieldsTypedDict]]
+    r"""Array of key-value pairs to associate with the HEC token for tagging, categorization, or providing additional context. Each item in the array is an object with a <code>name</code> and a <code>value</code>."""
 
 
 class UpdateHecTokenRequest(BaseModel):
     allowed_indexes_at_token: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
     ] = None
+    r"""List of index names that the HEC token is allowed to write to."""
 
     description: Optional[str] = None
+    r"""Brief description for the HEC token."""
 
     enabled: Optional[bool] = None
+    r"""If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>."""
 
     metadata: Optional[List[EventBreakerRuleFields]] = None
+    r"""Array of key-value pairs to associate with the HEC token for tagging, categorization, or providing additional context. Each item in the array is an object with a <code>name</code> and a <code>value</code>."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -40,7 +48,7 @@ class UpdateHecTokenRequest(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:

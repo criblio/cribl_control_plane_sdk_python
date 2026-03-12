@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
-from .scheduletypesavedjobcollection import (
-    ScheduleTypeSavedJobCollection,
-    ScheduleTypeSavedJobCollectionTypedDict,
+from .scheduletypesavedjobresponsecollection import (
+    ScheduleTypeSavedJobResponseCollection,
+    ScheduleTypeSavedJobResponseCollectionTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -31,7 +31,7 @@ class SavedJobScheduledSearchTypedDict(TypedDict):
     r"""Resume the ad hoc job if a failure condition causes Stream to restart during job execution"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    schedule: NotRequired[ScheduleTypeSavedJobCollectionTypedDict]
+    schedule: NotRequired[ScheduleTypeSavedJobResponseCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
@@ -69,7 +69,7 @@ class SavedJobScheduledSearch(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    schedule: Optional[ScheduleTypeSavedJobCollection] = None
+    schedule: Optional[ScheduleTypeSavedJobResponseCollection] = None
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None
@@ -104,7 +104,7 @@ class SavedJobScheduledSearch(BaseModel):
 
         for n, f in type(self).model_fields.items():
             k = f.alias or n
-            val = serialized.get(k)
+            val = serialized.get(k, serialized.get(n))
 
             if val != UNSET_SENTINEL:
                 if val is not None or k not in optional_fields:

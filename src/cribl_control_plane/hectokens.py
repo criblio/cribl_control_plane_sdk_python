@@ -34,11 +34,11 @@ class HecTokens(BaseSDK):
         Add an HEC token and optional metadata to the specified Splunk HEC Source.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
-        :param token:
-        :param allowed_indexes_at_token:
-        :param description:
-        :param enabled:
-        :param metadata:
+        :param token: The HEC token value to add to the Splunk HEC Source.
+        :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
+        :param description: Brief description for the HEC token.
+        :param enabled: If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>.
+        :param metadata: Array of key-value pairs to associate with the HEC token for tagging, categorization, or providing additional context. Each item in the array is an object with a <code>name</code> and a <code>value</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -157,11 +157,11 @@ class HecTokens(BaseSDK):
         Add an HEC token and optional metadata to the specified Splunk HEC Source.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
-        :param token:
-        :param allowed_indexes_at_token:
-        :param description:
-        :param enabled:
-        :param metadata:
+        :param token: The HEC token value to add to the Splunk HEC Source.
+        :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
+        :param description: Brief description for the HEC token.
+        :param enabled: If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>.
+        :param metadata: Array of key-value pairs to associate with the HEC token for tagging, categorization, or providing additional context. Each item in the array is an object with a <code>name</code> and a <code>value</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -280,11 +280,11 @@ class HecTokens(BaseSDK):
         Update the metadata for the specified HEC token for the specified Splunk HEC Source.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
-        :param token: The <code>id</code> of the HEC token to update.
-        :param allowed_indexes_at_token:
-        :param description:
-        :param enabled:
-        :param metadata:
+        :param token: The HEC token value to update.
+        :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
+        :param description: Brief description for the HEC token.
+        :param enabled: If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>.
+        :param metadata: Array of key-value pairs to associate with the HEC token for tagging, categorization, or providing additional context. Each item in the array is an object with a <code>name</code> and a <code>value</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -403,11 +403,11 @@ class HecTokens(BaseSDK):
         Update the metadata for the specified HEC token for the specified Splunk HEC Source.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
-        :param token: The <code>id</code> of the HEC token to update.
-        :param allowed_indexes_at_token:
-        :param description:
-        :param enabled:
-        :param metadata:
+        :param token: The HEC token value to update.
+        :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
+        :param description: Brief description for the HEC token.
+        :param enabled: If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>.
+        :param metadata: Array of key-value pairs to associate with the HEC token for tagging, categorization, or providing additional context. Each item in the array is an object with a <code>name</code> and a <code>value</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

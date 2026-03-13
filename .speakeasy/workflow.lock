@@ -1,4 +1,4 @@
-speakeasyVersion: 1.752.0
+speakeasyVersion: 1.753.0
 sources:
     Cribl API Reference:
         sourceNamespace: cribl-api-reference
@@ -14,10 +14,10 @@ targets:
         sourceRevisionDigest: sha256:00cabb33381459907e86ef74425263fb7730668fccdbf34fbe216df6528e0615
         sourceBlobDigest: sha256:c2a69b5d0484876db6a8d71d649d2d8049b6f473b9102dad4f5672a9b1d2fba2
         codeSamplesNamespace: cribl-api-reference-python-code-samples
-        codeSamplesRevisionDigest: sha256:3197677deca2f8706b9d56cb0ff5e06e5e1681f0404a971c5ae598850e261cb4
+        codeSamplesRevisionDigest: sha256:2128d107babaa71525469593d63b4ca653a35173a44867394306fb54ea4688a5
 workflow:
     workflowVersion: 1.0.0
-    speakeasyVersion: 1.752.0
+    speakeasyVersion: 1.753.0
     sources:
         Cribl API Reference:
             inputs:

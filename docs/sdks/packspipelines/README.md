@@ -39,28 +39,28 @@ with CriblControlPlane(
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.mem_perc'\")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes(\"'proc.bytes_in'\"))",
                 "id": models.PipelineFunctionAggregateMetricsID.AGGREGATE_METRICS,
                 "conf": {
-                    "cumulative": False,
                     "passthrough": False,
                     "preserve_group_bys": False,
                     "sufficient_stats_only": False,
                     "time_window": "10s",
                     "aggregations": [
                         {
-                            "metric_type": models.AggregateMetricsCumulativeTrueMetricType.GAUGE,
+                            "metric_type": models.PipelineFunctionAggregateMetricsMetricType.GAUGE,
                             "agg": "avg(_value || proc.cpu_perc).as(proc.cpu_perc_avg)",
                         },
                         {
-                            "metric_type": models.AggregateMetricsCumulativeTrueMetricType.GAUGE,
+                            "metric_type": models.PipelineFunctionAggregateMetricsMetricType.GAUGE,
                             "agg": "sum(_value || proc.mem_perc).as(proc.mem_perc_sum)",
                         },
                         {
-                            "metric_type": models.AggregateMetricsCumulativeTrueMetricType.COUNTER,
+                            "metric_type": models.PipelineFunctionAggregateMetricsMetricType.COUNTER,
                             "agg": "count(_value || proc.bytes_in).as(proc.bytes_in_count)",
                         },
                     ],
                     "groupbys": [
                         "proc",
                     ],
+                    "cumulative": False,
                     "should_treat_dots_as_literals": True,
                     "flush_on_input_close": True,
                 },
@@ -100,7 +100,6 @@ with CriblControlPlane(
                 "filter_": "true",
                 "id": models.PipelineFunctionAggregationID.AGGREGATION,
                 "conf": {
-                    "cumulative": False,
                     "passthrough": False,
                     "preserve_group_bys": False,
                     "sufficient_stats_only": False,
@@ -112,6 +111,7 @@ with CriblControlPlane(
                     "groupbys": [
                         "srcaddr",
                     ],
+                    "cumulative": False,
                     "should_treat_dots_as_literals": False,
                     "flush_on_input_close": True,
                 },
@@ -961,31 +961,31 @@ with CriblControlPlane(
         "description": "Pipeline that enriches events with location data from IP address lookups",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionLookup(
-                filter_="true",
-                id=models.PipelineFunctionLookupID.LOOKUP,
-                conf=models.LookupDbLookupFalseMatchModeExact(
-                    match_mode=models.LookupDbLookupFalseMatchModeExactMatchMode.EXACT,
-                    ignore_case=False,
-                    db_lookup=False,
-                    reload_period_sec=-1,
-                    file="ip_locations.csv",
-                    in_fields=[
-                        models.LookupDbLookupFalseMatchModeExactInField(
-                            event_field="destination_ip",
-                            lookup_field="ip",
-                        ),
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionLookupID.LOOKUP,
+                "conf": {
+                    "file": "ip_locations.csv",
+                    "db_lookup": False,
+                    "match_mode": models.MatchMode.EXACT,
+                    "reload_period_sec": -1,
+                    "in_fields": [
+                        {
+                            "event_field": "destination_ip",
+                            "lookup_field": "ip",
+                        },
                     ],
-                    out_fields=[
-                        models.LookupDbLookupFalseMatchModeExactOutField(
-                            lookup_field="location",
-                            event_field="location",
-                            default_value="Unknown",
-                        ),
+                    "out_fields": [
+                        {
+                            "lookup_field": "location",
+                            "event_field": "location",
+                            "default_value": "Unknown",
+                        },
                     ],
-                    add_to_event=False,
-                ),
-            ),
+                    "add_to_event": False,
+                    "ignore_case": False,
+                },
+            },
         ],
         "groups": {
 
@@ -1110,13 +1110,13 @@ with CriblControlPlane(
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
                 "id": models.PipelineFunctionOtlpLogsID.OTLP_LOGS,
                 "conf": {
+                    "drop_non_log_events": False,
                     "batch_otlp_logs": True,
                     "send_batch_size": 8192,
                     "timeout": 200,
                     "send_batch_max_size": 0,
                     "metadata_keys": [],
                     "metadata_cardinality_limit": 1000,
-                    "drop_non_log_events": False,
                 },
             },
         ],
@@ -1150,17 +1150,11 @@ with CriblControlPlane(
         "description": "Pipeline that converts dimensional metrics to OTLP format and batches them by resource attributes",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionOtlpMetrics(
-                filter_="__inputId=='prometheus_rw:prom_rw_in'",
-                id=models.PipelineFunctionOtlpMetricsID.OTLP_METRICS,
-                conf=models.OTLPMetricsBatchOTLPMetricsTrue(
-                    batch_otlp_metrics=True,
-                    send_batch_size=8192,
-                    timeout=200,
-                    send_batch_max_size=0,
-                    metadata_keys=[],
-                    metadata_cardinality_limit=1000,
-                    resource_attribute_prefixes=[
+            {
+                "filter_": "__inputId=='prometheus_rw:prom_rw_in'",
+                "id": models.PipelineFunctionOtlpMetricsID.OTLP_METRICS,
+                "conf": {
+                    "resource_attribute_prefixes": [
                         "service",
                         "system",
                         "telemetry",
@@ -1169,10 +1163,16 @@ with CriblControlPlane(
                         "host",
                         "process",
                     ],
-                    drop_non_metric_events=False,
-                    otlp_version=models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
-                ),
-            ),
+                    "drop_non_metric_events": False,
+                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "batch_otlp_metrics": True,
+                    "send_batch_size": 8192,
+                    "timeout": 200,
+                    "send_batch_max_size": 0,
+                    "metadata_keys": [],
+                    "metadata_cardinality_limit": 1000,
+                },
+            },
         ],
         "groups": {
 
@@ -1204,20 +1204,20 @@ with CriblControlPlane(
         "description": "Pipeline that normalizes and batches OTLP trace events from OpenTelemetry sources",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionOtlpTraces(
-                filter_="__inputId=='open_telemetry:open_telemetry'",
-                id=models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
-                conf=models.OTLPTracesBatchOTLPTracesTrue(
-                    batch_otlp_traces=True,
-                    send_batch_size=8192,
-                    timeout=200,
-                    send_batch_max_size=0,
-                    metadata_keys=[],
-                    metadata_cardinality_limit=1000,
-                    drop_non_trace_events=False,
-                    otlp_version=models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
-                ),
-            ),
+            {
+                "filter_": "__inputId=='open_telemetry:open_telemetry'",
+                "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
+                "conf": {
+                    "drop_non_trace_events": False,
+                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "batch_otlp_traces": True,
+                    "send_batch_size": 8192,
+                    "timeout": 200,
+                    "send_batch_max_size": 0,
+                    "metadata_keys": [],
+                    "metadata_cardinality_limit": 1000,
+                },
+            },
         ],
         "groups": {
 
@@ -2023,28 +2023,28 @@ with CriblControlPlane(
                 "filter_": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.mem_perc'\")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes(\"'proc.bytes_in'\"))",
                 "id": models.PipelineFunctionAggregateMetricsID.AGGREGATE_METRICS,
                 "conf": {
-                    "cumulative": False,
                     "passthrough": False,
                     "preserve_group_bys": False,
                     "sufficient_stats_only": False,
                     "time_window": "10s",
                     "aggregations": [
                         {
-                            "metric_type": models.AggregateMetricsCumulativeTrueMetricType.GAUGE,
+                            "metric_type": models.PipelineFunctionAggregateMetricsMetricType.GAUGE,
                             "agg": "avg(_value || proc.cpu_perc).as(proc.cpu_perc_avg)",
                         },
                         {
-                            "metric_type": models.AggregateMetricsCumulativeTrueMetricType.GAUGE,
+                            "metric_type": models.PipelineFunctionAggregateMetricsMetricType.GAUGE,
                             "agg": "sum(_value || proc.mem_perc).as(proc.mem_perc_sum)",
                         },
                         {
-                            "metric_type": models.AggregateMetricsCumulativeTrueMetricType.COUNTER,
+                            "metric_type": models.PipelineFunctionAggregateMetricsMetricType.COUNTER,
                             "agg": "count(_value || proc.bytes_in).as(proc.bytes_in_count)",
                         },
                     ],
                     "groupbys": [
                         "proc",
                     ],
+                    "cumulative": False,
                     "should_treat_dots_as_literals": True,
                     "flush_on_input_close": True,
                 },
@@ -2084,7 +2084,6 @@ with CriblControlPlane(
                 "filter_": "true",
                 "id": models.PipelineFunctionAggregationID.AGGREGATION,
                 "conf": {
-                    "cumulative": False,
                     "passthrough": False,
                     "preserve_group_bys": False,
                     "sufficient_stats_only": False,
@@ -2096,6 +2095,7 @@ with CriblControlPlane(
                     "groupbys": [
                         "srcaddr",
                     ],
+                    "cumulative": False,
                     "should_treat_dots_as_literals": False,
                     "flush_on_input_close": True,
                 },
@@ -2945,31 +2945,31 @@ with CriblControlPlane(
         "description": "Pipeline that enriches events with location data from IP address lookups",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionLookup(
-                filter_="true",
-                id=models.PipelineFunctionLookupID.LOOKUP,
-                conf=models.LookupDbLookupFalseMatchModeExact(
-                    match_mode=models.LookupDbLookupFalseMatchModeExactMatchMode.EXACT,
-                    ignore_case=False,
-                    db_lookup=False,
-                    reload_period_sec=-1,
-                    file="ip_locations.csv",
-                    in_fields=[
-                        models.LookupDbLookupFalseMatchModeExactInField(
-                            event_field="destination_ip",
-                            lookup_field="ip",
-                        ),
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionLookupID.LOOKUP,
+                "conf": {
+                    "file": "ip_locations.csv",
+                    "db_lookup": False,
+                    "match_mode": models.MatchMode.EXACT,
+                    "reload_period_sec": -1,
+                    "in_fields": [
+                        {
+                            "event_field": "destination_ip",
+                            "lookup_field": "ip",
+                        },
                     ],
-                    out_fields=[
-                        models.LookupDbLookupFalseMatchModeExactOutField(
-                            lookup_field="location",
-                            event_field="location",
-                            default_value="Unknown",
-                        ),
+                    "out_fields": [
+                        {
+                            "lookup_field": "location",
+                            "event_field": "location",
+                            "default_value": "Unknown",
+                        },
                     ],
-                    add_to_event=False,
-                ),
-            ),
+                    "add_to_event": False,
+                    "ignore_case": False,
+                },
+            },
         ],
         "groups": {
 
@@ -3094,13 +3094,13 @@ with CriblControlPlane(
                 "filter_": "__inputId=='open_telemetry:open_telemetry'",
                 "id": models.PipelineFunctionOtlpLogsID.OTLP_LOGS,
                 "conf": {
+                    "drop_non_log_events": False,
                     "batch_otlp_logs": True,
                     "send_batch_size": 8192,
                     "timeout": 200,
                     "send_batch_max_size": 0,
                     "metadata_keys": [],
                     "metadata_cardinality_limit": 1000,
-                    "drop_non_log_events": False,
                 },
             },
         ],
@@ -3134,17 +3134,11 @@ with CriblControlPlane(
         "description": "Pipeline that converts dimensional metrics to OTLP format and batches them by resource attributes",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionOtlpMetrics(
-                filter_="__inputId=='prometheus_rw:prom_rw_in'",
-                id=models.PipelineFunctionOtlpMetricsID.OTLP_METRICS,
-                conf=models.OTLPMetricsBatchOTLPMetricsTrue(
-                    batch_otlp_metrics=True,
-                    send_batch_size=8192,
-                    timeout=200,
-                    send_batch_max_size=0,
-                    metadata_keys=[],
-                    metadata_cardinality_limit=1000,
-                    resource_attribute_prefixes=[
+            {
+                "filter_": "__inputId=='prometheus_rw:prom_rw_in'",
+                "id": models.PipelineFunctionOtlpMetricsID.OTLP_METRICS,
+                "conf": {
+                    "resource_attribute_prefixes": [
                         "service",
                         "system",
                         "telemetry",
@@ -3153,10 +3147,16 @@ with CriblControlPlane(
                         "host",
                         "process",
                     ],
-                    drop_non_metric_events=False,
-                    otlp_version=models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
-                ),
-            ),
+                    "drop_non_metric_events": False,
+                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "batch_otlp_metrics": True,
+                    "send_batch_size": 8192,
+                    "timeout": 200,
+                    "send_batch_max_size": 0,
+                    "metadata_keys": [],
+                    "metadata_cardinality_limit": 1000,
+                },
+            },
         ],
         "groups": {
 
@@ -3188,20 +3188,20 @@ with CriblControlPlane(
         "description": "Pipeline that normalizes and batches OTLP trace events from OpenTelemetry sources",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionOtlpTraces(
-                filter_="__inputId=='open_telemetry:open_telemetry'",
-                id=models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
-                conf=models.OTLPTracesBatchOTLPTracesTrue(
-                    batch_otlp_traces=True,
-                    send_batch_size=8192,
-                    timeout=200,
-                    send_batch_max_size=0,
-                    metadata_keys=[],
-                    metadata_cardinality_limit=1000,
-                    drop_non_trace_events=False,
-                    otlp_version=models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
-                ),
-            ),
+            {
+                "filter_": "__inputId=='open_telemetry:open_telemetry'",
+                "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
+                "conf": {
+                    "drop_non_trace_events": False,
+                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "batch_otlp_traces": True,
+                    "send_batch_size": 8192,
+                    "timeout": 200,
+                    "send_batch_max_size": 0,
+                    "metadata_keys": [],
+                    "metadata_cardinality_limit": 1000,
+                },
+            },
         ],
         "groups": {
 

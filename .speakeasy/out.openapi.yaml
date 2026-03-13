@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1773270186742-a6cfcb14
+  version: 4.17.1-alpha.1773356600656-ad22ad35
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -365,17 +365,22 @@ components:
         matchMode:
           enum:
             - cidr
+          type: string
+        matchType:
+          $ref: "#/components/schemas/MatchTypeOptionsLookupDbLookupFalseMatchModeCidr"
+    LookupDbLookupFalseMatchModeRegex:
+      type: object
+      properties:
+        matchMode:
+          enum:
             - regex
           type: string
         matchType:
-          title: Match type
-          type: string
-          description: "Further defines how to handle multiple matches: return the first match, the most specific match, or all matches"
-          enum:
-            - first
-            - specific
-            - all
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/MatchTypeOptionsLookupDbLookupFalseMatchModeCidr"
+        ignoreCase:
+          type: boolean
+          title: Ignore case
+          description: "Whether to ignore case when performing lookups using Match Mode: Regex."
     LookupDbLookupFalseMatchModeExact:
       type: object
       properties:
@@ -413,11 +418,13 @@ components:
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/LookupDbLookupFalseMatchModeCidr"
+            - $ref: "#/components/schemas/LookupDbLookupFalseMatchModeRegex"
             - $ref: "#/components/schemas/LookupDbLookupFalseMatchModeExact"
           discriminator:
             propertyName: matchMode
             mapping:
               cidr: "#/components/schemas/LookupDbLookupFalseMatchModeCidr"
+              regex: "#/components/schemas/LookupDbLookupFalseMatchModeRegex"
               exact: "#/components/schemas/LookupDbLookupFalseMatchModeExact"
     NumerifyFormatFix:
       type: object
@@ -39447,6 +39454,15 @@ components:
         - auto
         - format
         - current
+      x-speakeasy-unknown-values: allow
+    MatchTypeOptionsLookupDbLookupFalseMatchModeCidr:
+      title: Match type
+      type: string
+      description: "Further defines how to handle multiple matches: return the first match, the most specific match, or all matches"
+      enum:
+        - first
+        - specific
+        - all
       x-speakeasy-unknown-values: allow
     MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions:
       type: string

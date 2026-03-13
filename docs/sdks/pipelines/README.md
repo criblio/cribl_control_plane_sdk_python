@@ -963,31 +963,31 @@ with CriblControlPlane(
         "description": "Pipeline that enriches events with location data from IP address lookups",
         "streamtags": [],
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionLookupID.LOOKUP,
-                "conf": {
-                    "match_mode": models.LookupDbLookupFalseMatchModeExactMatchMode.EXACT,
-                    "ignore_case": False,
-                    "db_lookup": False,
-                    "reload_period_sec": -1,
-                    "file": "ip_locations.csv",
-                    "in_fields": [
-                        {
-                            "event_field": "destination_ip",
-                            "lookup_field": "ip",
-                        },
+            models.PipelineFunctionLookup(
+                filter_="true",
+                id=models.PipelineFunctionLookupID.LOOKUP,
+                conf=models.LookupDbLookupFalseMatchModeExact(
+                    match_mode=models.LookupDbLookupFalseMatchModeExactMatchMode.EXACT,
+                    ignore_case=False,
+                    db_lookup=False,
+                    reload_period_sec=-1,
+                    file="ip_locations.csv",
+                    in_fields=[
+                        models.LookupDbLookupFalseMatchModeExactInField(
+                            event_field="destination_ip",
+                            lookup_field="ip",
+                        ),
                     ],
-                    "out_fields": [
-                        {
-                            "lookup_field": "location",
-                            "event_field": "location",
-                            "default_value": "Unknown",
-                        },
+                    out_fields=[
+                        models.LookupDbLookupFalseMatchModeExactOutField(
+                            lookup_field="location",
+                            event_field="location",
+                            default_value="Unknown",
+                        ),
                     ],
-                    "add_to_event": False,
-                },
-            },
+                    add_to_event=False,
+                ),
+            ),
         ],
         "groups": {
 
@@ -2943,31 +2943,31 @@ with CriblControlPlane(
         "description": "Pipeline that enriches events with location data from IP address lookups",
         "streamtags": [],
         "functions": [
-            {
-                "filter_": "true",
-                "id": models.PipelineFunctionLookupID.LOOKUP,
-                "conf": {
-                    "match_mode": models.LookupDbLookupFalseMatchModeExactMatchMode.EXACT,
-                    "ignore_case": False,
-                    "db_lookup": False,
-                    "reload_period_sec": -1,
-                    "file": "ip_locations.csv",
-                    "in_fields": [
-                        {
-                            "event_field": "destination_ip",
-                            "lookup_field": "ip",
-                        },
+            models.PipelineFunctionLookup(
+                filter_="true",
+                id=models.PipelineFunctionLookupID.LOOKUP,
+                conf=models.LookupDbLookupFalseMatchModeExact(
+                    match_mode=models.LookupDbLookupFalseMatchModeExactMatchMode.EXACT,
+                    ignore_case=False,
+                    db_lookup=False,
+                    reload_period_sec=-1,
+                    file="ip_locations.csv",
+                    in_fields=[
+                        models.LookupDbLookupFalseMatchModeExactInField(
+                            event_field="destination_ip",
+                            lookup_field="ip",
+                        ),
                     ],
-                    "out_fields": [
-                        {
-                            "lookup_field": "location",
-                            "event_field": "location",
-                            "default_value": "Unknown",
-                        },
+                    out_fields=[
+                        models.LookupDbLookupFalseMatchModeExactOutField(
+                            lookup_field="location",
+                            event_field="location",
+                            default_value="Unknown",
+                        ),
                     ],
-                    "add_to_event": False,
-                },
-            },
+                    add_to_event=False,
+                ),
+            ),
         ],
         "groups": {
 

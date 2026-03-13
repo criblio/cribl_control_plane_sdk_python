@@ -9,6 +9,12 @@
 value: models.LookupDbLookupFalseMatchModeCidr = /* values here */
 ```
 
+### `models.LookupDbLookupFalseMatchModeRegex`
+
+```python
+value: models.LookupDbLookupFalseMatchModeRegex = /* values here */
+```
+
 ### `models.LookupDbLookupFalseMatchModeExact`
 
 ```python

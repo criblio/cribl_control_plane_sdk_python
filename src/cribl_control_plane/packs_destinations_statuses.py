@@ -6,7 +6,8 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional
+from jsonpath import JSONPath
+from typing import Any, Awaitable, Dict, List, Mapping, Optional, Union
 
 
 class PacksDestinationsStatuses(BaseSDK):
@@ -218,18 +219,22 @@ class PacksDestinationsStatuses(BaseSDK):
         pack: str,
         metrics: Optional[bool] = None,
         type_: Optional[bool] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutputStatus:
+    ) -> Optional[models.GetOutputStatusSystemOutputsByPackResponse]:
         r"""List the status of all Destinations within a Pack
 
-        List status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
+        List status information and optional metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack to list.
         :param metrics: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        :param limit: Maximum number of items to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -248,6 +253,8 @@ class PacksDestinationsStatuses(BaseSDK):
         request = models.GetOutputStatusSystemOutputsByPackRequest(
             metrics=metrics,
             type=type_,
+            offset=offset,
+            limit=limit,
             pack=pack,
         )
 
@@ -291,17 +298,44 @@ class PacksDestinationsStatuses(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            error_status_codes=["400", "401", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[models.GetOutputStatusSystemOutputsByPackResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            offset = request.offset if not request.offset is None else 0
+
+            if not http_res.text:
+                return None
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return None
+            limit = request.limit if not request.limit is None else 0
+            if len(results[0]) < limit:
+                return None
+            next_offset = offset + len(results[0])
+
+            return self.list(
+                pack=pack,
+                metrics=metrics,
+                type_=type_,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutputStatus, http_res)
+            return models.GetOutputStatusSystemOutputsByPackResponse(
+                result=unmarshal_json_response(models.CountedOutputStatus, http_res),
+                next=next_func,
+            )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "401", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -316,18 +350,22 @@ class PacksDestinationsStatuses(BaseSDK):
         pack: str,
         metrics: Optional[bool] = None,
         type_: Optional[bool] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutputStatus:
+    ) -> Optional[models.GetOutputStatusSystemOutputsByPackResponse]:
         r"""List the status of all Destinations within a Pack
 
-        List status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
+        List status information and optional metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack to list.
         :param metrics: Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        :param limit: Maximum number of items to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -346,6 +384,8 @@ class PacksDestinationsStatuses(BaseSDK):
         request = models.GetOutputStatusSystemOutputsByPackRequest(
             metrics=metrics,
             type=type_,
+            offset=offset,
+            limit=limit,
             pack=pack,
         )
 
@@ -389,17 +429,49 @@ class PacksDestinationsStatuses(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            error_status_codes=["400", "401", "4XX", "500", "5XX"],
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Awaitable[Optional[models.GetOutputStatusSystemOutputsByPackResponse]]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            async def empty_result():
+                return None
+
+            offset = request.offset if not request.offset is None else 0
+
+            if not http_res.text:
+                return empty_result()
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return empty_result()
+            limit = request.limit if not request.limit is None else 0
+            if len(results[0]) < limit:
+                return empty_result()
+            next_offset = offset + len(results[0])
+
+            return self.list_async(
+                pack=pack,
+                metrics=metrics,
+                type_=type_,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutputStatus, http_res)
+            return models.GetOutputStatusSystemOutputsByPackResponse(
+                result=unmarshal_json_response(models.CountedOutputStatus, http_res),
+                next=next_func,
+            )
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "401", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

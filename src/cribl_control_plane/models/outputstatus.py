@@ -9,6 +9,8 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class OutputStatusTypedDict(TypedDict):
+    r"""Status of a Destination, aggregated across all Worker Processes."""
+
     id: str
     r"""Unique identifier of the Source or Destination."""
     status: StatusTypeTypedDict
@@ -18,6 +20,8 @@ class OutputStatusTypedDict(TypedDict):
 
 
 class OutputStatus(BaseModel):
+    r"""Status of a Destination, aggregated across all Worker Processes."""
+
     id: str
     r"""Unique identifier of the Source or Destination."""
 

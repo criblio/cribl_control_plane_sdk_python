@@ -517,7 +517,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.list(product=models.ProductsBase.STREAM, filter_exp="<value>", sort_exp="<value>", filter_="<value>", sort="<value>", limit=881129, offset=990978)
+    res = ccp_client.sources.statuses.list()
 
     while res is not None:
         # Handle items

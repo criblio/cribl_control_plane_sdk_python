@@ -92,7 +92,7 @@ class InputMicrosoftGraphTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Resource to pass in the OAuth request parameter."""
     plan_type: NotRequired[SubscriptionPlanOptions]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
@@ -232,7 +232,7 @@ class InputMicrosoftGraph(BaseModel):
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = None
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""

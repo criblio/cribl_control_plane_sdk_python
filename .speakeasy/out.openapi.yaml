@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1773389979547-61c086f4
+  version: 4.17.1-alpha.1773443034117-eed37cfb
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -14383,11 +14383,11 @@ components:
         tenantId:
           type: string
           title: Tenant ID
-          description: Office 365 Azure Tenant ID
+          description: Microsoft 365 Azure Tenant ID
         appId:
           type: string
           title: App ID
-          description: Office 365 Azure Application ID
+          description: Microsoft 365 Azure Application ID
         timeout:
           type: number
           title: Request timeout (seconds)
@@ -14437,7 +14437,7 @@ components:
               contentType:
                 type: string
                 title: Content Type
-                description: Office 365 Management Activity API Content Type
+                description: Microsoft 365 Management Activity API Content Type
               description:
                 type: string
                 title: Interval Description
@@ -14452,11 +14452,11 @@ components:
               enabled:
                 type: boolean
                 title: Enabled
-          description: "Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."
+          description: "Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."
         ingestionLag:
           type: number
           title: Ingestion lag (minutes)
-          description: Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval.
+          description: Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval.
           minimum: 0
           maximum: 7200
         retryRules:
@@ -14469,7 +14469,7 @@ components:
         clientSecret:
           type: string
           title: Client secret
-          description: Office 365 Azure client secret
+          description: Microsoft 365 Azure client secret
         textSecret:
           type: string
           title: Client secret (text secret)
@@ -14538,11 +14538,11 @@ components:
         tenantId:
           type: string
           title: Tenant ID
-          description: Office 365 Azure Tenant ID
+          description: Microsoft 365 Azure Tenant ID
         appId:
           type: string
           title: App ID
-          description: Office 365 Azure Application ID
+          description: Microsoft 365 Azure Application ID
         timeout:
           type: number
           title: Request timeout (seconds)
@@ -14588,7 +14588,7 @@ components:
               contentType:
                 type: string
                 title: Content Type
-                description: Office 365 Services API Content Type
+                description: Microsoft 365 Services API Content Type
               description:
                 type: string
                 title: Interval Description
@@ -14603,7 +14603,7 @@ components:
               enabled:
                 type: boolean
                 title: Enabled
-          description: "Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."
+          description: "Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."
         retryRules:
           $ref: "#/components/schemas/RetryRulesType1"
         authType:
@@ -14614,7 +14614,7 @@ components:
         clientSecret:
           type: string
           title: Client secret
-          description: Office 365 Azure client secret
+          description: Microsoft 365 Azure client secret
         textSecret:
           type: string
           title: Client secret (text secret)
@@ -39727,17 +39727,17 @@ components:
     SubscriptionPlanOptions:
       type: string
       title: Subscription plan
-      description: Office 365 subscription plan for your organization, typically Office 365 Enterprise
+      description: Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise
       enum:
         - enterprise_gcc
         - gcc
         - gcc_high
         - dod
       x-speakeasy-enum-descriptions:
-        - Office 365 Enterprise
-        - Office 365 GCC
-        - Office 365 GCC High
-        - Office 365 DoD
+        - Microsoft 365 Enterprise
+        - Microsoft 365 GCC
+        - Microsoft 365 GCC High
+        - Microsoft 365 DoD
       x-speakeasy-unknown-values: allow
     LogLevelOptionsContentConfigItems:
       type: string
@@ -42397,7 +42397,7 @@ components:
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365Mgmt:
-      summary: Office 365 Management Activity
+      summary: Microsoft 365 Management Activity
       value:
         id: office365-mgmt-source
         type: office365_mgmt
@@ -42416,7 +42416,7 @@ components:
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365MsgTrace:
-      summary: Office 365 Message Trace
+      summary: Microsoft 365 Message Trace
       value:
         id: office365-msg-trace-source
         type: office365_msg_trace
@@ -42425,7 +42425,7 @@ components:
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365Service:
-      summary: Office 365 Services
+      summary: Microsoft 365 Services
       value:
         id: office365-service-source
         type: office365_service

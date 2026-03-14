@@ -6,13 +6,13 @@ from enum import Enum
 
 
 class SubscriptionPlanOptions(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
-    # Office 365 Enterprise
+    # Microsoft 365 Enterprise
     ENTERPRISE_GCC = "enterprise_gcc"
-    # Office 365 GCC
+    # Microsoft 365 GCC
     GCC = "gcc"
-    # Office 365 GCC High
+    # Microsoft 365 GCC High
     GCC_HIGH = "gcc_high"
-    # Office 365 DoD
+    # Microsoft 365 DoD
     DOD = "dod"

@@ -2614,7 +2614,12 @@ if TYPE_CHECKING:
         GetInputStatusByIDRequest,
         GetInputStatusByIDRequestTypedDict,
     )
-    from .getinputstatusop import GetInputStatusRequest, GetInputStatusRequestTypedDict
+    from .getinputstatusop import (
+        GetInputStatusRequest,
+        GetInputStatusRequestTypedDict,
+        GetInputStatusResponse,
+        GetInputStatusResponseTypedDict,
+    )
     from .getinputstatussysteminputsbypackandidop import (
         GetInputStatusSystemInputsByPackAndIDRequest,
         GetInputStatusSystemInputsByPackAndIDRequestTypedDict,
@@ -2622,6 +2627,8 @@ if TYPE_CHECKING:
     from .getinputstatussysteminputsbypackop import (
         GetInputStatusSystemInputsByPackRequest,
         GetInputStatusSystemInputsByPackRequestTypedDict,
+        GetInputStatusSystemInputsByPackResponse,
+        GetInputStatusSystemInputsByPackResponseTypedDict,
     )
     from .getinputsystembypackandidop import (
         GetInputSystemByPackAndIDRequest,
@@ -2651,6 +2658,8 @@ if TYPE_CHECKING:
     from .getoutputstatusop import (
         GetOutputStatusRequest,
         GetOutputStatusRequestTypedDict,
+        GetOutputStatusResponse,
+        GetOutputStatusResponseTypedDict,
     )
     from .getoutputstatussystemoutputsbypackandidop import (
         GetOutputStatusSystemOutputsByPackAndIDRequest,
@@ -2659,6 +2668,8 @@ if TYPE_CHECKING:
     from .getoutputstatussystemoutputsbypackop import (
         GetOutputStatusSystemOutputsByPackRequest,
         GetOutputStatusSystemOutputsByPackRequestTypedDict,
+        GetOutputStatusSystemOutputsByPackResponse,
+        GetOutputStatusSystemOutputsByPackResponseTypedDict,
     )
     from .getoutputsystembypackandidop import (
         GetOutputSystemByPackAndIDRequest,
@@ -9591,10 +9602,14 @@ __all__ = [
     "GetInputStatusByIDRequestTypedDict",
     "GetInputStatusRequest",
     "GetInputStatusRequestTypedDict",
+    "GetInputStatusResponse",
+    "GetInputStatusResponseTypedDict",
     "GetInputStatusSystemInputsByPackAndIDRequest",
     "GetInputStatusSystemInputsByPackAndIDRequestTypedDict",
     "GetInputStatusSystemInputsByPackRequest",
     "GetInputStatusSystemInputsByPackRequestTypedDict",
+    "GetInputStatusSystemInputsByPackResponse",
+    "GetInputStatusSystemInputsByPackResponseTypedDict",
     "GetInputSystemByPackAndIDRequest",
     "GetInputSystemByPackAndIDRequestTypedDict",
     "GetInputSystemByPackRequest",
@@ -9611,10 +9626,14 @@ __all__ = [
     "GetOutputStatusByIDRequestTypedDict",
     "GetOutputStatusRequest",
     "GetOutputStatusRequestTypedDict",
+    "GetOutputStatusResponse",
+    "GetOutputStatusResponseTypedDict",
     "GetOutputStatusSystemOutputsByPackAndIDRequest",
     "GetOutputStatusSystemOutputsByPackAndIDRequestTypedDict",
     "GetOutputStatusSystemOutputsByPackRequest",
     "GetOutputStatusSystemOutputsByPackRequestTypedDict",
+    "GetOutputStatusSystemOutputsByPackResponse",
+    "GetOutputStatusSystemOutputsByPackResponseTypedDict",
     "GetOutputSystemByPackAndIDRequest",
     "GetOutputSystemByPackAndIDRequestTypedDict",
     "GetOutputSystemByPackRequest",
@@ -15901,10 +15920,14 @@ _dynamic_imports: dict[str, str] = {
     "GetInputStatusByIDRequestTypedDict": ".getinputstatusbyidop",
     "GetInputStatusRequest": ".getinputstatusop",
     "GetInputStatusRequestTypedDict": ".getinputstatusop",
+    "GetInputStatusResponse": ".getinputstatusop",
+    "GetInputStatusResponseTypedDict": ".getinputstatusop",
     "GetInputStatusSystemInputsByPackAndIDRequest": ".getinputstatussysteminputsbypackandidop",
     "GetInputStatusSystemInputsByPackAndIDRequestTypedDict": ".getinputstatussysteminputsbypackandidop",
     "GetInputStatusSystemInputsByPackRequest": ".getinputstatussysteminputsbypackop",
     "GetInputStatusSystemInputsByPackRequestTypedDict": ".getinputstatussysteminputsbypackop",
+    "GetInputStatusSystemInputsByPackResponse": ".getinputstatussysteminputsbypackop",
+    "GetInputStatusSystemInputsByPackResponseTypedDict": ".getinputstatussysteminputsbypackop",
     "GetInputSystemByPackAndIDRequest": ".getinputsystembypackandidop",
     "GetInputSystemByPackAndIDRequestTypedDict": ".getinputsystembypackandidop",
     "GetInputSystemByPackRequest": ".getinputsystembypackop",
@@ -15921,10 +15944,14 @@ _dynamic_imports: dict[str, str] = {
     "GetOutputStatusByIDRequestTypedDict": ".getoutputstatusbyidop",
     "GetOutputStatusRequest": ".getoutputstatusop",
     "GetOutputStatusRequestTypedDict": ".getoutputstatusop",
+    "GetOutputStatusResponse": ".getoutputstatusop",
+    "GetOutputStatusResponseTypedDict": ".getoutputstatusop",
     "GetOutputStatusSystemOutputsByPackAndIDRequest": ".getoutputstatussystemoutputsbypackandidop",
     "GetOutputStatusSystemOutputsByPackAndIDRequestTypedDict": ".getoutputstatussystemoutputsbypackandidop",
     "GetOutputStatusSystemOutputsByPackRequest": ".getoutputstatussystemoutputsbypackop",
     "GetOutputStatusSystemOutputsByPackRequestTypedDict": ".getoutputstatussystemoutputsbypackop",
+    "GetOutputStatusSystemOutputsByPackResponse": ".getoutputstatussystemoutputsbypackop",
+    "GetOutputStatusSystemOutputsByPackResponseTypedDict": ".getoutputstatussystemoutputsbypackop",
     "GetOutputSystemByPackAndIDRequest": ".getoutputsystembypackandidop",
     "GetOutputSystemByPackAndIDRequestTypedDict": ".getoutputsystembypackandidop",
     "GetOutputSystemByPackRequest": ".getoutputsystembypackop",

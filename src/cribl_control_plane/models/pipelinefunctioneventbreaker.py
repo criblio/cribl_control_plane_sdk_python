@@ -521,6 +521,8 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTypedDict(
     r"""The path to an array in a JSON event with records to extract, such as Records or level1.level2.events. Leave blank if result itself is an array, such as [{...},{...}]"""
     parent_fields_to_copy: NotRequired[List[str]]
     r"""Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
+    fields_to_remove: NotRequired[List[str]]
+    r"""List of fields to remove from the output events. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
@@ -563,6 +565,11 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalse(BaseModel
         Optional[List[str]], pydantic.Field(alias="parentFieldsToCopy")
     ] = None
     r"""Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
+
+    fields_to_remove: Annotated[
+        Optional[List[str]], pydantic.Field(alias="fieldsToRemove")
+    ] = None
+    r"""List of fields to remove from the output events. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
 
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
@@ -626,6 +633,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalse(BaseModel
                 "ruleType",
                 "jsonArrayField",
                 "parentFieldsToCopy",
+                "fieldsToRemove",
                 "maxEventBytes",
                 "timestampAnchorRegex",
                 "timestamp",
@@ -718,6 +726,8 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueTypedDict(
     r"""The path to an array in a JSON event with records to extract, such as Records or level1.level2.events. Leave blank if result itself is an array, such as [{...},{...}]"""
     parent_fields_to_copy: NotRequired[List[str]]
     r"""Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
+    fields_to_remove: NotRequired[List[str]]
+    r"""List of fields to remove from the output events. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
@@ -765,6 +775,11 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel)
         Optional[List[str]], pydantic.Field(alias="parentFieldsToCopy")
     ] = None
     r"""Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
+
+    fields_to_remove: Annotated[
+        Optional[List[str]], pydantic.Field(alias="fieldsToRemove")
+    ] = None
+    r"""List of fields to remove from the output events. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
 
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
@@ -829,6 +844,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel)
                 "ruleType",
                 "jsonArrayField",
                 "parentFieldsToCopy",
+                "fieldsToRemove",
                 "maxEventBytes",
                 "timestampAnchorRegex",
                 "timestamp",

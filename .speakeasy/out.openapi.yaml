@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1773270188020-3d1c4624
+  version: 4.18.0-alpha.1773443038855-8fc278ec
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -216,6 +216,12 @@ components:
           type: boolean
           title: JSON extract fields
           description: Automatically extract fields from JSON events. When disabled, only _raw and _time are defined on extracted events.
+        fieldsToRemove:
+          title: Fields to remove
+          description: List of fields to remove from the output events. Supports * wildcards. Enclose field names containing special characters in single or double quotes.
+          type: array
+          items:
+            type: string
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeJsonArrayJsonExtractAllTrue"
@@ -29243,7 +29249,7 @@ components:
         eventType:
           type: string
           title: Event type
-          description: Default eventType to use when not present in an event. For more information, see [here](https://docs.newrelic.com/docs/telemetry-data-platform/custom-data/custom-events/data-requirements-limits-custom-event-data/#reserved-words).
+          description: Default New Relic eventType to use when event type is not present. For more information, see the [New Relic eventType documentation](https://docs.newrelic.com/docs/telemetry-data-platform/custom-data/custom-events/data-requirements-limits-custom-event-data/#reserved-words).
         concurrency:
           type: number
           title: Request concurrency
@@ -37493,6 +37499,7 @@ components:
       required:
         - id
         - status
+      description: Status of the Source, aggregated across all Worker Processes.
     CountedOutputStatus:
       type: object
       properties:
@@ -37517,6 +37524,7 @@ components:
       required:
         - id
         - status
+      description: Status of a Destination, aggregated across all Worker Processes.
     CountedSavedJobResponse:
       type: object
       properties:
@@ -42350,7 +42358,7 @@ components:
           description: Health status of the persistent queue.
         healthCounts:
           $ref: "#/components/schemas/HealthCountType"
-          description: Counts of persistent queue health statuses for the Source or Destination across all Worker Processes.
+          description: "Counts of persistent queue health statuses for the Source or Destination across all Worker Processes. Includes only statuses with non-zero counts.<br/> <br><code>Green</code> == Healthy: Normal operation<br/> <br><code>Yellow</code> == Degraded: Potential issues<br/> <br><code>Red</code> == Critical: Problem or error that affects operation<br/> <br><code>Unknown</code> == Unknown: Cannot determine health status."
         timestamp:
           type: number
           description: Timestamp (in Unix time) when the persistent queue status was last updated.
@@ -42536,7 +42544,7 @@ components:
           description: Overall health status of the Source or Destination.
         healthCounts:
           $ref: "#/components/schemas/HealthCountType"
-          description: Counts of health statuses for the Source or Destination across all Worker Processes.
+          description: "Counts of health statuses for the Source or Destination across all Worker Processes. Includes only statuses with non-zero counts.<br/> <br><code>Green</code> == Healthy: Normal operation<br/> <br><code>Yellow</code> == Degraded: Potential issues<br/> <br><code>Red</code> == Critical: Problem or error that affects operation<br/> <br><code>Unknown</code> == Unknown: Cannot determine health status."
         metrics:
           type: object
           additionalProperties: true
@@ -49152,6 +49160,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputStatus"
+        "400":
+          description: Bad Request
         "401":
           description: Unauthorized
         "500":
@@ -49173,6 +49183,29 @@ paths:
           schema:
             type: boolean
           description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Maximum number of items to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
+      x-speakeasy-pagination:
+        type: offsetLimit
+        inputs:
+          - name: offset
+            in: parameters
+            type: offset
+          - name: limit
+            in: parameters
+            type: limit
+        outputs:
+          results: $.items
   /p/{pack}/system/status/inputs/{id}:
     get:
       operationId: getInputStatusSystemInputsByPackAndId
@@ -49242,6 +49275,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputStatus"
+        "400":
+          description: Bad Request
         "401":
           description: Unauthorized
         "500":
@@ -49263,12 +49298,35 @@ paths:
           schema:
             type: boolean
           description: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Maximum number of items to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         - name: pack
           in: path
           required: true
           schema:
             type: string
           description: The <code>id</code> of the Pack to list.
+      x-speakeasy-pagination:
+        type: offsetLimit
+        inputs:
+          - name: offset
+            in: parameters
+            type: offset
+          - name: limit
+            in: parameters
+            type: limit
+        outputs:
+          results: $.items
   /system/status/outputs/{id}:
     get:
       operationId: getOutputStatusById
@@ -49324,7 +49382,7 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Destinations
-      description: List status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet.
+      description: List status information and optional metrics for all configured Destinations in the Worker Group or Edge Fleet.
       responses:
         "200":
           description: a list of Destination status objects
@@ -49332,6 +49390,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputStatus"
+        "400":
+          description: Bad Request
         "401":
           description: Unauthorized
         "500":
@@ -49353,6 +49413,29 @@ paths:
           schema:
             type: boolean
           description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Maximum number of items to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
+      x-speakeasy-pagination:
+        type: offsetLimit
+        inputs:
+          - name: offset
+            in: parameters
+            type: offset
+          - name: limit
+            in: parameters
+            type: limit
+        outputs:
+          results: $.items
   /p/{pack}/system/status/outputs/{id}:
     get:
       operationId: getOutputStatusSystemOutputsByPackAndId
@@ -49414,7 +49497,7 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the status of all Destinations within a Pack
-      description: List status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
+      description: List status information and optional metrics for all configured Destinations in the Worker Group or Edge Fleet within the specified Pack.
       responses:
         "200":
           description: a list of Destination status objects
@@ -49422,6 +49505,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputStatus"
+        "400":
+          description: Bad Request
         "401":
           description: Unauthorized
         "500":
@@ -49443,12 +49528,35 @@ paths:
           schema:
             type: boolean
           description: Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Maximum number of items to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         - name: pack
           in: path
           required: true
           schema:
             type: string
           description: The <code>id</code> of the Pack to list.
+      x-speakeasy-pagination:
+        type: offsetLimit
+        inputs:
+          - name: offset
+            in: parameters
+            type: offset
+          - name: limit
+            in: parameters
+            type: limit
+        outputs:
+          results: $.items
   /lib/jobs:
     post:
       operationId: createSavedJob

@@ -2158,7 +2158,7 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Resource to pass in the OAuth request parameter."""
     plan_type: NotRequired[SubscriptionPlanOptions]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
@@ -2298,7 +2298,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = None
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
@@ -2483,7 +2483,7 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Resource to pass in the OAuth request parameter."""
     plan_type: NotRequired[SubscriptionPlanOptions]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
@@ -2623,7 +2623,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = None
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
@@ -2743,7 +2743,7 @@ class CreateInputSystemByPackTypeOffice365Service(str, Enum):
 
 class CreateInputSystemByPackContentConfigOffice365ServiceTypedDict(TypedDict):
     content_type: NotRequired[str]
-    r"""Office 365 Services API Content Type"""
+    r"""Microsoft 365 Services API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
@@ -2754,7 +2754,7 @@ class CreateInputSystemByPackContentConfigOffice365ServiceTypedDict(TypedDict):
 
 class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
-    r"""Office 365 Services API Content Type"""
+    r"""Microsoft 365 Services API Content Type"""
 
     description: Optional[str] = None
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
@@ -2801,9 +2801,9 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeOffice365Service
     tenant_id: str
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
     app_id: str
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2819,7 +2819,7 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     plan_type: NotRequired[SubscriptionPlanOptions]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout, use 0 to disable"""
     keep_alive_time: NotRequired[float]
@@ -2837,13 +2837,13 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     content_config: NotRequired[
         List[CreateInputSystemByPackContentConfigOffice365ServiceTypedDict]
     ]
-    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions1]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     template_tenant_id: NotRequired[str]
@@ -2861,10 +2861,10 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     type: CreateInputSystemByPackTypeOffice365Service
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
 
     app_id: Annotated[str, pydantic.Field(alias="appId")]
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
 
     disabled: Optional[bool] = None
 
@@ -2893,7 +2893,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = None
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout, use 0 to disable"""
@@ -2926,7 +2926,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
         Optional[List[CreateInputSystemByPackContentConfigOffice365Service]],
         pydantic.Field(alias="contentConfig"),
     ] = None
-    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
 
     retry_rules: Annotated[
         Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
@@ -2940,7 +2940,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     description: Optional[str] = None
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -3029,7 +3029,7 @@ class CreateInputSystemByPackTypeOffice365Mgmt(str, Enum):
 
 class CreateInputSystemByPackContentConfigOffice365MgmtTypedDict(TypedDict):
     content_type: NotRequired[str]
-    r"""Office 365 Management Activity API Content Type"""
+    r"""Microsoft 365 Management Activity API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
@@ -3040,7 +3040,7 @@ class CreateInputSystemByPackContentConfigOffice365MgmtTypedDict(TypedDict):
 
 class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
-    r"""Office 365 Management Activity API Content Type"""
+    r"""Microsoft 365 Management Activity API Content Type"""
 
     description: Optional[str] = None
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
@@ -3087,11 +3087,11 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeOffice365Mgmt
     plan_type: SubscriptionPlanOptions
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     tenant_id: str
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
     app_id: str
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3125,15 +3125,15 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     content_config: NotRequired[
         List[CreateInputSystemByPackContentConfigOffice365MgmtTypedDict]
     ]
-    r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
-    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
+    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions1]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     template_tenant_id: NotRequired[str]
@@ -3153,13 +3153,13 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     type: CreateInputSystemByPackTypeOffice365Mgmt
 
     plan_type: Annotated[SubscriptionPlanOptions, pydantic.Field(alias="planType")]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
 
     app_id: Annotated[str, pydantic.Field(alias="appId")]
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
 
     disabled: Optional[bool] = None
 
@@ -3221,12 +3221,12 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
         Optional[List[CreateInputSystemByPackContentConfigOffice365Mgmt]],
         pydantic.Field(alias="contentConfig"),
     ] = None
-    r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
 
     ingestion_lag: Annotated[Optional[float], pydantic.Field(alias="ingestionLag")] = (
         None
     )
-    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
+    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
 
     retry_rules: Annotated[
         Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
@@ -3240,7 +3240,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     description: Optional[str] = None
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""

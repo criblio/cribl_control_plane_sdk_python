@@ -3,10 +3,10 @@
 import importlib.metadata
 
 __title__: str = "cribl-control-plane"
-__version__: str = "0.7.0b3"
+__version__: str = "0.7.0b4"
 __openapi_doc_version__: str = "4.18.0-alpha.1773443038855-8fc278ec"
 __gen_version__: str = "2.862.0"
-__user_agent__: str = "speakeasy-sdk/python 0.7.0b3 2.862.0 4.18.0-alpha.1773443038855-8fc278ec cribl-control-plane"
+__user_agent__: str = "speakeasy-sdk/python 0.7.0b4 2.862.0 4.18.0-alpha.1773443038855-8fc278ec cribl-control-plane"
 
 try:
     if __package__ is not None:

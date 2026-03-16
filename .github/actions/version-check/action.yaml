@@ -1,0 +1,64 @@
+name: OpenAPI Version Check
+description: Compare out.openapi.yaml version with upstream cribl-openapi-spec
+inputs:
+  force:
+    description: When true, skip check and always run generation
+    required: true
+outputs:
+  up_to_date:
+    value: ${{ steps.compare.outputs.up_to_date }}
+  local_version:
+    value: ${{ steps.compare.outputs.local_version }}
+  remote_version:
+    value: ${{ steps.compare.outputs.remote_version }}
+runs:
+  using: composite
+  steps:
+    - id: compare
+      shell: bash
+      env:
+        FORCE: ${{ inputs.force }}
+      run: |
+        set -euo pipefail
+
+        if [[ "$FORCE" == "true" ]]; then
+          echo "Force generation requested - skipping version check"
+          echo "up_to_date=false" >> "$GITHUB_OUTPUT"
+          echo "local_version=" >> "$GITHUB_OUTPUT"
+          echo "remote_version=" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        # Read spec URL from workflow.yaml (varies per branch)
+        SPEC_URL=$(ruby -r yaml -e "puts YAML.load_file('.speakeasy/workflow.yaml').dig('sources', 'Cribl API Reference', 'inputs', 0, 'location')")
+        if [[ -z "${SPEC_URL}" ]]; then
+          echo "Failed to read spec URL from workflow.yaml"
+          echo "up_to_date=false" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        if [[ ! -f .speakeasy/out.openapi.yaml ]]; then
+          echo "out.openapi.yaml not found, will run generation"
+          echo "up_to_date=false" >> "$GITHUB_OUTPUT"
+          echo "local_version=" >> "$GITHUB_OUTPUT"
+          echo "remote_version=" >> "$GITHUB_OUTPUT"
+          exit 0
+        fi
+
+        LOCAL_VERSION=$(ruby -r yaml -e "puts YAML.load_file('.speakeasy/out.openapi.yaml').dig('info', 'version')")
+        echo "Local version (out.openapi.yaml): ${LOCAL_VERSION:-}"
+
+        REMOTE_SPEC=$(curl -sfL "${SPEC_URL}") || { echo "Failed to fetch ${SPEC_URL}"; echo "up_to_date=false" >> "$GITHUB_OUTPUT"; exit 0; }
+        REMOTE_VERSION=$(echo "$REMOTE_SPEC" | ruby -r yaml -e "puts YAML.safe_load(STDIN.read).dig('info', 'version')")
+        echo "Remote version (${SPEC_URL}): ${REMOTE_VERSION:-}"
+
+        echo "local_version=${LOCAL_VERSION}" >> "$GITHUB_OUTPUT"
+        echo "remote_version=${REMOTE_VERSION}" >> "$GITHUB_OUTPUT"
+
+        if [[ "${LOCAL_VERSION}" == "${REMOTE_VERSION}" && -n "${LOCAL_VERSION}" ]]; then
+          echo "Versions match - skipping SDK generation"
+          echo "up_to_date=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "Versions differ or missing - will run SDK generation"
+          echo "up_to_date=false" >> "$GITHUB_OUTPUT"
+        fi

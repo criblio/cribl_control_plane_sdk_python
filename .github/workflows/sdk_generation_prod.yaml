@@ -32,8 +32,28 @@ jobs:
             exit 1
           fi
 
-  generate:
+  version-check:
     needs: check-branch
+    runs-on: ubuntu-latest
+    outputs:
+      up_to_date: ${{ steps.compare.outputs.up_to_date }}
+      local_version: ${{ steps.compare.outputs.local_version }}
+      remote_version: ${{ steps.compare.outputs.remote_version }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          ref: main
+
+      - name: Compare OpenAPI versions
+        id: compare
+        uses: ./.github/actions/version-check
+        with:
+          force: ${{ github.event.inputs.force || false }}
+
+  generate:
+    needs: [check-branch, version-check]
+    if: needs.version-check.outputs.up_to_date != 'true'
     uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@b823adc6be7d30b25198529f99f46303bc083534
     with:
       force: ${{ github.event.inputs.force }}
@@ -44,9 +64,24 @@ jobs:
       pypi_token: ${{ secrets.PYPI_TOKEN }}
       speakeasy_api_key: ${{ secrets.SPEAKEASY_API_KEY }}
 
+  skipped-summary:
+    needs: [check-branch, version-check, generate]
+    if: github.event_name == 'schedule' && needs.generate.result == 'skipped'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Summary
+        run: |
+          {
+            echo "## ⏭️ SDK Generation Skipped (Cron)"
+            echo ""
+            echo "OpenAPI spec versions match - no generation needed:"
+            echo "- **Local** (out.openapi.yaml): \`${{ needs.version-check.outputs.local_version }}\`"
+            echo "- **Remote** (cribl-openapi-spec): \`${{ needs.version-check.outputs.remote_version }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
   dispatch-dev-stage:
     needs: generate
-    if: github.event_name == 'schedule'
+    if: github.event_name == 'schedule' && needs.generate.result != 'skipped'
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -80,7 +115,7 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   notify-slack-on-failure:
-    needs: [check-branch, generate, dispatch-dev-stage]
+    needs: [check-branch, version-check, generate, dispatch-dev-stage]
     if: failure()
     runs-on: ubuntu-latest
     steps:

@@ -23,7 +23,6 @@ if TYPE_CHECKING:
     from .authenticationmethodoptions import AuthenticationMethodOptions
     from .authenticationmethodoptions1 import AuthenticationMethodOptions1
     from .authenticationmethodoptions2 import AuthenticationMethodOptions2
-    from .authenticationmethodoptions3 import AuthenticationMethodOptions3
     from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
     from .authenticationmethodoptionsauthtokensitems import (
         AuthenticationMethodOptionsAuthTokensItems,
@@ -299,6 +298,8 @@ if TYPE_CHECKING:
         CreateInputAuthTokensExtTypedDict,
         CreateInputAuthenticationMethodEdgePrometheus,
         CreateInputAuthenticationMethodElastic,
+        CreateInputAuthenticationMethodMicrosoftGraph,
+        CreateInputAuthenticationMethodOffice365MsgTrace,
         CreateInputAuthenticationTypeElastic,
         CreateInputAuthenticationTypeSplunkSearch,
         CreateInputCompression,
@@ -679,6 +680,8 @@ if TYPE_CHECKING:
         CreateInputSystemByPackAuthTokensExtTypedDict,
         CreateInputSystemByPackAuthenticationMethodEdgePrometheus,
         CreateInputSystemByPackAuthenticationMethodElastic,
+        CreateInputSystemByPackAuthenticationMethodMicrosoftGraph,
+        CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace,
         CreateInputSystemByPackAuthenticationTypeElastic,
         CreateInputSystemByPackAuthenticationTypeSplunkSearch,
         CreateInputSystemByPackCompression,
@@ -2221,6 +2224,10 @@ if TYPE_CHECKING:
         FunctionConfSchemaLocalSearchRulesetRunnerTypedDict,
         RulesetType,
     )
+    from .functionconfschemalocalsearchschemamapper import (
+        FunctionConfSchemaLocalSearchSchemaMapper,
+        FunctionConfSchemaLocalSearchSchemaMapperTypedDict,
+    )
     from .functionconfschemalocalsearchtransformer import (
         FunctionConfSchemaLocalSearchTransformer,
         FunctionConfSchemaLocalSearchTransformerTypedDict,
@@ -2399,6 +2406,11 @@ if TYPE_CHECKING:
         FunctionLocalSearchRulesetRunner,
         FunctionLocalSearchRulesetRunnerID,
         FunctionLocalSearchRulesetRunnerTypedDict,
+    )
+    from .functionlocalsearchschemamapper import (
+        FunctionLocalSearchSchemaMapper,
+        FunctionLocalSearchSchemaMapperID,
+        FunctionLocalSearchSchemaMapperTypedDict,
     )
     from .functionlocalsearchtransformer import (
         FunctionLocalSearchTransformer,
@@ -3378,6 +3390,7 @@ if TYPE_CHECKING:
     from .inputmetrics import InputMetrics, InputMetricsType, InputMetricsTypedDict
     from .inputmicrosoftgraph import (
         InputMicrosoftGraph,
+        InputMicrosoftGraphAuthenticationMethod,
         InputMicrosoftGraphType,
         InputMicrosoftGraphTypedDict,
     )
@@ -3397,6 +3410,7 @@ if TYPE_CHECKING:
     )
     from .inputoffice365msgtrace import (
         InputOffice365MsgTrace,
+        InputOffice365MsgTraceAuthenticationMethod,
         InputOffice365MsgTraceType,
         InputOffice365MsgTraceTypedDict,
     )
@@ -4672,6 +4686,11 @@ if TYPE_CHECKING:
         PipelineFunctionLocalSearchRulesetRunner,
         PipelineFunctionLocalSearchRulesetRunnerID,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
+    )
+    from .pipelinefunctionlocalsearchschemamapper import (
+        PipelineFunctionLocalSearchSchemaMapper,
+        PipelineFunctionLocalSearchSchemaMapperID,
+        PipelineFunctionLocalSearchSchemaMapperTypedDict,
     )
     from .pipelinefunctionlocalsearchtransformer import (
         PipelineFunctionLocalSearchTransformer,
@@ -6475,7 +6494,6 @@ __all__ = [
     "AuthenticationMethodOptions",
     "AuthenticationMethodOptions1",
     "AuthenticationMethodOptions2",
-    "AuthenticationMethodOptions3",
     "AuthenticationMethodOptionsAuth",
     "AuthenticationMethodOptionsAuthTokensItems",
     "AuthenticationMethodOptionsS3CollectorConf",
@@ -6723,6 +6741,8 @@ __all__ = [
     "CreateInputAuthenticationMethodCloudflareHec",
     "CreateInputAuthenticationMethodEdgePrometheus",
     "CreateInputAuthenticationMethodElastic",
+    "CreateInputAuthenticationMethodMicrosoftGraph",
+    "CreateInputAuthenticationMethodOffice365MsgTrace",
     "CreateInputAuthenticationMethodWef",
     "CreateInputAuthenticationTypeElastic",
     "CreateInputAuthenticationTypeSplunkSearch",
@@ -7026,6 +7046,8 @@ __all__ = [
     "CreateInputSystemByPackAuthenticationMethodCloudflareHec",
     "CreateInputSystemByPackAuthenticationMethodEdgePrometheus",
     "CreateInputSystemByPackAuthenticationMethodElastic",
+    "CreateInputSystemByPackAuthenticationMethodMicrosoftGraph",
+    "CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace",
     "CreateInputSystemByPackAuthenticationMethodWef",
     "CreateInputSystemByPackAuthenticationTypeElastic",
     "CreateInputSystemByPackAuthenticationTypeSplunkSearch",
@@ -8575,6 +8597,8 @@ __all__ = [
     "FunctionConfSchemaLocalSearchDatatypeParserTypedDict",
     "FunctionConfSchemaLocalSearchRulesetRunner",
     "FunctionConfSchemaLocalSearchRulesetRunnerTypedDict",
+    "FunctionConfSchemaLocalSearchSchemaMapper",
+    "FunctionConfSchemaLocalSearchSchemaMapperTypedDict",
     "FunctionConfSchemaLocalSearchTransformer",
     "FunctionConfSchemaLocalSearchTransformerTypedDict",
     "FunctionConfSchemaNotificationPolicies",
@@ -8675,6 +8699,9 @@ __all__ = [
     "FunctionLocalSearchRulesetRunner",
     "FunctionLocalSearchRulesetRunnerID",
     "FunctionLocalSearchRulesetRunnerTypedDict",
+    "FunctionLocalSearchSchemaMapper",
+    "FunctionLocalSearchSchemaMapperID",
+    "FunctionLocalSearchSchemaMapperTypedDict",
     "FunctionLocalSearchTransformer",
     "FunctionLocalSearchTransformerID",
     "FunctionLocalSearchTransformerTypedDict",
@@ -9483,6 +9510,7 @@ __all__ = [
     "InputMetricsType",
     "InputMetricsTypedDict",
     "InputMicrosoftGraph",
+    "InputMicrosoftGraphAuthenticationMethod",
     "InputMicrosoftGraphType",
     "InputMicrosoftGraphTypedDict",
     "InputModelDrivenTelemetry",
@@ -9500,6 +9528,7 @@ __all__ = [
     "InputOffice365MgmtType",
     "InputOffice365MgmtTypedDict",
     "InputOffice365MsgTrace",
+    "InputOffice365MsgTraceAuthenticationMethod",
     "InputOffice365MsgTraceType",
     "InputOffice365MsgTraceTypedDict",
     "InputOffice365Service",
@@ -10384,6 +10413,9 @@ __all__ = [
     "PipelineFunctionLocalSearchRulesetRunner",
     "PipelineFunctionLocalSearchRulesetRunnerID",
     "PipelineFunctionLocalSearchRulesetRunnerTypedDict",
+    "PipelineFunctionLocalSearchSchemaMapper",
+    "PipelineFunctionLocalSearchSchemaMapperID",
+    "PipelineFunctionLocalSearchSchemaMapperTypedDict",
     "PipelineFunctionLocalSearchTransformer",
     "PipelineFunctionLocalSearchTransformerID",
     "PipelineFunctionLocalSearchTransformerTypedDict",
@@ -12112,7 +12144,6 @@ _dynamic_imports: dict[str, str] = {
     "AuthenticationMethodOptions": ".authenticationmethodoptions",
     "AuthenticationMethodOptions1": ".authenticationmethodoptions1",
     "AuthenticationMethodOptions2": ".authenticationmethodoptions2",
-    "AuthenticationMethodOptions3": ".authenticationmethodoptions3",
     "AuthenticationMethodOptionsAuth": ".authenticationmethodoptionsauth",
     "AuthenticationMethodOptionsAuthTokensItems": ".authenticationmethodoptionsauthtokensitems",
     "AuthenticationMethodOptionsS3CollectorConf": ".authenticationmethodoptionss3collectorconf",
@@ -12331,6 +12362,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputAuthTokensExtTypedDict": ".createinput_request",
     "CreateInputAuthenticationMethodEdgePrometheus": ".createinput_request",
     "CreateInputAuthenticationMethodElastic": ".createinput_request",
+    "CreateInputAuthenticationMethodMicrosoftGraph": ".createinput_request",
+    "CreateInputAuthenticationMethodOffice365MsgTrace": ".createinput_request",
     "CreateInputAuthenticationTypeElastic": ".createinput_request",
     "CreateInputAuthenticationTypeSplunkSearch": ".createinput_request",
     "CreateInputCompression": ".createinput_request",
@@ -12705,6 +12738,8 @@ _dynamic_imports: dict[str, str] = {
     "CreateInputSystemByPackAuthTokensExtTypedDict": ".createinputsystembypack_request",
     "CreateInputSystemByPackAuthenticationMethodEdgePrometheus": ".createinputsystembypack_request",
     "CreateInputSystemByPackAuthenticationMethodElastic": ".createinputsystembypack_request",
+    "CreateInputSystemByPackAuthenticationMethodMicrosoftGraph": ".createinputsystembypack_request",
+    "CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace": ".createinputsystembypack_request",
     "CreateInputSystemByPackAuthenticationTypeElastic": ".createinputsystembypack_request",
     "CreateInputSystemByPackAuthenticationTypeSplunkSearch": ".createinputsystembypack_request",
     "CreateInputSystemByPackCompression": ".createinputsystembypack_request",
@@ -14134,6 +14169,8 @@ _dynamic_imports: dict[str, str] = {
     "FunctionConfSchemaLocalSearchRulesetRunner": ".functionconfschemalocalsearchrulesetrunner",
     "FunctionConfSchemaLocalSearchRulesetRunnerTypedDict": ".functionconfschemalocalsearchrulesetrunner",
     "RulesetType": ".functionconfschemalocalsearchrulesetrunner",
+    "FunctionConfSchemaLocalSearchSchemaMapper": ".functionconfschemalocalsearchschemamapper",
+    "FunctionConfSchemaLocalSearchSchemaMapperTypedDict": ".functionconfschemalocalsearchschemamapper",
     "FunctionConfSchemaLocalSearchTransformer": ".functionconfschemalocalsearchtransformer",
     "FunctionConfSchemaLocalSearchTransformerTypedDict": ".functionconfschemalocalsearchtransformer",
     "Condition": ".functionconfschemanotificationpolicies",
@@ -14265,6 +14302,9 @@ _dynamic_imports: dict[str, str] = {
     "FunctionLocalSearchRulesetRunner": ".functionlocalsearchrulesetrunner",
     "FunctionLocalSearchRulesetRunnerID": ".functionlocalsearchrulesetrunner",
     "FunctionLocalSearchRulesetRunnerTypedDict": ".functionlocalsearchrulesetrunner",
+    "FunctionLocalSearchSchemaMapper": ".functionlocalsearchschemamapper",
+    "FunctionLocalSearchSchemaMapperID": ".functionlocalsearchschemamapper",
+    "FunctionLocalSearchSchemaMapperTypedDict": ".functionlocalsearchschemamapper",
     "FunctionLocalSearchTransformer": ".functionlocalsearchtransformer",
     "FunctionLocalSearchTransformerID": ".functionlocalsearchtransformer",
     "FunctionLocalSearchTransformerTypedDict": ".functionlocalsearchtransformer",
@@ -15135,6 +15175,7 @@ _dynamic_imports: dict[str, str] = {
     "InputMetricsType": ".inputmetrics",
     "InputMetricsTypedDict": ".inputmetrics",
     "InputMicrosoftGraph": ".inputmicrosoftgraph",
+    "InputMicrosoftGraphAuthenticationMethod": ".inputmicrosoftgraph",
     "InputMicrosoftGraphType": ".inputmicrosoftgraph",
     "InputMicrosoftGraphTypedDict": ".inputmicrosoftgraph",
     "InputModelDrivenTelemetry": ".inputmodeldriventelemetry",
@@ -15152,6 +15193,7 @@ _dynamic_imports: dict[str, str] = {
     "InputOffice365MgmtType": ".inputoffice365mgmt",
     "InputOffice365MgmtTypedDict": ".inputoffice365mgmt",
     "InputOffice365MsgTrace": ".inputoffice365msgtrace",
+    "InputOffice365MsgTraceAuthenticationMethod": ".inputoffice365msgtrace",
     "InputOffice365MsgTraceType": ".inputoffice365msgtrace",
     "InputOffice365MsgTraceTypedDict": ".inputoffice365msgtrace",
     "InputOffice365Service": ".inputoffice365service",
@@ -16162,6 +16204,9 @@ _dynamic_imports: dict[str, str] = {
     "PipelineFunctionLocalSearchRulesetRunner": ".pipelinefunctionlocalsearchrulesetrunner",
     "PipelineFunctionLocalSearchRulesetRunnerID": ".pipelinefunctionlocalsearchrulesetrunner",
     "PipelineFunctionLocalSearchRulesetRunnerTypedDict": ".pipelinefunctionlocalsearchrulesetrunner",
+    "PipelineFunctionLocalSearchSchemaMapper": ".pipelinefunctionlocalsearchschemamapper",
+    "PipelineFunctionLocalSearchSchemaMapperID": ".pipelinefunctionlocalsearchschemamapper",
+    "PipelineFunctionLocalSearchSchemaMapperTypedDict": ".pipelinefunctionlocalsearchschemamapper",
     "PipelineFunctionLocalSearchTransformer": ".pipelinefunctionlocalsearchtransformer",
     "PipelineFunctionLocalSearchTransformerID": ".pipelinefunctionlocalsearchtransformer",
     "PipelineFunctionLocalSearchTransformerTypedDict": ".pipelinefunctionlocalsearchtransformer",

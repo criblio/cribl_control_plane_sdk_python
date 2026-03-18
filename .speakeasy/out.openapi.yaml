@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1773308067069-e6ac7415
+  version: 4.17.1-alpha.1773821436593-97dab7cb
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -2979,6 +2979,52 @@ components:
         - name
         - uischema
         - version
+    FunctionConfSchemaLocalSearchSchemaMapper:
+      type: object
+    FunctionLocalSearchSchemaMapper:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - local_search_schema_mapper
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          additionalProperties: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
     FunctionConfSchemaLocalSearchTransformer:
       type: object
     FunctionLocalSearchTransformer:
@@ -3111,7 +3157,7 @@ components:
         ignoreCase:
           type: boolean
           title: Ignore case
-          description: "Whether to ignore case when performing lookups using Match Mode: Exact"
+          description: "Whether to ignore case when performing lookups using Match Mode: Regex."
     FunctionLookup:
       type: object
       properties:
@@ -5956,6 +6002,7 @@ components:
         - $ref: "#/components/schemas/FunctionLimit"
         - $ref: "#/components/schemas/FunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/FunctionLocalSearchSchemaMapper"
         - $ref: "#/components/schemas/FunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/FunctionLookup"
         - $ref: "#/components/schemas/FunctionMask"
@@ -6025,6 +6072,7 @@ components:
           limit: "#/components/schemas/FunctionLimit"
           local_search_datatype_parser: "#/components/schemas/FunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+          local_search_schema_mapper: "#/components/schemas/FunctionLocalSearchSchemaMapper"
           local_search_transformer: "#/components/schemas/FunctionLocalSearchTransformer"
           lookup: "#/components/schemas/FunctionLookup"
           mask: "#/components/schemas/FunctionMask"
@@ -7120,6 +7168,41 @@ components:
           type: boolean
         conf:
           $ref: "#/components/schemas/FunctionConfSchemaLocalSearchRulesetRunner"
+        groupId:
+          title: Group ID
+          description: Group ID
+          type: string
+    PipelineFunctionLocalSearchSchemaMapper:
+      type: object
+      required:
+        - id
+        - conf
+      additionalProperties: false
+      properties:
+        filter:
+          title: Filter
+          description: Filter that selects data to be fed through this Function
+          type: string
+        id:
+          title: ID
+          description: Function ID
+          type: string
+          enum:
+            - local_search_schema_mapper
+        description:
+          title: Description
+          description: Simple description of this step
+          type: string
+        disabled:
+          title: Disabled
+          description: If true, data will not be pushed through this function
+          type: boolean
+        final:
+          title: Final
+          description: If enabled, stops the results of this Function from being passed to the downstream Functions
+          type: boolean
+        conf:
+          $ref: "#/components/schemas/FunctionConfSchemaLocalSearchSchemaMapper"
         groupId:
           title: Group ID
           description: Group ID
@@ -8534,6 +8617,7 @@ components:
         - $ref: "#/components/schemas/PipelineFunctionLimit"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/PipelineFunctionLocalSearchSchemaMapper"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/PipelineFunctionLookup"
         - $ref: "#/components/schemas/PipelineFunctionMask"
@@ -8603,6 +8687,7 @@ components:
           limit: "#/components/schemas/PipelineFunctionLimit"
           local_search_datatype_parser: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+          local_search_schema_mapper: "#/components/schemas/PipelineFunctionLocalSearchSchemaMapper"
           local_search_transformer: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
           lookup: "#/components/schemas/PipelineFunctionLookup"
           mask: "#/components/schemas/PipelineFunctionMask"
@@ -9865,7 +9950,7 @@ components:
         loginBody:
           type: string
           title: POST body
-          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =.
         getAuthTokenFromHeader:
           type: boolean
           title: Get auth token from header
@@ -9911,7 +9996,7 @@ components:
         loginBody:
           type: string
           title: POST body
-          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =.
         getAuthTokenFromHeader:
           type: boolean
           title: Get auth token from header
@@ -14383,11 +14468,11 @@ components:
         tenantId:
           type: string
           title: Tenant ID
-          description: Office 365 Azure Tenant ID
+          description: Microsoft 365 Azure Tenant ID
         appId:
           type: string
           title: App ID
-          description: Office 365 Azure Application ID
+          description: Microsoft 365 Azure Application ID
         timeout:
           type: number
           title: Request timeout (seconds)
@@ -14437,7 +14522,7 @@ components:
               contentType:
                 type: string
                 title: Content Type
-                description: Office 365 Management Activity API Content Type
+                description: Microsoft 365 Management Activity API Content Type
               description:
                 type: string
                 title: Interval Description
@@ -14452,11 +14537,11 @@ components:
               enabled:
                 type: boolean
                 title: Enabled
-          description: "Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."
+          description: "Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."
         ingestionLag:
           type: number
           title: Ingestion lag (minutes)
-          description: Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval.
+          description: Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval.
           minimum: 0
           maximum: 7200
         retryRules:
@@ -14469,7 +14554,7 @@ components:
         clientSecret:
           type: string
           title: Client secret
-          description: Office 365 Azure client secret
+          description: Microsoft 365 Azure client secret
         textSecret:
           type: string
           title: Client secret (text secret)
@@ -14538,11 +14623,11 @@ components:
         tenantId:
           type: string
           title: Tenant ID
-          description: Office 365 Azure Tenant ID
+          description: Microsoft 365 Azure Tenant ID
         appId:
           type: string
           title: App ID
-          description: Office 365 Azure Application ID
+          description: Microsoft 365 Azure Application ID
         timeout:
           type: number
           title: Request timeout (seconds)
@@ -14588,7 +14673,7 @@ components:
               contentType:
                 type: string
                 title: Content Type
-                description: Office 365 Services API Content Type
+                description: Microsoft 365 Services API Content Type
               description:
                 type: string
                 title: Interval Description
@@ -14603,7 +14688,7 @@ components:
               enabled:
                 type: boolean
                 title: Enabled
-          description: "Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."
+          description: "Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."
         retryRules:
           $ref: "#/components/schemas/RetryRulesType1"
         authType:
@@ -14614,7 +14699,7 @@ components:
         clientSecret:
           type: string
           title: Client secret
-          description: Office 365 Azure client secret
+          description: Microsoft 365 Azure client secret
         textSecret:
           type: string
           title: Client secret (text secret)
@@ -14704,7 +14789,16 @@ components:
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          title: Authentication method
+          type: string
+          enum:
+            - manual
+            - secret
+            - oauth
+            - oauthSecret
+            - oauthCert
+          description: Select authentication method.
+          x-speakeasy-unknown-values: allow
         keepAliveTime:
           type: number
           title: Keep alive time (seconds)
@@ -14875,7 +14969,14 @@ components:
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          title: Authentication method
+          type: string
+          enum:
+            - oauth
+            - oauthSecret
+            - oauthCert
+          description: Select authentication method.
+          x-speakeasy-unknown-values: allow
         keepAliveTime:
           type: number
           title: Keep alive time (seconds)
@@ -14922,18 +15023,6 @@ components:
         description:
           type: string
           title: Description
-        username:
-          type: string
-          title: Username
-          description: Username to run Microsoft Graph API call.
-        password:
-          type: string
-          title: Password
-          description: Password to run Microsoft Graph API call.
-        credentialsSecret:
-          type: string
-          title: Credentials secret
-          description: Select or create a secret that references your credentials.
         clientSecret:
           type: string
           title: Client secret
@@ -25788,7 +25877,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         description:
           type: string
           title: Description
@@ -28307,7 +28396,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -28491,7 +28580,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         description:
           type: string
           title: Description
@@ -30476,7 +30565,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -31737,7 +31826,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -38297,21 +38386,25 @@ components:
         role:
           type: string
           enum:
-            - standby
             - primary
+            - standby
+          description: "Leader Node role: <code>primary</code> or <code>standby</code>."
           x-speakeasy-unknown-values: allow
         startTime:
-          type: number
+          type: integer
+          description: Timestamp (in Unix time) when the Cribl process started.
         status:
           type: string
           enum:
-            - shutting down
             - healthy
+            - shutting down
             - standby
+          description: "Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."
           x-speakeasy-unknown-values: allow
       required:
         - startTime
         - status
+      description: Health status of the Leader or Worker Node.
     CountedPackInstallInfo:
       type: object
       properties:
@@ -39727,17 +39820,17 @@ components:
     SubscriptionPlanOptions:
       type: string
       title: Subscription plan
-      description: Office 365 subscription plan for your organization, typically Office 365 Enterprise
+      description: Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise
       enum:
         - enterprise_gcc
         - gcc
         - gcc_high
         - dod
       x-speakeasy-enum-descriptions:
-        - Office 365 Enterprise
-        - Office 365 GCC
-        - Office 365 GCC High
-        - Office 365 DoD
+        - Microsoft 365 Enterprise
+        - Microsoft 365 GCC
+        - Microsoft 365 GCC High
+        - Microsoft 365 DoD
       x-speakeasy-unknown-values: allow
     LogLevelOptionsContentConfigItems:
       type: string
@@ -39756,17 +39849,6 @@ components:
         - manual
         - secret
       description: Enter client secret directly, or select a stored secret
-      x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions2:
-      title: Authentication method
-      type: string
-      enum:
-        - manual
-        - secret
-        - oauth
-        - oauthSecret
-        - oauthCert
-      description: Select authentication method.
       x-speakeasy-unknown-values: allow
     LogLevelOptions:
       type: string
@@ -40326,7 +40408,7 @@ components:
         - Amazon S3 Managed Key
         - AWS KMS Managed Key
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions3:
+    AuthenticationMethodOptions2:
       title: Authentication method
       type: string
       enum:
@@ -42397,7 +42479,7 @@ components:
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365Mgmt:
-      summary: Office 365 Management Activity
+      summary: Microsoft 365 Management Activity
       value:
         id: office365-mgmt-source
         type: office365_mgmt
@@ -42416,7 +42498,7 @@ components:
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365MsgTrace:
-      summary: Office 365 Message Trace
+      summary: Microsoft 365 Message Trace
       value:
         id: office365-msg-trace-source
         type: office365_msg_trace
@@ -42425,7 +42507,7 @@ components:
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365Service:
-      summary: Office 365 Services
+      summary: Microsoft 365 Services
       value:
         id: office365-service-source
         type: office365_service
@@ -44607,6 +44689,27 @@ components:
           - guid-12345678-abcd-1234-abcd-123456789abc
           - guid-87654321-dcba-4321-dcba-cba987654321
           - guid-11111111-2222-3333-4444-555555555555
+    HealthExamplesHealthyPrimary:
+      summary: Healthy (primary)
+      description: Server is healthy and acting as primary.
+      value:
+        status: healthy
+        startTime: 1700000000000
+        role: primary
+    Health420ExamplesShuttingDown:
+      summary: Shutting down
+      description: Returned when the server is in the process of shutting down.
+      value:
+        status: shutting down
+        startTime: 1700000000000
+        role: primary
+    Health420ExamplesStandby:
+      summary: Standby
+      description: Returned when the server is in standby mode.
+      value:
+        status: standby
+        startTime: 1700000000000
+        role: standby
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
       value:
@@ -49963,8 +50066,8 @@ paths:
       x-speakeasy-name-override: get
       x-cribl-internal: false
       x-cribl-availability: both
-      summary: Retrieve health status of the server
-      description: Get the current health status of the server.
+      summary: Get the health status of the server
+      description: Get the current health status of the server (Leader or Worker Node).
       security: []
       responses:
         "200":
@@ -49973,12 +50076,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthServerStatus"
+              examples:
+                HealthExamplesHealthyPrimary:
+                  $ref: "#/components/examples/HealthExamplesHealthyPrimary"
         "420":
           description: Server is shutting down or in standby mode
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthServerStatus"
+              examples:
+                Health420ExamplesShuttingDown:
+                  $ref: "#/components/examples/Health420ExamplesShuttingDown"
+                Health420ExamplesStandby:
+                  $ref: "#/components/examples/Health420ExamplesStandby"
         "500":
           description: Unexpected error
           content:

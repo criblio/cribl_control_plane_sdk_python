@@ -3,7 +3,6 @@
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
 from .authenticationmethodoptions1 import AuthenticationMethodOptions1
-from .authenticationmethodoptions2 import AuthenticationMethodOptions2
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
@@ -2082,6 +2081,16 @@ class CreateInputTypeMicrosoftGraph(str, Enum):
     MICROSOFT_GRAPH = "microsoft_graph"
 
 
+class CreateInputAuthenticationMethodMicrosoftGraph(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Select authentication method."""
+
+    OAUTH = "oauth"
+    OAUTH_SECRET = "oauthSecret"
+    OAUTH_CERT = "oauthCert"
+
+
 class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
@@ -2112,7 +2121,7 @@ class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[CreateInputAuthenticationMethodMicrosoftGraph]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -2134,12 +2143,6 @@ class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
     description: NotRequired[str]
-    username: NotRequired[str]
-    r"""Username to run Microsoft Graph API call."""
-    password: NotRequired[str]
-    r"""Password to run Microsoft Graph API call."""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials."""
     client_secret: NotRequired[str]
     r"""client_secret to pass in the OAuth request parameter."""
     tenant_id: NotRequired[str]
@@ -2149,7 +2152,7 @@ class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Resource to pass in the OAuth request parameter."""
     plan_type: NotRequired[SubscriptionPlanOptions]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
@@ -2214,7 +2217,8 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationMethodMicrosoftGraph],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
 
@@ -2263,17 +2267,6 @@ class CreateInputInputMicrosoftGraph(BaseModel):
 
     description: Optional[str] = None
 
-    username: Optional[str] = None
-    r"""Username to run Microsoft Graph API call."""
-
-    password: Optional[str] = None
-    r"""Password to run Microsoft Graph API call."""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials."""
-
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""client_secret to pass in the OAuth request parameter."""
 
@@ -2289,7 +2282,7 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = None
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
@@ -2322,7 +2315,7 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.CreateInputAuthenticationMethodMicrosoftGraph(value)
             except ValueError:
                 return value
         return value
@@ -2373,9 +2366,6 @@ class CreateInputInputMicrosoftGraph(BaseModel):
                 "logLevel",
                 "retryRules",
                 "description",
-                "username",
-                "password",
-                "credentialsSecret",
                 "clientSecret",
                 "tenantId",
                 "clientId",
@@ -2405,6 +2395,18 @@ class CreateInputInputMicrosoftGraph(BaseModel):
 
 class CreateInputTypeOffice365MsgTrace(str, Enum):
     OFFICE365_MSG_TRACE = "office365_msg_trace"
+
+
+class CreateInputAuthenticationMethodOffice365MsgTrace(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Select authentication method."""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+    OAUTH = "oauth"
+    OAUTH_SECRET = "oauthSecret"
+    OAUTH_CERT = "oauthCert"
 
 
 class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
@@ -2437,7 +2439,7 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[CreateInputAuthenticationMethodOffice365MsgTrace]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -2474,7 +2476,7 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Resource to pass in the OAuth request parameter."""
     plan_type: NotRequired[SubscriptionPlanOptions]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
@@ -2539,7 +2541,8 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationMethodOffice365MsgTrace],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
 
@@ -2614,7 +2617,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = None
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
@@ -2647,7 +2650,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.CreateInputAuthenticationMethodOffice365MsgTrace(value)
             except ValueError:
                 return value
         return value
@@ -2734,7 +2737,7 @@ class CreateInputTypeOffice365Service(str, Enum):
 
 class CreateInputContentConfigOffice365ServiceTypedDict(TypedDict):
     content_type: NotRequired[str]
-    r"""Office 365 Services API Content Type"""
+    r"""Microsoft 365 Services API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
@@ -2745,7 +2748,7 @@ class CreateInputContentConfigOffice365ServiceTypedDict(TypedDict):
 
 class CreateInputContentConfigOffice365Service(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
-    r"""Office 365 Services API Content Type"""
+    r"""Microsoft 365 Services API Content Type"""
 
     description: Optional[str] = None
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
@@ -2792,9 +2795,9 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputTypeOffice365Service
     tenant_id: str
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
     app_id: str
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2810,7 +2813,7 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     plan_type: NotRequired[SubscriptionPlanOptions]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout, use 0 to disable"""
     keep_alive_time: NotRequired[float]
@@ -2826,13 +2829,13 @@ class CreateInputInputOffice365ServiceTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     content_config: NotRequired[List[CreateInputContentConfigOffice365ServiceTypedDict]]
-    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions1]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     template_tenant_id: NotRequired[str]
@@ -2850,10 +2853,10 @@ class CreateInputInputOffice365Service(BaseModel):
     type: CreateInputTypeOffice365Service
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
 
     app_id: Annotated[str, pydantic.Field(alias="appId")]
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
 
     disabled: Optional[bool] = None
 
@@ -2882,7 +2885,7 @@ class CreateInputInputOffice365Service(BaseModel):
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = None
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout, use 0 to disable"""
@@ -2915,7 +2918,7 @@ class CreateInputInputOffice365Service(BaseModel):
         Optional[List[CreateInputContentConfigOffice365Service]],
         pydantic.Field(alias="contentConfig"),
     ] = None
-    r"""Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
 
     retry_rules: Annotated[
         Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
@@ -2929,7 +2932,7 @@ class CreateInputInputOffice365Service(BaseModel):
     description: Optional[str] = None
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -3018,7 +3021,7 @@ class CreateInputTypeOffice365Mgmt(str, Enum):
 
 class CreateInputContentConfigOffice365MgmtTypedDict(TypedDict):
     content_type: NotRequired[str]
-    r"""Office 365 Management Activity API Content Type"""
+    r"""Microsoft 365 Management Activity API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
@@ -3029,7 +3032,7 @@ class CreateInputContentConfigOffice365MgmtTypedDict(TypedDict):
 
 class CreateInputContentConfigOffice365Mgmt(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
-    r"""Office 365 Management Activity API Content Type"""
+    r"""Microsoft 365 Management Activity API Content Type"""
 
     description: Optional[str] = None
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
@@ -3076,11 +3079,11 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputTypeOffice365Mgmt
     plan_type: SubscriptionPlanOptions
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     tenant_id: str
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
     app_id: str
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3112,15 +3115,15 @@ class CreateInputInputOffice365MgmtTypedDict(TypedDict):
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
     content_config: NotRequired[List[CreateInputContentConfigOffice365MgmtTypedDict]]
-    r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
-    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
+    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions1]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     template_tenant_id: NotRequired[str]
@@ -3140,13 +3143,13 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     type: CreateInputTypeOffice365Mgmt
 
     plan_type: Annotated[SubscriptionPlanOptions, pydantic.Field(alias="planType")]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
 
     app_id: Annotated[str, pydantic.Field(alias="appId")]
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
 
     disabled: Optional[bool] = None
 
@@ -3208,12 +3211,12 @@ class CreateInputInputOffice365Mgmt(BaseModel):
         Optional[List[CreateInputContentConfigOffice365Mgmt]],
         pydantic.Field(alias="contentConfig"),
     ] = None
-    r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
 
     ingestion_lag: Annotated[Optional[float], pydantic.Field(alias="ingestionLag")] = (
         None
     )
-    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
+    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
 
     retry_rules: Annotated[
         Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
@@ -3227,7 +3230,7 @@ class CreateInputInputOffice365Mgmt(BaseModel):
     description: Optional[str] = None
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -8752,28 +8755,28 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputSplunkTypedDict,
         CreateInputInputFileTypedDict,
         CreateInputInputOffice365MgmtTypedDict,
-        CreateInputInputWefTypedDict,
         CreateInputInputAppscopeTypedDict,
-        CreateInputInputWizWebhookTypedDict,
+        CreateInputInputWefTypedDict,
         CreateInputInputHTTPRawTypedDict,
+        CreateInputInputWizWebhookTypedDict,
         CreateInputInputHTTPTypedDict,
-        CreateInputInputKafkaTypedDict,
+        CreateInputInputConfluentCloudTypedDict,
         CreateInputInputZscalerHecTypedDict,
         CreateInputInputCriblLakeHTTPTypedDict,
         CreateInputInputCloudflareHecTypedDict,
-        CreateInputInputConfluentCloudTypedDict,
-        CreateInputInputEventhubTypedDict,
+        CreateInputInputKafkaTypedDict,
         CreateInputInputLokiTypedDict,
+        CreateInputInputEventhubTypedDict,
         CreateInputInputPrometheusRwTypedDict,
-        CreateInputInputAzureBlobTypedDict,
         CreateInputInputOpenTelemetryTypedDict,
+        CreateInputInputAzureBlobTypedDict,
         CreateInputInputElasticTypedDict,
+        CreateInputInputMicrosoftGraphTypedDict,
+        CreateInputInputSplunkSearchTypedDict,
         CreateInputInputSqsTypedDict,
         CreateInputInputSplunkHecTypedDict,
-        CreateInputInputSplunkSearchTypedDict,
         CreateInputInputKinesisTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
-        CreateInputInputMicrosoftGraphTypedDict,
         CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
         CreateInputInputMskTypedDict,

@@ -4,7 +4,7 @@ from __future__ import annotations
 from .acknowledgmentsoptions import AcknowledgmentsOptions
 from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .authenticationmethodoptions3 import AuthenticationMethodOptions3
+from .authenticationmethodoptions2 import AuthenticationMethodOptions2
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
@@ -249,7 +249,7 @@ class CreateOutputSystemByPackOutputNewrelicEventsTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions3]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     custom_url: NotRequired[str]
@@ -392,7 +392,7 @@ class CreateOutputSystemByPackOutputNewrelicEvents(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -506,7 +506,7 @@ class CreateOutputSystemByPackOutputNewrelicEvents(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions3(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -691,7 +691,7 @@ class CreateOutputSystemByPackOutputNewrelicTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions3]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter API key directly, or select a stored secret"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
@@ -837,7 +837,7 @@ class CreateOutputSystemByPackOutputNewrelic(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -951,7 +951,7 @@ class CreateOutputSystemByPackOutputNewrelic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions3(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value
@@ -6006,7 +6006,7 @@ class CreateOutputSystemByPackOutputHoneycombTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[AuthenticationMethodOptions3]
+    auth_type: NotRequired[AuthenticationMethodOptions2]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
@@ -6134,7 +6134,7 @@ class CreateOutputSystemByPackOutputHoneycomb(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions3], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
     ] = None
     r"""Enter API key directly, or select a stored secret"""
 
@@ -6217,7 +6217,7 @@ class CreateOutputSystemByPackOutputHoneycomb(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions3(value)
+                return models.AuthenticationMethodOptions2(value)
             except ValueError:
                 return value
         return value

@@ -81,7 +81,7 @@ jobs:
 
   dispatch-dev-stage:
     needs: generate
-    if: github.event_name == 'schedule' && needs.generate.result != 'skipped'
+    if: always() && github.event_name == 'schedule'
     runs-on: ubuntu-latest
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

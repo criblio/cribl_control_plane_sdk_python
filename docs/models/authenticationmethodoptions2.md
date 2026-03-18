@@ -1,6 +1,6 @@
 # AuthenticationMethodOptions2
 
-Select authentication method.
+Enter API key directly, or select a stored secret
 
 ## Example Usage
 
@@ -15,10 +15,7 @@ value = AuthenticationMethodOptions2.MANUAL
 
 ## Values
 
-| Name           | Value          |
-| -------------- | -------------- |
-| `MANUAL`       | manual         |
-| `SECRET`       | secret         |
-| `OAUTH`        | oauth          |
-| `OAUTH_SECRET` | oauthSecret    |
-| `OAUTH_CERT`   | oauthCert      |
+| Name     | Value    |
+| -------- | -------- |
+| `MANUAL` | manual   |
+| `SECRET` | secret   |

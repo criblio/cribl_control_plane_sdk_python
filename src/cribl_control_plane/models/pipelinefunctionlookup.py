@@ -120,7 +120,7 @@ class PipelineFunctionLookupConfTypedDict(TypedDict):
     add_to_event: NotRequired[bool]
     r"""Add the looked-up values to _raw, as key=value pairs"""
     ignore_case: NotRequired[bool]
-    r"""Whether to ignore case when performing lookups using Match Mode: Exact"""
+    r"""Whether to ignore case when performing lookups using Match Mode: Regex."""
 
 
 class PipelineFunctionLookupConf(BaseModel):
@@ -155,7 +155,7 @@ class PipelineFunctionLookupConf(BaseModel):
     r"""Add the looked-up values to _raw, as key=value pairs"""
 
     ignore_case: Annotated[Optional[bool], pydantic.Field(alias="ignoreCase")] = None
-    r"""Whether to ignore case when performing lookups using Match Mode: Exact"""
+    r"""Whether to ignore case when performing lookups using Match Mode: Regex."""
 
     @field_serializer("match_mode")
     def serialize_match_mode(self, value):

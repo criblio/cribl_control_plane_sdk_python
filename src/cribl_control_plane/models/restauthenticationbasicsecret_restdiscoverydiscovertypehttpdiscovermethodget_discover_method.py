@@ -4201,7 +4201,7 @@ class RestAuthenticationLoginSecretTypedDict(TypedDict):
     credentials_secret: str
     r"""Select or create a stored secret that references your login credentials"""
     login_body: str
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
     auth_header_expr: str
     r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     collect_url: str
@@ -4252,7 +4252,7 @@ class RestAuthenticationLoginSecret(BaseModel):
     r"""Select or create a stored secret that references your login credentials"""
 
     login_body: Annotated[str, pydantic.Field(alias="loginBody")]
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
 
     auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
     r"""JavaScript expression to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
@@ -6052,7 +6052,7 @@ class RestAuthenticationLoginTypedDict(TypedDict):
     username: str
     password: str
     login_body: str
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
     auth_header_expr: str
     r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
     collect_url: str
@@ -6104,7 +6104,7 @@ class RestAuthenticationLogin(BaseModel):
     password: str
 
     login_body: Annotated[str, pydantic.Field(alias="loginBody")]
-    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
 
     auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
     r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""

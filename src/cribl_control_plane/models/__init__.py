@@ -16,6 +16,10 @@ if TYPE_CHECKING:
         AdditionalPropertiesTypeJobInfoStats,
         AdditionalPropertiesTypeJobInfoStatsTypedDict,
     )
+    from .additionalpropertiestyperoutesgroups import (
+        AdditionalPropertiesTypeRoutesGroups,
+        AdditionalPropertiesTypeRoutesGroupsTypedDict,
+    )
     from .apitypesystemsettingsconf import (
         APITypeSystemSettingsConf,
         APITypeSystemSettingsConfTypedDict,
@@ -6074,7 +6078,9 @@ if TYPE_CHECKING:
     )
     from .routecomment import RouteComment, RouteCommentTypedDict
     from .routeconf import RouteConf, RouteConfTypedDict
-    from .routes import Routes, RoutesGroups, RoutesGroupsTypedDict, RoutesTypedDict
+    from .routeconfinput import RouteConfInput, RouteConfInputTypedDict
+    from .routes import Routes, RoutesTypedDict
+    from .routesinput import RoutesInput, RoutesInputTypedDict
     from .runnablejob import RunnableJob, RunnableJobTypedDict
     from .runnablejobcollection import (
         CaptureSettings,
@@ -6475,6 +6481,8 @@ __all__ = [
     "AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict",
     "AdditionalPropertiesTypeJobInfoStats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict",
+    "AdditionalPropertiesTypeRoutesGroups",
+    "AdditionalPropertiesTypeRoutesGroupsTypedDict",
     "AdditionalProperty",
     "AdditionalPropertyTypedDict",
     "Aggregation",
@@ -11634,10 +11642,12 @@ __all__ = [
     "RouteComment",
     "RouteCommentTypedDict",
     "RouteConf",
+    "RouteConfInput",
+    "RouteConfInputTypedDict",
     "RouteConfTypedDict",
     "Routes",
-    "RoutesGroups",
-    "RoutesGroupsTypedDict",
+    "RoutesInput",
+    "RoutesInputTypedDict",
     "RoutesTypedDict",
     "RulesetType",
     "RunSettingsTypeRunnableJobCollectionSchedule",
@@ -12139,6 +12149,8 @@ _dynamic_imports: dict[str, str] = {
     "AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict": ".additionalpropertiestypeenrichedfieldssavedstate",
     "AdditionalPropertiesTypeJobInfoStats": ".additionalpropertiestypejobinfostats",
     "AdditionalPropertiesTypeJobInfoStatsTypedDict": ".additionalpropertiestypejobinfostats",
+    "AdditionalPropertiesTypeRoutesGroups": ".additionalpropertiestyperoutesgroups",
+    "AdditionalPropertiesTypeRoutesGroupsTypedDict": ".additionalpropertiestyperoutesgroups",
     "APITypeSystemSettingsConf": ".apitypesystemsettingsconf",
     "APITypeSystemSettingsConfTypedDict": ".apitypesystemsettingsconf",
     "AuthenticationMethodOptions": ".authenticationmethodoptions",
@@ -17506,10 +17518,12 @@ _dynamic_imports: dict[str, str] = {
     "RouteCommentTypedDict": ".routecomment",
     "RouteConf": ".routeconf",
     "RouteConfTypedDict": ".routeconf",
+    "RouteConfInput": ".routeconfinput",
+    "RouteConfInputTypedDict": ".routeconfinput",
     "Routes": ".routes",
-    "RoutesGroups": ".routes",
-    "RoutesGroupsTypedDict": ".routes",
     "RoutesTypedDict": ".routes",
+    "RoutesInput": ".routesinput",
+    "RoutesInputTypedDict": ".routesinput",
     "RunnableJob": ".runnablejob",
     "RunnableJobTypedDict": ".runnablejob",
     "CaptureSettings": ".runnablejobcollection",

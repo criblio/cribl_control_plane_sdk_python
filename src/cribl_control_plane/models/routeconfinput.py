@@ -10,11 +10,7 @@ from typing import Dict, List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class RouteConfTypedDict(TypedDict):
-    final: bool
-    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events. Defaults to <code>true</code> when not specified."""
-    id: str
-    r"""Unique identifier for the Route."""
+class RouteConfInputTypedDict(TypedDict):
     name: str
     r"""Name of the Route."""
     pipeline: str
@@ -38,15 +34,13 @@ class RouteConfTypedDict(TypedDict):
     output_expression: NotRequired[str]
     r"""JavaScript expression to evaluate for dynamic Destination selection. Evaluation occurs when the Route is constructed, not for each event."""
     target_context: NotRequired[TargetContext]
+    final: NotRequired[bool]
+    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events. Defaults to <code>true</code> if omitted."""
+    id: NotRequired[str]
+    r"""Unique identifier for the Route. If omitted, the server generates a deterministic identifier."""
 
 
-class RouteConf(BaseModel):
-    final: bool
-    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events. Defaults to <code>true</code> when not specified."""
-
-    id: str
-    r"""Unique identifier for the Route."""
-
+class RouteConfInput(BaseModel):
     name: str
     r"""Name of the Route."""
 
@@ -88,6 +82,12 @@ class RouteConf(BaseModel):
         Optional[TargetContext], pydantic.Field(alias="targetContext")
     ] = None
 
+    final: Optional[bool] = None
+    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events. Defaults to <code>true</code> if omitted."""
+
+    id: Optional[str] = None
+    r"""Unique identifier for the Route. If omitted, the server generates a deterministic identifier."""
+
     @field_serializer("target_context")
     def serialize_target_context(self, value):
         if isinstance(value, str):
@@ -111,6 +111,8 @@ class RouteConf(BaseModel):
                 "output",
                 "outputExpression",
                 "targetContext",
+                "final",
+                "id",
             ]
         )
         serialized = handler(self)
@@ -128,6 +130,6 @@ class RouteConf(BaseModel):
 
 
 try:
-    RouteConf.model_rebuild()
+    RouteConfInput.model_rebuild()
 except NameError:
     pass

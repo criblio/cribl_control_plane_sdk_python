@@ -1,13 +1,11 @@
 # Role
 
-Leader Node role: <code>primary</code> or <code>standby</code>.
-
 ## Example Usage
 
 ```python
 from cribl_control_plane.models import Role
 
-value = Role.PRIMARY
+value = Role.STANDBY
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```
@@ -17,5 +15,5 @@ value = Role.PRIMARY
 
 | Name      | Value     |
 | --------- | --------- |
-| `PRIMARY` | primary   |
 | `STANDBY` | standby   |
+| `PRIMARY` | primary   |

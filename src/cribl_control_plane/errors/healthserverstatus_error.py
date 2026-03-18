@@ -12,18 +12,13 @@ from typing_extensions import Annotated
 
 
 class HealthServerStatusErrorData(BaseModel):
-    start_time: Annotated[int, pydantic.Field(alias="startTime")]
-    r"""Timestamp (in Unix time) when the Cribl process started."""
+    start_time: Annotated[float, pydantic.Field(alias="startTime")]
     status: models_healthserverstatus.HealthServerStatusStatus
-    r"""Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."""
     role: Optional[models_healthserverstatus.Role] = None
-    r"""Leader Node role: <code>primary</code> or <code>standby</code>."""
 
 
 @dataclass(unsafe_hash=True)
 class HealthServerStatusError(CriblControlPlaneError):
-    r"""Health status of the Leader or Worker Node."""
-
     data: HealthServerStatusErrorData = field(hash=False)
 
     def __init__(

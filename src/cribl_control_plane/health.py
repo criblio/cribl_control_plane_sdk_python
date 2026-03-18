@@ -19,9 +19,9 @@ class Health(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.HealthServerStatus:
-        r"""Get the health status of the server
+        r"""Retrieve health status of the server
 
-        Get the current health status of the server (Leader or Worker Node).
+        Get the current health status of the server.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -106,9 +106,9 @@ class Health(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.HealthServerStatus:
-        r"""Get the health status of the server
+        r"""Retrieve health status of the server
 
-        Get the current health status of the server (Leader or Worker Node).
+        Get the current health status of the server.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

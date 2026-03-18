@@ -1,4 +1,4 @@
-# Routes
+# RoutesInput
 
 
 ## Fields
@@ -8,4 +8,4 @@
 | `comments`                                                                                                  | List[[models.RouteComment](../models/routecomment.md)]                                                      | :heavy_minus_sign:                                                                                          | Array of user-provided comments that describe or annotate Routes.                                           |
 | `groups`                                                                                                    | Dict[str, [models.AdditionalPropertiesTypeRoutesGroups](../models/additionalpropertiestyperoutesgroups.md)] | :heavy_minus_sign:                                                                                          | Information about the Route Groups that the Route is associated with.                                       |
 | `id`                                                                                                        | *str*                                                                                                       | :heavy_check_mark:                                                                                          | Unique identifier for the Routing table. The supported value is <code>default</code>.                       |
-| `routes`                                                                                                    | List[[models.RouteConf](../models/routeconf.md)]                                                            | :heavy_check_mark:                                                                                          | Array of Route configurations that define how events are processed and routed.                              |
+| `routes`                                                                                                    | List[[models.RouteConfInput](../models/routeconfinput.md)]                                                  | :heavy_check_mark:                                                                                          | Array of Route configurations that define how events are processed and routed.                              |

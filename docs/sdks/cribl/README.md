@@ -5,7 +5,7 @@
 ### Available Operations
 
 * [list](#list) - Get Cribl system settings
-* [update](#update) - Update Cribl system settings
+* [update](#update) - Update system settings
 
 ## list
 
@@ -56,7 +56,7 @@ Update Cribl system settings.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="updateSystemSettingsConf" method="patch" path="/system/settings/conf" -->
+<!-- UsageSnippet language="python" operationID="updateSystemSettingsConf" method="patch" path="/system/settings/conf" example="UpdateSystemSettingsExamplesUpdateApiSettings" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -71,41 +71,45 @@ with CriblControlPlane(
 
     res = ccp_client.system.settings.cribl.update(api={
         "disabled": False,
-        "host": "meaty-spring.biz",
-        "port": 2424.38,
+        "host": "0.0.0.0",
+        "port": 9000,
+        "ssl": {
+            "cert_path": "/opt/cribl/local/cribl/auth/cribl.crt",
+            "disabled": False,
+            "passphrase": "",
+            "priv_key_path": "/opt/cribl/local/cribl/auth/cribl.key",
+        },
     }, backups={
-        "backup_persistence": "<value>",
-        "backups_directory": "<value>",
+        "backup_persistence": "24h",
+        "backups_directory": "$CRIBL_STATE_DIR/backups",
     }, pii={
         "enable_pii_detection": False,
     }, proxy={
-        "use_env_vars": True,
+        "use_env_vars": False,
     }, rollback={
-        "rollback_enabled": False,
-        "rollback_retries": 3174.73,
-        "rollback_timeout": 1506.54,
+        "rollback_enabled": True,
     }, shutdown={
-        "drain_timeout": 3723.75,
+        "drain_timeout": 10000,
     }, sni={
         "disable_sni_routing": False,
     }, system={
-        "intercom": False,
+        "intercom": True,
         "upgrade": models.UpgradeOptionsSystemSettingsConfSystem.API,
     }, tls={
-        "default_cipher_list": "<value>",
-        "default_ecdh_curve": "<value>",
-        "max_version": "<value>",
-        "min_version": "<value>",
+        "default_cipher_list": "DEFAULT",
+        "default_ecdh_curve": "auto",
+        "max_version": "TLSv1.3",
+        "min_version": "TLSv1.2",
         "reject_unauthorized": True,
     }, upgrade_group_settings={
-        "is_rolling": False,
-        "quantity": 7915.07,
-        "retry_count": 4414.66,
-        "retry_delay": 4374.4,
+        "is_rolling": True,
+        "quantity": 100,
+        "retry_count": 5,
+        "retry_delay": 1000,
     }, upgrade_settings={}, workers={
-        "count": 2124.14,
-        "memory": 20.53,
-        "minimum": 6157.83,
+        "count": 0,
+        "memory": 0,
+        "minimum": 1,
     })
 
     # Handle response

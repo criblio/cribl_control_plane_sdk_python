@@ -365,6 +365,12 @@ value: models.CreateInputSystemByPackInputNetflow = /* values here */
 value: models.CreateInputSystemByPackInputSecurityLake = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputServicenowTable`
+
+```python
+value: models.CreateInputSystemByPackInputServicenowTable = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputZscalerHec`
 
 ```python

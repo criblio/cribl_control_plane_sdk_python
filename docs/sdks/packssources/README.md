@@ -1342,6 +1342,32 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesServiceNowTable
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesServiceNowTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "servicenow-table-source",
+        "type": models.CreateInputSystemByPackTypeServicenowTable.SERVICENOW_TABLE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesSnmp
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesSnmp" -->
@@ -3149,6 +3175,32 @@ with CriblControlPlane(
         "pq_enabled": False,
         "queue_name": "security-lake-queue",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesServiceNowTable
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesServiceNowTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "servicenow-table-source",
+        "type": models.InputServicenowTableType.SERVICENOW_TABLE,
+        "send_to_routes": True,
+        "pq_enabled": False,
     })
 
     # Handle response

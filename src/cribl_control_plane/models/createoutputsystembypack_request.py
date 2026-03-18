@@ -29,7 +29,7 @@ from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
 from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionshttp import CompressionOptionsHTTP
 from .compressionoptionspq import CompressionOptionsPq
-from .createoutputsystembypack_pqcontrols_newrelicevents import (
+from .createoutputsystembypack_type_newrelicevents import (
     CreateOutputSystemByPackOutputChronicle,
     CreateOutputSystemByPackOutputChronicleTypedDict,
     CreateOutputSystemByPackOutputClickHouse,
@@ -108,8 +108,6 @@ from .createoutputsystembypack_pqcontrols_newrelicevents import (
     CreateOutputSystemByPackOutputSumoLogicTypedDict,
     CreateOutputSystemByPackOutputXsiam,
     CreateOutputSystemByPackOutputXsiamTypedDict,
-    CreateOutputSystemByPackPqControlsNewrelicEvents,
-    CreateOutputSystemByPackPqControlsNewrelicEventsTypedDict,
     CreateOutputSystemByPackTypeNewrelicEvents,
 )
 from .dataformatoptions import DataFormatOptions
@@ -196,6 +194,14 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateOutputSystemByPackPqControlsNewrelicEventsTypedDict(TypedDict):
+    pass
+
+
+class CreateOutputSystemByPackPqControlsNewrelicEvents(BaseModel):
+    pass
 
 
 class CreateOutputSystemByPackOutputNewrelicEventsTypedDict(TypedDict):

@@ -426,7 +426,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 #### [System.Settings.Cribl](docs/sdks/cribl/README.md)
 
 * [list](docs/sdks/cribl/README.md#list) - Get Cribl system settings
-* [update](docs/sdks/cribl/README.md#update) - Update Cribl system settings
+* [update](docs/sdks/cribl/README.md#update) - Update system settings
 
 ### [Versions.Branches](docs/sdks/branches/README.md)
 

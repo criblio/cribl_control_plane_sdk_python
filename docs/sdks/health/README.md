@@ -6,11 +6,11 @@ Actions related to REST server health
 
 ### Available Operations
 
-* [get](#get) - Get the health status of the server
+* [get](#get) - Retrieve health status of the server
 
 ## get
 
-Get the current health status of the server (Leader or Worker Node).
+Get the current health status of the server.
 
 ### Example Usage
 

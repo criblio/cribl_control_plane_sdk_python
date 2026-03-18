@@ -6,17 +6,17 @@ from .additionalpropertiestyperoutesgroups import (
     AdditionalPropertiesTypeRoutesGroupsTypedDict,
 )
 from .routecomment import RouteComment, RouteCommentTypedDict
-from .routeconf import RouteConf, RouteConfTypedDict
+from .routeconfinput import RouteConfInput, RouteConfInputTypedDict
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from pydantic import model_serializer
 from typing import Dict, List, Optional
 from typing_extensions import NotRequired, TypedDict
 
 
-class RoutesTypedDict(TypedDict):
+class RoutesInputTypedDict(TypedDict):
     id: str
     r"""Unique identifier for the Routing table. The supported value is <code>default</code>."""
-    routes: List[RouteConfTypedDict]
+    routes: List[RouteConfInputTypedDict]
     r"""Array of Route configurations that define how events are processed and routed."""
     comments: NotRequired[List[RouteCommentTypedDict]]
     r"""Array of user-provided comments that describe or annotate Routes."""
@@ -24,11 +24,11 @@ class RoutesTypedDict(TypedDict):
     r"""Information about the Route Groups that the Route is associated with."""
 
 
-class Routes(BaseModel):
+class RoutesInput(BaseModel):
     id: str
     r"""Unique identifier for the Routing table. The supported value is <code>default</code>."""
 
-    routes: List[RouteConf]
+    routes: List[RouteConfInput]
     r"""Array of Route configurations that define how events are processed and routed."""
 
     comments: Optional[List[RouteComment]] = None

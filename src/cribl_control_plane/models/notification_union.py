@@ -147,6 +147,10 @@ class Notification3TypedDict(TypedDict):
     conf: NotRequired[ConditionSpecificConfigs3TypedDict]
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
+    group: NotRequired[str]
+    r"""The worker group/fleet this notification belongs to"""
+    pack: NotRequired[str]
+    r"""The pack this notification belongs to"""
     template_target_pairs: NotRequired[
         List[ItemsTypePoliciesItemsTemplateTargetPairsTypedDict]
     ]
@@ -175,6 +179,12 @@ class Notification3(BaseModel):
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
+    group: Optional[str] = None
+    r"""The worker group/fleet this notification belongs to"""
+
+    pack: Optional[str] = None
+    r"""The pack this notification belongs to"""
+
     template_target_pairs: Annotated[
         Optional[List[ItemsTypePoliciesItemsTemplateTargetPairs]],
         pydantic.Field(alias="templateTargetPairs"),
@@ -200,6 +210,8 @@ class Notification3(BaseModel):
                 "targetConfigs",
                 "conf",
                 "metadata",
+                "group",
+                "pack",
                 "templateTargetPairs",
             ]
         )
@@ -353,6 +365,10 @@ class Notification2TypedDict(TypedDict):
     conf: NotRequired[ConditionSpecificConfigs2TypedDict]
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
+    group: NotRequired[str]
+    r"""The worker group/fleet this notification belongs to"""
+    pack: NotRequired[str]
+    r"""The pack this notification belongs to"""
 
 
 class Notification2(BaseModel):
@@ -383,6 +399,12 @@ class Notification2(BaseModel):
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
+    group: Optional[str] = None
+    r"""The worker group/fleet this notification belongs to"""
+
+    pack: Optional[str] = None
+    r"""The pack this notification belongs to"""
+
     @field_serializer("mode")
     def serialize_mode(self, value):
         if isinstance(value, str):
@@ -402,6 +424,8 @@ class Notification2(BaseModel):
                 "targetConfigs",
                 "conf",
                 "metadata",
+                "group",
+                "pack",
             ]
         )
         serialized = handler(self)
@@ -552,6 +576,10 @@ class Notification1TypedDict(TypedDict):
     conf: NotRequired[ConditionSpecificConfigs1TypedDict]
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
+    group: NotRequired[str]
+    r"""The worker group/fleet this notification belongs to"""
+    pack: NotRequired[str]
+    r"""The pack this notification belongs to"""
 
 
 class Notification1(BaseModel):
@@ -582,6 +610,12 @@ class Notification1(BaseModel):
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
+    group: Optional[str] = None
+    r"""The worker group/fleet this notification belongs to"""
+
+    pack: Optional[str] = None
+    r"""The pack this notification belongs to"""
+
     @field_serializer("mode")
     def serialize_mode(self, value):
         if isinstance(value, str):
@@ -594,7 +628,15 @@ class Notification1(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            ["disabled", "targets", "targetConfigs", "conf", "metadata"]
+            [
+                "disabled",
+                "targets",
+                "targetConfigs",
+                "conf",
+                "metadata",
+                "group",
+                "pack",
+            ]
         )
         serialized = handler(self)
         m = {}

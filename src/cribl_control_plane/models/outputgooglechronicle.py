@@ -205,6 +205,10 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     r"""Binds 'apiVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'apiVersion' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_customer_id: NotRequired[str]
     r"""Binds 'customerId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customerId' at runtime."""
 
@@ -432,6 +436,16 @@ class OutputGoogleChronicle(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
     template_customer_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_customerId")
     ] = None
@@ -572,6 +586,8 @@ class OutputGoogleChronicle(BaseModel):
                 "pqControls",
                 "__template_apiVersion",
                 "__template_region",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
                 "__template_customerId",
             ]
         )

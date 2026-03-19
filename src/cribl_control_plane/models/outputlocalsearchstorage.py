@@ -257,6 +257,10 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     r"""Binds 'database' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'database' at runtime."""
     template_table_name: NotRequired[str]
     r"""Binds 'tableName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tableName' at runtime."""
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
 class OutputLocalSearchStorage(BaseModel):
@@ -495,6 +499,16 @@ class OutputLocalSearchStorage(BaseModel):
     ] = None
     r"""Binds 'tableName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tableName' at runtime."""
 
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -622,6 +636,8 @@ class OutputLocalSearchStorage(BaseModel):
                 "__template_url",
                 "__template_database",
                 "__template_tableName",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
             ]
         )
         serialized = handler(self)

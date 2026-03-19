@@ -227,6 +227,8 @@ class InputEdgePrometheusTypedDict(TypedDict):
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
@@ -427,6 +429,11 @@ class InputEdgePrometheus(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
     ] = None
@@ -541,6 +548,7 @@ class InputEdgePrometheus(BaseModel):
                 "__template_awsApiKey",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
             ]

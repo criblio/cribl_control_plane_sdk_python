@@ -106,6 +106,8 @@ class OutputAzureEventhubTypedDict(TypedDict):
     pq_controls: NotRequired[OutputAzureEventhubPqControlsTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
 class OutputAzureEventhub(BaseModel):
@@ -261,6 +263,11 @@ class OutputAzureEventhub(BaseModel):
     ] = None
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
 
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
     @field_serializer("ack")
     def serialize_ack(self, value):
         if isinstance(value, str):
@@ -354,6 +361,7 @@ class OutputAzureEventhub(BaseModel):
                 "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
+                "__template_onBackpressure",
             ]
         )
         serialized = handler(self)

@@ -3653,6 +3653,8 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
@@ -3853,6 +3855,11 @@ class CreateInputInputEdgePrometheus(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
     ] = None
@@ -3966,6 +3973,7 @@ class CreateInputInputEdgePrometheus(BaseModel):
                 "__template_awsApiKey",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
             ]
@@ -4114,6 +4122,8 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
@@ -4331,6 +4341,11 @@ class CreateInputInputPrometheus(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
     ] = None
@@ -4466,6 +4481,7 @@ class CreateInputInputPrometheus(BaseModel):
                 "__template_awsApiKey",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
                 "__template_username",
@@ -7614,6 +7630,10 @@ class CreateInputInputSplunkTypedDict(TypedDict):
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_max_s2_sversion: NotRequired[str]
+    r"""Binds 'maxS2Sversion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'maxS2Sversion' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
 
 class CreateInputInputSplunk(BaseModel):
@@ -7737,6 +7757,16 @@ class CreateInputInputSplunk(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    template_max_s2_sversion: Annotated[
+        Optional[str], pydantic.Field(alias="__template_maxS2Sversion")
+    ] = None
+    r"""Binds 'maxS2Sversion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'maxS2Sversion' at runtime."""
+
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
     @field_serializer("max_s2_sversion")
     def serialize_max_s2_sversion(self, value):
         if isinstance(value, str):
@@ -7786,6 +7816,8 @@ class CreateInputInputSplunk(BaseModel):
                 "compress",
                 "__template_host",
                 "__template_port",
+                "__template_maxS2Sversion",
+                "__template_compress",
             ]
         )
         serialized = handler(self)
@@ -8169,6 +8201,8 @@ class CreateInputInputMskTypedDict(TypedDict):
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
@@ -8383,6 +8417,11 @@ class CreateInputInputMsk(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
     ] = None
@@ -8463,6 +8502,7 @@ class CreateInputInputMsk(BaseModel):
                 "awsSecret",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
                 "__template_awsApiKey",
@@ -8891,62 +8931,62 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputCriblmetricsTypedDict,
         CreateInputInputKubeMetricsTypedDict,
         CreateInputInputCollectionTypedDict,
-        CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputSystemStateTypedDict,
         CreateInputInputSystemMetricsTypedDict,
+        CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputJournalFilesTypedDict,
-        CreateInputInputModelDrivenTelemetryTypedDict,
         CreateInputInputKubeLogsTypedDict,
+        CreateInputInputModelDrivenTelemetryTypedDict,
         CreateInputInputExecTypedDict,
-        CreateInputInputRawUDPTypedDict,
         CreateInputInputWinEventLogsTypedDict,
+        CreateInputInputRawUDPTypedDict,
         CreateInputInputSnmpTypedDict,
         CreateInputInputMetricsTypedDict,
-        CreateInputInputNetflowTypedDict,
         CreateInputInputCriblTCPTypedDict,
+        CreateInputInputNetflowTypedDict,
         CreateInputInputOpenaiTypedDict,
         CreateInputInputTcpjsonTypedDict,
         CreateInputInputGooglePubsubTypedDict,
         CreateInputInputFirehoseTypedDict,
+        CreateInputInputOffice365ServiceTypedDict,
         CreateInputInputCriblHTTPTypedDict,
         CreateInputInputWizTypedDict,
-        CreateInputInputOffice365ServiceTypedDict,
         CreateInputInputTCPTypedDict,
         CreateInputInputDatadogAgentTypedDict,
         CreateInputInputFileTypedDict,
-        CreateInputInputSplunkTypedDict,
         CreateInputInputOffice365MgmtTypedDict,
+        CreateInputInputSplunkTypedDict,
         CreateInputInputAppscopeTypedDict,
         CreateInputInputWefTypedDict,
         CreateInputInputHTTPRawTypedDict,
         CreateInputInputWizWebhookTypedDict,
         CreateInputInputHTTPTypedDict,
-        CreateInputInputZscalerHecTypedDict,
         CreateInputInputKafkaTypedDict,
         CreateInputInputConfluentCloudTypedDict,
-        CreateInputInputLokiTypedDict,
         CreateInputInputCriblLakeHTTPTypedDict,
+        CreateInputInputZscalerHecTypedDict,
         CreateInputInputCloudflareHecTypedDict,
         CreateInputInputEventhubTypedDict,
+        CreateInputInputLokiTypedDict,
         CreateInputInputAzureBlobTypedDict,
-        CreateInputInputPrometheusRwTypedDict,
         CreateInputInputOpenTelemetryTypedDict,
+        CreateInputInputPrometheusRwTypedDict,
         CreateInputInputElasticTypedDict,
         CreateInputInputMicrosoftGraphTypedDict,
-        CreateInputInputSqsTypedDict,
         CreateInputInputSplunkHecTypedDict,
         CreateInputInputSplunkSearchTypedDict,
+        CreateInputInputSqsTypedDict,
         CreateInputInputKinesisTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
         CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
         CreateInputInputMskTypedDict,
-        CreateInputInputSecurityLakeTypedDict,
         CreateInputInputS3TypedDict,
+        CreateInputInputSecurityLakeTypedDict,
         CreateInputInputS3InventoryTypedDict,
         CreateInputInputPrometheusTypedDict,
-        CreateInputInputGrafanaUnionTypedDict,
         CreateInputInputSyslogUnionTypedDict,
+        CreateInputInputGrafanaUnionTypedDict,
     ],
 )
 r"""Input object"""

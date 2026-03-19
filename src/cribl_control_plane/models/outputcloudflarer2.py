@@ -150,8 +150,18 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_partition_expr: NotRequired[str]
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
     template_format: NotRequired[str]
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_base_file_name: NotRequired[str]
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+    template_file_name_suffix: NotRequired[str]
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
 
 class OutputCloudflareR2(BaseModel):
@@ -412,10 +422,35 @@ class OutputCloudflareR2(BaseModel):
     ] = None
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
 
+    template_partition_expr: Annotated[
+        Optional[str], pydantic.Field(alias="__template_partitionExpr")
+    ] = None
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
+
     template_format: Annotated[
         Optional[str], pydantic.Field(alias="__template_format")
     ] = None
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+
+    template_base_file_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_baseFileName")
+    ] = None
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+
+    template_file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_fileNameSuffix")
+    ] = None
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
@@ -572,7 +607,12 @@ class OutputCloudflareR2(BaseModel):
                 "deadletterPath",
                 "maxRetryNum",
                 "__template_bucket",
+                "__template_partitionExpr",
                 "__template_format",
+                "__template_baseFileName",
+                "__template_fileNameSuffix",
+                "__template_onBackpressure",
+                "__template_compress",
             ]
         )
         serialized = handler(self)

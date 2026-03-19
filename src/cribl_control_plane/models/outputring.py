@@ -51,6 +51,8 @@ class OutputRingTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
 class OutputRing(BaseModel):
@@ -102,6 +104,11 @@ class OutputRing(BaseModel):
 
     description: Optional[str] = None
 
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
@@ -146,6 +153,7 @@ class OutputRing(BaseModel):
                 "destPath",
                 "onBackpressure",
                 "description",
+                "__template_onBackpressure",
             ]
         )
         serialized = handler(self)

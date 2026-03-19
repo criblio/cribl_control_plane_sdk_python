@@ -159,6 +159,10 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputOpenTelemetryPqControlsTypedDict]
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
 class OutputOpenTelemetry(BaseModel):
@@ -374,6 +378,16 @@ class OutputOpenTelemetry(BaseModel):
         Optional[OutputOpenTelemetryPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
     @field_serializer("protocol")
     def serialize_protocol(self, value):
         if isinstance(value, str):
@@ -517,6 +531,8 @@ class OutputOpenTelemetry(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
             ]
         )
         serialized = handler(self)

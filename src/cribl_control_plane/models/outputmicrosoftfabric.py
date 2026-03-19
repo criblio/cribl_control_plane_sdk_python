@@ -254,6 +254,8 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     pq_controls: NotRequired[OutputMicrosoftFabricPqControlsTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_bootstrap_server: NotRequired[str]
     r"""Binds 'bootstrap_server' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bootstrap_server' at runtime."""
 
@@ -411,6 +413,11 @@ class OutputMicrosoftFabric(BaseModel):
     ] = None
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
 
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
     template_bootstrap_server: Annotated[
         Optional[str], pydantic.Field(alias="__template_bootstrap_server")
     ] = None
@@ -509,6 +516,7 @@ class OutputMicrosoftFabric(BaseModel):
                 "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
+                "__template_onBackpressure",
                 "__template_bootstrap_server",
             ]
         )

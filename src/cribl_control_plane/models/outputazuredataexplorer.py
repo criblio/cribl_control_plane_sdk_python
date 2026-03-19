@@ -353,6 +353,8 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Binds 'database' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'database' at runtime."""
     template_table: NotRequired[str]
     r"""Binds 'table' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'table' at runtime."""
+    template_oauth_endpoint: NotRequired[str]
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
     template_tenant_id: NotRequired[str]
     r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     template_client_id: NotRequired[str]
@@ -363,8 +365,16 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
     template_format: NotRequired[str]
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_mapping_ref: NotRequired[str]
+    r"""Binds 'mappingRef' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mappingRef' at runtime."""
     template_ingest_url: NotRequired[str]
     r"""Binds 'ingestUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'ingestUrl' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_file_name_suffix: NotRequired[str]
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
 
 
 class OutputAzureDataExplorer(BaseModel):
@@ -756,6 +766,11 @@ class OutputAzureDataExplorer(BaseModel):
     ] = None
     r"""Binds 'table' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'table' at runtime."""
 
+    template_oauth_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_oauthEndpoint")
+    ] = None
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
+
     template_tenant_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_tenantId")
     ] = None
@@ -781,10 +796,30 @@ class OutputAzureDataExplorer(BaseModel):
     ] = None
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_mapping_ref: Annotated[
+        Optional[str], pydantic.Field(alias="__template_mappingRef")
+    ] = None
+    r"""Binds 'mappingRef' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mappingRef' at runtime."""
+
     template_ingest_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_ingestUrl")
     ] = None
     r"""Binds 'ingestUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'ingestUrl' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_fileNameSuffix")
+    ] = None
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
 
     @field_serializer("ingest_mode")
     def serialize_ingest_mode(self, value):
@@ -1003,12 +1038,17 @@ class OutputAzureDataExplorer(BaseModel):
                 "__template_clusterUrl",
                 "__template_database",
                 "__template_table",
+                "__template_oauthEndpoint",
                 "__template_tenantId",
                 "__template_clientId",
                 "__template_scope",
                 "__template_clientSecret",
                 "__template_format",
+                "__template_compress",
+                "__template_mappingRef",
                 "__template_ingestUrl",
+                "__template_onBackpressure",
+                "__template_fileNameSuffix",
             ]
         )
         serialized = handler(self)

@@ -286,7 +286,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [Health](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md#get) - Retrieve health status of the server
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md#get) - Get the health status of the server
 
 ### [LakeDatasets](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md)
 

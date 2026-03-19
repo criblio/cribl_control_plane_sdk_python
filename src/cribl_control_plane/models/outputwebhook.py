@@ -272,6 +272,10 @@ class OutputWebhookTypedDict(TypedDict):
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_login_url: NotRequired[str]
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
     template_secret: NotRequired[str]
@@ -566,6 +570,16 @@ class OutputWebhook(BaseModel):
     ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
 
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
     template_login_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_loginUrl")
     ] = None
@@ -723,6 +737,8 @@ class OutputWebhook(BaseModel):
                 "urls",
                 "dnsResolvePeriodSec",
                 "loadBalanceStatsPeriodSec",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
                 "__template_loginUrl",
                 "__template_secret",
                 "__template_url",

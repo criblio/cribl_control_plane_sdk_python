@@ -130,6 +130,10 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Wiz Defend Auth token"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_wiz_environment: NotRequired[str]
     r"""Binds 'wiz_environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_environment' at runtime."""
     template_data_center: NotRequired[str]
@@ -313,6 +317,16 @@ class OutputWizHec(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
     template_wiz_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_wiz_environment")
     ] = None
@@ -424,6 +438,8 @@ class OutputWizHec(BaseModel):
                 "pqControls",
                 "token",
                 "textSecret",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
                 "__template_wiz_environment",
                 "__template_data_center",
                 "__template_wiz_sourcetype",

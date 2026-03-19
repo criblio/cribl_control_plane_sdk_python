@@ -3,7 +3,6 @@
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
 from .authenticationmethodoptions1 import AuthenticationMethodOptions1
-from .authenticationmethodoptions2 import AuthenticationMethodOptions2
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
@@ -2082,6 +2081,16 @@ class CreateInputTypeMicrosoftGraph(str, Enum):
     MICROSOFT_GRAPH = "microsoft_graph"
 
 
+class CreateInputAuthenticationMethodMicrosoftGraph(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Select authentication method."""
+
+    OAUTH = "oauth"
+    OAUTH_SECRET = "oauthSecret"
+    OAUTH_CERT = "oauthCert"
+
+
 class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
@@ -2112,7 +2121,7 @@ class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[CreateInputAuthenticationMethodMicrosoftGraph]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -2134,12 +2143,6 @@ class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesType1TypedDict]
     description: NotRequired[str]
-    username: NotRequired[str]
-    r"""Username to run Microsoft Graph API call."""
-    password: NotRequired[str]
-    r"""Password to run Microsoft Graph API call."""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials."""
     client_secret: NotRequired[str]
     r"""client_secret to pass in the OAuth request parameter."""
     tenant_id: NotRequired[str]
@@ -2214,7 +2217,8 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationMethodMicrosoftGraph],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
 
@@ -2262,17 +2266,6 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     ] = None
 
     description: Optional[str] = None
-
-    username: Optional[str] = None
-    r"""Username to run Microsoft Graph API call."""
-
-    password: Optional[str] = None
-    r"""Password to run Microsoft Graph API call."""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""client_secret to pass in the OAuth request parameter."""
@@ -2322,7 +2315,7 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.CreateInputAuthenticationMethodMicrosoftGraph(value)
             except ValueError:
                 return value
         return value
@@ -2373,9 +2366,6 @@ class CreateInputInputMicrosoftGraph(BaseModel):
                 "logLevel",
                 "retryRules",
                 "description",
-                "username",
-                "password",
-                "credentialsSecret",
                 "clientSecret",
                 "tenantId",
                 "clientId",
@@ -2405,6 +2395,18 @@ class CreateInputInputMicrosoftGraph(BaseModel):
 
 class CreateInputTypeOffice365MsgTrace(str, Enum):
     OFFICE365_MSG_TRACE = "office365_msg_trace"
+
+
+class CreateInputAuthenticationMethodOffice365MsgTrace(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Select authentication method."""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+    OAUTH = "oauth"
+    OAUTH_SECRET = "oauthSecret"
+    OAUTH_CERT = "oauthCert"
 
 
 class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
@@ -2437,7 +2439,7 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[CreateInputAuthenticationMethodOffice365MsgTrace]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -2539,7 +2541,8 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[CreateInputAuthenticationMethodOffice365MsgTrace],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
 
@@ -2647,7 +2650,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.CreateInputAuthenticationMethodOffice365MsgTrace(value)
             except ValueError:
                 return value
         return value
@@ -8752,28 +8755,28 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputSplunkTypedDict,
         CreateInputInputFileTypedDict,
         CreateInputInputOffice365MgmtTypedDict,
-        CreateInputInputWefTypedDict,
         CreateInputInputAppscopeTypedDict,
-        CreateInputInputWizWebhookTypedDict,
+        CreateInputInputWefTypedDict,
         CreateInputInputHTTPRawTypedDict,
+        CreateInputInputWizWebhookTypedDict,
         CreateInputInputHTTPTypedDict,
-        CreateInputInputKafkaTypedDict,
+        CreateInputInputConfluentCloudTypedDict,
         CreateInputInputZscalerHecTypedDict,
         CreateInputInputCriblLakeHTTPTypedDict,
         CreateInputInputCloudflareHecTypedDict,
-        CreateInputInputConfluentCloudTypedDict,
-        CreateInputInputEventhubTypedDict,
+        CreateInputInputKafkaTypedDict,
         CreateInputInputLokiTypedDict,
+        CreateInputInputEventhubTypedDict,
         CreateInputInputPrometheusRwTypedDict,
-        CreateInputInputAzureBlobTypedDict,
         CreateInputInputOpenTelemetryTypedDict,
+        CreateInputInputAzureBlobTypedDict,
         CreateInputInputElasticTypedDict,
+        CreateInputInputMicrosoftGraphTypedDict,
+        CreateInputInputSplunkSearchTypedDict,
         CreateInputInputSqsTypedDict,
         CreateInputInputSplunkHecTypedDict,
-        CreateInputInputSplunkSearchTypedDict,
         CreateInputInputKinesisTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
-        CreateInputInputMicrosoftGraphTypedDict,
         CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
         CreateInputInputMskTypedDict,

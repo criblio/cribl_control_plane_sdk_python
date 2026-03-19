@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1773443034117-eed37cfb
+  version: 4.17.1-alpha.1773875380225-2e0eac96
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -2954,6 +2954,52 @@ components:
           type: string
           enum:
             - local_search_ruleset_runner
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          additionalProperties: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
+    FunctionConfSchemaLocalSearchSchemaMapper:
+      type: object
+    FunctionLocalSearchSchemaMapper:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - local_search_schema_mapper
         loadTime:
           type: number
         modTime:
@@ -5956,6 +6002,7 @@ components:
         - $ref: "#/components/schemas/FunctionLimit"
         - $ref: "#/components/schemas/FunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/FunctionLocalSearchSchemaMapper"
         - $ref: "#/components/schemas/FunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/FunctionLookup"
         - $ref: "#/components/schemas/FunctionMask"
@@ -6025,6 +6072,7 @@ components:
           limit: "#/components/schemas/FunctionLimit"
           local_search_datatype_parser: "#/components/schemas/FunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+          local_search_schema_mapper: "#/components/schemas/FunctionLocalSearchSchemaMapper"
           local_search_transformer: "#/components/schemas/FunctionLocalSearchTransformer"
           lookup: "#/components/schemas/FunctionLookup"
           mask: "#/components/schemas/FunctionMask"
@@ -7120,6 +7168,41 @@ components:
           type: boolean
         conf:
           $ref: "#/components/schemas/FunctionConfSchemaLocalSearchRulesetRunner"
+        groupId:
+          title: Group ID
+          description: Group ID
+          type: string
+    PipelineFunctionLocalSearchSchemaMapper:
+      type: object
+      required:
+        - id
+        - conf
+      additionalProperties: false
+      properties:
+        filter:
+          title: Filter
+          description: Filter that selects data to be fed through this Function
+          type: string
+        id:
+          title: ID
+          description: Function ID
+          type: string
+          enum:
+            - local_search_schema_mapper
+        description:
+          title: Description
+          description: Simple description of this step
+          type: string
+        disabled:
+          title: Disabled
+          description: If true, data will not be pushed through this function
+          type: boolean
+        final:
+          title: Final
+          description: If enabled, stops the results of this Function from being passed to the downstream Functions
+          type: boolean
+        conf:
+          $ref: "#/components/schemas/FunctionConfSchemaLocalSearchSchemaMapper"
         groupId:
           title: Group ID
           description: Group ID
@@ -8534,6 +8617,7 @@ components:
         - $ref: "#/components/schemas/PipelineFunctionLimit"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/PipelineFunctionLocalSearchSchemaMapper"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/PipelineFunctionLookup"
         - $ref: "#/components/schemas/PipelineFunctionMask"
@@ -8603,6 +8687,7 @@ components:
           limit: "#/components/schemas/PipelineFunctionLimit"
           local_search_datatype_parser: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+          local_search_schema_mapper: "#/components/schemas/PipelineFunctionLocalSearchSchemaMapper"
           local_search_transformer: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
           lookup: "#/components/schemas/PipelineFunctionLookup"
           mask: "#/components/schemas/PipelineFunctionMask"
@@ -9865,7 +9950,7 @@ components:
         loginBody:
           type: string
           title: POST body
-          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =.
         getAuthTokenFromHeader:
           type: boolean
           title: Get auth token from header
@@ -9911,7 +9996,7 @@ components:
         loginBody:
           type: string
           title: POST body
-          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =.
         getAuthTokenFromHeader:
           type: boolean
           title: Get auth token from header
@@ -14704,7 +14789,16 @@ components:
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          title: Authentication method
+          type: string
+          enum:
+            - manual
+            - secret
+            - oauth
+            - oauthSecret
+            - oauthCert
+          description: Select authentication method.
+          x-speakeasy-unknown-values: allow
         keepAliveTime:
           type: number
           title: Keep alive time (seconds)
@@ -14875,7 +14969,14 @@ components:
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          title: Authentication method
+          type: string
+          enum:
+            - oauth
+            - oauthSecret
+            - oauthCert
+          description: Select authentication method.
+          x-speakeasy-unknown-values: allow
         keepAliveTime:
           type: number
           title: Keep alive time (seconds)
@@ -14922,18 +15023,6 @@ components:
         description:
           type: string
           title: Description
-        username:
-          type: string
-          title: Username
-          description: Username to run Microsoft Graph API call.
-        password:
-          type: string
-          title: Password
-          description: Password to run Microsoft Graph API call.
-        credentialsSecret:
-          type: string
-          title: Credentials secret
-          description: Select or create a secret that references your credentials.
         clientSecret:
           type: string
           title: Client secret
@@ -25788,7 +25877,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         description:
           type: string
           title: Description
@@ -28307,7 +28396,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -28491,7 +28580,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         description:
           type: string
           title: Description
@@ -30476,7 +30565,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -31737,7 +31826,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -36821,20 +36910,7 @@ components:
         groups:
           type: object
           additionalProperties:
-            type: object
-            properties:
-              description:
-                type: string
-                description: Brief description of the Route Group.
-              index:
-                type: number
-                description: Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group.
-              name:
-                type: string
-                description: Name of the Route Group.
-            required:
-              - index
-              - name
+            $ref: "#/components/schemas/AdditionalPropertiesTypeRoutesGroups"
           description: Information about the Route Groups that the Route is associated with.
         id:
           type: string
@@ -36847,10 +36923,84 @@ components:
       required:
         - id
         - routes
+    RouteConfInput:
+      type: object
+      properties:
+        clones:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteCloneConf"
+          description: Array of clone configurations, each with a key-value pair to set or overwrite in cloned events. Original events continue to the next Route.
+        context:
+          type: string
+          description: "Context for the Route: <code>group</code> (Worker Group or Edge Fleet) or <code>pack</code>."
+        description:
+          type: string
+          description: Brief description of the Route.
+        disabled:
+          type: boolean
+          description: If <code>true</code>, disable the Route. Otherwise, <code>false</code>.
+        enableOutputExpression:
+          type: boolean
+          description: If <code>true</code>, use the <code>outputExpression</code> for dynamic Destination selection. Otherwise, <code>false</code>.
+        filter:
+          type: string
+          description: JavaScript expression to select events for routing.
+        groupId:
+          type: string
+          description: Unique identifier for the Route Group that the Route is associated with.
+        name:
+          type: string
+          description: Name of the Route.
+        output:
+          type: string
+          description: Destination that the Route sends matching events to after the Pipeline processes the events.
+        outputExpression:
+          type: string
+          description: JavaScript expression to evaluate for dynamic Destination selection. Evaluation occurs when the Route is constructed, not for each event.
+        pipeline:
+          type: string
+          description: Pipeline that the Route sends matching events to.
+        targetContext:
+          $ref: "#/components/schemas/TargetContext"
+          description: "Target context for subsequent event processing after applying the Route: <code>group</code> (Worker Group or Edge Fleet) or <code>pack</code>."
+        final:
+          type: boolean
+          description: If <code>true</code> (default), the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events.
+        id:
+          type: string
+          description: Unique identifier for the Route. If omitted, the server generates a deterministic identifier.
+      required:
+        - name
+        - pipeline
+    RoutesInput:
+      type: object
+      properties:
+        comments:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteComment"
+          description: Array of user-provided comments that describe or annotate Routes.
+        groups:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AdditionalPropertiesTypeRoutesGroups"
+          description: Information about the Route Groups that the Route is associated with.
+        id:
+          type: string
+          description: Unique identifier for the Routing table. The supported value is <code>default</code>.
+        routes:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteConfInput"
+          description: Array of Route configurations that define how events are processed and routed.
+      required:
+        - id
+        - routes
     RouteDefinitions:
       type: array
       items:
-        $ref: "#/components/schemas/RouteConf"
+        $ref: "#/components/schemas/RouteConfInput"
     CountedInputStatus:
       type: object
       properties:
@@ -38297,21 +38447,25 @@ components:
         role:
           type: string
           enum:
-            - standby
             - primary
+            - standby
+          description: "Leader Node role: <code>primary</code> or <code>standby</code>."
           x-speakeasy-unknown-values: allow
         startTime:
-          type: number
+          type: integer
+          description: Timestamp (in Unix time) when the Cribl process started.
         status:
           type: string
           enum:
-            - shutting down
             - healthy
+            - shutting down
             - standby
+          description: "Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."
           x-speakeasy-unknown-values: allow
       required:
         - startTime
         - status
+      description: Health status of the Leader or Worker Node.
     CountedPackInstallInfo:
       type: object
       properties:
@@ -39757,17 +39911,6 @@ components:
         - secret
       description: Enter client secret directly, or select a stored secret
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions2:
-      title: Authentication method
-      type: string
-      enum:
-        - manual
-        - secret
-        - oauth
-        - oauthSecret
-        - oauthCert
-      description: Select authentication method.
-      x-speakeasy-unknown-values: allow
     LogLevelOptions:
       type: string
       title: Log level
@@ -40326,7 +40469,7 @@ components:
         - Amazon S3 Managed Key
         - AWS KMS Managed Key
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions3:
+    AuthenticationMethodOptions2:
       title: Authentication method
       type: string
       enum:
@@ -40700,6 +40843,21 @@ components:
         - type: object
           additionalProperties:
             type: number
+    AdditionalPropertiesTypeRoutesGroups:
+      type: object
+      properties:
+        description:
+          type: string
+          description: Brief description of the Route Group.
+        index:
+          type: number
+          description: Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group.
+        name:
+          type: string
+          description: Name of the Route Group.
+      required:
+        - index
+        - name
     ErrorTypeStatus:
       type: object
       properties:
@@ -44165,7 +44323,7 @@ components:
                 pretty: false
     RoutesUpdateExamplesBasicRoute:
       summary: Update Routes with a basic Route configuration
-      description: "Update the default Routes table (id: default) with a simple Route that filters access.log events and sends them to the main pipeline"
+      description: "Example request body for updating the default Routes table (<code>id: default</code>) with a simple Route that filters access.log events and sends them to the main Pipeline"
       value:
         id: default
         routes:
@@ -44173,11 +44331,11 @@ components:
             name: my-route
             pipeline: main
             filter: source == "access.log"
-            description: Route access logs to main pipeline
+            description: Route access logs to main Pipeline
             final: true
     RoutesUpdateExamplesMultipleRoutes:
       summary: Update Routes with multiple Routes and a catch-all
-      description: "Update the default Routes table (id: default) with multiple specific Routes evaluated in order, followed by a default catch-all Route"
+      description: "Example request body for updating the default Routes table (<code>id: default</code>) with multiple specific Routes evaluated in order, followed by a default catch-all Route"
       value:
         id: default
         routes:
@@ -44211,7 +44369,7 @@ components:
             final: true
     RoutesUpdateExamplesRouteWithOutputExpression:
       summary: Update Routes with dynamic Destination expression
-      description: "Update the default Routes table (id: default) with a Route that uses a JavaScript expression to dynamically determine the Destination"
+      description: "Example request body for updating the default Routes table (<code>id: default</code>) with a Route that uses a JavaScript expression to dynamically determine the Destination"
       value:
         id: default
         routes:
@@ -44223,6 +44381,16 @@ components:
             filter: source == "dynamic.log"
             description: Route with dynamic Destination based on environment
             final: true
+    RoutesUpdateExamplesRouteWithDefaults:
+      summary: Update the basic Route configuration
+      description: "Example request body for updating the default Routes table (<code>id: default</code>) with a basic Route that omits the <code>id</code> and <code>final</code> fields. The server generates a deterministic <code>id</code> and sets <code>final</code> to <code>true</code> by default."
+      value:
+        id: default
+        routes:
+          - name: my-route
+            pipeline: main
+            filter: source == "access.log"
+            description: Route access logs to main Pipeline
     RoutesAppendExamplesSingleRoute:
       summary: Append a single Route to the Routing table
       description: "Add a single Route to the end of the default Routes table (id: default)"
@@ -44263,6 +44431,14 @@ components:
           filter: source == "dynamic.log"
           description: Route with dynamic Destination based on environment
           final: true
+    RoutesAppendExamplesRouteWithDefaults:
+      summary: Append a Route omitting optional id and final fields
+      description: "Example request body for adding a Route to the end of the default Routes table (<code>id: default</code>) omitting the <code>id</code> and <code>final</code> fields. The server generates a deterministic <code>id</code> and sets <code>final</code> to <code>true</code> by default."
+      value:
+        - name: new-route
+          pipeline: main
+          filter: source == "new.log"
+          description: Route with server-generated id and default final value
     CollectorExamplesRest:
       summary: REST API Collector
       value:
@@ -44607,6 +44783,27 @@ components:
           - guid-12345678-abcd-1234-abcd-123456789abc
           - guid-87654321-dcba-4321-dcba-cba987654321
           - guid-11111111-2222-3333-4444-555555555555
+    HealthExamplesHealthyPrimary:
+      summary: Healthy (primary)
+      description: Example response for a healthy server that is acting as primary.
+      value:
+        status: healthy
+        startTime: 1700000000000
+        role: primary
+    Health420ExamplesShuttingDown:
+      summary: Shutting down (primary)
+      description: Example response for a server that is acting as primary and is in the process of shutting down.
+      value:
+        status: shutting down
+        startTime: 1700000000000
+        role: primary
+    Health420ExamplesStandby:
+      summary: Standby
+      description: Example response for a server that is in standby mode.
+      value:
+        status: standby
+        startTime: 1700000000000
+        role: standby
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
       value:
@@ -48155,12 +48352,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: Routes object
+        description: RoutesInput object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Routes"
+              $ref: "#/components/schemas/RoutesInput"
             examples:
               RoutesUpdateExamplesBasicRoute:
                 $ref: "#/components/examples/RoutesUpdateExamplesBasicRoute"
@@ -48168,6 +48365,8 @@ paths:
                 $ref: "#/components/examples/RoutesUpdateExamplesMultipleRoutes"
               RoutesUpdateExamplesRouteWithOutputExpression:
                 $ref: "#/components/examples/RoutesUpdateExamplesRouteWithOutputExpression"
+              RoutesUpdateExamplesRouteWithDefaults:
+                $ref: "#/components/examples/RoutesUpdateExamplesRouteWithDefaults"
       parameters:
         - name: id
           in: path
@@ -48241,6 +48440,8 @@ paths:
                 $ref: "#/components/examples/RoutesAppendExamplesMultipleRoutes"
               RoutesAppendExamplesRouteWithOutputExpression:
                 $ref: "#/components/examples/RoutesAppendExamplesRouteWithOutputExpression"
+              RoutesAppendExamplesRouteWithDefaults:
+                $ref: "#/components/examples/RoutesAppendExamplesRouteWithDefaults"
       parameters:
         - name: id
           in: path
@@ -48313,12 +48514,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: Routes object
+        description: RoutesInput object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Routes"
+              $ref: "#/components/schemas/RoutesInput"
             examples:
               RoutesUpdateExamplesBasicRoute:
                 $ref: "#/components/examples/RoutesUpdateExamplesBasicRoute"
@@ -48326,6 +48527,8 @@ paths:
                 $ref: "#/components/examples/RoutesUpdateExamplesMultipleRoutes"
               RoutesUpdateExamplesRouteWithOutputExpression:
                 $ref: "#/components/examples/RoutesUpdateExamplesRouteWithOutputExpression"
+              RoutesUpdateExamplesRouteWithDefaults:
+                $ref: "#/components/examples/RoutesUpdateExamplesRouteWithDefaults"
       parameters:
         - name: id
           in: path
@@ -48412,6 +48615,8 @@ paths:
                 $ref: "#/components/examples/RoutesAppendExamplesMultipleRoutes"
               RoutesAppendExamplesRouteWithOutputExpression:
                 $ref: "#/components/examples/RoutesAppendExamplesRouteWithOutputExpression"
+              RoutesAppendExamplesRouteWithDefaults:
+                $ref: "#/components/examples/RoutesAppendExamplesRouteWithDefaults"
       parameters:
         - name: id
           in: path
@@ -49963,8 +50168,8 @@ paths:
       x-speakeasy-name-override: get
       x-cribl-internal: false
       x-cribl-availability: both
-      summary: Retrieve health status of the server
-      description: Get the current health status of the server.
+      summary: Get the health status of the server
+      description: Get the current health status of the server (Leader or Worker Node).
       security: []
       responses:
         "200":
@@ -49973,12 +50178,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthServerStatus"
+              examples:
+                HealthExamplesHealthyPrimary:
+                  $ref: "#/components/examples/HealthExamplesHealthyPrimary"
         "420":
           description: Server is shutting down or in standby mode
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthServerStatus"
+              examples:
+                Health420ExamplesShuttingDown:
+                  $ref: "#/components/examples/Health420ExamplesShuttingDown"
+                Health420ExamplesStandby:
+                  $ref: "#/components/examples/Health420ExamplesStandby"
         "500":
           description: Unexpected error
           content:

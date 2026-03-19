@@ -26,6 +26,7 @@ from cribl_control_plane.models import (
     CompressionLevelOptions,
     Pipeline,
     RouteConf,
+    RouteConfInput,
     PipelineConf,
     ConfInput,
     PipelineFunctionEval,
@@ -162,8 +163,11 @@ async def main():
         raise Exception("No Routes found")
 
     routes.routes = [route] + (routes.routes or [])
+    routes_input = [
+        RouteConfInput.model_validate(r.model_dump()) for r in routes.routes
+    ]
     cribl.routes.update(
-        id_param=routes.id, id=routes.id, routes=routes.routes, server_url=group_url
+        id_param=routes.id, id=routes.id, routes=routes_input, server_url=group_url
     )
     print(f"✅ Route added: {route.id}")
 

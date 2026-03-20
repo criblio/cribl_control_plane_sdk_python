@@ -3751,6 +3751,8 @@ class CreateOutputOutputXsiamTypedDict(TypedDict):
     r"""Maximum size, in KB, of the request body"""
     max_payload_events: NotRequired[float]
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+    compress: NotRequired[bool]
+    r"""Compress the payload body before sending"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
@@ -3857,6 +3859,9 @@ class CreateOutputOutputXsiam(BaseModel):
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
     ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+
+    compress: Optional[bool] = None
+    r"""Compress the payload body before sending"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -4077,6 +4082,7 @@ class CreateOutputOutputXsiam(BaseModel):
                 "concurrency",
                 "maxPayloadSizeKB",
                 "maxPayloadEvents",
+                "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
                 "flushPeriodSec",

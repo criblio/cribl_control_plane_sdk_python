@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1773911290355-6f003353
+  version: 4.18.0-alpha.1774047789988-edc06e0d
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -35497,6 +35497,10 @@ components:
           title: Events-per-request limit
           description: Maximum number of events to include in the request body. Default is 0 (unlimited).
           minimum: 0
+        compress:
+          type: boolean
+          title: Compress
+          description: Compress the payload body before sending
         rejectUnauthorized:
           type: boolean
           title: Validate server certs

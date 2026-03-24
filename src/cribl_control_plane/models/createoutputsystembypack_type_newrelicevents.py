@@ -10689,6 +10689,8 @@ class CreateOutputSystemByPackOutputPrometheusTypedDict(TypedDict):
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
     send_metadata: NotRequired[bool]
     r"""Generate and send metadata (`type` and `metricFamilyName`) requests"""
+    use_prometheus_histogram_bucket_suffix: NotRequired[bool]
+    r"""Serialize histogram bucket series as `<metric>_bucket` to match Prometheus histogram naming convention"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -10789,6 +10791,11 @@ class CreateOutputSystemByPackOutputPrometheus(BaseModel):
         None
     )
     r"""Generate and send metadata (`type` and `metricFamilyName`) requests"""
+
+    use_prometheus_histogram_bucket_suffix: Annotated[
+        Optional[bool], pydantic.Field(alias="usePrometheusHistogramBucketSuffix")
+    ] = None
+    r"""Serialize histogram bucket series as `<metric>_bucket` to match Prometheus histogram naming convention"""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -11007,6 +11014,7 @@ class CreateOutputSystemByPackOutputPrometheus(BaseModel):
                 "streamtags",
                 "metricRenameExpr",
                 "sendMetadata",
+                "usePrometheusHistogramBucketSuffix",
                 "concurrency",
                 "maxPayloadSizeKB",
                 "maxPayloadEvents",

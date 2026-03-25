@@ -23,7 +23,7 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
-from .createinput_persistence_systemmetrics import (
+from .createinput_container import (
     CreateInputContainer,
     CreateInputContainerTypedDict,
     CreateInputHostSystemMetrics,
@@ -96,9 +96,10 @@ from .createinput_persistence_systemmetrics import (
     CreateInputInputWizWebhookTypedDict,
     CreateInputInputZscalerHec,
     CreateInputInputZscalerHecTypedDict,
-    CreateInputPersistenceSystemMetrics,
-    CreateInputPersistenceSystemMetricsTypedDict,
     CreateInputTypeSystemMetrics,
+)
+from .datacompressionformatoptionspersistence import (
+    DataCompressionFormatOptionsPersistence,
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
@@ -123,6 +124,7 @@ from .kafkaschemaregistryauthenticationtype import (
 )
 from .logleveloptions import LogLevelOptions
 from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
+from .logleveloptionsdebugerror import LogLevelOptionsDebugError
 from .outputmodeoptionssplunkcollectorconf import OutputModeOptionsSplunkCollectorConf
 from .pqtype import PqType, PqTypeTypedDict
 from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
@@ -157,6 +159,73 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputPersistenceSystemMetricsTypedDict(TypedDict):
+    enable: NotRequired[bool]
+    r"""Spool metrics to disk for Cribl Edge and Search"""
+    time_window: NotRequired[str]
+    r"""Time span for each file bucket"""
+    max_data_size: NotRequired[str]
+    r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
+    max_data_time: NotRequired[str]
+    r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
+    compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    dest_path: NotRequired[str]
+    r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
+
+
+class CreateInputPersistenceSystemMetrics(BaseModel):
+    enable: Optional[bool] = None
+    r"""Spool metrics to disk for Cribl Edge and Search"""
+
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
+    r"""Time span for each file bucket"""
+
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
+    r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
+
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
+    r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
+
+    compress: Optional[DataCompressionFormatOptionsPersistence] = None
+
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
+    r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
+
+    @field_serializer("compress")
+    def serialize_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataCompressionFormatOptionsPersistence(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSystemMetricsTypedDict(TypedDict):
@@ -2265,7 +2334,7 @@ class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOptions]
+    log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
@@ -2383,7 +2452,7 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+        Optional[LogLevelOptionsDebugError], pydantic.Field(alias="logLevel")
     ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
@@ -2450,7 +2519,7 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOptions(value)
+                return models.LogLevelOptionsDebugError(value)
             except ValueError:
                 return value
         return value
@@ -2583,7 +2652,7 @@ class CreateInputInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOptions]
+    log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
@@ -2707,7 +2776,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+        Optional[LogLevelOptionsDebugError], pydantic.Field(alias="logLevel")
     ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
@@ -2785,7 +2854,7 @@ class CreateInputInputOffice365MsgTrace(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOptions(value)
+                return models.LogLevelOptionsDebugError(value)
             except ValueError:
                 return value
         return value
@@ -4007,15 +4076,6 @@ class CreateInputDiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta
     EC2 = "ec2"
 
 
-class CreateInputLogLevelPrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Collector runtime log level"""
-
-    ERROR = "error"
-    WARN = "warn"
-    INFO = "info"
-    DEBUG = "debug"
-
-
 class CreateInputMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Protocol to use when collecting metrics"""
 
@@ -4029,7 +4089,7 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     type: CreateInputTypePrometheus
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
-    log_level: CreateInputLogLevelPrometheus
+    log_level: LogLevelOptions
     r"""Collector runtime log level"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -4143,9 +4203,7 @@ class CreateInputInputPrometheus(BaseModel):
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
 
-    log_level: Annotated[
-        CreateInputLogLevelPrometheus, pydantic.Field(alias="logLevel")
-    ]
+    log_level: Annotated[LogLevelOptions, pydantic.Field(alias="logLevel")]
     r"""Collector runtime log level"""
 
     disabled: Optional[bool] = None
@@ -4379,7 +4437,7 @@ class CreateInputInputPrometheus(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputLogLevelPrometheus(value)
+                return models.LogLevelOptions(value)
             except ValueError:
                 return value
         return value
@@ -8924,16 +8982,15 @@ class CreateInputInputCollection(BaseModel):
 CreateInputRequestTypedDict = TypeAliasType(
     "CreateInputRequestTypedDict",
     Union[
-        CreateInputInputServicenowTableTypedDict,
-        CreateInputInputKubeEventsTypedDict,
-        CreateInputInputCriblTypedDict,
         CreateInputInputDatagenTypedDict,
+        CreateInputInputCriblTypedDict,
+        CreateInputInputKubeEventsTypedDict,
         CreateInputInputCriblmetricsTypedDict,
         CreateInputInputKubeMetricsTypedDict,
         CreateInputInputCollectionTypedDict,
+        CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputSystemStateTypedDict,
         CreateInputInputSystemMetricsTypedDict,
-        CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputJournalFilesTypedDict,
         CreateInputInputKubeLogsTypedDict,
         CreateInputInputModelDrivenTelemetryTypedDict,
@@ -8942,35 +8999,35 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputRawUDPTypedDict,
         CreateInputInputSnmpTypedDict,
         CreateInputInputMetricsTypedDict,
-        CreateInputInputCriblTCPTypedDict,
         CreateInputInputNetflowTypedDict,
+        CreateInputInputCriblTCPTypedDict,
         CreateInputInputOpenaiTypedDict,
         CreateInputInputTcpjsonTypedDict,
         CreateInputInputGooglePubsubTypedDict,
-        CreateInputInputFirehoseTypedDict,
-        CreateInputInputOffice365ServiceTypedDict,
-        CreateInputInputCriblHTTPTypedDict,
         CreateInputInputWizTypedDict,
+        CreateInputInputOffice365ServiceTypedDict,
+        CreateInputInputFirehoseTypedDict,
+        CreateInputInputCriblHTTPTypedDict,
         CreateInputInputTCPTypedDict,
         CreateInputInputDatadogAgentTypedDict,
         CreateInputInputFileTypedDict,
         CreateInputInputOffice365MgmtTypedDict,
+        CreateInputInputWefTypedDict,
         CreateInputInputSplunkTypedDict,
         CreateInputInputAppscopeTypedDict,
-        CreateInputInputWefTypedDict,
-        CreateInputInputHTTPRawTypedDict,
         CreateInputInputWizWebhookTypedDict,
+        CreateInputInputHTTPRawTypedDict,
+        CreateInputInputLokiTypedDict,
+        CreateInputInputConfluentCloudTypedDict,
+        CreateInputInputZscalerHecTypedDict,
         CreateInputInputHTTPTypedDict,
         CreateInputInputKafkaTypedDict,
-        CreateInputInputConfluentCloudTypedDict,
-        CreateInputInputCriblLakeHTTPTypedDict,
-        CreateInputInputZscalerHecTypedDict,
         CreateInputInputCloudflareHecTypedDict,
         CreateInputInputEventhubTypedDict,
-        CreateInputInputLokiTypedDict,
-        CreateInputInputAzureBlobTypedDict,
-        CreateInputInputOpenTelemetryTypedDict,
+        CreateInputInputCriblLakeHTTPTypedDict,
         CreateInputInputPrometheusRwTypedDict,
+        CreateInputInputOpenTelemetryTypedDict,
+        CreateInputInputAzureBlobTypedDict,
         CreateInputInputElasticTypedDict,
         CreateInputInputMicrosoftGraphTypedDict,
         CreateInputInputSplunkHecTypedDict,
@@ -8978,6 +9035,7 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputSqsTypedDict,
         CreateInputInputKinesisTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
+        CreateInputInputServicenowTableTypedDict,
         CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
         CreateInputInputMskTypedDict,
@@ -9063,6 +9121,10 @@ CreateInputRequest = Annotated[
 r"""Input object"""
 
 
+try:
+    CreateInputPersistenceSystemMetrics.model_rebuild()
+except NameError:
+    pass
 try:
     CreateInputInputSystemMetrics.model_rebuild()
 except NameError:

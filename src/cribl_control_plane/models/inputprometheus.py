@@ -11,6 +11,7 @@ from .itemstypeconnectionsoptional import (
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .itemstypesearchfilter import ItemsTypeSearchFilter, ItemsTypeSearchFilterTypedDict
+from .logleveloptions import LogLevelOptions
 from .pqtype import PqType, PqTypeTypedDict
 from .recordtypeoptions import RecordTypeOptions
 from .signatureversionoptionsv2v4 import SignatureVersionOptionsV2V4
@@ -38,15 +39,6 @@ class InputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
     EC2 = "ec2"
 
 
-class InputPrometheusLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Collector runtime log level"""
-
-    ERROR = "error"
-    WARN = "warn"
-    INFO = "info"
-    DEBUG = "debug"
-
-
 class MetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Protocol to use when collecting metrics"""
 
@@ -58,7 +50,7 @@ class InputPrometheusTypedDict(TypedDict):
     type: InputPrometheusType
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
-    log_level: InputPrometheusLogLevel
+    log_level: LogLevelOptions
     r"""Collector runtime log level"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -171,7 +163,7 @@ class InputPrometheus(BaseModel):
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
 
-    log_level: Annotated[InputPrometheusLogLevel, pydantic.Field(alias="logLevel")]
+    log_level: Annotated[LogLevelOptions, pydantic.Field(alias="logLevel")]
     r"""Collector runtime log level"""
 
     id: Optional[str] = None
@@ -407,7 +399,7 @@ class InputPrometheus(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.InputPrometheusLogLevel(value)
+                return models.LogLevelOptions(value)
             except ValueError:
                 return value
         return value

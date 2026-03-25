@@ -5,10 +5,11 @@ from cribl_control_plane import utils
 from enum import Enum
 
 
-class LogLevelOptions(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Collector runtime log level"""
+class LogLevelOptionsDebugError(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Log Level (verbosity) for collection runtime behavior."""
 
     ERROR = "error"
     WARN = "warn"
     INFO = "info"
     DEBUG = "debug"
+    SILLY = "silly"

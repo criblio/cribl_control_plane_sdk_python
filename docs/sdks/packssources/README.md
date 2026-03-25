@@ -1191,7 +1191,7 @@ with CriblControlPlane(
         "pq_enabled": False,
         "discovery_type": models.CreateInputSystemByPackDiscoveryTypePrometheus.STATIC,
         "interval": 60,
-        "log_level": models.CreateInputSystemByPackLogLevelPrometheus.INFO,
+        "log_level": models.LogLevelOptions.INFO,
         "target_list": [
             "http://localhost:9090/metrics",
         ],
@@ -1362,6 +1362,10 @@ with CriblControlPlane(
         "type": models.CreateInputSystemByPackTypeServicenowTable.SERVICENOW_TABLE,
         "send_to_routes": True,
         "pq_enabled": False,
+        "instance": "https://example.service-now.com",
+        "cron_schedule": "0 * * * *",
+        "earliest": "-1d",
+        "latest": "now",
     })
 
     # Handle response
@@ -3030,7 +3034,7 @@ with CriblControlPlane(
         "pq_enabled": False,
         "discovery_type": models.InputPrometheusDiscoveryType.STATIC,
         "interval": 60,
-        "log_level": models.InputPrometheusLogLevel.INFO,
+        "log_level": models.LogLevelOptions.INFO,
         "target_list": [
             "http://localhost:9090/metrics",
         ],
@@ -3201,6 +3205,10 @@ with CriblControlPlane(
         "type": models.InputServicenowTableType.SERVICENOW_TABLE,
         "send_to_routes": True,
         "pq_enabled": False,
+        "instance": "https://example.service-now.com",
+        "cron_schedule": "0 * * * *",
+        "earliest": "-1d",
+        "latest": "now",
     })
 
     # Handle response

@@ -5,11 +5,17 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
+from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
+from .itemstypeoauthheaders import ItemsTypeOauthHeaders, ItemsTypeOauthHeadersTypedDict
+from .itemstypeoauthparams import ItemsTypeOauthParams, ItemsTypeOauthParamsTypedDict
+from .logleveloptions import LogLevelOptions
 from .pqtype import PqType, PqTypeTypedDict
+from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import model_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
@@ -18,8 +24,31 @@ class InputServicenowTableType(str, Enum):
     SERVICENOW_TABLE = "servicenow_table"
 
 
+class InputServicenowTableAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""ServiceNow Table API authentication method"""
+
+    # None
+    NONE = "none"
+    # Basic
+    BASIC = "basic"
+    # Basic (credentials secret)
+    BASIC_SECRET = "basicSecret"
+    # OAuth
+    OAUTH = "oauth"
+    # OAuth (text secret)
+    OAUTH_SECRET = "oauthSecret"
+
+
 class InputServicenowTableTypedDict(TypedDict):
     type: InputServicenowTableType
+    instance: str
+    r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
+    cron_schedule: str
+    r"""Cron schedule on which to run this job"""
+    earliest: str
+    r"""Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
+    latest: str
+    r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -36,11 +65,80 @@ class InputServicenowTableTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+    auth_type: NotRequired[InputServicenowTableAuthenticationType]
+    r"""ServiceNow Table API authentication method"""
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    log_level: NotRequired[LogLevelOptions]
+    r"""Collector runtime log level"""
+    request_timeout: NotRequired[float]
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+    use_round_robin_dns: NotRequired[bool]
+    r"""When a DNS server returns multiple addresses, @{product} cycles through them in the order returned"""
+    keep_alive_time: NotRequired[float]
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+    max_missed_keep_alives: NotRequired[float]
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+    ttl: NotRequired[str]
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+    ignore_group_jobs_limit: NotRequired[bool]
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret for the OAuth client secret parameter value"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+    template_instance: NotRequired[str]
+    r"""Binds 'instance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'instance' at runtime."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_secret: NotRequired[str]
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class InputServicenowTable(BaseModel):
     type: InputServicenowTableType
+
+    instance: str
+    r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
+
+    cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
+    r"""Cron schedule on which to run this job"""
+
+    earliest: str
+    r"""Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
+
+    latest: str
+    r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -69,7 +167,157 @@ class InputServicenowTable(BaseModel):
 
     pq: Optional[PqType] = None
 
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
+
+    auth_type: Annotated[
+        Optional[InputServicenowTableAuthenticationType],
+        pydantic.Field(alias="authType"),
+    ] = None
+    r"""ServiceNow Table API authentication method"""
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        None
+    )
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    log_level: Annotated[
+        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+    ] = None
+    r"""Collector runtime log level"""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = None
+    r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    use_round_robin_dns: Annotated[
+        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
+    ] = None
+    r"""When a DNS server returns multiple addresses, @{product} cycles through them in the order returned"""
+
+    keep_alive_time: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTime")
+    ] = None
+    r"""How often workers should check in with the scheduler to keep job subscription alive"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
+
+    max_missed_keep_alives: Annotated[
+        Optional[float], pydantic.Field(alias="maxMissedKeepAlives")
+    ] = None
+    r"""The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked."""
+
+    ttl: Optional[str] = None
+    r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
+
+    ignore_group_jobs_limit: Annotated[
+        Optional[bool], pydantic.Field(alias="ignoreGroupJobsLimit")
+    ] = None
+    r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    retry_rules: Annotated[
+        Optional[RetryRulesType], pydantic.Field(alias="retryRules")
+    ] = None
+
     description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = None
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret for the OAuth client secret parameter value"""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = None
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = None
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+
+    template_instance: Annotated[
+        Optional[str], pydantic.Field(alias="__template_instance")
+    ] = None
+    r"""Binds 'instance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'instance' at runtime."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_secret")
+    ] = None
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputServicenowTableAuthenticationType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("log_level")
+    def serialize_log_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.LogLevelOptions(value)
+            except ValueError:
+                return value
+        return value
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -84,7 +332,37 @@ class InputServicenowTable(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "rejectUnauthorized",
+                "authType",
+                "stateTracking",
+                "logLevel",
+                "requestTimeout",
+                "useRoundRobinDns",
+                "keepAliveTime",
+                "jobTimeout",
+                "maxMissedKeepAlives",
+                "ttl",
+                "ignoreGroupJobsLimit",
+                "metadata",
+                "retryRules",
                 "description",
+                "username",
+                "password",
+                "credentialsSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "textSecret",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "__template_instance",
+                "__template_loginUrl",
+                "__template_secret",
             ]
         )
         serialized = handler(self)

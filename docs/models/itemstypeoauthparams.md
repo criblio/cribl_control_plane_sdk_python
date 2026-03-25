@@ -1,4 +1,4 @@
-# OauthParam
+# ItemsTypeOauthParams
 
 
 ## Fields

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1774047789988-edc06e0d
+  version: 4.18.0-alpha.1774393403184-de48d82e
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -11507,12 +11507,17 @@ components:
       properties:
         gid:
           type: string
+          description: Unique identifier for the group that owns the resource.
         id:
           type: string
+          description: Unique identifier for the resource. Omitted for resource type <code>groups</code>.
         policy:
           type: string
+          description: String that defines the access control policy for the resource.
         type:
           $ref: "#/components/schemas/RbacResource"
+          description: Resource type that the access control policy applies to.
+          example: projects
       required:
         - gid
         - policy
@@ -14048,15 +14053,7 @@ components:
           minimum: 1
           maximum: 60
         logLevel:
-          type: string
-          title: Log level
-          enum:
-            - error
-            - warn
-            - info
-            - debug
-          description: Collector runtime log level
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/LogLevelOptions"
         rejectUnauthorized:
           type: boolean
           title: Reject unauthorized certificates
@@ -14936,7 +14933,7 @@ components:
           description: Maximum number of times a task can be rescheduled
           minimum: 1
         logLevel:
-          $ref: "#/components/schemas/LogLevelOptions"
+          $ref: "#/components/schemas/LogLevelOptionsDebugError"
         retryRules:
           $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
         description:
@@ -15114,7 +15111,7 @@ components:
           description: Maximum number of times a task can be rescheduled
           minimum: 1
         logLevel:
-          $ref: "#/components/schemas/LogLevelOptions"
+          $ref: "#/components/schemas/LogLevelOptionsDebugError"
         retryRules:
           $ref: "#/components/schemas/RetryRulesTypeCodesEnableHeader"
         description:
@@ -21394,6 +21391,12 @@ components:
           description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
     InputServicenowTable:
       type: object
+      required:
+        - type
+        - instance
+        - cronSchedule
+        - earliest
+        - latest
       properties:
         id:
           type: string
@@ -21435,11 +21438,163 @@ components:
             $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
         pq:
           $ref: "#/components/schemas/PqType"
+        instance:
+          type: string
+          title: Instance URL
+          description: ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL.
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)
+        authType:
+          type: string
+          title: Authentication type
+          description: ServiceNow Table API authentication method
+          enum:
+            - none
+            - basic
+            - basicSecret
+            - oauth
+            - oauthSecret
+          x-speakeasy-enum-descriptions:
+            - None
+            - Basic
+            - Basic (credentials secret)
+            - OAuth
+            - OAuth (text secret)
+          x-speakeasy-unknown-values: allow
+        cronSchedule:
+          type: string
+          title: Cron schedule
+          description: Cron schedule on which to run this job
+        earliest:
+          type: string
+          title: Earliest time
+          description: "Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"
+        latest:
+          type: string
+          title: Latest time
+          description: "Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"
+        stateTracking:
+          type: boolean
+          title: State tracking
+          description: Track collection progress between consecutive scheduled executions
+        logLevel:
+          $ref: "#/components/schemas/LogLevelOptions"
+        requestTimeout:
+          type: number
+          title: Request timeout (seconds)
+          description: HTTP request inactivity timeout. Use 0 to disable.
+          minimum: 0
+        useRoundRobinDns:
+          type: boolean
+          title: Round-robin DNS
+          description: When a DNS server returns multiple addresses, @{product} cycles through them in the order returned
+        keepAliveTime:
+          type: number
+          title: Keep alive time (seconds)
+          description: How often workers should check in with the scheduler to keep job subscription alive
+          minimum: 10
+        jobTimeout:
+          type: string
+          title: Job timeout
+          description: Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time.
+          pattern: ^\d+[sm]?$
+        maxMissedKeepAlives:
+          type: number
+          title: Worker timeout (periods)
+          description: The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked.
+          minimum: 2
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        retryRules:
+          $ref: "#/components/schemas/RetryRulesType"
         description:
           type: string
           title: Description
-      required:
-        - type
+        username:
+          type: string
+          title: Username
+        password:
+          type: string
+          title: Password
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a secret that references your credentials
+        loginUrl:
+          type: string
+          title: Login URL
+          description: URL for OAuth
+          pattern: ^https?://.*
+        secretParamName:
+          type: string
+          title: OAuth Secret parameter name
+          description: Secret parameter name to pass in request body
+        secret:
+          type: string
+          title: OAuth secret
+          description: Secret parameter value to pass in request body
+        tokenAttributeName:
+          type: string
+          title: Token attribute name
+          description: Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token').
+        authHeaderExpr:
+          type: string
+          title: Authorize expression
+          description: "JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."
+        tokenTimeoutSecs:
+          type: number
+          title: Refresh interval (secs.)
+          description: How often the OAuth token should be refreshed.
+          minimum: 1
+          maximum: 300000
+        oauthParams:
+          type: array
+          title: OAuth parameters
+          description: Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
+          items:
+            $ref: "#/components/schemas/ItemsTypeOauthParams"
+        oauthHeaders:
+          type: array
+          title: OAuth headers
+          description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
+          items:
+            $ref: "#/components/schemas/ItemsTypeOauthHeaders"
+        textSecret:
+          type: string
+          title: OAuth secret (text secret)
+          description: Select or create a stored text secret for the OAuth client secret parameter value
+        stateUpdateExpression:
+          type: string
+          title: State update expression
+          description: JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information.
+        stateMergeExpression:
+          type: string
+          title: State merge expression
+          description: JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep.
+        __template_instance:
+          type: string
+          description: Binds 'instance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'instance' at runtime.
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime.
+        __template_secret:
+          type: string
+          description: Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime.
     InputZscalerHec:
       type: object
       required:
@@ -22782,37 +22937,13 @@ components:
           title: OAuth parameters
           description: Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
-            type: object
-            required:
-              - name
-              - value
-            properties:
-              name:
-                type: string
-                title: Name
-                description: OAuth parameter name
-              value:
-                type: string
-                title: Value
-                description: OAuth parameter value
+            $ref: "#/components/schemas/ItemsTypeOauthParams"
         oauthHeaders:
           type: array
           title: OAuth headers
           description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
-            type: object
-            required:
-              - name
-              - value
-            properties:
-              name:
-                type: string
-                title: Name
-                description: OAuth header name
-              value:
-                type: string
-                title: Value
-                description: OAuth header value
+            $ref: "#/components/schemas/ItemsTypeOauthHeaders"
         url:
           type: string
           title: Webhook URL
@@ -32117,6 +32248,10 @@ components:
           type: boolean
           title: Send metadata
           description: Generate and send metadata (`type` and `metricFamilyName`) requests
+        usePrometheusHistogramBucketSuffix:
+          type: boolean
+          title: Use `_bucket` suffix for histogram buckets
+          description: Serialize histogram bucket series as `<metric>_bucket` to match Prometheus histogram naming convention
         concurrency:
           type: number
           title: Request concurrency
@@ -37682,8 +37817,10 @@ components:
           items:
             type: object
             additionalProperties: true
+          description: Array of sample events for the Destination.
       required:
         - events
+      description: Sample event data returned for a Destination.
     CountedOutputTestResponse:
       type: object
       properties:
@@ -40842,6 +40979,16 @@ components:
         - Token
         - Token (text secret)
       x-speakeasy-unknown-values: allow
+    LogLevelOptions:
+      type: string
+      title: Log level
+      enum:
+        - error
+        - warn
+        - info
+        - debug
+      description: Collector runtime log level
+      x-speakeasy-unknown-values: allow
     RecordTypeOptions:
       enum:
         - SRV
@@ -40926,7 +41073,7 @@ components:
         - secret
       description: Enter client secret directly, or select a stored secret
       x-speakeasy-unknown-values: allow
-    LogLevelOptions:
+    LogLevelOptionsDebugError:
       type: string
       title: Log level
       description: Log Level (verbosity) for collection runtime behavior.
@@ -41150,6 +41297,34 @@ components:
         value:
           type: string
           title: Value
+    ItemsTypeOauthParams:
+      type: object
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          title: Name
+          description: OAuth parameter name
+        value:
+          type: string
+          title: Value
+          description: OAuth parameter value
+    ItemsTypeOauthHeaders:
+      type: object
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          title: Name
+          description: OAuth header name
+        value:
+          type: string
+          title: Value
+          description: OAuth header value
     JobTypeOptionsRunnableJobCollection:
       type: string
       title: Job type
@@ -43728,6 +43903,10 @@ components:
       value:
         id: servicenow-table-source
         type: servicenow_table
+        instance: https://example.service-now.com
+        cronSchedule: 0 * * * *
+        earliest: -1d
+        latest: now
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesSnmp:
@@ -48010,11 +48189,13 @@ paths:
       description: Get sample event data for the specified Destination to validate the configuration or test connectivity.
       responses:
         "200":
-          description: sample event data for the Destination
+          description: Sample event data for the Destination
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputSamplesResponse"
+        "400":
+          description: Bad Request — invalid request or Destination error
         "401":
           description: Unauthorized
         "500":
@@ -48048,6 +48229,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputTestResponse"
+        "400":
+          description: Bad Request — missing or invalid events
         "401":
           description: Unauthorized
         "500":
@@ -48649,11 +48832,13 @@ paths:
       description: Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
       responses:
         "200":
-          description: sample event data for the Destination
+          description: Sample event data for the Destination
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputSamplesResponse"
+        "400":
+          description: Bad Request — invalid request or Destination error
         "401":
           description: Unauthorized
         "500":
@@ -48693,6 +48878,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputTestResponse"
+        "400":
+          description: Bad Request — missing or invalid events
         "401":
           description: Unauthorized
         "500":

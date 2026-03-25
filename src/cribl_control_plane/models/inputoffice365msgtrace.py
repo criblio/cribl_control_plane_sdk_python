@@ -7,7 +7,7 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptionalTypedDict,
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
-from .logleveloptions import LogLevelOptions
+from .logleveloptionsdebugerror import LogLevelOptionsDebugError
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestypecodesenableheader import (
     RetryRulesTypeCodesEnableHeader,
@@ -87,7 +87,7 @@ class InputOffice365MsgTraceTypedDict(TypedDict):
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOptions]
+    log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
@@ -211,7 +211,7 @@ class InputOffice365MsgTrace(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+        Optional[LogLevelOptionsDebugError], pydantic.Field(alias="logLevel")
     ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
@@ -289,7 +289,7 @@ class InputOffice365MsgTrace(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOptions(value)
+                return models.LogLevelOptionsDebugError(value)
             except ValueError:
                 return value
         return value

@@ -7,9 +7,9 @@ from .maximumtlsversionoptionsredisdeploymenttypestandalonetlsoptions import (
 from .minimumtlsversionoptionsredisdeploymenttypestandalonetlsoptions import (
     MinimumTLSVersionOptionsRedisDeploymentTypeStandaloneTLSOptions,
 )
-from .tlsoptionstyperedisdeploymenttypecluster import (
-    TLSOptionsTypeRedisDeploymentTypeCluster,
-    TLSOptionsTypeRedisDeploymentTypeClusterTypedDict,
+from .tlsoptionstyperedisdeploymenttypeclustertlstrue import (
+    TLSOptionsTypeRedisDeploymentTypeClusterTLSTrue,
+    TLSOptionsTypeRedisDeploymentTypeClusterTLSTrueTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -597,7 +597,7 @@ class RedisAuthTypeNone(BaseModel):
         return m
 
 
-class RedisDeploymentTypeSentinelDeploymentType(
+class RedisDeploymentTypeSentinelTLSFalseDeploymentType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""How the Redis server is configured. Defaults to Standalone"""
@@ -610,14 +610,14 @@ class RedisDeploymentTypeSentinelDeploymentType(
     SENTINEL = "sentinel"
 
 
-class RedisDeploymentTypeSentinelRootNodeTypedDict(TypedDict):
+class RedisDeploymentTypeSentinelTLSFalseRootNodeTypedDict(TypedDict):
     host: str
     r"""Hostname of sentinel node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
     port: float
     r"""Port of sentinel node"""
 
 
-class RedisDeploymentTypeSentinelRootNode(BaseModel):
+class RedisDeploymentTypeSentinelTLSFalseRootNode(BaseModel):
     host: str
     r"""Hostname of sentinel node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
 
@@ -625,7 +625,7 @@ class RedisDeploymentTypeSentinelRootNode(BaseModel):
     r"""Port of sentinel node"""
 
 
-class RedisDeploymentTypeSentinelCommandTypedDict(TypedDict):
+class RedisDeploymentTypeSentinelTLSFalseCommandTypedDict(TypedDict):
     command: str
     r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
     key_expr: str
@@ -636,7 +636,7 @@ class RedisDeploymentTypeSentinelCommandTypedDict(TypedDict):
     r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
 
 
-class RedisDeploymentTypeSentinelCommand(BaseModel):
+class RedisDeploymentTypeSentinelTLSFalseCommand(BaseModel):
     command: str
     r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
 
@@ -666,7 +666,7 @@ class RedisDeploymentTypeSentinelCommand(BaseModel):
         return m
 
 
-class RedisDeploymentTypeSentinelAuthenticationMethod(
+class RedisDeploymentTypeSentinelTLSFalseAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # None
@@ -679,50 +679,44 @@ class RedisDeploymentTypeSentinelAuthenticationMethod(
     TEXT_SECRET = "textSecret"
 
 
-class RedisDeploymentTypeSentinelTypedDict(TypedDict):
+class RedisDeploymentTypeSentinelTLSFalseTypedDict(TypedDict):
     master_name: str
-    commands: List[RedisDeploymentTypeSentinelCommandTypedDict]
-    deployment_type: NotRequired[RedisDeploymentTypeSentinelDeploymentType]
-    r"""How the Redis server is configured. Defaults to Standalone"""
-    root_nodes: NotRequired[List[RedisDeploymentTypeSentinelRootNodeTypedDict]]
-    r"""List of sentinels to be used"""
+    commands: List[RedisDeploymentTypeSentinelTLSFalseCommandTypedDict]
     tls: NotRequired[bool]
     r"""Use TLS for connections to this cluster"""
-    tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeClusterTypedDict]
-    auth_type: NotRequired[RedisDeploymentTypeSentinelAuthenticationMethod]
+    deployment_type: NotRequired[RedisDeploymentTypeSentinelTLSFalseDeploymentType]
+    r"""How the Redis server is configured. Defaults to Standalone"""
+    root_nodes: NotRequired[List[RedisDeploymentTypeSentinelTLSFalseRootNodeTypedDict]]
+    r"""List of sentinels to be used"""
+    auth_type: NotRequired[RedisDeploymentTypeSentinelTLSFalseAuthenticationMethod]
     max_block_secs: NotRequired[float]
     r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
     enable_client_side_caching: NotRequired[bool]
     r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
 
 
-class RedisDeploymentTypeSentinel(BaseModel):
+class RedisDeploymentTypeSentinelTLSFalse(BaseModel):
     master_name: Annotated[str, pydantic.Field(alias="masterName")]
 
-    commands: List[RedisDeploymentTypeSentinelCommand]
+    commands: List[RedisDeploymentTypeSentinelTLSFalseCommand]
+
+    tls: Optional[bool] = None
+    r"""Use TLS for connections to this cluster"""
 
     deployment_type: Annotated[
-        Optional[RedisDeploymentTypeSentinelDeploymentType],
+        Optional[RedisDeploymentTypeSentinelTLSFalseDeploymentType],
         pydantic.Field(alias="deploymentType"),
     ] = None
     r"""How the Redis server is configured. Defaults to Standalone"""
 
     root_nodes: Annotated[
-        Optional[List[RedisDeploymentTypeSentinelRootNode]],
+        Optional[List[RedisDeploymentTypeSentinelTLSFalseRootNode]],
         pydantic.Field(alias="rootNodes"),
     ] = None
     r"""List of sentinels to be used"""
 
-    tls: Optional[bool] = None
-    r"""Use TLS for connections to this cluster"""
-
-    tls_options: Annotated[
-        Optional[TLSOptionsTypeRedisDeploymentTypeCluster],
-        pydantic.Field(alias="tlsOptions"),
-    ] = None
-
     auth_type: Annotated[
-        Optional[RedisDeploymentTypeSentinelAuthenticationMethod],
+        Optional[RedisDeploymentTypeSentinelTLSFalseAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
 
@@ -740,7 +734,7 @@ class RedisDeploymentTypeSentinel(BaseModel):
     def serialize_deployment_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RedisDeploymentTypeSentinelDeploymentType(value)
+                return models.RedisDeploymentTypeSentinelTLSFalseDeploymentType(value)
             except ValueError:
                 return value
         return value
@@ -749,7 +743,9 @@ class RedisDeploymentTypeSentinel(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RedisDeploymentTypeSentinelAuthenticationMethod(value)
+                return models.RedisDeploymentTypeSentinelTLSFalseAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -758,10 +754,9 @@ class RedisDeploymentTypeSentinel(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "tls",
                 "deploymentType",
                 "rootNodes",
-                "tls",
-                "tlsOptions",
                 "authType",
                 "maxBlockSecs",
                 "enableClientSideCaching",
@@ -781,7 +776,9 @@ class RedisDeploymentTypeSentinel(BaseModel):
         return m
 
 
-class RedisDeploymentTypeClusterDeploymentType(str, Enum, metaclass=utils.OpenEnumMeta):
+class RedisDeploymentTypeSentinelTLSTrueDeploymentType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""How the Redis server is configured. Defaults to Standalone"""
 
     # Standalone
@@ -792,14 +789,215 @@ class RedisDeploymentTypeClusterDeploymentType(str, Enum, metaclass=utils.OpenEn
     SENTINEL = "sentinel"
 
 
-class RedisDeploymentTypeClusterRootNodeTypedDict(TypedDict):
+class RedisDeploymentTypeSentinelTLSTrueRootNodeTypedDict(TypedDict):
+    host: str
+    r"""Hostname of sentinel node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
+    port: float
+    r"""Port of sentinel node"""
+
+
+class RedisDeploymentTypeSentinelTLSTrueRootNode(BaseModel):
+    host: str
+    r"""Hostname of sentinel node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
+
+    port: float
+    r"""Port of sentinel node"""
+
+
+class RedisDeploymentTypeSentinelTLSTrueCommandTypedDict(TypedDict):
+    command: str
+    r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
+    key_expr: str
+    r"""A JavaScript expression to compute the value of the key to operate on. Can also be a constant such as 'username'."""
+    out_field: NotRequired[str]
+    r"""Name of the field in which to store the returned value. Leave blank to discard returned value."""
+    args_expr: NotRequired[str]
+    r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
+
+
+class RedisDeploymentTypeSentinelTLSTrueCommand(BaseModel):
+    command: str
+    r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
+
+    key_expr: Annotated[str, pydantic.Field(alias="keyExpr")]
+    r"""A JavaScript expression to compute the value of the key to operate on. Can also be a constant such as 'username'."""
+
+    out_field: Annotated[Optional[str], pydantic.Field(alias="outField")] = None
+    r"""Name of the field in which to store the returned value. Leave blank to discard returned value."""
+
+    args_expr: Annotated[Optional[str], pydantic.Field(alias="argsExpr")] = None
+    r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["outField", "argsExpr"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RedisDeploymentTypeSentinelTLSTrueAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # None
+    NONE = "none"
+    # Manual
+    MANUAL = "manual"
+    # User Secret
+    CREDENTIALS_SECRET = "credentialsSecret"
+    # Admin Secret
+    TEXT_SECRET = "textSecret"
+
+
+class RedisDeploymentTypeSentinelTLSTrueTypedDict(TypedDict):
+    master_name: str
+    commands: List[RedisDeploymentTypeSentinelTLSTrueCommandTypedDict]
+    tls: NotRequired[bool]
+    r"""Use TLS for connections to this cluster"""
+    tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeClusterTLSTrueTypedDict]
+    deployment_type: NotRequired[RedisDeploymentTypeSentinelTLSTrueDeploymentType]
+    r"""How the Redis server is configured. Defaults to Standalone"""
+    root_nodes: NotRequired[List[RedisDeploymentTypeSentinelTLSTrueRootNodeTypedDict]]
+    r"""List of sentinels to be used"""
+    auth_type: NotRequired[RedisDeploymentTypeSentinelTLSTrueAuthenticationMethod]
+    max_block_secs: NotRequired[float]
+    r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
+    enable_client_side_caching: NotRequired[bool]
+    r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
+
+
+class RedisDeploymentTypeSentinelTLSTrue(BaseModel):
+    master_name: Annotated[str, pydantic.Field(alias="masterName")]
+
+    commands: List[RedisDeploymentTypeSentinelTLSTrueCommand]
+
+    tls: Optional[bool] = None
+    r"""Use TLS for connections to this cluster"""
+
+    tls_options: Annotated[
+        Optional[TLSOptionsTypeRedisDeploymentTypeClusterTLSTrue],
+        pydantic.Field(alias="tlsOptions"),
+    ] = None
+
+    deployment_type: Annotated[
+        Optional[RedisDeploymentTypeSentinelTLSTrueDeploymentType],
+        pydantic.Field(alias="deploymentType"),
+    ] = None
+    r"""How the Redis server is configured. Defaults to Standalone"""
+
+    root_nodes: Annotated[
+        Optional[List[RedisDeploymentTypeSentinelTLSTrueRootNode]],
+        pydantic.Field(alias="rootNodes"),
+    ] = None
+    r"""List of sentinels to be used"""
+
+    auth_type: Annotated[
+        Optional[RedisDeploymentTypeSentinelTLSTrueAuthenticationMethod],
+        pydantic.Field(alias="authType"),
+    ] = None
+
+    max_block_secs: Annotated[Optional[float], pydantic.Field(alias="maxBlockSecs")] = (
+        None
+    )
+    r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
+
+    enable_client_side_caching: Annotated[
+        Optional[bool], pydantic.Field(alias="enableClientSideCaching")
+    ] = None
+    r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
+
+    @field_serializer("deployment_type")
+    def serialize_deployment_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RedisDeploymentTypeSentinelTLSTrueDeploymentType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RedisDeploymentTypeSentinelTLSTrueAuthenticationMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "tls",
+                "tlsOptions",
+                "deploymentType",
+                "rootNodes",
+                "authType",
+                "maxBlockSecs",
+                "enableClientSideCaching",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RedisDeploymentTypeSentinelTypedDict = TypeAliasType(
+    "RedisDeploymentTypeSentinelTypedDict",
+    Union[
+        RedisDeploymentTypeSentinelTLSFalseTypedDict,
+        RedisDeploymentTypeSentinelTLSTrueTypedDict,
+    ],
+)
+
+
+RedisDeploymentTypeSentinel = TypeAliasType(
+    "RedisDeploymentTypeSentinel",
+    Union[RedisDeploymentTypeSentinelTLSFalse, RedisDeploymentTypeSentinelTLSTrue],
+)
+
+
+class RedisDeploymentTypeClusterTLSFalseDeploymentType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""How the Redis server is configured. Defaults to Standalone"""
+
+    # Standalone
+    STANDALONE = "standalone"
+    # Cluster
+    CLUSTER = "cluster"
+    # Sentinel
+    SENTINEL = "sentinel"
+
+
+class RedisDeploymentTypeClusterTLSFalseRootNodeTypedDict(TypedDict):
     host: str
     r"""Hostname of cluster node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
     port: float
     r"""Port of cluster node"""
 
 
-class RedisDeploymentTypeClusterRootNode(BaseModel):
+class RedisDeploymentTypeClusterTLSFalseRootNode(BaseModel):
     host: str
     r"""Hostname of cluster node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
 
@@ -807,7 +1005,9 @@ class RedisDeploymentTypeClusterRootNode(BaseModel):
     r"""Port of cluster node"""
 
 
-class ScaleReads(str, Enum, metaclass=utils.OpenEnumMeta):
+class RedisDeploymentTypeClusterTLSFalseScaleReads(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Which nodes read commands should be sent to"""
 
     # Masters
@@ -818,7 +1018,7 @@ class ScaleReads(str, Enum, metaclass=utils.OpenEnumMeta):
     ALL = "all"
 
 
-class RedisDeploymentTypeClusterCommandTypedDict(TypedDict):
+class RedisDeploymentTypeClusterTLSFalseCommandTypedDict(TypedDict):
     command: str
     r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
     key_expr: str
@@ -829,7 +1029,7 @@ class RedisDeploymentTypeClusterCommandTypedDict(TypedDict):
     r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
 
 
-class RedisDeploymentTypeClusterCommand(BaseModel):
+class RedisDeploymentTypeClusterTLSFalseCommand(BaseModel):
     command: str
     r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
 
@@ -859,7 +1059,7 @@ class RedisDeploymentTypeClusterCommand(BaseModel):
         return m
 
 
-class RedisDeploymentTypeClusterAuthenticationMethod(
+class RedisDeploymentTypeClusterTLSFalseAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # None
@@ -872,54 +1072,49 @@ class RedisDeploymentTypeClusterAuthenticationMethod(
     TEXT_SECRET = "textSecret"
 
 
-class RedisDeploymentTypeClusterTypedDict(TypedDict):
-    commands: List[RedisDeploymentTypeClusterCommandTypedDict]
-    deployment_type: NotRequired[RedisDeploymentTypeClusterDeploymentType]
-    r"""How the Redis server is configured. Defaults to Standalone"""
-    root_nodes: NotRequired[List[RedisDeploymentTypeClusterRootNodeTypedDict]]
-    r"""Root nodes to which the cluster connection should be initiated"""
+class RedisDeploymentTypeClusterTLSFalseTypedDict(TypedDict):
+    commands: List[RedisDeploymentTypeClusterTLSFalseCommandTypedDict]
     tls: NotRequired[bool]
     r"""Use TLS for connections to this cluster"""
-    scale_reads: NotRequired[ScaleReads]
+    deployment_type: NotRequired[RedisDeploymentTypeClusterTLSFalseDeploymentType]
+    r"""How the Redis server is configured. Defaults to Standalone"""
+    root_nodes: NotRequired[List[RedisDeploymentTypeClusterTLSFalseRootNodeTypedDict]]
+    r"""Root nodes to which the cluster connection should be initiated"""
+    scale_reads: NotRequired[RedisDeploymentTypeClusterTLSFalseScaleReads]
     r"""Which nodes read commands should be sent to"""
-    tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeClusterTypedDict]
-    auth_type: NotRequired[RedisDeploymentTypeClusterAuthenticationMethod]
+    auth_type: NotRequired[RedisDeploymentTypeClusterTLSFalseAuthenticationMethod]
     max_block_secs: NotRequired[float]
     r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
     enable_client_side_caching: NotRequired[bool]
     r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
 
 
-class RedisDeploymentTypeCluster(BaseModel):
-    commands: List[RedisDeploymentTypeClusterCommand]
+class RedisDeploymentTypeClusterTLSFalse(BaseModel):
+    commands: List[RedisDeploymentTypeClusterTLSFalseCommand]
+
+    tls: Optional[bool] = None
+    r"""Use TLS for connections to this cluster"""
 
     deployment_type: Annotated[
-        Optional[RedisDeploymentTypeClusterDeploymentType],
+        Optional[RedisDeploymentTypeClusterTLSFalseDeploymentType],
         pydantic.Field(alias="deploymentType"),
     ] = None
     r"""How the Redis server is configured. Defaults to Standalone"""
 
     root_nodes: Annotated[
-        Optional[List[RedisDeploymentTypeClusterRootNode]],
+        Optional[List[RedisDeploymentTypeClusterTLSFalseRootNode]],
         pydantic.Field(alias="rootNodes"),
     ] = None
     r"""Root nodes to which the cluster connection should be initiated"""
 
-    tls: Optional[bool] = None
-    r"""Use TLS for connections to this cluster"""
-
-    scale_reads: Annotated[Optional[ScaleReads], pydantic.Field(alias="scaleReads")] = (
-        None
-    )
+    scale_reads: Annotated[
+        Optional[RedisDeploymentTypeClusterTLSFalseScaleReads],
+        pydantic.Field(alias="scaleReads"),
+    ] = None
     r"""Which nodes read commands should be sent to"""
 
-    tls_options: Annotated[
-        Optional[TLSOptionsTypeRedisDeploymentTypeCluster],
-        pydantic.Field(alias="tlsOptions"),
-    ] = None
-
     auth_type: Annotated[
-        Optional[RedisDeploymentTypeClusterAuthenticationMethod],
+        Optional[RedisDeploymentTypeClusterTLSFalseAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
 
@@ -937,7 +1132,7 @@ class RedisDeploymentTypeCluster(BaseModel):
     def serialize_deployment_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RedisDeploymentTypeClusterDeploymentType(value)
+                return models.RedisDeploymentTypeClusterTLSFalseDeploymentType(value)
             except ValueError:
                 return value
         return value
@@ -946,7 +1141,7 @@ class RedisDeploymentTypeCluster(BaseModel):
     def serialize_scale_reads(self, value):
         if isinstance(value, str):
             try:
-                return models.ScaleReads(value)
+                return models.RedisDeploymentTypeClusterTLSFalseScaleReads(value)
             except ValueError:
                 return value
         return value
@@ -955,7 +1150,9 @@ class RedisDeploymentTypeCluster(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.RedisDeploymentTypeClusterAuthenticationMethod(value)
+                return models.RedisDeploymentTypeClusterTLSFalseAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -964,11 +1161,10 @@ class RedisDeploymentTypeCluster(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "tls",
                 "deploymentType",
                 "rootNodes",
-                "tls",
                 "scaleReads",
-                "tlsOptions",
                 "authType",
                 "maxBlockSecs",
                 "enableClientSideCaching",
@@ -986,6 +1182,235 @@ class RedisDeploymentTypeCluster(BaseModel):
                     m[k] = val
 
         return m
+
+
+class RedisDeploymentTypeClusterTLSTrueDeploymentType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""How the Redis server is configured. Defaults to Standalone"""
+
+    # Standalone
+    STANDALONE = "standalone"
+    # Cluster
+    CLUSTER = "cluster"
+    # Sentinel
+    SENTINEL = "sentinel"
+
+
+class RedisDeploymentTypeClusterTLSTrueRootNodeTypedDict(TypedDict):
+    host: str
+    r"""Hostname of cluster node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
+    port: float
+    r"""Port of cluster node"""
+
+
+class RedisDeploymentTypeClusterTLSTrueRootNode(BaseModel):
+    host: str
+    r"""Hostname of cluster node. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
+
+    port: float
+    r"""Port of cluster node"""
+
+
+class RedisDeploymentTypeClusterTLSTrueScaleReads(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Which nodes read commands should be sent to"""
+
+    # Masters
+    MASTER = "master"
+    # Replicas
+    REPLICA = "replica"
+    # Masters and Replicas
+    ALL = "all"
+
+
+class RedisDeploymentTypeClusterTLSTrueCommandTypedDict(TypedDict):
+    command: str
+    r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
+    key_expr: str
+    r"""A JavaScript expression to compute the value of the key to operate on. Can also be a constant such as 'username'."""
+    out_field: NotRequired[str]
+    r"""Name of the field in which to store the returned value. Leave blank to discard returned value."""
+    args_expr: NotRequired[str]
+    r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
+
+
+class RedisDeploymentTypeClusterTLSTrueCommand(BaseModel):
+    command: str
+    r"""Redis command to perform. For a complete list visit: https://redis.io/commands"""
+
+    key_expr: Annotated[str, pydantic.Field(alias="keyExpr")]
+    r"""A JavaScript expression to compute the value of the key to operate on. Can also be a constant such as 'username'."""
+
+    out_field: Annotated[Optional[str], pydantic.Field(alias="outField")] = None
+    r"""Name of the field in which to store the returned value. Leave blank to discard returned value."""
+
+    args_expr: Annotated[Optional[str], pydantic.Field(alias="argsExpr")] = None
+    r"""A JavaScript expression to compute arguments to the operation. Can return an array."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["outField", "argsExpr"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class RedisDeploymentTypeClusterTLSTrueAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # None
+    NONE = "none"
+    # Manual
+    MANUAL = "manual"
+    # User Secret
+    CREDENTIALS_SECRET = "credentialsSecret"
+    # Admin Secret
+    TEXT_SECRET = "textSecret"
+
+
+class RedisDeploymentTypeClusterTLSTrueTypedDict(TypedDict):
+    commands: List[RedisDeploymentTypeClusterTLSTrueCommandTypedDict]
+    tls: NotRequired[bool]
+    r"""Use TLS for connections to this cluster"""
+    tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeClusterTLSTrueTypedDict]
+    deployment_type: NotRequired[RedisDeploymentTypeClusterTLSTrueDeploymentType]
+    r"""How the Redis server is configured. Defaults to Standalone"""
+    root_nodes: NotRequired[List[RedisDeploymentTypeClusterTLSTrueRootNodeTypedDict]]
+    r"""Root nodes to which the cluster connection should be initiated"""
+    scale_reads: NotRequired[RedisDeploymentTypeClusterTLSTrueScaleReads]
+    r"""Which nodes read commands should be sent to"""
+    auth_type: NotRequired[RedisDeploymentTypeClusterTLSTrueAuthenticationMethod]
+    max_block_secs: NotRequired[float]
+    r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
+    enable_client_side_caching: NotRequired[bool]
+    r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
+
+
+class RedisDeploymentTypeClusterTLSTrue(BaseModel):
+    commands: List[RedisDeploymentTypeClusterTLSTrueCommand]
+
+    tls: Optional[bool] = None
+    r"""Use TLS for connections to this cluster"""
+
+    tls_options: Annotated[
+        Optional[TLSOptionsTypeRedisDeploymentTypeClusterTLSTrue],
+        pydantic.Field(alias="tlsOptions"),
+    ] = None
+
+    deployment_type: Annotated[
+        Optional[RedisDeploymentTypeClusterTLSTrueDeploymentType],
+        pydantic.Field(alias="deploymentType"),
+    ] = None
+    r"""How the Redis server is configured. Defaults to Standalone"""
+
+    root_nodes: Annotated[
+        Optional[List[RedisDeploymentTypeClusterTLSTrueRootNode]],
+        pydantic.Field(alias="rootNodes"),
+    ] = None
+    r"""Root nodes to which the cluster connection should be initiated"""
+
+    scale_reads: Annotated[
+        Optional[RedisDeploymentTypeClusterTLSTrueScaleReads],
+        pydantic.Field(alias="scaleReads"),
+    ] = None
+    r"""Which nodes read commands should be sent to"""
+
+    auth_type: Annotated[
+        Optional[RedisDeploymentTypeClusterTLSTrueAuthenticationMethod],
+        pydantic.Field(alias="authType"),
+    ] = None
+
+    max_block_secs: Annotated[Optional[float], pydantic.Field(alias="maxBlockSecs")] = (
+        None
+    )
+    r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
+
+    enable_client_side_caching: Annotated[
+        Optional[bool], pydantic.Field(alias="enableClientSideCaching")
+    ] = None
+    r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
+
+    @field_serializer("deployment_type")
+    def serialize_deployment_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RedisDeploymentTypeClusterTLSTrueDeploymentType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("scale_reads")
+    def serialize_scale_reads(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RedisDeploymentTypeClusterTLSTrueScaleReads(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.RedisDeploymentTypeClusterTLSTrueAuthenticationMethod(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "tls",
+                "tlsOptions",
+                "deploymentType",
+                "rootNodes",
+                "scaleReads",
+                "authType",
+                "maxBlockSecs",
+                "enableClientSideCaching",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+RedisDeploymentTypeClusterTypedDict = TypeAliasType(
+    "RedisDeploymentTypeClusterTypedDict",
+    Union[
+        RedisDeploymentTypeClusterTLSFalseTypedDict,
+        RedisDeploymentTypeClusterTLSTrueTypedDict,
+    ],
+)
+
+
+RedisDeploymentTypeCluster = TypeAliasType(
+    "RedisDeploymentTypeCluster",
+    Union[RedisDeploymentTypeClusterTLSFalse, RedisDeploymentTypeClusterTLSTrue],
+)
 
 
 class RedisDeploymentTypeStandaloneDeploymentType(
@@ -1396,19 +1821,35 @@ try:
 except NameError:
     pass
 try:
-    RedisDeploymentTypeSentinelCommand.model_rebuild()
+    RedisDeploymentTypeSentinelTLSFalseCommand.model_rebuild()
 except NameError:
     pass
 try:
-    RedisDeploymentTypeSentinel.model_rebuild()
+    RedisDeploymentTypeSentinelTLSFalse.model_rebuild()
 except NameError:
     pass
 try:
-    RedisDeploymentTypeClusterCommand.model_rebuild()
+    RedisDeploymentTypeSentinelTLSTrueCommand.model_rebuild()
 except NameError:
     pass
 try:
-    RedisDeploymentTypeCluster.model_rebuild()
+    RedisDeploymentTypeSentinelTLSTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeClusterTLSFalseCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeClusterTLSFalse.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeClusterTLSTrueCommand.model_rebuild()
+except NameError:
+    pass
+try:
+    RedisDeploymentTypeClusterTLSTrue.model_rebuild()
 except NameError:
     pass
 try:

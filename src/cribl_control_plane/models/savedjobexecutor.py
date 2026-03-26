@@ -6,9 +6,9 @@ from .executortyperunnablejobexecutor import (
     ExecutorTypeRunnableJobExecutorTypedDict,
 )
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
-from .scheduletypesavedjobresponsecollection import (
-    ScheduleTypeSavedJobResponseCollection,
-    ScheduleTypeSavedJobResponseCollectionTypedDict,
+from .scheduletypesavedjobcollection import (
+    ScheduleTypeSavedJobCollection,
+    ScheduleTypeSavedJobCollectionTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -34,7 +34,7 @@ class SavedJobExecutorTypedDict(TypedDict):
     r"""Resume the ad hoc job if a failure condition causes Stream to restart during job execution"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    schedule: NotRequired[ScheduleTypeSavedJobResponseCollectionTypedDict]
+    schedule: NotRequired[ScheduleTypeSavedJobCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
@@ -71,7 +71,7 @@ class SavedJobExecutor(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    schedule: Optional[ScheduleTypeSavedJobResponseCollection] = None
+    schedule: Optional[ScheduleTypeSavedJobCollection] = None
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None

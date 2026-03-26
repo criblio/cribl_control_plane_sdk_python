@@ -3,9 +3,9 @@
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
-from .scheduletypesavedjobresponsecollection import (
-    ScheduleTypeSavedJobResponseCollection,
-    ScheduleTypeSavedJobResponseCollectionTypedDict,
+from .scheduletypesavedjobcollection import (
+    ScheduleTypeSavedJobCollection,
+    ScheduleTypeSavedJobCollectionTypedDict,
 )
 from .typecollectionwithbreakerrulesetsconstraint import (
     TypeCollectionWithBreakerRulesetsConstraint,
@@ -36,7 +36,7 @@ class SavedJobCollectionTypedDict(TypedDict):
     r"""Resume the ad hoc job if a failure condition causes Stream to restart during job execution"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    schedule: NotRequired[ScheduleTypeSavedJobResponseCollectionTypedDict]
+    schedule: NotRequired[ScheduleTypeSavedJobCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
@@ -77,7 +77,7 @@ class SavedJobCollection(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    schedule: Optional[ScheduleTypeSavedJobResponseCollection] = None
+    schedule: Optional[ScheduleTypeSavedJobCollection] = None
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None

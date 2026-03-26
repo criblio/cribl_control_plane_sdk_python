@@ -1,6 +1,6 @@
 # SubscriptionPlanOptions
 
-Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise
+Office 365 subscription plan for your organization, typically Office 365 Enterprise
 
 ## Example Usage
 

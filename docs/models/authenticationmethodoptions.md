@@ -13,9 +13,11 @@ value = AuthenticationMethodOptions.MANUAL
 
 ## Values
 
-| Name            | Value           |
-| --------------- | --------------- |
-| `MANUAL`        | manual          |
-| `SECRET`        | secret          |
-| `CLIENT_SECRET` | clientSecret    |
-| `CLIENT_CERT`   | clientCert      |
+| Name                   | Value                  |
+| ---------------------- | ---------------------- |
+| `MANUAL`               | manual                 |
+| `SECRET`               | secret                 |
+| `CLIENT_SECRET`        | clientSecret           |
+| `CLIENT_CERT`          | clientCert             |
+| `CLIENT_ASSERTION`     | clientAssertion        |
+| `CLIENT_ASSERTION_RPC` | clientAssertion_rpc    |

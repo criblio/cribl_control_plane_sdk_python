@@ -24,6 +24,17 @@ class InputServicenowTableType(str, Enum):
     SERVICENOW_TABLE = "servicenow_table"
 
 
+class DisplayValue(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value)."""
+
+    # Raw
+    FALSE = "false"
+    # Display
+    TRUE = "true"
+    # All
+    ALL = "all"
+
+
 class InputServicenowTableAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""ServiceNow Table API authentication method"""
 
@@ -43,6 +54,8 @@ class InputServicenowTableTypedDict(TypedDict):
     type: InputServicenowTableType
     instance: str
     r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
+    table_name: str
+    r"""ServiceNow table name to collect from."""
     cron_schedule: str
     r"""Cron schedule on which to run this job"""
     earliest: str
@@ -65,6 +78,12 @@ class InputServicenowTableTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    fields: NotRequired[List[str]]
+    r"""Field names to return from the Table API (sysparm_fields). Leave empty to return all fields."""
+    display_value: NotRequired[DisplayValue]
+    r"""ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value)."""
+    page_size: NotRequired[int]
+    r"""Maximum records per Table API page request (sysparm_limit). Setting a higher value may increase the risk of timeouts."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
     auth_type: NotRequired[InputServicenowTableAuthenticationType]
@@ -131,6 +150,9 @@ class InputServicenowTable(BaseModel):
     instance: str
     r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
 
+    table_name: Annotated[str, pydantic.Field(alias="tableName")]
+    r"""ServiceNow table name to collect from."""
+
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
     r"""Cron schedule on which to run this job"""
 
@@ -166,6 +188,17 @@ class InputServicenowTable(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+
+    fields: Optional[List[str]] = None
+    r"""Field names to return from the Table API (sysparm_fields). Leave empty to return all fields."""
+
+    display_value: Annotated[
+        Optional[DisplayValue], pydantic.Field(alias="displayValue")
+    ] = None
+    r"""ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value)."""
+
+    page_size: Annotated[Optional[int], pydantic.Field(alias="pageSize")] = None
+    r"""Maximum records per Table API page request (sysparm_limit). Setting a higher value may increase the risk of timeouts."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -301,6 +334,15 @@ class InputServicenowTable(BaseModel):
     ] = None
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
+    @field_serializer("display_value")
+    def serialize_display_value(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DisplayValue(value)
+            except ValueError:
+                return value
+        return value
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -332,6 +374,9 @@ class InputServicenowTable(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "fields",
+                "displayValue",
+                "pageSize",
                 "rejectUnauthorized",
                 "authType",
                 "stateTracking",

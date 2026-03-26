@@ -21,6 +21,7 @@ Complementary API reference documentation is available at [https://docs.cribl.io
   * [SDK Installation](#sdk-installation)
   * [IDE Support](#ide-support)
   * [SDK Example Usage](#sdk-example-usage)
+  * [Worker group and node URL scope](#worker-group-and-node-url-scope)
   * [Authentication](#authentication)
   * [Available Resources and Operations](#available-resources-and-operations)
   * [Json Streaming](#json-streaming)
@@ -130,19 +131,16 @@ with CriblControlPlane(
     print(f"Server health: {health}")
 
     worker_group_id = "my-worker-group"
-    group_url = f"https://api.example.com/m/{worker_group_id}"
 
-    # List all sources
-    sources = ccp_client.sources.list(server_url=group_url)
-    print(f"Found {len(sources.items or [])} sources")
+    with ccp_client.scoped(group_id=worker_group_id):
+        sources = ccp_client.sources.list()
+        print(f"Found {len(sources.items or [])} sources")
 
-    # List all destinations
-    destinations = ccp_client.destinations.list(server_url=group_url)
-    print(f"Found {len(destinations.items or [])} destinations")
+        destinations = ccp_client.destinations.list()
+        print(f"Found {len(destinations.items or [])} destinations")
 
-    # List all pipelines
-    pipelines = ccp_client.pipelines.list(server_url=group_url)
-    print(f"Found {len(pipelines.items or [])} pipelines")
+        pipelines = ccp_client.pipelines.list()
+        print(f"Found {len(pipelines.items or [])} pipelines")
 ```
 
 The same SDK client can also be used to make asynchronous requests by importing asyncio.
@@ -165,11 +163,10 @@ async def main():
         print(f"Server health: {health}")
 
         worker_group_id = "my-worker-group"
-        group_url = f"https://api.example.com/m/{worker_group_id}"
 
-        # List all sources
-        sources = await ccp_client.sources.list_async(server_url=group_url)
-        print(f"Found {len(sources.items or [])} sources")
+        with ccp_client.scoped(group_id=worker_group_id):
+            sources = await ccp_client.sources.list_async()
+            print(f"Found {len(sources.items or [])} sources")
 
 asyncio.run(main())
 ```
@@ -178,6 +175,17 @@ asyncio.run(main())
 > Additional examples demonstrating various SDK features and use cases can be found in the [`examples`](./examples) directory.
 
 <!-- No End SDK Example Usage [usage] -->
+
+## Worker group and node URL scope
+
+Group-scoped APIs live under `/m/{groupId}` and node-scoped under `/w/{nodeId}` relative to your `server_url`. Use `with client.scoped(...)` with exactly one of `group_id`, `node_id`, or `leader=True` (leader resets scope for that block, e.g. deploy). You can also set `group_id` / `node_id` on `CriblControlPlane`, use `with_group` / `with_node`, or pass per-method `server_url`.
+
+```python
+with ccp_client.scoped(group_id="my-worker-group"):
+    ccp_client.sources.list()
+```
+
+More detail: [`examples/example_onprem_list_sources.py`](./examples/example_onprem_list_sources.py).
 
 ## Authentication
 
@@ -574,7 +582,8 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
     retry_config = RetryConfig("backoff", BackoffStrategy(1, 50, 1.1, 100), False)
-    res = ccp_client.sources.list(server_url="https://api.example.com/m/my-group", retry_config=retry_config)
+    with ccp_client.scoped(group_id="my-group"):
+        res = ccp_client.sources.list(retry_config=retry_config)
     print(res)
 ```
 
@@ -591,7 +600,8 @@ with CriblControlPlane(
         bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
     ),
 ) as ccp_client:
-    res = ccp_client.sources.list(server_url="https://api.example.com/m/my-group")
+    with ccp_client.scoped(group_id="my-group"):
+        res = ccp_client.sources.list()
     print(res)
 ```
 <!-- No End Retries [retries] -->
@@ -622,7 +632,8 @@ with CriblControlPlane(
 ) as ccp_client:
     res = None
     try:
-        res = ccp_client.sources.list(server_url="https://api.example.com/m/my-group")
+        with ccp_client.scoped(group_id="my-group"):
+            res = ccp_client.sources.list()
         print(res)
     except errors.CriblControlPlaneError as e:
         # The base class for HTTP error responses

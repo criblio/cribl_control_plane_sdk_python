@@ -52,20 +52,15 @@ async def main():
     security = Security(client_oauth=client_oauth)
     cribl = CriblControlPlane(server_url=base_url, security=security)
 
-    # Construct URLs for pack installation
-    search_group_url = f"{base_url}/m/default_search"
-
-    # Install AWS VPC Flow Logs Search Pack
-    cribl.packs.install(
-        request={
-            "source": PACK_URL,
-            "id": PACK_ID,
-        },
-        server_url=search_group_url,
-    )
+    with cribl.scoped(group_id="default_search"):
+        cribl.packs.install(
+            request={
+                "source": PACK_URL,
+                "id": PACK_ID,
+            },
+        )
     print(f"✅ Installed Search Pack {PACK_ID} from Cribl Packs Dispensary")
 
-    # Create lake dataset
     cribl.lake_datasets.create(
         lake_id=LAKE_ID,
         id=DATASET_ID,

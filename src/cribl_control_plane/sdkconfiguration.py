@@ -31,6 +31,12 @@ class SDKConfiguration:
     user_agent: str = __user_agent__
     retry_config: OptionalNullable[RetryConfig] = Field(default_factory=lambda: UNSET)
     timeout_ms: Optional[int] = None
+    group_id: Optional[str] = None
+    node_id: Optional[str] = None
+
+    def __post_init__(self) -> None:
+        if self.group_id is not None and self.node_id is not None:
+            raise ValueError("Set only one of group_id or node_id on the SDK client")
 
     def get_server_details(self) -> Tuple[str, Dict[str, str]]:
         return remove_suffix(self.server_url or "", "/"), {}

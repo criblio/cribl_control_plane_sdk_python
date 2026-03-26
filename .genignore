@@ -1,2 +1,5 @@
 # Files and directories to ignore during code generation
 examples/
+src/cribl_control_plane/basesdk.py
+src/cribl_control_plane/sdk.py
+src/cribl_control_plane/sdkconfiguration.py

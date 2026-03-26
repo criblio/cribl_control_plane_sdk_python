@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1774307005086-d2efec2e
+  version: 4.17.1-alpha.1774479808532-911e82d2
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -39789,6 +39789,8 @@ components:
         - secret
         - clientSecret
         - clientCert
+        - clientAssertion
+        - clientAssertion_rpc
       x-speakeasy-unknown-values: allow
     ItemsTypeExtraHttpHeaders:
       type: object

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1774393403184-de48d82e
+  version: 4.18.0-alpha.1774479808928-10da8442
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -21397,6 +21397,7 @@ components:
         - cronSchedule
         - earliest
         - latest
+        - tableName
       properties:
         id:
           type: string
@@ -21442,6 +21443,34 @@ components:
           type: string
           title: Instance URL
           description: ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL.
+        tableName:
+          type: string
+          title: Table name
+          description: ServiceNow table name to collect from.
+        fields:
+          type: array
+          title: Fields
+          description: Field names to return from the Table API (sysparm_fields). Leave empty to return all fields.
+          items:
+            type: string
+        displayValue:
+          type: string
+          title: Display value
+          description: ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value).
+          enum:
+            - "false"
+            - "true"
+            - all
+          x-speakeasy-enum-descriptions:
+            - Raw
+            - Display
+            - All
+          x-speakeasy-unknown-values: allow
+        pageSize:
+          type: integer
+          title: Page size
+          description: Maximum records per Table API page request (sysparm_limit). Setting a higher value may increase the risk of timeouts.
+          minimum: 1
         rejectUnauthorized:
           type: boolean
           title: Reject unauthorized certificates
@@ -22541,6 +22570,7 @@ components:
         reason:
           type: object
           additionalProperties: true
+          description: Reason the job entered its current <code>state</code>, typically populated upon failure.
         state:
           type: integer
           description: State of the Job
@@ -22569,26 +22599,33 @@ components:
           x-speakeasy-unknown-values: allow
       required:
         - state
+      description: Status of a job, including its current state and failure reason.
     JobInfo:
       type: object
       properties:
         args:
           $ref: "#/components/schemas/RunnableJob"
+          description: Configuration and run settings used to launch the job.
         id:
           type: string
+          description: Unique identifier for the job.
         keep:
           type: boolean
+          description: If <code>true</code>, retain the job and its artifacts instead of deleting according to the time-to-live or retention policy. The job persists until it is manually deleted.
         stats:
           type: object
           additionalProperties:
             $ref: "#/components/schemas/AdditionalPropertiesTypeJobInfoStats"
+          description: Counters and metrics collected during job execution.
         status:
           $ref: "#/components/schemas/JobStatus"
+          description: Status of the job.
       required:
         - args
         - id
         - stats
         - status
+      description: Detailed information about a job, including its configuration, status, and statistics.
     SourceType:
       type: array
       items:
@@ -37817,10 +37854,10 @@ components:
           items:
             type: object
             additionalProperties: true
-          description: Array of sample events for the Destination.
+          description: Array of sample events returned from a Destination test.
       required:
         - events
-      description: Sample event data returned for a Destination.
+      description: Sample events from a Destination.
     CountedOutputTestResponse:
       type: object
       properties:
@@ -37864,6 +37901,7 @@ components:
           description: Array of event objects to send to the Destination for testing.
       required:
         - events
+      description: Request body for testing a Destination by sending sample events.
     CountedPipeline:
       type: object
       properties:
@@ -43904,6 +43942,13 @@ components:
         id: servicenow-table-source
         type: servicenow_table
         instance: https://example.service-now.com
+        tableName: incident
+        fields:
+          - sys_id
+          - number
+          - short_description
+        displayValue: "false"
+        pageSize: 10000
         cronSchedule: 0 * * * *
         earliest: -1d
         latest: now

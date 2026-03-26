@@ -860,6 +860,17 @@ class CreateInputTypeServicenowTable(str, Enum):
     SERVICENOW_TABLE = "servicenow_table"
 
 
+class CreateInputDisplayValue(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value)."""
+
+    # Raw
+    FALSE = "false"
+    # Display
+    TRUE = "true"
+    # All
+    ALL = "all"
+
+
 class CreateInputAuthenticationTypeServicenowTable(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
@@ -883,6 +894,8 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     type: CreateInputTypeServicenowTable
     instance: str
     r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
+    table_name: str
+    r"""ServiceNow table name to collect from."""
     cron_schedule: str
     r"""Cron schedule on which to run this job"""
     earliest: str
@@ -903,6 +916,12 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    fields: NotRequired[List[str]]
+    r"""Field names to return from the Table API (sysparm_fields). Leave empty to return all fields."""
+    display_value: NotRequired[CreateInputDisplayValue]
+    r"""ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value)."""
+    page_size: NotRequired[int]
+    r"""Maximum records per Table API page request (sysparm_limit). Setting a higher value may increase the risk of timeouts."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
     auth_type: NotRequired[CreateInputAuthenticationTypeServicenowTable]
@@ -972,6 +991,9 @@ class CreateInputInputServicenowTable(BaseModel):
     instance: str
     r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
 
+    table_name: Annotated[str, pydantic.Field(alias="tableName")]
+    r"""ServiceNow table name to collect from."""
+
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
     r"""Cron schedule on which to run this job"""
 
@@ -1004,6 +1026,17 @@ class CreateInputInputServicenowTable(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+
+    fields: Optional[List[str]] = None
+    r"""Field names to return from the Table API (sysparm_fields). Leave empty to return all fields."""
+
+    display_value: Annotated[
+        Optional[CreateInputDisplayValue], pydantic.Field(alias="displayValue")
+    ] = None
+    r"""ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value)."""
+
+    page_size: Annotated[Optional[int], pydantic.Field(alias="pageSize")] = None
+    r"""Maximum records per Table API page request (sysparm_limit). Setting a higher value may increase the risk of timeouts."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -1139,6 +1172,15 @@ class CreateInputInputServicenowTable(BaseModel):
     ] = None
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
+    @field_serializer("display_value")
+    def serialize_display_value(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputDisplayValue(value)
+            except ValueError:
+                return value
+        return value
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -1169,6 +1211,9 @@ class CreateInputInputServicenowTable(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "fields",
+                "displayValue",
+                "pageSize",
                 "rejectUnauthorized",
                 "authType",
                 "stateTracking",
@@ -10880,87 +10925,6 @@ class CreateInputFilterSystemMetrics(BaseModel):
     expr: str
 
 
-class CreateInputContainerTypedDict(TypedDict):
-    mode: NotRequired[CreateInputContainerMode]
-    r"""Select the level of detail for container metrics"""
-    docker_socket: NotRequired[List[str]]
-    r"""Full paths for Docker's UNIX-domain socket"""
-    docker_timeout: NotRequired[float]
-    r"""Timeout, in seconds, for the Docker API"""
-    filters: NotRequired[List[CreateInputFilterSystemMetricsTypedDict]]
-    r"""Containers matching any of these will be included. All are included if no filters are added."""
-    all_containers: NotRequired[bool]
-    r"""Include stopped and paused containers"""
-    per_device: NotRequired[bool]
-    r"""Generate separate metrics for each device"""
-    detail: NotRequired[bool]
-    r"""Generate full container metrics"""
-
-
-class CreateInputContainer(BaseModel):
-    mode: Optional[CreateInputContainerMode] = None
-    r"""Select the level of detail for container metrics"""
-
-    docker_socket: Annotated[
-        Optional[List[str]], pydantic.Field(alias="dockerSocket")
-    ] = None
-    r"""Full paths for Docker's UNIX-domain socket"""
-
-    docker_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="dockerTimeout")
-    ] = None
-    r"""Timeout, in seconds, for the Docker API"""
-
-    filters: Optional[List[CreateInputFilterSystemMetrics]] = None
-    r"""Containers matching any of these will be included. All are included if no filters are added."""
-
-    all_containers: Annotated[Optional[bool], pydantic.Field(alias="allContainers")] = (
-        None
-    )
-    r"""Include stopped and paused containers"""
-
-    per_device: Annotated[Optional[bool], pydantic.Field(alias="perDevice")] = None
-    r"""Generate separate metrics for each device"""
-
-    detail: Optional[bool] = None
-    r"""Generate full container metrics"""
-
-    @field_serializer("mode")
-    def serialize_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CreateInputContainerMode(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "mode",
-                "dockerSocket",
-                "dockerTimeout",
-                "filters",
-                "allContainers",
-                "perDevice",
-                "detail",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
 try:
     CreateInputAuthTokenCloudflareHec.model_rebuild()
 except NameError:
@@ -11203,9 +11167,5 @@ except NameError:
     pass
 try:
     CreateInputDiskSystemMetrics.model_rebuild()
-except NameError:
-    pass
-try:
-    CreateInputContainer.model_rebuild()
 except NameError:
     pass

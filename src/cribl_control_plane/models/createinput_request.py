@@ -23,9 +23,10 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
-from .createinput_container import (
-    CreateInputContainer,
-    CreateInputContainerTypedDict,
+from .createinput_filter_systemmetrics import (
+    CreateInputContainerMode,
+    CreateInputFilterSystemMetrics,
+    CreateInputFilterSystemMetricsTypedDict,
     CreateInputHostSystemMetrics,
     CreateInputHostSystemMetricsTypedDict,
     CreateInputInputAppscope,
@@ -159,6 +160,87 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputContainerTypedDict(TypedDict):
+    mode: NotRequired[CreateInputContainerMode]
+    r"""Select the level of detail for container metrics"""
+    docker_socket: NotRequired[List[str]]
+    r"""Full paths for Docker's UNIX-domain socket"""
+    docker_timeout: NotRequired[float]
+    r"""Timeout, in seconds, for the Docker API"""
+    filters: NotRequired[List[CreateInputFilterSystemMetricsTypedDict]]
+    r"""Containers matching any of these will be included. All are included if no filters are added."""
+    all_containers: NotRequired[bool]
+    r"""Include stopped and paused containers"""
+    per_device: NotRequired[bool]
+    r"""Generate separate metrics for each device"""
+    detail: NotRequired[bool]
+    r"""Generate full container metrics"""
+
+
+class CreateInputContainer(BaseModel):
+    mode: Optional[CreateInputContainerMode] = None
+    r"""Select the level of detail for container metrics"""
+
+    docker_socket: Annotated[
+        Optional[List[str]], pydantic.Field(alias="dockerSocket")
+    ] = None
+    r"""Full paths for Docker's UNIX-domain socket"""
+
+    docker_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="dockerTimeout")
+    ] = None
+    r"""Timeout, in seconds, for the Docker API"""
+
+    filters: Optional[List[CreateInputFilterSystemMetrics]] = None
+    r"""Containers matching any of these will be included. All are included if no filters are added."""
+
+    all_containers: Annotated[Optional[bool], pydantic.Field(alias="allContainers")] = (
+        None
+    )
+    r"""Include stopped and paused containers"""
+
+    per_device: Annotated[Optional[bool], pydantic.Field(alias="perDevice")] = None
+    r"""Generate separate metrics for each device"""
+
+    detail: Optional[bool] = None
+    r"""Generate full container metrics"""
+
+    @field_serializer("mode")
+    def serialize_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputContainerMode(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "mode",
+                "dockerSocket",
+                "dockerTimeout",
+                "filters",
+                "allContainers",
+                "perDevice",
+                "detail",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputPersistenceSystemMetricsTypedDict(TypedDict):
@@ -9121,6 +9203,10 @@ CreateInputRequest = Annotated[
 r"""Input object"""
 
 
+try:
+    CreateInputContainer.model_rebuild()
+except NameError:
+    pass
 try:
     CreateInputPersistenceSystemMetrics.model_rebuild()
 except NameError:

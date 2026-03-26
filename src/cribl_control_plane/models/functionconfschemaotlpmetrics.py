@@ -6,15 +6,11 @@ from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import Any, List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class FunctionConfSchemaOtlpMetricsTypedDict(TypedDict):
-    resource_attribute_prefixes: NotRequired[List[str]]
-    r"""The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9_\.]+$`. Use Eval to copy nested attributes to the top level for matching."""
-    drop_non_metric_events: NotRequired[bool]
-    otlp_version: NotRequired[OtlpVersionOptions]
+class OTLPMetricsBatchOTLPMetricsTrueTypedDict(TypedDict):
     batch_otlp_metrics: NotRequired[bool]
     r"""Batch OTLP metrics by shared top-level `resource` attributes"""
     send_batch_size: NotRequired[float]
@@ -27,22 +23,13 @@ class FunctionConfSchemaOtlpMetricsTypedDict(TypedDict):
     r"""When set, this processor will create one batcher instance per distinct combination of values in the metadata"""
     metadata_cardinality_limit: NotRequired[float]
     r"""Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped."""
-
-
-class FunctionConfSchemaOtlpMetrics(BaseModel):
-    resource_attribute_prefixes: Annotated[
-        Optional[List[str]], pydantic.Field(alias="resourceAttributePrefixes")
-    ] = None
+    resource_attribute_prefixes: NotRequired[List[str]]
     r"""The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9_\.]+$`. Use Eval to copy nested attributes to the top level for matching."""
+    drop_non_metric_events: NotRequired[bool]
+    otlp_version: NotRequired[OtlpVersionOptions]
 
-    drop_non_metric_events: Annotated[
-        Optional[bool], pydantic.Field(alias="dropNonMetricEvents")
-    ] = None
 
-    otlp_version: Annotated[
-        Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
-    ] = None
-
+class OTLPMetricsBatchOTLPMetricsTrue(BaseModel):
     batch_otlp_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="batchOTLPMetrics")
     ] = None
@@ -71,6 +58,19 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
     ] = None
     r"""Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped."""
 
+    resource_attribute_prefixes: Annotated[
+        Optional[List[str]], pydantic.Field(alias="resourceAttributePrefixes")
+    ] = None
+    r"""The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9_\.]+$`. Use Eval to copy nested attributes to the top level for matching."""
+
+    drop_non_metric_events: Annotated[
+        Optional[bool], pydantic.Field(alias="dropNonMetricEvents")
+    ] = None
+
+    otlp_version: Annotated[
+        Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
+    ] = None
+
     @field_serializer("otlp_version")
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
@@ -84,15 +84,15 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "resourceAttributePrefixes",
-                "dropNonMetricEvents",
-                "otlpVersion",
                 "batchOTLPMetrics",
                 "sendBatchSize",
                 "timeout",
                 "sendBatchMaxSize",
                 "metadataKeys",
                 "metadataCardinalityLimit",
+                "resourceAttributePrefixes",
+                "dropNonMetricEvents",
+                "otlpVersion",
             ]
         )
         serialized = handler(self)
@@ -109,7 +109,87 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
         return m
 
 
+class OTLPMetricsBatchOTLPMetricsFalseTypedDict(TypedDict):
+    batch_otlp_metrics: NotRequired[bool]
+    r"""Batch OTLP metrics by shared top-level `resource` attributes"""
+    resource_attribute_prefixes: NotRequired[List[str]]
+    r"""The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9_\.]+$`. Use Eval to copy nested attributes to the top level for matching."""
+    drop_non_metric_events: NotRequired[bool]
+    otlp_version: NotRequired[OtlpVersionOptions]
+
+
+class OTLPMetricsBatchOTLPMetricsFalse(BaseModel):
+    batch_otlp_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="batchOTLPMetrics")
+    ] = None
+    r"""Batch OTLP metrics by shared top-level `resource` attributes"""
+
+    resource_attribute_prefixes: Annotated[
+        Optional[List[str]], pydantic.Field(alias="resourceAttributePrefixes")
+    ] = None
+    r"""The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9_\.]+$`. Use Eval to copy nested attributes to the top level for matching."""
+
+    drop_non_metric_events: Annotated[
+        Optional[bool], pydantic.Field(alias="dropNonMetricEvents")
+    ] = None
+
+    otlp_version: Annotated[
+        Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
+    ] = None
+
+    @field_serializer("otlp_version")
+    def serialize_otlp_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.OtlpVersionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "batchOTLPMetrics",
+                "resourceAttributePrefixes",
+                "dropNonMetricEvents",
+                "otlpVersion",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+FunctionConfSchemaOtlpMetricsTypedDict = TypeAliasType(
+    "FunctionConfSchemaOtlpMetricsTypedDict",
+    Union[
+        OTLPMetricsBatchOTLPMetricsFalseTypedDict,
+        OTLPMetricsBatchOTLPMetricsTrueTypedDict,
+    ],
+)
+
+
+FunctionConfSchemaOtlpMetrics = TypeAliasType(
+    "FunctionConfSchemaOtlpMetrics",
+    Union[OTLPMetricsBatchOTLPMetricsFalse, OTLPMetricsBatchOTLPMetricsTrue],
+)
+
+
 try:
-    FunctionConfSchemaOtlpMetrics.model_rebuild()
+    OTLPMetricsBatchOTLPMetricsTrue.model_rebuild()
+except NameError:
+    pass
+try:
+    OTLPMetricsBatchOTLPMetricsFalse.model_rebuild()
 except NameError:
     pass

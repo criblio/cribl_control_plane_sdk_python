@@ -177,12 +177,6 @@ value: models.FunctionLocalSearchDatatypeParser = /* values here */
 value: models.FunctionLocalSearchRulesetRunner = /* values here */
 ```
 
-### `models.FunctionLocalSearchSchemaMapper`
-
-```python
-value: models.FunctionLocalSearchSchemaMapper = /* values here */
-```
-
 ### `models.FunctionLocalSearchTransformer`
 
 ```python

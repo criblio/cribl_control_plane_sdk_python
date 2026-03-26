@@ -12,7 +12,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class RouteConfTypedDict(TypedDict):
     final: bool
-    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events. Defaults to <code>true</code> when not specified."""
+    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events."""
     id: str
     r"""Unique identifier for the Route."""
     name: str
@@ -42,7 +42,7 @@ class RouteConfTypedDict(TypedDict):
 
 class RouteConf(BaseModel):
     final: bool
-    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events. Defaults to <code>true</code> when not specified."""
+    r"""If <code>true</code> the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events."""
 
     id: str
     r"""Unique identifier for the Route."""

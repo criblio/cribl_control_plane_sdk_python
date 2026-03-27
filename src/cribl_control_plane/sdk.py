@@ -35,7 +35,7 @@ if TYPE_CHECKING:
 
 class CriblControlPlane(BaseSDK):
     r"""Cribl API Reference: This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources.
-    Base URL contexts for reference:
+    Base URL contexts for reference Lorem Ipsum:
     - Leader context: /api/v1
     - Worker Group or Edge Fleet context: /api/v1/m/{groupName}
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}

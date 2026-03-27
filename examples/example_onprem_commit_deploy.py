@@ -31,13 +31,17 @@ async def main():
     security = Security(bearer_auth=token)
     cribl = CriblControlPlane(server_url=base_url, security=security)
 
-    with cribl.scoped(group_id=WORKER_GROUP_ID):
-        commit_response = cribl.versions.commits.create(
-            message="Commit for Cribl Stream example",
-            effective=True,
-            files=["."],
-        )
+    # Construct the worker group URL
+    group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
+    # Commit configuration changes
+    commit_response = cribl.versions.commits.create(
+        message="Commit for Cribl Stream example",
+        effective=True,
+        files=["."],
+        server_url=group_url
+    )
+    
     if not commit_response.items or len(commit_response.items) == 0:
         raise Exception("Failed to commit configuration changes")
     

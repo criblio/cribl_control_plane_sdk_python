@@ -29,7 +29,7 @@ CLIENT_SECRET = "your-client-secret"
 WORKSPACE_NAME = "your-workspace-name"
 WORKER_GROUP_ID = "your-cloud-worker-group-id"  # Use the same Worker Group ID as in the previous example
 
-base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
+base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud"
 
 def resolve_group(cribl, group_id: str, product: ProductsCore) -> Optional[ConfigGroup]:
     resp = cribl.groups.get(id=group_id, product=product)

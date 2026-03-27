@@ -17,7 +17,7 @@ ONPREM_USERNAME = "admin"  # Replace with your username
 ONPREM_PASSWORD = "admin"  # Replace with your password
 SOURCE_WORKER_GROUP_ID = "my-worker-group" # The id of the Worker Group to clone
 REPLICA_WORKER_GROUP_ID = "my-replica-worker-group" # The id to use for the replica Worker Group
-base_url = f"{ONPREM_SERVER_URL}/api/v1"
+base_url = ONPREM_SERVER_URL
 
 async def main() -> None:
     # Initialize Cribl client

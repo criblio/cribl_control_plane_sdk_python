@@ -17,7 +17,7 @@ ONPREM_USERNAME = "admin"  # Replace with your username
 ONPREM_PASSWORD = "admin"  # Replace with your password
 WORKER_GROUP_ID = "your-worker-group-id"  # Use the same Worker Group ID as in previous examples
 
-base_url = f"{ONPREM_SERVER_URL}/api/v1"
+base_url = ONPREM_SERVER_URL
 
 async def main():
     # Initialize Cribl client
@@ -31,17 +31,13 @@ async def main():
     security = Security(bearer_auth=token)
     cribl = CriblControlPlane(server_url=base_url, security=security)
 
-    # Construct the worker group URL
-    group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
+    with cribl.scoped(group_id=WORKER_GROUP_ID):
+        commit_response = cribl.versions.commits.create(
+            message="Commit for Cribl Stream example",
+            effective=True,
+            files=["."],
+        )
 
-    # Commit configuration changes
-    commit_response = cribl.versions.commits.create(
-        message="Commit for Cribl Stream example",
-        effective=True,
-        files=["."],
-        server_url=group_url
-    )
-    
     if not commit_response.items or len(commit_response.items) == 0:
         raise Exception("Failed to commit configuration changes")
     

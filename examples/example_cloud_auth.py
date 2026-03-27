@@ -19,7 +19,7 @@ CLIENT_SECRET = "your-client-secret"  # Replace with your OAuth2 Client Secret
 ORG_ID = "your-org-id"  # Replace with your Organization ID
 WORKSPACE_NAME = "main"  # Replace with your Workspace name
 
-base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
+base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud"
 
 
 async def main():

@@ -17,7 +17,7 @@ ONPREM_USERNAME = "admin"  # Replace with your username
 ONPREM_PASSWORD = "admin"  # Replace with your password
 WORKER_GROUP_ID = "your-worker-group-id"
 
-base_url = f"{ONPREM_SERVER_URL}/api/v1"
+base_url = ONPREM_SERVER_URL
 
 async def main():
     # Initialize Cribl client

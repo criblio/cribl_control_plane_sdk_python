@@ -29,7 +29,7 @@ CLIENT_SECRET = "your-client-secret"
 WORKSPACE_NAME = "your-workspace-name"
 WORKER_GROUP_ID = "your-cloud-worker-group-id"
 
-base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
+base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud"
 
 # Equivalent to 24 MB/s maximum estimated ingest rate with 9 Worker Processes
 ESTIMATED_INGEST_RATE = EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC

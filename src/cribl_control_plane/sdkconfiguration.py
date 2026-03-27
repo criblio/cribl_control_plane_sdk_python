@@ -13,6 +13,7 @@ from cribl_control_plane.types import OptionalNullable, UNSET
 from dataclasses import dataclass
 from pydantic import Field
 from typing import Callable, Dict, Optional, Tuple, Union
+from urllib.parse import urlparse, urlunparse
 
 
 @dataclass
@@ -31,6 +32,21 @@ class SDKConfiguration:
     user_agent: str = __user_agent__
     retry_config: OptionalNullable[RetryConfig] = Field(default_factory=lambda: UNSET)
     timeout_ms: Optional[int] = None
+    group_id: Optional[str] = None
+    node_id: Optional[str] = None
+
+    def __post_init__(self) -> None:
+        if self.group_id is not None and self.node_id is not None:
+            raise ValueError("Set only one of group_id or node_id on the SDK client")
 
     def get_server_details(self) -> Tuple[str, Dict[str, str]]:
-        return remove_suffix(self.server_url or "", "/"), {}
+        raw = (self.server_url or "").strip()
+        if not raw:
+            return "", {}
+        parsed = urlparse(raw)
+        path = (parsed.path or "").strip("/")
+        if parsed.scheme and parsed.netloc and not path:
+            raw = urlunparse(
+                (parsed.scheme, parsed.netloc, "/api/v1", "", "", "")
+            )
+        return remove_suffix(raw, "/"), {}

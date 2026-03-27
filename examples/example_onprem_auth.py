@@ -15,11 +15,9 @@ from cribl_control_plane import CriblControlPlane
 from cribl_control_plane.models import Security
 
 # On-prem configuration: Replace the placeholder values
-ONPREM_SERVER_URL = "http://localhost:9000"  # Replace with your server URL
+ONPREM_SERVER_URL = "http://localhost:9000"  # Leader host; SDK appends /api/v1 when the URL has no path
 ONPREM_USERNAME = "admin"  # Replace with your username
 ONPREM_PASSWORD = "admin"  # Replace with your password
-
-BASE_URL = f"{ONPREM_SERVER_URL}/api/v1"
 
 # Token cache
 _cached_token = None
@@ -38,7 +36,7 @@ def _get_jwt_exp(token: str) -> datetime:
 
 async def main():
     # Create client for retrieving Bearer token
-    client = CriblControlPlane(server_url=BASE_URL)
+    client = CriblControlPlane(server_url=ONPREM_SERVER_URL)
 
     def callback() -> Security:
         global _cached_token, _token_expires_at
@@ -58,7 +56,7 @@ async def main():
         return Security(bearer_auth=token)
 
     # Create authenticated SDK client
-    client = CriblControlPlane(server_url=BASE_URL, security=callback)
+    client = CriblControlPlane(server_url=ONPREM_SERVER_URL, security=callback)
     print(f"✅ Authenticated SDK client created for on-prem server")
 
     # Validate connection and list all git branches

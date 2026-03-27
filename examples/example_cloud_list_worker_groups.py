@@ -21,7 +21,7 @@ CLIENT_ID = "your-client-id"
 CLIENT_SECRET = "your-client-secret"
 WORKSPACE_NAME = "your-workspace-name"
 
-base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
+base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud"
 
 async def main():
     # Create authenticated SDK client

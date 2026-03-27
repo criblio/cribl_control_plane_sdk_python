@@ -21,7 +21,7 @@ CLIENT_SECRET = "your-client-secret"
 WORKSPACE_NAME = "your-workspace-name"
 WORKER_GROUP_ID = "your-cloud-worker-group-id"  # Use the same Worker Group ID as in previous examples
 
-base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
+base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud"
 
 async def main():
     # Create authenticated SDK client
@@ -35,17 +35,13 @@ async def main():
     security = Security(client_oauth=client_oauth)
     cribl = CriblControlPlane(server_url=base_url, security=security)
 
-    # Construct the worker group URL
-    group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
+    with cribl.scoped(group_id=WORKER_GROUP_ID):
+        commit_response = cribl.versions.commits.create(
+            message="Commit for Cribl Stream example",
+            effective=True,
+            files=["."],
+        )
 
-    # Commit configuration changes
-    commit_response = cribl.versions.commits.create(
-        message="Commit for Cribl Stream example",
-        effective=True,
-        files=["."],
-        server_url=group_url
-    )
-    
     if not commit_response.items or len(commit_response.items) == 0:
         raise Exception("Failed to commit configuration changes")
     

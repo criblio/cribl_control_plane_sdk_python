@@ -50,8 +50,7 @@ CLIENT_SECRET = "your-client-secret"
 WORKSPACE_NAME = "your-workspace-name"
 WORKER_GROUP_ID = "my-group"
 
-base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
-group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
+base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud"
 
 # Syslog Source configuration
 SYSLOG_PORT = 9021
@@ -155,44 +154,42 @@ async def main():
     )
     print(f"✅ Worker Group created: {WORKER_GROUP_ID}")
 
-    # Create Syslog Source
-    cribl.sources.create(request=syslog_source, server_url=group_url)
-    print(f"✅ Syslog source created: {syslog_source.id}")
+    with cribl.scoped(group_id=WORKER_GROUP_ID):
+        cribl.sources.create(request=syslog_source)
+        print(f"✅ Syslog source created: {syslog_source.id}")
 
-    # Create S3 Destination
-    cribl.destinations.create(request=s3_destination, server_url=group_url)
-    print(f"✅ S3 Destination created: {s3_destination.id}")
+        cribl.destinations.create(request=s3_destination)
+        print(f"✅ S3 Destination created: {s3_destination.id}")
 
-    # Create Pipeline
-    cribl.pipelines.create(id=pipeline.id, conf=ConfInput.model_validate(pipeline.conf.model_dump()), server_url=group_url)
-    print(f"✅ Pipeline created: {pipeline.id}")
+        cribl.pipelines.create(
+            id=pipeline.id,
+            conf=ConfInput.model_validate(pipeline.conf.model_dump()),
+        )
+        print(f"✅ Pipeline created: {pipeline.id}")
 
-    # Add Route to Routing table
-    routes_list_response = cribl.routes.list(server_url=group_url)
-    if not routes_list_response.items or len(routes_list_response.items) == 0:
-        raise Exception("No Routes found")
+        routes_list_response = cribl.routes.list()
+        if not routes_list_response.items or len(routes_list_response.items) == 0:
+            raise Exception("No Routes found")
 
-    routes = routes_list_response.items[0]
-    if not routes or not routes.id:
-        raise Exception("No Routes found")
+        routes = routes_list_response.items[0]
+        if not routes or not routes.id:
+            raise Exception("No Routes found")
 
-    routes_to_update: List[RouteConfInput] = [
-        RouteConfInput.model_validate(r.model_dump())
-        for r in [route] + (routes.routes or [])
-    ]
-    cribl.routes.update(
-        id_param=routes.id, id=routes.id, routes=routes_to_update, server_url=group_url
-    )
-    print(f"✅ Route added: {route.id}")
+        routes_to_update: List[RouteConfInput] = [
+            RouteConfInput.model_validate(r.model_dump())
+            for r in [route] + (routes.routes or [])
+        ]
+        cribl.routes.update(
+            id_param=routes.id, id=routes.id, routes=routes_to_update
+        )
+        print(f"✅ Route added: {route.id}")
 
-    # Commit configuration changes
-    commit_response = cribl.versions.commits.create(
-        message="Commit for Cribl Stream example",
-        effective=True,
-        files=["."],
-        server_url=group_url
-    )
-    
+        commit_response = cribl.versions.commits.create(
+            message="Commit for Cribl Stream example",
+            effective=True,
+            files=["."],
+        )
+
     if not commit_response.items or len(commit_response.items) == 0:
         raise Exception("Failed to commit configuration changes")
     

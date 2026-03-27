@@ -16,7 +16,7 @@ ONPREM_SERVER_URL = "http://localhost:9000"  # Replace with your server URL
 ONPREM_USERNAME = "admin"  # Replace with your username
 ONPREM_PASSWORD = "admin"  # Replace with your password
 
-base_url = f"{ONPREM_SERVER_URL}/api/v1"
+base_url = ONPREM_SERVER_URL
 
 async def main():
     cribl = CriblControlPlane(server_url=base_url)

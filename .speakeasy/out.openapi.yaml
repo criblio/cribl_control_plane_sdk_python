@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1774479808928-10da8442
+  version: 4.18.0-alpha.1774566306015-cba67aae
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -46191,8 +46191,8 @@ tags:
   - name: collectors
     description: Actions related to Collectors
     x-cribl-availability: both
-  - name: database-connections
-    description: Actions related to Database Connections
+  - name: databaseConnections
+    description: Actions related to DatabaseConnections
     x-cribl-availability: both
   - name: destinations
     description: Actions related to Destinations
@@ -46244,7 +46244,7 @@ paths:
     post:
       operationId: createDatabaseConnectionConfig
       tags:
-        - database-connections
+        - databaseConnections
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: create
       x-cribl-internal: false
@@ -46298,7 +46298,7 @@ paths:
     delete:
       operationId: deleteDatabaseConnectionConfigById
       tags:
-        - database-connections
+        - databaseConnections
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: delete
       x-cribl-internal: false
@@ -46330,7 +46330,7 @@ paths:
     get:
       operationId: getDatabaseConnectionConfigById
       tags:
-        - database-connections
+        - databaseConnections
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: get
       x-cribl-internal: false
@@ -46364,7 +46364,7 @@ paths:
     patch:
       operationId: updateDatabaseConnectionConfigById
       tags:
-        - database-connections
+        - databaseConnections
       x-speakeasy-group: databaseConnections
       x-speakeasy-name-override: update
       x-cribl-internal: false

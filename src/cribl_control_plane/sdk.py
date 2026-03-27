@@ -43,6 +43,7 @@ class CriblControlPlane(BaseSDK):
     """
 
     database_connections: "DatabaseConnections"
+    r"""Actions related to DatabaseConnections"""
     functions: "Functions"
     r"""Actions related to functions"""
     sources: "Sources"

@@ -3,7 +3,7 @@
 
 from .basesdk import BaseSDK
 from .httpclient import AsyncHttpClient, ClientOwner, HttpClient, close_clients
-from .sdkconfiguration import SDKConfiguration
+from .sdkconfiguration import SDKConfiguration, leader_api_base_url
 from .utils.logger import Logger, get_default_logger
 from .utils.retries import RetryConfig
 from cribl_control_plane import models
@@ -12,7 +12,8 @@ from cribl_control_plane.types import OptionalNullable, UNSET
 import httpx
 import importlib
 import sys
-from typing import Callable, Optional, TYPE_CHECKING, Union, cast
+from contextlib import contextmanager
+from typing import Callable, Iterator, Optional, TYPE_CHECKING, Union, cast
 import weakref
 
 if TYPE_CHECKING:
@@ -165,6 +166,54 @@ class CriblControlPlane(BaseSDK):
             self.sdk_configuration.async_client_supplied,
         )
 
+    @contextmanager
+    def scoped(
+        self,
+        *,
+        group_id: Optional[str] = None,
+        node_id: Optional[str] = None,
+        leader: bool = False,
+    ) -> Iterator[None]:
+        """Temporarily set the request base URL for worker group, node, or leader APIs.
+
+        Use exactly one of ``group_id``, ``node_id``, or ``leader=True``. Nested scopes are
+        supported. The leader base is derived from :func:`leader_api_base_url`.
+        """
+        selected = (
+            (group_id is not None)
+            + (node_id is not None)
+            + (leader is True)
+        )
+        if selected != 1:
+            raise ValueError(
+                "scoped() requires exactly one of: group_id=..., node_id=..., or leader=True"
+            )
+
+        base = leader_api_base_url(self.sdk_configuration.server_url)
+        if not base:
+            raise ValueError("server_url must be set to use scoped()")
+
+        if group_id is not None:
+            scoped_base = f"{base}/m/{group_id}"
+        elif node_id is not None:
+            scoped_base = f"{base}/w/{node_id}"
+        else:
+            scoped_base = base
+
+        self.sdk_configuration.push_scope_base_url(scoped_base)
+        try:
+            yield
+        finally:
+            self.sdk_configuration.pop_scope_base_url()
+
+    def with_group(self, group_id: str):
+        """Context manager alias for ``scoped(group_id=...)``."""
+        return self.scoped(group_id=group_id)
+
+    def with_node(self, node_id: str):
+        """Context manager alias for ``scoped(node_id=...)``."""
+        return self.scoped(node_id=node_id)
+
     def dynamic_import(self, modname, retries=3):
         for attempt in range(retries):
             try:
@@ -201,7 +250,8 @@ class CriblControlPlane(BaseSDK):
     def __dir__(self):
         default_attrs = list(super().__dir__())
         lazy_attrs = list(self._sub_sdk_map.keys())
-        return sorted(list(set(default_attrs + lazy_attrs)))
+        extras = ["scoped", "with_group", "with_node"]
+        return sorted(list(set(default_attrs + lazy_attrs + extras)))
 
     def __enter__(self):
         return self

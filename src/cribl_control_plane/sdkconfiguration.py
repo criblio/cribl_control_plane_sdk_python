@@ -11,9 +11,33 @@ from .httpclient import AsyncHttpClient, HttpClient
 from .utils import Logger, RetryConfig, remove_suffix
 from cribl_control_plane import models
 from cribl_control_plane.types import OptionalNullable, UNSET
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pydantic import Field
-from typing import Callable, Dict, Optional, Tuple, Union
+from typing import Callable, Dict, List, Optional, Tuple, Union
+from urllib.parse import urlparse, urlunparse
+
+
+def leader_api_base_url(server_url: str) -> str:
+    """Return the leader API base URL ending in ``/api/v1`` when ``server_url`` is host-only.
+
+    If ``server_url`` already includes a path, that path is kept (normalized) as the base.
+    """
+    raw = remove_suffix((server_url or "").strip(), "/")
+    if not raw:
+        return ""
+    if "://" not in raw:
+        raw = f"http://{raw}"
+    parsed = urlparse(raw)
+    if not parsed.netloc:
+        raise ValueError(f"Invalid server_url for API base: {server_url!r}")
+    path = parsed.path or ""
+    path = path.rstrip("/")
+    if path == "":
+        new_path = "/api/v1"
+    else:
+        new_path = "/" + path.lstrip("/")
+    rebuilt = urlunparse((parsed.scheme, parsed.netloc, new_path, "", "", ""))
+    return remove_suffix(rebuilt, "/")
 
 
 @dataclass
@@ -32,6 +56,17 @@ class SDKConfiguration:
     user_agent: str = __user_agent__
     retry_config: OptionalNullable[RetryConfig] = Field(default_factory=lambda: UNSET)
     timeout_ms: Optional[int] = None
+    _scope_base_url_stack: List[str] = field(
+        default_factory=list, init=False, repr=False, compare=False
+    )
+
+    def push_scope_base_url(self, base_url: str) -> None:
+        self._scope_base_url_stack.append(remove_suffix(base_url, "/"))
+
+    def pop_scope_base_url(self) -> None:
+        self._scope_base_url_stack.pop()
 
     def get_server_details(self) -> Tuple[str, Dict[str, str]]:
+        if self._scope_base_url_stack:
+            return self._scope_base_url_stack[-1], {}
         return remove_suffix(self.server_url or "", "/"), {}

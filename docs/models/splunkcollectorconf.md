@@ -1,0 +1,35 @@
+# SplunkCollectorConf
+
+
+## Supported Types
+
+### `models.SplunkAuthenticationNone`
+
+```python
+value: models.SplunkAuthenticationNone = /* values here */
+```
+
+### `models.SplunkAuthenticationBasic`
+
+```python
+value: models.SplunkAuthenticationBasic = /* values here */
+```
+
+### `models.SplunkAuthenticationBasicSecret`
+
+```python
+value: models.SplunkAuthenticationBasicSecret = /* values here */
+```
+
+### `models.SplunkAuthenticationToken`
+
+```python
+value: models.SplunkAuthenticationToken = /* values here */
+```
+
+### `models.SplunkAuthenticationTokenSecret`
+
+```python
+value: models.SplunkAuthenticationTokenSecret = /* values here */
+```
+

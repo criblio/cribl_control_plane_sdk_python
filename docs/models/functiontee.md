@@ -1,0 +1,21 @@
+# FunctionTee
+
+
+## Fields
+
+| Field                                              | Type                                               | Required                                           | Description                                        |
+| -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- | -------------------------------------------------- |
+| `filename`                                         | *str*                                              | :heavy_check_mark:                                 | N/A                                                |
+| `async_timeout`                                    | *Optional[float]*                                  | :heavy_minus_sign:                                 | N/A                                                |
+| `cribl_version`                                    | *Optional[str]*                                    | :heavy_minus_sign:                                 | N/A                                                |
+| `disabled`                                         | *Optional[bool]*                                   | :heavy_minus_sign:                                 | N/A                                                |
+| `group`                                            | *str*                                              | :heavy_check_mark:                                 | N/A                                                |
+| `handle_signals`                                   | *Optional[bool]*                                   | :heavy_minus_sign:                                 | N/A                                                |
+| `id`                                               | [models.FunctionTeeID](../models/functionteeid.md) | :heavy_check_mark:                                 | N/A                                                |
+| `load_time`                                        | *float*                                            | :heavy_check_mark:                                 | N/A                                                |
+| `mod_time`                                         | *float*                                            | :heavy_check_mark:                                 | N/A                                                |
+| `name`                                             | *str*                                              | :heavy_check_mark:                                 | N/A                                                |
+| `sync`                                             | *Optional[bool]*                                   | :heavy_minus_sign:                                 | N/A                                                |
+| `uischema`                                         | Dict[str, *Any*]                                   | :heavy_check_mark:                                 | N/A                                                |
+| `version`                                          | *str*                                              | :heavy_check_mark:                                 | N/A                                                |
+| `schema_`                                          | Dict[str, *Any*]                                   | :heavy_minus_sign:                                 | N/A                                                |

@@ -1,0 +1,12 @@
+# GitCommitSummary
+
+
+## Fields
+
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `author`                                                                             | [Optional[models.Author]](../models/author.md)                                       | :heavy_minus_sign:                                                                   | N/A                                                                                  |
+| `branch`                                                                             | *str*                                                                                | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `commit`                                                                             | *str*                                                                                | :heavy_check_mark:                                                                   | N/A                                                                                  |
+| `files`                                                                              | [Optional[models.FilesTypeGitCommitSummary]](../models/filestypegitcommitsummary.md) | :heavy_minus_sign:                                                                   | N/A                                                                                  |
+| `summary`                                                                            | [models.Summary](../models/summary.md)                                               | :heavy_check_mark:                                                                   | N/A                                                                                  |

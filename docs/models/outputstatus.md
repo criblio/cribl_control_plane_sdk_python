@@ -1,0 +1,10 @@
+# OutputStatus
+
+
+## Fields
+
+| Field                                                                                     | Type                                                                                      | Required                                                                                  | Description                                                                               |
+| ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `id`                                                                                      | *str*                                                                                     | :heavy_check_mark:                                                                        | Unique identifier of the Source or Destination.                                           |
+| `status`                                                                                  | [models.StatusType](../models/statustype.md)                                              | :heavy_check_mark:                                                                        | Status information for the Source or Destination, aggregated across all Worker Processes. |
+| `type`                                                                                    | *Optional[str]*                                                                           | :heavy_minus_sign:                                                                        | Type of the Source or Destination.                                                        |

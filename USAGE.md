@@ -1,0 +1,47 @@
+<!-- Start SDK Example Usage [usage] -->
+```python
+# Synchronous Example
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.create(auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
+
+    # Handle response
+    print(res)
+```
+
+</br>
+
+The same SDK client can also be used to make asynchronous requests by importing asyncio.
+
+```python
+# Asynchronous Example
+import asyncio
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+async def main():
+
+    async with CriblControlPlane(
+        "https://api.example.com",
+        security=models.Security(
+            bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+        ),
+    ) as ccp_client:
+
+        res = await ccp_client.database_connections.create_async(auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
+
+        # Handle response
+        print(res)
+
+asyncio.run(main())
+```
+<!-- End SDK Example Usage [usage] -->

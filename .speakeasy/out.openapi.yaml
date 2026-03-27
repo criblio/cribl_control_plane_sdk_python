@@ -6,7 +6,7 @@ info:
   description: >-
     This API Reference lists available REST endpoints, along with their supported operations for accessing, creating, updating, or deleting resources.
 
-    Base URL contexts for reference:
+    Base URL contexts for reference Lorem Ipsum:
 
     - Leader context: /api/v1
 
@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-7e952fa7
+  version: 4.17.0-1e952fa7
   contact:
     name: Support
     url: https://portal.support.cribl.io

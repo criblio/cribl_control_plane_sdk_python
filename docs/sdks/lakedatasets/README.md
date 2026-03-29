@@ -14,9 +14,9 @@
 
 Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
 
-### Example Usage
+### Example Usage: LakeDatasetCreateExamplesJsonDataset
 
-<!-- UsageSnippet language="python" operationID="createCriblLakeDatasetByLakeId" method="post" path="/products/lake/lakes/{lakeId}/datasets" -->
+<!-- UsageSnippet language="python" operationID="createCriblLakeDatasetByLakeId" method="post" path="/products/lake/lakes/{lakeId}/datasets" example="LakeDatasetCreateExamplesJsonDataset" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -29,7 +29,57 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.create(lake_id="<id>", id="<id>")
+    res = ccp_client.lake_datasets.create(lake_id="<id>", id="web_access_logs", accelerated_fields=[
+        "host",
+        "status",
+    ], description="Web server access logs", format_=models.FormatOptions.JSON, retention_period_in_days=90, storage_location_id="my-storage-location")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: LakeDatasetCreateExamplesMinimalDataset
+
+<!-- UsageSnippet language="python" operationID="createCriblLakeDatasetByLakeId" method="post" path="/products/lake/lakes/{lakeId}/datasets" example="LakeDatasetCreateExamplesMinimalDataset" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.lake_datasets.create(lake_id="<id>", id="app_logs")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: LakeDatasetCreateExamplesParquetDataset
+
+<!-- UsageSnippet language="python" operationID="createCriblLakeDatasetByLakeId" method="post" path="/products/lake/lakes/{lakeId}/datasets" example="LakeDatasetCreateExamplesParquetDataset" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.lake_datasets.create(lake_id="<id>", id="security_events", description="Security event data in Parquet format", format_=models.FormatOptions.PARQUET, retention_period_in_days=365, search_config={
+        "datatypes": [
+            "palo_alto_firewall",
+            "crowdstrike_fdr",
+        ],
+    }, storage_location_id="my-storage-location")
 
     # Handle response
     print(res)
@@ -211,9 +261,9 @@ with CriblControlPlane(
 
 Update the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
 
-### Example Usage
+### Example Usage: LakeDatasetUpdateExamplesUpdateDescription
 
-<!-- UsageSnippet language="python" operationID="updateCriblLakeDatasetByLakeIdAndId" method="patch" path="/products/lake/lakes/{lakeId}/datasets/{id}" -->
+<!-- UsageSnippet language="python" operationID="updateCriblLakeDatasetByLakeIdAndId" method="patch" path="/products/lake/lakes/{lakeId}/datasets/{id}" example="LakeDatasetUpdateExamplesUpdateDescription" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -226,7 +276,32 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.update(lake_id="<id>", id_param="<value>")
+    res = ccp_client.lake_datasets.update(lake_id="<id>", id_param="<value>", accelerated_fields=[
+        "host",
+        "status",
+        "source",
+    ], description="Web server access logs with accelerated fields.")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: LakeDatasetUpdateExamplesUpdateRetention
+
+<!-- UsageSnippet language="python" operationID="updateCriblLakeDatasetByLakeIdAndId" method="patch" path="/products/lake/lakes/{lakeId}/datasets/{id}" example="LakeDatasetUpdateExamplesUpdateRetention" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.lake_datasets.update(lake_id="<id>", id_param="<value>", retention_period_in_days=180)
 
     # Handle response
     print(res)

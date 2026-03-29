@@ -2130,6 +2130,8 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
+    max_pages: NotRequired[int]
+    r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
     auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodMicrosoftGraph]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
@@ -2224,6 +2226,9 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
         Optional[bool], pydantic.Field(alias="disableTimeFilter")
     ] = None
     r"""Disables time filtering of events when a date range is specified."""
+
+    max_pages: Annotated[Optional[int], pydantic.Field(alias="maxPages")] = None
+    r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
 
     auth_type: Annotated[
         Optional[CreateInputSystemByPackAuthenticationMethodMicrosoftGraph],
@@ -2365,6 +2370,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
                 "endDate",
                 "timeout",
                 "disableTimeFilter",
+                "maxPages",
                 "authType",
                 "keepAliveTime",
                 "jobTimeout",
@@ -8809,21 +8815,21 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputWizWebhookTypedDict,
         CreateInputSystemByPackInputHTTPTypedDict,
-        CreateInputSystemByPackInputConfluentCloudTypedDict,
         CreateInputSystemByPackInputZscalerHecTypedDict,
         CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
         CreateInputSystemByPackInputCloudflareHecTypedDict,
+        CreateInputSystemByPackInputEventhubTypedDict,
         CreateInputSystemByPackInputKafkaTypedDict,
         CreateInputSystemByPackInputLokiTypedDict,
-        CreateInputSystemByPackInputEventhubTypedDict,
+        CreateInputSystemByPackInputConfluentCloudTypedDict,
         CreateInputSystemByPackInputPrometheusRwTypedDict,
-        CreateInputSystemByPackInputOpenTelemetryTypedDict,
         CreateInputSystemByPackInputAzureBlobTypedDict,
+        CreateInputSystemByPackInputOpenTelemetryTypedDict,
         CreateInputSystemByPackInputElasticTypedDict,
-        CreateInputSystemByPackInputMicrosoftGraphTypedDict,
         CreateInputSystemByPackInputSplunkSearchTypedDict,
         CreateInputSystemByPackInputSqsTypedDict,
         CreateInputSystemByPackInputSplunkHecTypedDict,
+        CreateInputSystemByPackInputMicrosoftGraphTypedDict,
         CreateInputSystemByPackInputKinesisTypedDict,
         CreateInputSystemByPackInputOffice365MsgTraceTypedDict,
         CreateInputSystemByPackInputEdgePrometheusTypedDict,

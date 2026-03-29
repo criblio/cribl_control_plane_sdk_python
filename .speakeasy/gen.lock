@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 926ea8ecde785465a3ceea03791962c9
-  docVersion: 4.17.1-alpha.1774479808532-911e82d2
-  speakeasyVersion: 1.759.2
-  generationVersion: 2.869.23
-  releaseVersion: 0.7.0a11
-  configChecksum: 9127d97c004bb7ae8261e948d1335df2
+  docChecksum: 28902226513d5a31c274740a252cd2c9
+  docVersion: 4.17.1-alpha.1774739006047-c0158cf2
+  speakeasyVersion: 1.759.3
+  generationVersion: 2.869.25
+  releaseVersion: 0.7.0a12
+  configChecksum: dc4eb392e001d3a376eaacae96b83411
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: c57adccf-79f0-47eb-85f8-edbf19b8de57
-  pristine_commit_hash: 08d829d0eaac57c614a8429403b09d1756f29cf6
-  pristine_tree_hash: 4c3289b8ac9aa9b22d8ac7e7443fcf7f81e4756b
+  generation_id: 0739f963-a2da-43ef-9578-a37451e52fd9
+  pristine_commit_hash: f74452a6924b47c1361f5b474d29f736be644c3c
+  pristine_tree_hash: 56aa6a1a9a76e3530011a4ce14cb389f2859fade
 features:
   python:
     additionalDependencies: 1.0.0
@@ -1072,8 +1072,8 @@ trackedFiles:
     pristine_git_object: 41e0da8d5be4ac9ba733e06a62e4c03fdd32a8f2
   docs/models/createinputinputmicrosoftgraph.md:
     id: 4bd82657dc90
-    last_write_checksum: sha1:e32a6c6dfc3f7305917f7767c5a5eb9c2274de22
-    pristine_git_object: 33c435729412c39170e89fce205827577916f175
+    last_write_checksum: sha1:f5c8748bb931ec2367e735f46ff9e72f0812789a
+    pristine_git_object: c2c2503aa42098777f71cda9806df9c6dfd10d74
   docs/models/createinputinputmodeldriventelemetry.md:
     id: 51f28f0fab6b
     last_write_checksum: sha1:af7bd7978ee993ca26f8e387e17ccfef3d70be0a
@@ -1772,8 +1772,8 @@ trackedFiles:
     pristine_git_object: c3ee665d89a735823b7dc6692a515ee9eb8512b6
   docs/models/createinputsystembypackinputmicrosoftgraph.md:
     id: cee0c4fa9690
-    last_write_checksum: sha1:39080e12f247bacf2fac84e4ead0337acf0b6fdf
-    pristine_git_object: bfdd2fcb330480fb4d9e592c2892601dcd9e7661
+    last_write_checksum: sha1:be4f018cd840896f05787c15497b9dcfa3832e04
+    pristine_git_object: ddfadfd1e5b84f1e9a448c73b9535e2d2e1c0049
   docs/models/createinputsystembypackinputmodeldriventelemetry.md:
     id: b5d493a18772
     last_write_checksum: sha1:16b67de75e950c37c0a1a36ec65df40680c28796
@@ -7736,8 +7736,8 @@ trackedFiles:
     pristine_git_object: 6f85100b78277a620edfeeda00ddc271defeba2c
   docs/models/inputmicrosoftgraph.md:
     id: b25775269275
-    last_write_checksum: sha1:ffafbc34bb4a997069712bd980c89efd79ad0de8
-    pristine_git_object: 7004d8e383027370db835c699ca9035fd54da443
+    last_write_checksum: sha1:9d799360e48f9af279940525371d4782a8d30438
+    pristine_git_object: 67951035ea584b52835384b035c10d0d52c2d243
   docs/models/inputmicrosoftgraphauthenticationmethod.md:
     id: 6b76176d9eca
     last_write_checksum: sha1:8c659631a68856839d2c8ce3a774e8a532c91b37
@@ -13940,8 +13940,8 @@ trackedFiles:
     pristine_git_object: ad2ac7215efaa056197c86534b38e9669f13aec3
   docs/sdks/lakedatasets/README.md:
     id: 525057cafa86
-    last_write_checksum: sha1:fcda2120f719ddd4c3f70a9411673bd2c74dc1b5
-    pristine_git_object: d3f464b1b8289b18faa9d13b6326e4190918e734
+    last_write_checksum: sha1:544c535e31d66f7203394d34252940c9e5ca2786
+    pristine_git_object: 6c43e67b71df1149cb72e4e9acffb0216247e3f2
   docs/sdks/nodes/README.md:
     id: caae80e86772
     last_write_checksum: sha1:8edb9a1e5d8c468803cf99fccc1f9ab38dfec60e
@@ -14052,8 +14052,8 @@ trackedFiles:
     pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:cda30f658db2c07fcc8cce9342ab99331263fc25
-    pristine_git_object: 8ac49670caa9cfe6cc4ed194e8cb045cccdc22b8
+    last_write_checksum: sha1:70ec16094d1b01e26c679ed81ef1539e8c0c9653
+    pristine_git_object: 4b9c717d81ed95cb86aed37d82326f040b7c95d5
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -14084,8 +14084,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:b3f5f759bae4ddc19f4c2c6e913e8f1f38065622
-    pristine_git_object: 61a0392b0088e0b74b0ef3d5b0fd49d4ef65dc32
+    last_write_checksum: sha1:545da61144668bb24829cc69d52735c8026c77ed
+    pristine_git_object: 344caa32c84865d53e16fffa5aeda90b0868a698
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -14640,8 +14640,8 @@ trackedFiles:
     pristine_git_object: 73a14caa674d0969c21eed9e3b45dba55b405097
   src/cribl_control_plane/models/createinput_request.py:
     id: c2056b755125
-    last_write_checksum: sha1:ac3e3b184939b40103f77d8e5f3308f4ee1ae8c1
-    pristine_git_object: 8ebbe5623d58432bd27e5c410a3c9adcb95d17ab
+    last_write_checksum: sha1:8b4b0355fc424258c3237d4694719ae23969e3a8
+    pristine_git_object: f66fa437acfedbf2f746dd0515e9bf1370d4e890
   src/cribl_control_plane/models/createinput_type_tcpjson.py:
     id: 25833ecc58d9
     last_write_checksum: sha1:5817ed4aa7ff9c7683d5d9b21ebc2c531b37073a
@@ -14652,8 +14652,8 @@ trackedFiles:
     pristine_git_object: 2c42358e12e602d17ab6f2ab622667d4de713ab3
   src/cribl_control_plane/models/createinputsystembypack_request.py:
     id: 9a05ed789849
-    last_write_checksum: sha1:e7044e761cc2626ef09c1702fe428228f4c35311
-    pristine_git_object: 3e0725549d3e861634065ed2a544e80d093dcc84
+    last_write_checksum: sha1:00e93f7e6f83d7b7b46b7e8536cba7a8f7226ec6
+    pristine_git_object: 8f2dedffd1836e6eab9939f67edfba56397e6393
   src/cribl_control_plane/models/createinputsystembypack_type_tcpjson.py:
     id: ea9c5685cc9a
     last_write_checksum: sha1:4840ed6bfc086e656b049e42d71fe9419580038f
@@ -15596,12 +15596,12 @@ trackedFiles:
     pristine_git_object: 8c46b169583cab4fa7c1b946158e63a2adfdf33c
   src/cribl_control_plane/models/input_1.py:
     id: 9d9c09450cff
-    last_write_checksum: sha1:70581c1fff8b9737ce91f1de183e21d136743c67
-    pristine_git_object: 4d485fe1ace0ad75dd3d5996920b5d36b15806b3
+    last_write_checksum: sha1:b133d5c04da62f03a30b8829ed86bc44ec95de2f
+    pristine_git_object: 3e1cc6f00a0c7ed676a4a65216750cf2efac460e
   src/cribl_control_plane/models/input_2.py:
     id: 7cfd8a80ea49
-    last_write_checksum: sha1:ef03e3dbba60223ae653ace64b22165dc27b9481
-    pristine_git_object: 191c344a39b3fc117a5d460e95ce09e5d11ef1b9
+    last_write_checksum: sha1:f438cf4db7612be6921015a29684b5a9e9bbff73
+    pristine_git_object: 4f0d10c07d1a386aa4b24c72f1f8ece0798acd81
   src/cribl_control_plane/models/inputappscope.py:
     id: 07e2d02b4da5
     last_write_checksum: sha1:bb71d363faa243c1ef50df4668ae9cc8a69240d4
@@ -15728,8 +15728,8 @@ trackedFiles:
     pristine_git_object: c4466ed355f1edf9f3856ec40c1dded991503e22
   src/cribl_control_plane/models/inputmicrosoftgraph.py:
     id: 8aa8a8f0e723
-    last_write_checksum: sha1:91306c63e704edf3ca09bb5abbcc62b042a2b5d3
-    pristine_git_object: f74410bf5af5b8c3691ca903e49b4979fad66ddd
+    last_write_checksum: sha1:134cf7ddc32d483c1212e583290c022d74651ff8
+    pristine_git_object: 6c7a690fd99be63ed319a4907b23aeb0a8707122
   src/cribl_control_plane/models/inputmodeldriventelemetry.py:
     id: d5169c6fb396
     last_write_checksum: sha1:03036740fb7cc0171b74deb6804ed4a61d7fde42
@@ -21289,6 +21289,39 @@ examples:
           application/json: {}
         "500":
           application/json: {}
+    LakeDatasetCreateExamplesJsonDataset:
+      parameters:
+        path:
+          lakeId: "<id>"
+      requestBody:
+        application/json: {"acceleratedFields": ["host", "status"], "description": "Web server access logs", "format": "json", "id": "web_access_logs", "retentionPeriodInDays": 90, "storageLocationId": "my-storage-location"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    LakeDatasetCreateExamplesParquetDataset:
+      parameters:
+        path:
+          lakeId: "<id>"
+      requestBody:
+        application/json: {"description": "Security event data in Parquet format", "format": "parquet", "id": "security_events", "retentionPeriodInDays": 365, "searchConfig": {"datatypes": ["palo_alto_firewall", "crowdstrike_fdr"]}, "storageLocationId": "my-storage-location"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    LakeDatasetCreateExamplesMinimalDataset:
+      parameters:
+        path:
+          lakeId: "<id>"
+      requestBody:
+        application/json: {"id": "app_logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
   getCriblLakeDatasetByLakeId:
     speakeasy-default-get-cribl-lake-dataset-by-lake-id:
       parameters:
@@ -21532,6 +21565,30 @@ examples:
           id: "<value>"
       requestBody:
         application/json: {}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    LakeDatasetUpdateExamplesUpdateRetention:
+      parameters:
+        path:
+          lakeId: "<id>"
+          id: "<value>"
+      requestBody:
+        application/json: {"retentionPeriodInDays": 180}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    LakeDatasetUpdateExamplesUpdateDescription:
+      parameters:
+        path:
+          lakeId: "<id>"
+          id: "<value>"
+      requestBody:
+        application/json: {"acceleratedFields": ["host", "status", "source"], "description": "Web server access logs with accelerated fields."}
       responses:
         "200":
           application/json: {}
@@ -27889,7 +27946,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.sources.list()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.sources.create()`: \n  *  `request.union(azure_blob).auth_type` **Changed**\n  *  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.union(azure_blob).auth_type` **Changed**\n  *  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.sources.list()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.sources.create()`: \n  *  `request_body.union(azure_blob).auth_type` **Changed**\n  *  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.sources.get()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.sources.update()`: \n  *  `request.input.union(azure_blob).auth_type` **Changed**\n  *  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.sources.delete()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.destinations.list()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.destinations.create()`: \n  *  `request_body.union(azure_blob).auth_type` **Changed**\n  *  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.destinations.get()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.destinations.update()`: \n  *  `request.output.union(azure_blob).auth_type` **Changed**\n  *  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.packs.destinations.delete()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.union(azure_blob).auth_type` **Changed**\n  *  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.union(azure_blob).auth_type` **Changed**\n  *  `response.items[].union(azure_blob).auth_type` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items[].union(azure_blob).auth_type` **Changed**\n"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.sources.list()`:  `response.items[].union(microsoft_graph).max_pages` **Added**\n* `cribl_control_plane.sources.create()`: \n  *  `request.union(microsoft_graph).max_pages` **Added**\n  *  `response.items[].union(microsoft_graph).max_pages` **Added**\n* `cribl_control_plane.sources.get()`:  `response.items[].union(microsoft_graph).max_pages` **Added**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.union(microsoft_graph).max_pages` **Added**\n  *  `response.items[].union(microsoft_graph).max_pages` **Added**\n* `cribl_control_plane.sources.delete()`:  `response.items[].union(microsoft_graph).max_pages` **Added**\n* `cribl_control_plane.packs.sources.list()`:  `response.items[].union(microsoft_graph).max_pages` **Added**\n* `cribl_control_plane.packs.sources.create()`: \n  *  `request_body.union(microsoft_graph).max_pages` **Added**\n  *  `response.items[].union(microsoft_graph).max_pages` **Added**\n* `cribl_control_plane.packs.sources.get()`:  `response.items[].union(microsoft_graph).max_pages` **Added**\n* `cribl_control_plane.packs.sources.update()`: \n  *  `request.input.union(microsoft_graph).max_pages` **Added**\n  *  `response.items[].union(microsoft_graph).max_pages` **Added**\n* `cribl_control_plane.packs.sources.delete()`:  `response.items[].union(microsoft_graph).max_pages` **Added**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

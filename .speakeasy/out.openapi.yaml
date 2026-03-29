@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1774479808532-911e82d2
+  version: 4.17.1-alpha.1774739006047-c0158cf2
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -14968,6 +14968,11 @@ components:
           type: boolean
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
+        maxPages:
+          type: integer
+          title: Page limit
+          description: Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages.
+          minimum: 0
         authType:
           title: Authentication method
           type: string
@@ -44757,6 +44762,50 @@ components:
         onPrem: false
         estimatedIngestRate: 4096
         provisioned: true
+    LakeDatasetCreateExamplesJsonDataset:
+      summary: Create a Lake Dataset in JSON format
+      description: Example request body for creating a Lake Dataset in JSON format with a 90-day retention period.
+      value:
+        id: web_access_logs
+        description: Web server access logs
+        storageLocationId: my-storage-location
+        format: json
+        retentionPeriodInDays: 90
+        acceleratedFields:
+          - host
+          - status
+    LakeDatasetCreateExamplesParquetDataset:
+      summary: Create a Lake Dataset in Parquet format
+      description: Example request body for creating a Lake Dataset in Parquet format with a 365-day retention period and search configuration.
+      value:
+        id: security_events
+        description: Security event data in Parquet format
+        storageLocationId: my-storage-location
+        format: parquet
+        retentionPeriodInDays: 365
+        searchConfig:
+          datatypes:
+            - palo_alto_firewall
+            - crowdstrike_fdr
+    LakeDatasetCreateExamplesMinimalDataset:
+      summary: Create a minimal Lake Dataset
+      description: Example request body for creating a Lake Dataset with only the required body parameters.
+      value:
+        id: app_logs
+    LakeDatasetUpdateExamplesUpdateRetention:
+      summary: Update the retention period for a Lake Dataset
+      description: Example request body for updating the retention period for an existing Lake Dataset.
+      value:
+        retentionPeriodInDays: 180
+    LakeDatasetUpdateExamplesUpdateDescription:
+      summary: Update description and accelerated fields for a Lake Dataset
+      description: Example request body for updating the description and accelerated fields for an existing Lake Dataset.
+      value:
+        description: Web server access logs with accelerated fields.
+        acceleratedFields:
+          - host
+          - status
+          - source
     CaptureExamplesSimpleExpression:
       summary: Capture events by sourcetype
       value:
@@ -49636,6 +49685,13 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CriblLakeDataset"
+            examples:
+              LakeDatasetCreateExamplesJsonDataset:
+                $ref: "#/components/examples/LakeDatasetCreateExamplesJsonDataset"
+              LakeDatasetCreateExamplesParquetDataset:
+                $ref: "#/components/examples/LakeDatasetCreateExamplesParquetDataset"
+              LakeDatasetCreateExamplesMinimalDataset:
+                $ref: "#/components/examples/LakeDatasetCreateExamplesMinimalDataset"
       parameters:
         - name: lakeId
           in: path
@@ -49820,6 +49876,11 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CriblLakeDatasetUpdate"
+            examples:
+              LakeDatasetUpdateExamplesUpdateRetention:
+                $ref: "#/components/examples/LakeDatasetUpdateExamplesUpdateRetention"
+              LakeDatasetUpdateExamplesUpdateDescription:
+                $ref: "#/components/examples/LakeDatasetUpdateExamplesUpdateDescription"
       parameters:
         - name: lakeId
           in: path

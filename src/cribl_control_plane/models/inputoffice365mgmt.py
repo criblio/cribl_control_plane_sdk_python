@@ -2,7 +2,9 @@
 # @generated-id: a1e254abc2ac
 
 from __future__ import annotations
-from .authenticationmethodoptions1 import AuthenticationMethodOptions1
+from .authenticationmethodoptionsmanualsecret import (
+    AuthenticationMethodOptionsManualSecret,
+)
 from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
@@ -10,7 +12,10 @@ from .itemstypeconnectionsoptional import (
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
 from .pqtype import PqType, PqTypeTypedDict
-from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
+from .retryrulestypecodesenableheader import (
+    RetryRulesTypeCodesEnableHeader,
+    RetryRulesTypeCodesEnableHeaderTypedDict,
+)
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -27,7 +32,7 @@ class InputOffice365MgmtType(str, Enum):
 
 class InputOffice365MgmtContentConfigTypedDict(TypedDict):
     content_type: NotRequired[str]
-    r"""Office 365 Management Activity API Content Type"""
+    r"""Microsoft 365 Management Activity API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
@@ -38,7 +43,7 @@ class InputOffice365MgmtContentConfigTypedDict(TypedDict):
 
 class InputOffice365MgmtContentConfig(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
-    r"""Office 365 Management Activity API Content Type"""
+    r"""Microsoft 365 Management Activity API Content Type"""
 
     description: Optional[str] = None
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
@@ -83,11 +88,11 @@ class InputOffice365MgmtContentConfig(BaseModel):
 class InputOffice365MgmtTypedDict(TypedDict):
     type: InputOffice365MgmtType
     plan_type: SubscriptionPlanOptions
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     tenant_id: str
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
     app_id: str
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -121,15 +126,15 @@ class InputOffice365MgmtTypedDict(TypedDict):
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
     content_config: NotRequired[List[InputOffice365MgmtContentConfigTypedDict]]
-    r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
-    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     template_tenant_id: NotRequired[str]
@@ -146,13 +151,13 @@ class InputOffice365Mgmt(BaseModel):
     type: InputOffice365MgmtType
 
     plan_type: Annotated[SubscriptionPlanOptions, pydantic.Field(alias="planType")]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
-    r"""Office 365 Azure Tenant ID"""
+    r"""Microsoft 365 Azure Tenant ID"""
 
     app_id: Annotated[str, pydantic.Field(alias="appId")]
-    r"""Office 365 Azure Application ID"""
+    r"""Microsoft 365 Azure Application ID"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -217,26 +222,27 @@ class InputOffice365Mgmt(BaseModel):
         Optional[List[InputOffice365MgmtContentConfig]],
         pydantic.Field(alias="contentConfig"),
     ] = None
-    r"""Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
+    r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
 
     ingestion_lag: Annotated[Optional[float], pydantic.Field(alias="ingestionLag")] = (
         None
     )
-    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval."""
+    r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsManualSecret],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
-    r"""Office 365 Azure client secret"""
+    r"""Microsoft 365 Azure client secret"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -274,7 +280,7 @@ class InputOffice365Mgmt(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptionsManualSecret(value)
             except ValueError:
                 return value
         return value

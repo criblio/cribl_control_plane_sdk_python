@@ -2,6 +2,7 @@
 # @generated-id: 4e5d5fcb73d2
 
 from __future__ import annotations
+from .apischeme import APIScheme
 from .awstypeheartbeatmetadata import (
     AwsTypeHeartbeatMetadata,
     AwsTypeHeartbeatMetadataTypedDict,
@@ -21,9 +22,10 @@ from .kubetypeheartbeatmetadata import (
     KubeTypeHeartbeatMetadataTypedDict,
 )
 from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
-from pydantic import model_serializer
+from pydantic import field_serializer, model_serializer
 from typing import Dict, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
@@ -54,11 +56,14 @@ class NodeProvidedInfoTypedDict(TypedDict):
     platform: str
     release: str
     totalmem: float
+    api_port: NotRequired[float]
+    api_scheme: NotRequired[APIScheme]
     aws: NotRequired[AwsTypeHeartbeatMetadataTypedDict]
     azure: NotRequired[AzureTypeHeartbeatMetadataTypedDict]
     conn_ip: NotRequired[str]
     free_disk_space: NotRequired[float]
     host_os: NotRequired[HostOsTypeHeartbeatMetadataTypedDict]
+    is_captain: NotRequired[bool]
     is_saas_worker: NotRequired[bool]
     kube: NotRequired[KubeTypeHeartbeatMetadataTypedDict]
     local_time: NotRequired[float]
@@ -87,6 +92,10 @@ class NodeProvidedInfo(BaseModel):
 
     totalmem: float
 
+    api_port: Annotated[Optional[float], pydantic.Field(alias="apiPort")] = None
+
+    api_scheme: Annotated[Optional[APIScheme], pydantic.Field(alias="apiScheme")] = None
+
     aws: Optional[AwsTypeHeartbeatMetadata] = None
 
     azure: Optional[AzureTypeHeartbeatMetadata] = None
@@ -100,6 +109,8 @@ class NodeProvidedInfo(BaseModel):
     host_os: Annotated[
         Optional[HostOsTypeHeartbeatMetadata], pydantic.Field(alias="hostOs")
     ] = None
+
+    is_captain: Annotated[Optional[bool], pydantic.Field(alias="isCaptain")] = None
 
     is_saas_worker: Annotated[Optional[bool], pydantic.Field(alias="isSaasWorker")] = (
         None
@@ -119,15 +130,27 @@ class NodeProvidedInfo(BaseModel):
         Optional[float], pydantic.Field(alias="totalDiskSpace")
     ] = None
 
+    @field_serializer("api_scheme")
+    def serialize_api_scheme(self, value):
+        if isinstance(value, str):
+            try:
+                return models.APIScheme(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "apiPort",
+                "apiScheme",
                 "aws",
                 "azure",
                 "conn_ip",
                 "freeDiskSpace",
                 "hostOs",
+                "isCaptain",
                 "isSaasWorker",
                 "kube",
                 "localTime",

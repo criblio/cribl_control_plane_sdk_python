@@ -2,8 +2,8 @@
 # @generated-id: 01bd6b1414e9
 
 from __future__ import annotations
-from .authenticationtypeoptionsprometheusauth1 import (
-    AuthenticationTypeOptionsPrometheusAuth1,
+from .authenticationtypeoptionsprometheusauthbasiccredentialssecret import (
+    AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -14,7 +14,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PrometheusAuthTypeTypedDict(TypedDict):
-    auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth1]
+    auth_type: NotRequired[
+        AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret
+    ]
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header. In Grafana Cloud, this is generally built by concatenating the username and the API key, separated by a colon. Example: <your-username>:<your-api-key>"""
     text_secret: NotRequired[str]
@@ -29,7 +31,7 @@ class PrometheusAuthTypeTypedDict(TypedDict):
 
 class PrometheusAuthType(BaseModel):
     auth_type: Annotated[
-        Optional[AuthenticationTypeOptionsPrometheusAuth1],
+        Optional[AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret],
         pydantic.Field(alias="authType"),
     ] = None
 
@@ -54,7 +56,9 @@ class PrometheusAuthType(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeOptionsPrometheusAuth1(value)
+                return models.AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret(
+                    value
+                )
             except ValueError:
                 return value
         return value

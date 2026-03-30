@@ -941,6 +941,8 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationOauthSecretRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationOauthSecret(BaseModel):
@@ -1023,6 +1025,11 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -1067,6 +1074,7 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -1984,6 +1992,8 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationOauthRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationOauth(BaseModel):
@@ -2068,6 +2078,11 @@ class HealthCheckAuthenticationOauth(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -2110,6 +2125,7 @@ class HealthCheckAuthenticationOauth(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -3027,6 +3043,8 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationLoginSecretRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationLoginSecret(BaseModel):
@@ -3101,6 +3119,11 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -3144,6 +3167,7 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -4059,6 +4083,8 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationLoginRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationLogin(BaseModel):
@@ -4136,6 +4162,11 @@ class HealthCheckAuthenticationLogin(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -4177,6 +4208,7 @@ class HealthCheckAuthenticationLogin(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -5082,6 +5114,8 @@ class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationBasicSecretRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationBasicSecret(BaseModel):
@@ -5136,6 +5170,11 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -5177,6 +5216,7 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -6080,6 +6120,8 @@ class HealthCheckAuthenticationBasicTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationBasicRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationBasic(BaseModel):
@@ -6137,6 +6179,11 @@ class HealthCheckAuthenticationBasic(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -6176,6 +6223,7 @@ class HealthCheckAuthenticationBasic(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)

@@ -923,6 +923,8 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationNoneRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationNone(BaseModel):
@@ -974,6 +976,11 @@ class HealthCheckAuthenticationNone(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -1013,6 +1020,7 @@ class HealthCheckAuthenticationNone(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -1918,6 +1926,8 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckCollectMethodPostWithBody(BaseModel):
@@ -1972,6 +1982,11 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("collect_method")
     def serialize_collect_method(self, value):
         if isinstance(value, str):
@@ -2014,6 +2029,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -2915,6 +2931,8 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckCollectMethodPost(BaseModel):
@@ -2972,6 +2990,11 @@ class HealthCheckCollectMethodPost(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("collect_method")
     def serialize_collect_method(self, value):
         if isinstance(value, str):
@@ -3012,6 +3035,7 @@ class HealthCheckCollectMethodPost(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -3926,6 +3950,8 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodGetRetryRulesTypedDict]
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckCollectMethodGet(BaseModel):
@@ -3983,6 +4009,11 @@ class HealthCheckCollectMethodGet(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("collect_method")
     def serialize_collect_method(self, value):
         if isinstance(value, str):
@@ -4023,6 +4054,7 @@ class HealthCheckCollectMethodGet(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)

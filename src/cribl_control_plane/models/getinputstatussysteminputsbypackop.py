@@ -2,6 +2,7 @@
 # @generated-id: a0452c5c73d7
 
 from __future__ import annotations
+from .countedinputstatus import CountedInputStatus, CountedInputStatusTypedDict
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import (
     FieldMetadata,
@@ -9,7 +10,7 @@ from cribl_control_plane.utils import (
     QueryParamMetadata,
 )
 from pydantic import model_serializer
-from typing import Optional
+from typing import Awaitable, Callable, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -20,6 +21,10 @@ class GetInputStatusSystemInputsByPackRequestTypedDict(TypedDict):
     r"""Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default)."""
     type: NotRequired[bool]
     r"""Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default)."""
+    offset: NotRequired[int]
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
+    limit: NotRequired[int]
+    r"""Maximum number of items to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
 
 
 class GetInputStatusSystemInputsByPackRequest(BaseModel):
@@ -40,9 +45,21 @@ class GetInputStatusSystemInputsByPackRequest(BaseModel):
     ] = None
     r"""Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default)."""
 
+    offset: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
+
+    limit: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Maximum number of items to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["metrics", "type"])
+        optional_fields = set(["metrics", "type", "offset", "limit"])
         serialized = handler(self)
         m = {}
 
@@ -55,3 +72,16 @@ class GetInputStatusSystemInputsByPackRequest(BaseModel):
                     m[k] = val
 
         return m
+
+
+class GetInputStatusSystemInputsByPackResponseTypedDict(TypedDict):
+    result: CountedInputStatusTypedDict
+
+
+class GetInputStatusSystemInputsByPackResponse(BaseModel):
+    next: Union[
+        Callable[[], Optional[GetInputStatusSystemInputsByPackResponse]],
+        Callable[[], Awaitable[Optional[GetInputStatusSystemInputsByPackResponse]]],
+    ]
+
+    result: CountedInputStatus

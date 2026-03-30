@@ -75,6 +75,8 @@ class DatabaseCollectorConfTypedDict(TypedDict):
     r"""Enforces a basic query validation that allows only a single 'select' statement. Disable for more complex queries or when using semicolons. Caution: Disabling query validation allows DDL and DML statements to be executed, which could be destructive to your database."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
     scheduling: NotRequired[DatabaseCollectorConfSchedulingTypedDict]
+    template_query: NotRequired[str]
+    r"""Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime."""
 
 
 class DatabaseCollectorConf(BaseModel):
@@ -98,6 +100,11 @@ class DatabaseCollectorConf(BaseModel):
         Optional[DatabaseCollectorConfScheduling], pydantic.Field(alias="__scheduling")
     ] = None
 
+    template_query: Annotated[
+        Optional[str], pydantic.Field(alias="__template_query")
+    ] = None
+    r"""Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime."""
+
     @field_serializer("default_breakers")
     def serialize_default_breakers(self, value):
         if isinstance(value, str):
@@ -110,7 +117,12 @@ class DatabaseCollectorConf(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            ["queryValidationEnabled", "defaultBreakers", "__scheduling"]
+            [
+                "queryValidationEnabled",
+                "defaultBreakers",
+                "__scheduling",
+                "__template_query",
+            ]
         )
         serialized = handler(self)
         m = {}

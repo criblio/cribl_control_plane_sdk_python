@@ -8,10 +8,14 @@ from typing_extensions import TypedDict
 
 
 class OutputTestRequestTypedDict(TypedDict):
+    r"""Request body for testing a Destination by sending sample events."""
+
     events: List[Dict[str, Any]]
     r"""Array of event objects to send to the Destination for testing."""
 
 
 class OutputTestRequest(BaseModel):
+    r"""Request body for testing a Destination by sending sample events."""
+
     events: List[Dict[str, Any]]
     r"""Array of event objects to send to the Destination for testing."""

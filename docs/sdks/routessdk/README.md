@@ -76,12 +76,12 @@ with CriblControlPlane(
 
     res = ccp_client.routes.update(id_param="<value>", id="default", routes=[
         {
-            "description": "Route access logs to main pipeline",
+            "description": "Route access logs to main Pipeline",
             "filter_": "source == \"access.log\"",
-            "final": True,
-            "id": "default",
             "name": "my-route",
             "pipeline": "main",
+            "final": True,
+            "id": "default",
         },
     ])
 
@@ -108,38 +108,38 @@ with CriblControlPlane(
         {
             "description": "Route speedtest logs",
             "filter_": "source == \"speedtest.log\"",
-            "final": False,
-            "id": "route-speedtest",
             "name": "speedtest",
             "output": "default",
             "pipeline": "main",
+            "final": False,
+            "id": "route-speedtest",
         },
         {
             "description": "Route mtr logs",
             "filter_": "source == \"mtr.log\"",
-            "final": False,
-            "id": "route-mtr",
             "name": "mtr",
             "output": "default",
             "pipeline": "passthru",
+            "final": False,
+            "id": "route-mtr",
         },
         {
             "description": "Route statsd metrics",
             "filter_": "source == \"statsd.log\"",
-            "final": False,
-            "id": "route-statsd",
             "name": "statsd",
             "output": "devnull",
             "pipeline": "prometheus_metrics",
+            "final": False,
+            "id": "route-statsd",
         },
         {
             "description": "Catch-all Route for all other events",
             "filter_": "true",
-            "final": True,
-            "id": "route-default",
             "name": "default",
             "output": "default",
             "pipeline": "main",
+            "final": True,
+            "id": "route-default",
         },
     ])
 
@@ -164,10 +164,8 @@ with CriblControlPlane(
 
     res = ccp_client.routes.update(id_param="<value>", id="default", routes=[
         {
-            "description": "Route access logs to main pipeline",
+            "description": "Route access logs to main Pipeline",
             "filter_": "source == \"access.log\"",
-            "final": True,
-            "id": "<id>",
             "name": "my-route",
             "pipeline": "main",
         },
@@ -197,11 +195,11 @@ with CriblControlPlane(
             "description": "Route with dynamic Destination based on environment",
             "enable_output_expression": True,
             "filter_": "source == \"dynamic.log\"",
-            "final": True,
-            "id": "route-dynamic",
             "name": "dynamic-output",
             "output_expression": "`myDest_${C.logStreamEnv}`",
             "pipeline": "main",
+            "final": True,
+            "id": "route-dynamic",
         },
     ])
 
@@ -216,9 +214,9 @@ with CriblControlPlane(
 | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------ |
 | `id_param`                                                                                                               | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>. |
 | `id`                                                                                                                     | *str*                                                                                                                    | :heavy_check_mark:                                                                                                       | Unique identifier for the Routing table. The supported value is <code>default</code>.                                    |
-| `routes`                                                                                                                 | List[[models.RouteConf](../../models/routeconf.md)]                                                                      | :heavy_check_mark:                                                                                                       | Array of Route configurations that define how events are processed and routed.                                           |
+| `routes`                                                                                                                 | List[[models.RouteConfInput](../../models/routeconfinput.md)]                                                            | :heavy_check_mark:                                                                                                       | Array of Route configurations that define how events are processed and routed.                                           |
 | `comments`                                                                                                               | List[[models.RouteComment](../../models/routecomment.md)]                                                                | :heavy_minus_sign:                                                                                                       | Array of user-provided comments that describe or annotate Routes.                                                        |
-| `groups`                                                                                                                 | Dict[str, [models.RoutesGroups](../../models/routesgroups.md)]                                                           | :heavy_minus_sign:                                                                                                       | Information about the Route Groups that the Route is associated with.                                                    |
+| `groups`                                                                                                                 | Dict[str, [models.AdditionalPropertiesTypeRoutesGroups](../../models/additionalpropertiestyperoutesgroups.md)]           | :heavy_minus_sign:                                                                                                       | Information about the Route Groups that the Route is associated with.                                                    |
 | `retries`                                                                                                                | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                         | :heavy_minus_sign:                                                                                                       | Configuration to override the default retry behavior of the client.                                                      |
 
 ### Response
@@ -298,20 +296,20 @@ with CriblControlPlane(
         {
             "description": "Route audit logs",
             "filter_": "source == \"audit.log\"",
-            "final": False,
-            "id": "route-audit",
             "name": "audit",
             "output": "default",
             "pipeline": "main",
+            "final": False,
+            "id": "route-audit",
         },
         {
             "description": "Route security logs",
             "filter_": "source == \"security.log\"",
-            "final": False,
-            "id": "route-security",
             "name": "security",
             "output": "devnull",
             "pipeline": "passthru",
+            "final": False,
+            "id": "route-security",
         },
     ])
 
@@ -338,8 +336,6 @@ with CriblControlPlane(
         {
             "description": "Route with server-generated id and default final value",
             "filter_": "source == \"new.log\"",
-            "final": True,
-            "id": "<id>",
             "name": "new-route",
             "pipeline": "main",
         },
@@ -369,11 +365,11 @@ with CriblControlPlane(
             "description": "Route with dynamic Destination based on environment",
             "enable_output_expression": True,
             "filter_": "source == \"dynamic.log\"",
-            "final": True,
-            "id": "route-dynamic-append",
             "name": "dynamic-append",
             "output_expression": "`myDest_${C.logStreamEnv}`",
             "pipeline": "main",
+            "final": True,
+            "id": "route-dynamic-append",
         },
     ])
 
@@ -400,10 +396,10 @@ with CriblControlPlane(
         {
             "description": "Route new logs to main pipeline",
             "filter_": "source == \"new.log\"",
-            "final": True,
-            "id": "route-new",
             "name": "new-route",
             "pipeline": "main",
+            "final": True,
+            "id": "route-new",
         },
     ])
 
@@ -417,7 +413,7 @@ with CriblControlPlane(
 | Parameter                                                                                                  | Type                                                                                                       | Required                                                                                                   | Description                                                                                                |
 | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | `id`                                                                                                       | *str*                                                                                                      | :heavy_check_mark:                                                                                         | The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>. |
-| `request_body`                                                                                             | List[[models.RouteConf](../../models/routeconf.md)]                                                        | :heavy_check_mark:                                                                                         | RouteDefinitions object                                                                                    |
+| `request_body`                                                                                             | List[[models.RouteConfInput](../../models/routeconfinput.md)]                                              | :heavy_check_mark:                                                                                         | RouteDefinitions object                                                                                    |
 | `retries`                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                           | :heavy_minus_sign:                                                                                         | Configuration to override the default retry behavior of the client.                                        |
 
 ### Response

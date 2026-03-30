@@ -12,19 +12,25 @@ from typing_extensions import NotRequired, TypedDict
 
 class ResourcePolicyTypedDict(TypedDict):
     gid: str
+    r"""Unique identifier for the group that owns the resource."""
     policy: str
+    r"""String that defines the access control policy for the resource."""
     type: RbacResource
     id: NotRequired[str]
+    r"""Unique identifier for the resource. Omitted for resource type <code>groups</code>."""
 
 
 class ResourcePolicy(BaseModel):
     gid: str
+    r"""Unique identifier for the group that owns the resource."""
 
     policy: str
+    r"""String that defines the access control policy for the resource."""
 
     type: RbacResource
 
     id: Optional[str] = None
+    r"""Unique identifier for the resource. Omitted for resource type <code>groups</code>."""
 
     @field_serializer("type")
     def serialize_type(self, value):

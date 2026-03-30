@@ -11,6 +11,8 @@ from typing import Any, Mapping, Optional
 
 
 class DatabaseConnections(BaseSDK):
+    r"""Actions related to DatabaseConnections"""
+
     def create(
         self,
         *,

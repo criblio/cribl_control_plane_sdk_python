@@ -11,3 +11,5 @@ class AuthenticationMethodOptions(str, Enum, metaclass=utils.OpenEnumMeta):
     SECRET = "secret"
     CLIENT_SECRET = "clientSecret"
     CLIENT_CERT = "clientCert"
+    CLIENT_ASSERTION = "clientAssertion"
+    CLIENT_ASSERTION_RPC = "clientAssertion_rpc"

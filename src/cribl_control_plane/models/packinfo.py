@@ -2,6 +2,10 @@
 # @generated-id: 56a9348d2dd1
 
 from __future__ import annotations
+from .itemstypepackinstallinfonavitems import (
+    ItemsTypePackInstallInfoNavItems,
+    ItemsTypePackInstallInfoNavItemsTypedDict,
+)
 from .tagstypepackinstallinfo import (
     TagsTypePackInstallInfo,
     TagsTypePackInstallInfoTypedDict,
@@ -25,6 +29,7 @@ class PackInfoTypedDict(TypedDict):
     inputs: NotRequired[float]
     is_disabled: NotRequired[bool]
     min_log_stream_version: NotRequired[str]
+    nav_items: NotRequired[List[ItemsTypePackInstallInfoNavItemsTypedDict]]
     outputs: NotRequired[float]
     settings: NotRequired[Dict[str, Any]]
     spec: NotRequired[str]
@@ -57,6 +62,11 @@ class PackInfo(BaseModel):
         Optional[str], pydantic.Field(alias="minLogStreamVersion")
     ] = None
 
+    nav_items: Annotated[
+        Optional[List[ItemsTypePackInstallInfoNavItems]],
+        pydantic.Field(alias="navItems"),
+    ] = None
+
     outputs: Optional[float] = None
 
     settings: Optional[Dict[str, Any]] = None
@@ -80,6 +90,7 @@ class PackInfo(BaseModel):
                 "inputs",
                 "isDisabled",
                 "minLogStreamVersion",
+                "navItems",
                 "outputs",
                 "settings",
                 "spec",

@@ -31,12 +31,12 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "executor": {
             "type": "<value>",
         },
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -57,7 +57,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
         type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         collector=models.CollectorDatabase(
             type=models.CollectorDatabaseType.DATABASE,
@@ -66,7 +66,7 @@ with CriblControlPlane(
                 query="<value>",
             ),
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -87,12 +87,12 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "executor": {
             "type": "<value>",
         },
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -113,10 +113,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -137,12 +137,12 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "executor": {
             "type": "<value>",
         },
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -163,7 +163,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
         type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         collector=models.CollectorDatabase(
             type=models.CollectorDatabaseType.DATABASE,
@@ -172,7 +172,7 @@ with CriblControlPlane(
                 query="<value>",
             ),
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -193,7 +193,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
         type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         collector=models.CollectorDatabase(
             type=models.CollectorDatabaseType.DATABASE,
@@ -202,7 +202,7 @@ with CriblControlPlane(
                 query="<value>",
             ),
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -223,10 +223,10 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job={
+    res = ccp_client.collectors.create(request={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -247,7 +247,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.create(saved_job=models.SavedJobCollection(
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
         type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         collector=models.CollectorDatabase(
             type=models.CollectorDatabaseType.DATABASE,
@@ -256,7 +256,7 @@ with CriblControlPlane(
                 query="<value>",
             ),
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -267,13 +267,12 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object                                                     |
-| `cribl_pack`                                                        | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | The <code>id</code> of the Pack to create the Collector in.         |
+| `request`                                                           | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -301,7 +300,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.list(collector_type="<value>", cribl_pack="<value>", group_id="<id>")
+    res = ccp_client.collectors.list(collector_type="<value>")
 
     # Handle response
     print(res)
@@ -313,13 +312,11 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `collector_type`                                                    | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Filter by collector type                                            |
-| `cribl_pack`                                                        | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Pack ID                                                             |
-| `group_id`                                                          | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Worker group ID                                                     |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -347,7 +344,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.delete(id="<id>", cribl_pack="<value>", group_id="<id>")
+    res = ccp_client.collectors.delete(id="<id>")
 
     # Handle response
     print(res)
@@ -356,16 +353,14 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                      | Type                                                                           | Required                                                                       | Description                                                                    |
-| ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ | ------------------------------------------------------------------------------ |
-| `id`                                                                           | *str*                                                                          | :heavy_check_mark:                                                             | The <code>id</code> of the Collector to delete.                                |
-| `cribl_pack`                                                                   | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | The <code>id</code> of the Pack that includes the Collector to delete.         |
-| `group_id`                                                                     | *Optional[str]*                                                                | :heavy_minus_sign:                                                             | The <code>id</code> of the Worker Group that includes the Collector to delete. |
-| `retries`                                                                      | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)               | :heavy_minus_sign:                                                             | Configuration to override the default retry behavior of the client.            |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to delete.                     |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -393,7 +388,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.get(id="<id>", cribl_pack="<value>")
+    res = ccp_client.collectors.get(id="<id>")
 
     # Handle response
     print(res)
@@ -405,12 +400,11 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to get.                        |
-| `cribl_pack`                                                        | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | The <code>id</code> of the Pack that includes the Collector to get. |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 
@@ -441,7 +435,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -465,7 +459,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -495,7 +489,7 @@ with CriblControlPlane(
                 query="<value>",
             ),
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -519,7 +513,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -545,7 +539,7 @@ with CriblControlPlane(
         "executor": {
             "type": "<value>",
         },
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -575,7 +569,7 @@ with CriblControlPlane(
                 query="<value>",
             ),
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -599,7 +593,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -623,7 +617,7 @@ with CriblControlPlane(
     res = ccp_client.collectors.update(id="<id>", saved_job={
         "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
         "saved_query_id": "<id>",
-    }, cribl_pack="<value>")
+    })
 
     # Handle response
     print(res)
@@ -653,7 +647,7 @@ with CriblControlPlane(
                 query="<value>",
             ),
         ),
-    ), cribl_pack="<value>")
+    ))
 
     # Handle response
     print(res)
@@ -662,16 +656,15 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                              | Type                                                                   | Required                                                               | Description                                                            |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `id`                                                                   | *str*                                                                  | :heavy_check_mark:                                                     | The <code>id</code> of the Collector to update.                        |
-| `saved_job`                                                            | [models.SavedJob](../../models/savedjob.md)                            | :heavy_check_mark:                                                     | SavedJob object                                                        |
-| `cribl_pack`                                                           | *Optional[str]*                                                        | :heavy_minus_sign:                                                     | The <code>id</code> of the Pack that includes the Collector to update. |
-| `retries`                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)       | :heavy_minus_sign:                                                     | Configuration to override the default retry behavior of the client.    |
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to update.                     |
+| `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object                                                     |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJob](../../models/countedsavedjob.md)**
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
 
 ### Errors
 

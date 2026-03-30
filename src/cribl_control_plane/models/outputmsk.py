@@ -2,24 +2,24 @@
 # @generated-id: e86d01b956e7
 
 from __future__ import annotations
-from .acknowledgmentsoptions1 import AcknowledgmentsOptions1
+from .acknowledgmentsoptionsallleader import AcknowledgmentsOptionsAllLeader
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .compressionoptions3 import CompressionOptions3
+from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
 from .compressionoptionspq import CompressionOptionsPq
-from .kafkaschemaregistryauthenticationtype1 import (
-    KafkaSchemaRegistryAuthenticationType1,
-    KafkaSchemaRegistryAuthenticationType1TypedDict,
+from .kafkaschemaregistryauthenticationtypeauthconnectiontimeout import (
+    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout,
+    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict,
 )
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .recorddataformatoptions1 import RecordDataFormatOptions1
+from .recorddataformatoptionsjsonprotobuf import RecordDataFormatOptionsJSONProtobuf
 from .signatureversionoptions import SignatureVersionOptions
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -62,11 +62,11 @@ class OutputMskTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    ack: NotRequired[AcknowledgmentsOptions1]
+    ack: NotRequired[AcknowledgmentsOptionsAllLeader]
     r"""Control the number of required acknowledgments."""
-    format_: NotRequired[RecordDataFormatOptions1]
+    format_: NotRequired[RecordDataFormatOptionsJSONProtobuf]
     r"""Format to use to serialize events before writing to Kafka."""
-    compression: NotRequired[CompressionOptions3]
+    compression: NotRequired[CompressionOptionsGzipLz4]
     r"""Codec to use to compress the data before sending to Kafka"""
     max_record_size_kb: NotRequired[float]
     r"""Maximum size of each record batch before compression. The value must not exceed the Kafka brokers' message.max.bytes setting."""
@@ -74,7 +74,9 @@ class OutputMskTypedDict(TypedDict):
     r"""The maximum number of events you want the Destination to allow in a batch before forcing a flush"""
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
-    kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationType1TypedDict]
+    kafka_schema_registry: NotRequired[
+        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+    ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -108,7 +110,7 @@ class OutputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -126,7 +128,7 @@ class OutputMskTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -139,17 +141,27 @@ class OutputMskTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputMskPqControlsTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_compression: NotRequired[str]
+    r"""Binds 'compression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compression' at runtime."""
     template_aws_secret_key: NotRequired[str]
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
@@ -189,15 +201,15 @@ class OutputMsk(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    ack: Optional[AcknowledgmentsOptions1] = None
+    ack: Optional[AcknowledgmentsOptionsAllLeader] = None
     r"""Control the number of required acknowledgments."""
 
     format_: Annotated[
-        Optional[RecordDataFormatOptions1], pydantic.Field(alias="format")
+        Optional[RecordDataFormatOptionsJSONProtobuf], pydantic.Field(alias="format")
     ] = None
     r"""Format to use to serialize events before writing to Kafka."""
 
-    compression: Optional[CompressionOptions3] = None
+    compression: Optional[CompressionOptionsGzipLz4] = None
     r"""Codec to use to compress the data before sending to Kafka"""
 
     max_record_size_kb: Annotated[
@@ -216,7 +228,7 @@ class OutputMsk(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationType1],
+        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -296,7 +308,7 @@ class OutputMsk(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -336,7 +348,7 @@ class OutputMsk(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -364,6 +376,11 @@ class OutputMsk(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputMskPqControls], pydantic.Field(alias="pqControls")
     ] = None
@@ -372,6 +389,16 @@ class OutputMsk(BaseModel):
         Optional[str], pydantic.Field(alias="__template_topic")
     ] = None
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+
+    template_compression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compression")
+    ] = None
+    r"""Binds 'compression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compression' at runtime."""
 
     template_aws_secret_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsSecretKey")
@@ -383,6 +410,11 @@ class OutputMsk(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
     ] = None
@@ -393,6 +425,11 @@ class OutputMsk(BaseModel):
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
 
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
     template_aws_api_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsApiKey")
     ] = None
@@ -402,7 +439,7 @@ class OutputMsk(BaseModel):
     def serialize_ack(self, value):
         if isinstance(value, str):
             try:
-                return models.AcknowledgmentsOptions1(value)
+                return models.AcknowledgmentsOptionsAllLeader(value)
             except ValueError:
                 return value
         return value
@@ -411,7 +448,7 @@ class OutputMsk(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.RecordDataFormatOptions1(value)
+                return models.RecordDataFormatOptionsJSONProtobuf(value)
             except ValueError:
                 return value
         return value
@@ -420,7 +457,7 @@ class OutputMsk(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions3(value)
+                return models.CompressionOptionsGzipLz4(value)
             except ValueError:
                 return value
         return value
@@ -529,12 +566,17 @@ class OutputMsk(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
+                "__template_format",
+                "__template_compression",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
+                "__template_onBackpressure",
                 "__template_awsApiKey",
             ]
         )

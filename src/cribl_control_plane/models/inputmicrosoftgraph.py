@@ -2,18 +2,20 @@
 # @generated-id: 8aa8a8f0e723
 
 from __future__ import annotations
-from .authenticationmethodoptions2 import AuthenticationMethodOptions2
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
 from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
-from .logleveloptions import LogLevelOptions
+from .logleveloptionsdebugerror import LogLevelOptionsDebugError
 from .pqtype import PqType, PqTypeTypedDict
-from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
+from .retryrulestypecodesenableheader import (
+    RetryRulesTypeCodesEnableHeader,
+    RetryRulesTypeCodesEnableHeaderTypedDict,
+)
 from .subscriptionplanoptions import SubscriptionPlanOptions
-from cribl_control_plane import models
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -24,6 +26,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class InputMicrosoftGraphType(str, Enum):
     MICROSOFT_GRAPH = "microsoft_graph"
+
+
+class InputMicrosoftGraphAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Select authentication method."""
+
+    OAUTH = "oauth"
+    OAUTH_SECRET = "oauthSecret"
+    OAUTH_CERT = "oauthCert"
 
 
 class InputMicrosoftGraphTypedDict(TypedDict):
@@ -56,7 +66,7 @@ class InputMicrosoftGraphTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[AuthenticationMethodOptions2]
+    auth_type: NotRequired[InputMicrosoftGraphAuthenticationMethod]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -74,16 +84,10 @@ class InputMicrosoftGraphTypedDict(TypedDict):
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOptions]
+    log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
-    username: NotRequired[str]
-    r"""Username to run Microsoft Graph API call."""
-    password: NotRequired[str]
-    r"""Password to run Microsoft Graph API call."""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials."""
     client_secret: NotRequired[str]
     r"""client_secret to pass in the OAuth request parameter."""
     tenant_id: NotRequired[str]
@@ -93,7 +97,7 @@ class InputMicrosoftGraphTypedDict(TypedDict):
     resource: NotRequired[str]
     r"""Resource to pass in the OAuth request parameter."""
     plan_type: NotRequired[SubscriptionPlanOptions]
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
@@ -158,7 +162,8 @@ class InputMicrosoftGraph(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions2], pydantic.Field(alias="authType")
+        Optional[InputMicrosoftGraphAuthenticationMethod],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
 
@@ -197,26 +202,15 @@ class InputMicrosoftGraph(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+        Optional[LogLevelOptionsDebugError], pydantic.Field(alias="logLevel")
     ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     description: Optional[str] = None
-
-    username: Optional[str] = None
-    r"""Username to run Microsoft Graph API call."""
-
-    password: Optional[str] = None
-    r"""Password to run Microsoft Graph API call."""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""client_secret to pass in the OAuth request parameter."""
@@ -233,7 +227,7 @@ class InputMicrosoftGraph(BaseModel):
     plan_type: Annotated[
         Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
     ] = None
-    r"""Office 365 subscription plan for your organization, typically Office 365 Enterprise"""
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
@@ -266,7 +260,7 @@ class InputMicrosoftGraph(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions2(value)
+                return models.InputMicrosoftGraphAuthenticationMethod(value)
             except ValueError:
                 return value
         return value
@@ -275,7 +269,7 @@ class InputMicrosoftGraph(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOptions(value)
+                return models.LogLevelOptionsDebugError(value)
             except ValueError:
                 return value
         return value
@@ -318,9 +312,6 @@ class InputMicrosoftGraph(BaseModel):
                 "logLevel",
                 "retryRules",
                 "description",
-                "username",
-                "password",
-                "credentialsSecret",
                 "clientSecret",
                 "tenantId",
                 "clientId",

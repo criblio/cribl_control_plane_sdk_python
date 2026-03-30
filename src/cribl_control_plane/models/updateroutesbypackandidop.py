@@ -2,7 +2,7 @@
 # @generated-id: 708e68d10bf4
 
 from __future__ import annotations
-from .routes import Routes, RoutesTypedDict
+from .routesinput import RoutesInput, RoutesInputTypedDict
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 import pydantic
@@ -14,8 +14,8 @@ class UpdateRoutesByPackAndIDRequestTypedDict(TypedDict):
     r"""The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>."""
     pack: str
     r"""The <code>id</code> of the Pack to update."""
-    routes: RoutesTypedDict
-    r"""Routes object"""
+    routes_input: RoutesInputTypedDict
+    r"""RoutesInput object"""
 
 
 class UpdateRoutesByPackAndIDRequest(BaseModel):
@@ -31,7 +31,8 @@ class UpdateRoutesByPackAndIDRequest(BaseModel):
     ]
     r"""The <code>id</code> of the Pack to update."""
 
-    routes: Annotated[
-        Routes, FieldMetadata(request=RequestMetadata(media_type="application/json"))
+    routes_input: Annotated[
+        RoutesInput,
+        FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""Routes object"""
+    r"""RoutesInput object"""

@@ -4,13 +4,13 @@
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
-from .scheduletypesavedjobcollection import (
-    ScheduleTypeSavedJobCollection,
-    ScheduleTypeSavedJobCollectionTypedDict,
+from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
-from .typecollectionwithbreakerrulesetsconstraint import (
-    TypeCollectionWithBreakerRulesetsConstraint,
-    TypeCollectionWithBreakerRulesetsConstraintTypedDict,
+from .scheduletypesavedjobresponsecollection import (
+    ScheduleTypeSavedJobResponseCollection,
+    ScheduleTypeSavedJobResponseCollectionTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -37,13 +37,15 @@ class SavedJobCollectionTypedDict(TypedDict):
     r"""Resume the ad hoc job if a failure condition causes Stream to restart during job execution"""
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    schedule: NotRequired[ScheduleTypeSavedJobCollectionTypedDict]
+    schedule: NotRequired[ScheduleTypeSavedJobResponseCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[TypeCollectionWithBreakerRulesetsConstraintTypedDict]
+    input: NotRequired[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
+    ]
 
 
 class SavedJobCollection(BaseModel):
@@ -78,7 +80,7 @@ class SavedJobCollection(BaseModel):
     environment: Optional[str] = None
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
-    schedule: Optional[ScheduleTypeSavedJobCollection] = None
+    schedule: Optional[ScheduleTypeSavedJobResponseCollection] = None
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None
@@ -89,7 +91,9 @@ class SavedJobCollection(BaseModel):
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[TypeCollectionWithBreakerRulesetsConstraint] = None
+    input: Optional[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
+    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):

@@ -207,13 +207,16 @@ class PacksRoutes(BaseSDK):
         id_param: str,
         pack: str,
         id: str,
-        routes: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        routes: Union[
+            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+        ],
         comments: Optional[
             Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
         ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
+                Dict[str, models.AdditionalPropertiesTypeRoutesGroups],
+                Dict[str, models.AdditionalPropertiesTypeRoutesGroupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -249,15 +252,16 @@ class PacksRoutes(BaseSDK):
         request = models.UpdateRoutesByPackAndIDRequest(
             id_param=id_param,
             pack=pack,
-            routes=models.Routes(
+            routes_input=models.RoutesInput(
                 comments=utils.get_pydantic_model(
                     comments, Optional[List[models.RouteComment]]
                 ),
                 groups=utils.get_pydantic_model(
-                    groups, Optional[Dict[str, models.RoutesGroups]]
+                    groups,
+                    Optional[Dict[str, models.AdditionalPropertiesTypeRoutesGroups]],
                 ),
                 id=id,
-                routes=utils.get_pydantic_model(routes, List[models.RouteConf]),
+                routes=utils.get_pydantic_model(routes, List[models.RouteConfInput]),
             ),
         )
 
@@ -275,7 +279,7 @@ class PacksRoutes(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.routes, False, False, "json", models.Routes
+                request.routes_input, False, False, "json", models.RoutesInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -329,13 +333,16 @@ class PacksRoutes(BaseSDK):
         id_param: str,
         pack: str,
         id: str,
-        routes: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        routes: Union[
+            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+        ],
         comments: Optional[
             Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
         ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
+                Dict[str, models.AdditionalPropertiesTypeRoutesGroups],
+                Dict[str, models.AdditionalPropertiesTypeRoutesGroupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -371,15 +378,16 @@ class PacksRoutes(BaseSDK):
         request = models.UpdateRoutesByPackAndIDRequest(
             id_param=id_param,
             pack=pack,
-            routes=models.Routes(
+            routes_input=models.RoutesInput(
                 comments=utils.get_pydantic_model(
                     comments, Optional[List[models.RouteComment]]
                 ),
                 groups=utils.get_pydantic_model(
-                    groups, Optional[Dict[str, models.RoutesGroups]]
+                    groups,
+                    Optional[Dict[str, models.AdditionalPropertiesTypeRoutesGroups]],
                 ),
                 id=id,
-                routes=utils.get_pydantic_model(routes, List[models.RouteConf]),
+                routes=utils.get_pydantic_model(routes, List[models.RouteConfInput]),
             ),
         )
 
@@ -397,7 +405,7 @@ class PacksRoutes(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.routes, False, False, "json", models.Routes
+                request.routes_input, False, False, "json", models.RoutesInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -634,7 +642,9 @@ class PacksRoutes(BaseSDK):
         *,
         id: str,
         pack: str,
-        request_body: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        request_body: Union[
+            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -665,7 +675,9 @@ class PacksRoutes(BaseSDK):
         request = models.CreateRoutesAppendByPackAndIDRequest(
             id=id,
             pack=pack,
-            request_body=utils.get_pydantic_model(request_body, List[models.RouteConf]),
+            request_body=utils.get_pydantic_model(
+                request_body, List[models.RouteConfInput]
+            ),
         )
 
         req = self._build_request(
@@ -682,7 +694,7 @@ class PacksRoutes(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body, False, False, "json", List[models.RouteConf]
+                request.request_body, False, False, "json", List[models.RouteConfInput]
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -735,7 +747,9 @@ class PacksRoutes(BaseSDK):
         *,
         id: str,
         pack: str,
-        request_body: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        request_body: Union[
+            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -766,7 +780,9 @@ class PacksRoutes(BaseSDK):
         request = models.CreateRoutesAppendByPackAndIDRequest(
             id=id,
             pack=pack,
-            request_body=utils.get_pydantic_model(request_body, List[models.RouteConf]),
+            request_body=utils.get_pydantic_model(
+                request_body, List[models.RouteConfInput]
+            ),
         )
 
         req = self._build_request_async(
@@ -783,7 +799,7 @@ class PacksRoutes(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body, False, False, "json", List[models.RouteConf]
+                request.request_body, False, False, "json", List[models.RouteConfInput]
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,

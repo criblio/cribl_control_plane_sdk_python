@@ -2,7 +2,7 @@
 # @generated-id: 38852fbbc850
 
 from __future__ import annotations
-from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
+from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
 from .datacompressionformatoptionspersistence import (
     DataCompressionFormatOptionsPersistence,
 )
@@ -49,9 +49,11 @@ class OutputRingTypedDict(TypedDict):
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
 class OutputRing(BaseModel):
@@ -96,11 +98,17 @@ class OutputRing(BaseModel):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     @field_serializer("format_")
     def serialize_format_(self, value):
@@ -124,7 +132,7 @@ class OutputRing(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -146,6 +154,7 @@ class OutputRing(BaseModel):
                 "destPath",
                 "onBackpressure",
                 "description",
+                "__template_onBackpressure",
             ]
         )
         serialized = handler(self)

@@ -1,11 +1,13 @@
 # HealthServerStatusStatus
 
+Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>.
+
 ## Example Usage
 
 ```python
 from cribl_control_plane.models import HealthServerStatusStatus
 
-value = HealthServerStatusStatus.SHUTTING_DOWN
+value = HealthServerStatusStatus.HEALTHY
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```
@@ -15,6 +17,6 @@ value = HealthServerStatusStatus.SHUTTING_DOWN
 
 | Name            | Value           |
 | --------------- | --------------- |
-| `SHUTTING_DOWN` | shutting down   |
 | `HEALTHY`       | healthy         |
+| `SHUTTING_DOWN` | shutting down   |
 | `STANDBY`       | standby         |

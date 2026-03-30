@@ -3,8 +3,8 @@
 
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .compressionoptions4 import CompressionOptions4
-from .compressionoptions5 import CompressionOptions5
+from .compressionoptionsdeflategzip import CompressionOptionsDeflateGzip
+from .compressionoptionsmessages import CompressionOptionsMessages
 from .compressionoptionspq import CompressionOptionsPq
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
 from .itemstypeextrahttpheaders import (
@@ -20,16 +20,16 @@ from .itemstyperesponseretrysettings import (
     ItemsTypeResponseRetrySettingsTypedDict,
 )
 from .modeoptions import ModeOptions
-from .otlpversionoptions1 import OtlpVersionOptions1
+from .otlpversionoptions131 import OtlpVersionOptions131
 from .protocoloptions import ProtocolOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
 )
-from .tlssettingsclientsidetype2 import (
-    TLSSettingsClientSideType2,
-    TLSSettingsClientSideType2TypedDict,
+from .tlssettingsclientsidetypeextended import (
+    TLSSettingsClientSideTypeExtended,
+    TLSSettingsClientSideTypeExtendedTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -58,7 +58,7 @@ class OutputServiceNowTypedDict(TypedDict):
     r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     token_secret: str
     r"""Select or create a stored text secret"""
-    otlp_version: OtlpVersionOptions1
+    otlp_version: OtlpVersionOptions131
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     protocol: ProtocolOptions
     r"""Select a transport option for OpenTelemetry"""
@@ -75,9 +75,9 @@ class OutputServiceNowTypedDict(TypedDict):
     auth_token_name: NotRequired[str]
     max_payload_size_kb: NotRequired[float]
     r"""Maximum size, in KB, of the request body"""
-    compress: NotRequired[CompressionOptions4]
+    compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
-    http_compress: NotRequired[CompressionOptions5]
+    http_compress: NotRequired[CompressionOptionsMessages]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_traces_endpoint_override: NotRequired[str]
     r"""If you want to send traces to the default `{endpoint}/v1/traces` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
@@ -120,7 +120,7 @@ class OutputServiceNowTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    tls: NotRequired[TLSSettingsClientSideType2TypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -128,7 +128,7 @@ class OutputServiceNowTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -141,7 +141,13 @@ class OutputServiceNowTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputServiceNowPqControlsTypedDict]
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
 class OutputServiceNow(BaseModel):
@@ -153,7 +159,7 @@ class OutputServiceNow(BaseModel):
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
 
-    otlp_version: Annotated[OtlpVersionOptions1, pydantic.Field(alias="otlpVersion")]
+    otlp_version: Annotated[OtlpVersionOptions131, pydantic.Field(alias="otlpVersion")]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     protocol: ProtocolOptions
@@ -185,11 +191,11 @@ class OutputServiceNow(BaseModel):
     ] = None
     r"""Maximum size, in KB, of the request body"""
 
-    compress: Optional[CompressionOptions4] = None
+    compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     http_compress: Annotated[
-        Optional[CompressionOptions5], pydantic.Field(alias="httpCompress")
+        Optional[CompressionOptionsMessages], pydantic.Field(alias="httpCompress")
     ] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -287,7 +293,7 @@ class OutputServiceNow(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    tls: Optional[TLSSettingsClientSideType2] = None
+    tls: Optional[TLSSettingsClientSideTypeExtended] = None
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -305,7 +311,7 @@ class OutputServiceNow(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -333,15 +339,30 @@ class OutputServiceNow(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputServiceNowPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     @field_serializer("otlp_version")
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.OtlpVersionOptions1(value)
+                return models.OtlpVersionOptions131(value)
             except ValueError:
                 return value
         return value
@@ -359,7 +380,7 @@ class OutputServiceNow(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions4(value)
+                return models.CompressionOptionsDeflateGzip(value)
             except ValueError:
                 return value
         return value
@@ -368,7 +389,7 @@ class OutputServiceNow(BaseModel):
     def serialize_http_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions5(value)
+                return models.CompressionOptionsMessages(value)
             except ValueError:
                 return value
         return value
@@ -462,7 +483,10 @@ class OutputServiceNow(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
             ]
         )
         serialized = handler(self)

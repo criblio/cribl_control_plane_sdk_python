@@ -15,7 +15,7 @@ from .itemstypesearchfilter import ItemsTypeSearchFilter, ItemsTypeSearchFilterT
 from .pqtype import PqType, PqTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
-from .signatureversionoptions1 import SignatureVersionOptions1
+from .signatureversionoptionsv2v4 import SignatureVersionOptionsV2V4
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -190,7 +190,7 @@ class InputEdgePrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions1]
+    signature_version: NotRequired[SignatureVersionOptionsV2V4]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -228,6 +228,8 @@ class InputEdgePrometheusTypedDict(TypedDict):
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
@@ -344,7 +346,7 @@ class InputEdgePrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsV2V4], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing EC2 requests"""
 
@@ -428,6 +430,11 @@ class InputEdgePrometheus(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
     ] = None
@@ -487,7 +494,7 @@ class InputEdgePrometheus(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions1(value)
+                return models.SignatureVersionOptionsV2V4(value)
             except ValueError:
                 return value
         return value
@@ -542,6 +549,7 @@ class InputEdgePrometheus(BaseModel):
                 "__template_awsApiKey",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
             ]

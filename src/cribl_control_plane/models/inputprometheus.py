@@ -12,9 +12,10 @@ from .itemstypeconnectionsoptional import (
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .itemstypesearchfilter import ItemsTypeSearchFilter, ItemsTypeSearchFilterTypedDict
+from .logleveloptions import LogLevelOptions
 from .pqtype import PqType, PqTypeTypedDict
 from .recordtypeoptions import RecordTypeOptions
-from .signatureversionoptions1 import SignatureVersionOptions1
+from .signatureversionoptionsv2v4 import SignatureVersionOptionsV2V4
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -39,15 +40,6 @@ class InputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
     EC2 = "ec2"
 
 
-class InputPrometheusLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Collector runtime log level"""
-
-    ERROR = "error"
-    WARN = "warn"
-    INFO = "info"
-    DEBUG = "debug"
-
-
 class MetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Protocol to use when collecting metrics"""
 
@@ -59,7 +51,7 @@ class InputPrometheusTypedDict(TypedDict):
     type: InputPrometheusType
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
-    log_level: InputPrometheusLogLevel
+    log_level: LogLevelOptions
     r"""Collector runtime log level"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -126,7 +118,7 @@ class InputPrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions1]
+    signature_version: NotRequired[SignatureVersionOptionsV2V4]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -144,6 +136,8 @@ class InputPrometheusTypedDict(TypedDict):
     r"""Password for Prometheus Basic authentication"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
+    template_discovery_type: NotRequired[str]
+    r"""Binds 'discoveryType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoveryType' at runtime."""
     template_log_level: NotRequired[str]
     r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
     template_aws_api_key: NotRequired[str]
@@ -152,10 +146,16 @@ class InputPrometheusTypedDict(TypedDict):
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
 
 class InputPrometheus(BaseModel):
@@ -164,7 +164,7 @@ class InputPrometheus(BaseModel):
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
 
-    log_level: Annotated[InputPrometheusLogLevel, pydantic.Field(alias="logLevel")]
+    log_level: Annotated[LogLevelOptions, pydantic.Field(alias="logLevel")]
     r"""Collector runtime log level"""
 
     id: Optional[str] = None
@@ -297,7 +297,7 @@ class InputPrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsV2V4], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing EC2 requests"""
 
@@ -337,6 +337,11 @@ class InputPrometheus(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
+    template_discovery_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoveryType")
+    ] = None
+    r"""Binds 'discoveryType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoveryType' at runtime."""
+
     template_log_level: Annotated[
         Optional[str], pydantic.Field(alias="__template_logLevel")
     ] = None
@@ -357,6 +362,11 @@ class InputPrometheus(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
     ] = None
@@ -366,6 +376,16 @@ class InputPrometheus(BaseModel):
         Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     @field_serializer("discovery_type")
     def serialize_discovery_type(self, value):
@@ -380,7 +400,7 @@ class InputPrometheus(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.InputPrometheusLogLevel(value)
+                return models.LogLevelOptions(value)
             except ValueError:
                 return value
         return value
@@ -425,7 +445,7 @@ class InputPrometheus(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions1(value)
+                return models.SignatureVersionOptionsV2V4(value)
             except ValueError:
                 return value
         return value
@@ -478,12 +498,16 @@ class InputPrometheus(BaseModel):
                 "username",
                 "password",
                 "credentialsSecret",
+                "__template_discoveryType",
                 "__template_logLevel",
                 "__template_awsApiKey",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
+                "__template_username",
+                "__template_password",
             ]
         )
         serialized = handler(self)

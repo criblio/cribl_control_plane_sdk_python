@@ -1,5 +1,7 @@
 # InputStatus
 
+Status of the Source, aggregated across all Worker Processes.
+
 
 ## Fields
 

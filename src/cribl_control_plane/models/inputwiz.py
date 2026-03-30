@@ -2,7 +2,9 @@
 # @generated-id: 2b07ea3287be
 
 from __future__ import annotations
-from .authenticationmethodoptions1 import AuthenticationMethodOptions1
+from .authenticationmethodoptionsmanualsecret import (
+    AuthenticationMethodOptionsManualSecret,
+)
 from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
@@ -199,7 +201,7 @@ class InputWizTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
@@ -293,7 +295,8 @@ class InputWiz(BaseModel):
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsManualSecret],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -324,7 +327,7 @@ class InputWiz(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptionsManualSecret(value)
             except ValueError:
                 return value
         return value

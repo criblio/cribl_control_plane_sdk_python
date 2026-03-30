@@ -2,7 +2,7 @@
 # @generated-id: 1f6b3ac06943
 
 from __future__ import annotations
-from .routeconf import RouteConf, RouteConfTypedDict
+from .routeconfinput import RouteConfInput, RouteConfInputTypedDict
 from cribl_control_plane.types import BaseModel
 from cribl_control_plane.utils import FieldMetadata, PathParamMetadata, RequestMetadata
 from typing import List
@@ -12,7 +12,7 @@ from typing_extensions import Annotated, TypedDict
 class CreateRoutesAppendByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>."""
-    request_body: List[RouteConfTypedDict]
+    request_body: List[RouteConfInputTypedDict]
     r"""RouteDefinitions object"""
 
 
@@ -23,7 +23,7 @@ class CreateRoutesAppendByIDRequest(BaseModel):
     r"""The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>."""
 
     request_body: Annotated[
-        List[RouteConf],
+        List[RouteConfInput],
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
     r"""RouteDefinitions object"""

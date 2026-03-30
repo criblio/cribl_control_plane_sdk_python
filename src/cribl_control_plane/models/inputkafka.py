@@ -13,9 +13,9 @@ from .kafkaschemaregistryauthenticationtype import (
     KafkaSchemaRegistryAuthenticationTypeTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -74,7 +74,7 @@ class InputKafkaTypedDict(TypedDict):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     session_timeout: NotRequired[float]
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
@@ -194,7 +194,7 @@ class InputKafka(BaseModel):
     sasl: Optional[AuthenticationType] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")

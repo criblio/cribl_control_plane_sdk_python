@@ -296,7 +296,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [Health](docs/sdks/health/README.md)
 
-* [get](docs/sdks/health/README.md#get) - Retrieve health status of the server
+* [get](docs/sdks/health/README.md#get) - Get the health status of the server
 
 ### [LakeDatasets](docs/sdks/lakedatasets/README.md)
 
@@ -436,7 +436,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 #### [System.Settings.Cribl](docs/sdks/cribl/README.md)
 
 * [list](docs/sdks/cribl/README.md#list) - Get Cribl system settings
-* [update](docs/sdks/cribl/README.md#update) - Update Cribl system settings
+* [update](docs/sdks/cribl/README.md#update) - Update system settings
 
 ### [Versions.Branches](docs/sdks/branches/README.md)
 
@@ -527,7 +527,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.list(product=models.ProductsBase.STREAM, filter_exp="<value>", sort_exp="<value>", filter_="<value>", sort="<value>", limit=881129, offset=990978)
+    res = ccp_client.sources.statuses.list(metrics=True, type_=False)
 
     while res is not None:
         # Handle items

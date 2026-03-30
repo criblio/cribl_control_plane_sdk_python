@@ -40,9 +40,10 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                                                   | Type                                                                                                                                                        | Required                                                                                                                                                    | Description                                                                                                                                                 |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `type`                                                                                                                                                      | List[*str*]                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                          | Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
+| `retries`                                                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                            | :heavy_minus_sign:                                                                                                                                          | Configuration to override the default retry behavior of the client.                                                                                         |
 
 ### Response
 
@@ -1191,7 +1192,7 @@ with CriblControlPlane(
         "pq_enabled": False,
         "discovery_type": models.CreateInputDiscoveryTypePrometheus.STATIC,
         "interval": 60,
-        "log_level": models.CreateInputLogLevelPrometheus.INFO,
+        "log_level": models.LogLevelOptions.INFO,
         "target_list": [
             "http://localhost:9090/metrics",
         ],
@@ -1336,6 +1337,44 @@ with CriblControlPlane(
         "pq_enabled": False,
         "queue_name": "security-lake-queue",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesServiceNowTable
+
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesServiceNowTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.create(request={
+        "id": "servicenow-table-source",
+        "type": models.CreateInputTypeServicenowTable.SERVICENOW_TABLE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "instance": "https://example.service-now.com",
+        "table_name": "incident",
+        "fields": [
+            "sys_id",
+            "number",
+            "short_description",
+        ],
+        "display_value": models.CreateInputDisplayValue.FALSE,
+        "page_size": 10000,
+        "cron_schedule": "0 * * * *",
+        "earliest": "-1d",
+        "latest": "now",
     })
 
     # Handle response
@@ -1868,7 +1907,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
+Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
 
 ### Example Usage: InputCreateExamplesAppscope
 
@@ -3002,7 +3041,7 @@ with CriblControlPlane(
         "pq_enabled": False,
         "discovery_type": models.InputPrometheusDiscoveryType.STATIC,
         "interval": 60,
-        "log_level": models.InputPrometheusLogLevel.INFO,
+        "log_level": models.LogLevelOptions.INFO,
         "target_list": [
             "http://localhost:9090/metrics",
         ],
@@ -3147,6 +3186,44 @@ with CriblControlPlane(
         "pq_enabled": False,
         "queue_name": "security-lake-queue",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesServiceNowTable
+
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesServiceNowTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.update(id="<id>", input_={
+        "id": "servicenow-table-source",
+        "type": models.InputServicenowTableType.SERVICENOW_TABLE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "instance": "https://example.service-now.com",
+        "table_name": "incident",
+        "fields": [
+            "sys_id",
+            "number",
+            "short_description",
+        ],
+        "display_value": models.DisplayValue.FALSE,
+        "page_size": 10000,
+        "cron_schedule": "0 * * * *",
+        "earliest": "-1d",
+        "latest": "now",
     })
 
     # Handle response

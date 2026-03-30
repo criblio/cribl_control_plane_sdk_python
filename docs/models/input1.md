@@ -363,6 +363,12 @@ value: models.InputNetflow = /* values here */
 value: models.InputSecurityLake = /* values here */
 ```
 
+### `models.InputServicenowTable`
+
+```python
+value: models.InputServicenowTable = /* values here */
+```
+
 ### `models.InputZscalerHec`
 
 ```python

@@ -661,7 +661,7 @@ with CriblControlPlane(
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
                     max_event_bytes=51200,
                     timestamp_anchor_regex="/^/",
-                    timestamp=models.EventBreakerExistingOrNewNewRuleTypeRegexTimestampFormat(
+                    timestamp=models.TimestampFormatTypeEventBreakerExistingOrNewNew(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
                         length=150,
                     ),
@@ -1372,6 +1372,7 @@ with CriblControlPlane(
                     ],
                     deployment_type=models.RedisAuthTypeNoneDeploymentType.STANDALONE,
                     max_block_secs=60,
+                    url="'redis://localhost:6379/0'",
                 ),
             ),
         ],
@@ -2641,7 +2642,7 @@ with CriblControlPlane(
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
                     max_event_bytes=51200,
                     timestamp_anchor_regex="/^/",
-                    timestamp=models.EventBreakerExistingOrNewNewRuleTypeRegexTimestampFormat(
+                    timestamp=models.TimestampFormatTypeEventBreakerExistingOrNewNew(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
                         length=150,
                     ),
@@ -3352,6 +3353,7 @@ with CriblControlPlane(
                     ],
                     deployment_type=models.RedisAuthTypeNoneDeploymentType.STANDALONE,
                     max_block_secs=60,
+                    url="'redis://localhost:6379/0'",
                 ),
             ),
         ],

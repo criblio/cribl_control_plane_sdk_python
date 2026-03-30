@@ -11,10 +11,10 @@ Output object
 value: models.CreateOutputSystemByPackOutputDefault = /* values here */
 ```
 
-### `models.CreateOutputSystemByPackOutputWebhookUnion`
+### `models.CreateOutputSystemByPackOutputWebhook`
 
 ```python
-value: models.CreateOutputSystemByPackOutputWebhookUnion = /* values here */
+value: models.CreateOutputSystemByPackOutputWebhook = /* values here */
 ```
 
 ### `models.CreateOutputSystemByPackOutputSentinel`

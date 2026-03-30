@@ -1,6 +1,6 @@
 # LogLevelOptions
 
-Collector runtime log level
+Log Level (verbosity) for collection runtime behavior.
 
 ## Example Usage
 
@@ -21,3 +21,4 @@ value = LogLevelOptions.ERROR
 | `WARN`  | warn    |
 | `INFO`  | info    |
 | `DEBUG` | debug   |
+| `SILLY` | silly   |

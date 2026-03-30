@@ -9,10 +9,10 @@
 value: models.OutputDefault = /* values here */
 ```
 
-### `models.OutputWebhookUnion`
+### `models.OutputWebhook`
 
 ```python
-value: models.OutputWebhookUnion = /* values here */
+value: models.OutputWebhook = /* values here */
 ```
 
 ### `models.OutputSentinel`

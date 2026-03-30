@@ -86,7 +86,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedJobInfo](../../models/countedjobinfo.md)**
+**[models.CountedObject](../../models/countedobject.md)**
 
 ### Errors
 

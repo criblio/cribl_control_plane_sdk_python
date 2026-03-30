@@ -1,7 +1,5 @@
 # OutputStatus
 
-Status of a Destination, aggregated across all Worker Processes.
-
 
 ## Fields
 

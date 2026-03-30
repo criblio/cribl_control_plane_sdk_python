@@ -13,13 +13,12 @@ value = RbacResource.GROUPS
 
 ## Values
 
-| Name                 | Value                |
-| -------------------- | -------------------- |
-| `GROUPS`             | groups               |
-| `DATASETS`           | datasets             |
-| `DATASET_PROVIDERS`  | dataset-providers    |
-| `PROJECTS`           | projects             |
-| `DASHBOARDS`         | dashboards           |
-| `MACROS`             | macros               |
-| `NOTEBOOKS`          | notebooks            |
-| `NOTEBOOK_TEMPLATES` | notebook-templates   |
+| Name                | Value               |
+| ------------------- | ------------------- |
+| `GROUPS`            | groups              |
+| `DATASETS`          | datasets            |
+| `DATASET_PROVIDERS` | dataset-providers   |
+| `PROJECTS`          | projects            |
+| `DASHBOARDS`        | dashboards          |
+| `MACROS`            | macros              |
+| `NOTEBOOKS`         | notebooks           |

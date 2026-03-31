@@ -47,6 +47,8 @@ class PipelineFunctionAggregationConfTypedDict(TypedDict):
     r"""Treat dots in dimension names as literals. This is useful for top-level dimensions that contain dots, such as 'service.name'."""
     flush_on_input_close: NotRequired[bool]
     r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""
+    print_undefineds: NotRequired[bool]
+    r"""When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved."""
     lag_tolerance: NotRequired[str]
     r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s)."""
     idle_time_limit: NotRequired[str]
@@ -113,6 +115,11 @@ class PipelineFunctionAggregationConf(BaseModel):
     ] = None
     r"""Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior."""
 
+    print_undefineds: Annotated[
+        Optional[bool], pydantic.Field(alias="printUndefineds")
+    ] = None
+    r"""When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved."""
+
     lag_tolerance: Annotated[Optional[str], pydantic.Field(alias="lagTolerance")] = None
     r"""The tumbling window tolerance to late events. Must be a valid time string (such as 10s)."""
 
@@ -138,6 +145,7 @@ class PipelineFunctionAggregationConf(BaseModel):
                 "add",
                 "shouldTreatDotsAsLiterals",
                 "flushOnInputClose",
+                "printUndefineds",
                 "lagTolerance",
                 "idleTimeLimit",
             ]

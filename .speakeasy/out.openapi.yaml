@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1774739006047-c0158cf2
+  version: 4.17.1-alpha.1774911827737-0e72a5bd
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -1033,6 +1033,10 @@ components:
           type: boolean
           title: Flush on stream close
           description: Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior.
+        printUndefineds:
+          type: boolean
+          title: Print undefined as null
+          description: When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved.
         lagTolerance:
           type: string
           title: Lag tolerance
@@ -1961,6 +1965,10 @@ components:
           type: array
           items:
             type: string
+        printUndefineds:
+          type: boolean
+          title: Print undefined as null
+          description: When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved.
     FunctionEval:
       type: object
       properties:

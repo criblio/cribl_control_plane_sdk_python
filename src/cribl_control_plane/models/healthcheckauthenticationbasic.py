@@ -940,6 +940,8 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationOauthSecretRetryRulesTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
 
 
 class HealthCheckAuthenticationOauthSecret(BaseModel):
@@ -1022,6 +1024,11 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -1066,6 +1073,7 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "clientSecretParamValue",
             ]
         )
         serialized = handler(self)
@@ -1983,6 +1991,8 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationOauthRetryRulesTypedDict]
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value."""
 
 
 class HealthCheckAuthenticationOauth(BaseModel):
@@ -2067,6 +2077,9 @@ class HealthCheckAuthenticationOauth(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -2109,6 +2122,7 @@ class HealthCheckAuthenticationOauth(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "textSecret",
             ]
         )
         serialized = handler(self)
@@ -3026,6 +3040,10 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationLoginSecretRetryRulesTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value."""
 
 
 class HealthCheckAuthenticationLoginSecret(BaseModel):
@@ -3100,6 +3118,14 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -3143,6 +3169,8 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "clientSecretParamValue",
+                "textSecret",
             ]
         )
         serialized = handler(self)
@@ -4058,6 +4086,10 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationLoginRetryRulesTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value."""
 
 
 class HealthCheckAuthenticationLogin(BaseModel):
@@ -4135,6 +4167,14 @@ class HealthCheckAuthenticationLogin(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -4176,6 +4216,8 @@ class HealthCheckAuthenticationLogin(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "clientSecretParamValue",
+                "textSecret",
             ]
         )
         serialized = handler(self)
@@ -5081,6 +5123,10 @@ class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationBasicSecretRetryRulesTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value."""
 
 
 class HealthCheckAuthenticationBasicSecret(BaseModel):
@@ -5135,6 +5181,14 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -5176,6 +5230,8 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "clientSecretParamValue",
+                "textSecret",
             ]
         )
         serialized = handler(self)
@@ -6079,6 +6135,10 @@ class HealthCheckAuthenticationBasicTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationBasicRetryRulesTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value."""
 
 
 class HealthCheckAuthenticationBasic(BaseModel):
@@ -6136,6 +6196,14 @@ class HealthCheckAuthenticationBasic(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -6175,6 +6243,8 @@ class HealthCheckAuthenticationBasic(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "clientSecretParamValue",
+                "textSecret",
             ]
         )
         serialized = handler(self)

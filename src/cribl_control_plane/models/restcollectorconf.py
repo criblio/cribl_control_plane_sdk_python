@@ -1553,6 +1553,12 @@ class RestCollectMethodPostWithBodyTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestCollectMethodPostWithBodyRetryRulesTypedDict]
     scheduling: NotRequired[RestCollectMethodPostWithBodySchedulingTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+    hmac_function_id: NotRequired[str]
+    r"""Select or create an HMAC Function to use with authentication"""
 
 
 class RestCollectMethodPostWithBody(BaseModel):
@@ -1625,6 +1631,21 @@ class RestCollectMethodPostWithBody(BaseModel):
         pydantic.Field(alias="__scheduling"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+
+    hmac_function_id: Annotated[
+        Optional[str], pydantic.Field(alias="hmacFunctionId")
+    ] = None
+    r"""Select or create an HMAC Function to use with authentication"""
+
     @field_serializer("collect_method")
     def serialize_collect_method(self, value):
         if isinstance(value, str):
@@ -1660,6 +1681,9 @@ class RestCollectMethodPostWithBody(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "clientSecretParamValue",
+                "serviceAccountCredentials",
+                "hmacFunctionId",
             ]
         )
         serialized = handler(self)
@@ -3357,6 +3381,12 @@ class RestCollectMethodPostTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestCollectMethodPostRetryRulesTypedDict]
     scheduling: NotRequired[RestCollectMethodPostSchedulingTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+    hmac_function_id: NotRequired[str]
+    r"""Select or create an HMAC Function to use with authentication"""
 
 
 class RestCollectMethodPost(BaseModel):
@@ -3428,6 +3458,21 @@ class RestCollectMethodPost(BaseModel):
         Optional[RestCollectMethodPostScheduling], pydantic.Field(alias="__scheduling")
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+
+    hmac_function_id: Annotated[
+        Optional[str], pydantic.Field(alias="hmacFunctionId")
+    ] = None
+    r"""Select or create an HMAC Function to use with authentication"""
+
     @field_serializer("collect_method")
     def serialize_collect_method(self, value):
         if isinstance(value, str):
@@ -3464,6 +3509,9 @@ class RestCollectMethodPost(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "clientSecretParamValue",
+                "serviceAccountCredentials",
+                "hmacFunctionId",
             ]
         )
         serialized = handler(self)
@@ -5165,6 +5213,12 @@ class RestCollectMethodGetTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestCollectMethodGetRetryRulesTypedDict]
     scheduling: NotRequired[RestCollectMethodGetSchedulingTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+    hmac_function_id: NotRequired[str]
+    r"""Select or create an HMAC Function to use with authentication"""
 
 
 class RestCollectMethodGet(BaseModel):
@@ -5236,6 +5290,21 @@ class RestCollectMethodGet(BaseModel):
         Optional[RestCollectMethodGetScheduling], pydantic.Field(alias="__scheduling")
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+
+    hmac_function_id: Annotated[
+        Optional[str], pydantic.Field(alias="hmacFunctionId")
+    ] = None
+    r"""Select or create an HMAC Function to use with authentication"""
+
     @field_serializer("collect_method")
     def serialize_collect_method(self, value):
         if isinstance(value, str):
@@ -5272,6 +5341,9 @@ class RestCollectMethodGet(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "__scheduling",
+                "clientSecretParamValue",
+                "serviceAccountCredentials",
+                "hmacFunctionId",
             ]
         )
         serialized = handler(self)
@@ -5297,13 +5369,13 @@ RestCollectorConfTypedDict = TypeAliasType(
         RestCollectMethodPostWithBodyTypedDict,
         RestCollectMethodGetTypedDict,
         RestAuthenticationBasicSecretTypedDict,
+        RestAuthenticationGoogleOauthTypedDict,
         RestAuthenticationBasicTypedDict,
         RestCollectMethodOtherTypedDict,
-        RestAuthenticationGoogleOauthTypedDict,
         RestAuthenticationGoogleOauthSecretTypedDict,
-        RestAuthenticationLoginSecretTypedDict,
         RestAuthenticationOauthTypedDict,
         RestAuthenticationOauthSecretTypedDict,
+        RestAuthenticationLoginSecretTypedDict,
         RestAuthenticationLoginTypedDict,
     ],
 )

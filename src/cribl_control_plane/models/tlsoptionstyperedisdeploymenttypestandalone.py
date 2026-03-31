@@ -15,9 +15,9 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class TLSOptionsTypeRedisDeploymentTypeClusterTypedDict(TypedDict):
+class TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict(TypedDict):
     reject_unauthorized: NotRequired[bool]
-    r"""Reject certs that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's CA)"""
+    r"""Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)"""
     servername: NotRequired[str]
     r"""Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address."""
     certificate_name: NotRequired[str]
@@ -40,11 +40,11 @@ class TLSOptionsTypeRedisDeploymentTypeClusterTypedDict(TypedDict):
     r"""Maximum TLS version to use when connecting"""
 
 
-class TLSOptionsTypeRedisDeploymentTypeCluster(BaseModel):
+class TLSOptionsTypeRedisDeploymentTypeStandalone(BaseModel):
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
-    r"""Reject certs that are not authorized by a CA in the CA certificate path, or by another trusted CA (such as the system's CA)"""
+    r"""Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)"""
 
     servername: Optional[str] = None
     r"""Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address."""
@@ -130,6 +130,6 @@ class TLSOptionsTypeRedisDeploymentTypeCluster(BaseModel):
 
 
 try:
-    TLSOptionsTypeRedisDeploymentTypeCluster.model_rebuild()
+    TLSOptionsTypeRedisDeploymentTypeStandalone.model_rebuild()
 except NameError:
     pass

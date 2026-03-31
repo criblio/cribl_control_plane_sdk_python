@@ -327,6 +327,7 @@ class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenSecretRetryRulesTypedDict]
+    token: NotRequired[str]
 
 
 class SplunkAuthenticationTokenSecret(BaseModel):
@@ -396,6 +397,8 @@ class SplunkAuthenticationTokenSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    token: Optional[str] = None
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -428,6 +431,7 @@ class SplunkAuthenticationTokenSecret(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "token",
             ]
         )
         serialized = handler(self)
@@ -751,6 +755,8 @@ class SplunkAuthenticationTokenTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenRetryRulesTypedDict]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your Bearer token"""
 
 
 class SplunkAuthenticationToken(BaseModel):
@@ -819,6 +825,9 @@ class SplunkAuthenticationToken(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored secret that references your Bearer token"""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -851,6 +860,7 @@ class SplunkAuthenticationToken(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "tokenSecret",
             ]
         )
         serialized = handler(self)
@@ -1177,6 +1187,9 @@ class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicSecretRetryRulesTypedDict]
+    token: NotRequired[str]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your Bearer token"""
 
 
 class SplunkAuthenticationBasicSecret(BaseModel):
@@ -1246,6 +1259,11 @@ class SplunkAuthenticationBasicSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    token: Optional[str] = None
+
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored secret that references your Bearer token"""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -1278,6 +1296,8 @@ class SplunkAuthenticationBasicSecret(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "token",
+                "tokenSecret",
             ]
         )
         serialized = handler(self)
@@ -1604,6 +1624,9 @@ class SplunkAuthenticationBasicTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicRetryRulesTypedDict]
+    token: NotRequired[str]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your Bearer token"""
 
 
 class SplunkAuthenticationBasic(BaseModel):
@@ -1676,6 +1699,11 @@ class SplunkAuthenticationBasic(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    token: Optional[str] = None
+
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored secret that references your Bearer token"""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -1708,6 +1736,8 @@ class SplunkAuthenticationBasic(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "token",
+                "tokenSecret",
             ]
         )
         serialized = handler(self)
@@ -2030,6 +2060,9 @@ class SplunkAuthenticationNoneTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationNoneRetryRulesTypedDict]
+    token: NotRequired[str]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your Bearer token"""
 
 
 class SplunkAuthenticationNone(BaseModel):
@@ -2095,6 +2128,11 @@ class SplunkAuthenticationNone(BaseModel):
         Optional[SplunkAuthenticationNoneRetryRules], pydantic.Field(alias="retryRules")
     ] = None
 
+    token: Optional[str] = None
+
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored secret that references your Bearer token"""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -2127,6 +2165,8 @@ class SplunkAuthenticationNone(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "token",
+                "tokenSecret",
             ]
         )
         serialized = handler(self)
@@ -2147,9 +2187,9 @@ SplunkCollectorConfTypedDict = TypeAliasType(
     "SplunkCollectorConfTypedDict",
     Union[
         SplunkAuthenticationNoneTypedDict,
-        SplunkAuthenticationBasicSecretTypedDict,
         SplunkAuthenticationTokenTypedDict,
         SplunkAuthenticationTokenSecretTypedDict,
+        SplunkAuthenticationBasicSecretTypedDict,
         SplunkAuthenticationBasicTypedDict,
     ],
 )

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1774911827737-0e72a5bd
+  version: 4.17.1-alpha.1774952817481-1a506aef
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -241,20 +241,7 @@ components:
           title: Timestamp anchor
           description: Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction.
         timestamp:
-          type: object
-          required:
-            - type
-          title: Timestamp format
-          properties:
-            type:
-              $ref: "#/components/schemas/TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp"
-            length:
-              type: number
-              title: Length
-              minimum: 2
-            format:
-              type: string
-              title: Format
+          $ref: "#/components/schemas/TimestampFormatTypeEventBreakerExistingOrNewNew"
         timestampTimezone:
           type: string
           title: Default timezone
@@ -327,40 +314,7 @@ components:
           description: "Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
           type: string
         tlsOptions:
-          type: object
-          properties:
-            rejectUnauthorized:
-              type: boolean
-              title: Validate server certs
-              description: Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)
-            servername:
-              type: string
-              title: Server name (SNI)
-              description: Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address.
-            certificateName:
-              type: string
-              title: Certificate
-              description: The name of the predefined certificate
-            caPath:
-              type: string
-              title: CA certificate path
-              description: Path on client in which to find CA certificates to verify the server's certificate. PEM format. Can reference $ENV_VARS.
-            privKeyPath:
-              type: string
-              title: Private key path (mutual auth)
-              description: Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS.
-            certPath:
-              type: string
-              title: Certificate path (mutual auth)
-              description: Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
-            passphrase:
-              type: string
-              title: Passphrase
-              description: Passphrase to use to decrypt private key
-            minVersion:
-              $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
-            maxVersion:
-              $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeStandalone"
       required:
         - url
     RedisDeploymentTypeCluster:
@@ -394,18 +348,7 @@ components:
           type: boolean
           description: Use TLS for connections to this cluster
         scaleReads:
-          title: Scale reads
-          type: string
-          description: Which nodes read commands should be sent to
-          enum:
-            - master
-            - replica
-            - all
-          x-speakeasy-enum-descriptions:
-            - Masters
-            - Replicas
-            - Masters and Replicas
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/ScaleReadsOptionsRedisDeploymentTypeCluster"
         tlsOptions:
           $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeCluster"
     RedisDeploymentTypeSentinel:
@@ -2030,6 +1973,36 @@ components:
           type: boolean
           title: Add to cribl_breaker
           description: Add this Function name to the cribl_breaker field
+        ruleType:
+          $ref: "#/components/schemas/EventBreakerTypeOptionsEventBreakerExistingOrNewNew"
+        maxEventBytes:
+          type: number
+          title: Event byte limit
+          description: The maximum number of bytes that an event can be before being flushed to the Pipelines
+          minimum: 1
+          maximum: 1.34217728e+08
+        timestampAnchorRegex:
+          type: string
+          title: Timestamp anchor
+          description: Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction.
+        timestamp:
+          $ref: "#/components/schemas/TimestampFormatTypeEventBreakerExistingOrNewNew"
+        timestampTimezone:
+          type: string
+          title: Default timezone
+          description: Timezone to assign to timestamps without timezone info
+        timestampEarliest:
+          title: Earliest timestamp allowed
+          description: The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to current time.
+          type: string
+        timestampLatest:
+          title: Future timestamp allowed
+          description: The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time.
+          type: string
+        existingRule:
+          type: string
+          title: Existing ruleset
+          minLength: 1
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/EventBreakerExistingOrNewNew"
@@ -3803,6 +3776,12 @@ components:
             - Floor
             - Ceil
           x-speakeasy-unknown-values: allow
+        digits:
+          type: number
+          title: Digits
+          description: Number of digits after the decimal point, between 0 and 20. If left blank, defaults to 2.
+          minimum: 0
+          maximum: 20
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/NumerifyFormatFix"
@@ -4384,6 +4363,31 @@ components:
           type: boolean
           title: Client-side cache
           description: Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache.
+        url:
+          title: Redis URL
+          description: "Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+          type: string
+        tlsOptions:
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeStandalone"
+        scaleReads:
+          $ref: "#/components/schemas/ScaleReadsOptionsRedisDeploymentTypeCluster"
+        masterName:
+          title: Master group name
+          type: string
+        username:
+          title: Username
+          type: string
+        password:
+          title: Password
+          type: string
+        credentialsSecret:
+          type: string
+          title: User secret
+          description: Secret that references Redis username and password
+        textSecret:
+          type: string
+          title: Admin secret
+          description: Secret that references Redis admin password
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/RedisDeploymentTypeStandalone"
@@ -5029,6 +5033,49 @@ components:
           title: Destination field
           description: Name of the field to add fields to. Extract mode only.
           type: string
+        allowedKeyChars:
+          type: array
+          items:
+            type: string
+          title: Allowed key characters
+          description: A list of characters that may be present in a key name, even though they are normally separator or control characters
+        allowedValueChars:
+          type: array
+          items:
+            type: string
+          title: Allowed value characters
+          description: A list of characters that may be present in a value, even though they are normally separator or control characters
+        regex:
+          type: string
+          title: Regex
+          description: Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)
+        regexList:
+          type: array
+          title: Additional regex
+          items:
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeRegexRegexList"
+        iterations:
+          type: number
+          title: Max exec
+          description: The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups
+          minimum: 1
+        fieldNameExpression:
+          title: Field name format expression
+          description: "JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."
+          type: string
+        overwrite:
+          type: boolean
+          title: Overwrite existing fields
+          description: Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array.
+        pattern:
+          type: string
+          title: Pattern
+          description: "Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"
+        patternList:
+          type: array
+          title: Additional Grok patterns
+          items:
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeGrokPatternList"
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SerdeTypeKvp"
@@ -5126,6 +5173,20 @@ components:
           title: Destination field
           description: Field to serialize data to
           type: string
+        cleanFields:
+          type: boolean
+          title: Clean fields
+          description: Clean field names by replacing non-[a-zA-Z0-9] characters with _
+        pairDelimiter:
+          type: string
+          title: Pair delimiter
+          minLength: 1
+          description: Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter.
+        keyValueDelimiter:
+          type: string
+          title: Key-Value delimiter
+          minLength: 1
+          description: Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SerializeTypeKvp"
@@ -8926,6 +8987,20 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
+        connectionString:
+          type: string
+          title: Connection string
+          description: Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING.
+        textSecret:
+          type: string
+          title: Connection string (text secret)
+          description: Text secret
+        clientTextSecret:
+          type: string
+          title: Client secret (text secret)
+          description: Text secret containing the client secret
+        certificate:
+          $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/AzureBlobAuthTypeManual"
@@ -9186,6 +9261,14 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
+        serviceAccountCredentials:
+          type: string
+          title: Service account credentials
+          description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right.
+        textSecret:
+          type: string
+          title: Service account credentials (text secret)
+          description: Select or create a stored text secret that references your credentials
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/GoogleCloudStorageAuthTypeAuto"
@@ -9799,6 +9882,14 @@ components:
                   none: "#/components/schemas/HealthCheckRetryRulesTypeNone"
                   static: "#/components/schemas/HealthCheckRetryRulesTypeStatic"
                   backoff: "#/components/schemas/HealthCheckRetryRulesTypeBackoff"
+        clientSecretParamValue:
+          type: string
+          title: Client secret value
+          description: Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters
+        textSecret:
+          type: string
+          title: Client secret value (text secret)
+          description: Select or create a text secret that contains the client secret's value.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/HealthCheckCollectMethodGet"
@@ -10796,6 +10887,19 @@ components:
                   type: boolean
                   title: Enabled
                   description: Track collection progress between consecutive scheduled executions
+        clientSecretParamValue:
+          type: string
+          title: Client secret value
+          description: Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters.
+        serviceAccountCredentials:
+          type: string
+          title: Service account credentials
+          description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right.
+          minLength: 1
+        hmacFunctionId:
+          type: string
+          title: HMAC Function
+          description: Select or create an HMAC Function to use with authentication
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/RestCollectMethodGet"
@@ -11012,6 +11116,18 @@ components:
           type: boolean
           title: Disable time filter
           description: Disable Collector event time filtering when a date range is specified
+        awsApiKey:
+          type: string
+          title: Access key
+          description: Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references AWS access key and secret key.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/S3PartitioningSchemeDdss"
@@ -11375,6 +11491,13 @@ components:
                   none: "#/components/schemas/SplunkRetryRulesTypeNone"
                   static: "#/components/schemas/SplunkRetryRulesTypeStatic"
                   backoff: "#/components/schemas/SplunkRetryRulesTypeBackoff"
+        token:
+          type: string
+          title: Bearer token
+        tokenSecret:
+          type: string
+          title: Bearer token secret
+          description: Select or create a stored secret that references your Bearer token
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SplunkAuthenticationNone"
@@ -39381,6 +39504,19 @@ components:
         - TLSv1.2
         - TLSv1.3
       x-speakeasy-unknown-values: allow
+    ScaleReadsOptionsRedisDeploymentTypeCluster:
+      title: Scale reads
+      type: string
+      description: Which nodes read commands should be sent to
+      enum:
+        - master
+        - replica
+        - all
+      x-speakeasy-enum-descriptions:
+        - Masters
+        - Replicas
+        - Masters and Replicas
+      x-speakeasy-unknown-values: allow
     ItemsTypeSerdeTypeRegexRegexList:
       type: object
       required:
@@ -41182,6 +41318,56 @@ components:
         - count
         - memory
         - minimum
+    TimestampFormatTypeEventBreakerExistingOrNewNew:
+      type: object
+      required:
+        - type
+      title: Timestamp format
+      properties:
+        type:
+          $ref: "#/components/schemas/TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp"
+        length:
+          type: number
+          title: Length
+          minimum: 2
+        format:
+          type: string
+          title: Format
+    TlsOptionsTypeRedisDeploymentTypeStandalone:
+      type: object
+      properties:
+        rejectUnauthorized:
+          type: boolean
+          title: Validate server certs
+          description: Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)
+        servername:
+          type: string
+          title: Server name (SNI)
+          description: Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address.
+        certificateName:
+          type: string
+          title: Certificate
+          description: The name of the predefined certificate
+        caPath:
+          type: string
+          title: CA certificate path
+          description: Path on client in which to find CA certificates to verify the server's certificate. PEM format. Can reference $ENV_VARS.
+        privKeyPath:
+          type: string
+          title: Private key path (mutual auth)
+          description: Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS.
+        certPath:
+          type: string
+          title: Certificate path (mutual auth)
+          description: Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
+        passphrase:
+          type: string
+          title: Passphrase
+          description: Passphrase to use to decrypt private key
+        minVersion:
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+        maxVersion:
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
     TlsOptionsTypeRedisDeploymentTypeCluster:
       type: object
       properties:

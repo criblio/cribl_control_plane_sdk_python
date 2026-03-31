@@ -63,6 +63,8 @@ class GoogleCloudStorageAuthTypeSecretTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
 
 
 class GoogleCloudStorageAuthTypeSecret(BaseModel):
@@ -113,6 +115,11 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -138,6 +145,7 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "serviceAccountCredentials",
             ]
         )
         serialized = handler(self)
@@ -204,6 +212,8 @@ class GoogleCloudStorageAuthTypeManualTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret that references your credentials"""
 
 
 class GoogleCloudStorageAuthTypeManual(BaseModel):
@@ -256,6 +266,9 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret that references your credentials"""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -281,6 +294,7 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "textSecret",
             ]
         )
         serialized = handler(self)
@@ -345,6 +359,10 @@ class GoogleCloudStorageAuthTypeAutoTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret that references your credentials"""
 
 
 class GoogleCloudStorageAuthTypeAuto(BaseModel):
@@ -392,6 +410,14 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret that references your credentials"""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -415,6 +441,8 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "serviceAccountCredentials",
+                "textSecret",
             ]
         )
         serialized = handler(self)

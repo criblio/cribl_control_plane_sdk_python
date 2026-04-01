@@ -251,9 +251,9 @@ with CriblControlPlane(
     res = ccp_client.destinations.create(request={
         "id": "cloudflare-r2-output",
         "type": models.CreateOutputTypeCloudflareR2.CLOUDFLARE_R2,
-        "endpoint": "https://account-id.r2.cloudflarestorage.com",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "https://account-id.r2.cloudflarestorage.com",
     })
 
     # Handle response
@@ -1210,9 +1210,9 @@ with CriblControlPlane(
     res = ccp_client.destinations.create(request={
         "id": "minio-output",
         "type": models.CreateOutputTypeMinio.MINIO,
-        "endpoint": "http://localhost:9000",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "http://localhost:9000",
     })
 
     # Handle response
@@ -1480,9 +1480,9 @@ with CriblControlPlane(
     res = ccp_client.destinations.create(request={
         "id": "security-lake-output",
         "type": models.CreateOutputTypeSecurityLake.SECURITY_LAKE,
+        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "bucket": "my-bucket",
         "region": "us-east-1",
-        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "stage_path": "/tmp/staging",
         "account_id": "123456789012",
         "custom_source": "my-custom-source",
@@ -1939,7 +1939,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "webhook-output",
-        "type": models.CreateOutputTypeWebhook.WEBHOOK,
+        "type": models.CreateOutputOutputWebhookType1.WEBHOOK,
         "url": "https://example.com/webhook",
     })
 
@@ -2258,9 +2258,9 @@ with CriblControlPlane(
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "cloudflare-r2-output",
         "type": models.OutputCloudflareR2Type.CLOUDFLARE_R2,
-        "endpoint": "https://account-id.r2.cloudflarestorage.com",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "https://account-id.r2.cloudflarestorage.com",
     })
 
     # Handle response
@@ -3217,9 +3217,9 @@ with CriblControlPlane(
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "minio-output",
         "type": models.OutputMinioType.MINIO,
-        "endpoint": "http://localhost:9000",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "http://localhost:9000",
     })
 
     # Handle response
@@ -3487,9 +3487,9 @@ with CriblControlPlane(
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "security-lake-output",
         "type": models.OutputSecurityLakeType.SECURITY_LAKE,
+        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "bucket": "my-bucket",
         "region": "us-east-1",
-        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "stage_path": "/tmp/staging",
         "account_id": "123456789012",
         "custom_source": "my-custom-source",
@@ -3946,7 +3946,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "webhook-output",
-        "type": models.OutputWebhookType.WEBHOOK,
+        "type": models.OutputWebhookType1.WEBHOOK,
         "url": "https://example.com/webhook",
     })
 

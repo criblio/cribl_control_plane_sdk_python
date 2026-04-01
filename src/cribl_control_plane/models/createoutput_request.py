@@ -9203,20 +9203,8 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    region: NotRequired[str]
-    r"""Region where the S3 bucket is located"""
-    aws_secret_key: NotRequired[str]
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
-    r"""Signature version to use for signing S3 requests"""
-    reuse_connections: NotRequired[bool]
-    r"""Reuse connections between requests, which can improve performance"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
     enable_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials to access S3"""
     assume_role_arn: NotRequired[str]
@@ -9225,17 +9213,28 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    add_id_to_stage_path: NotRequired[bool]
-    r"""Add the Output ID value to staging location"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
+    r"""Signature version to use for signing S3 requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+    region: NotRequired[str]
+    r"""Region where the S3 bucket is located"""
     dest_path: NotRequired[str]
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
-    object_acl: NotRequired[ObjectACLOptions]
-    r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptions]
-    r"""Storage class to select for uploaded objects"""
-    server_side_encryption: NotRequired[ServerSideEncryptionForUploadedObjectsOptions]
-    kms_key_id: NotRequired[str]
-    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
+    max_concurrent_file_parts: NotRequired[float]
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    verify_permissions: NotRequired[bool]
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+    max_closing_files_to_backpressure: NotRequired[float]
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    add_id_to_stage_path: NotRequired[bool]
+    r"""Add the Output ID value to staging location"""
     remove_empty_dirs: NotRequired[bool]
     r"""Remove empty staging directories after moving files"""
     partition_expr: NotRequired[str]
@@ -9248,6 +9247,10 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+    max_file_open_time_sec: NotRequired[float]
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    max_file_idle_time_sec: NotRequired[float]
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
     max_open_files: NotRequired[float]
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
     header_line: NotRequired[str]
@@ -9263,16 +9266,14 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
-    max_file_open_time_sec: NotRequired[float]
-    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
-    max_file_idle_time_sec: NotRequired[float]
-    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
-    max_concurrent_file_parts: NotRequired[float]
-    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
-    verify_permissions: NotRequired[bool]
-    r"""Disable if you can access files within the bucket but not the bucket itself"""
-    max_closing_files_to_backpressure: NotRequired[float]
-    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    object_acl: NotRequired[ObjectACLOptions]
+    r"""Object ACL to assign to uploaded objects"""
+    storage_class: NotRequired[StorageClassOptions]
+    r"""Storage class to select for uploaded objects"""
+    server_side_encryption: NotRequired[ServerSideEncryptionForUploadedObjectsOptions]
+    r"""Server-side encryption to use for uploaded objects"""
+    kms_key_id: NotRequired[str]
+    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
     description: NotRequired[str]
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
@@ -9312,28 +9313,20 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
-    template_bucket: NotRequired[str]
-    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
     template_dest_path: NotRequired[str]
     r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
-    template_object_acl: NotRequired[str]
-    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
-    template_storage_class: NotRequired[str]
-    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
-    template_server_side_encryption: NotRequired[str]
-    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
-    template_kms_key_id: NotRequired[str]
-    r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
     template_partition_expr: NotRequired[str]
     r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
     template_format: NotRequired[str]
@@ -9344,6 +9337,14 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_storage_class: NotRequired[str]
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+    template_server_side_encryption: NotRequired[str]
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
+    template_kms_key_id: NotRequired[str]
+    r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
     template_compress: NotRequired[str]
@@ -9376,38 +9377,8 @@ class CreateOutputOutputS3(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    region: Optional[str] = None
-    r"""Region where the S3 bucket is located"""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = None
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
     endpoint: Optional[str] = None
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsS3CollectorConf],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing S3 requests"""
-
-    reuse_connections: Annotated[
-        Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = None
-    r"""Reuse connections between requests, which can improve performance"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
@@ -9429,31 +9400,58 @@ class CreateOutputOutputS3(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    add_id_to_stage_path: Annotated[
-        Optional[bool], pydantic.Field(alias="addIdToStagePath")
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
     ] = None
-    r"""Add the Output ID value to staging location"""
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    signature_version: Annotated[
+        Optional[SignatureVersionOptionsS3CollectorConf],
+        pydantic.Field(alias="signatureVersion"),
+    ] = None
+    r"""Signature version to use for signing S3 requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = None
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+
+    region: Optional[str] = None
+    r"""Region where the S3 bucket is located"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
 
-    object_acl: Annotated[
-        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
+    max_concurrent_file_parts: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
     ] = None
-    r"""Object ACL to assign to uploaded objects"""
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
-    storage_class: Annotated[
-        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
+    verify_permissions: Annotated[
+        Optional[bool], pydantic.Field(alias="verifyPermissions")
     ] = None
-    r"""Storage class to select for uploaded objects"""
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
 
-    server_side_encryption: Annotated[
-        Optional[ServerSideEncryptionForUploadedObjectsOptions],
-        pydantic.Field(alias="serverSideEncryption"),
+    max_closing_files_to_backpressure: Annotated[
+        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
     ] = None
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
-    kms_key_id: Annotated[Optional[str], pydantic.Field(alias="kmsKeyId")] = None
-    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
+    add_id_to_stage_path: Annotated[
+        Optional[bool], pydantic.Field(alias="addIdToStagePath")
+    ] = None
+    r"""Add the Output ID value to staging location"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
@@ -9484,6 +9482,16 @@ class CreateOutputOutputS3(BaseModel):
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
     ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+
+    max_file_open_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
+    ] = None
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+
+    max_file_idle_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    ] = None
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
         None
@@ -9524,30 +9532,24 @@ class CreateOutputOutputS3(BaseModel):
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
 
-    max_file_open_time_sec: Annotated[
-        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
+    object_acl: Annotated[
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = None
-    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    r"""Object ACL to assign to uploaded objects"""
 
-    max_file_idle_time_sec: Annotated[
-        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    storage_class: Annotated[
+        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
     ] = None
-    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+    r"""Storage class to select for uploaded objects"""
 
-    max_concurrent_file_parts: Annotated[
-        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    server_side_encryption: Annotated[
+        Optional[ServerSideEncryptionForUploadedObjectsOptions],
+        pydantic.Field(alias="serverSideEncryption"),
     ] = None
-    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    r"""Server-side encryption to use for uploaded objects"""
 
-    verify_permissions: Annotated[
-        Optional[bool], pydantic.Field(alias="verifyPermissions")
-    ] = None
-    r"""Disable if you can access files within the bucket but not the bucket itself"""
-
-    max_closing_files_to_backpressure: Annotated[
-        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
-    ] = None
-    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    kms_key_id: Annotated[Optional[str], pydantic.Field(alias="kmsKeyId")] = None
+    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
 
     description: Optional[str] = None
 
@@ -9641,21 +9643,6 @@ class CreateOutputOutputS3(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
-    template_bucket: Annotated[
-        Optional[str], pydantic.Field(alias="__template_bucket")
-    ] = None
-    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
@@ -9671,30 +9658,25 @@ class CreateOutputOutputS3(BaseModel):
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
 
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
     template_dest_path: Annotated[
         Optional[str], pydantic.Field(alias="__template_destPath")
     ] = None
     r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
-
-    template_object_acl: Annotated[
-        Optional[str], pydantic.Field(alias="__template_objectACL")
-    ] = None
-    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
-
-    template_storage_class: Annotated[
-        Optional[str], pydantic.Field(alias="__template_storageClass")
-    ] = None
-    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
-
-    template_server_side_encryption: Annotated[
-        Optional[str], pydantic.Field(alias="__template_serverSideEncryption")
-    ] = None
-    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
-
-    template_kms_key_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_kmsKeyId")
-    ] = None
-    r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
 
     template_partition_expr: Annotated[
         Optional[str], pydantic.Field(alias="__template_partitionExpr")
@@ -9720,6 +9702,26 @@ class CreateOutputOutputS3(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_object_acl: Annotated[
+        Optional[str], pydantic.Field(alias="__template_objectACL")
+    ] = None
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+
+    template_storage_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageClass")
+    ] = None
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+
+    template_server_side_encryption: Annotated[
+        Optional[str], pydantic.Field(alias="__template_serverSideEncryption")
+    ] = None
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
+
+    template_kms_key_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_kmsKeyId")
+    ] = None
+    r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
 
     template_aws_api_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsApiKey")
@@ -9749,33 +9751,6 @@ class CreateOutputOutputS3(BaseModel):
                 return value
         return value
 
-    @field_serializer("object_acl")
-    def serialize_object_acl(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ObjectACLOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("storage_class")
-    def serialize_storage_class(self, value):
-        if isinstance(value, str):
-            try:
-                return models.StorageClassOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("server_side_encryption")
-    def serialize_server_side_encryption(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ServerSideEncryptionForUploadedObjectsOptions(value)
-            except ValueError:
-                return value
-        return value
-
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
@@ -9799,6 +9774,33 @@ class CreateOutputOutputS3(BaseModel):
         if isinstance(value, str):
             try:
                 return models.DiskSpaceProtectionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("object_acl")
+    def serialize_object_acl(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ObjectACLOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("storage_class")
+    def serialize_storage_class(self, value):
+        if isinstance(value, str):
+            try:
+                return models.StorageClassOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("server_side_encryption")
+    def serialize_server_side_encryption(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ServerSideEncryptionForUploadedObjectsOptions(value)
             except ValueError:
                 return value
         return value
@@ -9847,29 +9849,30 @@ class CreateOutputOutputS3(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
-                "region",
-                "awsSecretKey",
-                "awsAuthenticationMethod",
                 "endpoint",
-                "signatureVersion",
-                "reuseConnections",
-                "rejectUnauthorized",
                 "enableAssumeRole",
                 "assumeRoleArn",
                 "assumeRoleExternalId",
                 "durationSeconds",
-                "addIdToStagePath",
+                "awsAuthenticationMethod",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "awsSecretKey",
+                "region",
                 "destPath",
-                "objectACL",
-                "storageClass",
-                "serverSideEncryption",
-                "kmsKeyId",
+                "maxConcurrentFileParts",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "addIdToStagePath",
                 "removeEmptyDirs",
                 "partitionExpr",
                 "format",
                 "baseFileName",
                 "fileNameSuffix",
                 "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
                 "maxOpenFiles",
                 "headerLine",
                 "writeHighWaterMark",
@@ -9878,11 +9881,10 @@ class CreateOutputOutputS3(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
-                "maxFileOpenTimeSec",
-                "maxFileIdleTimeSec",
-                "maxConcurrentFileParts",
-                "verifyPermissions",
-                "maxClosingFilesToBackpressure",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "kmsKeyId",
                 "description",
                 "awsApiKey",
                 "awsSecret",
@@ -9903,22 +9905,22 @@ class CreateOutputOutputS3(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
-                "__template_bucket",
-                "__template_region",
-                "__template_awsSecretKey",
                 "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
+                "__template_awsSecretKey",
+                "__template_bucket",
+                "__template_region",
                 "__template_destPath",
-                "__template_objectACL",
-                "__template_storageClass",
-                "__template_serverSideEncryption",
-                "__template_kmsKeyId",
                 "__template_partitionExpr",
                 "__template_format",
                 "__template_baseFileName",
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
+                "__template_objectACL",
+                "__template_storageClass",
+                "__template_serverSideEncryption",
+                "__template_kmsKeyId",
                 "__template_awsApiKey",
                 "__template_compress",
             ]
@@ -9956,7 +9958,7 @@ class CreateOutputOutputFilesystemTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant, stable storage."""
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     remove_empty_dirs: NotRequired[bool]
@@ -10063,7 +10065,7 @@ class CreateOutputOutputFilesystem(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = None
-    r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant, stable storage."""
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
@@ -14575,11 +14577,11 @@ class CreateOutputOutputSentinel(BaseModel):
         return m
 
 
-class CreateOutputTypeWebhook(str, Enum):
+class CreateOutputOutputWebhookType2(str, Enum):
     WEBHOOK = "webhook"
 
 
-class CreateOutputFormatWebhook(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputOutputWebhookFormat2(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How to format events before sending out"""
 
     # NDJSON (Newline Delimited JSON)
@@ -14592,7 +14594,9 @@ class CreateOutputFormatWebhook(str, Enum, metaclass=utils.OpenEnumMeta):
     ADVANCED = "advanced"
 
 
-class CreateOutputAuthenticationTypeWebhook(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputOutputWebhookAuthenticationType2(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Authentication method to use for the HTTP request"""
 
     # None
@@ -14609,15 +14613,15 @@ class CreateOutputAuthenticationTypeWebhook(str, Enum, metaclass=utils.OpenEnumM
     OAUTH = "oauth"
 
 
-class CreateOutputPqControlsWebhookTypedDict(TypedDict):
+class CreateOutputOutputWebhookPqControls2TypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsWebhook(BaseModel):
+class CreateOutputOutputWebhookPqControls2(BaseModel):
     pass
 
 
-class CreateOutputURLWebhookTypedDict(TypedDict):
+class CreateOutputOutputWebhookURL2TypedDict(TypedDict):
     url: str
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
     weight: NotRequired[float]
@@ -14626,7 +14630,7 @@ class CreateOutputURLWebhookTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class CreateOutputURLWebhook(BaseModel):
+class CreateOutputOutputWebhookURL2(BaseModel):
     url: str
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
 
@@ -14655,10 +14659,11 @@ class CreateOutputURLWebhook(BaseModel):
         return m
 
 
-class CreateOutputOutputWebhookTypedDict(TypedDict):
+class CreateOutputOutputWebhookWebhook2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeWebhook
+    type: CreateOutputOutputWebhookType2
+    urls: List[CreateOutputOutputWebhookURL2TypedDict]
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -14669,7 +14674,7 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     method: NotRequired[MethodOptions]
     r"""The method to use when sending events"""
-    format_: NotRequired[CreateOutputFormatWebhook]
+    format_: NotRequired[CreateOutputOutputWebhookFormat2]
     r"""How to format events before sending out"""
     keep_alive: NotRequired[bool]
     r"""Disable to close the connection immediately after sending the outgoing request"""
@@ -14705,7 +14710,7 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[CreateOutputAuthenticationTypeWebhook]
+    auth_type: NotRequired[CreateOutputOutputWebhookAuthenticationType2]
     r"""Authentication method to use for the HTTP request"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
     total_memory_limit_kb: NotRequired[float]
@@ -14751,7 +14756,7 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsWebhookTypedDict]
+    pq_controls: NotRequired[CreateOutputOutputWebhookPqControls2TypedDict]
     username: NotRequired[str]
     password: NotRequired[str]
     token: NotRequired[str]
@@ -14780,7 +14785,6 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    urls: NotRequired[List[CreateOutputURLWebhookTypedDict]]
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -14797,11 +14801,13 @@ class CreateOutputOutputWebhookTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class CreateOutputOutputWebhook(BaseModel):
+class CreateOutputOutputWebhookWebhook2(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeWebhook
+    type: CreateOutputOutputWebhookType2
+
+    urls: List[CreateOutputOutputWebhookURL2]
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -14821,7 +14827,7 @@ class CreateOutputOutputWebhook(BaseModel):
     r"""The method to use when sending events"""
 
     format_: Annotated[
-        Optional[CreateOutputFormatWebhook], pydantic.Field(alias="format")
+        Optional[CreateOutputOutputWebhookFormat2], pydantic.Field(alias="format")
     ] = None
     r"""How to format events before sending out"""
 
@@ -14903,7 +14909,7 @@ class CreateOutputOutputWebhook(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[CreateOutputAuthenticationTypeWebhook],
+        Optional[CreateOutputOutputWebhookAuthenticationType2],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Authentication method to use for the HTTP request"""
@@ -15012,7 +15018,8 @@ class CreateOutputOutputWebhook(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsWebhook], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputOutputWebhookPqControls2],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     username: Optional[str] = None
@@ -15072,8 +15079,6 @@ class CreateOutputOutputWebhook(BaseModel):
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
-    urls: Optional[List[CreateOutputURLWebhook]] = None
-
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
     ] = None
@@ -15122,7 +15127,7 @@ class CreateOutputOutputWebhook(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputFormatWebhook(value)
+                return models.CreateOutputOutputWebhookFormat2(value)
             except ValueError:
                 return value
         return value
@@ -15149,7 +15154,7 @@ class CreateOutputOutputWebhook(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAuthenticationTypeWebhook(value)
+                return models.CreateOutputOutputWebhookAuthenticationType2(value)
             except ValueError:
                 return value
         return value
@@ -15247,6 +15252,703 @@ class CreateOutputOutputWebhook(BaseModel):
                 "oauthHeaders",
                 "url",
                 "excludeSelf",
+                "dnsResolvePeriodSec",
+                "loadBalanceStatsPeriodSec",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
+                "__template_loginUrl",
+                "__template_secret",
+                "__template_url",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateOutputOutputWebhookType1(str, Enum):
+    WEBHOOK = "webhook"
+
+
+class CreateOutputOutputWebhookFormat1(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""How to format events before sending out"""
+
+    # NDJSON (Newline Delimited JSON)
+    NDJSON = "ndjson"
+    # JSON Array
+    JSON_ARRAY = "json_array"
+    # Custom
+    CUSTOM = "custom"
+    # Advanced
+    ADVANCED = "advanced"
+
+
+class CreateOutputOutputWebhookAuthenticationType1(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Authentication method to use for the HTTP request"""
+
+    # None
+    NONE = "none"
+    # Basic
+    BASIC = "basic"
+    # Basic (credentials secret)
+    CREDENTIALS_SECRET = "credentialsSecret"
+    # Token
+    TOKEN = "token"
+    # Token (text secret)
+    TEXT_SECRET = "textSecret"
+    # OAuth
+    OAUTH = "oauth"
+
+
+class CreateOutputOutputWebhookPqControls1TypedDict(TypedDict):
+    pass
+
+
+class CreateOutputOutputWebhookPqControls1(BaseModel):
+    pass
+
+
+class CreateOutputOutputWebhookURL1TypedDict(TypedDict):
+    url: str
+    r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
+    weight: NotRequired[float]
+    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+
+class CreateOutputOutputWebhookURL1(BaseModel):
+    url: str
+    r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
+
+    weight: Optional[float] = None
+    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["weight", "__template_url"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateOutputOutputWebhookWebhook1TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputOutputWebhookType1
+    url: str
+    r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    method: NotRequired[MethodOptions]
+    r"""The method to use when sending events"""
+    format_: NotRequired[CreateOutputOutputWebhookFormat1]
+    r"""How to format events before sending out"""
+    keep_alive: NotRequired[bool]
+    r"""Disable to close the connection immediately after sending the outgoing request"""
+    concurrency: NotRequired[float]
+    r"""Maximum number of ongoing requests before blocking"""
+    max_payload_size_kb: NotRequired[float]
+    r"""Maximum size, in KB, of the request body"""
+    max_payload_events: NotRequired[float]
+    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+    compress: NotRequired[bool]
+    r"""Compress the payload body before sending"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+    Enabled by default. When this setting is also present in TLS Settings (Client Side),
+    that value will take precedence.
+    """
+    timeout_sec: NotRequired[float]
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    flush_period_sec: NotRequired[float]
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
+    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
+    use_round_robin_dns: NotRequired[bool]
+    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
+    failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
+    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
+    safe_headers: NotRequired[List[str]]
+    r"""List of headers that are safe to log in plain text"""
+    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
+    timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    response_honor_retry_after_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+    on_backpressure: NotRequired[BackpressureBehaviorOptions]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    auth_type: NotRequired[CreateOutputOutputWebhookAuthenticationType1]
+    r"""Authentication method to use for the HTTP request"""
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    total_memory_limit_kb: NotRequired[float]
+    r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
+    load_balanced: NotRequired[bool]
+    r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
+    description: NotRequired[str]
+    custom_source_expression: NotRequired[str]
+    r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
+    custom_drop_when_null: NotRequired[bool]
+    r"""Whether to drop events when the source expression evaluates to null"""
+    custom_event_delimiter: NotRequired[str]
+    r"""Delimiter string to insert between individual events. Defaults to newline character."""
+    custom_content_type: NotRequired[str]
+    r"""Content type to use for request. Defaults to application/x-ndjson. Any content types set in Advanced Settings > Extra HTTP headers will override this entry."""
+    custom_payload_expression: NotRequired[str]
+    r"""Expression specifying how to format the payload for each batch. To reference the events to send, use the `${events}` variable. Example expression: `{ \"items\" : [${events}] }` would send the batch inside a JSON object."""
+    advanced_content_type: NotRequired[str]
+    r"""HTTP content-type header value"""
+    format_event_code: NotRequired[str]
+    r"""Custom JavaScript code to format incoming event data accessible through the __e variable. The formatted content is added to (__e['__eventOut']) if available. Otherwise, the original event is serialized as JSON. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    format_payload_code: NotRequired[str]
+    r"""Optional JavaScript code to format the payload sent to the Destination. The payload, containing a batch of formatted events, is accessible through the __e['payload'] variable. The formatted payload is returned in the __e['__payloadOut'] variable. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[ModeOptions]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+    pq_max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+    pq_max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    pq_path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    pq_compress: NotRequired[CompressionOptionsPq]
+    r"""Codec to use to compress the persisted data"""
+    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    pq_controls: NotRequired[CreateOutputOutputWebhookPqControls1TypedDict]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    secret: NotRequired[str]
+    r"""Secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    exclude_self: NotRequired[bool]
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+    urls: NotRequired[List[CreateOutputOutputWebhookURL1TypedDict]]
+    dns_resolve_period_sec: NotRequired[float]
+    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
+    load_balance_stats_period_sec: NotRequired[float]
+    r"""How far back in time to keep traffic stats for load balancing purposes"""
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_secret: NotRequired[str]
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+
+class CreateOutputOutputWebhookWebhook1(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputOutputWebhookType1
+
+    url: str
+    r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    method: Optional[MethodOptions] = None
+    r"""The method to use when sending events"""
+
+    format_: Annotated[
+        Optional[CreateOutputOutputWebhookFormat1], pydantic.Field(alias="format")
+    ] = None
+    r"""How to format events before sending out"""
+
+    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
+    r"""Disable to close the connection immediately after sending the outgoing request"""
+
+    concurrency: Optional[float] = None
+    r"""Maximum number of ongoing requests before blocking"""
+
+    max_payload_size_kb: Annotated[
+        Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
+    ] = None
+    r"""Maximum size, in KB, of the request body"""
+
+    max_payload_events: Annotated[
+        Optional[float], pydantic.Field(alias="maxPayloadEvents")
+    ] = None
+    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+
+    compress: Optional[bool] = None
+    r"""Compress the payload body before sending"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+    Enabled by default. When this setting is also present in TLS Settings (Client Side),
+    that value will take precedence.
+    """
+
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    flush_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="flushPeriodSec")
+    ] = None
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
+
+    extra_http_headers: Annotated[
+        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        pydantic.Field(alias="extraHttpHeaders"),
+    ] = None
+    r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
+
+    use_round_robin_dns: Annotated[
+        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
+    ] = None
+    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
+
+    failed_request_logging_mode: Annotated[
+        Optional[FailedRequestLoggingModeOptions],
+        pydantic.Field(alias="failedRequestLoggingMode"),
+    ] = None
+    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
+
+    safe_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="safeHeaders")
+    ] = None
+    r"""List of headers that are safe to log in plain text"""
+
+    response_retry_settings: Annotated[
+        Optional[List[ItemsTypeResponseRetrySettings]],
+        pydantic.Field(alias="responseRetrySettings"),
+    ] = None
+    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
+
+    timeout_retry_settings: Annotated[
+        Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
+    ] = None
+
+    response_honor_retry_after_header: Annotated[
+        Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
+    ] = None
+    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    auth_type: Annotated[
+        Optional[CreateOutputOutputWebhookAuthenticationType1],
+        pydantic.Field(alias="authType"),
+    ] = None
+    r"""Authentication method to use for the HTTP request"""
+
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+
+    total_memory_limit_kb: Annotated[
+        Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
+    ] = None
+    r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
+
+    load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
+        None
+    )
+    r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
+
+    description: Optional[str] = None
+
+    custom_source_expression: Annotated[
+        Optional[str], pydantic.Field(alias="customSourceExpression")
+    ] = None
+    r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
+
+    custom_drop_when_null: Annotated[
+        Optional[bool], pydantic.Field(alias="customDropWhenNull")
+    ] = None
+    r"""Whether to drop events when the source expression evaluates to null"""
+
+    custom_event_delimiter: Annotated[
+        Optional[str], pydantic.Field(alias="customEventDelimiter")
+    ] = None
+    r"""Delimiter string to insert between individual events. Defaults to newline character."""
+
+    custom_content_type: Annotated[
+        Optional[str], pydantic.Field(alias="customContentType")
+    ] = None
+    r"""Content type to use for request. Defaults to application/x-ndjson. Any content types set in Advanced Settings > Extra HTTP headers will override this entry."""
+
+    custom_payload_expression: Annotated[
+        Optional[str], pydantic.Field(alias="customPayloadExpression")
+    ] = None
+    r"""Expression specifying how to format the payload for each batch. To reference the events to send, use the `${events}` variable. Example expression: `{ \"items\" : [${events}] }` would send the batch inside a JSON object."""
+
+    advanced_content_type: Annotated[
+        Optional[str], pydantic.Field(alias="advancedContentType")
+    ] = None
+    r"""HTTP content-type header value"""
+
+    format_event_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatEventCode")
+    ] = None
+    r"""Custom JavaScript code to format incoming event data accessible through the __e variable. The formatted content is added to (__e['__eventOut']) if available. Otherwise, the original event is serialized as JSON. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    format_payload_code: Annotated[
+        Optional[str], pydantic.Field(alias="formatPayloadCode")
+    ] = None
+    r"""Optional JavaScript code to format the payload sent to the Destination. The payload, containing a batch of formatted events, is accessible through the __e['payload'] variable. The formatted payload is returned in the __e['__payloadOut'] variable. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = None
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = None
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = None
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = None
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
+    pq_max_file_size: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxFileSize")
+    ] = None
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+
+    pq_compress: Annotated[
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
+    ] = None
+    r"""Codec to use to compress the persisted data"""
+
+    pq_on_backpressure: Annotated[
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
+    ] = None
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
+    pq_controls: Annotated[
+        Optional[CreateOutputOutputWebhookPqControls1],
+        pydantic.Field(alias="pqControls"),
+    ] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    secret: Optional[str] = None
+    r"""Secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = None
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
+    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
+
+    urls: Optional[List[CreateOutputOutputWebhookURL1]] = None
+
+    dns_resolve_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
+    ] = None
+    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
+
+    load_balance_stats_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
+    ] = None
+    r"""How far back in time to keep traffic stats for load balancing purposes"""
+
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_secret: Annotated[
+        Optional[str], pydantic.Field(alias="__template_secret")
+    ] = None
+    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+    @field_serializer("method")
+    def serialize_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.MethodOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("format_")
+    def serialize_format_(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateOutputOutputWebhookFormat1(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("failed_request_logging_mode")
+    def serialize_failed_request_logging_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.FailedRequestLoggingModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateOutputOutputWebhookAuthenticationType1(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_mode")
+    def serialize_pq_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_compress")
+    def serialize_pq_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsPq(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_on_backpressure")
+    def serialize_pq_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.QueueFullBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "method",
+                "format",
+                "keepAlive",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "tls",
+                "totalMemoryLimitKB",
+                "loadBalanced",
+                "description",
+                "customSourceExpression",
+                "customDropWhenNull",
+                "customEventDelimiter",
+                "customContentType",
+                "customPayloadExpression",
+                "advancedContentType",
+                "formatEventCode",
+                "formatPayloadCode",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
+                "pqControls",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "secret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
+                "excludeSelf",
                 "urls",
                 "dnsResolvePeriodSec",
                 "loadBalanceStatsPeriodSec",
@@ -15269,6 +15971,21 @@ class CreateOutputOutputWebhook(BaseModel):
                     m[k] = val
 
         return m
+
+
+CreateOutputOutputWebhookUnionTypedDict = TypeAliasType(
+    "CreateOutputOutputWebhookUnionTypedDict",
+    Union[
+        CreateOutputOutputWebhookWebhook1TypedDict,
+        CreateOutputOutputWebhookWebhook2TypedDict,
+    ],
+)
+
+
+CreateOutputOutputWebhookUnion = TypeAliasType(
+    "CreateOutputOutputWebhookUnion",
+    Union[CreateOutputOutputWebhookWebhook1, CreateOutputOutputWebhookWebhook2],
+)
 
 
 class CreateOutputTypeDefault(str, Enum):
@@ -15393,27 +16110,27 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputChronicleTypedDict,
         CreateOutputOutputDatadogTypedDict,
         CreateOutputOutputInfluxdbTypedDict,
-        CreateOutputOutputOpenTelemetryTypedDict,
         CreateOutputOutputSqsTypedDict,
+        CreateOutputOutputOpenTelemetryTypedDict,
         CreateOutputOutputGoogleChronicleTypedDict,
         CreateOutputOutputSentinelOneAiSiemTypedDict,
         CreateOutputOutputClickHouseTypedDict,
-        CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputLocalSearchStorageTypedDict,
-        CreateOutputOutputCloudflareR2TypedDict,
+        CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputCriblLakeTypedDict,
         CreateOutputOutputMskTypedDict,
-        CreateOutputOutputSentinelTypedDict,
         CreateOutputOutputGoogleCloudStorageTypedDict,
-        CreateOutputOutputMinioTypedDict,
+        CreateOutputOutputSentinelTypedDict,
+        CreateOutputOutputCloudflareR2TypedDict,
         CreateOutputOutputAzureBlobTypedDict,
         CreateOutputOutputGoogleCloudLoggingTypedDict,
-        CreateOutputOutputWebhookTypedDict,
+        CreateOutputOutputMinioTypedDict,
         CreateOutputOutputSecurityLakeTypedDict,
         CreateOutputOutputDlS3TypedDict,
         CreateOutputOutputS3TypedDict,
         CreateOutputOutputAzureDataExplorerTypedDict,
         CreateOutputOutputGrafanaCloudUnionTypedDict,
+        CreateOutputOutputWebhookUnionTypedDict,
     ],
 )
 r"""Output object"""
@@ -15422,7 +16139,7 @@ r"""Output object"""
 CreateOutputRequest = Annotated[
     Union[
         Annotated[CreateOutputOutputDefault, Tag("default")],
-        Annotated[CreateOutputOutputWebhook, Tag("webhook")],
+        Annotated[CreateOutputOutputWebhookUnion, Tag("webhook")],
         Annotated[CreateOutputOutputSentinel, Tag("sentinel")],
         Annotated[CreateOutputOutputDevnull, Tag("devnull")],
         Annotated[CreateOutputOutputSyslog, Tag("syslog")],
@@ -15645,11 +16362,19 @@ try:
 except NameError:
     pass
 try:
-    CreateOutputURLWebhook.model_rebuild()
+    CreateOutputOutputWebhookURL2.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputWebhook.model_rebuild()
+    CreateOutputOutputWebhookWebhook2.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputWebhookURL1.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputOutputWebhookWebhook1.model_rebuild()
 except NameError:
     pass
 try:

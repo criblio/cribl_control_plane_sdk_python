@@ -17,7 +17,9 @@ from .itemstypekeyvaluemetadata import (
 from .objectacloptions import ObjectACLOptions
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
-from .serversideencryptionoptions import ServerSideEncryptionOptions
+from .serversideencryptionforuploadedobjectsoptionsaes256 import (
+    ServerSideEncryptionForUploadedObjectsOptionsAes256,
+)
 from .signatureversionoptionsminio import SignatureVersionOptionsMinIo
 from .storageclassoptionsreducedredundancystandard import (
     StorageClassOptionsReducedredundancyStandard,
@@ -37,12 +39,12 @@ class OutputMinioType(str, Enum):
 
 class OutputMinioTypedDict(TypedDict):
     type: OutputMinioType
+    bucket: str
+    r"""Name of the destination MinIO bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     endpoint: str
     r"""MinIO service url (e.g. http://minioHost:9000)"""
-    bucket: str
-    r"""Name of the destination MinIO bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
-    stage_path: str
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -55,28 +57,26 @@ class OutputMinioTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
-    aws_secret_key: NotRequired[str]
-    r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
-    region: NotRequired[str]
-    r"""Region where the MinIO service/cluster is located"""
-    add_id_to_stage_path: NotRequired[bool]
-    r"""Add the Output ID value to staging location"""
-    dest_path: NotRequired[str]
-    r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
     signature_version: NotRequired[SignatureVersionOptionsMinIo]
     r"""Signature version to use for signing MinIO requests"""
-    object_acl: NotRequired[ObjectACLOptions]
-    r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
-    r"""Storage class to select for uploaded objects"""
-    server_side_encryption: NotRequired[ServerSideEncryptionOptions]
-    r"""Server-side encryption for uploaded objects"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates)"""
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+    region: NotRequired[str]
+    r"""Region where the MinIO bucket is located"""
+    dest_path: NotRequired[str]
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+    max_concurrent_file_parts: NotRequired[float]
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
     verify_permissions: NotRequired[bool]
     r"""Disable if you can access files within the bucket but not the bucket itself"""
+    max_closing_files_to_backpressure: NotRequired[float]
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    add_id_to_stage_path: NotRequired[bool]
+    r"""Add the Output ID value to staging location"""
     remove_empty_dirs: NotRequired[bool]
     r"""Remove empty staging directories after moving files"""
     partition_expr: NotRequired[str]
@@ -89,6 +89,10 @@ class OutputMinioTypedDict(TypedDict):
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+    max_file_open_time_sec: NotRequired[float]
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    max_file_idle_time_sec: NotRequired[float]
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
     max_open_files: NotRequired[float]
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
     header_line: NotRequired[str]
@@ -104,12 +108,14 @@ class OutputMinioTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
-    max_file_open_time_sec: NotRequired[float]
-    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
-    max_file_idle_time_sec: NotRequired[float]
-    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
-    max_concurrent_file_parts: NotRequired[float]
-    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    object_acl: NotRequired[ObjectACLOptions]
+    r"""Object ACL to assign to uploaded objects"""
+    storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
+    r"""Storage class to select for uploaded objects"""
+    server_side_encryption: NotRequired[
+        ServerSideEncryptionForUploadedObjectsOptionsAes256
+    ]
+    r"""Server-side encryption to use for uploaded objects"""
     description: NotRequired[str]
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
@@ -149,10 +155,14 @@ class OutputMinioTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_dest_path: NotRequired[str]
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
     template_partition_expr: NotRequired[str]
     r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
     template_format: NotRequired[str]
@@ -163,6 +173,12 @@ class OutputMinioTypedDict(TypedDict):
     r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_storage_class: NotRequired[str]
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+    template_server_side_encryption: NotRequired[str]
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
     template_compress: NotRequired[str]
@@ -172,14 +188,14 @@ class OutputMinioTypedDict(TypedDict):
 class OutputMinio(BaseModel):
     type: OutputMinioType
 
-    endpoint: str
-    r"""MinIO service url (e.g. http://minioHost:9000)"""
-
     bucket: str
-    r"""Name of the destination MinIO bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    r"""Name of the destination MinIO bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
     stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
-    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage."""
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
+    endpoint: str
+    r"""MinIO service url (e.g. http://minioHost:9000)"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -204,43 +220,10 @@ class OutputMinio(BaseModel):
     ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-    r"""Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`)."""
-
-    region: Optional[str] = None
-    r"""Region where the MinIO service/cluster is located"""
-
-    add_id_to_stage_path: Annotated[
-        Optional[bool], pydantic.Field(alias="addIdToStagePath")
-    ] = None
-    r"""Add the Output ID value to staging location"""
-
-    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
-    r"""Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks."""
-
     signature_version: Annotated[
         Optional[SignatureVersionOptionsMinIo], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing MinIO requests"""
-
-    object_acl: Annotated[
-        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
-    ] = None
-    r"""Object ACL to assign to uploaded objects"""
-
-    storage_class: Annotated[
-        Optional[StorageClassOptionsReducedredundancyStandard],
-        pydantic.Field(alias="storageClass"),
-    ] = None
-    r"""Storage class to select for uploaded objects"""
-
-    server_side_encryption: Annotated[
-        Optional[ServerSideEncryptionOptions],
-        pydantic.Field(alias="serverSideEncryption"),
-    ] = None
-    r"""Server-side encryption for uploaded objects"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
@@ -250,12 +233,38 @@ class OutputMinio(BaseModel):
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates)"""
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+
+    region: Optional[str] = None
+    r"""Region where the MinIO bucket is located"""
+
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+
+    max_concurrent_file_parts: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    ] = None
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
     verify_permissions: Annotated[
         Optional[bool], pydantic.Field(alias="verifyPermissions")
     ] = None
     r"""Disable if you can access files within the bucket but not the bucket itself"""
+
+    max_closing_files_to_backpressure: Annotated[
+        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
+    ] = None
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+
+    add_id_to_stage_path: Annotated[
+        Optional[bool], pydantic.Field(alias="addIdToStagePath")
+    ] = None
+    r"""Add the Output ID value to staging location"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
@@ -286,6 +295,16 @@ class OutputMinio(BaseModel):
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
     ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+
+    max_file_open_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
+    ] = None
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+
+    max_file_idle_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    ] = None
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
 
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
         None
@@ -326,20 +345,22 @@ class OutputMinio(BaseModel):
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
 
-    max_file_open_time_sec: Annotated[
-        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
+    object_acl: Annotated[
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = None
-    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    r"""Object ACL to assign to uploaded objects"""
 
-    max_file_idle_time_sec: Annotated[
-        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    storage_class: Annotated[
+        Optional[StorageClassOptionsReducedredundancyStandard],
+        pydantic.Field(alias="storageClass"),
     ] = None
-    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+    r"""Storage class to select for uploaded objects"""
 
-    max_concurrent_file_parts: Annotated[
-        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    server_side_encryption: Annotated[
+        Optional[ServerSideEncryptionForUploadedObjectsOptionsAes256],
+        pydantic.Field(alias="serverSideEncryption"),
     ] = None
-    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    r"""Server-side encryption to use for uploaded objects"""
 
     description: Optional[str] = None
 
@@ -433,6 +454,11 @@ class OutputMinio(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
     template_bucket: Annotated[
         Optional[str], pydantic.Field(alias="__template_bucket")
     ] = None
@@ -442,6 +468,11 @@ class OutputMinio(BaseModel):
         Optional[str], pydantic.Field(alias="__template_region")
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_dest_path: Annotated[
+        Optional[str], pydantic.Field(alias="__template_destPath")
+    ] = None
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
 
     template_partition_expr: Annotated[
         Optional[str], pydantic.Field(alias="__template_partitionExpr")
@@ -467,6 +498,21 @@ class OutputMinio(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_object_acl: Annotated[
+        Optional[str], pydantic.Field(alias="__template_objectACL")
+    ] = None
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+
+    template_storage_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageClass")
+    ] = None
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+
+    template_server_side_encryption: Annotated[
+        Optional[str], pydantic.Field(alias="__template_serverSideEncryption")
+    ] = None
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
 
     template_aws_api_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsApiKey")
@@ -496,33 +542,6 @@ class OutputMinio(BaseModel):
                 return value
         return value
 
-    @field_serializer("object_acl")
-    def serialize_object_acl(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ObjectACLOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("storage_class")
-    def serialize_storage_class(self, value):
-        if isinstance(value, str):
-            try:
-                return models.StorageClassOptionsReducedredundancyStandard(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("server_side_encryption")
-    def serialize_server_side_encryption(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ServerSideEncryptionOptions(value)
-            except ValueError:
-                return value
-        return value
-
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
@@ -546,6 +565,33 @@ class OutputMinio(BaseModel):
         if isinstance(value, str):
             try:
                 return models.DiskSpaceProtectionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("object_acl")
+    def serialize_object_acl(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ObjectACLOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("storage_class")
+    def serialize_storage_class(self, value):
+        if isinstance(value, str):
+            try:
+                return models.StorageClassOptionsReducedredundancyStandard(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("server_side_encryption")
+    def serialize_server_side_encryption(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ServerSideEncryptionForUploadedObjectsOptionsAes256(value)
             except ValueError:
                 return value
         return value
@@ -596,23 +642,24 @@ class OutputMinio(BaseModel):
                 "environment",
                 "streamtags",
                 "awsAuthenticationMethod",
-                "awsSecretKey",
-                "region",
-                "addIdToStagePath",
-                "destPath",
                 "signatureVersion",
-                "objectACL",
-                "storageClass",
-                "serverSideEncryption",
                 "reuseConnections",
                 "rejectUnauthorized",
+                "awsSecretKey",
+                "region",
+                "destPath",
+                "maxConcurrentFileParts",
                 "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "addIdToStagePath",
                 "removeEmptyDirs",
                 "partitionExpr",
                 "format",
                 "baseFileName",
                 "fileNameSuffix",
                 "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
                 "maxOpenFiles",
                 "headerLine",
                 "writeHighWaterMark",
@@ -621,9 +668,9 @@ class OutputMinio(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
-                "maxFileOpenTimeSec",
-                "maxFileIdleTimeSec",
-                "maxConcurrentFileParts",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
                 "description",
                 "awsApiKey",
                 "awsSecret",
@@ -644,13 +691,18 @@ class OutputMinio(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
+                "__template_awsSecretKey",
                 "__template_bucket",
                 "__template_region",
+                "__template_destPath",
                 "__template_partitionExpr",
                 "__template_format",
                 "__template_baseFileName",
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
+                "__template_objectACL",
+                "__template_storageClass",
+                "__template_serverSideEncryption",
                 "__template_awsApiKey",
                 "__template_compress",
             ]

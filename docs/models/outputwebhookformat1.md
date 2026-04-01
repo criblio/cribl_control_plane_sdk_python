@@ -1,13 +1,13 @@
-# CreateOutputFormatWebhook
+# OutputWebhookFormat1
 
 How to format events before sending out
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import CreateOutputFormatWebhook
+from cribl_control_plane.models import OutputWebhookFormat1
 
-value = CreateOutputFormatWebhook.NDJSON
+value = OutputWebhookFormat1.NDJSON
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

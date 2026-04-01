@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1774652638806-4738dca1
+  version: 4.18.0-alpha.1774998245204-0b79dc3f
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -23039,6 +23039,11 @@ components:
         __template_url:
           type: string
           description: Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime.
+      anyOf:
+        - required:
+            - url
+        - required:
+            - urls
     OutputSentinel:
       type: object
       required:
@@ -25027,7 +25032,7 @@ components:
         stagePath:
           type: string
           title: Staging location
-          description: Filesystem location in which to buffer files before compressing and moving to final destination. Use performant, stable storage.
+          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage.
         addIdToStagePath:
           type: boolean
           title: Add output ID
@@ -25224,34 +25229,10 @@ components:
           description: Tags for filtering and grouping in @{product}
           items:
             type: string
-        bucket:
-          type: string
-          title: S3 bucket name
-          description: "Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
-        region:
-          type: string
-          title: Region
-          description: Region where the S3 bucket is located
-        awsSecretKey:
-          type: string
-          title: Secret key
-          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
-        awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
         endpoint:
           type: string
           title: Endpoint
           description: S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
-        signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsS3CollectorConf"
-        reuseConnections:
-          type: boolean
-          title: Reuse connections
-          description: Reuse connections between requests, which can improve performance
-        rejectUnauthorized:
-          type: boolean
-          title: Reject unauthorized certificates
-          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
         enableAssumeRole:
           type: boolean
           title: Enable for S3
@@ -25272,6 +25253,50 @@ components:
           description: Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
           minimum: 900
           maximum: 43200
+        awsAuthenticationMethod:
+          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+        signatureVersion:
+          $ref: "#/components/schemas/SignatureVersionOptionsS3CollectorConf"
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests, which can improve performance
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
+        bucket:
+          type: string
+          title: S3 bucket name
+          description: "Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        region:
+          type: string
+          title: Region
+          description: Region where the S3 bucket is located
+        destPath:
+          type: string
+          title: Key prefix
+          description: "Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts upload limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          minimum: 1
+          maximum: 10
+        verifyPermissions:
+          type: boolean
+          title: Verify if bucket exists
+          description: Disable if you can access files within the bucket but not the bucket itself
+        maxClosingFilesToBackpressure:
+          type: number
+          title: Staging file limit
+          description: Maximum number of files that can be waiting for upload before backpressure is applied
+          minimum: 10
+          maximum: 4200
         stagePath:
           type: string
           title: Staging location
@@ -25280,20 +25305,6 @@ components:
           type: boolean
           title: Add output ID
           description: Add the Output ID value to staging location
-        destPath:
-          type: string
-          title: Key prefix
-          description: "Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"
-        objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions"
-        storageClass:
-          $ref: "#/components/schemas/StorageClassOptions"
-        serverSideEncryption:
-          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptions"
-        kmsKeyId:
-          type: string
-          title: KMS key ID
-          description: ID or ARN of the KMS customer-managed key to use for encryption
         removeEmptyDirs:
           type: boolean
           title: Remove empty staging directories
@@ -25318,6 +25329,18 @@ components:
           description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
           maximum: 1024
           minimum: 5
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          minimum: 5
+          maximum: 86400
         maxOpenFiles:
           type: number
           title: Open file limit
@@ -25348,34 +25371,16 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
-        maxFileOpenTimeSec:
-          type: number
-          title: File open time limit (sec)
-          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
-          minimum: 10
-          maximum: 86400
-        maxFileIdleTimeSec:
-          type: number
-          title: Idle time limit (sec)
-          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
-          minimum: 5
-          maximum: 86400
-        maxConcurrentFileParts:
-          type: number
-          title: Concurrent file parts upload limit
-          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
-          minimum: 1
-          maximum: 10
-        verifyPermissions:
-          type: boolean
-          title: Verify if bucket exists
-          description: Disable if you can access files within the bucket but not the bucket itself
-        maxClosingFilesToBackpressure:
-          type: number
-          title: Staging file limit
-          description: Maximum number of files that can be waiting for upload before backpressure is applied
-          minimum: 10
-          maximum: 4200
+        objectACL:
+          $ref: "#/components/schemas/ObjectAclOptions"
+        storageClass:
+          $ref: "#/components/schemas/StorageClassOptions"
+        serverSideEncryption:
+          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptions"
+        kmsKeyId:
+          type: string
+          title: KMS key ID
+          description: ID or ARN of the KMS customer-managed key to use for encryption
         description:
           type: string
           title: Description
@@ -25457,15 +25462,6 @@ components:
           title: Retry limit
           description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
           minimum: 1
-        __template_bucket:
-          type: string
-          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
-        __template_region:
-          type: string
-          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
-        __template_awsSecretKey:
-          type: string
-          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
         __template_endpoint:
           type: string
           description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
@@ -25475,21 +25471,18 @@ components:
         __template_assumeRoleExternalId:
           type: string
           description: Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime.
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
+        __template_bucket:
+          type: string
+          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_region:
+          type: string
+          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
         __template_destPath:
           type: string
           description: Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime.
-        __template_objectACL:
-          type: string
-          description: Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime.
-        __template_storageClass:
-          type: string
-          description: Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime.
-        __template_serverSideEncryption:
-          type: string
-          description: Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime.
-        __template_kmsKeyId:
-          type: string
-          description: Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime.
         __template_partitionExpr:
           type: string
           description: Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime.
@@ -25505,6 +25498,18 @@ components:
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_objectACL:
+          type: string
+          description: Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime.
+        __template_storageClass:
+          type: string
+          description: Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime.
+        __template_serverSideEncryption:
+          type: string
+          description: Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime.
+        __template_kmsKeyId:
+          type: string
+          description: Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime.
         __template_awsApiKey:
           type: string
           description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
@@ -30208,45 +30213,10 @@ components:
           description: Tags for filtering and grouping in @{product}
           items:
             type: string
-        endpoint:
-          type: string
-          title: MinIO endpoint
-          description: MinIO service url (e.g. http://minioHost:9000)
-          pattern: ^https?://.*
-        bucket:
-          type: string
-          title: MinIO bucket name
-          description: "Name of the destination MinIO bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
         awsAuthenticationMethod:
           $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
-        awsSecretKey:
-          type: string
-          title: Secret key
-          description: Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`).
-        region:
-          type: string
-          title: Region
-          description: Region where the MinIO service/cluster is located
-        stagePath:
-          type: string
-          title: Staging location
-          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage.
-        addIdToStagePath:
-          type: boolean
-          title: Add output ID
-          description: Add the Output ID value to staging location
-        destPath:
-          type: string
-          title: Key prefix
-          description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
         signatureVersion:
           $ref: "#/components/schemas/SignatureVersionOptionsMinIo"
-        objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions"
-        storageClass:
-          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
-        serverSideEncryption:
-          $ref: "#/components/schemas/ServerSideEncryptionOptions"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -30254,11 +30224,47 @@ components:
         rejectUnauthorized:
           type: boolean
           title: Reject unauthorized certificates
-          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates)
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
+        bucket:
+          type: string
+          title: MinIO bucket name
+          description: "Name of the destination MinIO bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        region:
+          type: string
+          title: Region
+          description: Region where the MinIO bucket is located
+        destPath:
+          type: string
+          title: Key prefix
+          description: "Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts upload limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          minimum: 1
+          maximum: 10
         verifyPermissions:
           type: boolean
           title: Verify if bucket exists
           description: Disable if you can access files within the bucket but not the bucket itself
+        maxClosingFilesToBackpressure:
+          type: number
+          title: Staging file limit
+          description: Maximum number of files that can be waiting for upload before backpressure is applied
+          minimum: 10
+          maximum: 4200
+        stagePath:
+          type: string
+          title: Staging location
+          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage.
+        addIdToStagePath:
+          type: boolean
+          title: Add output ID
+          description: Add the Output ID value to staging location
         removeEmptyDirs:
           type: boolean
           title: Remove empty staging directories
@@ -30283,6 +30289,18 @@ components:
           description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
           maximum: 1024
           minimum: 5
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          minimum: 5
+          maximum: 86400
         maxOpenFiles:
           type: number
           title: Open file limit
@@ -30313,24 +30331,17 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
-        maxFileOpenTimeSec:
-          type: number
-          title: File open time limit (sec)
-          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
-          minimum: 10
-          maximum: 86400
-        maxFileIdleTimeSec:
-          type: number
-          title: Idle time limit (sec)
-          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
-          minimum: 5
-          maximum: 86400
-        maxConcurrentFileParts:
-          type: number
-          title: Concurrent file parts limit
-          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
-          minimum: 1
-          maximum: 10
+        endpoint:
+          type: string
+          title: MinIO endpoint
+          description: MinIO service url (e.g. http://minioHost:9000)
+          pattern: ^https?://.*
+        objectACL:
+          $ref: "#/components/schemas/ObjectAclOptions"
+        storageClass:
+          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
+        serverSideEncryption:
+          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptionsAes256"
         description:
           type: string
           title: Description
@@ -30412,12 +30423,18 @@ components:
           title: Retry limit
           description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
           minimum: 1
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
         __template_bucket:
           type: string
           description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
         __template_region:
           type: string
           description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
+        __template_destPath:
+          type: string
+          description: Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime.
         __template_partitionExpr:
           type: string
           description: Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime.
@@ -30433,6 +30450,15 @@ components:
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_objectACL:
+          type: string
+          description: Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime.
+        __template_storageClass:
+          type: string
+          description: Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime.
+        __template_serverSideEncryption:
+          type: string
+          description: Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime.
         __template_awsApiKey:
           type: string
           description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
@@ -34166,34 +34192,10 @@ components:
           description: Tags for filtering and grouping in @{product}
           items:
             type: string
-        bucket:
-          type: string
-          title: S3 bucket name
-          description: "Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
-        region:
-          type: string
-          title: Region
-          description: Region where the S3 bucket is located
-        awsSecretKey:
-          type: string
-          title: Secret key
-          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
-        awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
         endpoint:
           type: string
           title: Endpoint
           description: S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
-        signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsS3CollectorConf"
-        reuseConnections:
-          type: boolean
-          title: Reuse connections
-          description: Reuse connections between requests, which can improve performance
-        rejectUnauthorized:
-          type: boolean
-          title: Reject unauthorized certificates
-          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
         enableAssumeRole:
           type: boolean
           title: Enable for S3
@@ -34214,6 +34216,50 @@ components:
           description: Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
           minimum: 900
           maximum: 43200
+        awsAuthenticationMethod:
+          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+        signatureVersion:
+          $ref: "#/components/schemas/SignatureVersionOptionsS3CollectorConf"
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests, which can improve performance
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
+        bucket:
+          type: string
+          title: S3 bucket name
+          description: "Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        region:
+          type: string
+          title: Region
+          description: Region where the S3 bucket is located
+        destPath:
+          type: string
+          title: Key prefix
+          description: "Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts upload limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          minimum: 1
+          maximum: 10
+        verifyPermissions:
+          type: boolean
+          title: Verify if bucket exists
+          description: Disable if you can access files within the bucket but not the bucket itself
+        maxClosingFilesToBackpressure:
+          type: number
+          title: Staging file limit
+          description: Maximum number of files that can be waiting for upload before backpressure is applied
+          minimum: 10
+          maximum: 4200
         stagePath:
           type: string
           title: Staging location
@@ -34222,20 +34268,6 @@ components:
           type: boolean
           title: Add output ID
           description: Add the Output ID value to staging location
-        destPath:
-          type: string
-          title: Key prefix
-          description: "Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"
-        objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions"
-        storageClass:
-          $ref: "#/components/schemas/StorageClassOptions"
-        serverSideEncryption:
-          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptions"
-        kmsKeyId:
-          type: string
-          title: KMS key ID
-          description: ID or ARN of the KMS customer-managed key to use for encryption
         removeEmptyDirs:
           type: boolean
           title: Remove empty staging directories
@@ -34256,6 +34288,18 @@ components:
           description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
           maximum: 1024
           minimum: 5
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          minimum: 5
+          maximum: 86400
         maxOpenFiles:
           type: number
           title: Open file limit
@@ -34286,34 +34330,16 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
-        maxFileOpenTimeSec:
-          type: number
-          title: File open time limit (sec)
-          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
-          minimum: 10
-          maximum: 86400
-        maxFileIdleTimeSec:
-          type: number
-          title: Idle time limit (sec)
-          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
-          minimum: 5
-          maximum: 86400
-        maxConcurrentFileParts:
-          type: number
-          title: Concurrent file parts upload limit
-          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
-          minimum: 1
-          maximum: 10
-        verifyPermissions:
-          type: boolean
-          title: Verify if bucket exists
-          description: Disable if you can access files within the bucket but not the bucket itself
-        maxClosingFilesToBackpressure:
-          type: number
-          title: Staging file limit
-          description: Maximum number of files that can be waiting for upload before backpressure is applied
-          minimum: 10
-          maximum: 4200
+        objectACL:
+          $ref: "#/components/schemas/ObjectAclOptions"
+        storageClass:
+          $ref: "#/components/schemas/StorageClassOptions"
+        serverSideEncryption:
+          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptions"
+        kmsKeyId:
+          type: string
+          title: KMS key ID
+          description: ID or ARN of the KMS customer-managed key to use for encryption
         partitioningFields:
           type: array
           title: Partition by fields
@@ -34401,15 +34427,6 @@ components:
           title: Retry limit
           description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
           minimum: 1
-        __template_bucket:
-          type: string
-          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
-        __template_region:
-          type: string
-          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
-        __template_awsSecretKey:
-          type: string
-          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
         __template_endpoint:
           type: string
           description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
@@ -34419,21 +34436,18 @@ components:
         __template_assumeRoleExternalId:
           type: string
           description: Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime.
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
+        __template_bucket:
+          type: string
+          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_region:
+          type: string
+          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
         __template_destPath:
           type: string
           description: Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime.
-        __template_objectACL:
-          type: string
-          description: Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime.
-        __template_storageClass:
-          type: string
-          description: Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime.
-        __template_serverSideEncryption:
-          type: string
-          description: Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime.
-        __template_kmsKeyId:
-          type: string
-          description: Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime.
         __template_format:
           type: string
           description: Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime.
@@ -34446,6 +34460,18 @@ components:
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_objectACL:
+          type: string
+          description: Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime.
+        __template_storageClass:
+          type: string
+          description: Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime.
+        __template_serverSideEncryption:
+          type: string
+          description: Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime.
+        __template_kmsKeyId:
+          type: string
+          description: Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime.
         __template_awsApiKey:
           type: string
           description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
@@ -34491,39 +34517,10 @@ components:
           description: Tags for filtering and grouping in @{product}
           items:
             type: string
-        bucket:
-          type: string
-          title: S3 bucket name
-          description: "Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
-        region:
-          type: string
-          title: Region
-          description: Region where the Amazon Security Lake is located.
-        awsSecretKey:
-          type: string
-          title: Secret key
-        awsAuthenticationMethod:
-          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
         endpoint:
           type: string
           title: Endpoint
           description: Amazon Security Lake service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Amazon Security Lake-compatible endpoint.
-        signatureVersion:
-          type: string
-          title: Signature version
-          description: Signature version to use for signing Amazon Security Lake requests
-          enum:
-            - v2
-            - v4
-          x-speakeasy-unknown-values: allow
-        reuseConnections:
-          type: boolean
-          title: Reuse connections
-          description: Reuse connections between requests, which can improve performance
-        rejectUnauthorized:
-          type: boolean
-          title: Reject unauthorized certificates
-          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
         enableAssumeRole:
           type: boolean
           title: Enable for S3
@@ -34544,6 +34541,51 @@ components:
           description: Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
           minimum: 900
           maximum: 43200
+        awsAuthenticationMethod:
+          $ref: "#/components/schemas/AuthenticationMethodOptionsS3CollectorConf"
+        signatureVersion:
+          type: string
+          title: Signature version
+          description: Signature version to use for signing Amazon Security Lake requests
+          enum:
+            - v2
+            - v4
+          x-speakeasy-unknown-values: allow
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests, which can improve performance
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
+        awsSecretKey:
+          type: string
+          title: Secret key
+        bucket:
+          type: string
+          title: S3 bucket name
+          description: "Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        region:
+          type: string
+          title: Region
+          description: Region where the Amazon Security Lake is located.
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts upload limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          minimum: 1
+          maximum: 10
+        verifyPermissions:
+          type: boolean
+          title: Verify if bucket exists
+          description: Disable if you can access files within the bucket but not the bucket itself
+        maxClosingFilesToBackpressure:
+          type: number
+          title: Staging file limit
+          description: Maximum number of files that can be waiting for upload before backpressure is applied
+          minimum: 10
+          maximum: 4200
         stagePath:
           type: string
           title: Staging location
@@ -34552,16 +34594,6 @@ components:
           type: boolean
           title: Add output ID
           description: Add the Output ID value to staging location
-        objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions"
-        storageClass:
-          $ref: "#/components/schemas/StorageClassOptions"
-        serverSideEncryption:
-          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptions"
-        kmsKeyId:
-          type: string
-          title: KMS key ID
-          description: ID or ARN of the KMS customer-managed key to use for encryption
         removeEmptyDirs:
           type: boolean
           title: Remove empty staging directories
@@ -34576,6 +34608,18 @@ components:
           description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
           maximum: 1024
           minimum: 5
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          minimum: 5
+          maximum: 86400
         maxOpenFiles:
           type: number
           title: Open file limit
@@ -34606,34 +34650,16 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
-        maxFileOpenTimeSec:
-          type: number
-          title: File open time limit (sec)
-          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
-          minimum: 10
-          maximum: 86400
-        maxFileIdleTimeSec:
-          type: number
-          title: Idle time limit (sec)
-          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
-          minimum: 5
-          maximum: 86400
-        maxConcurrentFileParts:
-          type: number
-          title: Concurrent file parts upload limit
-          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
-          minimum: 1
-          maximum: 10
-        verifyPermissions:
-          type: boolean
-          title: Verify if bucket exists
-          description: Disable if you can access files within the bucket but not the bucket itself
-        maxClosingFilesToBackpressure:
-          type: number
-          title: Staging file limit
-          description: Maximum number of files that can be waiting for upload before backpressure is applied
-          minimum: 10
-          maximum: 4200
+        objectACL:
+          $ref: "#/components/schemas/ObjectAclOptions"
+        storageClass:
+          $ref: "#/components/schemas/StorageClassOptions"
+        serverSideEncryption:
+          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptions"
+        kmsKeyId:
+          type: string
+          title: KMS key ID
+          description: ID or ARN of the KMS customer-managed key to use for encryption
         accountId:
           type: string
           title: Account ID
@@ -34719,15 +34745,6 @@ components:
           title: Retry limit
           description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
           minimum: 1
-        __template_bucket:
-          type: string
-          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
-        __template_region:
-          type: string
-          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
-        __template_awsSecretKey:
-          type: string
-          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
         __template_endpoint:
           type: string
           description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
@@ -34737,6 +34754,21 @@ components:
         __template_assumeRoleExternalId:
           type: string
           description: Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime.
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
+        __template_bucket:
+          type: string
+          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_region:
+          type: string
+          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
+        __template_baseFileName:
+          type: string
+          description: Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime.
+        __template_onBackpressure:
+          type: string
+          description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
         __template_objectACL:
           type: string
           description: Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime.
@@ -34749,12 +34781,6 @@ components:
         __template_kmsKeyId:
           type: string
           description: Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime.
-        __template_baseFileName:
-          type: string
-          description: Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime.
-        __template_onBackpressure:
-          type: string
-          description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
         __template_awsApiKey:
           type: string
           description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
@@ -34789,32 +34815,10 @@ components:
           description: Tags for filtering and grouping in @{product}
           items:
             type: string
-        bucket:
-          type: string
-          title: S3 bucket name
-          description: "Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
-        region:
-          type: string
-          title: Region
-          description: Region where the S3 bucket is located
-        awsSecretKey:
-          type: string
-          title: Secret key
-          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
         endpoint:
           type: string
           title: Endpoint
           description: S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint.
-        signatureVersion:
-          $ref: "#/components/schemas/SignatureVersionOptionsS3CollectorConf"
-        reuseConnections:
-          type: boolean
-          title: Reuse connections
-          description: Reuse connections between requests, which can improve performance
-        rejectUnauthorized:
-          type: boolean
-          title: Reject unauthorized certificates
-          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
         enableAssumeRole:
           type: boolean
           title: Enable for S3
@@ -34835,6 +34839,42 @@ components:
           description: Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours).
           minimum: 900
           maximum: 43200
+        signatureVersion:
+          $ref: "#/components/schemas/SignatureVersionOptionsS3CollectorConf"
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests, which can improve performance
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
+        bucket:
+          type: string
+          title: S3 bucket name
+          description: "Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        region:
+          type: string
+          title: Region
+          description: Region where the S3 bucket is located
+        destPath:
+          type: string
+          title: Lake dataset
+          description: Lake dataset to send the data to.
+        verifyPermissions:
+          type: boolean
+          title: Verify if bucket exists
+          description: Disable if you can access files within the bucket but not the bucket itself
+        maxClosingFilesToBackpressure:
+          type: number
+          title: Staging file limit
+          description: Maximum number of files that can be waiting for upload before backpressure is applied
+          minimum: 10
+          maximum: 4200
         stagePath:
           type: string
           title: Staging location
@@ -34843,20 +34883,6 @@ components:
           type: boolean
           title: Add output ID
           description: Add the Output ID value to staging location
-        destPath:
-          type: string
-          title: Lake dataset
-          description: Lake dataset to send the data to.
-        objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions"
-        storageClass:
-          $ref: "#/components/schemas/StorageClassOptions"
-        serverSideEncryption:
-          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptions"
-        kmsKeyId:
-          type: string
-          title: KMS key ID
-          description: ID or ARN of the KMS customer-managed key to use for encryption
         removeEmptyDirs:
           type: boolean
           title: Remove empty staging directories
@@ -34875,6 +34901,18 @@ components:
           description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
           maximum: 1024
           minimum: 5
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          minimum: 5
+          maximum: 86400
         maxOpenFiles:
           type: number
           title: Open file limit
@@ -34905,28 +34943,16 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
-        maxFileOpenTimeSec:
-          type: number
-          title: File open time limit (sec)
-          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
-          minimum: 10
-          maximum: 86400
-        maxFileIdleTimeSec:
-          type: number
-          title: Idle time limit (sec)
-          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
-          minimum: 5
-          maximum: 86400
-        verifyPermissions:
-          type: boolean
-          title: Verify if bucket exists
-          description: Disable if you can access files within the bucket but not the bucket itself
-        maxClosingFilesToBackpressure:
-          type: number
-          title: Staging file limit
-          description: Maximum number of files that can be waiting for upload before backpressure is applied
-          minimum: 10
-          maximum: 4200
+        objectACL:
+          $ref: "#/components/schemas/ObjectAclOptions"
+        storageClass:
+          $ref: "#/components/schemas/StorageClassOptions"
+        serverSideEncryption:
+          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptions"
+        kmsKeyId:
+          type: string
+          title: KMS key ID
+          description: ID or ARN of the KMS customer-managed key to use for encryption
         awsAuthenticationMethod:
           type: string
           enum:
@@ -34964,15 +34990,6 @@ components:
           title: Retry limit
           description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
           minimum: 1
-        __template_bucket:
-          type: string
-          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
-        __template_region:
-          type: string
-          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
-        __template_awsSecretKey:
-          type: string
-          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
         __template_endpoint:
           type: string
           description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
@@ -34982,9 +34999,27 @@ components:
         __template_assumeRoleExternalId:
           type: string
           description: Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime.
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
+        __template_bucket:
+          type: string
+          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_region:
+          type: string
+          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
         __template_destPath:
           type: string
           description: Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime.
+        __template_baseFileName:
+          type: string
+          description: Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime.
+        __template_fileNameSuffix:
+          type: string
+          description: Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime.
+        __template_onBackpressure:
+          type: string
+          description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
         __template_objectACL:
           type: string
           description: Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime.
@@ -34997,15 +35032,6 @@ components:
         __template_kmsKeyId:
           type: string
           description: Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime.
-        __template_baseFileName:
-          type: string
-          description: Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime.
-        __template_fileNameSuffix:
-          type: string
-          description: Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime.
-        __template_onBackpressure:
-          type: string
-          description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
       required:
         - type
     OutputDiskSpool:
@@ -37380,15 +37406,6 @@ components:
           description: Tags for filtering and grouping in @{product}
           items:
             type: string
-        endpoint:
-          type: string
-          title: R2 endpoint
-          description: "Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"
-          pattern: ^https?://.*
-        bucket:
-          type: string
-          title: R2 bucket name
-          description: "Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
         awsAuthenticationMethod:
           type: string
           title: Authentication method
@@ -37400,28 +37417,8 @@ components:
             - Auto
             - Secret Key pair
           x-speakeasy-unknown-values: allow
-        awsSecretKey:
-          type: string
-          title: Secret key
-          description: Secret key. This value can be a constant or a JavaScript expression, such as `${C.env.SOME_SECRET}`).
-        stagePath:
-          type: string
-          title: Staging location
-          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant stable storage.
-        addIdToStagePath:
-          type: boolean
-          title: Add output ID
-          description: Add the Output ID value to staging location
-        destPath:
-          type: string
-          title: Key prefix
-          description: Root directory to prepend to path before uploading. Enter a constant, or a JavaScript expression enclosed in quotes or backticks.
         signatureVersion:
           $ref: "#/components/schemas/SignatureVersionOptionsMinIo"
-        storageClass:
-          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
-        serverSideEncryption:
-          $ref: "#/components/schemas/ServerSideEncryptionOptions"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -37429,11 +37426,43 @@ components:
         rejectUnauthorized:
           type: boolean
           title: Reject unauthorized certificates
-          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates)
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
+        bucket:
+          type: string
+          title: R2 bucket name
+          description: "Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        destPath:
+          type: string
+          title: Key prefix
+          description: "Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts upload limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          minimum: 1
+          maximum: 10
         verifyPermissions:
           type: boolean
           title: Verify if bucket exists
           description: Disable if you can access files within the bucket but not the bucket itself
+        maxClosingFilesToBackpressure:
+          type: number
+          title: Staging file limit
+          description: Maximum number of files that can be waiting for upload before backpressure is applied
+          minimum: 10
+          maximum: 4200
+        stagePath:
+          type: string
+          title: Staging location
+          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage.
+        addIdToStagePath:
+          type: boolean
+          title: Add output ID
+          description: Add the Output ID value to staging location
         removeEmptyDirs:
           type: boolean
           title: Remove empty staging directories
@@ -37458,6 +37487,18 @@ components:
           description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
           maximum: 1024
           minimum: 5
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          minimum: 5
+          maximum: 86400
         maxOpenFiles:
           type: number
           title: Open file limit
@@ -37488,24 +37529,15 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
-        maxFileOpenTimeSec:
-          type: number
-          title: File open time limit (sec)
-          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
-          minimum: 10
-          maximum: 86400
-        maxFileIdleTimeSec:
-          type: number
-          title: Idle time limit (sec)
-          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
-          minimum: 5
-          maximum: 86400
-        maxConcurrentFileParts:
-          type: number
-          title: Concurrent file parts limit
-          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
-          minimum: 1
-          maximum: 10
+        endpoint:
+          type: string
+          title: R2 endpoint
+          description: "Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"
+          pattern: ^https?://.*
+        storageClass:
+          $ref: "#/components/schemas/StorageClassOptionsReducedredundancyStandard"
+        serverSideEncryption:
+          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptionsAes256"
         description:
           type: string
           title: Description
@@ -37583,9 +37615,15 @@ components:
           title: Retry limit
           description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
           minimum: 1
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
         __template_bucket:
           type: string
           description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_destPath:
+          type: string
+          description: Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime.
         __template_partitionExpr:
           type: string
           description: Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime.
@@ -37601,6 +37639,12 @@ components:
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_storageClass:
+          type: string
+          description: Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime.
+        __template_serverSideEncryption:
+          type: string
+          description: Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime.
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
@@ -41728,6 +41772,7 @@ components:
     ServerSideEncryptionForUploadedObjectsOptions:
       type: string
       title: Server-side encryption for uploaded objects
+      description: Server-side encryption to use for uploaded objects
       enum:
         - AES256
         - aws:kms
@@ -41916,10 +41961,10 @@ components:
         - Standard
         - Reduced Redundancy Storage
       x-speakeasy-unknown-values: allow
-    ServerSideEncryptionOptions:
+    ServerSideEncryptionForUploadedObjectsOptionsAes256:
       type: string
-      title: Server-side encryption
-      description: Server-side encryption for uploaded objects
+      title: Server-side encryption for uploaded objects
+      description: Server-side encryption to use for uploaded objects
       enum:
         - AES256
       x-speakeasy-enum-descriptions:

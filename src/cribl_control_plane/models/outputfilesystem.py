@@ -41,7 +41,7 @@ class OutputFilesystemTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     stage_path: NotRequired[str]
-    r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant, stable storage."""
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     remove_empty_dirs: NotRequired[bool]
@@ -148,7 +148,7 @@ class OutputFilesystem(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = None
-    r"""Filesystem location in which to buffer files before compressing and moving to final destination. Use performant, stable storage."""
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
 
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")

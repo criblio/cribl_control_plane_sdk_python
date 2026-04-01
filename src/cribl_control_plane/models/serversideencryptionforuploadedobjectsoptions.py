@@ -8,6 +8,8 @@ from enum import Enum
 class ServerSideEncryptionForUploadedObjectsOptions(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Server-side encryption to use for uploaded objects"""
+
     # Amazon S3 Managed Key
     AES256 = "AES256"
     # AWS KMS Managed Key

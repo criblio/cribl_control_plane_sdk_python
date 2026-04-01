@@ -93,7 +93,7 @@ from .outputsumologic import OutputSumoLogic, OutputSumoLogicTypedDict
 from .outputsyslog import OutputSyslog, OutputSyslogTypedDict
 from .outputtcpjson import OutputTcpjson, OutputTcpjsonTypedDict
 from .outputwavefront import OutputWavefront, OutputWavefrontTypedDict
-from .outputwebhook import OutputWebhook, OutputWebhookTypedDict
+from .outputwebhook_union import OutputWebhookUnion, OutputWebhookUnionTypedDict
 from .outputwizhec import OutputWizHec, OutputWizHecTypedDict
 from .outputxsiam import OutputXsiam, OutputXsiamTypedDict
 from cribl_control_plane.types import BaseModel
@@ -158,27 +158,27 @@ OutputTypedDict = TypeAliasType(
         OutputChronicleTypedDict,
         OutputDatadogTypedDict,
         OutputInfluxdbTypedDict,
-        OutputOpenTelemetryTypedDict,
         OutputSqsTypedDict,
+        OutputOpenTelemetryTypedDict,
         OutputGoogleChronicleTypedDict,
         OutputSentinelOneAiSiemTypedDict,
         OutputClickHouseTypedDict,
-        OutputDatabricksTypedDict,
         OutputLocalSearchStorageTypedDict,
-        OutputCloudflareR2TypedDict,
+        OutputDatabricksTypedDict,
         OutputCriblLakeTypedDict,
         OutputMskTypedDict,
-        OutputSentinelTypedDict,
         OutputGoogleCloudStorageTypedDict,
-        OutputMinioTypedDict,
+        OutputSentinelTypedDict,
+        OutputCloudflareR2TypedDict,
         OutputAzureBlobTypedDict,
         OutputGoogleCloudLoggingTypedDict,
-        OutputWebhookTypedDict,
+        OutputMinioTypedDict,
         OutputSecurityLakeTypedDict,
         OutputDlS3TypedDict,
         OutputS3TypedDict,
         OutputAzureDataExplorerTypedDict,
         OutputGrafanaCloudUnionTypedDict,
+        OutputWebhookUnionTypedDict,
     ],
 )
 
@@ -195,7 +195,7 @@ class UnknownOutput(BaseModel):
 
 _OUTPUT_VARIANTS: dict[str, Any] = {
     "default": OutputDefault,
-    "webhook": OutputWebhook,
+    "webhook": OutputWebhookUnion,
     "sentinel": OutputSentinel,
     "devnull": OutputDevnull,
     "syslog": OutputSyslog,
@@ -271,7 +271,7 @@ _OUTPUT_VARIANTS: dict[str, Any] = {
 Output = Annotated[
     Union[
         OutputDefault,
-        OutputWebhook,
+        OutputWebhookUnion,
         OutputSentinel,
         OutputDevnull,
         OutputSyslog,

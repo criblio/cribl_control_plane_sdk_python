@@ -1,13 +1,13 @@
-# OutputWebhookAuthenticationType
+# OutputWebhookAuthenticationType2
 
 Authentication method to use for the HTTP request
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import OutputWebhookAuthenticationType
+from cribl_control_plane.models import OutputWebhookAuthenticationType2
 
-value = OutputWebhookAuthenticationType.NONE
+value = OutputWebhookAuthenticationType2.NONE
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

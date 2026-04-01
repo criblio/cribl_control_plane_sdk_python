@@ -1,11 +1,11 @@
-# OutputWebhookType
+# OutputWebhookType1
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import OutputWebhookType
+from cribl_control_plane.models import OutputWebhookType1
 
-value = OutputWebhookType.WEBHOOK
+value = OutputWebhookType1.WEBHOOK
 ```
 
 

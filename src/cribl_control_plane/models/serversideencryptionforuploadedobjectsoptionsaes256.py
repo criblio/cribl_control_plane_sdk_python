@@ -5,8 +5,10 @@ from cribl_control_plane import utils
 from enum import Enum
 
 
-class ServerSideEncryptionOptions(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Server-side encryption for uploaded objects"""
+class ServerSideEncryptionForUploadedObjectsOptionsAes256(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Server-side encryption to use for uploaded objects"""
 
     # Amazon S3 Managed Key
     AES256 = "AES256"

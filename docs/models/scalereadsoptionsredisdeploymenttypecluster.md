@@ -1,13 +1,13 @@
-# ScaleReads
+# ScaleReadsOptionsRedisDeploymentTypeCluster
 
 Which nodes read commands should be sent to
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import ScaleReads
+from cribl_control_plane.models import ScaleReadsOptionsRedisDeploymentTypeCluster
 
-value = ScaleReads.MASTER
+value = ScaleReadsOptionsRedisDeploymentTypeCluster.MASTER
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

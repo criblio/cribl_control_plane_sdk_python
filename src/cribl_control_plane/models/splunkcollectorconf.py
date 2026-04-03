@@ -327,6 +327,7 @@ class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenSecretRetryRulesTypedDict]
+    token: NotRequired[str]
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -408,6 +409,8 @@ class SplunkAuthenticationTokenSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    token: Optional[str] = None
+
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
     ] = None
@@ -470,6 +473,7 @@ class SplunkAuthenticationTokenSecret(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "token",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -799,6 +803,8 @@ class SplunkAuthenticationTokenTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenRetryRulesTypedDict]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your Bearer token"""
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -879,6 +885,9 @@ class SplunkAuthenticationToken(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored secret that references your Bearer token"""
+
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
     ] = None
@@ -941,6 +950,7 @@ class SplunkAuthenticationToken(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "tokenSecret",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -1273,6 +1283,9 @@ class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicSecretRetryRulesTypedDict]
+    token: NotRequired[str]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your Bearer token"""
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -1354,6 +1367,11 @@ class SplunkAuthenticationBasicSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    token: Optional[str] = None
+
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored secret that references your Bearer token"""
+
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
     ] = None
@@ -1416,6 +1434,8 @@ class SplunkAuthenticationBasicSecret(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "token",
+                "tokenSecret",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -1748,6 +1768,9 @@ class SplunkAuthenticationBasicTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicRetryRulesTypedDict]
+    token: NotRequired[str]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your Bearer token"""
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -1832,6 +1855,11 @@ class SplunkAuthenticationBasic(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    token: Optional[str] = None
+
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored secret that references your Bearer token"""
+
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
     ] = None
@@ -1894,6 +1922,8 @@ class SplunkAuthenticationBasic(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "token",
+                "tokenSecret",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -2222,6 +2252,9 @@ class SplunkAuthenticationNoneTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationNoneRetryRulesTypedDict]
+    token: NotRequired[str]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your Bearer token"""
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -2299,6 +2332,11 @@ class SplunkAuthenticationNone(BaseModel):
         Optional[SplunkAuthenticationNoneRetryRules], pydantic.Field(alias="retryRules")
     ] = None
 
+    token: Optional[str] = None
+
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored secret that references your Bearer token"""
+
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
     ] = None
@@ -2361,6 +2399,8 @@ class SplunkAuthenticationNone(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "token",
+                "tokenSecret",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -2387,9 +2427,9 @@ SplunkCollectorConfTypedDict = TypeAliasType(
     "SplunkCollectorConfTypedDict",
     Union[
         SplunkAuthenticationNoneTypedDict,
-        SplunkAuthenticationBasicSecretTypedDict,
         SplunkAuthenticationTokenTypedDict,
         SplunkAuthenticationTokenSecretTypedDict,
+        SplunkAuthenticationBasicSecretTypedDict,
         SplunkAuthenticationBasicTypedDict,
     ],
 )

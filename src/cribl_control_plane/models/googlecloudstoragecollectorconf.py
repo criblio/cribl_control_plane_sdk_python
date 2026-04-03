@@ -63,6 +63,8 @@ class GoogleCloudStorageAuthTypeSecretTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_path: NotRequired[str]
@@ -119,6 +121,11 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
+
     template_bucket: Annotated[
         Optional[str], pydantic.Field(alias="__template_bucket")
     ] = None
@@ -159,6 +166,7 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "serviceAccountCredentials",
                 "__template_bucket",
                 "__template_path",
                 "__template_endpoint",
@@ -228,6 +236,8 @@ class GoogleCloudStorageAuthTypeManualTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret that references your credentials"""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_path: NotRequired[str]
@@ -286,6 +296,9 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret that references your credentials"""
+
     template_bucket: Annotated[
         Optional[str], pydantic.Field(alias="__template_bucket")
     ] = None
@@ -326,6 +339,7 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "textSecret",
                 "__template_bucket",
                 "__template_path",
                 "__template_endpoint",
@@ -393,6 +407,10 @@ class GoogleCloudStorageAuthTypeAutoTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    service_account_credentials: NotRequired[str]
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret that references your credentials"""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_path: NotRequired[str]
@@ -446,6 +464,14 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="serviceAccountCredentials")
+    ] = None
+    r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret that references your credentials"""
+
     template_bucket: Annotated[
         Optional[str], pydantic.Field(alias="__template_bucket")
     ] = None
@@ -484,6 +510,8 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "serviceAccountCredentials",
+                "textSecret",
                 "__template_bucket",
                 "__template_path",
                 "__template_endpoint",

@@ -77,6 +77,12 @@ class AzureBlobAuthTypeClientCertTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    connection_string: NotRequired[str]
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    text_secret: NotRequired[str]
+    r"""Text secret"""
+    client_text_secret: NotRequired[str]
+    r"""Text secret containing the client secret"""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -147,6 +153,19 @@ class AzureBlobAuthTypeClientCert(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Text secret"""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Text secret containing the client secret"""
+
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
     ] = None
@@ -182,6 +201,9 @@ class AzureBlobAuthTypeClientCert(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "connectionString",
+                "textSecret",
+                "clientTextSecret",
                 "__template_containerName",
                 "__template_path",
             ]
@@ -261,6 +283,11 @@ class AzureBlobAuthTypeClientSecretTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    connection_string: NotRequired[str]
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    text_secret: NotRequired[str]
+    r"""Text secret"""
+    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -332,6 +359,16 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Text secret"""
+
+    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
     ] = None
@@ -367,6 +404,9 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "connectionString",
+                "textSecret",
+                "certificate",
                 "__template_containerName",
                 "__template_path",
             ]
@@ -436,6 +476,11 @@ class AzureBlobAuthTypeSecretTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    connection_string: NotRequired[str]
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    client_text_secret: NotRequired[str]
+    r"""Text secret containing the client secret"""
+    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -490,6 +535,18 @@ class AzureBlobAuthTypeSecret(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Text secret containing the client secret"""
+
+    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
     ] = None
@@ -523,6 +580,9 @@ class AzureBlobAuthTypeSecret(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "connectionString",
+                "clientTextSecret",
+                "certificate",
                 "__template_containerName",
                 "__template_path",
             ]
@@ -592,6 +652,11 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
+    text_secret: NotRequired[str]
+    r"""Text secret"""
+    client_text_secret: NotRequired[str]
+    r"""Text secret containing the client secret"""
+    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -646,6 +711,16 @@ class AzureBlobAuthTypeManual(BaseModel):
     ] = None
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
 
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Text secret"""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Text secret containing the client secret"""
+
+    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
     ] = None
@@ -679,6 +754,9 @@ class AzureBlobAuthTypeManual(BaseModel):
                 "maxBatchSize",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
+                "textSecret",
+                "clientTextSecret",
+                "certificate",
                 "__template_containerName",
                 "__template_path",
             ]

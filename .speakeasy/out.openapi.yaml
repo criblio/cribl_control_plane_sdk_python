@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1774998245204-0b79dc3f
+  version: 4.18.0-alpha.1775170966326-072f2c38
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -247,20 +247,7 @@ components:
           title: Timestamp anchor
           description: Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction.
         timestamp:
-          type: object
-          required:
-            - type
-          title: Timestamp format
-          properties:
-            type:
-              $ref: "#/components/schemas/TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp"
-            length:
-              type: number
-              title: Length
-              minimum: 2
-            format:
-              type: string
-              title: Format
+          $ref: "#/components/schemas/TimestampFormatTypeEventBreakerExistingOrNewNew"
         timestampTimezone:
           type: string
           title: Default timezone
@@ -333,40 +320,7 @@ components:
           description: "Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
           type: string
         tlsOptions:
-          type: object
-          properties:
-            rejectUnauthorized:
-              type: boolean
-              title: Validate server certs
-              description: Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)
-            servername:
-              type: string
-              title: Server name (SNI)
-              description: Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address.
-            certificateName:
-              type: string
-              title: Certificate
-              description: The name of the predefined certificate
-            caPath:
-              type: string
-              title: CA certificate path
-              description: Path on client in which to find CA certificates to verify the server's certificate. PEM format. Can reference $ENV_VARS.
-            privKeyPath:
-              type: string
-              title: Private key path (mutual auth)
-              description: Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS.
-            certPath:
-              type: string
-              title: Certificate path (mutual auth)
-              description: Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
-            passphrase:
-              type: string
-              title: Passphrase
-              description: Passphrase to use to decrypt private key
-            minVersion:
-              $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
-            maxVersion:
-              $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeStandalone"
       required:
         - url
     RedisDeploymentTypeCluster:
@@ -400,18 +354,7 @@ components:
           type: boolean
           description: Use TLS for connections to this cluster
         scaleReads:
-          title: Scale reads
-          type: string
-          description: Which nodes read commands should be sent to
-          enum:
-            - master
-            - replica
-            - all
-          x-speakeasy-enum-descriptions:
-            - Masters
-            - Replicas
-            - Masters and Replicas
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/ScaleReadsOptionsRedisDeploymentTypeCluster"
         tlsOptions:
           $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeCluster"
     RedisDeploymentTypeSentinel:
@@ -1039,6 +982,10 @@ components:
           type: boolean
           title: Flush on stream close
           description: Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior.
+        printUndefineds:
+          type: boolean
+          title: Print undefined as null
+          description: When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved.
         lagTolerance:
           type: string
           title: Lag tolerance
@@ -1967,6 +1914,10 @@ components:
           type: array
           items:
             type: string
+        printUndefineds:
+          type: boolean
+          title: Print undefined as null
+          description: When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved.
     FunctionEval:
       type: object
       properties:
@@ -2028,6 +1979,36 @@ components:
           type: boolean
           title: Add to cribl_breaker
           description: Add this Function name to the cribl_breaker field
+        ruleType:
+          $ref: "#/components/schemas/EventBreakerTypeOptionsEventBreakerExistingOrNewNew"
+        maxEventBytes:
+          type: number
+          title: Event byte limit
+          description: The maximum number of bytes that an event can be before being flushed to the Pipelines
+          minimum: 1
+          maximum: 1.34217728e+08
+        timestampAnchorRegex:
+          type: string
+          title: Timestamp anchor
+          description: Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction.
+        timestamp:
+          $ref: "#/components/schemas/TimestampFormatTypeEventBreakerExistingOrNewNew"
+        timestampTimezone:
+          type: string
+          title: Default timezone
+          description: Timezone to assign to timestamps without timezone info
+        timestampEarliest:
+          title: Earliest timestamp allowed
+          description: The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to current time.
+          type: string
+        timestampLatest:
+          title: Future timestamp allowed
+          description: The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time.
+          type: string
+        existingRule:
+          type: string
+          title: Existing ruleset
+          minLength: 1
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/EventBreakerExistingOrNewNew"
@@ -3801,6 +3782,12 @@ components:
             - Floor
             - Ceil
           x-speakeasy-unknown-values: allow
+        digits:
+          type: number
+          title: Digits
+          description: Number of digits after the decimal point, between 0 and 20. If left blank, defaults to 2.
+          minimum: 0
+          maximum: 20
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/NumerifyFormatFix"
@@ -4382,6 +4369,31 @@ components:
           type: boolean
           title: Client-side cache
           description: Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache.
+        url:
+          title: Redis URL
+          description: "Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+          type: string
+        tlsOptions:
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeStandalone"
+        scaleReads:
+          $ref: "#/components/schemas/ScaleReadsOptionsRedisDeploymentTypeCluster"
+        masterName:
+          title: Master group name
+          type: string
+        username:
+          title: Username
+          type: string
+        password:
+          title: Password
+          type: string
+        credentialsSecret:
+          type: string
+          title: User secret
+          description: Secret that references Redis username and password
+        textSecret:
+          type: string
+          title: Admin secret
+          description: Secret that references Redis admin password
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/RedisDeploymentTypeStandalone"
@@ -5027,6 +5039,49 @@ components:
           title: Destination field
           description: Name of the field to add fields to. Extract mode only.
           type: string
+        allowedKeyChars:
+          type: array
+          items:
+            type: string
+          title: Allowed key characters
+          description: A list of characters that may be present in a key name, even though they are normally separator or control characters
+        allowedValueChars:
+          type: array
+          items:
+            type: string
+          title: Allowed value characters
+          description: A list of characters that may be present in a value, even though they are normally separator or control characters
+        regex:
+          type: string
+          title: Regex
+          description: Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)
+        regexList:
+          type: array
+          title: Additional regex
+          items:
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeRegexRegexList"
+        iterations:
+          type: number
+          title: Max exec
+          description: The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups
+          minimum: 1
+        fieldNameExpression:
+          title: Field name format expression
+          description: "JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."
+          type: string
+        overwrite:
+          type: boolean
+          title: Overwrite existing fields
+          description: Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array.
+        pattern:
+          type: string
+          title: Pattern
+          description: "Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"
+        patternList:
+          type: array
+          title: Additional Grok patterns
+          items:
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeGrokPatternList"
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SerdeTypeKvp"
@@ -5124,6 +5179,20 @@ components:
           title: Destination field
           description: Field to serialize data to
           type: string
+        cleanFields:
+          type: boolean
+          title: Clean fields
+          description: Clean field names by replacing non-[a-zA-Z0-9] characters with _
+        pairDelimiter:
+          type: string
+          title: Pair delimiter
+          minLength: 1
+          description: Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter.
+        keyValueDelimiter:
+          type: string
+          title: Key-Value delimiter
+          minLength: 1
+          description: Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SerializeTypeKvp"
@@ -8924,6 +8993,20 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
+        connectionString:
+          type: string
+          title: Connection string
+          description: Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING.
+        textSecret:
+          type: string
+          title: Connection string (text secret)
+          description: Text secret
+        clientTextSecret:
+          type: string
+          title: Client secret (text secret)
+          description: Text secret containing the client secret
+        certificate:
+          $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
         __template_containerName:
           type: string
           description: Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime.
@@ -9199,6 +9282,14 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
+        serviceAccountCredentials:
+          type: string
+          title: Service account credentials
+          description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right.
+        textSecret:
+          type: string
+          title: Service account credentials (text secret)
+          description: Select or create a stored text secret that references your credentials
         __template_bucket:
           type: string
           description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
@@ -9821,6 +9912,14 @@ components:
                   none: "#/components/schemas/HealthCheckRetryRulesTypeNone"
                   static: "#/components/schemas/HealthCheckRetryRulesTypeStatic"
                   backoff: "#/components/schemas/HealthCheckRetryRulesTypeBackoff"
+        clientSecretParamValue:
+          type: string
+          title: Client secret value
+          description: Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters
+        textSecret:
+          type: string
+          title: Client secret value (text secret)
+          description: Select or create a text secret that contains the client secret's value.
         __template_collectUrl:
           type: string
           description: Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime.
@@ -10821,6 +10920,19 @@ components:
                   type: boolean
                   title: Enabled
                   description: Track collection progress between consecutive scheduled executions
+        clientSecretParamValue:
+          type: string
+          title: Client secret value
+          description: Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters.
+        serviceAccountCredentials:
+          type: string
+          title: Service account credentials
+          description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right.
+          minLength: 1
+        hmacFunctionId:
+          type: string
+          title: HMAC Function
+          description: Select or create an HMAC Function to use with authentication
         __template_collectUrl:
           type: string
           description: Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime.
@@ -11040,6 +11152,18 @@ components:
           type: boolean
           title: Disable time filter
           description: Disable Collector event time filtering when a date range is specified
+        awsApiKey:
+          type: string
+          title: Access key
+          description: Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references AWS access key and secret key.
         __template_bucket:
           type: string
           description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
@@ -11418,6 +11542,13 @@ components:
                   none: "#/components/schemas/SplunkRetryRulesTypeNone"
                   static: "#/components/schemas/SplunkRetryRulesTypeStatic"
                   backoff: "#/components/schemas/SplunkRetryRulesTypeBackoff"
+        token:
+          type: string
+          title: Bearer token
+        tokenSecret:
+          type: string
+          title: Bearer token secret
+          description: Select or create a stored secret that references your Bearer token
         __template_searchHead:
           type: string
           description: Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime.
@@ -15062,6 +15193,11 @@ components:
           type: boolean
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
+        maxPages:
+          type: integer
+          title: Page limit
+          description: Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages.
+          minimum: 0
         authType:
           title: Authentication method
           type: string
@@ -39618,19 +39754,26 @@ components:
           type: object
           properties:
             count:
-              type: number
+              type: integer
+              description: Total number of Worker Groups or Edge Fleets.
             destinations:
-              type: number
+              type: integer
+              description: Total number of Destinations.
             packs:
-              type: number
+              type: integer
+              description: Total number of Packs.
             pipelines:
-              type: number
+              type: integer
+              description: Total number of Pipelines.
             quickConnects:
-              type: number
+              type: integer
+              description: Total number of QuickConnect configurations.
             routes:
-              type: number
+              type: integer
+              description: Total number of Routes.
             sources:
-              type: number
+              type: integer
+              description: Total number of Sources.
           required:
             - count
             - destinations
@@ -39643,19 +39786,26 @@ components:
           type: object
           properties:
             alive:
-              type: number
+              type: integer
+              description: Total number of Worker or Edge Nodes that are connected with <code>healthy</code> status.
             confVersions:
-              type: number
+              type: integer
+              description: Total number of unique configuration versions across all Worker or Edge Nodes.
             count:
-              type: number
+              type: integer
+              description: Total number of Worker or Edge Nodes.
             disconnectedCount:
-              type: number
+              type: integer
+              description: Total number of Worker or Edge Nodes in a disconnected state.
             groups:
-              type: number
+              type: integer
+              description: Total number of distinct Worker Groups or Edge Fleets that the Workers or Edge Nodes belong to.
             softwareVersions:
-              type: number
+              type: integer
+              description: Total number of unique Cribl software versions across all Worker or Edge Nodes.
             unhealthy:
-              type: number
+              type: integer
+              description: Total number of Worker or Edge Nodes that are connected with a status other than <code>healthy</code>.
           required:
             - alive
             - confVersions
@@ -39666,7 +39816,7 @@ components:
             - unhealthy
       required:
         - groups
-        - workers
+      description: Summary of the deployment for the specified Cribl product (Stream or Edge).
     HealthServerStatus:
       type: object
       properties:
@@ -40593,6 +40743,19 @@ components:
         - TLSv1.1
         - TLSv1.2
         - TLSv1.3
+      x-speakeasy-unknown-values: allow
+    ScaleReadsOptionsRedisDeploymentTypeCluster:
+      title: Scale reads
+      type: string
+      description: Which nodes read commands should be sent to
+      enum:
+        - master
+        - replica
+        - all
+      x-speakeasy-enum-descriptions:
+        - Masters
+        - Replicas
+        - Masters and Replicas
       x-speakeasy-unknown-values: allow
     ItemsTypeSerdeTypeRegexRegexList:
       type: object
@@ -42448,6 +42611,56 @@ components:
         - count
         - memory
         - minimum
+    TimestampFormatTypeEventBreakerExistingOrNewNew:
+      type: object
+      required:
+        - type
+      title: Timestamp format
+      properties:
+        type:
+          $ref: "#/components/schemas/TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp"
+        length:
+          type: number
+          title: Length
+          minimum: 2
+        format:
+          type: string
+          title: Format
+    TlsOptionsTypeRedisDeploymentTypeStandalone:
+      type: object
+      properties:
+        rejectUnauthorized:
+          type: boolean
+          title: Validate server certs
+          description: Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)
+        servername:
+          type: string
+          title: Server name (SNI)
+          description: Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address.
+        certificateName:
+          type: string
+          title: Certificate
+          description: The name of the predefined certificate
+        caPath:
+          type: string
+          title: CA certificate path
+          description: Path on client in which to find CA certificates to verify the server's certificate. PEM format. Can reference $ENV_VARS.
+        privKeyPath:
+          type: string
+          title: Private key path (mutual auth)
+          description: Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS.
+        certPath:
+          type: string
+          title: Certificate path (mutual auth)
+          description: Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
+        passphrase:
+          type: string
+          title: Passphrase
+          description: Passphrase to use to decrypt private key
+        minVersion:
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+        maxVersion:
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
     TlsOptionsTypeRedisDeploymentTypeCluster:
       type: object
       properties:
@@ -46065,6 +46278,50 @@ components:
         onPrem: false
         estimatedIngestRate: 4096
         provisioned: true
+    LakeDatasetCreateExamplesJsonDataset:
+      summary: Create a Lake Dataset in JSON format
+      description: Example request body for creating a Lake Dataset in JSON format with a 90-day retention period.
+      value:
+        id: web_access_logs
+        description: Web server access logs
+        storageLocationId: my-storage-location
+        format: json
+        retentionPeriodInDays: 90
+        acceleratedFields:
+          - host
+          - status
+    LakeDatasetCreateExamplesParquetDataset:
+      summary: Create a Lake Dataset in Parquet format
+      description: Example request body for creating a Lake Dataset in Parquet format with a 365-day retention period and search configuration.
+      value:
+        id: security_events
+        description: Security event data in Parquet format
+        storageLocationId: my-storage-location
+        format: parquet
+        retentionPeriodInDays: 365
+        searchConfig:
+          datatypes:
+            - palo_alto_firewall
+            - crowdstrike_fdr
+    LakeDatasetCreateExamplesMinimalDataset:
+      summary: Create a minimal Lake Dataset
+      description: Example request body for creating a Lake Dataset with only the required body parameters.
+      value:
+        id: app_logs
+    LakeDatasetUpdateExamplesUpdateRetention:
+      summary: Update the retention period for a Lake Dataset
+      description: Example request body for updating the retention period for an existing Lake Dataset.
+      value:
+        retentionPeriodInDays: 180
+    LakeDatasetUpdateExamplesUpdateDescription:
+      summary: Update description and accelerated fields for a Lake Dataset
+      description: Example request body for updating the description and accelerated fields for an existing Lake Dataset.
+      value:
+        description: Web server access logs with accelerated fields.
+        acceleratedFields:
+          - host
+          - status
+          - source
     CaptureExamplesSimpleExpression:
       summary: Capture events by sourcetype
       value:
@@ -51118,6 +51375,13 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CriblLakeDataset"
+            examples:
+              LakeDatasetCreateExamplesJsonDataset:
+                $ref: "#/components/examples/LakeDatasetCreateExamplesJsonDataset"
+              LakeDatasetCreateExamplesParquetDataset:
+                $ref: "#/components/examples/LakeDatasetCreateExamplesParquetDataset"
+              LakeDatasetCreateExamplesMinimalDataset:
+                $ref: "#/components/examples/LakeDatasetCreateExamplesMinimalDataset"
       parameters:
         - name: lakeId
           in: path
@@ -51302,6 +51566,11 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CriblLakeDatasetUpdate"
+            examples:
+              LakeDatasetUpdateExamplesUpdateRetention:
+                $ref: "#/components/examples/LakeDatasetUpdateExamplesUpdateRetention"
+              LakeDatasetUpdateExamplesUpdateDescription:
+                $ref: "#/components/examples/LakeDatasetUpdateExamplesUpdateDescription"
       parameters:
         - name: lakeId
           in: path
@@ -51623,8 +51892,8 @@ paths:
       x-speakeasy-name-override: get
       x-cribl-internal: false
       x-cribl-availability: both
-      summary: Get a summary of the Distributed deployment for a specific product
-      description: Get a summary of the Distributed deployment for a specific Cribl product (Stream or Edge). The response includes counts of Worker Groups or Edge Fleets, Pipelines, Routes, Sources, Destinations, and Worker or Edge Nodes, as well as statistics for the nodes.
+      summary: Get a summary of the deployment for a specific product.
+      description: Get a summary of the deployment for the specified Cribl product (Stream or Edge).<br/><br/>The summary includes a count of Worker Groups or Edge Fleets and resources such as Pipelines, Routes, Sources, and Destinations. For Distributed deployments, it also includes a count and statistics for Worker or Edge Nodes.
       responses:
         "200":
           description: a list of DistributedSummary objects

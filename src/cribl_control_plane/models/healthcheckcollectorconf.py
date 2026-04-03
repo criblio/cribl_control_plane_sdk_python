@@ -922,6 +922,10 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationNoneRetryRulesTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
     r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
@@ -975,6 +979,14 @@ class HealthCheckAuthenticationNone(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value."""
+
     template_collect_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_collectUrl")
     ] = None
@@ -1019,6 +1031,8 @@ class HealthCheckAuthenticationNone(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "clientSecretParamValue",
+                "textSecret",
                 "__template_collectUrl",
             ]
         )
@@ -1925,6 +1939,10 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
     r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
@@ -1981,6 +1999,14 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value."""
+
     template_collect_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_collectUrl")
     ] = None
@@ -2028,6 +2054,8 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "clientSecretParamValue",
+                "textSecret",
                 "__template_collectUrl",
             ]
         )
@@ -2930,6 +2958,10 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostRetryRulesTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
     r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
@@ -2989,6 +3021,14 @@ class HealthCheckCollectMethodPost(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value."""
+
     template_collect_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_collectUrl")
     ] = None
@@ -3034,6 +3074,8 @@ class HealthCheckCollectMethodPost(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "clientSecretParamValue",
+                "textSecret",
                 "__template_collectUrl",
             ]
         )
@@ -3949,6 +3991,10 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodGetRetryRulesTypedDict]
+    client_secret_param_value: NotRequired[str]
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
     r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
@@ -4008,6 +4054,14 @@ class HealthCheckCollectMethodGet(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamValue")
+    ] = None
+    r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value."""
+
     template_collect_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_collectUrl")
     ] = None
@@ -4053,6 +4107,8 @@ class HealthCheckCollectMethodGet(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "clientSecretParamValue",
+                "textSecret",
                 "__template_collectUrl",
             ]
         )
@@ -4080,9 +4136,9 @@ HealthCheckCollectorConfTypedDict = TypeAliasType(
         HealthCheckAuthenticationBasicSecretTypedDict,
         HealthCheckAuthenticationBasicTypedDict,
         HealthCheckAuthenticationLoginSecretTypedDict,
-        HealthCheckAuthenticationLoginTypedDict,
         HealthCheckAuthenticationOauthTypedDict,
         HealthCheckAuthenticationOauthSecretTypedDict,
+        HealthCheckAuthenticationLoginTypedDict,
     ],
 )
 

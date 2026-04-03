@@ -1,13 +1,13 @@
-# OutputSyslogTimestampFormat
+# TimestampFormat
 
 Timestamp format to use when serializing event's time field
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import OutputSyslogTimestampFormat
+from cribl_control_plane.models import TimestampFormat
 
-value = OutputSyslogTimestampFormat.SYSLOG
+value = TimestampFormat.SYSLOG
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

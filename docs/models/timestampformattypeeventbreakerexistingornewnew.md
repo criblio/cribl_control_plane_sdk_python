@@ -1,4 +1,4 @@
-# EventBreakerExistingOrNewNewRuleTypeJSONArrayTimestampFormat
+# TimestampFormatTypeEventBreakerExistingOrNewNew
 
 
 ## Fields

@@ -2091,6 +2091,21 @@ class CreateInputAuthenticationMethodMicrosoftGraph(
     OAUTH_CERT = "oauthCert"
 
 
+class CreateInputSubscriptionPlan(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
+
+    # Microsoft 365 Enterprise
+    ENTERPRISE_GCC = "enterprise_gcc"
+    # Microsoft 365 GCC
+    GCC = "gcc"
+    # Microsoft 365 GCC High
+    GCC_HIGH = "gcc_high"
+    # Microsoft 365 DoD
+    DOD = "dod"
+    # Microsoft 365 China (21Vianet)
+    CHINA = "china"
+
+
 class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
@@ -2153,7 +2168,7 @@ class CreateInputInputMicrosoftGraphTypedDict(TypedDict):
     r"""client_id to pass in the OAuth request parameter."""
     resource: NotRequired[str]
     r"""Resource to pass in the OAuth request parameter."""
-    plan_type: NotRequired[SubscriptionPlanOptions]
+    plan_type: NotRequired[CreateInputSubscriptionPlan]
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
@@ -2285,7 +2300,7 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     r"""Resource to pass in the OAuth request parameter."""
 
     plan_type: Annotated[
-        Optional[SubscriptionPlanOptions], pydantic.Field(alias="planType")
+        Optional[CreateInputSubscriptionPlan], pydantic.Field(alias="planType")
     ] = None
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
 
@@ -2338,7 +2353,7 @@ class CreateInputInputMicrosoftGraph(BaseModel):
     def serialize_plan_type(self, value):
         if isinstance(value, str):
             try:
-                return models.SubscriptionPlanOptions(value)
+                return models.CreateInputSubscriptionPlan(value)
             except ValueError:
                 return value
         return value

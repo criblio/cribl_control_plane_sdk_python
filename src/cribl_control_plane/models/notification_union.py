@@ -127,24 +127,29 @@ TargetConfigUnion3TypedDict = TargetConfig3TypedDict
 TargetConfigUnion3 = TargetConfig3
 
 
-class ConditionSpecificConfigs3TypedDict(TypedDict):
-    pass
+class ConditionSpecificConfigurations3TypedDict(TypedDict):
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
 
 
-class ConditionSpecificConfigs3(BaseModel):
-    pass
+class ConditionSpecificConfigurations3(BaseModel):
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
 
 
 class Notification3TypedDict(TypedDict):
     id: str
+    r"""Unique identifier for the Notification."""
     condition: str
+    r"""The condition that triggers the Notification."""
     mode: NotRequired[NotificationMode3]
     r"""Notification mode: direct or policy-based"""
     disabled: NotRequired[bool]
+    r"""If true, the Notification is disabled and the specified condition will not trigger it."""
     targets: NotRequired[List[str]]
-    r"""Targets to send any Notifications to"""
+    r"""List of the IDs for the Notification targets to send the Notification to."""
     target_configs: NotRequired[List[TargetConfigUnion3TypedDict]]
-    conf: NotRequired[ConditionSpecificConfigs3TypedDict]
+    r"""Override settings to apply for each referenced Notification target."""
+    conf: NotRequired[ConditionSpecificConfigurations3TypedDict]
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     group: NotRequired[str]
@@ -159,22 +164,27 @@ class Notification3TypedDict(TypedDict):
 
 class Notification3(BaseModel):
     id: str
+    r"""Unique identifier for the Notification."""
 
     condition: str
+    r"""The condition that triggers the Notification."""
 
     mode: Optional[NotificationMode3] = None
     r"""Notification mode: direct or policy-based"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Notification is disabled and the specified condition will not trigger it."""
 
     targets: Optional[List[str]] = None
-    r"""Targets to send any Notifications to"""
+    r"""List of the IDs for the Notification targets to send the Notification to."""
 
     target_configs: Annotated[
         Optional[List[TargetConfigUnion3]], pydantic.Field(alias="targetConfigs")
     ] = None
+    r"""Override settings to apply for each referenced Notification target."""
 
-    conf: Optional[ConditionSpecificConfigs3] = None
+    conf: Optional[ConditionSpecificConfigurations3] = None
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
 
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
@@ -341,28 +351,33 @@ TargetConfigUnion2TypedDict = TargetConfig2TypedDict
 TargetConfigUnion2 = TargetConfig2
 
 
-class ConditionSpecificConfigs2TypedDict(TypedDict):
-    pass
+class ConditionSpecificConfigurations2TypedDict(TypedDict):
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
 
 
-class ConditionSpecificConfigs2(BaseModel):
-    pass
+class ConditionSpecificConfigurations2(BaseModel):
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
 
 
 class Notification2TypedDict(TypedDict):
     mode: NotificationMode2
     r"""Notification mode: direct or policy-based"""
     id: str
+    r"""Unique identifier for the Notification."""
     condition: str
+    r"""The condition that triggers the Notification."""
     template_target_pairs: NotRequired[
         List[ItemsTypePoliciesItemsTemplateTargetPairsTypedDict]
     ]
     r"""Pairs of templates and targets for notification routing"""
     disabled: NotRequired[bool]
+    r"""If true, the Notification is disabled and the specified condition will not trigger it."""
     targets: NotRequired[List[str]]
-    r"""Targets to send any Notifications to"""
+    r"""List of the IDs for the Notification targets to send the Notification to."""
     target_configs: NotRequired[List[TargetConfigUnion2TypedDict]]
-    conf: NotRequired[ConditionSpecificConfigs2TypedDict]
+    r"""Override settings to apply for each referenced Notification target."""
+    conf: NotRequired[ConditionSpecificConfigurations2TypedDict]
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     group: NotRequired[str]
@@ -376,8 +391,10 @@ class Notification2(BaseModel):
     r"""Notification mode: direct or policy-based"""
 
     id: str
+    r"""Unique identifier for the Notification."""
 
     condition: str
+    r"""The condition that triggers the Notification."""
 
     template_target_pairs: Annotated[
         Optional[List[ItemsTypePoliciesItemsTemplateTargetPairs]],
@@ -386,15 +403,18 @@ class Notification2(BaseModel):
     r"""Pairs of templates and targets for notification routing"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Notification is disabled and the specified condition will not trigger it."""
 
     targets: Optional[List[str]] = None
-    r"""Targets to send any Notifications to"""
+    r"""List of the IDs for the Notification targets to send the Notification to."""
 
     target_configs: Annotated[
         Optional[List[TargetConfigUnion2]], pydantic.Field(alias="targetConfigs")
     ] = None
+    r"""Override settings to apply for each referenced Notification target."""
 
-    conf: Optional[ConditionSpecificConfigs2] = None
+    conf: Optional[ConditionSpecificConfigurations2] = None
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
 
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
@@ -554,12 +574,12 @@ TargetConfigUnion1TypedDict = TargetConfig1TypedDict
 TargetConfigUnion1 = TargetConfig1
 
 
-class ConditionSpecificConfigs1TypedDict(TypedDict):
-    pass
+class ConditionSpecificConfigurations1TypedDict(TypedDict):
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
 
 
-class ConditionSpecificConfigs1(BaseModel):
-    pass
+class ConditionSpecificConfigurations1(BaseModel):
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
 
 
 class Notification1TypedDict(TypedDict):
@@ -568,12 +588,17 @@ class Notification1TypedDict(TypedDict):
     template_target_pairs: List[ItemsTypePoliciesItemsTemplateTargetPairsTypedDict]
     r"""Pairs of templates and targets for notification routing"""
     id: str
+    r"""Unique identifier for the Notification."""
     condition: str
+    r"""The condition that triggers the Notification."""
     disabled: NotRequired[bool]
+    r"""If true, the Notification is disabled and the specified condition will not trigger it."""
     targets: NotRequired[List[str]]
-    r"""Targets to send any Notifications to"""
+    r"""List of the IDs for the Notification targets to send the Notification to."""
     target_configs: NotRequired[List[TargetConfigUnion1TypedDict]]
-    conf: NotRequired[ConditionSpecificConfigs1TypedDict]
+    r"""Override settings to apply for each referenced Notification target."""
+    conf: NotRequired[ConditionSpecificConfigurations1TypedDict]
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     group: NotRequired[str]
@@ -593,19 +618,24 @@ class Notification1(BaseModel):
     r"""Pairs of templates and targets for notification routing"""
 
     id: str
+    r"""Unique identifier for the Notification."""
 
     condition: str
+    r"""The condition that triggers the Notification."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Notification is disabled and the specified condition will not trigger it."""
 
     targets: Optional[List[str]] = None
-    r"""Targets to send any Notifications to"""
+    r"""List of the IDs for the Notification targets to send the Notification to."""
 
     target_configs: Annotated[
         Optional[List[TargetConfigUnion1]], pydantic.Field(alias="targetConfigs")
     ] = None
+    r"""Override settings to apply for each referenced Notification target."""
 
-    conf: Optional[ConditionSpecificConfigs1] = None
+    conf: Optional[ConditionSpecificConfigurations1] = None
+    r"""Configuration for the condition that triggers the Notification. Supported fields vary depending on the condition."""
 
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""

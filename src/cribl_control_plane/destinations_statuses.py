@@ -314,6 +314,9 @@ class DestinationsStatuses(BaseSDK):
                 offset=next_offset,
                 limit=limit,
                 retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
             )
 
         response_data: Any = None
@@ -444,6 +447,9 @@ class DestinationsStatuses(BaseSDK):
                 offset=next_offset,
                 limit=limit,
                 retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
             )
 
         response_data: Any = None

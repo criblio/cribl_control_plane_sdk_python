@@ -1,6 +1,6 @@
 # EstimatedIngestRateOptionsConfigGroup
 
-Estimated ingest rate for Cloud Groups, in GB/sec.
+Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
 
 ## Example Usage
 

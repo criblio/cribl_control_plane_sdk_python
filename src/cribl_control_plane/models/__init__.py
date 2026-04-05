@@ -177,7 +177,7 @@ if TYPE_CHECKING:
     from .compressionoptionsmessages import CompressionOptionsMessages
     from .compressionoptionspersistence import CompressionOptionsPersistence
     from .compressionoptionspq import CompressionOptionsPq
-    from .configgroup import ConfigGroup, ConfigGroupTypedDict
+    from .configgroup import ConfigGroup, ConfigGroupTypedDict, Git, GitTypedDict
     from .configgroupcloud import ConfigGroupCloud, ConfigGroupCloudTypedDict
     from .configgrouplookups import (
         ConfigGroupLookups,
@@ -2803,7 +2803,6 @@ if TYPE_CHECKING:
         Renamed,
         RenamedTypedDict,
     )
-    from .gittypeconfiggroup import GitTypeConfigGroup, GitTypeConfigGroupTypedDict
     from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
     from .googlecloudstoragecollectorconf import (
         GoogleCloudStorageAuthTypeAuto,
@@ -9019,6 +9018,7 @@ __all__ = [
     "GetVersionRequestTypedDict",
     "GetVersionShowRequest",
     "GetVersionShowRequestTypedDict",
+    "Git",
     "GitCommitBody",
     "GitCommitBodyTypedDict",
     "GitCommitSummary",
@@ -9045,8 +9045,7 @@ __all__ = [
     "GitShowResultTypedDict",
     "GitStatusResult",
     "GitStatusResultTypedDict",
-    "GitTypeConfigGroup",
-    "GitTypeConfigGroupTypedDict",
+    "GitTypedDict",
     "GoogleAuthenticationMethodOptions",
     "GoogleCloudStorageAuthTypeAuto",
     "GoogleCloudStorageAuthTypeAutoAuthenticationMethod",
@@ -12394,6 +12393,8 @@ _dynamic_imports: dict[str, str] = {
     "CompressionOptionsPq": ".compressionoptionspq",
     "ConfigGroup": ".configgroup",
     "ConfigGroupTypedDict": ".configgroup",
+    "Git": ".configgroup",
+    "GitTypedDict": ".configgroup",
     "ConfigGroupCloud": ".configgroupcloud",
     "ConfigGroupCloudTypedDict": ".configgroupcloud",
     "ConfigGroupLookups": ".configgrouplookups",
@@ -14716,8 +14717,6 @@ _dynamic_imports: dict[str, str] = {
     "GitStatusResultTypedDict": ".gitstatusresult",
     "Renamed": ".gitstatusresult",
     "RenamedTypedDict": ".gitstatusresult",
-    "GitTypeConfigGroup": ".gittypeconfiggroup",
-    "GitTypeConfigGroupTypedDict": ".gittypeconfiggroup",
     "GoogleAuthenticationMethodOptions": ".googleauthenticationmethodoptions",
     "GoogleCloudStorageAuthTypeAuto": ".googlecloudstoragecollectorconf",
     "GoogleCloudStorageAuthTypeAutoAuthenticationMethod": ".googlecloudstoragecollectorconf",

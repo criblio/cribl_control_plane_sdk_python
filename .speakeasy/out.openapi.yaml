@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1775257383525-d2331cec
+  version: 4.18.0-alpha.1775343982053-c9684c44
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -38926,8 +38926,10 @@ components:
       properties:
         provider:
           $ref: "#/components/schemas/CloudProvider"
+          description: Cloud provider for the Worker Group.
         region:
           type: string
+          description: Cloud region where the Worker Group is deployed.
       required:
         - provider
         - region
@@ -38936,16 +38938,22 @@ components:
       properties:
         author_email:
           type: string
+          description: Email address of the commit author.
         author_name:
           type: string
+          description: Name of the commit author.
         date:
           type: string
+          description: Date and time of the commit.
         hash:
           type: string
+          description: Full commit hash.
         message:
           type: string
+          description: Commit message.
         short:
           type: string
+          description: Abbreviated commit hash.
       required:
         - date
         - hash
@@ -38956,6 +38964,7 @@ components:
       properties:
         context:
           type: string
+          description: The Worker or Node context for the lookup deployment.
         lookups:
           type: array
           items:
@@ -38963,12 +38972,16 @@ components:
             properties:
               deployedVersion:
                 type: string
+                description: Version of the lookup file currently deployed on the Worker or Node.
               file:
                 type: string
+                description: File name of the deployed lookup.
               version:
                 type: string
+                description: Version of the lookup file currently staged for deployment.
             required:
               - file
+          description: List of lookup files deployed to this context.
       required:
         - context
         - lookups
@@ -38977,56 +38990,87 @@ components:
       properties:
         cloud:
           $ref: "#/components/schemas/ConfigGroupCloud"
+          description: Cloud provider and region details for a Cribl.Cloud Worker Group.
         configVersion:
           type: string
+          description: "Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response."
         deployingWorkerCount:
-          type: number
+          type: integer
+          description: "Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response."
         description:
           type: string
+          description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
+          maxLength: 512
         estimatedIngestRate:
           $ref: "#/components/schemas/EstimatedIngestRateOptionsConfigGroup"
         git:
-          $ref: "#/components/schemas/GitTypeConfigGroup"
+          type: object
+          properties:
+            commit:
+              type: string
+              description: Commit hash of the currently committed configuration version.
+            localChanges:
+              type: integer
+              description: Number of local configuration changes not yet committed.
+            log:
+              type: array
+              items:
+                $ref: "#/components/schemas/Commit"
+              description: List of recent configuration commits.
+          description: Git status of the Worker Group, Outpost Group, or Edge Fleet configuration. Automatically populated and returned in responses.
         id:
           type: string
         incompatibleWorkerCount:
-          type: number
+          type: integer
+          description: "Number of Workers or Nodes running a Cribl version that is incompatible with the current upgrade target.<br/><br/> **Warning**: Do not change the value of <code>incompatibleWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response."
         inherits:
           type: string
+          description: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
         isFleet:
           type: boolean
-          description: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
+          description: Indicates whether this is an Edge Fleet. Deprecated. Use to identify Edge Fleets.
           deprecated: true
         isSearch:
           type: boolean
-          description: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
+          description: Indicates whether this is an internal Search Group. Deprecated. Use to identify Search Groups.
           deprecated: true
         lookupDeployments:
           type: array
           items:
             $ref: "#/components/schemas/ConfigGroupLookups"
+          description: "Lookup deployment status per Worker or Node context.<br/><br/> **Warning**: Do not change the value of <code>lookupDeployments</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response."
         maxWorkerAge:
           type: string
+          description: Maximum duration a Worker or Node can remain disconnected before the Leader removes it. The value is a numeral with units, such as <code>8h</code>, <code>5d</code>, <code>1w</code>.
         name:
           type: string
+          description: Name of the Worker Group, Outpost Group, or Edge Fleet.
         onPrem:
           type: boolean
+          description: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
         provisioned:
           type: boolean
+          description: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
         streamtags:
           type: array
           items:
             type: string
+          description: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
         tags:
           type: string
+          description: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
+          deprecated: true
         type:
           $ref: "#/components/schemas/TypeOptionsConfigGroup"
         upgradeVersion:
           type: string
+          description: Target software upgrade version. Applies only to Outpost Groups and Edge Fleets.
         workerCount:
-          type: number
+          type: integer
+          description: "Number of Workers or Nodes currently in the Worker Group, Outpost Group, or Edge Fleet. The value is automatically populated and **does not scale Cribl.Cloud Worker Groups**. Use <code>estimatedIngestRate</code> to scale Cribl.Cloud Worker Groups. <br/><br/> **Warning**: Do not change the value of <code>workerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response."
         workerRemoteAccess:
           type: boolean
+          description: If <code>true</code>, the Leader allows remote access (teleporting) into the Workers or Nodes of the Worker Group, Outpost Group, or Edge Fleet.
       required:
         - id
     CountedConfigGroup:
@@ -39044,56 +39088,58 @@ components:
       properties:
         cloud:
           $ref: "#/components/schemas/ConfigGroupCloud"
-        deployingWorkerCount:
-          type: number
+          description: Cloud provider and region details for a Cribl.Cloud Worker Group.
         description:
           type: string
+          description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
+          maxLength: 512
         estimatedIngestRate:
           $ref: "#/components/schemas/EstimatedIngestRateOptionsConfigGroup"
-        git:
-          $ref: "#/components/schemas/GitTypeConfigGroup"
         id:
           type: string
-        incompatibleWorkerCount:
-          type: number
         inherits:
           type: string
+          description: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
         isFleet:
           type: boolean
-          description: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
+          description: Indicates whether this is an Edge Fleet. Deprecated. Use to identify Edge Fleets.
           deprecated: true
         isSearch:
           type: boolean
-          description: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
+          description: Indicates whether this is an internal Search Group. Deprecated. Use to identify Search Groups.
           deprecated: true
-        lookupDeployments:
-          type: array
-          items:
-            $ref: "#/components/schemas/ConfigGroupLookups"
         maxWorkerAge:
           type: string
+          description: Maximum duration a Worker or Node can remain disconnected before the Leader removes it. The value is a numeral with units, such as <code>8h</code>, <code>5d</code>, <code>1w</code>.
         name:
           type: string
+          description: Name of the Worker Group, Outpost Group, or Edge Fleet.
         onPrem:
           type: boolean
+          description: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
         provisioned:
           type: boolean
+          description: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
         sourceGroupId:
           type: string
+          description: The <code>id</code> of an existing Worker Group, Outpost Group, or Edge Fleet to copy configuration from when creating a new Group or Fleet.
         streamtags:
           type: array
           items:
             type: string
+          description: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
         tags:
           type: string
+          description: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
+          deprecated: true
         type:
           $ref: "#/components/schemas/TypeOptionsConfigGroup"
         upgradeVersion:
           type: string
-        workerCount:
-          type: number
+          description: Target software upgrade version. Applies only to Outpost Groups and Edge Fleets.
         workerRemoteAccess:
           type: boolean
+          description: If <code>true</code>, the Leader allows remote access (teleporting) into the Workers or Nodes of the Worker Group, Outpost Group, or Edge Fleet.
       required:
         - id
     DeployRequestLookups:
@@ -42358,7 +42404,7 @@ components:
         - 10240
         - 13312
         - 15360
-      description: Estimated ingest rate for Cloud Groups, in GB/sec.
+      description: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
       example: 4096
       x-speakeasy-enum-descriptions:
         - 12 MB/sec
@@ -42381,26 +42427,16 @@ components:
         - Rate156MBPerSec
         - Rate180MBPerSec
       x-speakeasy-unknown-values: allow
-    GitTypeConfigGroup:
-      type: object
-      properties:
-        commit:
-          type: string
-        localChanges:
-          type: number
-        log:
-          type: array
-          items:
-            $ref: "#/components/schemas/Commit"
     TypeOptionsConfigGroup:
       type: string
       enum:
         - edge
-        - outpost
-        - stream
-        - search
         - lake_access
         - local_search
+        - outpost
+        - search
+        - stream
+      description: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
       x-speakeasy-unknown-values: allow
     ModeOptionsInstanceSettingsSchema:
       type: string
@@ -46302,6 +46338,25 @@ components:
         onPrem: false
         estimatedIngestRate: 4096
         provisioned: true
+        configVersion: abc1234
+        workerCount: 3
+        incompatibleWorkerCount: 0
+        deployingWorkerCount: 0
+        lookupDeployments: []
+    UpdateGroupExamplesUpdateOnPremWorkerGroup:
+      summary: Update a customer-managed Worker Group
+      value:
+        id: goatOnPremIanWg
+        name: goatonpremianwg
+        description: Updated customer-managed Worker Group with remote access enabled
+        workerRemoteAccess: true
+        type: stream
+        onPrem: true
+        configVersion: abc1234
+        workerCount: 5
+        incompatibleWorkerCount: 0
+        deployingWorkerCount: 0
+        lookupDeployments: []
     LakeDatasetCreateExamplesJsonDataset:
       summary: Create a Lake Dataset in JSON format
       description: Example request body for creating a Lake Dataset in JSON format with a 90-day retention period.
@@ -51111,7 +51166,7 @@ paths:
       tags:
         - groups
       summary: Update a Worker Group, Outpost Group, or Edge Fleet
-      description: Update the specified Worker Group, Outpost Group, or Edge Fleet.
+      description: "Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/>- <code>configVersion</code><br/>- <code>deployingWorkerCount</code><br/>- <code>incompatibleWorkerCount</code><br/>- <code>workerCount</code><br/>- <code>lookupDeployments</code>."
       parameters:
         - name: product
           in: path
@@ -51136,6 +51191,8 @@ paths:
             examples:
               UpdateGroupExamplesScaleCloudWorkerGroup:
                 $ref: "#/components/examples/UpdateGroupExamplesScaleCloudWorkerGroup"
+              UpdateGroupExamplesUpdateOnPremWorkerGroup:
+                $ref: "#/components/examples/UpdateGroupExamplesUpdateOnPremWorkerGroup"
       responses:
         "200":
           description: a list of ConfigGroup objects

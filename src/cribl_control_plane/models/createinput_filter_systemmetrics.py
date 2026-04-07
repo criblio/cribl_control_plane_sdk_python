@@ -893,7 +893,7 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputTypeServicenowTable
     instance: str
-    r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
+    r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (http or https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
     table_name: str
     r"""ServiceNow table name to collect from."""
     cron_schedule: str
@@ -989,7 +989,7 @@ class CreateInputInputServicenowTable(BaseModel):
     type: CreateInputTypeServicenowTable
 
     instance: str
-    r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
+    r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (http or https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
 
     table_name: Annotated[str, pydantic.Field(alias="tableName")]
     r"""ServiceNow table name to collect from."""

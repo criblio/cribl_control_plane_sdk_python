@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1775343982053-c9684c44
+  version: 4.18.0-alpha.1775516611127-facfe159
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -21592,10 +21592,12 @@ components:
           $ref: "#/components/schemas/PqType"
         instance:
           type: string
+          pattern: .*\S.*
           title: Instance URL
-          description: ServiceNow instance base URL for Table API requests. Enter a literal URL (https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL.
+          description: ServiceNow instance base URL for Table API requests. Enter a literal URL (http or https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL.
         tableName:
           type: string
+          pattern: .*\S.*
           title: Table name
           description: ServiceNow table name to collect from.
         fields:
@@ -21645,14 +21647,17 @@ components:
           x-speakeasy-unknown-values: allow
         cronSchedule:
           type: string
+          pattern: .*\S.*
           title: Cron schedule
           description: Cron schedule on which to run this job
         earliest:
           type: string
+          pattern: .*\S.*
           title: Earliest time
           description: "Earliest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"
         latest:
           type: string
+          pattern: .*\S.*
           title: Latest time
           description: "Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"
         stateTracking:

@@ -6,19 +6,22 @@ from .timestamptypeoptionseventbreakerexistingornewnewtimestamp import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.utils.unions import parse_open_union
+from functools import partial
 import pydantic
-from pydantic import field_serializer, model_serializer
-from typing import Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from pydantic import ConfigDict, field_serializer, model_serializer
+from pydantic.functional_validators import BeforeValidator
+from typing import Any, Literal, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict(TypedDict):
+class EventBreakerExistingOrNewNewTimestampTypeCurrentTypedDict(TypedDict):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
     length: NotRequired[float]
     format_: NotRequired[str]
 
 
-class TimestampFormatTypeEventBreakerExistingOrNewNew(BaseModel):
+class EventBreakerExistingOrNewNewTimestampTypeCurrent(BaseModel):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
 
     length: Optional[float] = None
@@ -53,7 +56,143 @@ class TimestampFormatTypeEventBreakerExistingOrNewNew(BaseModel):
         return m
 
 
+class EventBreakerExistingOrNewNewTimestampTypeFormatTypedDict(TypedDict):
+    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+    format_: str
+    length: NotRequired[float]
+
+
+class EventBreakerExistingOrNewNewTimestampTypeFormat(BaseModel):
+    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+
+    format_: Annotated[str, pydantic.Field(alias="format")]
+
+    length: Optional[float] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["length"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class EventBreakerExistingOrNewNewTimestampTypeAutoTypedDict(TypedDict):
+    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+    length: float
+    format_: NotRequired[str]
+
+
+class EventBreakerExistingOrNewNewTimestampTypeAuto(BaseModel):
+    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+
+    length: float
+
+    format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["format"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict = TypeAliasType(
+    "TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict",
+    Union[
+        EventBreakerExistingOrNewNewTimestampTypeAutoTypedDict,
+        EventBreakerExistingOrNewNewTimestampTypeFormatTypedDict,
+        EventBreakerExistingOrNewNewTimestampTypeCurrentTypedDict,
+    ],
+)
+
+
+class UnknownTimestampFormatTypeEventBreakerExistingOrNewNew(BaseModel):
+    r"""A TimestampFormatTypeEventBreakerExistingOrNewNew variant the SDK doesn't recognize. Preserves the raw payload."""
+
+    type: Literal["UNKNOWN"] = "UNKNOWN"
+    raw: Any
+    is_unknown: Literal[True] = True
+
+    model_config = ConfigDict(frozen=True)
+
+
+_TIMESTAMP_FORMAT_TYPE_EVENT_BREAKER_EXISTING_OR_NEW_NEW_VARIANTS: dict[str, Any] = {
+    "auto": EventBreakerExistingOrNewNewTimestampTypeAuto,
+    "format": EventBreakerExistingOrNewNewTimestampTypeFormat,
+    "current": EventBreakerExistingOrNewNewTimestampTypeCurrent,
+}
+
+
+TimestampFormatTypeEventBreakerExistingOrNewNew = Annotated[
+    Union[
+        EventBreakerExistingOrNewNewTimestampTypeAuto,
+        EventBreakerExistingOrNewNewTimestampTypeFormat,
+        EventBreakerExistingOrNewNewTimestampTypeCurrent,
+        UnknownTimestampFormatTypeEventBreakerExistingOrNewNew,
+    ],
+    BeforeValidator(
+        partial(
+            parse_open_union,
+            disc_key="type",
+            variants=_TIMESTAMP_FORMAT_TYPE_EVENT_BREAKER_EXISTING_OR_NEW_NEW_VARIANTS,
+            unknown_cls=UnknownTimestampFormatTypeEventBreakerExistingOrNewNew,
+            union_name="TimestampFormatTypeEventBreakerExistingOrNewNew",
+        )
+    ),
+]
+
+
 try:
-    TimestampFormatTypeEventBreakerExistingOrNewNew.model_rebuild()
+    EventBreakerExistingOrNewNewTimestampTypeCurrent.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewTimestampTypeFormat.model_rebuild()
+except NameError:
+    pass
+try:
+    EventBreakerExistingOrNewNewTimestampTypeAuto.model_rebuild()
 except NameError:
     pass

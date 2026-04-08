@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1775260909420-0b566158
+  version: 4.17.1-alpha.1775637237714-fd661549
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -11111,6 +11111,10 @@ components:
           description: HTTP request inactivity timeout. Use 0 to disable.
           minimum: 0
           maximum: 1800
+        maxResponseBodySize:
+          type: string
+          title: Max response body size
+          description: Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling.
         useRoundRobinDns:
           type: boolean
           title: Round-robin DNS

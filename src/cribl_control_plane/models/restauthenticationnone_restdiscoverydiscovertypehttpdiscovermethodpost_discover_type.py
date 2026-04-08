@@ -679,6 +679,8 @@ class RestAuthenticationOauthTypedDict(TypedDict):
     pagination: NotRequired[RestAuthenticationOauthPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
     use_round_robin_dns: NotRequired[bool]
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
     disable_time_filter: NotRequired[bool]
@@ -760,6 +762,11 @@ class RestAuthenticationOauth(BaseModel):
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
@@ -843,6 +850,7 @@ class RestAuthenticationOauth(BaseModel):
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
+                "maxResponseBodySize",
                 "useRoundRobinDns",
                 "disableTimeFilter",
                 "decodeUrl",
@@ -3127,6 +3135,8 @@ class RestAuthenticationLoginSecretTypedDict(TypedDict):
     pagination: NotRequired[RestAuthenticationLoginSecretPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
     use_round_robin_dns: NotRequired[bool]
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
     disable_time_filter: NotRequired[bool]
@@ -3206,6 +3216,11 @@ class RestAuthenticationLoginSecret(BaseModel):
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
@@ -3295,6 +3310,7 @@ class RestAuthenticationLoginSecret(BaseModel):
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
+                "maxResponseBodySize",
                 "useRoundRobinDns",
                 "disableTimeFilter",
                 "decodeUrl",
@@ -5564,6 +5580,8 @@ class RestAuthenticationLoginTypedDict(TypedDict):
     pagination: NotRequired[RestAuthenticationLoginPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
     use_round_robin_dns: NotRequired[bool]
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
     disable_time_filter: NotRequired[bool]
@@ -5643,6 +5661,11 @@ class RestAuthenticationLogin(BaseModel):
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
@@ -5731,6 +5754,7 @@ class RestAuthenticationLogin(BaseModel):
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
+                "maxResponseBodySize",
                 "useRoundRobinDns",
                 "disableTimeFilter",
                 "decodeUrl",
@@ -8001,6 +8025,8 @@ class RestAuthenticationBasicSecretTypedDict(TypedDict):
     pagination: NotRequired[RestAuthenticationBasicSecretPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
     use_round_robin_dns: NotRequired[bool]
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
     disable_time_filter: NotRequired[bool]
@@ -8051,6 +8077,11 @@ class RestAuthenticationBasicSecret(BaseModel):
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
@@ -8136,6 +8167,7 @@ class RestAuthenticationBasicSecret(BaseModel):
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
+                "maxResponseBodySize",
                 "useRoundRobinDns",
                 "disableTimeFilter",
                 "decodeUrl",
@@ -10390,6 +10422,8 @@ class RestAuthenticationBasicTypedDict(TypedDict):
     pagination: NotRequired[RestAuthenticationBasicPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
     use_round_robin_dns: NotRequired[bool]
     r"""Use round-robin DNS lookup. Suitable when DNS server returns multiple addresses in sort order."""
     disable_time_filter: NotRequired[bool]
@@ -10440,6 +10474,11 @@ class RestAuthenticationBasic(BaseModel):
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling."""
 
     use_round_robin_dns: Annotated[
         Optional[bool], pydantic.Field(alias="useRoundRobinDns")
@@ -10524,6 +10563,7 @@ class RestAuthenticationBasic(BaseModel):
                 "collectRequestHeaders",
                 "pagination",
                 "timeout",
+                "maxResponseBodySize",
                 "useRoundRobinDns",
                 "disableTimeFilter",
                 "decodeUrl",

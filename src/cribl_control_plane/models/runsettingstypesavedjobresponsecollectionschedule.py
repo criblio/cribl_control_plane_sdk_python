@@ -10,14 +10,40 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import Any, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class RunSettingsTypeSavedJobResponseCollectionScheduleType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     COLLECTION = "collection"
+
+
+RunSettingsTypeSavedJobResponseCollectionScheduleEarliestTypedDict = TypeAliasType(
+    "RunSettingsTypeSavedJobResponseCollectionScheduleEarliestTypedDict",
+    Union[float, str],
+)
+r"""Earliest time to collect data for the selected timezone"""
+
+
+RunSettingsTypeSavedJobResponseCollectionScheduleEarliest = TypeAliasType(
+    "RunSettingsTypeSavedJobResponseCollectionScheduleEarliest", Union[float, str]
+)
+r"""Earliest time to collect data for the selected timezone"""
+
+
+RunSettingsTypeSavedJobResponseCollectionScheduleLatestTypedDict = TypeAliasType(
+    "RunSettingsTypeSavedJobResponseCollectionScheduleLatestTypedDict",
+    Union[float, str],
+)
+r"""Latest time to collect data for the selected timezone"""
+
+
+RunSettingsTypeSavedJobResponseCollectionScheduleLatest = TypeAliasType(
+    "RunSettingsTypeSavedJobResponseCollectionScheduleLatest", Union[float, str]
+)
+r"""Latest time to collect data for the selected timezone"""
 
 
 class RunSettingsTypeSavedJobResponseCollectionScheduleTypedDict(TypedDict):
@@ -33,9 +59,13 @@ class RunSettingsTypeSavedJobResponseCollectionScheduleTypedDict(TypedDict):
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
     time_range_type: NotRequired[str]
-    earliest: NotRequired[float]
+    earliest: NotRequired[
+        RunSettingsTypeSavedJobResponseCollectionScheduleEarliestTypedDict
+    ]
     r"""Earliest time to collect data for the selected timezone"""
-    latest: NotRequired[float]
+    latest: NotRequired[
+        RunSettingsTypeSavedJobResponseCollectionScheduleLatestTypedDict
+    ]
     r"""Latest time to collect data for the selected timezone"""
     timestamp_timezone: NotRequired[Any]
     time_warning: NotRequired[MetricsStoreTypedDict]
@@ -84,10 +114,10 @@ class RunSettingsTypeSavedJobResponseCollectionSchedule(BaseModel):
         None
     )
 
-    earliest: Optional[float] = None
+    earliest: Optional[RunSettingsTypeSavedJobResponseCollectionScheduleEarliest] = None
     r"""Earliest time to collect data for the selected timezone"""
 
-    latest: Optional[float] = None
+    latest: Optional[RunSettingsTypeSavedJobResponseCollectionScheduleLatest] = None
     r"""Latest time to collect data for the selected timezone"""
 
     timestamp_timezone: Annotated[

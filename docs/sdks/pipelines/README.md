@@ -661,7 +661,7 @@ with CriblControlPlane(
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
                     max_event_bytes=51200,
                     timestamp_anchor_regex="/^/",
-                    timestamp=models.TimestampFormatTypeEventBreakerExistingOrNewNew(
+                    timestamp=models.EventBreakerExistingOrNewNewTimestampTypeAuto(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
                         length=150,
                     ),
@@ -2642,7 +2642,7 @@ with CriblControlPlane(
                     existing_or_new=models.EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew.NEW,
                     max_event_bytes=51200,
                     timestamp_anchor_regex="/^/",
-                    timestamp=models.TimestampFormatTypeEventBreakerExistingOrNewNew(
+                    timestamp=models.EventBreakerExistingOrNewNewTimestampTypeAuto(
                         type=models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp.AUTO,
                         length=150,
                     ),

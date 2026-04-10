@@ -1,10 +1,23 @@
 # TimestampFormatTypeEventBreakerExistingOrNewNew
 
 
-## Fields
+## Supported Types
 
-| Field                                                                                                                                      | Type                                                                                                                                       | Required                                                                                                                                   | Description                                                                                                                                |
-| ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
-| `type`                                                                                                                                     | [models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp](../models/timestamptypeoptionseventbreakerexistingornewnewtimestamp.md) | :heavy_check_mark:                                                                                                                         | N/A                                                                                                                                        |
-| `length`                                                                                                                                   | *Optional[float]*                                                                                                                          | :heavy_minus_sign:                                                                                                                         | N/A                                                                                                                                        |
-| `format_`                                                                                                                                  | *Optional[str]*                                                                                                                            | :heavy_minus_sign:                                                                                                                         | N/A                                                                                                                                        |
+### `models.EventBreakerExistingOrNewNewTimestampTypeAuto`
+
+```python
+value: models.EventBreakerExistingOrNewNewTimestampTypeAuto = /* values here */
+```
+
+### `models.EventBreakerExistingOrNewNewTimestampTypeFormat`
+
+```python
+value: models.EventBreakerExistingOrNewNewTimestampTypeFormat = /* values here */
+```
+
+### `models.EventBreakerExistingOrNewNewTimestampTypeCurrent`
+
+```python
+value: models.EventBreakerExistingOrNewNewTimestampTypeCurrent = /* values here */
+```
+

@@ -23,10 +23,8 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
-from .createinputsystembypack_filter_systemmetrics import (
+from .createinputsystembypack_container_mode import (
     CreateInputSystemByPackContainerMode,
-    CreateInputSystemByPackFilterSystemMetrics,
-    CreateInputSystemByPackFilterSystemMetricsTypedDict,
     CreateInputSystemByPackHostSystemMetrics,
     CreateInputSystemByPackHostSystemMetricsTypedDict,
     CreateInputSystemByPackInputAppscope,
@@ -165,6 +163,14 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputSystemByPackFilterSystemMetricsTypedDict(TypedDict):
+    expr: str
+
+
+class CreateInputSystemByPackFilterSystemMetrics(BaseModel):
+    expr: str
 
 
 class CreateInputSystemByPackContainerTypedDict(TypedDict):

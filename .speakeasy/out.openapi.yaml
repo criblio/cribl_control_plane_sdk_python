@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1775516611127-facfe159
+  version: 4.18.0-alpha.1775775798185-aeb634de
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -111,6 +111,38 @@ components:
             delete: "#/components/schemas/DiffLineDelete"
             insert: "#/components/schemas/DiffLineInsert"
             context: "#/components/schemas/DiffLineContext"
+    EventBreakerExistingOrNewNewTimestampTypeAuto:
+      type: object
+      properties:
+        type:
+          enum:
+            - auto
+          type: string
+        length:
+          type: number
+          title: Length
+          minimum: 2
+      required:
+        - length
+    EventBreakerExistingOrNewNewTimestampTypeFormat:
+      type: object
+      properties:
+        type:
+          enum:
+            - format
+          type: string
+        format:
+          type: string
+          title: Format
+      required:
+        - format
+    EventBreakerExistingOrNewNewTimestampTypeCurrent:
+      type: object
+      properties:
+        type:
+          enum:
+            - current
+          type: string
     EventBreakerExistingOrNewNewRuleTypeRegex:
       type: object
       properties:
@@ -743,6 +775,10 @@ components:
           title: V3 authentication key
         privProtocol:
           $ref: "#/components/schemas/PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone"
+        name:
+          title: Username
+          type: string
+          minLength: 1
       required:
         - authKey
         - name
@@ -9630,18 +9666,7 @@ components:
           title: Discover URL
           description: Expression to derive URL to use for the Discover operation (can be a constant).
         discoverMethod:
-          type: string
-          title: Discover method
-          description: Discover HTTP method.
-          enum:
-            - get
-            - post
-            - post_with_body
-          x-speakeasy-enum-descriptions:
-            - GET
-            - POST
-            - POST with Body
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHttp"
         discoverRequestHeaders:
           title: Discover Headers
           description: Optional discover request headers.
@@ -9811,6 +9836,31 @@ components:
                 - Item List
                 - None
               x-speakeasy-unknown-values: allow
+            discoverUrl:
+              type: string
+              title: Discover URL
+              description: Expression to derive URL to use for the Discover operation (can be a constant).
+            discoverMethod:
+              $ref: "#/components/schemas/DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHttp"
+            discoverRequestHeaders:
+              title: Discover Headers
+              description: Optional discover request headers.
+              type: array
+              items:
+                $ref: "#/components/schemas/ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders"
+            manualDiscoverResult:
+              type: string
+              title: Discover result
+              description: Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field.
+            itemList:
+              type: array
+              title: Discover items
+              description: Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters.
+              minItems: 1
+              items:
+                type: string
+                title: Items
+                description: List of items to return from discovery.
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttp"
@@ -10317,6 +10367,176 @@ components:
           description: Select or create an HMAC Function to use with authentication
       required:
         - hmacFunctionId
+    RestDiscoveryDiscoverTypeHttpPaginationTypeNone:
+      type: object
+      properties:
+        type:
+          enum:
+            - none
+          type: string
+    RestDiscoveryDiscoverTypeHttpPaginationTypeResponseBody:
+      type: object
+      properties:
+        type:
+          enum:
+            - response_body
+          type: string
+        attribute:
+          type:
+            - array
+            - string
+          title: Response attributes
+          description: Names of attributes within the response that contain next-page information
+          items:
+            type: string
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+        lastPageExpr:
+          type: string
+          title: Last-page expression
+          description: JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section.
+      required:
+        - attribute
+        - maxPages
+    RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeader:
+      type: object
+      properties:
+        type:
+          enum:
+            - response_header
+          type: string
+        attribute:
+          type:
+            - array
+            - string
+          title: Response attributes
+          description: Names of attributes within the response that contain next-page information
+          items:
+            type: string
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+      required:
+        - attribute
+        - maxPages
+    RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeaderLink:
+      type: object
+      properties:
+        type:
+          enum:
+            - response_header_link
+          type: string
+        nextRelationAttribute:
+          type: string
+          title: Next page relation name
+          description: 'Relation name used in the link header that refers to the next page in the result set. Example: rel="next" refers to the next page of results: <https://myHost/nextPage>; rel="next"'
+        curRelationAttribute:
+          type: string
+          title: Current page relation name
+          description: 'Relation name used in the link header that refers to the current result set. Example: rel="self" refers to the current page of results: <https://myHost/curPage>; rel="self" '
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+      required:
+        - nextRelationAttribute
+        - maxPages
+    RestDiscoveryDiscoverTypeHttpPaginationTypeRequestOffset:
+      type: object
+      properties:
+        type:
+          enum:
+            - request_offset
+          type: string
+        offsetField:
+          type: string
+          title: Offset field name
+          description: "Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        offset:
+          type: number
+          title: Starting offset
+          description: Offset index from which to start request. Defaults to undefined, which will start discovery from the first record.
+        limitField:
+          type: string
+          title: Limit field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        limit:
+          type: number
+          title: Record limit
+          description: Maximum number of records to retrieve per request
+          minimum: 1
+        totalRecordField:
+          type: string
+          title: Total record count field name
+          description: Name of the attribute in the response that contains the total number of records for the query
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+        zeroIndexed:
+          type: boolean
+          title: Zero-based index
+          description: Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1.
+      required:
+        - maxPages
+        - zeroIndexed
+        - offsetField
+        - limitField
+        - limit
+    RestDiscoveryDiscoverTypeHttpPaginationTypeRequestPage:
+      type: object
+      properties:
+        type:
+          enum:
+            - request_page
+          type: string
+        pageField:
+          type: string
+          title: Page number field name
+          description: "Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        page:
+          type: number
+          title: Starting page number
+          description: Page number from which to start request. Defaults to undefined, which will start discovery from the first page.
+        sizeField:
+          type: string
+          title: Page size field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        size:
+          type: number
+          title: Record limit
+          description: Maximum number of records to retrieve per page
+          minimum: 1
+        totalPageField:
+          type: string
+          title: Total page count field name
+          description: Name of the attribute in the response that contains the total number of pages for the query
+        totalRecordField:
+          type: string
+          title: Total record count field name
+          description: Name of the attribute in the response that contains the total number of records for the query
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+        zeroIndexed:
+          type: boolean
+          title: Zero-based index
+          description: Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1.
+      required:
+        - maxPages
+        - zeroIndexed
+        - pageField
+        - sizeField
+        - size
     RestDiscoveryDiscoverTypeHttpDiscoverMethodGet:
       type: object
       properties:
@@ -10388,31 +10608,14 @@ components:
           title: Discover URL
           description: URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL.
         discoverMethod:
-          type: string
-          title: Discover method
-          enum:
-            - get
-            - post
-            - post_with_body
-            - other
-          x-speakeasy-enum-descriptions:
-            - GET
-            - POST
-            - POST with Body
-            - Other
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/DiscoverMethodOptionsRestDiscoveryDiscoverTypeHttp"
         discoverRequestHeaders:
           title: Discover headers
           type: array
           items:
             $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
         pagination:
-          type: object
-          required:
-            - type
-          properties:
-            type:
-              $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination"
+          $ref: "#/components/schemas/PaginationTypeRestDiscoveryDiscoverTypeHttp"
         discoverDataField:
           type: string
           title: Discover data field
@@ -10505,7 +10708,9 @@ components:
             - response_body
           type: string
         attribute:
-          type: array
+          type:
+            - array
+            - string
           title: Response attributes
           description: Names of attributes within the response that contain next-page information
           items:
@@ -10530,7 +10735,9 @@ components:
             - response_header
           type: string
         attribute:
-          type: array
+          type:
+            - array
+            - string
           title: Response attributes
           description: Names of attributes within the response that contain next-page information
           items:
@@ -10780,6 +10987,39 @@ components:
                 - list
                 - none
               x-speakeasy-unknown-values: allow
+            discoverUrl:
+              type: string
+              title: Discover URL
+              description: URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL.
+            discoverMethod:
+              $ref: "#/components/schemas/DiscoverMethodOptionsRestDiscoveryDiscoverTypeHttp"
+            discoverRequestHeaders:
+              title: Discover headers
+              type: array
+              items:
+                $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
+            pagination:
+              $ref: "#/components/schemas/PaginationTypeRestDiscoveryDiscoverTypeHttp"
+            enableStrictDiscoverParsing:
+              type: boolean
+              title: Strict discover response parsing
+              description: Explicitly set the discover response format. When disabled, best effort parsing is used.
+            enableDiscoverCode:
+              type: boolean
+              title: Format discover result with custom code
+            manualDiscoverResult:
+              type: string
+              title: Discover result
+              description: Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field.
+            itemList:
+              type: array
+              title: Discover items
+              description: Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters.
+              minItems: 1
+              items:
+                type: string
+                title: Items
+                description: List of items to return from discovery
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttp"
@@ -10823,6 +11063,56 @@ components:
           properties:
             type:
               $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination"
+            lastPageExpr:
+              type: string
+              title: Last-page expression
+              description: JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section.
+            nextRelationAttribute:
+              type: string
+              title: Next page relation name
+              description: 'Relation name used in the link header that refers to the next page in the result set. Example: rel="next" refers to the next page of results: <https://myHost/nextPage>; rel="next"'
+            curRelationAttribute:
+              type: string
+              title: Current page relation name
+              description: 'Relation name used in the link header that refers to the current result set. Example: rel="self" refers to the current page of results: <https://myHost/curPage>; rel="self" '
+            offsetField:
+              type: string
+              title: Offset field name
+              description: "Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+            offset:
+              type: number
+              title: Starting offset
+              description: Offset index from which to start request. Defaults to undefined, which will start collection from the first record.
+            limitField:
+              type: string
+              title: Limit field name
+              description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+            limit:
+              type: number
+              title: Record limit
+              description: Maximum number of records to collect per request
+              minimum: 1
+            pageField:
+              type: string
+              title: Page number field name
+              description: "Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+            page:
+              type: number
+              title: Starting page number
+              description: Page number from which to start request. Defaults to undefined, which will start collection from the first page.
+            sizeField:
+              type: string
+              title: Page size field name
+              description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+            size:
+              type: number
+              title: Record limit
+              description: Maximum number of records to collect per page
+              minimum: 1
+            totalPageField:
+              type: string
+              title: Total page count field name
+              description: Name of the attribute in the response that contains the total number of pages for the query
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/RestPaginationTypeNone"
@@ -10862,6 +11152,10 @@ components:
           description: HTTP request inactivity timeout. Use 0 to disable.
           minimum: 0
           maximum: 1800
+        maxResponseBodySize:
+          type: string
+          title: Max response body size
+          description: Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling.
         useRoundRobinDns:
           type: boolean
           title: Round-robin DNS
@@ -20006,7 +20300,9 @@ components:
           title: UNIX socket path
           description: Path to the UNIX domain socket to listen on.
         unixSocketPerms:
-          type: string
+          type:
+            - string
+            - number
           title: UNIX socket permissions
           description: Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions.
         authToken:
@@ -22516,11 +22812,15 @@ components:
                 - relative
               x-speakeasy-unknown-values: allow
             earliest:
-              type: number
+              type:
+                - number
+                - string
               title: Earliest
               description: Earliest time to collect data for the selected timezone
             latest:
-              type: number
+              type:
+                - number
+                - string
               title: Latest
               description: Latest time to collect data for the selected timezone
             timestampTimezone:
@@ -38375,6 +38675,18 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/InputStatus"
+    StatusError:
+      type: object
+      properties:
+        details:
+          type: object
+          additionalProperties: true
+          description: Additional error details.
+        message:
+          type: string
+          description: Human-readable message that describes the error.
+      required:
+        - message
     HealthStringType:
       type: string
       enum:
@@ -38394,6 +38706,51 @@ components:
           type: number
         Unknown:
           type: number
+    AggregatedPQStatus:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/StatusError"
+          description: Error information for the persistent queue, if applicable.
+        health:
+          $ref: "#/components/schemas/HealthStringType"
+          description: Health status of the persistent queue.
+        healthCounts:
+          $ref: "#/components/schemas/HealthCountType"
+          description: "Counts of persistent queue health statuses for the Source or Destination across all Worker Processes. Includes only statuses with non-zero counts.<br/> <br><code>Green</code> == Healthy: Normal operation<br/> <br><code>Yellow</code> == Degraded: Potential issues<br/> <br><code>Red</code> == Critical: Problem or error that affects operation<br/> <br><code>Unknown</code> == Unknown: Cannot determine health status."
+        timestamp:
+          type: number
+          description: Timestamp (in Unix time) when the persistent queue status was last updated.
+      required:
+        - health
+        - healthCounts
+        - timestamp
+    AggregatedInputOutputStatusBody:
+      type: object
+      properties:
+        error:
+          $ref: "#/components/schemas/StatusError"
+          description: Error information, if applicable.
+        health:
+          $ref: "#/components/schemas/HealthStringType"
+          description: Overall health status of the Source or Destination.
+        healthCounts:
+          $ref: "#/components/schemas/HealthCountType"
+          description: "Counts of health statuses for the Source or Destination across all Worker Processes. Includes only statuses with non-zero counts.<br/> <br><code>Green</code> == Healthy: Normal operation<br/> <br><code>Yellow</code> == Degraded: Potential issues<br/> <br><code>Red</code> == Critical: Problem or error that affects operation<br/> <br><code>Unknown</code> == Unknown: Cannot determine health status."
+        metrics:
+          type: object
+          additionalProperties: true
+          description: Metrics data for the Source or Destination, including base metrics, aggregated across all Worker Processes. For load-balanced Destinations, includes item-level metrics.
+        pq:
+          $ref: "#/components/schemas/AggregatedPQStatus"
+          description: Persistent queue status information (if persistent queue is enabled).
+        timestamp:
+          type: number
+          description: Timestamp (in Unix time) when the status was last updated.
+      required:
+        - health
+        - healthCounts
+        - timestamp
     InputStatus:
       type: object
       properties:
@@ -38401,7 +38758,8 @@ components:
           type: string
           description: Unique identifier of the Source or Destination.
         status:
-          $ref: "#/components/schemas/StatusType"
+          $ref: "#/components/schemas/AggregatedInputOutputStatusBody"
+          description: Status information for the Source or Destination, aggregated across all Worker Processes.
         type:
           type: string
           description: Type of the Source or Destination.
@@ -38426,7 +38784,8 @@ components:
           type: string
           description: Unique identifier of the Source or Destination.
         status:
-          $ref: "#/components/schemas/StatusType"
+          $ref: "#/components/schemas/AggregatedInputOutputStatusBody"
+          description: Status information for the Source or Destination, aggregated across all Worker Processes.
         type:
           type: string
           description: Type of the Source or Destination.
@@ -39306,6 +39665,22 @@ components:
         - enableAcceleration
         - fieldList
         - scanMode
+    ObjectStorageFilter:
+      type: object
+      properties:
+        dataTypeId:
+          type: string
+        filter:
+          type: string
+      required:
+        - dataTypeId
+        - filter
+    SearchVersion:
+      type: string
+      enum:
+        - v1
+        - v2
+      x-speakeasy-unknown-values: allow
     LakeDatasetSearchConfig:
       type: object
       properties:
@@ -39317,6 +39692,12 @@ components:
           type: string
         metadata:
           $ref: "#/components/schemas/DatasetMetadata"
+        pathFilters:
+          type: array
+          items:
+            $ref: "#/components/schemas/ObjectStorageFilter"
+        searchVersion:
+          $ref: "#/components/schemas/SearchVersion"
         tags:
           type: string
     CriblLakeDataset:
@@ -40799,6 +41180,17 @@ components:
         - format
         - current
       x-speakeasy-unknown-values: allow
+    EventBreakerExistingOrNewNewTimestampType:
+      oneOf:
+        - $ref: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeAuto"
+        - $ref: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeFormat"
+        - $ref: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeCurrent"
+      discriminator:
+        propertyName: type
+        mapping:
+          auto: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeAuto"
+          format: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeFormat"
+          current: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeCurrent"
     MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions:
       type: string
       title: Minimum TLS version
@@ -41017,6 +41409,19 @@ components:
           type: string
           title: Value
           description: JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+    DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHttp:
+      type: string
+      title: Discover method
+      description: Discover HTTP method.
+      enum:
+        - get
+        - post
+        - post_with_body
+      x-speakeasy-enum-descriptions:
+        - GET
+        - POST
+        - POST with Body
+      x-speakeasy-unknown-values: allow
     RetryTypeOptionsHealthCheckCollectorConfRetryRules:
       type: string
       title: Retry type
@@ -41043,6 +41448,20 @@ components:
           title: Value
           type: string
           description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+    DiscoverMethodOptionsRestDiscoveryDiscoverTypeHttp:
+      type: string
+      title: Discover method
+      enum:
+        - get
+        - post
+        - post_with_body
+        - other
+      x-speakeasy-enum-descriptions:
+        - GET
+        - POST
+        - POST with Body
+        - Other
+      x-speakeasy-unknown-values: allow
     PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination:
       type: string
       title: Pagination
@@ -41061,6 +41480,23 @@ components:
         - Offset/Limit
         - Page/Size
       x-speakeasy-unknown-values: allow
+    RestDiscoveryDiscoverTypeHttpPaginationType:
+      oneOf:
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeNone"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseBody"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeader"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeaderLink"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeRequestOffset"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeRequestPage"
+      discriminator:
+        propertyName: type
+        mapping:
+          none: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeNone"
+          response_body: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseBody"
+          response_header: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeader"
+          response_header_link: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeaderLink"
+          request_offset: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeRequestOffset"
+          request_page: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeRequestPage"
     AuthenticationMethodOptionsS3CollectorConf:
       type: string
       title: Authentication method
@@ -42371,32 +42807,6 @@ components:
       required:
         - index
         - name
-    ErrorTypeStatus:
-      type: object
-      properties:
-        details:
-          type: object
-          additionalProperties: true
-          description: Additional error details, which may include stack traces, request information, and other diagnostic data.
-        message:
-          type: string
-          description: Human-readable message that describes the error.
-      required:
-        - message
-      description: Error information, if applicable.
-    ErrorTypeStatusPq:
-      type: object
-      properties:
-        details:
-          type: object
-          additionalProperties: true
-          description: Additional details for the persistent queue error.
-        message:
-          type: string
-          description: Human-readable message that describes the persistent queue error.
-      required:
-        - message
-      description: Error information for the persistent queue, if applicable.
     EstimatedIngestRateOptionsConfigGroup:
       type: integer
       enum:
@@ -42691,6 +43101,8 @@ components:
         format:
           type: string
           title: Format
+      allOf:
+        - $ref: "#/components/schemas/EventBreakerExistingOrNewNewTimestampType"
     TlsOptionsTypeRedisDeploymentTypeStandalone:
       type: object
       properties:
@@ -42761,6 +43173,65 @@ components:
           $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
         maxVersion:
           $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+    PaginationTypeRestDiscoveryDiscoverTypeHttp:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination"
+        lastPageExpr:
+          type: string
+          title: Last-page expression
+          description: JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section.
+        nextRelationAttribute:
+          type: string
+          title: Next page relation name
+          description: 'Relation name used in the link header that refers to the next page in the result set. Example: rel="next" refers to the next page of results: <https://myHost/nextPage>; rel="next"'
+        curRelationAttribute:
+          type: string
+          title: Current page relation name
+          description: 'Relation name used in the link header that refers to the current result set. Example: rel="self" refers to the current page of results: <https://myHost/curPage>; rel="self" '
+        offsetField:
+          type: string
+          title: Offset field name
+          description: "Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        offset:
+          type: number
+          title: Starting offset
+          description: Offset index from which to start request. Defaults to undefined, which will start discovery from the first record.
+        limitField:
+          type: string
+          title: Limit field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        limit:
+          type: number
+          title: Record limit
+          description: Maximum number of records to retrieve per request
+          minimum: 1
+        pageField:
+          type: string
+          title: Page number field name
+          description: "Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        page:
+          type: number
+          title: Starting page number
+          description: Page number from which to start request. Defaults to undefined, which will start discovery from the first page.
+        sizeField:
+          type: string
+          title: Page size field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        size:
+          type: number
+          title: Record limit
+          description: Maximum number of records to retrieve per page
+          minimum: 1
+        totalPageField:
+          type: string
+          title: Total page count field name
+          description: Name of the attribute in the response that contains the total number of pages for the query
+      allOf:
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationType"
     PqType:
       type: object
       properties:
@@ -43178,11 +43649,15 @@ components:
           type: string
           title: Time range
         earliest:
-          type: number
+          type:
+            - number
+            - string
           title: Earliest
           description: Earliest time to collect data for the selected timezone
         latest:
-          type: number
+          type:
+            - number
+            - string
           title: Latest
           description: Latest time to collect data for the selected timezone
         timestampTimezone: {}
@@ -43425,25 +43900,6 @@ components:
           $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
         maxVersion:
           $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
-    PqTypeStatus:
-      type: object
-      properties:
-        error:
-          $ref: "#/components/schemas/ErrorTypeStatusPq"
-        health:
-          $ref: "#/components/schemas/HealthStringType"
-          description: Health status of the persistent queue.
-        healthCounts:
-          $ref: "#/components/schemas/HealthCountType"
-          description: "Counts of persistent queue health statuses for the Source or Destination across all Worker Processes. Includes only statuses with non-zero counts.<br/> <br><code>Green</code> == Healthy: Normal operation<br/> <br><code>Yellow</code> == Degraded: Potential issues<br/> <br><code>Red</code> == Critical: Problem or error that affects operation<br/> <br><code>Unknown</code> == Unknown: Cannot determine health status."
-        timestamp:
-          type: number
-          description: Timestamp (in Unix time) when the persistent queue status was last updated.
-      required:
-        - health
-        - healthCounts
-        - timestamp
-      description: Persistent queue status information (if persistent queue is enabled).
     KubeTypeHeartbeatMetadata:
       type: object
       properties:
@@ -43611,31 +44067,6 @@ components:
           type: number
           title: Default value schema ID
           description: Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default.
-    StatusType:
-      type: object
-      properties:
-        error:
-          $ref: "#/components/schemas/ErrorTypeStatus"
-        health:
-          $ref: "#/components/schemas/HealthStringType"
-          description: Overall health status of the Source or Destination.
-        healthCounts:
-          $ref: "#/components/schemas/HealthCountType"
-          description: "Counts of health statuses for the Source or Destination across all Worker Processes. Includes only statuses with non-zero counts.<br/> <br><code>Green</code> == Healthy: Normal operation<br/> <br><code>Yellow</code> == Degraded: Potential issues<br/> <br><code>Red</code> == Critical: Problem or error that affects operation<br/> <br><code>Unknown</code> == Unknown: Cannot determine health status."
-        metrics:
-          type: object
-          additionalProperties: true
-          description: Metrics data for the Source or Destination, including base metrics, aggregated across all Worker Processes. For load-balanced Destinations, includes item-level metrics.
-        pq:
-          $ref: "#/components/schemas/PqTypeStatus"
-        timestamp:
-          type: number
-          description: Timestamp (in Unix time) when the status was last updated.
-      required:
-        - health
-        - healthCounts
-        - timestamp
-      description: Status information for the Source or Destination, aggregated across all Worker Processes.
     RunSettingsTypeSavedJobResponseCollectionSchedule:
       type: object
       title: Run settings

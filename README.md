@@ -288,13 +288,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](docs/sdks/health/README.md#get) - Get the health status of the server
 
-### [LakeDatasets](docs/sdks/lakedatasets/README.md)
+### [Lakes.Datasets](docs/sdks/datasets/README.md)
 
-* [create](docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
-* [list](docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
-* [delete](docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
-* [get](docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
-* [update](docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
+* [create](docs/sdks/datasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
+* [list](docs/sdks/datasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
+* [delete](docs/sdks/datasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
+* [get](docs/sdks/datasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
+* [update](docs/sdks/datasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
 
 ### [Nodes](docs/sdks/nodes/README.md)
 

@@ -288,13 +288,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md#get) - Get the health status of the server
 
-### [LakeDatasets](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md)
+### [Lakes.Datasets](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md)
 
-* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
-* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
 
 ### [Nodes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md)
 

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1775643539644-04511fe9
+  version: 4.17.1-alpha.1776090951135-2a4c236b
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -50272,7 +50272,7 @@ paths:
       operationId: createCriblLakeDatasetByLakeId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: create
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -50318,7 +50318,7 @@ paths:
       operationId: getCriblLakeDatasetByLakeId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: list
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -50387,7 +50387,7 @@ paths:
       operationId: deleteCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: delete
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -50425,7 +50425,7 @@ paths:
       operationId: getCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: get
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -50463,7 +50463,7 @@ paths:
       operationId: updateCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: update
       x-cribl-internal: false
       x-cribl-availability: cloud

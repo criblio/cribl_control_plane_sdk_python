@@ -1,4 +1,4 @@
-# LakeDatasets
+# Lakes.Datasets
 
 ## Overview
 
@@ -29,7 +29,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.create(lake_id="<id>", id="web_access_logs", accelerated_fields=[
+    res = ccp_client.lakes.datasets.create(lake_id="<id>", id="web_access_logs", accelerated_fields=[
         "host",
         "status",
     ], description="Web server access logs", format_=models.FormatOptions.JSON, retention_period_in_days=90, storage_location_id="my-storage-location")
@@ -53,7 +53,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.create(lake_id="<id>", id="app_logs")
+    res = ccp_client.lakes.datasets.create(lake_id="<id>", id="app_logs")
 
     # Handle response
     print(res)
@@ -74,7 +74,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.create(lake_id="<id>", id="security_events", description="Security event data in Parquet format", format_=models.FormatOptions.PARQUET, retention_period_in_days=365, search_config={
+    res = ccp_client.lakes.datasets.create(lake_id="<id>", id="security_events", description="Security event data in Parquet format", format_=models.FormatOptions.PARQUET, retention_period_in_days=365, search_config={
         "datatypes": [
             "palo_alto_firewall",
             "crowdstrike_fdr",
@@ -136,7 +136,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.list(lake_id="<id>", storage_location_id="<id>", format_="<value>", exclude_ddss=True, exclude_deleted=True, exclude_internal=False, exclude_byos=False)
+    res = ccp_client.lakes.datasets.list(lake_id="<id>", storage_location_id="<id>", format_="<value>", exclude_ddss=True, exclude_deleted=True, exclude_internal=False, exclude_byos=False)
 
     # Handle response
     print(res)
@@ -186,7 +186,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.delete(lake_id="<id>", id="<id>")
+    res = ccp_client.lakes.datasets.delete(lake_id="<id>", id="<id>")
 
     # Handle response
     print(res)
@@ -231,7 +231,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.get(lake_id="<id>", id="<id>")
+    res = ccp_client.lakes.datasets.get(lake_id="<id>", id="<id>")
 
     # Handle response
     print(res)
@@ -276,7 +276,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.update(lake_id="<id>", id_param="<value>", accelerated_fields=[
+    res = ccp_client.lakes.datasets.update(lake_id="<id>", id_param="<value>", accelerated_fields=[
         "host",
         "status",
         "source",
@@ -301,7 +301,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.lake_datasets.update(lake_id="<id>", id_param="<value>", retention_period_in_days=180)
+    res = ccp_client.lakes.datasets.update(lake_id="<id>", id_param="<value>", retention_period_in_days=180)
 
     # Handle response
     print(res)

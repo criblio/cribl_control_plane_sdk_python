@@ -9,7 +9,7 @@ from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_res
 from typing import Any, List, Mapping, Optional, Union
 
 
-class LakeDatasets(BaseSDK):
+class Datasets(BaseSDK):
     def create(
         self,
         *,

@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from cribl_control_plane.functions import Functions
     from cribl_control_plane.groups_sdk import GroupsSDK
     from cribl_control_plane.health import Health
-    from cribl_control_plane.lakedatasets import LakeDatasets
+    from cribl_control_plane.lakes import Lakes
     from cribl_control_plane.nodes import Nodes
     from cribl_control_plane.packs import Packs
     from cribl_control_plane.pipelines import Pipelines
@@ -59,7 +59,7 @@ class CriblControlPlane(BaseSDK):
     r"""Actions related to Collectors"""
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
-    lake_datasets: "LakeDatasets"
+    lakes: "Lakes"
     auth: "Auth"
     system: "SystemSDK"
     nodes: "Nodes"
@@ -79,7 +79,7 @@ class CriblControlPlane(BaseSDK):
         "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
         "collectors": ("cribl_control_plane.collectors_sdk", "CollectorsSDK"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
-        "lake_datasets": ("cribl_control_plane.lakedatasets", "LakeDatasets"),
+        "lakes": ("cribl_control_plane.lakes", "Lakes"),
         "auth": ("cribl_control_plane.auth", "Auth"),
         "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
         "nodes": ("cribl_control_plane.nodes", "Nodes"),

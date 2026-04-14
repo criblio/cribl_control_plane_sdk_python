@@ -429,3 +429,9 @@ value: models.OutputMicrosoftFabric = /* values here */
 value: models.OutputCloudflareR2 = /* values here */
 ```
 
+### `models.OutputNutanixObjects`
+
+```python
+value: models.OutputNutanixObjects = /* values here */
+```
+

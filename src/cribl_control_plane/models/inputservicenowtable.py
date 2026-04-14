@@ -24,15 +24,13 @@ class InputServicenowTableType(str, Enum):
     SERVICENOW_TABLE = "servicenow_table"
 
 
-class DisplayValue(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value)."""
+class SortDirection(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Used only when Sort by field is set."""
 
-    # Raw
-    FALSE = "false"
-    # Display
-    TRUE = "true"
-    # All
-    ALL = "all"
+    # Ascending
+    ASC = "asc"
+    # Descending
+    DESC = "desc"
 
 
 class InputServicenowTableAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -41,13 +39,17 @@ class InputServicenowTableAuthenticationType(str, Enum, metaclass=utils.OpenEnum
     # None
     NONE = "none"
     # Basic
-    BASIC = "basic"
-    # Basic (credentials secret)
     BASIC_SECRET = "basicSecret"
     # OAuth
-    OAUTH = "oauth"
-    # OAuth (text secret)
     OAUTH_SECRET = "oauthSecret"
+
+
+class InputServicenowTableManageStateTypedDict(TypedDict):
+    pass
+
+
+class InputServicenowTableManageState(BaseModel):
+    pass
 
 
 class InputServicenowTableTypedDict(TypedDict):
@@ -80,10 +82,18 @@ class InputServicenowTableTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     fields: NotRequired[List[str]]
     r"""Field names to return from the Table API (sysparm_fields). Leave empty to return all fields."""
-    display_value: NotRequired[DisplayValue]
-    r"""ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value)."""
+    order_by_field: NotRequired[str]
+    r"""Optional. Sort results by this field (for example sys_created_on or parent.name). Leave empty to use the server default order."""
+    order_by_direction: NotRequired[SortDirection]
+    r"""Used only when Sort by field is set."""
+    query: NotRequired[str]
+    r"""Optional ServiceNow encoded query for sysparm_query (for example active=true or sys_updated_onRELATIVEGT@hour@ago@1). Enter a literal or a Cribl expression. When combined with Sort by field, the filter and sort are joined with ^. See ServiceNow Table API documentation for encoded query syntax."""
+    use_raw_values: NotRequired[bool]
+    r"""When enabled, request raw values from ServiceNow (`sysparm_display_value=false`). When disabled, request display values (`sysparm_display_value=true`)."""
     page_size: NotRequired[int]
     r"""Maximum records per Table API page request (sysparm_limit). Setting a higher value may increase the risk of timeouts."""
+    max_pages: NotRequired[int]
+    r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
     auth_type: NotRequired[InputServicenowTableAuthenticationType]
@@ -110,16 +120,14 @@ class InputServicenowTableTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
-    username: NotRequired[str]
-    password: NotRequired[str]
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     login_url: NotRequired[str]
     r"""URL for OAuth"""
     secret_param_name: NotRequired[str]
     r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret for the OAuth client secret parameter value"""
     token_attribute_name: NotRequired[str]
     r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
     auth_header_expr: NotRequired[str]
@@ -130,18 +138,21 @@ class InputServicenowTableTypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret for the OAuth client secret parameter value"""
     state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+    r"""JavaScript expression that defines how to update the state from an event. This source defaults to checking that `_time` is a finite number (not only `__timestampExtracted`), so state still advances when the event breaker assigns a fallback time. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields)."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+    manage_state: NotRequired[InputServicenowTableManageStateTypedDict]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_instance: NotRequired[str]
     r"""Binds 'instance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'instance' at runtime."""
+    template_order_by_field: NotRequired[str]
+    r"""Binds 'orderByField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'orderByField' at runtime."""
+    template_query: NotRequired[str]
+    r"""Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime."""
     template_login_url: NotRequired[str]
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
 
 
 class InputServicenowTable(BaseModel):
@@ -192,13 +203,29 @@ class InputServicenowTable(BaseModel):
     fields: Optional[List[str]] = None
     r"""Field names to return from the Table API (sysparm_fields). Leave empty to return all fields."""
 
-    display_value: Annotated[
-        Optional[DisplayValue], pydantic.Field(alias="displayValue")
+    order_by_field: Annotated[Optional[str], pydantic.Field(alias="orderByField")] = (
+        None
+    )
+    r"""Optional. Sort results by this field (for example sys_created_on or parent.name). Leave empty to use the server default order."""
+
+    order_by_direction: Annotated[
+        Optional[SortDirection], pydantic.Field(alias="orderByDirection")
     ] = None
-    r"""ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value)."""
+    r"""Used only when Sort by field is set."""
+
+    query: Optional[str] = None
+    r"""Optional ServiceNow encoded query for sysparm_query (for example active=true or sys_updated_onRELATIVEGT@hour@ago@1). Enter a literal or a Cribl expression. When combined with Sort by field, the filter and sort are joined with ^. See ServiceNow Table API documentation for encoded query syntax."""
+
+    use_raw_values: Annotated[Optional[bool], pydantic.Field(alias="useRawValues")] = (
+        None
+    )
+    r"""When enabled, request raw values from ServiceNow (`sysparm_display_value=false`). When disabled, request display values (`sysparm_display_value=true`)."""
 
     page_size: Annotated[Optional[int], pydantic.Field(alias="pageSize")] = None
     r"""Maximum records per Table API page request (sysparm_limit). Setting a higher value may increase the risk of timeouts."""
+
+    max_pages: Annotated[Optional[int], pydantic.Field(alias="maxPages")] = None
+    r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -261,10 +288,6 @@ class InputServicenowTable(BaseModel):
 
     description: Optional[str] = None
 
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
     ] = None
@@ -278,8 +301,8 @@ class InputServicenowTable(BaseModel):
     ] = None
     r"""Secret parameter name to pass in request body"""
 
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret for the OAuth client secret parameter value"""
 
     token_attribute_name: Annotated[
         Optional[str], pydantic.Field(alias="tokenAttributeName")
@@ -306,39 +329,50 @@ class InputServicenowTable(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret for the OAuth client secret parameter value"""
-
     state_update_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateUpdateExpression")
     ] = None
-    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+    r"""JavaScript expression that defines how to update the state from an event. This source defaults to checking that `_time` is a finite number (not only `__timestampExtracted`), so state still advances when the event breaker assigns a fallback time. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields)."""
 
     state_merge_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateMergeExpression")
     ] = None
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
+    manage_state: Annotated[
+        Optional[InputServicenowTableManageState], pydantic.Field(alias="manageState")
+    ] = None
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_instance: Annotated[
         Optional[str], pydantic.Field(alias="__template_instance")
     ] = None
     r"""Binds 'instance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'instance' at runtime."""
+
+    template_order_by_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_orderByField")
+    ] = None
+    r"""Binds 'orderByField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'orderByField' at runtime."""
+
+    template_query: Annotated[
+        Optional[str], pydantic.Field(alias="__template_query")
+    ] = None
+    r"""Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime."""
 
     template_login_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_loginUrl")
     ] = None
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
 
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
-    @field_serializer("display_value")
-    def serialize_display_value(self, value):
+    @field_serializer("order_by_direction")
+    def serialize_order_by_direction(self, value):
         if isinstance(value, str):
             try:
-                return models.DisplayValue(value)
+                return models.SortDirection(value)
             except ValueError:
                 return value
         return value
@@ -375,8 +409,12 @@ class InputServicenowTable(BaseModel):
                 "connections",
                 "pq",
                 "fields",
-                "displayValue",
+                "orderByField",
+                "orderByDirection",
+                "query",
+                "useRawValues",
                 "pageSize",
+                "maxPages",
                 "rejectUnauthorized",
                 "authType",
                 "stateTracking",
@@ -391,23 +429,23 @@ class InputServicenowTable(BaseModel):
                 "metadata",
                 "retryRules",
                 "description",
-                "username",
-                "password",
                 "credentialsSecret",
                 "loginUrl",
                 "secretParamName",
-                "secret",
+                "textSecret",
                 "tokenAttributeName",
                 "authHeaderExpr",
                 "tokenTimeoutSecs",
                 "oauthParams",
                 "oauthHeaders",
-                "textSecret",
                 "stateUpdateExpression",
                 "stateMergeExpression",
+                "manageState",
+                "__template_environment",
                 "__template_instance",
+                "__template_orderByField",
+                "__template_query",
                 "__template_loginUrl",
-                "__template_secret",
             ]
         )
         serialized = handler(self)

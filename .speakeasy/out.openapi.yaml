@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1775775798185-aeb634de
+  version: 4.18.0-alpha.1776198483570-dbc359e3
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -12104,6 +12104,9 @@ components:
           type: string
           title: Destination
           description: Destination to send results to
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputKafka:
@@ -12294,6 +12297,12 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_groupId:
+          type: string
+          description: Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime.
     InputMsk:
       type: object
       required:
@@ -12533,6 +12542,12 @@ components:
           type: string
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_groupId:
+          type: string
+          description: Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime.
         __template_awsSecretKey:
           type: string
           description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
@@ -12699,12 +12714,21 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
+        __template_criblAPI:
+          type: string
+          description: Binds 'criblAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'criblAPI' at runtime.
+        __template_elasticAPI:
+          type: string
+          description: Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime.
         __template_splunkHecAPI:
           type: string
           description: Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime.
@@ -12867,6 +12891,9 @@ components:
             - Automatic
             - Always
           x-speakeasy-unknown-values: allow
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -13099,6 +13126,27 @@ components:
           type: string
           title: Token (text secret)
           description: Select or create a stored text secret
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_searchHead:
+          type: string
+          description: Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime.
+        __template_search:
+          type: string
+          description: Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime.
+        __template_earliest:
+          type: string
+          description: Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime.
+        __template_latest:
+          type: string
+          description: Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
+        __template_logLevel:
+          type: string
+          description: Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime.
     InputSplunkHec:
       type: object
       required:
@@ -13315,6 +13363,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -13475,18 +13526,27 @@ components:
           description: Select or create a stored text secret
         certificate:
           $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_queueName:
           type: string
           description: Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime.
         __template_connectionString:
           type: string
           description: Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime.
+        __template_storageAccountName:
+          type: string
+          description: Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime.
         __template_tenantId:
           type: string
           description: Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime.
         __template_clientId:
           type: string
           description: Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime.
+        __template_azureCloud:
+          type: string
+          description: Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime.
     InputElastic:
       type: object
       required:
@@ -13718,6 +13778,9 @@ components:
           type: string
           title: Custom API Version
           description: Custom version information to respond to requests
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -13912,6 +13975,12 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_groupId:
+          type: string
+          description: Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime.
     InputGrafana:
       type: object
       required:
@@ -14086,12 +14155,21 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
+        __template_prometheusAPI:
+          type: string
+          description: Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime.
+        __template_lokiAPI:
+          type: string
+          description: Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime.
       anyOf:
         - required:
             - prometheusAPI
@@ -14241,12 +14319,18 @@ components:
           type: string
           title: Token (text secret)
           description: Select or create a stored text secret
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
+        __template_lokiAPI:
+          type: string
+          description: Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime.
     InputPrometheusRw:
       type: object
       required:
@@ -14391,6 +14475,9 @@ components:
           type: string
           title: Token (text secret)
           description: Select or create a stored text secret
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -14629,6 +14716,9 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_discoveryType:
           type: string
           description: Binds 'discoveryType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoveryType' at runtime.
@@ -14916,6 +15006,9 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_awsApiKey:
           type: string
           description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
@@ -15078,6 +15171,12 @@ components:
           type: string
           title: Client secret (text secret)
           description: Select or create a stored text secret
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_planType:
+          type: string
+          description: Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime.
         __template_tenantId:
           type: string
           description: Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime.
@@ -15223,6 +15322,12 @@ components:
           type: string
           title: Client secret (text secret)
           description: Select or create a stored text secret
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_planType:
+          type: string
+          description: Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime.
         __template_tenantId:
           type: string
           description: Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime.
@@ -15400,6 +15505,9 @@ components:
           description: Select or create a secret that references your client_secret to pass in the OAuth request parameter.
         certOptions:
           $ref: "#/components/schemas/CertOptionsType"
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_url:
           type: string
           description: Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime.
@@ -15412,6 +15520,9 @@ components:
         __template_resource:
           type: string
           description: Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime.
+        __template_planType:
+          type: string
+          description: Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime.
     InputMicrosoftGraph:
       type: object
       required:
@@ -15586,6 +15697,9 @@ components:
           description: Select or create a secret that references your client_secret to pass in the OAuth request parameter.
         certOptions:
           $ref: "#/components/schemas/CertOptionsType"
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_url:
           type: string
           description: Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime.
@@ -15598,6 +15712,9 @@ components:
         __template_resource:
           type: string
           description: Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime.
+        __template_planType:
+          type: string
+          description: Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime.
     InputEventhub:
       type: object
       required:
@@ -15792,6 +15909,241 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_groupId:
+          type: string
+          description: Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime.
+    InputEventhubAmqp:
+      type: object
+      required:
+        - type
+        - consumerGroup
+      properties:
+        id:
+          type: string
+          title: Input ID
+          description: Unique ID for this input
+        type:
+          type: string
+          enum:
+            - eventhub_amqp
+        disabled:
+          type: boolean
+          title: Disabled
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data from this Source before sending it through the Routes
+        sendToRoutes:
+          type: boolean
+          description: Select whether to send data to Routes, or directly to Destinations.
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        pqEnabled:
+          type: boolean
+          title: Enable persistent queue
+          description: Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
+          items:
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
+        pq:
+          $ref: "#/components/schemas/PqType"
+        eventHubName:
+          type: string
+          title: Event Hub name
+          description: The name of the Event Hub to consume from
+          minLength: 1
+        consumerGroup:
+          type: string
+          title: Consumer group
+          description: The consumer group this instance belongs to. Default is '$Default'.
+          minLength: 1
+        auth:
+          type: object
+          required:
+            - authType
+          properties:
+            mechanism:
+              type: string
+              enum:
+                - connection-string
+              x-speakeasy-enum-descriptions:
+                - Connection String
+              title: Authentication mechanism
+              x-speakeasy-unknown-values: allow
+            authType:
+              enum:
+                - manual
+                - secret
+              title: Authentication method
+              type: string
+              description: Enter connection string directly, or select a stored secret
+              x-speakeasy-unknown-values: allow
+            connectionString:
+              type: string
+              title: Connection string
+              description: Event Hubs namespace or Event Hub-level connection string
+            textSecret:
+              type: string
+              title: Connection string (text secret)
+              description: Select or create a stored text secret
+        checkpointing:
+          type: object
+          properties:
+            checkpointStoreType:
+              type: string
+              title: Checkpoint store
+              description: The backing store used to persist consumer checkpoints. Select "None" to disable checkpointing (consumers will restart from the configured start position).
+              enum:
+                - none
+                - azureBlob
+              x-speakeasy-enum-descriptions:
+                - None
+                - Azure Blob Storage
+              x-speakeasy-unknown-values: allow
+            blobStore:
+              type: object
+              title: Azure Blob Storage
+              required:
+                - containerName
+              properties:
+                containerName:
+                  type: string
+                  title: Container name
+                  description: Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens.
+                  minLength: 3
+                  maxLength: 63
+                  pattern: ^[a-z0-9](-?[a-z0-9])*$
+                authType:
+                  $ref: "#/components/schemas/AuthenticationMethodOptions"
+                connectionString:
+                  type: string
+                  title: Connection string
+                  description: Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING.
+                textSecret:
+                  type: string
+                  title: Connection string (text secret)
+                  description: Select or create a stored text secret
+                storageAccountName:
+                  type: string
+                  title: Storage account name
+                  description: The name of your Azure storage account
+                tenantId:
+                  type: string
+                  title: Tenant ID
+                  description: The service principal's tenant ID
+                clientId:
+                  type: string
+                  title: Client ID
+                  description: The service principal's client ID
+                azureCloud:
+                  type: string
+                  title: Azure Cloud
+                  description: The Azure cloud to use. Defaults to Azure Public Cloud.
+                endpointSuffix:
+                  type: string
+                  title: Endpoint suffix
+                  description: Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net.
+                clientTextSecret:
+                  type: string
+                  title: Client secret (text secret)
+                  description: Select or create a stored text secret
+                certificate:
+                  $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
+                __template_connectionString:
+                  type: string
+                  description: Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime.
+                __template_storageAccountName:
+                  type: string
+                  description: Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime.
+                __template_tenantId:
+                  type: string
+                  description: Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime.
+                __template_clientId:
+                  type: string
+                  description: Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime.
+                __template_azureCloud:
+                  type: string
+                  description: Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime.
+        fromBeginning:
+          type: boolean
+          title: From beginning
+          description: Start reading from earliest available data; relevant only during initial subscription
+        maxBatchSize:
+          type: integer
+          minimum: 1
+          title: Max batch size
+          description: Maximum number of events in each batch delivered to the consumer
+        maxWaitTimeInSeconds:
+          type: integer
+          minimum: 1
+          title: Max wait time (secs)
+          description: Maximum time to wait for a batch of events before delivering a partial batch
+        prefetchCount:
+          type: integer
+          minimum: 1
+          title: Prefetch count
+          description: Number of events to prefetch from the service for processing
+        maxRetries:
+          type: integer
+          minimum: 0
+          title: Retry limit
+          description: Maximum number of retries per operation
+        initialBackoff:
+          type: integer
+          minimum: 300
+          title: Initial retry interval (ms)
+          description: Initial delay before the first retry, in milliseconds
+        maxBackoff:
+          type: integer
+          minimum: 30000
+          title: Backoff limit (ms)
+          description: Maximum delay between retries, in milliseconds
+        timeoutInMs:
+          type: integer
+          minimum: 1000
+          title: Request timeout (ms)
+          description: Maximum time to wait for a request to complete
+        connectionInitialBackoff:
+          type: integer
+          minimum: 1
+          title: Connection initial retry interval (ms)
+          description: Initial delay before the first reconnection attempt, in milliseconds
+        connectionMaxBackoff:
+          type: integer
+          minimum: 1
+          title: Connection backoff limit (ms)
+          description: Maximum delay between reconnection attempts, in milliseconds
+        connectionTimeoutInMs:
+          type: integer
+          minimum: 1000
+          title: Connection timeout (ms)
+          description: Maximum time to wait for a connection to complete
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        description:
+          type: string
+          title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
     InputExec:
       type: object
       required:
@@ -15888,6 +16240,9 @@ components:
           type: string
           title: Schedule
           description: Cron schedule to execute the command on.
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
     InputFirehose:
       type: object
       required:
@@ -16012,6 +16367,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -16128,6 +16486,9 @@ components:
           type: boolean
           title: Ordered delivery
           description: Receive events in the order they were added to the queue. The process sending events must have ordering enabled.
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_topicName:
           type: string
           description: Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime.
@@ -16191,6 +16552,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputCriblTcp:
@@ -16294,6 +16658,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -16424,6 +16791,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -16613,12 +16983,21 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
+        __template_criblAPI:
+          type: string
+          description: Binds 'criblAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'criblAPI' at runtime.
+        __template_elasticAPI:
+          type: string
+          description: Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime.
         __template_splunkHecAPI:
           type: string
           description: Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime.
@@ -16731,6 +17110,9 @@ components:
           type: string
           title: Auth token (text secret)
           description: Select or create a stored text secret
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -17000,6 +17382,8 @@ components:
               type: boolean
               title: Detailed metrics
               description: Generate full container metrics
+        gpu:
+          $ref: "#/components/schemas/GpuType"
         metadata:
           type: array
           title: Fields
@@ -17037,6 +17421,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputSystemState:
@@ -17222,6 +17609,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputKubeMetrics:
@@ -17315,6 +17705,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputKubeLogs:
@@ -17413,6 +17806,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputKubeEvents:
@@ -17473,6 +17869,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputWindowsMetrics:
@@ -17670,6 +18069,8 @@ components:
                         type: string
         process:
           $ref: "#/components/schemas/ProcessType"
+        gpu:
+          $ref: "#/components/schemas/GpuType"
         metadata:
           type: array
           title: Fields
@@ -17711,6 +18112,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputCrowdstrike:
@@ -17903,6 +18307,9 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_queueName:
           type: string
           description: Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime.
@@ -18063,6 +18470,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -18142,6 +18552,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
     InputHttpRaw:
       type: object
       required:
@@ -18298,6 +18711,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -18481,9 +18897,18 @@ components:
           type: string
           title: Secret key pair
           description: Select or create a stored secret that references your access key and secret key
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_streamName:
           type: string
           description: Binds 'streamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamName' at runtime.
+        __template_shardIteratorType:
+          type: string
+          description: Binds 'shardIteratorType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'shardIteratorType' at runtime.
+        __template_payloadFormat:
+          type: string
+          description: Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime.
         __template_awsSecretKey:
           type: string
           description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
@@ -18562,6 +18987,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputMetrics:
@@ -18654,6 +19082,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -18867,6 +19298,9 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_queueName:
           type: string
           description: Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime.
@@ -19102,6 +19536,9 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_queueName:
           type: string
           description: Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime.
@@ -19252,6 +19689,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -19422,6 +19862,9 @@ components:
           type: boolean
           title: Extract logs
           description: Enable to extract each incoming log record to a separate event
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -19505,6 +19948,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -19665,9 +20111,15 @@ components:
           description: How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead.
           minimum: 1
           maximum: 100
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_queueName:
           type: string
           description: Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime.
+        __template_queueType:
+          type: string
+          description: Binds 'queueType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueType' at runtime.
         __template_awsAccountId:
           type: string
           description: Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime.
@@ -19838,6 +20290,9 @@ components:
           type: boolean
           title: Enable enhanced TLS handshake for proxy protocol
           description: When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise.
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -19847,6 +20302,9 @@ components:
         __template_tcpPort:
           type: string
           description: Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime.
+        __template_timestampTimezone:
+          type: string
+          description: Binds 'timestampTimezone' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'timestampTimezone' at runtime.
       anyOf:
         - required:
             - host
@@ -19992,10 +20450,17 @@ components:
           type: boolean
           title: Salt file hash
           description: Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion.
+        optimizeLeafDirectories:
+          type: boolean
+          title: Optimize for leaf directories
+          description: Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories.
         includeUnidentifiableBinary:
           type: boolean
           title: Enable binary files
           description: Stream binary files as Base64-encoded chunks.
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
       required:
         - type
     InputTcp:
@@ -20121,6 +20586,9 @@ components:
           type: string
           title: Auth token (text secret)
           description: Select or create a stored text secret
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -20313,6 +20781,9 @@ components:
           type: string
           title: Auth token (text secret)
           description: Select or create a stored text secret
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -20610,6 +21081,9 @@ components:
           type: boolean
           title: Log CA fingerprint mismatch warning
           description: Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder.
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -20730,6 +21204,9 @@ components:
           type: boolean
           title: Render event message strings
           description: Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
     InputRawUdp:
       type: object
       required:
@@ -20818,6 +21295,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -20919,6 +21399,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
     InputWiz:
       type: object
       required:
@@ -21044,16 +21527,7 @@ components:
                 description: "Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."
                 pattern: ^\d+[sm]?$
               logLevel:
-                type: string
-                title: Log level
-                enum:
-                  - error
-                  - warn
-                  - info
-                  - debug
-                  - silly
-                description: Collector runtime log level
-                x-speakeasy-unknown-values: allow
+                $ref: "#/components/schemas/LogLevelOptionsContentConfigItemsDebugError"
               maxPages:
                 type: number
                 title: Page limit
@@ -21090,6 +21564,18 @@ components:
           description: Fields to add to events from this input
           items:
             $ref: "#/components/schemas/ItemsTypeMetadata"
+        breakerRulesets:
+          type: array
+          title: Event Breaker rulesets
+          description: A list of event-breaking rulesets that will be applied, in order, to the input data stream
+          items:
+            type: string
+        staleChannelFlushMs:
+          type: number
+          title: Event Breaker buffer timeout (ms)
+          description: How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
+          minimum: 10
+          maximum: 4.32e+07
         retryRules:
           $ref: "#/components/schemas/RetryRulesType"
         authType:
@@ -21105,6 +21591,9 @@ components:
           type: string
           title: Client Secret (text secret)
           description: Select or create a stored text secret
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_endpoint:
           type: string
           description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
@@ -21335,6 +21824,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_openaiOrganization:
           type: string
           description: Binds 'openaiOrganization' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'openaiOrganization' at runtime.
@@ -21497,6 +21989,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -21604,6 +22099,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -21812,6 +22310,9 @@ components:
           type: string
           title: Tag value
           description: The value for the S3 object tag applied after processing. This field accepts an expression for dynamic generation.
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_queueName:
           type: string
           description: Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime.
@@ -21902,24 +22403,39 @@ components:
           description: Field names to return from the Table API (sysparm_fields). Leave empty to return all fields.
           items:
             type: string
-        displayValue:
+        orderByField:
           type: string
-          title: Display value
-          description: ServiceNow reference field display mode. Allows raw values, display values, or both (sysparm_display_value).
+          title: Sort by field
+          description: Optional. Sort results by this field (for example sys_created_on or parent.name). Leave empty to use the server default order.
+        orderByDirection:
+          type: string
+          title: Sort direction
+          description: Used only when Sort by field is set.
           enum:
-            - "false"
-            - "true"
-            - all
+            - asc
+            - desc
           x-speakeasy-enum-descriptions:
-            - Raw
-            - Display
-            - All
+            - Ascending
+            - Descending
           x-speakeasy-unknown-values: allow
+        query:
+          type: string
+          title: Filter query (advanced)
+          description: Optional ServiceNow encoded query for sysparm_query (for example active=true or sys_updated_onRELATIVEGT@hour@ago@1). Enter a literal or a Cribl expression. When combined with Sort by field, the filter and sort are joined with ^. See ServiceNow Table API documentation for encoded query syntax.
+        useRawValues:
+          type: boolean
+          title: Use raw values
+          description: When enabled, request raw values from ServiceNow (`sysparm_display_value=false`). When disabled, request display values (`sysparm_display_value=true`).
         pageSize:
           type: integer
           title: Page size
           description: Maximum records per Table API page request (sysparm_limit). Setting a higher value may increase the risk of timeouts.
           minimum: 1
+        maxPages:
+          type: integer
+          title: Page limit
+          description: Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages.
+          minimum: 0
         rejectUnauthorized:
           type: boolean
           title: Reject unauthorized certificates
@@ -21930,16 +22446,12 @@ components:
           description: ServiceNow Table API authentication method
           enum:
             - none
-            - basic
             - basicSecret
-            - oauth
             - oauthSecret
           x-speakeasy-enum-descriptions:
             - None
             - Basic
-            - Basic (credentials secret)
             - OAuth
-            - OAuth (text secret)
           x-speakeasy-unknown-values: allow
         cronSchedule:
           type: string
@@ -22006,12 +22518,6 @@ components:
         description:
           type: string
           title: Description
-        username:
-          type: string
-          title: Username
-        password:
-          type: string
-          title: Password
         credentialsSecret:
           type: string
           title: Credentials secret
@@ -22025,10 +22531,10 @@ components:
           type: string
           title: OAuth Secret parameter name
           description: Secret parameter name to pass in request body
-        secret:
+        textSecret:
           type: string
-          title: OAuth secret
-          description: Secret parameter value to pass in request body
+          title: OAuth secret (text secret)
+          description: Select or create a stored text secret for the OAuth client secret parameter value
         tokenAttributeName:
           type: string
           title: Token attribute name
@@ -22055,27 +22561,31 @@ components:
           description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
             $ref: "#/components/schemas/ItemsTypeOauthHeaders"
-        textSecret:
-          type: string
-          title: OAuth secret (text secret)
-          description: Select or create a stored text secret for the OAuth client secret parameter value
         stateUpdateExpression:
           type: string
           title: State update expression
-          description: JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information.
+          description: JavaScript expression that defines how to update the state from an event. This source defaults to checking that `_time` is a finite number (not only `__timestampExtracted`), so state still advances when the event breaker assigns a fallback time. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields).
         stateMergeExpression:
           type: string
           title: State merge expression
           description: JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep.
+        manageState:
+          type: object
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_instance:
           type: string
           description: Binds 'instance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'instance' at runtime.
+        __template_orderByField:
+          type: string
+          description: Binds 'orderByField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'orderByField' at runtime.
+        __template_query:
+          type: string
+          description: Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime.
         __template_loginUrl:
           type: string
           description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime.
-        __template_secret:
-          type: string
-          description: Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime.
     InputZscalerHec:
       type: object
       required:
@@ -22267,6 +22777,9 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
@@ -22516,12 +23029,196 @@ components:
         description:
           type: string
           title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
         __template_host:
           type: string
           description: Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime.
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
+    InputOpenaiComplianceLogs:
+      type: object
+      required:
+        - type
+        - textSecret
+        - accountType
+        - cronSchedule
+      properties:
+        id:
+          type: string
+          title: Input ID
+          description: Unique ID for this input
+        type:
+          type: string
+          enum:
+            - openai_compliance_logs
+        disabled:
+          type: boolean
+          title: Disabled
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data from this Source before sending it through the Routes
+        sendToRoutes:
+          type: boolean
+          description: Select whether to send data to Routes, or directly to Destinations.
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        pqEnabled:
+          type: boolean
+          title: Enable persistent queue
+          description: Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
+          items:
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
+        pq:
+          $ref: "#/components/schemas/PqType"
+        apiKey:
+          type: string
+          title: API key
+        textSecret:
+          type: string
+          title: API key (text secret)
+          description: Select or create a stored text secret
+        accountType:
+          type: string
+          title: Account type
+          enum:
+            - workspace
+            - organization
+          x-speakeasy-enum-descriptions:
+            - Workspace
+            - Organization
+          x-speakeasy-unknown-values: allow
+        cronSchedule:
+          type: string
+          title: Cron schedule
+        earliest:
+          type: string
+          title: Earliest time
+          description: "Relative to the current time. Format: [+|-]<time_integer><time_unit>"
+        latest:
+          type: string
+          title: Latest time
+          description: "Relative to the current time. Format: [+|-]<time_integer><time_unit>"
+        jobTimeout:
+          title: Job timeout
+          type: string
+          description: "Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."
+          pattern: ^\d+[sm]?$
+        logLevel:
+          $ref: "#/components/schemas/LogLevelOptionsContentConfigItemsDebugError"
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of log file listing pages to retrieve per run. Set to 0 to retrieve all pages.
+          minimum: 0
+        stateTracking:
+          type: boolean
+          title: State tracking
+          description: Track collection progress between consecutive scheduled executions
+        requestTimeout:
+          type: number
+          title: Request timeout (seconds)
+          description: HTTP request inactivity timeout. Use 0 to disable.
+          minimum: 0
+          maximum: 2400
+        keepAliveTime:
+          type: number
+          title: Keep alive time (seconds)
+          description: How often workers should check in with the scheduler to keep job subscription alive
+          minimum: 10
+        maxMissedKeepAlives:
+          type: number
+          title: Worker timeout (periods)
+          description: The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked.
+          minimum: 2
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        breakerRulesets:
+          type: array
+          title: Event Breaker rulesets
+          description: A list of event-breaking rulesets that will be applied, in order, to the input data stream
+          items:
+            type: string
+        staleChannelFlushMs:
+          type: number
+          title: Event Breaker buffer timeout (ms)
+          description: How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines
+          minimum: 10
+          maximum: 4.32e+07
+        retryRules:
+          $ref: "#/components/schemas/RetryRulesType"
+        description:
+          type: string
+          title: Description
+        workspaceId:
+          type: string
+          title: Workspace ID
+          description: The ID of the ChatGPT workspace to collect logs from (UUID format)
+        workspaceEventTypes:
+          type: array
+          title: Event types
+          description: One or more compliance log categories to collect
+          items:
+            type: string
+          uniqueItems: true
+        organizationId:
+          type: string
+          title: Organization ID
+          description: "The ID of the OpenAI API Platform Organization (example: org-XXXXXXXXXXXXXXXXXXXXXXXX)"
+        organizationEventTypes:
+          type: array
+          title: Event types
+          description: One or more compliance log categories to collect
+          items:
+            type: string
+          uniqueItems: true
+        stateUpdateExpression:
+          type: string
+          title: State update expression
+          description: JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information.
+        stateMergeExpression:
+          type: string
+          title: State merge expression
+          description: JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep.
+        manageState:
+          type: object
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_workspaceId:
+          type: string
+          description: Binds 'workspaceId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'workspaceId' at runtime.
+        __template_organizationId:
+          type: string
+          description: Binds 'organizationId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'organizationId' at runtime.
     Input:
       oneOf:
         - $ref: "#/components/schemas/InputCollection"
@@ -22544,6 +23241,7 @@ components:
         - $ref: "#/components/schemas/InputOffice365MsgTrace"
         - $ref: "#/components/schemas/InputMicrosoftGraph"
         - $ref: "#/components/schemas/InputEventhub"
+        - $ref: "#/components/schemas/InputEventhubAmqp"
         - $ref: "#/components/schemas/InputExec"
         - $ref: "#/components/schemas/InputFirehose"
         - $ref: "#/components/schemas/InputGooglePubsub"
@@ -22587,6 +23285,7 @@ components:
         - $ref: "#/components/schemas/InputServicenowTable"
         - $ref: "#/components/schemas/InputZscalerHec"
         - $ref: "#/components/schemas/InputCloudflareHec"
+        - $ref: "#/components/schemas/InputOpenaiComplianceLogs"
       discriminator:
         propertyName: type
         mapping:
@@ -22610,6 +23309,7 @@ components:
           office365_msg_trace: "#/components/schemas/InputOffice365MsgTrace"
           microsoft_graph: "#/components/schemas/InputMicrosoftGraph"
           eventhub: "#/components/schemas/InputEventhub"
+          eventhub_amqp: "#/components/schemas/InputEventhubAmqp"
           exec: "#/components/schemas/InputExec"
           firehose: "#/components/schemas/InputFirehose"
           google_pubsub: "#/components/schemas/InputGooglePubsub"
@@ -22653,6 +23353,7 @@ components:
           servicenow_table: "#/components/schemas/InputServicenowTable"
           zscaler_hec: "#/components/schemas/InputZscalerHec"
           cloudflare_hec: "#/components/schemas/InputCloudflareHec"
+          openai_compliance_logs: "#/components/schemas/InputOpenaiComplianceLogs"
     CountedInput:
       type: object
       properties:
@@ -26251,12 +26952,18 @@ components:
         __template_connectionString:
           type: string
           description: Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime.
+        __template_storageAccountName:
+          type: string
+          description: Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime.
         __template_tenantId:
           type: string
           description: Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime.
         __template_clientId:
           type: string
           description: Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime.
+        __template_azureCloud:
+          type: string
+          description: Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime.
     OutputAzureDataExplorer:
       type: object
       required:
@@ -37762,6 +38469,9 @@ components:
               type: string
               title: Scope
               description: Scope to pass in the OAuth request parameter
+            __template_mechanism:
+              type: string
+              description: Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime.
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideType"
         onBackpressure:
@@ -38108,6 +38818,297 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+    OutputNutanixObjects:
+      type: object
+      required:
+        - type
+        - bucket
+        - stagePath
+        - endpoint
+      properties:
+        id:
+          type: string
+          title: Output ID
+          description: Unique ID for this output
+        type:
+          type: string
+          enum:
+            - nutanix_objects
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data before sending out to this output
+        systemFields:
+          type: array
+          title: System fields
+          description: Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
+          items:
+            type: string
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        awsAuthenticationMethod:
+          type: string
+          title: Authentication method
+          description: AWS authentication method.
+          enum:
+            - manual
+            - secret
+          x-speakeasy-enum-descriptions:
+            - Manual
+            - Secret Key pair
+          x-speakeasy-unknown-values: allow
+        signatureVersion:
+          type: string
+          title: Signature version
+          description: Signature version to use for signing Nutanix Objects requests
+          enum:
+            - v2
+            - v4
+          x-speakeasy-unknown-values: allow
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests, which can improve performance
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
+        bucket:
+          type: string
+          title: Nutanix Objects bucket name
+          description: "Name of the destination Nutanix Objects bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        region:
+          type: string
+          title: Region
+          description: Region where the Nutanix Objects bucket is located
+        destPath:
+          type: string
+          title: Key prefix
+          description: "Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts upload limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          minimum: 1
+          maximum: 10
+        verifyPermissions:
+          type: boolean
+          title: Verify if bucket exists
+          description: Disable if you can access files within the bucket but not the bucket itself
+        maxClosingFilesToBackpressure:
+          type: number
+          title: Staging file limit
+          description: Maximum number of files that can be waiting for upload before backpressure is applied
+          minimum: 10
+          maximum: 4200
+        stagePath:
+          type: string
+          title: Staging location
+          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage.
+        addIdToStagePath:
+          type: boolean
+          title: Add output ID
+          description: Add the Output ID value to staging location
+        removeEmptyDirs:
+          type: boolean
+          title: Remove empty staging directories
+          description: Remove empty staging directories after moving files
+        partitionExpr:
+          type: string
+          title: Partitioning expression
+          description: JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory.
+        format:
+          $ref: "#/components/schemas/DataFormatOptions"
+        baseFileName:
+          type: string
+          title: File name prefix expression
+          description: JavaScript expression to define the output filename prefix (can be constant)
+        fileNameSuffix:
+          type: string
+          title: File name suffix expression
+          description: JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`).
+        maxFileSizeMB:
+          type: number
+          title: File size limit (MB)
+          description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
+          maximum: 1024
+          minimum: 5
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          minimum: 5
+          maximum: 86400
+        maxOpenFiles:
+          type: number
+          title: Open file limit
+          description: Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location.
+          minimum: 10
+          maximum: 2000
+        headerLine:
+          type: string
+          title: Header line
+          description: If set, this line will be written to the beginning of each output file
+        writeHighWaterMark:
+          type: number
+          title: Writing high watermark (KB)
+          description: Buffer size used to write to a file
+          maximum: 4096
+          minimum: 16
+        onBackpressure:
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+        deadletterEnabled:
+          type: boolean
+          title: Enable dead-lettering
+          description: If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors
+        onDiskFullBackpressure:
+          $ref: "#/components/schemas/DiskSpaceProtectionOptions"
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
+        endpoint:
+          type: string
+          title: Nutanix Objects endpoint
+          description: "Nutanix Objects S3-compatible endpoint URL (example: https://objects.nutanix.local)"
+          pattern: ^https?://.*
+        description:
+          type: string
+          title: Description
+        awsApiKey:
+          type: string
+          title: Access key
+          description: This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references your access key and secret key
+        compress:
+          $ref: "#/components/schemas/CompressionOptionsHttp"
+        compressionLevel:
+          $ref: "#/components/schemas/CompressionLevelOptions"
+        automaticSchema:
+          type: boolean
+          title: Automatic schema
+          description: Automatically calculate the schema based on the events of each Parquet file generated
+        parquetSchema:
+          type: string
+          title: Parquet schema
+          description: To add a new schema, navigate to Processing > Knowledge > Parquet Schemas
+          minLength: 1
+        parquetVersion:
+          $ref: "#/components/schemas/ParquetVersionOptions"
+        parquetDataPageVersion:
+          $ref: "#/components/schemas/DataPageVersionOptions"
+        parquetRowGroupLength:
+          type: number
+          title: Group row limit
+          description: The number of rows that every group will contain. The final group can contain a smaller number of rows.
+          minimum: 1
+          maximum: 6.7108864e+07
+        parquetPageSize:
+          type: string
+          title: Page size
+          description: Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression.
+          pattern: ^\d+\s*(?:[kK][bB]|[mM][bB]|[gG][bB]|[tT][bB])?$
+        shouldLogInvalidRows:
+          type: boolean
+          title: Log invalid rows
+          description: Log up to 3 rows that @{product} skips due to data mismatch
+        keyValueMetadata:
+          type: array
+          title: Metadata (optional)
+          description: 'The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: "key":"OCSF Event Class", "value":"9001"'
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/ItemsTypeKeyValueMetadata"
+        enableStatistics:
+          type: boolean
+          title: Write statistics
+          description: Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics.
+        enableWritePageIndex:
+          type: boolean
+          title: Write page indexes
+          description: One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping.
+        enablePageChecksum:
+          type: boolean
+          title: Write page checksum
+          description: Parquet tools can use the checksum of a Parquet page to verify data integrity
+        emptyDirCleanupSec:
+          type: number
+          title: Staging cleanup period
+          description: How frequently, in seconds, to clean up empty directories
+          minimum: 10
+          maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+        deadletterPath:
+          type: string
+          title: Dead-letter location
+          description: Storage location for files that fail to reach their final destination after maximum retries are exceeded
+        maxRetryNum:
+          type: number
+          title: Retry limit
+          description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
+          minimum: 1
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
+        __template_bucket:
+          type: string
+          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_region:
+          type: string
+          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
+        __template_destPath:
+          type: string
+          description: Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime.
+        __template_partitionExpr:
+          type: string
+          description: Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime.
+        __template_format:
+          type: string
+          description: Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime.
+        __template_baseFileName:
+          type: string
+          description: Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime.
+        __template_fileNameSuffix:
+          type: string
+          description: Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime.
+        __template_onBackpressure:
+          type: string
+          description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
+        __template_awsApiKey:
+          type: string
+          description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
+        __template_compress:
+          type: string
+          description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
     Output:
       oneOf:
         - $ref: "#/components/schemas/OutputDefault"
@@ -38181,6 +39182,7 @@ components:
         - $ref: "#/components/schemas/OutputDatabricks"
         - $ref: "#/components/schemas/OutputMicrosoftFabric"
         - $ref: "#/components/schemas/OutputCloudflareR2"
+        - $ref: "#/components/schemas/OutputNutanixObjects"
       discriminator:
         propertyName: type
         mapping:
@@ -38255,6 +39257,7 @@ components:
           databricks: "#/components/schemas/OutputDatabricks"
           microsoft_fabric: "#/components/schemas/OutputMicrosoftFabric"
           cloudflare_r2: "#/components/schemas/OutputCloudflareR2"
+          nutanix_objects: "#/components/schemas/OutputNutanixObjects"
     CountedOutput:
       type: object
       properties:
@@ -38339,6 +39342,7 @@ components:
         - dynatrace_http
         - databricks
         - wiz_hec
+        - nutanix_objects
       x-speakeasy-unknown-values: allow
     CountedOutputSamplesResponse:
       type: object
@@ -38494,7 +39498,7 @@ components:
           type: string
           description: Unique identifier for the comment.
         index:
-          type: number
+          type: integer
           description: Relative position of the comment among all comments for the Route.
       required:
         - comment
@@ -41970,6 +42974,20 @@ components:
         includeChildren:
           type: boolean
           title: Include Child Processes
+    ModeOptionsGpu:
+      type: string
+      description: Select the level of detail for GPU metrics
+      enum:
+        - basic
+        - all
+        - custom
+        - disabled
+      x-speakeasy-enum-descriptions:
+        - Basic
+        - All
+        - Custom
+        - Disabled
+      x-speakeasy-unknown-values: allow
     DataCompressionFormatOptionsPersistence:
       type: string
       title: Data compression format
@@ -42042,6 +43060,17 @@ components:
       enum:
         - v2
         - v4
+      x-speakeasy-unknown-values: allow
+    LogLevelOptionsContentConfigItemsDebugError:
+      type: string
+      title: Log level
+      enum:
+        - error
+        - warn
+        - info
+        - debug
+        - silly
+      description: Collector runtime log level
       x-speakeasy-unknown-values: allow
     ItemsTypeContentConfigItemsRequestParams:
       type: object
@@ -42799,7 +43828,7 @@ components:
           type: string
           description: Brief description of the Route Group.
         index:
-          type: number
+          type: integer
           description: Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group.
         name:
           type: string
@@ -43611,6 +44640,12 @@ components:
           type: string
           title: Scope
           description: Scope to pass in the OAuth request parameter
+        __template_password:
+          type: string
+          description: Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime.
+        __template_mechanism:
+          type: string
+          description: Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime.
     ProcessType:
       type: object
       properties:
@@ -43620,6 +44655,19 @@ components:
           description: Configure sets to collect process metrics
           items:
             $ref: "#/components/schemas/ItemsTypeProcessSets"
+    GpuType:
+      type: object
+      properties:
+        mode:
+          $ref: "#/components/schemas/ModeOptionsGpu"
+        perGpu:
+          type: boolean
+          title: Per-GPU metrics
+          description: Generate metrics for each GPU
+        detail:
+          type: boolean
+          title: Detailed metrics
+          description: Generate full GPU metrics
     RunnableJobCollectionScheduleRunType:
       type: object
       required:
@@ -44399,6 +45447,15 @@ components:
           - logs
         sendToRoutes: true
         pqEnabled: false
+    InputCreateExamplesEventhubAmqp:
+      summary: Event Hubs AMQP
+      value:
+        id: eventhub-amqp-source
+        type: eventhub_amqp
+        eventHubName: my-event-hub
+        consumerGroup: $Default
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesExec:
       summary: Exec
       value:
@@ -44625,6 +45682,22 @@ components:
             disabled: false
         sendToRoutes: true
         pqEnabled: false
+    InputCreateExamplesOpenAIComplianceLogs:
+      summary: OpenAI Compliance Logs
+      value:
+        id: openai-compliance-logs-source
+        type: openai_compliance_logs
+        textSecret: openai-api-key-secret
+        accountType: workspace
+        workspaceId: aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee
+        workspaceEventTypes:
+          - AUDIT_LOG
+          - AUTH_LOG
+        cronSchedule: "*/15 * * * *"
+        earliest: -1h
+        latest: now
+        sendToRoutes: true
+        pqEnabled: false
     InputCreateExamplesOpenTelemetry:
       summary: OpenTelemetry
       value:
@@ -44703,7 +45776,7 @@ components:
           - sys_id
           - number
           - short_description
-        displayValue: "false"
+        useRawValues: true
         pageSize: 10000
         cronSchedule: 0 * * * *
         earliest: -1d
@@ -44930,6 +46003,14 @@ components:
         type: s3
         bucket: my-bucket
         region: us-east-1
+        stagePath: /tmp/staging
+    OutputCreateExamplesNutanixObjects:
+      summary: Nutanix Objects
+      value:
+        id: nutanix-objects-output
+        type: nutanix_objects
+        bucket: my-bucket
+        endpoint: https://nutanix-objects.example.com
         stagePath: /tmp/staging
     OutputCreateExamplesAzureBlob:
       summary: Azure Blob
@@ -47382,6 +48463,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesElastic"
               InputCreateExamplesEventhub:
                 $ref: "#/components/examples/InputCreateExamplesEventhub"
+              InputCreateExamplesEventhubAmqp:
+                $ref: "#/components/examples/InputCreateExamplesEventhubAmqp"
               InputCreateExamplesExec:
                 $ref: "#/components/examples/InputCreateExamplesExec"
               InputCreateExamplesFile:
@@ -47428,6 +48511,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Service"
               InputCreateExamplesOpenAI:
                 $ref: "#/components/examples/InputCreateExamplesOpenAI"
+              InputCreateExamplesOpenAIComplianceLogs:
+                $ref: "#/components/examples/InputCreateExamplesOpenAIComplianceLogs"
               InputCreateExamplesOpenTelemetry:
                 $ref: "#/components/examples/InputCreateExamplesOpenTelemetry"
               InputCreateExamplesPrometheus:
@@ -47581,6 +48666,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesElastic"
               InputCreateExamplesEventhub:
                 $ref: "#/components/examples/InputCreateExamplesEventhub"
+              InputCreateExamplesEventhubAmqp:
+                $ref: "#/components/examples/InputCreateExamplesEventhubAmqp"
               InputCreateExamplesExec:
                 $ref: "#/components/examples/InputCreateExamplesExec"
               InputCreateExamplesFile:
@@ -47627,6 +48714,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Service"
               InputCreateExamplesOpenAI:
                 $ref: "#/components/examples/InputCreateExamplesOpenAI"
+              InputCreateExamplesOpenAIComplianceLogs:
+                $ref: "#/components/examples/InputCreateExamplesOpenAIComplianceLogs"
               InputCreateExamplesOpenTelemetry:
                 $ref: "#/components/examples/InputCreateExamplesOpenTelemetry"
               InputCreateExamplesPrometheus:
@@ -47972,6 +49061,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesElastic"
               InputCreateExamplesEventhub:
                 $ref: "#/components/examples/InputCreateExamplesEventhub"
+              InputCreateExamplesEventhubAmqp:
+                $ref: "#/components/examples/InputCreateExamplesEventhubAmqp"
               InputCreateExamplesExec:
                 $ref: "#/components/examples/InputCreateExamplesExec"
               InputCreateExamplesFile:
@@ -48018,6 +49109,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Service"
               InputCreateExamplesOpenAI:
                 $ref: "#/components/examples/InputCreateExamplesOpenAI"
+              InputCreateExamplesOpenAIComplianceLogs:
+                $ref: "#/components/examples/InputCreateExamplesOpenAIComplianceLogs"
               InputCreateExamplesOpenTelemetry:
                 $ref: "#/components/examples/InputCreateExamplesOpenTelemetry"
               InputCreateExamplesPrometheus:
@@ -48190,6 +49283,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesElastic"
               InputCreateExamplesEventhub:
                 $ref: "#/components/examples/InputCreateExamplesEventhub"
+              InputCreateExamplesEventhubAmqp:
+                $ref: "#/components/examples/InputCreateExamplesEventhubAmqp"
               InputCreateExamplesExec:
                 $ref: "#/components/examples/InputCreateExamplesExec"
               InputCreateExamplesFile:
@@ -48236,6 +49331,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Service"
               InputCreateExamplesOpenAI:
                 $ref: "#/components/examples/InputCreateExamplesOpenAI"
+              InputCreateExamplesOpenAIComplianceLogs:
+                $ref: "#/components/examples/InputCreateExamplesOpenAIComplianceLogs"
               InputCreateExamplesOpenTelemetry:
                 $ref: "#/components/examples/InputCreateExamplesOpenTelemetry"
               InputCreateExamplesPrometheus:
@@ -48591,6 +49688,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesFilesystem"
               OutputCreateExamplesS3:
                 $ref: "#/components/examples/OutputCreateExamplesS3"
+              OutputCreateExamplesNutanixObjects:
+                $ref: "#/components/examples/OutputCreateExamplesNutanixObjects"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -48804,6 +49903,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesFilesystem"
               OutputCreateExamplesS3:
                 $ref: "#/components/examples/OutputCreateExamplesS3"
+              OutputCreateExamplesNutanixObjects:
+                $ref: "#/components/examples/OutputCreateExamplesNutanixObjects"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -49197,6 +50298,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesFilesystem"
               OutputCreateExamplesS3:
                 $ref: "#/components/examples/OutputCreateExamplesS3"
+              OutputCreateExamplesNutanixObjects:
+                $ref: "#/components/examples/OutputCreateExamplesNutanixObjects"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -49429,6 +50532,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesFilesystem"
               OutputCreateExamplesS3:
                 $ref: "#/components/examples/OutputCreateExamplesS3"
+              OutputCreateExamplesNutanixObjects:
+                $ref: "#/components/examples/OutputCreateExamplesNutanixObjects"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -51864,7 +52969,7 @@ paths:
       operationId: createCriblLakeDatasetByLakeId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: create
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -51910,7 +53015,7 @@ paths:
       operationId: getCriblLakeDatasetByLakeId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: list
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -51979,7 +53084,7 @@ paths:
       operationId: deleteCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: delete
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -52017,7 +53122,7 @@ paths:
       operationId: getCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: get
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -52055,7 +53160,7 @@ paths:
       operationId: updateCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: update
       x-cribl-internal: false
       x-cribl-availability: cloud

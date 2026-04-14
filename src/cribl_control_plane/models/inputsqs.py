@@ -94,8 +94,12 @@ class InputSqsTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
     num_receivers: NotRequired[float]
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_queue_name: NotRequired[str]
     r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
+    template_queue_type: NotRequired[str]
+    r"""Binds 'queueType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueType' at runtime."""
     template_aws_account_id: NotRequired[str]
     r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
     template_aws_secret_key: NotRequired[str]
@@ -233,10 +237,20 @@ class InputSqs(BaseModel):
     )
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_queue_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_queueName")
     ] = None
     r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
+
+    template_queue_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_queueType")
+    ] = None
+    r"""Binds 'queueType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueType' at runtime."""
 
     template_aws_account_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsAccountId")
@@ -334,7 +348,9 @@ class InputSqs(BaseModel):
                 "awsApiKey",
                 "awsSecret",
                 "numReceivers",
+                "__template_environment",
                 "__template_queueName",
+                "__template_queueType",
                 "__template_awsAccountId",
                 "__template_awsSecretKey",
                 "__template_region",

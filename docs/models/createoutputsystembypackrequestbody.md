@@ -431,3 +431,9 @@ value: models.CreateOutputSystemByPackOutputMicrosoftFabric = /* values here */
 value: models.CreateOutputSystemByPackOutputCloudflareR2 = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputNutanixObjects`
+
+```python
+value: models.CreateOutputSystemByPackOutputNutanixObjects = /* values here */
+```
+

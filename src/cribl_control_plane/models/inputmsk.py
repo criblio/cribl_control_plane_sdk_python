@@ -131,6 +131,10 @@ class InputMskTypedDict(TypedDict):
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_group_id: NotRequired[str]
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
     template_aws_secret_key: NotRequired[str]
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
@@ -341,6 +345,16 @@ class InputMsk(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_group_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_groupId")
+    ] = None
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
+
     template_aws_secret_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsSecretKey")
     ] = None
@@ -435,6 +449,8 @@ class InputMsk(BaseModel):
                 "description",
                 "awsApiKey",
                 "awsSecret",
+                "__template_environment",
+                "__template_groupId",
                 "__template_awsSecretKey",
                 "__template_region",
                 "__template_endpoint",

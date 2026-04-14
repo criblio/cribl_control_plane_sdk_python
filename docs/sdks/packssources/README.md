@@ -467,6 +467,34 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesEventhubAmqp
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesEventhubAmqp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "eventhub-amqp-source",
+        "type": models.CreateInputSystemByPackTypeEventhubAmqp.EVENTHUB_AMQP,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "event_hub_name": "my-event-hub",
+        "consumer_group": "$Default",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesExec
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesExec" -->
@@ -1141,6 +1169,42 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOpenAIComplianceLogs
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesOpenAIComplianceLogs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "openai-compliance-logs-source",
+        "type": models.CreateInputSystemByPackTypeOpenaiComplianceLogs.OPENAI_COMPLIANCE_LOGS,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "openai-api-key-secret",
+        "account_type": models.CreateInputSystemByPackAccountType.WORKSPACE,
+        "cron_schedule": "*/15 * * * *",
+        "earliest": "-1h",
+        "latest": "now",
+        "workspace_id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+        "workspace_event_types": [
+            "AUDIT_LOG",
+            "AUTH_LOG",
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenTelemetry
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesOpenTelemetry" -->
@@ -1369,7 +1433,7 @@ with CriblControlPlane(
             "number",
             "short_description",
         ],
-        "display_value": models.CreateInputSystemByPackDisplayValue.FALSE,
+        "use_raw_values": True,
         "page_size": 10000,
         "cron_schedule": "0 * * * *",
         "earliest": "-1d",
@@ -2318,6 +2382,34 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesEventhubAmqp
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesEventhubAmqp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "eventhub-amqp-source",
+        "type": models.InputEventhubAmqpType.EVENTHUB_AMQP,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "event_hub_name": "my-event-hub",
+        "consumer_group": "$Default",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesExec
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesExec" -->
@@ -2992,6 +3084,42 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOpenAIComplianceLogs
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesOpenAIComplianceLogs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "openai-compliance-logs-source",
+        "type": models.InputOpenaiComplianceLogsType.OPENAI_COMPLIANCE_LOGS,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "openai-api-key-secret",
+        "account_type": models.AccountType.WORKSPACE,
+        "cron_schedule": "*/15 * * * *",
+        "earliest": "-1h",
+        "latest": "now",
+        "workspace_id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+        "workspace_event_types": [
+            "AUDIT_LOG",
+            "AUTH_LOG",
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenTelemetry
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesOpenTelemetry" -->
@@ -3220,7 +3348,7 @@ with CriblControlPlane(
             "number",
             "short_description",
         ],
-        "display_value": models.DisplayValue.FALSE,
+        "use_raw_values": True,
         "page_size": 10000,
         "cron_schedule": "0 * * * *",
         "earliest": "-1d",

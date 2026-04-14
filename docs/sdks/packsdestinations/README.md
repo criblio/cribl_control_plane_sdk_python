@@ -1330,6 +1330,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesNutanixObjects
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesNutanixObjects" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "nutanix-objects-output",
+        "type": models.CreateOutputSystemByPackTypeNutanixObjects.NUTANIX_OBJECTS,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://nutanix-objects.example.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesOpenTelemetry
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesOpenTelemetry" -->
@@ -3333,6 +3360,33 @@ with CriblControlPlane(
         "account_id": "123456",
         "event_type": "CriblEvent",
         "api_key": "your-api-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesNutanixObjects
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesNutanixObjects" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "nutanix-objects-output",
+        "type": models.OutputNutanixObjectsType.NUTANIX_OBJECTS,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://nutanix-objects.example.com",
     })
 
     # Handle response

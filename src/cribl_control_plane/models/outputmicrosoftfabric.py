@@ -62,6 +62,8 @@ class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     r"""Directory ID (tenant identifier) in Azure Active Directory"""
     scope: NotRequired[str]
     r"""Scope to pass in the OAuth request parameter"""
+    template_mechanism: NotRequired[str]
+    r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
 
 
 class OutputMicrosoftFabricAuthentication(BaseModel):
@@ -113,6 +115,11 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     scope: Optional[str] = None
     r"""Scope to pass in the OAuth request parameter"""
 
+    template_mechanism: Annotated[
+        Optional[str], pydantic.Field(alias="__template_mechanism")
+    ] = None
+    r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
+
     @field_serializer("mechanism")
     def serialize_mechanism(self, value):
         if isinstance(value, str):
@@ -157,6 +164,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
                 "clientId",
                 "tenantId",
                 "scope",
+                "__template_mechanism",
             ]
         )
         serialized = handler(self)

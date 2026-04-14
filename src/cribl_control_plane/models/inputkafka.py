@@ -105,6 +105,10 @@ class InputKafkaTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_group_id: NotRequired[str]
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
 
 
 class InputKafka(BaseModel):
@@ -250,6 +254,16 @@ class InputKafka(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_group_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_groupId")
+    ] = None
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -286,6 +300,8 @@ class InputKafka(BaseModel):
                 "maxSocketErrors",
                 "metadata",
                 "description",
+                "__template_environment",
+                "__template_groupId",
             ]
         )
         serialized = handler(self)

@@ -127,6 +127,8 @@ class InputSplunkTypedDict(TypedDict):
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
     compress: NotRequired[InputSplunkCompression]
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -248,6 +250,11 @@ class InputSplunk(BaseModel):
     compress: Optional[InputSplunkCompression] = None
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -316,6 +323,7 @@ class InputSplunk(BaseModel):
                 "dropControlFields",
                 "extractMetrics",
                 "compress",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
                 "__template_maxS2Sversion",

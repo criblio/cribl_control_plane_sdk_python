@@ -171,10 +171,14 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_connection_string: NotRequired[str]
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+    template_storage_account_name: NotRequired[str]
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
     r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     template_client_id: NotRequired[str]
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_azure_cloud: NotRequired[str]
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
 
 class OutputAzureBlob(BaseModel):
@@ -473,6 +477,11 @@ class OutputAzureBlob(BaseModel):
     ] = None
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
 
+    template_storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageAccountName")
+    ] = None
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+
     template_tenant_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_tenantId")
     ] = None
@@ -482,6 +491,11 @@ class OutputAzureBlob(BaseModel):
         Optional[str], pydantic.Field(alias="__template_clientId")
     ] = None
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_azure_cloud: Annotated[
+        Optional[str], pydantic.Field(alias="__template_azureCloud")
+    ] = None
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     @field_serializer("format_")
     def serialize_format_(self, value):
@@ -631,8 +645,10 @@ class OutputAzureBlob(BaseModel):
                 "__template_onBackpressure",
                 "__template_compress",
                 "__template_connectionString",
+                "__template_storageAccountName",
                 "__template_tenantId",
                 "__template_clientId",
+                "__template_azureCloud",
             ]
         )
         serialized = handler(self)

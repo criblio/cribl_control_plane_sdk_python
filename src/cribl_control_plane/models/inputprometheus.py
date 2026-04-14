@@ -135,6 +135,8 @@ class InputPrometheusTypedDict(TypedDict):
     r"""Password for Prometheus Basic authentication"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_discovery_type: NotRequired[str]
     r"""Binds 'discoveryType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoveryType' at runtime."""
     template_log_level: NotRequired[str]
@@ -336,6 +338,11 @@ class InputPrometheus(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_discovery_type: Annotated[
         Optional[str], pydantic.Field(alias="__template_discoveryType")
     ] = None
@@ -497,6 +504,7 @@ class InputPrometheus(BaseModel):
                 "username",
                 "password",
                 "credentialsSecret",
+                "__template_environment",
                 "__template_discoveryType",
                 "__template_logLevel",
                 "__template_awsApiKey",

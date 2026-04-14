@@ -9,9 +9,12 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptionalTypedDict,
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
+from .logleveloptionscontentconfigitemsdebugerror import (
+    LogLevelOptionsContentConfigItemsDebugError,
+)
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
-from cribl_control_plane import models, utils
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -30,16 +33,6 @@ class InputWizManageStateTypedDict(TypedDict):
 
 class InputWizManageState(BaseModel):
     pass
-
-
-class InputWizLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Collector runtime log level"""
-
-    ERROR = "error"
-    WARN = "warn"
-    INFO = "info"
-    DEBUG = "debug"
-    SILLY = "silly"
 
 
 class InputWizContentConfigTypedDict(TypedDict):
@@ -64,7 +57,7 @@ class InputWizContentConfigTypedDict(TypedDict):
     manage_state: NotRequired[InputWizManageStateTypedDict]
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
-    log_level: NotRequired[InputWizLogLevel]
+    log_level: NotRequired[LogLevelOptionsContentConfigItemsDebugError]
     r"""Collector runtime log level"""
     max_pages: NotRequired[float]
     r"""Maximum number of pages to retrieve per collection task. Defaults to 0. Set to 0 to retrieve all pages."""
@@ -115,7 +108,8 @@ class InputWizContentConfig(BaseModel):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
 
     log_level: Annotated[
-        Optional[InputWizLogLevel], pydantic.Field(alias="logLevel")
+        Optional[LogLevelOptionsContentConfigItemsDebugError],
+        pydantic.Field(alias="logLevel"),
     ] = None
     r"""Collector runtime log level"""
 
@@ -126,7 +120,7 @@ class InputWizContentConfig(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.InputWizLogLevel(value)
+                return models.LogLevelOptionsContentConfigItemsDebugError(value)
             except ValueError:
                 return value
         return value
@@ -199,6 +193,10 @@ class InputWizTypedDict(TypedDict):
     r"""When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
@@ -207,6 +205,8 @@ class InputWizTypedDict(TypedDict):
     r"""The client secret of the Wiz application"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_auth_url: NotRequired[str]
@@ -289,6 +289,16 @@ class InputWiz(BaseModel):
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = None
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
     retry_rules: Annotated[
         Optional[RetryRulesType], pydantic.Field(alias="retryRules")
     ] = None
@@ -306,6 +316,11 @@ class InputWiz(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
@@ -351,11 +366,14 @@ class InputWiz(BaseModel):
                 "ttl",
                 "ignoreGroupJobsLimit",
                 "metadata",
+                "breakerRulesets",
+                "staleChannelFlushMs",
                 "retryRules",
                 "authType",
                 "description",
                 "clientSecret",
                 "textSecret",
+                "__template_environment",
                 "__template_endpoint",
                 "__template_authUrl",
                 "__template_clientId",

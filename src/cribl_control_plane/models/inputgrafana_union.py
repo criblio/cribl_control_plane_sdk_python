@@ -221,10 +221,16 @@ class InputGrafanaGrafana2TypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_prometheus_api: NotRequired[str]
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+    template_loki_api: NotRequired[str]
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
 
 class InputGrafanaGrafana2(BaseModel):
@@ -339,6 +345,11 @@ class InputGrafanaGrafana2(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -348,6 +359,16 @@ class InputGrafanaGrafana2(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_prometheus_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_prometheusAPI")
+    ] = None
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+
+    template_loki_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_lokiAPI")
+    ] = None
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -379,8 +400,11 @@ class InputGrafanaGrafana2(BaseModel):
                 "lokiAuth",
                 "metadata",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_prometheusAPI",
+                "__template_lokiAPI",
             ]
         )
         serialized = handler(self)
@@ -594,10 +618,16 @@ class InputGrafanaGrafana1TypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_prometheus_api: NotRequired[str]
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+    template_loki_api: NotRequired[str]
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
 
 class InputGrafanaGrafana1(BaseModel):
@@ -710,6 +740,11 @@ class InputGrafanaGrafana1(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -719,6 +754,16 @@ class InputGrafanaGrafana1(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_prometheus_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_prometheusAPI")
+    ] = None
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+
+    template_loki_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_lokiAPI")
+    ] = None
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -750,8 +795,11 @@ class InputGrafanaGrafana1(BaseModel):
                 "lokiAuth",
                 "metadata",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_prometheusAPI",
+                "__template_lokiAPI",
             ]
         )
         serialized = handler(self)

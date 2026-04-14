@@ -54,6 +54,10 @@ class AuthenticationTypeUseTypedDict(TypedDict):
     r"""Directory ID (tenant identifier) in Azure Active Directory"""
     scope: NotRequired[str]
     r"""Scope to pass in the OAuth request parameter"""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+    template_mechanism: NotRequired[str]
+    r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
 
 
 class AuthenticationTypeUse(BaseModel):
@@ -117,6 +121,16 @@ class AuthenticationTypeUse(BaseModel):
     scope: Optional[str] = None
     r"""Scope to pass in the OAuth request parameter"""
 
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+
+    template_mechanism: Annotated[
+        Optional[str], pydantic.Field(alias="__template_mechanism")
+    ] = None
+    r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -173,6 +187,8 @@ class AuthenticationTypeUse(BaseModel):
                 "clientId",
                 "tenantId",
                 "scope",
+                "__template_password",
+                "__template_mechanism",
             ]
         )
         serialized = handler(self)

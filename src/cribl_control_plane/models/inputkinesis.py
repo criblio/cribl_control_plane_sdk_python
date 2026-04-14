@@ -120,8 +120,14 @@ class InputKinesisTypedDict(TypedDict):
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_stream_name: NotRequired[str]
     r"""Binds 'streamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamName' at runtime."""
+    template_shard_iterator_type: NotRequired[str]
+    r"""Binds 'shardIteratorType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'shardIteratorType' at runtime."""
+    template_payload_format: NotRequired[str]
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
     template_aws_secret_key: NotRequired[str]
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
@@ -274,10 +280,25 @@ class InputKinesis(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_stream_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamName")
     ] = None
     r"""Binds 'streamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamName' at runtime."""
+
+    template_shard_iterator_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_shardIteratorType")
+    ] = None
+    r"""Binds 'shardIteratorType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'shardIteratorType' at runtime."""
+
+    template_payload_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_payloadFormat")
+    ] = None
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
 
     template_aws_secret_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsSecretKey")
@@ -390,7 +411,10 @@ class InputKinesis(BaseModel):
                 "description",
                 "awsApiKey",
                 "awsSecret",
+                "__template_environment",
                 "__template_streamName",
+                "__template_shardIteratorType",
+                "__template_payloadFormat",
                 "__template_awsSecretKey",
                 "__template_region",
                 "__template_endpoint",

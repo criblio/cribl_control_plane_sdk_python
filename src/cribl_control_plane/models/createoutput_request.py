@@ -29,7 +29,7 @@ from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
 from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionshttp import CompressionOptionsHTTP
 from .compressionoptionspq import CompressionOptionsPq
-from .createoutput_type_newrelicevents import (
+from .createoutput_timestamp_precision import (
     CreateOutputOutputChronicle,
     CreateOutputOutputChronicleTypedDict,
     CreateOutputOutputClickHouse,
@@ -68,8 +68,6 @@ from .createoutput_type_newrelicevents import (
     CreateOutputOutputGraphiteTypedDict,
     CreateOutputOutputHumioHec,
     CreateOutputOutputHumioHecTypedDict,
-    CreateOutputOutputInfluxdb,
-    CreateOutputOutputInfluxdbTypedDict,
     CreateOutputOutputLocalSearchStorage,
     CreateOutputOutputLocalSearchStorageTypedDict,
     CreateOutputOutputLoki,
@@ -80,6 +78,8 @@ from .createoutput_type_newrelicevents import (
     CreateOutputOutputMinioTypedDict,
     CreateOutputOutputNetflow,
     CreateOutputOutputNetflowTypedDict,
+    CreateOutputOutputNutanixObjects,
+    CreateOutputOutputNutanixObjectsTypedDict,
     CreateOutputOutputOpenTelemetry,
     CreateOutputOutputOpenTelemetryTypedDict,
     CreateOutputOutputPrometheus,
@@ -108,7 +108,8 @@ from .createoutput_type_newrelicevents import (
     CreateOutputOutputSumoLogicTypedDict,
     CreateOutputOutputXsiam,
     CreateOutputOutputXsiamTypedDict,
-    CreateOutputTypeNewrelicEvents,
+    CreateOutputTimestampPrecision,
+    CreateOutputTypeInfluxdb,
 )
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
@@ -191,6 +192,498 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateOutputAuthenticationTypeInfluxdb(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""InfluxDB authentication type"""
+
+    # None
+    NONE = "none"
+    # Basic
+    BASIC = "basic"
+    # Basic (credentials secret)
+    CREDENTIALS_SECRET = "credentialsSecret"
+    # Token
+    TOKEN = "token"
+    # Token (text secret)
+    TEXT_SECRET = "textSecret"
+
+
+class CreateOutputPqControlsInfluxdbTypedDict(TypedDict):
+    pass
+
+
+class CreateOutputPqControlsInfluxdb(BaseModel):
+    pass
+
+
+class CreateOutputOutputInfluxdbTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputTypeInfluxdb
+    url: str
+    r"""URL of an InfluxDB cluster to send events to, e.g., http://localhost:8086/write"""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    use_v2_api: NotRequired[bool]
+    r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
+    timestamp_precision: NotRequired[CreateOutputTimestampPrecision]
+    r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
+    dynamic_value_field_name: NotRequired[bool]
+    r"""Enabling this will pull the value field from the metric name. E,g, 'db.query.user' will use 'db.query' as the measurement and 'user' as the value field."""
+    value_field_name: NotRequired[str]
+    r"""Name of the field in which to store the metric when sending to InfluxDB. If dynamic generation is enabled and fails, this will be used as a fallback."""
+    concurrency: NotRequired[float]
+    r"""Maximum number of ongoing requests before blocking"""
+    max_payload_size_kb: NotRequired[float]
+    r"""Maximum size, in KB, of the request body"""
+    max_payload_events: NotRequired[float]
+    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+    compress: NotRequired[bool]
+    r"""Compress the payload body before sending"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+    Enabled by default. When this setting is also present in TLS Settings (Client Side),
+    that value will take precedence.
+    """
+    timeout_sec: NotRequired[float]
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    flush_period_sec: NotRequired[float]
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
+    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    r"""Headers to add to all events"""
+    use_round_robin_dns: NotRequired[bool]
+    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
+    failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
+    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
+    safe_headers: NotRequired[List[str]]
+    r"""List of headers that are safe to log in plain text"""
+    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
+    timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    response_honor_retry_after_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+    on_backpressure: NotRequired[BackpressureBehaviorOptions]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    auth_type: NotRequired[CreateOutputAuthenticationTypeInfluxdb]
+    r"""InfluxDB authentication type"""
+    description: NotRequired[str]
+    database: NotRequired[str]
+    r"""Database to write to."""
+    bucket: NotRequired[str]
+    r"""Bucket to write to."""
+    org: NotRequired[str]
+    r"""Organization ID for this bucket."""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[ModeOptions]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+    pq_max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+    pq_max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    pq_path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    pq_compress: NotRequired[CompressionOptionsPq]
+    r"""Codec to use to compress the persisted data"""
+    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    pq_controls: NotRequired[CreateOutputPqControlsInfluxdbTypedDict]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    token: NotRequired[str]
+    r"""Bearer token to include in the authorization header"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_database: NotRequired[str]
+    r"""Binds 'database' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'database' at runtime."""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+
+class CreateOutputOutputInfluxdb(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputTypeInfluxdb
+
+    url: str
+    r"""URL of an InfluxDB cluster to send events to, e.g., http://localhost:8086/write"""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    use_v2_api: Annotated[Optional[bool], pydantic.Field(alias="useV2API")] = None
+    r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
+
+    timestamp_precision: Annotated[
+        Optional[CreateOutputTimestampPrecision],
+        pydantic.Field(alias="timestampPrecision"),
+    ] = None
+    r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
+
+    dynamic_value_field_name: Annotated[
+        Optional[bool], pydantic.Field(alias="dynamicValueFieldName")
+    ] = None
+    r"""Enabling this will pull the value field from the metric name. E,g, 'db.query.user' will use 'db.query' as the measurement and 'user' as the value field."""
+
+    value_field_name: Annotated[
+        Optional[str], pydantic.Field(alias="valueFieldName")
+    ] = None
+    r"""Name of the field in which to store the metric when sending to InfluxDB. If dynamic generation is enabled and fails, this will be used as a fallback."""
+
+    concurrency: Optional[float] = None
+    r"""Maximum number of ongoing requests before blocking"""
+
+    max_payload_size_kb: Annotated[
+        Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
+    ] = None
+    r"""Maximum size, in KB, of the request body"""
+
+    max_payload_events: Annotated[
+        Optional[float], pydantic.Field(alias="maxPayloadEvents")
+    ] = None
+    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+
+    compress: Optional[bool] = None
+    r"""Compress the payload body before sending"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+    Enabled by default. When this setting is also present in TLS Settings (Client Side),
+    that value will take precedence.
+    """
+
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    flush_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="flushPeriodSec")
+    ] = None
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
+
+    extra_http_headers: Annotated[
+        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        pydantic.Field(alias="extraHttpHeaders"),
+    ] = None
+    r"""Headers to add to all events"""
+
+    use_round_robin_dns: Annotated[
+        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
+    ] = None
+    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
+
+    failed_request_logging_mode: Annotated[
+        Optional[FailedRequestLoggingModeOptions],
+        pydantic.Field(alias="failedRequestLoggingMode"),
+    ] = None
+    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
+
+    safe_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="safeHeaders")
+    ] = None
+    r"""List of headers that are safe to log in plain text"""
+
+    response_retry_settings: Annotated[
+        Optional[List[ItemsTypeResponseRetrySettings]],
+        pydantic.Field(alias="responseRetrySettings"),
+    ] = None
+    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
+
+    timeout_retry_settings: Annotated[
+        Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
+    ] = None
+
+    response_honor_retry_after_header: Annotated[
+        Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
+    ] = None
+    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    auth_type: Annotated[
+        Optional[CreateOutputAuthenticationTypeInfluxdb],
+        pydantic.Field(alias="authType"),
+    ] = None
+    r"""InfluxDB authentication type"""
+
+    description: Optional[str] = None
+
+    database: Optional[str] = None
+    r"""Database to write to."""
+
+    bucket: Optional[str] = None
+    r"""Bucket to write to."""
+
+    org: Optional[str] = None
+    r"""Organization ID for this bucket."""
+
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = None
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = None
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = None
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = None
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
+    pq_max_file_size: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxFileSize")
+    ] = None
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+
+    pq_compress: Annotated[
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
+    ] = None
+    r"""Codec to use to compress the persisted data"""
+
+    pq_on_backpressure: Annotated[
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
+    ] = None
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
+    pq_controls: Annotated[
+        Optional[CreateOutputPqControlsInfluxdb], pydantic.Field(alias="pqControls")
+    ] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    token: Optional[str] = None
+    r"""Bearer token to include in the authorization header"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_database: Annotated[
+        Optional[str], pydantic.Field(alias="__template_database")
+    ] = None
+    r"""Binds 'database' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'database' at runtime."""
+
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    @field_serializer("timestamp_precision")
+    def serialize_timestamp_precision(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateOutputTimestampPrecision(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("failed_request_logging_mode")
+    def serialize_failed_request_logging_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.FailedRequestLoggingModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateOutputAuthenticationTypeInfluxdb(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_mode")
+    def serialize_pq_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_compress")
+    def serialize_pq_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsPq(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_on_backpressure")
+    def serialize_pq_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.QueueFullBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "useV2API",
+                "timestampPrecision",
+                "dynamicValueFieldName",
+                "valueFieldName",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "onBackpressure",
+                "authType",
+                "description",
+                "database",
+                "bucket",
+                "org",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
+                "pqControls",
+                "username",
+                "password",
+                "token",
+                "credentialsSecret",
+                "textSecret",
+                "__template_url",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
+                "__template_database",
+                "__template_bucket",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateOutputTypeNewrelicEvents(str, Enum):
+    NEWRELIC_EVENTS = "newrelic_events"
 
 
 class CreateOutputPqControlsNewrelicEventsTypedDict(TypedDict):
@@ -8706,10 +9199,14 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_connection_string: NotRequired[str]
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+    template_storage_account_name: NotRequired[str]
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
     r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     template_client_id: NotRequired[str]
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_azure_cloud: NotRequired[str]
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
 
 class CreateOutputOutputAzureBlob(BaseModel):
@@ -9008,6 +9505,11 @@ class CreateOutputOutputAzureBlob(BaseModel):
     ] = None
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
 
+    template_storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageAccountName")
+    ] = None
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+
     template_tenant_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_tenantId")
     ] = None
@@ -9017,6 +9519,11 @@ class CreateOutputOutputAzureBlob(BaseModel):
         Optional[str], pydantic.Field(alias="__template_clientId")
     ] = None
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_azure_cloud: Annotated[
+        Optional[str], pydantic.Field(alias="__template_azureCloud")
+    ] = None
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     @field_serializer("format_")
     def serialize_format_(self, value):
@@ -9165,8 +9672,10 @@ class CreateOutputOutputAzureBlob(BaseModel):
                 "__template_onBackpressure",
                 "__template_compress",
                 "__template_connectionString",
+                "__template_storageAccountName",
                 "__template_tenantId",
                 "__template_clientId",
+                "__template_azureCloud",
             ]
         )
         serialized = handler(self)
@@ -16067,51 +16576,51 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputNetflowTypedDict,
         CreateOutputOutputDiskSpoolTypedDict,
         CreateOutputOutputRingTypedDict,
+        CreateOutputOutputGraphiteTypedDict,
         CreateOutputOutputStatsdExtTypedDict,
         CreateOutputOutputStatsdTypedDict,
-        CreateOutputOutputGraphiteTypedDict,
         CreateOutputOutputGooglePubsubTypedDict,
-        CreateOutputOutputAzureEventhubTypedDict,
         CreateOutputOutputExabeamTypedDict,
+        CreateOutputOutputAzureEventhubTypedDict,
         CreateOutputOutputHoneycombTypedDict,
+        CreateOutputOutputCriblTCPTypedDict,
         CreateOutputOutputMicrosoftFabricTypedDict,
         CreateOutputOutputWavefrontTypedDict,
         CreateOutputOutputSignalfxTypedDict,
-        CreateOutputOutputCriblTCPTypedDict,
         CreateOutputOutputElasticCloudTypedDict,
+        CreateOutputOutputSumoLogicTypedDict,
+        CreateOutputOutputTcpjsonTypedDict,
+        CreateOutputOutputCrowdstrikeNextGenSiemTypedDict,
         CreateOutputOutputSplunkTypedDict,
         CreateOutputOutputHumioHecTypedDict,
-        CreateOutputOutputSumoLogicTypedDict,
-        CreateOutputOutputCrowdstrikeNextGenSiemTypedDict,
-        CreateOutputOutputTcpjsonTypedDict,
+        CreateOutputOutputSnsTypedDict,
         CreateOutputOutputAzureLogsTypedDict,
         CreateOutputOutputKafkaTypedDict,
         CreateOutputOutputConfluentCloudTypedDict,
-        CreateOutputOutputSnsTypedDict,
+        CreateOutputOutputSplunkLbTypedDict,
         CreateOutputOutputCloudwatchTypedDict,
         CreateOutputOutputSyslogTypedDict,
-        CreateOutputOutputSplunkLbTypedDict,
         CreateOutputOutputNewrelicEventsTypedDict,
         CreateOutputOutputPrometheusTypedDict,
-        CreateOutputOutputLokiTypedDict,
-        CreateOutputOutputNewrelicTypedDict,
-        CreateOutputOutputXsiamTypedDict,
-        CreateOutputOutputCriblSearchEngineTypedDict,
-        CreateOutputOutputCriblHTTPTypedDict,
-        CreateOutputOutputWizHecTypedDict,
         CreateOutputOutputDatasetTypedDict,
-        CreateOutputOutputServiceNowTypedDict,
+        CreateOutputOutputNewrelicTypedDict,
+        CreateOutputOutputCriblHTTPTypedDict,
+        CreateOutputOutputXsiamTypedDict,
+        CreateOutputOutputLokiTypedDict,
+        CreateOutputOutputWizHecTypedDict,
+        CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputDynatraceOtlpTypedDict,
-        CreateOutputOutputDynatraceHTTPTypedDict,
         CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputKinesisTypedDict,
+        CreateOutputOutputServiceNowTypedDict,
+        CreateOutputOutputDynatraceHTTPTypedDict,
         CreateOutputOutputSplunkHecTypedDict,
         CreateOutputOutputElasticTypedDict,
-        CreateOutputOutputChronicleTypedDict,
         CreateOutputOutputDatadogTypedDict,
-        CreateOutputOutputInfluxdbTypedDict,
-        CreateOutputOutputSqsTypedDict,
+        CreateOutputOutputChronicleTypedDict,
         CreateOutputOutputOpenTelemetryTypedDict,
+        CreateOutputOutputSqsTypedDict,
+        CreateOutputOutputInfluxdbTypedDict,
         CreateOutputOutputGoogleChronicleTypedDict,
         CreateOutputOutputSentinelOneAiSiemTypedDict,
         CreateOutputOutputClickHouseTypedDict,
@@ -16119,18 +16628,19 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputCriblLakeTypedDict,
         CreateOutputOutputMskTypedDict,
-        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputSentinelTypedDict,
+        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputCloudflareR2TypedDict,
+        CreateOutputOutputNutanixObjectsTypedDict,
         CreateOutputOutputAzureBlobTypedDict,
         CreateOutputOutputGoogleCloudLoggingTypedDict,
-        CreateOutputOutputMinioTypedDict,
         CreateOutputOutputSecurityLakeTypedDict,
+        CreateOutputOutputMinioTypedDict,
         CreateOutputOutputDlS3TypedDict,
         CreateOutputOutputS3TypedDict,
         CreateOutputOutputAzureDataExplorerTypedDict,
-        CreateOutputOutputGrafanaCloudUnionTypedDict,
         CreateOutputOutputWebhookUnionTypedDict,
+        CreateOutputOutputGrafanaCloudUnionTypedDict,
     ],
 )
 r"""Output object"""
@@ -16211,12 +16721,17 @@ CreateOutputRequest = Annotated[
         Annotated[CreateOutputOutputDatabricks, Tag("databricks")],
         Annotated[CreateOutputOutputMicrosoftFabric, Tag("microsoft_fabric")],
         Annotated[CreateOutputOutputCloudflareR2, Tag("cloudflare_r2")],
+        Annotated[CreateOutputOutputNutanixObjects, Tag("nutanix_objects")],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
 r"""Output object"""
 
 
+try:
+    CreateOutputOutputInfluxdb.model_rebuild()
+except NameError:
+    pass
 try:
     CreateOutputOutputNewrelicEvents.model_rebuild()
 except NameError:

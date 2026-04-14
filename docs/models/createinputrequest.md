@@ -125,6 +125,12 @@ value: models.CreateInputInputMicrosoftGraph = /* values here */
 value: models.CreateInputInputEventhub = /* values here */
 ```
 
+### `models.CreateInputInputEventhubAmqp`
+
+```python
+value: models.CreateInputInputEventhubAmqp = /* values here */
+```
+
 ### `models.CreateInputInputExec`
 
 ```python
@@ -381,5 +387,11 @@ value: models.CreateInputInputZscalerHec = /* values here */
 
 ```python
 value: models.CreateInputInputCloudflareHec = /* values here */
+```
+
+### `models.CreateInputInputOpenaiComplianceLogs`
+
+```python
+value: models.CreateInputInputOpenaiComplianceLogs = /* values here */
 ```
 

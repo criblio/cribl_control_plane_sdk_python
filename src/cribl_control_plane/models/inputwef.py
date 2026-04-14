@@ -362,6 +362,8 @@ class InputWefTypedDict(TypedDict):
     description: NotRequired[str]
     log_fingerprint_mismatch: NotRequired[bool]
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -485,6 +487,11 @@ class InputWef(BaseModel):
     ] = None
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -535,6 +542,7 @@ class InputWef(BaseModel):
                 "metadata",
                 "description",
                 "logFingerprintMismatch",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]

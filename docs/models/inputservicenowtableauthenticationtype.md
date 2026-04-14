@@ -18,7 +18,5 @@ value = InputServicenowTableAuthenticationType.NONE
 | Name           | Value          |
 | -------------- | -------------- |
 | `NONE`         | none           |
-| `BASIC`        | basic          |
 | `BASIC_SECRET` | basicSecret    |
-| `OAUTH`        | oauth          |
 | `OAUTH_SECRET` | oauthSecret    |

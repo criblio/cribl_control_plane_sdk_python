@@ -146,6 +146,20 @@ class InputSplunkSearchTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_search_head: NotRequired[str]
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+    template_search: NotRequired[str]
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+    template_earliest: NotRequired[str]
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+    template_latest: NotRequired[str]
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_log_level: NotRequired[str]
+    r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
 
 
 class InputSplunkSearch(BaseModel):
@@ -294,6 +308,41 @@ class InputSplunkSearch(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_search_head: Annotated[
+        Optional[str], pydantic.Field(alias="__template_searchHead")
+    ] = None
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+
+    template_search: Annotated[
+        Optional[str], pydantic.Field(alias="__template_search")
+    ] = None
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+
+    template_earliest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_earliest")
+    ] = None
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+
+    template_latest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_latest")
+    ] = None
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_log_level: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLevel")
+    ] = None
+    r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
+
     @field_serializer("output_mode")
     def serialize_output_mode(self, value):
         if isinstance(value, str):
@@ -359,6 +408,13 @@ class InputSplunkSearch(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
+                "__template_environment",
+                "__template_searchHead",
+                "__template_search",
+                "__template_earliest",
+                "__template_latest",
+                "__template_endpoint",
+                "__template_logLevel",
             ]
         )
         serialized = handler(self)

@@ -54,6 +54,8 @@ class InputDatagenTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
 
 class InputDatagen(BaseModel):
@@ -93,6 +95,11 @@ class InputDatagen(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -108,6 +115,7 @@ class InputDatagen(BaseModel):
                 "pq",
                 "metadata",
                 "description",
+                "__template_environment",
             ]
         )
         serialized = handler(self)

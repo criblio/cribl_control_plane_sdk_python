@@ -4,6 +4,7 @@ from __future__ import annotations
 from .datacompressionformatoptionspersistence import (
     DataCompressionFormatOptionsPersistence,
 )
+from .gputype import GpuType, GpuTypeTypedDict
 from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
@@ -620,10 +621,13 @@ class InputSystemMetricsTypedDict(TypedDict):
     host: NotRequired[InputSystemMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
     container: NotRequired[ContainerTypedDict]
+    gpu: NotRequired[GpuTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
 
 class InputSystemMetrics(BaseModel):
@@ -665,12 +669,19 @@ class InputSystemMetrics(BaseModel):
 
     container: Optional[Container] = None
 
+    gpu: Optional[GpuType] = None
+
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
     persistence: Optional[InputSystemMetricsPersistence] = None
 
     description: Optional[str] = None
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -689,9 +700,11 @@ class InputSystemMetrics(BaseModel):
                 "host",
                 "process",
                 "container",
+                "gpu",
                 "metadata",
                 "persistence",
                 "description",
+                "__template_environment",
             ]
         )
         serialized = handler(self)

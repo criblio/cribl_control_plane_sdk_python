@@ -230,6 +230,8 @@ class InputAppscopeTypedDict(TypedDict):
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -352,6 +354,11 @@ class InputAppscope(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -405,6 +412,7 @@ class InputAppscope(BaseModel):
                 "unixSocketPerms",
                 "authToken",
                 "textSecret",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]

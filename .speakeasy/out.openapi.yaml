@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1776090951135-2a4c236b
+  version: 4.17.1-alpha.1776121473138-3d01fac8
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -19875,6 +19875,10 @@ components:
           type: boolean
           title: Salt file hash
           description: Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion.
+        optimizeLeafDirectories:
+          type: boolean
+          title: Optimize for leaf directories
+          description: Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories.
         includeUnidentifiableBinary:
           type: boolean
           title: Enable binary files

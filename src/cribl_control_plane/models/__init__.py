@@ -3840,6 +3840,10 @@ if TYPE_CHECKING:
     )
     from .objectacloptions import ObjectACLOptions
     from .objectacloptions1 import ObjectACLOptions1
+    from .orphanfilerecoverytype import (
+        OrphanFileRecoveryType,
+        OrphanFileRecoveryTypeTypedDict,
+    )
     from .otlpversionoptions import OtlpVersionOptions
     from .otlpversionoptions1 import OtlpVersionOptions1
     from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
@@ -9669,6 +9673,8 @@ __all__ = [
     "OldMode",
     "OldModeTypedDict",
     "Operator",
+    "OrphanFileRecoveryType",
+    "OrphanFileRecoveryTypeTypedDict",
     "Os",
     "OsTypedDict",
     "OsUnion",
@@ -15191,6 +15197,8 @@ _dynamic_imports: dict[str, str] = {
     "TargetConfigUnion3TypedDict": ".notification_union",
     "ObjectACLOptions": ".objectacloptions",
     "ObjectACLOptions1": ".objectacloptions1",
+    "OrphanFileRecoveryType": ".orphanfilerecoverytype",
+    "OrphanFileRecoveryTypeTypedDict": ".orphanfilerecoverytype",
     "OtlpVersionOptions": ".otlpversionoptions",
     "OtlpVersionOptions1": ".otlpversionoptions1",
     "OutpostNodeInfo": ".outpostnodeinfo",

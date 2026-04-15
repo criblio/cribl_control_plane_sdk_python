@@ -11,6 +11,10 @@ from .itemstypekeyvaluemetadata import (
     ItemsTypeKeyValueMetadata,
     ItemsTypeKeyValueMetadataTypedDict,
 )
+from .orphanfilerecoverytype import (
+    OrphanFileRecoveryType,
+    OrphanFileRecoveryTypeTypedDict,
+)
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from cribl_control_plane import models
@@ -89,6 +93,7 @@ class OutputDatabricksTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     workspace_host: NotRequired[str]
     r"""Hostname for the Databricks workspace. Override this to connect to government or secure cloud environments (e.g. cloud.databricks.us, cloud.databricks.mil, azuredatabricks.net)."""
     timeout_sec: NotRequired[int]
@@ -261,6 +266,8 @@ class OutputDatabricks(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     workspace_host: Annotated[Optional[str], pydantic.Field(alias="workspaceHost")] = (
         None
@@ -452,6 +459,7 @@ class OutputDatabricks(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "workspaceHost",
                 "timeoutSec",
                 "description",

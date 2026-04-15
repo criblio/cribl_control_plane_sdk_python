@@ -143,6 +143,10 @@ from .modeoptions import ModeOptions
 from .nestedfieldserializationoptions import NestedFieldSerializationOptions
 from .objectacloptions import ObjectACLOptions
 from .objectacloptions1 import ObjectACLOptions1
+from .orphanfilerecoverytype import (
+    OrphanFileRecoveryType,
+    OrphanFileRecoveryTypeTypedDict,
+)
 from .parquetversionoptions import ParquetVersionOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions import RecordDataFormatOptions
@@ -3228,6 +3232,7 @@ class CreateOutputOutputExabeamTypedDict(TypedDict):
     on_disk_full_backpressure: NotRequired[DiskSpaceProtectionOptions]
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
     encoded_configuration: NotRequired[str]
@@ -3361,6 +3366,8 @@ class CreateOutputOutputExabeam(BaseModel):
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
 
+    orphans: Optional[OrphanFileRecoveryType] = None
+
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
     ] = None
@@ -3483,6 +3490,7 @@ class CreateOutputOutputExabeam(BaseModel):
                 "deadletterEnabled",
                 "onDiskFullBackpressure",
                 "retrySettings",
+                "orphans",
                 "maxFileSizeMB",
                 "encodedConfiguration",
                 "siteName",
@@ -4542,6 +4550,7 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
     compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -4743,6 +4752,8 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
 
@@ -4988,6 +4999,7 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "description",
                 "compress",
                 "compressionLevel",
@@ -7354,6 +7366,7 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_immediately: NotRequired[bool]
@@ -7667,6 +7680,8 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
@@ -8034,6 +8049,7 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
                 "onDiskFullBackpressure",
                 "addIdToStagePath",
                 "retrySettings",
+                "orphans",
                 "timeoutSec",
                 "flushImmediately",
                 "retainBlobOnSuccess",
@@ -8160,6 +8176,7 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions]
     storage_class: NotRequired[CreateOutputBlobAccessTier]
     description: NotRequired[str]
@@ -8347,6 +8364,8 @@ class CreateOutputOutputAzureBlob(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
@@ -8610,6 +8629,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "authType",
                 "storageClass",
                 "description",
@@ -8740,6 +8760,7 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     max_file_open_time_sec: NotRequired[float]
     r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
     max_file_idle_time_sec: NotRequired[float]
@@ -8977,6 +8998,8 @@ class CreateOutputOutputS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     max_file_open_time_sec: Annotated[
         Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
@@ -9277,6 +9300,7 @@ class CreateOutputOutputS3(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "maxFileOpenTimeSec",
                 "maxFileIdleTimeSec",
                 "maxConcurrentFileParts",
@@ -9378,6 +9402,7 @@ class CreateOutputOutputFilesystemTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
     compress: NotRequired[CompressionOptions2]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -9525,6 +9550,8 @@ class CreateOutputOutputFilesystem(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
 
@@ -9706,6 +9733,7 @@ class CreateOutputOutputFilesystem(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "description",
                 "compress",
                 "compressionLevel",
@@ -14471,22 +14499,22 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputNetflowTypedDict,
         CreateOutputOutputDiskSpoolTypedDict,
         CreateOutputOutputRingTypedDict,
-        CreateOutputOutputGraphiteTypedDict,
         CreateOutputOutputStatsdTypedDict,
+        CreateOutputOutputGraphiteTypedDict,
         CreateOutputOutputStatsdExtTypedDict,
         CreateOutputOutputGooglePubsubTypedDict,
-        CreateOutputOutputSplunkTypedDict,
         CreateOutputOutputSignalfxTypedDict,
         CreateOutputOutputWavefrontTypedDict,
-        CreateOutputOutputHoneycombTypedDict,
         CreateOutputOutputAzureEventhubTypedDict,
+        CreateOutputOutputSplunkTypedDict,
+        CreateOutputOutputHoneycombTypedDict,
         CreateOutputOutputCriblTCPTypedDict,
-        CreateOutputOutputExabeamTypedDict,
         CreateOutputOutputElasticCloudTypedDict,
         CreateOutputOutputMicrosoftFabricTypedDict,
         CreateOutputOutputCrowdstrikeNextGenSiemTypedDict,
         CreateOutputOutputSumoLogicTypedDict,
         CreateOutputOutputHumioHecTypedDict,
+        CreateOutputOutputExabeamTypedDict,
         CreateOutputOutputSnsTypedDict,
         CreateOutputOutputTcpjsonTypedDict,
         CreateOutputOutputKafkaTypedDict,
@@ -14494,20 +14522,20 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputSplunkLbTypedDict,
         CreateOutputOutputCloudwatchTypedDict,
         CreateOutputOutputAzureLogsTypedDict,
-        CreateOutputOutputPrometheusTypedDict,
-        CreateOutputOutputNewrelicEventsTypedDict,
-        CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputSyslogTypedDict,
+        CreateOutputOutputNewrelicEventsTypedDict,
+        CreateOutputOutputPrometheusTypedDict,
+        CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputXsiamTypedDict,
         CreateOutputOutputWizHecTypedDict,
-        CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputNewrelicTypedDict,
         CreateOutputOutputCriblHTTPTypedDict,
+        CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputDatasetTypedDict,
         CreateOutputOutputLokiTypedDict,
         CreateOutputOutputDynatraceHTTPTypedDict,
-        CreateOutputOutputKinesisTypedDict,
         CreateOutputOutputDynatraceOtlpTypedDict,
+        CreateOutputOutputKinesisTypedDict,
         CreateOutputOutputServiceNowTypedDict,
         CreateOutputOutputSplunkHecTypedDict,
         CreateOutputOutputSqsTypedDict,
@@ -14518,16 +14546,16 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputInfluxdbTypedDict,
         CreateOutputOutputGoogleChronicleTypedDict,
         CreateOutputOutputSentinelOneAiSiemTypedDict,
-        CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputClickHouseTypedDict,
+        CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputLocalSearchStorageTypedDict,
         CreateOutputOutputCriblLakeTypedDict,
         CreateOutputOutputCloudflareR2TypedDict,
         CreateOutputOutputMskTypedDict,
         CreateOutputOutputGoogleCloudStorageTypedDict,
+        CreateOutputOutputSentinelTypedDict,
         CreateOutputOutputAzureBlobTypedDict,
         CreateOutputOutputMinioTypedDict,
-        CreateOutputOutputSentinelTypedDict,
         CreateOutputOutputSecurityLakeTypedDict,
         CreateOutputOutputWebhookTypedDict,
         CreateOutputOutputGoogleCloudLoggingTypedDict,

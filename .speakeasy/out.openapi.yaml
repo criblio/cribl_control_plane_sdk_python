@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.1-alpha.1776207792040-06019d8d
+  version: 4.17.1-alpha.1776294247447-5d455f23
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -11135,6 +11135,13 @@ components:
           type: boolean
           title: Capture response headers
           description: Enable to add response headers to the resHeaders field under the __collectible object
+        emitEventsForHttpStatusCodes:
+          type: array
+          title: Event HTTP status codes
+          description: HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx.
+          items:
+            type: string
+            pattern: ^(?:[x\d]{3})$
         stopOnEmptyResults:
           type: boolean
           title: Stop on empty results

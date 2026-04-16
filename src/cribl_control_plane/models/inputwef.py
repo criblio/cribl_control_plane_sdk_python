@@ -6,12 +6,8 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptionalTypedDict,
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
-from .maximumtlsversionoptionskafkaschemaregistrytls import (
-    MaximumTLSVersionOptionsKafkaSchemaRegistryTLS,
-)
-from .minimumtlsversionoptionskafkaschemaregistrytls import (
-    MinimumTLSVersionOptionsKafkaSchemaRegistryTLS,
-)
+from .maximumtlsversionoptionstls import MaximumTLSVersionOptionsTLS
+from .minimumtlsversionoptionstls import MinimumTLSVersionOptionsTLS
 from .pqtype import PqType, PqTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -54,8 +50,8 @@ class MTLSSettingsTypedDict(TypedDict):
     r"""Passphrase to use to decrypt private key"""
     common_name_regex: NotRequired[str]
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
-    min_version: NotRequired[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS]
-    max_version: NotRequired[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS]
+    min_version: NotRequired[MinimumTLSVersionOptionsTLS]
+    max_version: NotRequired[MaximumTLSVersionOptionsTLS]
     ocsp_check: NotRequired[bool]
     r"""Enable OCSP check of certificate"""
     ocsp_check_fail_close: NotRequired[bool]
@@ -97,13 +93,11 @@ class MTLSSettings(BaseModel):
     r"""Regex matching allowable common names in peer certificates' subject attribute"""
 
     min_version: Annotated[
-        Optional[MinimumTLSVersionOptionsKafkaSchemaRegistryTLS],
-        pydantic.Field(alias="minVersion"),
+        Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
     ] = None
 
     max_version: Annotated[
-        Optional[MaximumTLSVersionOptionsKafkaSchemaRegistryTLS],
-        pydantic.Field(alias="maxVersion"),
+        Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
     ] = None
 
     ocsp_check: Annotated[Optional[bool], pydantic.Field(alias="ocspCheck")] = None
@@ -118,7 +112,7 @@ class MTLSSettings(BaseModel):
     def serialize_min_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MinimumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
+                return models.MinimumTLSVersionOptionsTLS(value)
             except ValueError:
                 return value
         return value
@@ -127,7 +121,7 @@ class MTLSSettings(BaseModel):
     def serialize_max_version(self, value):
         if isinstance(value, str):
             try:
-                return models.MaximumTLSVersionOptionsKafkaSchemaRegistryTLS(value)
+                return models.MaximumTLSVersionOptionsTLS(value)
             except ValueError:
                 return value
         return value
@@ -368,6 +362,8 @@ class InputWefTypedDict(TypedDict):
     description: NotRequired[str]
     log_fingerprint_mismatch: NotRequired[bool]
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -491,6 +487,11 @@ class InputWef(BaseModel):
     ] = None
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -541,6 +542,7 @@ class InputWef(BaseModel):
                 "metadata",
                 "description",
                 "logFingerprintMismatch",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]

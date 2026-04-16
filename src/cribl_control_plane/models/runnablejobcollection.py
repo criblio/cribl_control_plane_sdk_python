@@ -7,21 +7,21 @@ from .logleveloptionsrunnablejobcollectionschedulerun import (
     LogLevelOptionsRunnableJobCollectionScheduleRun,
 )
 from .metricsstore import MetricsStore, MetricsStoreTypedDict
+from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
+)
 from .scheduletyperunnablejobcollection import (
     ScheduleTypeRunnableJobCollection,
     ScheduleTypeRunnableJobCollectionTypedDict,
-)
-from .typecollectionwithbreakerrulesetsconstraint import (
-    TypeCollectionWithBreakerRulesetsConstraint,
-    TypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class RunnableJobCollectionMode(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -35,6 +35,30 @@ class RunnableJobCollectionMode(str, Enum, metaclass=utils.OpenEnumMeta):
 class TimeRange(str, Enum, metaclass=utils.OpenEnumMeta):
     ABSOLUTE = "absolute"
     RELATIVE = "relative"
+
+
+RunnableJobCollectionEarliestTypedDict = TypeAliasType(
+    "RunnableJobCollectionEarliestTypedDict", Union[float, str]
+)
+r"""Earliest time to collect data for the selected timezone"""
+
+
+RunnableJobCollectionEarliest = TypeAliasType(
+    "RunnableJobCollectionEarliest", Union[float, str]
+)
+r"""Earliest time to collect data for the selected timezone"""
+
+
+RunnableJobCollectionLatestTypedDict = TypeAliasType(
+    "RunnableJobCollectionLatestTypedDict", Union[float, str]
+)
+r"""Latest time to collect data for the selected timezone"""
+
+
+RunnableJobCollectionLatest = TypeAliasType(
+    "RunnableJobCollectionLatest", Union[float, str]
+)
+r"""Latest time to collect data for the selected timezone"""
 
 
 class WhereToCapture(int, Enum, metaclass=utils.OpenEnumMeta):
@@ -103,9 +127,9 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
     time_range_type: NotRequired[TimeRange]
-    earliest: NotRequired[float]
+    earliest: NotRequired[RunnableJobCollectionEarliestTypedDict]
     r"""Earliest time to collect data for the selected timezone"""
-    latest: NotRequired[float]
+    latest: NotRequired[RunnableJobCollectionLatestTypedDict]
     r"""Latest time to collect data for the selected timezone"""
     timestamp_timezone: NotRequired[str]
     r"""Timezone to use for Earliest and Latest times"""
@@ -156,10 +180,10 @@ class RunnableJobCollectionRun(BaseModel):
         Optional[TimeRange], pydantic.Field(alias="timeRangeType")
     ] = None
 
-    earliest: Optional[float] = None
+    earliest: Optional[RunnableJobCollectionEarliest] = None
     r"""Earliest time to collect data for the selected timezone"""
 
-    latest: Optional[float] = None
+    latest: Optional[RunnableJobCollectionLatest] = None
     r"""Latest time to collect data for the selected timezone"""
 
     timestamp_timezone: Annotated[
@@ -280,7 +304,9 @@ class RunnableJobCollectionTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[TypeCollectionWithBreakerRulesetsConstraintTypedDict]
+    input: NotRequired[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
+    ]
 
 
 class RunnableJobCollection(BaseModel):
@@ -328,7 +354,9 @@ class RunnableJobCollection(BaseModel):
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[TypeCollectionWithBreakerRulesetsConstraint] = None
+    input: Optional[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
+    ] = None
 
     @field_serializer("type")
     def serialize_type(self, value):

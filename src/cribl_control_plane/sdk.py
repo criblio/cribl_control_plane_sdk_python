@@ -15,14 +15,14 @@ from typing import Callable, Optional, TYPE_CHECKING, Union, cast
 import weakref
 
 if TYPE_CHECKING:
-    from cribl_control_plane.auth import Auth
+    from cribl_control_plane.auth_sdk import AuthSDK
     from cribl_control_plane.collectors_sdk import CollectorsSDK
     from cribl_control_plane.databaseconnections import DatabaseConnections
     from cribl_control_plane.destinations import Destinations
     from cribl_control_plane.functions import Functions
     from cribl_control_plane.groups_sdk import GroupsSDK
     from cribl_control_plane.health import Health
-    from cribl_control_plane.lakedatasets import LakeDatasets
+    from cribl_control_plane.lakes import Lakes
     from cribl_control_plane.nodes import Nodes
     from cribl_control_plane.packs import Packs
     from cribl_control_plane.pipelines import Pipelines
@@ -43,6 +43,7 @@ class CriblControlPlane(BaseSDK):
     """
 
     database_connections: "DatabaseConnections"
+    r"""Actions related to DatabaseConnections"""
     functions: "Functions"
     r"""Actions related to functions"""
     sources: "Sources"
@@ -59,8 +60,8 @@ class CriblControlPlane(BaseSDK):
     r"""Actions related to Collectors"""
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
-    lake_datasets: "LakeDatasets"
-    auth: "Auth"
+    lakes: "Lakes"
+    auth: "AuthSDK"
     system: "SystemSDK"
     nodes: "Nodes"
     health: "Health"
@@ -79,8 +80,8 @@ class CriblControlPlane(BaseSDK):
         "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
         "collectors": ("cribl_control_plane.collectors_sdk", "CollectorsSDK"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
-        "lake_datasets": ("cribl_control_plane.lakedatasets", "LakeDatasets"),
-        "auth": ("cribl_control_plane.auth", "Auth"),
+        "lakes": ("cribl_control_plane.lakes", "Lakes"),
+        "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
         "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
         "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "health": ("cribl_control_plane.health", "Health"),

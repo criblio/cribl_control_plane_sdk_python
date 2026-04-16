@@ -227,24 +227,13 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
-        deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
         ] = None,
-        git: Optional[
-            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
-        ] = None,
-        incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
         is_search: Optional[bool] = None,
-        lookup_deployments: Optional[
-            Union[
-                List[models.ConfigGroupLookups],
-                List[models.ConfigGroupLookupsTypedDict],
-            ]
-        ] = None,
         max_worker_age: Optional[str] = None,
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
@@ -254,7 +243,6 @@ class GroupsSDK(BaseSDK):
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
-        worker_count: Optional[float] = None,
         worker_remote_access: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -268,26 +256,21 @@ class GroupsSDK(BaseSDK):
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id:
         :param cloud:
-        :param deploying_worker_count:
-        :param description:
-        :param estimated_ingest_rate: Estimated ingest rate for Cloud Groups, in GB/sec.
-        :param git:
-        :param incompatible_worker_count:
-        :param inherits:
-        :param is_fleet: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
-        :param is_search: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
-        :param lookup_deployments:
-        :param max_worker_age:
-        :param name:
-        :param on_prem:
-        :param provisioned:
-        :param source_group_id:
-        :param streamtags:
-        :param tags:
-        :param type:
-        :param upgrade_version:
-        :param worker_count:
-        :param worker_remote_access:
+        :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
+        :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
+        :param inherits: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
+        :param is_fleet: Indicates whether this is an Edge Fleet. Deprecated. Use to identify Edge Fleets.
+        :param is_search: Indicates whether this is an internal Search Group. Deprecated. Use to identify Search Groups.
+        :param max_worker_age: Maximum duration a Worker or Node can remain disconnected before the Leader removes it. The value is a numeral with units, such as <code>8h</code>, <code>5d</code>, <code>1w</code>.
+        :param name: Name of the Worker Group, Outpost Group, or Edge Fleet.
+        :param on_prem: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
+        :param provisioned: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
+        :param source_group_id: The <code>id</code> of an existing Worker Group, Outpost Group, or Edge Fleet to copy configuration from when creating a new Group or Fleet.
+        :param streamtags: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
+        :param tags: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
+        :param type: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
+        :param upgrade_version: Target software upgrade version. Applies only to Outpost Groups and Edge Fleets.
+        :param worker_remote_access: If <code>true</code>, the Leader allows remote access (teleporting) into the Workers or Nodes of the Worker Group, Outpost Group, or Edge Fleet.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -309,18 +292,12 @@ class GroupsSDK(BaseSDK):
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
-                deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
                 id=id,
-                incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
                 is_fleet=is_fleet,
                 is_search=is_search,
-                lookup_deployments=utils.get_pydantic_model(
-                    lookup_deployments, Optional[List[models.ConfigGroupLookups]]
-                ),
                 max_worker_age=max_worker_age,
                 name=name,
                 on_prem=on_prem,
@@ -330,7 +307,6 @@ class GroupsSDK(BaseSDK):
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
-                worker_count=worker_count,
                 worker_remote_access=worker_remote_access,
             ),
         )
@@ -409,24 +385,13 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
-        deploying_worker_count: Optional[float] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
         ] = None,
-        git: Optional[
-            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
-        ] = None,
-        incompatible_worker_count: Optional[float] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
         is_search: Optional[bool] = None,
-        lookup_deployments: Optional[
-            Union[
-                List[models.ConfigGroupLookups],
-                List[models.ConfigGroupLookupsTypedDict],
-            ]
-        ] = None,
         max_worker_age: Optional[str] = None,
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
@@ -436,7 +401,6 @@ class GroupsSDK(BaseSDK):
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
-        worker_count: Optional[float] = None,
         worker_remote_access: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -450,26 +414,21 @@ class GroupsSDK(BaseSDK):
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id:
         :param cloud:
-        :param deploying_worker_count:
-        :param description:
-        :param estimated_ingest_rate: Estimated ingest rate for Cloud Groups, in GB/sec.
-        :param git:
-        :param incompatible_worker_count:
-        :param inherits:
-        :param is_fleet: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
-        :param is_search: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
-        :param lookup_deployments:
-        :param max_worker_age:
-        :param name:
-        :param on_prem:
-        :param provisioned:
-        :param source_group_id:
-        :param streamtags:
-        :param tags:
-        :param type:
-        :param upgrade_version:
-        :param worker_count:
-        :param worker_remote_access:
+        :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
+        :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
+        :param inherits: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
+        :param is_fleet: Indicates whether this is an Edge Fleet. Deprecated. Use to identify Edge Fleets.
+        :param is_search: Indicates whether this is an internal Search Group. Deprecated. Use to identify Search Groups.
+        :param max_worker_age: Maximum duration a Worker or Node can remain disconnected before the Leader removes it. The value is a numeral with units, such as <code>8h</code>, <code>5d</code>, <code>1w</code>.
+        :param name: Name of the Worker Group, Outpost Group, or Edge Fleet.
+        :param on_prem: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
+        :param provisioned: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
+        :param source_group_id: The <code>id</code> of an existing Worker Group, Outpost Group, or Edge Fleet to copy configuration from when creating a new Group or Fleet.
+        :param streamtags: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
+        :param tags: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
+        :param type: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
+        :param upgrade_version: Target software upgrade version. Applies only to Outpost Groups and Edge Fleets.
+        :param worker_remote_access: If <code>true</code>, the Leader allows remote access (teleporting) into the Workers or Nodes of the Worker Group, Outpost Group, or Edge Fleet.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -491,18 +450,12 @@ class GroupsSDK(BaseSDK):
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
-                deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
                 id=id,
-                incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
                 is_fleet=is_fleet,
                 is_search=is_search,
-                lookup_deployments=utils.get_pydantic_model(
-                    lookup_deployments, Optional[List[models.ConfigGroupLookups]]
-                ),
                 max_worker_age=max_worker_age,
                 name=name,
                 on_prem=on_prem,
@@ -512,7 +465,6 @@ class GroupsSDK(BaseSDK):
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
-                worker_count=worker_count,
                 worker_remote_access=worker_remote_access,
             ),
         )
@@ -789,15 +741,13 @@ class GroupsSDK(BaseSDK):
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
         config_version: Optional[str] = None,
-        deploying_worker_count: Optional[float] = None,
+        deploying_worker_count: Optional[int] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
         ] = None,
-        git: Optional[
-            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
-        ] = None,
-        incompatible_worker_count: Optional[float] = None,
+        git: Optional[Union[models.Git, models.GitTypedDict]] = None,
+        incompatible_worker_count: Optional[int] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
         is_search: Optional[bool] = None,
@@ -815,7 +765,7 @@ class GroupsSDK(BaseSDK):
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
-        worker_count: Optional[float] = None,
+        worker_count: Optional[int] = None,
         worker_remote_access: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -824,32 +774,32 @@ class GroupsSDK(BaseSDK):
     ) -> models.CountedConfigGroup:
         r"""Update a Worker Group, Outpost Group, or Edge Fleet
 
-        Update the specified Worker Group, Outpost Group, or Edge Fleet.
+        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/>- <code>configVersion</code><br/>- <code>deployingWorkerCount</code><br/>- <code>incompatibleWorkerCount</code><br/>- <code>workerCount</code><br/>- <code>lookupDeployments</code>.
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id:
         :param cloud:
-        :param config_version:
-        :param deploying_worker_count:
-        :param description:
-        :param estimated_ingest_rate: Estimated ingest rate for Cloud Groups, in GB/sec.
-        :param git:
-        :param incompatible_worker_count:
-        :param inherits:
-        :param is_fleet: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
-        :param is_search: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
-        :param lookup_deployments:
-        :param max_worker_age:
-        :param name:
-        :param on_prem:
-        :param provisioned:
-        :param streamtags:
-        :param tags:
-        :param type:
-        :param upgrade_version:
-        :param worker_count:
-        :param worker_remote_access:
+        :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
+        :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
+        :param git: Git status of the Worker Group, Outpost Group, or Edge Fleet configuration. Automatically populated and returned in responses.
+        :param incompatible_worker_count: Number of Workers or Nodes running a Cribl version that is incompatible with the current upgrade target.<br/><br/> **Warning**: Do not change the value of <code>incompatibleWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param inherits: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
+        :param is_fleet: Indicates whether this is an Edge Fleet. Deprecated. Use to identify Edge Fleets.
+        :param is_search: Indicates whether this is an internal Search Group. Deprecated. Use to identify Search Groups.
+        :param lookup_deployments: Lookup deployment status per Worker or Node context.<br/><br/> **Warning**: Do not change the value of <code>lookupDeployments</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param max_worker_age: Maximum duration a Worker or Node can remain disconnected before the Leader removes it. The value is a numeral with units, such as <code>8h</code>, <code>5d</code>, <code>1w</code>.
+        :param name: Name of the Worker Group, Outpost Group, or Edge Fleet.
+        :param on_prem: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
+        :param provisioned: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
+        :param streamtags: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
+        :param tags: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
+        :param type: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
+        :param upgrade_version: Target software upgrade version. Applies only to Outpost Groups and Edge Fleets.
+        :param worker_count: Number of Workers or Nodes currently in the Worker Group, Outpost Group, or Edge Fleet. The value is automatically populated and **does not scale Cribl.Cloud Worker Groups**. Use <code>estimatedIngestRate</code> to scale Cribl.Cloud Worker Groups. <br/><br/> **Warning**: Do not change the value of <code>workerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param worker_remote_access: If <code>true</code>, the Leader allows remote access (teleporting) into the Workers or Nodes of the Worker Group, Outpost Group, or Edge Fleet.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -876,7 +826,7 @@ class GroupsSDK(BaseSDK):
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
+                git=utils.get_pydantic_model(git, Optional[models.Git]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,
@@ -970,15 +920,13 @@ class GroupsSDK(BaseSDK):
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
         config_version: Optional[str] = None,
-        deploying_worker_count: Optional[float] = None,
+        deploying_worker_count: Optional[int] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
         ] = None,
-        git: Optional[
-            Union[models.GitTypeConfigGroup, models.GitTypeConfigGroupTypedDict]
-        ] = None,
-        incompatible_worker_count: Optional[float] = None,
+        git: Optional[Union[models.Git, models.GitTypedDict]] = None,
+        incompatible_worker_count: Optional[int] = None,
         inherits: Optional[str] = None,
         is_fleet: Optional[bool] = None,
         is_search: Optional[bool] = None,
@@ -996,7 +944,7 @@ class GroupsSDK(BaseSDK):
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
-        worker_count: Optional[float] = None,
+        worker_count: Optional[int] = None,
         worker_remote_access: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -1005,32 +953,32 @@ class GroupsSDK(BaseSDK):
     ) -> models.CountedConfigGroup:
         r"""Update a Worker Group, Outpost Group, or Edge Fleet
 
-        Update the specified Worker Group, Outpost Group, or Edge Fleet.
+        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/>- <code>configVersion</code><br/>- <code>deployingWorkerCount</code><br/>- <code>incompatibleWorkerCount</code><br/>- <code>workerCount</code><br/>- <code>lookupDeployments</code>.
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id:
         :param cloud:
-        :param config_version:
-        :param deploying_worker_count:
-        :param description:
-        :param estimated_ingest_rate: Estimated ingest rate for Cloud Groups, in GB/sec.
-        :param git:
-        :param incompatible_worker_count:
-        :param inherits:
-        :param is_fleet: Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets.
-        :param is_search: Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups.
-        :param lookup_deployments:
-        :param max_worker_age:
-        :param name:
-        :param on_prem:
-        :param provisioned:
-        :param streamtags:
-        :param tags:
-        :param type:
-        :param upgrade_version:
-        :param worker_count:
-        :param worker_remote_access:
+        :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
+        :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
+        :param git: Git status of the Worker Group, Outpost Group, or Edge Fleet configuration. Automatically populated and returned in responses.
+        :param incompatible_worker_count: Number of Workers or Nodes running a Cribl version that is incompatible with the current upgrade target.<br/><br/> **Warning**: Do not change the value of <code>incompatibleWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param inherits: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
+        :param is_fleet: Indicates whether this is an Edge Fleet. Deprecated. Use to identify Edge Fleets.
+        :param is_search: Indicates whether this is an internal Search Group. Deprecated. Use to identify Search Groups.
+        :param lookup_deployments: Lookup deployment status per Worker or Node context.<br/><br/> **Warning**: Do not change the value of <code>lookupDeployments</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param max_worker_age: Maximum duration a Worker or Node can remain disconnected before the Leader removes it. The value is a numeral with units, such as <code>8h</code>, <code>5d</code>, <code>1w</code>.
+        :param name: Name of the Worker Group, Outpost Group, or Edge Fleet.
+        :param on_prem: If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud.
+        :param provisioned: If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups.
+        :param streamtags: Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl.
+        :param tags: Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead.
+        :param type: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
+        :param upgrade_version: Target software upgrade version. Applies only to Outpost Groups and Edge Fleets.
+        :param worker_count: Number of Workers or Nodes currently in the Worker Group, Outpost Group, or Edge Fleet. The value is automatically populated and **does not scale Cribl.Cloud Worker Groups**. Use <code>estimatedIngestRate</code> to scale Cribl.Cloud Worker Groups. <br/><br/> **Warning**: Do not change the value of <code>workerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
+        :param worker_remote_access: If <code>true</code>, the Leader allows remote access (teleporting) into the Workers or Nodes of the Worker Group, Outpost Group, or Edge Fleet.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1057,7 +1005,7 @@ class GroupsSDK(BaseSDK):
                 deploying_worker_count=deploying_worker_count,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
-                git=utils.get_pydantic_model(git, Optional[models.GitTypeConfigGroup]),
+                git=utils.get_pydantic_model(git, Optional[models.Git]),
                 id=id,
                 incompatible_worker_count=incompatible_worker_count,
                 inherits=inherits,

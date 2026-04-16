@@ -298,13 +298,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md#get) - Get the health status of the server
 
-### [LakeDatasets](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md)
+### [Lakes.Datasets](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md)
 
-* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
-* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
+* [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
 
 ### [Nodes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md)
 
@@ -315,7 +315,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Nodes.Summaries](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment for a specific product
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the deployment for a specific product.
 
 ### [Packs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md)
 
@@ -436,7 +436,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 #### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#list) - Get Cribl system settings
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#update) - Update Cribl system settings
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#update) - Update system settings
 
 ### [Versions.Branches](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/branches/README.md)
 
@@ -527,7 +527,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.list(product=models.ProductsBase.STREAM, filter_exp="<value>", sort_exp="<value>", filter_="<value>", sort="<value>", limit=881129, offset=990978)
+    res = ccp_client.sources.statuses.list(metrics=True, type_=False)
 
     while res is not None:
         # Handle items

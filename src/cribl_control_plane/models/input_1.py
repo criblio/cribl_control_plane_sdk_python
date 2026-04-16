@@ -17,6 +17,7 @@ from .inputdatagen import InputDatagen, InputDatagenTypedDict
 from .inputedgeprometheus import InputEdgePrometheus, InputEdgePrometheusTypedDict
 from .inputelastic import InputElastic, InputElasticTypedDict
 from .inputeventhub import InputEventhub, InputEventhubTypedDict
+from .inputeventhubamqp import InputEventhubAmqp, InputEventhubAmqpTypedDict
 from .inputexec import InputExec, InputExecTypedDict
 from .inputfile import InputFile, InputFileTypedDict
 from .inputfirehose import InputFirehose, InputFirehoseTypedDict
@@ -46,6 +47,10 @@ from .inputoffice365msgtrace import (
 )
 from .inputoffice365service import InputOffice365Service, InputOffice365ServiceTypedDict
 from .inputopenai import InputOpenai, InputOpenaiTypedDict
+from .inputopenaicompliancelogs import (
+    InputOpenaiComplianceLogs,
+    InputOpenaiComplianceLogsTypedDict,
+)
 from .inputopentelemetry import InputOpenTelemetry, InputOpenTelemetryTypedDict
 from .inputprometheus import InputPrometheus, InputPrometheusTypedDict
 from .inputprometheusrw import InputPrometheusRw, InputPrometheusRwTypedDict
@@ -53,6 +58,7 @@ from .inputrawudp import InputRawUDP, InputRawUDPTypedDict
 from .inputs3 import InputS3, InputS3TypedDict
 from .inputs3inventory import InputS3Inventory, InputS3InventoryTypedDict
 from .inputsecuritylake import InputSecurityLake, InputSecurityLakeTypedDict
+from .inputservicenowtable import InputServicenowTable, InputServicenowTableTypedDict
 from .inputsnmp import InputSnmp, InputSnmpTypedDict
 from .inputsplunk import InputSplunk, InputSplunkTypedDict
 from .inputsplunkhec import InputSplunkHec, InputSplunkHecTypedDict
@@ -81,8 +87,8 @@ from typing_extensions import Annotated, TypeAliasType
 Input1TypedDict = TypeAliasType(
     "Input1TypedDict",
     Union[
-        InputCriblTypedDict,
         InputDatagenTypedDict,
+        InputCriblTypedDict,
         InputKubeEventsTypedDict,
         InputCriblmetricsTypedDict,
         InputKubeMetricsTypedDict,
@@ -91,56 +97,59 @@ Input1TypedDict = TypeAliasType(
         InputSystemMetricsTypedDict,
         InputWindowsMetricsTypedDict,
         InputJournalFilesTypedDict,
-        InputKubeLogsTypedDict,
         InputModelDrivenTelemetryTypedDict,
+        InputKubeLogsTypedDict,
         InputExecTypedDict,
         InputWinEventLogsTypedDict,
         InputRawUDPTypedDict,
         InputSnmpTypedDict,
         InputMetricsTypedDict,
-        InputNetflowTypedDict,
         InputCriblTCPTypedDict,
+        InputNetflowTypedDict,
         InputOpenaiTypedDict,
         InputTcpjsonTypedDict,
+        InputEventhubAmqpTypedDict,
         InputGooglePubsubTypedDict,
-        InputWizTypedDict,
         InputFirehoseTypedDict,
         InputCriblHTTPTypedDict,
-        InputOffice365ServiceTypedDict,
         InputTCPTypedDict,
+        InputOffice365ServiceTypedDict,
         InputDatadogAgentTypedDict,
-        InputSplunkTypedDict,
+        InputWizTypedDict,
         InputFileTypedDict,
         InputOffice365MgmtTypedDict,
-        InputAppscopeTypedDict,
         InputWefTypedDict,
+        InputSplunkTypedDict,
+        InputAppscopeTypedDict,
         InputHTTPRawTypedDict,
         InputWizWebhookTypedDict,
-        InputHTTPTypedDict,
-        InputZscalerHecTypedDict,
-        InputCriblLakeHTTPTypedDict,
         InputCloudflareHecTypedDict,
-        InputEventhubTypedDict,
-        InputKafkaTypedDict,
+        InputZscalerHecTypedDict,
         InputLokiTypedDict,
+        InputKafkaTypedDict,
         InputConfluentCloudTypedDict,
+        InputEventhubTypedDict,
         InputPrometheusRwTypedDict,
-        InputAzureBlobTypedDict,
+        InputHTTPTypedDict,
         InputOpenTelemetryTypedDict,
+        InputCriblLakeHTTPTypedDict,
         InputElasticTypedDict,
-        InputSplunkSearchTypedDict,
-        InputSqsTypedDict,
+        InputOpenaiComplianceLogsTypedDict,
+        InputAzureBlobTypedDict,
         InputSplunkHecTypedDict,
         InputMicrosoftGraphTypedDict,
-        InputKinesisTypedDict,
+        InputSqsTypedDict,
         InputOffice365MsgTraceTypedDict,
+        InputKinesisTypedDict,
+        InputSplunkSearchTypedDict,
+        InputServicenowTableTypedDict,
         InputEdgePrometheusTypedDict,
         InputCrowdstrikeTypedDict,
-        InputMskTypedDict,
         InputS3TypedDict,
-        InputPrometheusTypedDict,
+        InputMskTypedDict,
         InputSecurityLakeTypedDict,
         InputS3InventoryTypedDict,
+        InputPrometheusTypedDict,
         InputSyslogUnionTypedDict,
         InputGrafanaUnionTypedDict,
     ],
@@ -178,6 +187,7 @@ _INPUT_1_VARIANTS: dict[str, Any] = {
     "office365_msg_trace": InputOffice365MsgTrace,
     "microsoft_graph": InputMicrosoftGraph,
     "eventhub": InputEventhub,
+    "eventhub_amqp": InputEventhubAmqp,
     "exec": InputExec,
     "firehose": InputFirehose,
     "google_pubsub": InputGooglePubsub,
@@ -218,8 +228,10 @@ _INPUT_1_VARIANTS: dict[str, Any] = {
     "wiz_webhook": InputWizWebhook,
     "netflow": InputNetflow,
     "security_lake": InputSecurityLake,
+    "servicenow_table": InputServicenowTable,
     "zscaler_hec": InputZscalerHec,
     "cloudflare_hec": InputCloudflareHec,
+    "openai_compliance_logs": InputOpenaiComplianceLogs,
 }
 
 
@@ -245,6 +257,7 @@ Input1 = Annotated[
         InputOffice365MsgTrace,
         InputMicrosoftGraph,
         InputEventhub,
+        InputEventhubAmqp,
         InputExec,
         InputFirehose,
         InputGooglePubsub,
@@ -285,8 +298,10 @@ Input1 = Annotated[
         InputWizWebhook,
         InputNetflow,
         InputSecurityLake,
+        InputServicenowTable,
         InputZscalerHec,
         InputCloudflareHec,
+        InputOpenaiComplianceLogs,
         UnknownInput1,
     ],
     BeforeValidator(

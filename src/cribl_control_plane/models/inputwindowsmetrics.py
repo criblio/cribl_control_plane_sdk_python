@@ -4,6 +4,7 @@ from __future__ import annotations
 from .datacompressionformatoptionspersistence import (
     DataCompressionFormatOptionsPersistence,
 )
+from .gputype import GpuType, GpuTypeTypedDict
 from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptional,
     ItemsTypeConnectionsOptionalTypedDict,
@@ -492,12 +493,15 @@ class InputWindowsMetricsTypedDict(TypedDict):
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
     host: NotRequired[InputWindowsMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
+    gpu: NotRequired[GpuTypeTypedDict]
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputWindowsMetricsPersistenceTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
 
 class InputWindowsMetrics(BaseModel):
@@ -537,6 +541,8 @@ class InputWindowsMetrics(BaseModel):
 
     process: Optional[ProcessType] = None
 
+    gpu: Optional[GpuType] = None
+
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
@@ -548,6 +554,11 @@ class InputWindowsMetrics(BaseModel):
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
 
     description: Optional[str] = None
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -565,10 +576,12 @@ class InputWindowsMetrics(BaseModel):
                 "interval",
                 "host",
                 "process",
+                "gpu",
                 "metadata",
                 "persistence",
                 "disableNativeModule",
                 "description",
+                "__template_environment",
             ]
         )
         serialized = handler(self)

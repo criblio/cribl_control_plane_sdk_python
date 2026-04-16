@@ -25,16 +25,22 @@ class State(int, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class JobStatusTypedDict(TypedDict):
+    r"""Status of a job, including its current state and failure reason."""
+
     state: State
     r"""State of the Job"""
     reason: NotRequired[Dict[str, Any]]
+    r"""Reason the job entered its current <code>state</code>, typically populated upon failure."""
 
 
 class JobStatus(BaseModel):
+    r"""Status of a job, including its current state and failure reason."""
+
     state: State
     r"""State of the Job"""
 
     reason: Optional[Dict[str, Any]] = None
+    r"""Reason the job entered its current <code>state</code>, typically populated upon failure."""
 
     @field_serializer("state")
     def serialize_state(self, value):

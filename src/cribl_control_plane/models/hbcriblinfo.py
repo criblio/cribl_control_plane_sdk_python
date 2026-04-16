@@ -59,7 +59,6 @@ class HBCriblInfoTypedDict(TypedDict):
     group: str
     guid: str
     start_time: float
-    tags: List[str]
     deployment_id: NotRequired[str]
     disable_sni_routing: NotRequired[bool]
     edge_nodes: NotRequired[float]
@@ -68,6 +67,7 @@ class HBCriblInfoTypedDict(TypedDict):
     master: NotRequired[HBLeaderInfoTypedDict]
     pid: NotRequired[float]
     socks_enabled: NotRequired[bool]
+    tags: NotRequired[List[str]]
     version: NotRequired[str]
 
 
@@ -83,8 +83,6 @@ class HBCriblInfo(BaseModel):
     guid: str
 
     start_time: Annotated[float, pydantic.Field(alias="startTime")]
-
-    tags: List[str]
 
     deployment_id: Annotated[Optional[str], pydantic.Field(alias="deploymentId")] = None
 
@@ -107,6 +105,8 @@ class HBCriblInfo(BaseModel):
     socks_enabled: Annotated[Optional[bool], pydantic.Field(alias="socksEnabled")] = (
         None
     )
+
+    tags: Optional[List[str]] = None
 
     version: Optional[str] = None
 
@@ -131,6 +131,7 @@ class HBCriblInfo(BaseModel):
                 "master",
                 "pid",
                 "socksEnabled",
+                "tags",
                 "version",
             ]
         )

@@ -220,6 +220,8 @@ class InputElasticTypedDict(TypedDict):
     r"""Bearer tokens to include in the authorization header"""
     custom_api_version: NotRequired[str]
     r"""Custom version information to respond to requests"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -365,6 +367,11 @@ class InputElastic(BaseModel):
     ] = None
     r"""Custom version information to respond to requests"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -429,6 +436,7 @@ class InputElastic(BaseModel):
                 "credentialsSecret",
                 "authTokens",
                 "customAPIVersion",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]

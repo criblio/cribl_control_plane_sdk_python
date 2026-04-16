@@ -77,7 +77,7 @@ class InputFileTypedDict(TypedDict):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
     path: NotRequired[str]
-    r"""Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/."""
+    r"""Directory path to search for files. Environment variables will be resolved (example: $CRIBL_HOME/log/)."""
     depth: NotRequired[float]
     r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
     suppress_missing_path_errors: NotRequired[bool]
@@ -85,8 +85,12 @@ class InputFileTypedDict(TypedDict):
     r"""Delete files after they have been collected"""
     salt_hash: NotRequired[bool]
     r"""Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion."""
+    optimize_leaf_directories: NotRequired[bool]
+    r"""Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories."""
     include_unidentifiable_binary: NotRequired[bool]
-    r"""Stream binary files as Base64-encoded chunks."""
+    r"""Stream binary files as Base64-encoded chunks"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
 
 class InputFile(BaseModel):
@@ -172,7 +176,7 @@ class InputFile(BaseModel):
     description: Optional[str] = None
 
     path: Optional[str] = None
-    r"""Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/."""
+    r"""Directory path to search for files. Environment variables will be resolved (example: $CRIBL_HOME/log/)."""
 
     depth: Optional[float] = None
     r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
@@ -187,10 +191,20 @@ class InputFile(BaseModel):
     salt_hash: Annotated[Optional[bool], pydantic.Field(alias="saltHash")] = None
     r"""Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion."""
 
+    optimize_leaf_directories: Annotated[
+        Optional[bool], pydantic.Field(alias="optimizeLeafDirectories")
+    ] = None
+    r"""Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories."""
+
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
     ] = None
-    r"""Stream binary files as Base64-encoded chunks."""
+    r"""Stream binary files as Base64-encoded chunks"""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -234,7 +248,9 @@ class InputFile(BaseModel):
                 "suppressMissingPathErrors",
                 "deleteFiles",
                 "saltHash",
+                "optimizeLeafDirectories",
                 "includeUnidentifiableBinary",
+                "__template_environment",
             ]
         )
         serialized = handler(self)

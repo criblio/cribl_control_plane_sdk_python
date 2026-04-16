@@ -5,7 +5,7 @@
 ### Available Operations
 
 * [list](#list) - Get Cribl system settings
-* [update](#update) - Update Cribl system settings
+* [update](#update) - Update system settings
 
 ## list
 

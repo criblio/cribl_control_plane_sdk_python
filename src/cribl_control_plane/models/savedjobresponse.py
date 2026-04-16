@@ -12,13 +12,13 @@ from .executortyperunnablejobexecutor import (
 )
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
 from .notification_union import NotificationUnion, NotificationUnionTypedDict
+from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
+)
 from .scheduletypesavedjobresponsecollection import (
     ScheduleTypeSavedJobResponseCollection,
     ScheduleTypeSavedJobResponseCollectionTypedDict,
-)
-from .typecollectionwithbreakerrulesetsconstraint import (
-    TypeCollectionWithBreakerRulesetsConstraint,
-    TypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -281,7 +281,9 @@ class SavedJobResponseCollectionTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[TypeCollectionWithBreakerRulesetsConstraintTypedDict]
+    input: NotRequired[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
+    ]
     saved_state: NotRequired[
         Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict]
     ]
@@ -333,7 +335,9 @@ class SavedJobResponseCollection(BaseModel):
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[TypeCollectionWithBreakerRulesetsConstraint] = None
+    input: Optional[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
+    ] = None
 
     saved_state: Annotated[
         Optional[Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedState]],

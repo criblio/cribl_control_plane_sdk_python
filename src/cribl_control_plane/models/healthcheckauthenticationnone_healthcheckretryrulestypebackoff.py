@@ -1147,6 +1147,8 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     retry_rules: NotRequired[HealthCheckAuthenticationOauthSecretRetryRulesTypedDict]
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationOauthSecret(BaseModel):
@@ -1234,6 +1236,11 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -1279,6 +1286,7 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "clientSecretParamValue",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -2400,6 +2408,8 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     retry_rules: NotRequired[HealthCheckAuthenticationOauthRetryRulesTypedDict]
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationOauth(BaseModel):
@@ -2487,6 +2497,11 @@ class HealthCheckAuthenticationOauth(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -2530,6 +2545,7 @@ class HealthCheckAuthenticationOauth(BaseModel):
                 "safeHeaders",
                 "retryRules",
                 "textSecret",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -3653,6 +3669,8 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationLoginSecret(BaseModel):
@@ -3735,6 +3753,11 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -3780,6 +3803,7 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
                 "retryRules",
                 "clientSecretParamValue",
                 "textSecret",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -4901,6 +4925,8 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationLogin(BaseModel):
@@ -4986,6 +5012,11 @@ class HealthCheckAuthenticationLogin(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -5029,6 +5060,7 @@ class HealthCheckAuthenticationLogin(BaseModel):
                 "retryRules",
                 "clientSecretParamValue",
                 "textSecret",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -6140,6 +6172,8 @@ class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationBasicSecret(BaseModel):
@@ -6202,6 +6236,11 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -6245,6 +6284,7 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
                 "retryRules",
                 "clientSecretParamValue",
                 "textSecret",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)
@@ -7354,6 +7394,8 @@ class HealthCheckAuthenticationBasicTypedDict(TypedDict):
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
+    template_collect_url: NotRequired[str]
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
 
 
 class HealthCheckAuthenticationBasic(BaseModel):
@@ -7419,6 +7461,11 @@ class HealthCheckAuthenticationBasic(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
 
+    template_collect_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_collectUrl")
+    ] = None
+    r"""Binds 'collectUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'collectUrl' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -7460,6 +7507,7 @@ class HealthCheckAuthenticationBasic(BaseModel):
                 "retryRules",
                 "clientSecretParamValue",
                 "textSecret",
+                "__template_collectUrl",
             ]
         )
         serialized = handler(self)

@@ -12,9 +12,9 @@ from .kafkaschemaregistryauthenticationtype import (
     KafkaSchemaRegistryAuthenticationTypeTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -73,7 +73,7 @@ class InputKafkaTypedDict(TypedDict):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     session_timeout: NotRequired[float]
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
@@ -105,6 +105,10 @@ class InputKafkaTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_group_id: NotRequired[str]
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
 
 
 class InputKafka(BaseModel):
@@ -193,7 +197,7 @@ class InputKafka(BaseModel):
     sasl: Optional[AuthenticationType] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -250,6 +254,16 @@ class InputKafka(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_group_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_groupId")
+    ] = None
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -286,6 +300,8 @@ class InputKafka(BaseModel):
                 "maxSocketErrors",
                 "metadata",
                 "description",
+                "__template_environment",
+                "__template_groupId",
             ]
         )
         serialized = handler(self)

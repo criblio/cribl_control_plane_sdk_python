@@ -7,8 +7,14 @@ from typing_extensions import TypedDict
 
 
 class OutputSamplesResponseTypedDict(TypedDict):
+    r"""Sample events from a Destination."""
+
     events: List[Dict[str, Any]]
+    r"""Array of sample events returned from a Destination test."""
 
 
 class OutputSamplesResponse(BaseModel):
+    r"""Sample events from a Destination."""
+
     events: List[Dict[str, Any]]
+    r"""Array of sample events returned from a Destination test."""

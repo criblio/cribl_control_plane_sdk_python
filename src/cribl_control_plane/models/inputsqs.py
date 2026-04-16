@@ -10,7 +10,7 @@ from .itemstypeconnectionsoptional import (
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
 from .pqtype import PqType, PqTypeTypedDict
-from .signatureversionoptions3 import SignatureVersionOptions3
+from .signatureversionoptionssqs import SignatureVersionOptionsSqs
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -66,7 +66,7 @@ class InputSqsTypedDict(TypedDict):
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions3]
+    signature_version: NotRequired[SignatureVersionOptionsSqs]
     r"""Signature version to use for signing SQS requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -94,14 +94,20 @@ class InputSqsTypedDict(TypedDict):
     r"""Select or create a stored secret that references your access key and secret key"""
     num_receivers: NotRequired[float]
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_queue_name: NotRequired[str]
     r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
+    template_queue_type: NotRequired[str]
+    r"""Binds 'queueType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueType' at runtime."""
     template_aws_account_id: NotRequired[str]
     r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
     template_aws_secret_key: NotRequired[str]
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
@@ -171,7 +177,7 @@ class InputSqs(BaseModel):
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsSqs], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing SQS requests"""
 
@@ -231,10 +237,20 @@ class InputSqs(BaseModel):
     )
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_queue_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_queueName")
     ] = None
     r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
+
+    template_queue_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_queueType")
+    ] = None
+    r"""Binds 'queueType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueType' at runtime."""
 
     template_aws_account_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsAccountId")
@@ -250,6 +266,11 @@ class InputSqs(BaseModel):
         Optional[str], pydantic.Field(alias="__template_region")
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
@@ -288,7 +309,7 @@ class InputSqs(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions3(value)
+                return models.SignatureVersionOptionsSqs(value)
             except ValueError:
                 return value
         return value
@@ -327,10 +348,13 @@ class InputSqs(BaseModel):
                 "awsApiKey",
                 "awsSecret",
                 "numReceivers",
+                "__template_environment",
                 "__template_queueName",
+                "__template_queueType",
                 "__template_awsAccountId",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
                 "__template_awsApiKey",

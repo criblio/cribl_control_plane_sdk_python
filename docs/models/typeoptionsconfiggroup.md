@@ -1,5 +1,7 @@
 # TypeOptionsConfigGroup
 
+Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
+
 ## Example Usage
 
 ```python
@@ -16,8 +18,8 @@ value = TypeOptionsConfigGroup.EDGE
 | Name           | Value          |
 | -------------- | -------------- |
 | `EDGE`         | edge           |
-| `OUTPOST`      | outpost        |
-| `STREAM`       | stream         |
-| `SEARCH`       | search         |
 | `LAKE_ACCESS`  | lake_access    |
 | `LOCAL_SEARCH` | local_search   |
+| `OUTPOST`      | outpost        |
+| `SEARCH`       | search         |
+| `STREAM`       | stream         |

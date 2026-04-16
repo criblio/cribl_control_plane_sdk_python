@@ -65,6 +65,12 @@ class GoogleCloudStorageAuthTypeSecretTypedDict(TypedDict):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
     service_account_credentials: NotRequired[str]
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
 
 class GoogleCloudStorageAuthTypeSecret(BaseModel):
@@ -120,6 +126,21 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
     ] = None
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
 
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -146,6 +167,9 @@ class GoogleCloudStorageAuthTypeSecret(BaseModel):
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "serviceAccountCredentials",
+                "__template_bucket",
+                "__template_path",
+                "__template_endpoint",
             ]
         )
         serialized = handler(self)
@@ -214,6 +238,12 @@ class GoogleCloudStorageAuthTypeManualTypedDict(TypedDict):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret that references your credentials"""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
 
 class GoogleCloudStorageAuthTypeManual(BaseModel):
@@ -269,6 +299,21 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret that references your credentials"""
 
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -295,6 +340,9 @@ class GoogleCloudStorageAuthTypeManual(BaseModel):
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "textSecret",
+                "__template_bucket",
+                "__template_path",
+                "__template_endpoint",
             ]
         )
         serialized = handler(self)
@@ -363,6 +411,12 @@ class GoogleCloudStorageAuthTypeAutoTypedDict(TypedDict):
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret that references your credentials"""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
 
 class GoogleCloudStorageAuthTypeAuto(BaseModel):
@@ -418,6 +472,21 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret that references your credentials"""
 
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -443,6 +512,9 @@ class GoogleCloudStorageAuthTypeAuto(BaseModel):
                 "parquetChunkDownloadTimeout",
                 "serviceAccountCredentials",
                 "textSecret",
+                "__template_bucket",
+                "__template_path",
+                "__template_endpoint",
             ]
         )
         serialized = handler(self)

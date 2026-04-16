@@ -22,8 +22,8 @@ from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import List, Optional
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing import List, Optional, Union
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputAppscopeType(str, Enum):
@@ -164,6 +164,16 @@ class InputAppscopePersistence(BaseModel):
         return m
 
 
+UNIXSocketPermissionsTypedDict = TypeAliasType(
+    "UNIXSocketPermissionsTypedDict", Union[str, float]
+)
+r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
+
+
+UNIXSocketPermissions = TypeAliasType("UNIXSocketPermissions", Union[str, float])
+r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
+
+
 class InputAppscopeTypedDict(TypedDict):
     type: InputAppscopeType
     id: NotRequired[str]
@@ -214,12 +224,14 @@ class InputAppscopeTypedDict(TypedDict):
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     unix_socket_path: NotRequired[str]
     r"""Path to the UNIX domain socket to listen on."""
-    unix_socket_perms: NotRequired[str]
+    unix_socket_perms: NotRequired[UNIXSocketPermissionsTypedDict]
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -332,7 +344,7 @@ class InputAppscope(BaseModel):
     r"""Path to the UNIX domain socket to listen on."""
 
     unix_socket_perms: Annotated[
-        Optional[str], pydantic.Field(alias="unixSocketPerms")
+        Optional[UNIXSocketPermissions], pydantic.Field(alias="unixSocketPerms")
     ] = None
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
@@ -341,6 +353,11 @@ class InputAppscope(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
@@ -395,6 +412,7 @@ class InputAppscope(BaseModel):
                 "unixSocketPerms",
                 "authToken",
                 "textSecret",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]

@@ -2,19 +2,23 @@
 
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
+from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
 from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .compressionleveloptions import CompressionLevelOptions
-from .compressionoptions2 import CompressionOptions2
+from .compressionoptionshttp import CompressionOptionsHTTP
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
 from .itemstypekeyvaluemetadata import (
     ItemsTypeKeyValueMetadata,
     ItemsTypeKeyValueMetadataTypedDict,
+)
+from .orphanfilerecoverytype import (
+    OrphanFileRecoveryType,
+    OrphanFileRecoveryTypeTypedDict,
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
@@ -90,7 +94,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -99,10 +103,11 @@ class OutputAzureBlobTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions]
     storage_class: NotRequired[BlobAccessTier]
     description: NotRequired[str]
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -155,14 +160,30 @@ class OutputAzureBlobTypedDict(TypedDict):
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+    template_dest_path: NotRequired[str]
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+    template_partition_expr: NotRequired[str]
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
     template_format: NotRequired[str]
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_base_file_name: NotRequired[str]
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+    template_file_name_suffix: NotRequired[str]
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_connection_string: NotRequired[str]
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+    template_storage_account_name: NotRequired[str]
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
     r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     template_client_id: NotRequired[str]
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_azure_cloud: NotRequired[str]
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
 
 class OutputAzureBlob(BaseModel):
@@ -263,7 +284,8 @@ class OutputAzureBlob(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -287,6 +309,8 @@ class OutputAzureBlob(BaseModel):
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
 
+    orphans: Optional[OrphanFileRecoveryType] = None
+
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = None
@@ -297,7 +321,7 @@ class OutputAzureBlob(BaseModel):
 
     description: Optional[str] = None
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -420,15 +444,50 @@ class OutputAzureBlob(BaseModel):
     ] = None
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
 
+    template_dest_path: Annotated[
+        Optional[str], pydantic.Field(alias="__template_destPath")
+    ] = None
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+
+    template_partition_expr: Annotated[
+        Optional[str], pydantic.Field(alias="__template_partitionExpr")
+    ] = None
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
+
     template_format: Annotated[
         Optional[str], pydantic.Field(alias="__template_format")
     ] = None
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
+    template_base_file_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_baseFileName")
+    ] = None
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+
+    template_file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_fileNameSuffix")
+    ] = None
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
     template_connection_string: Annotated[
         Optional[str], pydantic.Field(alias="__template_connectionString")
     ] = None
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+
+    template_storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageAccountName")
+    ] = None
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
 
     template_tenant_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_tenantId")
@@ -439,6 +498,11 @@ class OutputAzureBlob(BaseModel):
         Optional[str], pydantic.Field(alias="__template_clientId")
     ] = None
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_azure_cloud: Annotated[
+        Optional[str], pydantic.Field(alias="__template_azureCloud")
+    ] = None
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     @field_serializer("format_")
     def serialize_format_(self, value):
@@ -453,7 +517,7 @@ class OutputAzureBlob(BaseModel):
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.BackpressureBehaviorOptions1(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
             except ValueError:
                 return value
         return value
@@ -489,7 +553,7 @@ class OutputAzureBlob(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -550,6 +614,7 @@ class OutputAzureBlob(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "authType",
                 "storageClass",
                 "description",
@@ -580,10 +645,18 @@ class OutputAzureBlob(BaseModel):
                 "clientTextSecret",
                 "certificate",
                 "__template_containerName",
+                "__template_destPath",
+                "__template_partitionExpr",
                 "__template_format",
+                "__template_baseFileName",
+                "__template_fileNameSuffix",
+                "__template_onBackpressure",
+                "__template_compress",
                 "__template_connectionString",
+                "__template_storageAccountName",
                 "__template_tenantId",
                 "__template_clientId",
+                "__template_azureCloud",
             ]
         )
         serialized = handler(self)

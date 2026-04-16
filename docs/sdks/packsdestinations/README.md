@@ -114,7 +114,7 @@ with CriblControlPlane(
         "oauth_type": models.CreateOutputSystemByPackAuthenticationMethodAzureDataExplorer.CLIENT_SECRET,
         "client_secret": "client-secret",
         "format_": models.DataFormatOptions.JSON,
-        "compress": models.CompressionOptions2.GZIP,
+        "compress": models.CompressionOptionsHTTP.GZIP,
     })
 
     # Handle response
@@ -250,9 +250,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "cloudflare-r2-output",
         "type": models.CreateOutputSystemByPackTypeCloudflareR2.CLOUDFLARE_R2,
-        "endpoint": "https://account-id.r2.cloudflarestorage.com",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "https://account-id.r2.cloudflarestorage.com",
     })
 
     # Handle response
@@ -394,7 +394,7 @@ with CriblControlPlane(
             "__metadata",
             "__winEvent",
         ],
-        "compression": models.CompressionOptions1.GZIP,
+        "compression": models.CompressionOptionsGzipNone.GZIP,
         "concurrency": 5,
         "max_payload_size_kb": 4096,
         "max_payload_events": 0,
@@ -707,7 +707,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackTypeDynatraceOtlp.DYNATRACE_OTLP,
         "protocol": models.CreateOutputSystemByPackProtocolDynatraceOtlp.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "endpoint_type": models.CreateOutputSystemByPackEndpointType.SAAS,
         "token_secret": "your-token-secret",
     })
@@ -1209,9 +1209,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "minio-output",
         "type": models.CreateOutputSystemByPackTypeMinio.MINIO,
-        "endpoint": "http://localhost:9000",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "http://localhost:9000",
     })
 
     # Handle response
@@ -1324,6 +1324,33 @@ with CriblControlPlane(
         "account_id": "123456",
         "event_type": "CriblEvent",
         "api_key": "your-api-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesNutanixObjects
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesNutanixObjects" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "nutanix-objects-output",
+        "type": models.CreateOutputSystemByPackTypeNutanixObjects.NUTANIX_OBJECTS,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://nutanix-objects.example.com",
     })
 
     # Handle response
@@ -1479,9 +1506,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "security-lake-output",
         "type": models.CreateOutputSystemByPackTypeSecurityLake.SECURITY_LAKE,
+        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "bucket": "my-bucket",
         "region": "us-east-1",
-        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "stage_path": "/tmp/staging",
         "account_id": "123456789012",
         "custom_source": "my-custom-source",
@@ -1566,7 +1593,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackTypeServiceNow.SERVICE_NOW,
         "endpoint": "ingest.lightstep.com:443",
         "token_secret": "your-token-secret",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "protocol": models.ProtocolOptions.HTTP,
     })
 
@@ -1938,7 +1965,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "webhook-output",
-        "type": models.CreateOutputSystemByPackTypeWebhook.WEBHOOK,
+        "type": models.CreateOutputSystemByPackOutputWebhookType1.WEBHOOK,
         "url": "https://example.com/webhook",
     })
 
@@ -2123,7 +2150,7 @@ with CriblControlPlane(
         "oauth_type": models.OutputAzureDataExplorerAuthenticationMethod.CLIENT_SECRET,
         "client_secret": "client-secret",
         "format_": models.DataFormatOptions.JSON,
-        "compress": models.CompressionOptions2.GZIP,
+        "compress": models.CompressionOptionsHTTP.GZIP,
     })
 
     # Handle response
@@ -2259,9 +2286,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "cloudflare-r2-output",
         "type": models.OutputCloudflareR2Type.CLOUDFLARE_R2,
-        "endpoint": "https://account-id.r2.cloudflarestorage.com",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "https://account-id.r2.cloudflarestorage.com",
     })
 
     # Handle response
@@ -2403,7 +2430,7 @@ with CriblControlPlane(
             "__metadata",
             "__winEvent",
         ],
-        "compression": models.CompressionOptions1.GZIP,
+        "compression": models.CompressionOptionsGzipNone.GZIP,
         "concurrency": 5,
         "max_payload_size_kb": 4096,
         "max_payload_events": 0,
@@ -2716,7 +2743,7 @@ with CriblControlPlane(
         "type": models.OutputDynatraceOtlpType.DYNATRACE_OTLP,
         "protocol": models.OutputDynatraceOtlpProtocol.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "endpoint_type": models.EndpointType.SAAS,
         "token_secret": "your-token-secret",
     })
@@ -3218,9 +3245,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "minio-output",
         "type": models.OutputMinioType.MINIO,
-        "endpoint": "http://localhost:9000",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "http://localhost:9000",
     })
 
     # Handle response
@@ -3333,6 +3360,33 @@ with CriblControlPlane(
         "account_id": "123456",
         "event_type": "CriblEvent",
         "api_key": "your-api-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesNutanixObjects
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesNutanixObjects" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "nutanix-objects-output",
+        "type": models.OutputNutanixObjectsType.NUTANIX_OBJECTS,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://nutanix-objects.example.com",
     })
 
     # Handle response
@@ -3488,9 +3542,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "security-lake-output",
         "type": models.OutputSecurityLakeType.SECURITY_LAKE,
+        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "bucket": "my-bucket",
         "region": "us-east-1",
-        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "stage_path": "/tmp/staging",
         "account_id": "123456789012",
         "custom_source": "my-custom-source",
@@ -3575,7 +3629,7 @@ with CriblControlPlane(
         "type": models.OutputServiceNowType.SERVICE_NOW,
         "endpoint": "ingest.lightstep.com:443",
         "token_secret": "your-token-secret",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "protocol": models.ProtocolOptions.HTTP,
     })
 
@@ -3947,7 +4001,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "webhook-output",
-        "type": models.OutputWebhookType.WEBHOOK,
+        "type": models.OutputWebhookType1.WEBHOOK,
         "url": "https://example.com/webhook",
     })
 

@@ -125,6 +125,12 @@ value: models.CreateInputSystemByPackInputMicrosoftGraph = /* values here */
 value: models.CreateInputSystemByPackInputEventhub = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputEventhubAmqp`
+
+```python
+value: models.CreateInputSystemByPackInputEventhubAmqp = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputExec`
 
 ```python
@@ -365,6 +371,12 @@ value: models.CreateInputSystemByPackInputNetflow = /* values here */
 value: models.CreateInputSystemByPackInputSecurityLake = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputServicenowTable`
+
+```python
+value: models.CreateInputSystemByPackInputServicenowTable = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputZscalerHec`
 
 ```python
@@ -375,5 +387,11 @@ value: models.CreateInputSystemByPackInputZscalerHec = /* values here */
 
 ```python
 value: models.CreateInputSystemByPackInputCloudflareHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputOpenaiComplianceLogs`
+
+```python
+value: models.CreateInputSystemByPackInputOpenaiComplianceLogs = /* values here */
 ```
 

@@ -77,6 +77,8 @@ class InputWinEventLogsTypedDict(TypedDict):
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
     disable_xml_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
 
 class InputWinEventLogs(BaseModel):
@@ -151,6 +153,11 @@ class InputWinEventLogs(BaseModel):
     ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     @field_serializer("read_mode")
     def serialize_read_mode(self, value):
         if isinstance(value, str):
@@ -192,6 +199,7 @@ class InputWinEventLogs(BaseModel):
                 "description",
                 "disableJsonRendering",
                 "disableXmlRendering",
+                "__template_environment",
             ]
         )
         serialized = handler(self)

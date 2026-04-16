@@ -403,9 +403,25 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderLink(BaseModel):
         return m
 
 
+RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderResponseAttributesTypedDict = TypeAliasType(
+    "RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderResponseAttributesTypedDict",
+    Union[List[Any], str],
+)
+r"""Names of attributes within the response that contain next-page information"""
+
+
+RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderResponseAttributes = (
+    TypeAliasType(
+        "RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderResponseAttributes",
+        Union[List[Any], str],
+    )
+)
+r"""Names of attributes within the response that contain next-page information"""
+
+
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
-    attribute: List[str]
+    attribute: RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
     r"""Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
@@ -438,7 +454,9 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderTypedDict(TypedDi
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeader(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
-    attribute: List[str]
+    attribute: (
+        RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderResponseAttributes
+    )
     r"""Names of attributes within the response that contain next-page information"""
 
     max_pages: Annotated[float, pydantic.Field(alias="maxPages")]
@@ -531,9 +549,25 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeader(BaseModel):
         return m
 
 
+RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyResponseAttributesTypedDict = TypeAliasType(
+    "RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyResponseAttributesTypedDict",
+    Union[List[Any], str],
+)
+r"""Names of attributes within the response that contain next-page information"""
+
+
+RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyResponseAttributes = (
+    TypeAliasType(
+        "RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyResponseAttributes",
+        Union[List[Any], str],
+    )
+)
+r"""Names of attributes within the response that contain next-page information"""
+
+
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
-    attribute: List[str]
+    attribute: RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
     r"""Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
@@ -566,7 +600,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyTypedDict(TypedDict
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBody(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
 
-    attribute: List[str]
+    attribute: RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyResponseAttributes
     r"""Names of attributes within the response that contain next-page information"""
 
     max_pages: Annotated[float, pydantic.Field(alias="maxPages")]

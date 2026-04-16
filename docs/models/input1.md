@@ -123,6 +123,12 @@ value: models.InputMicrosoftGraph = /* values here */
 value: models.InputEventhub = /* values here */
 ```
 
+### `models.InputEventhubAmqp`
+
+```python
+value: models.InputEventhubAmqp = /* values here */
+```
+
 ### `models.InputExec`
 
 ```python
@@ -363,6 +369,12 @@ value: models.InputNetflow = /* values here */
 value: models.InputSecurityLake = /* values here */
 ```
 
+### `models.InputServicenowTable`
+
+```python
+value: models.InputServicenowTable = /* values here */
+```
+
 ### `models.InputZscalerHec`
 
 ```python
@@ -373,5 +385,11 @@ value: models.InputZscalerHec = /* values here */
 
 ```python
 value: models.InputCloudflareHec = /* values here */
+```
+
+### `models.InputOpenaiComplianceLogs`
+
+```python
+value: models.InputOpenaiComplianceLogs = /* values here */
 ```
 

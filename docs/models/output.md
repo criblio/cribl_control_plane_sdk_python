@@ -9,10 +9,10 @@
 value: models.OutputDefault = /* values here */
 ```
 
-### `models.OutputWebhook`
+### `models.OutputWebhookUnion`
 
 ```python
-value: models.OutputWebhook = /* values here */
+value: models.OutputWebhookUnion = /* values here */
 ```
 
 ### `models.OutputSentinel`
@@ -427,5 +427,11 @@ value: models.OutputMicrosoftFabric = /* values here */
 
 ```python
 value: models.OutputCloudflareR2 = /* values here */
+```
+
+### `models.OutputNutanixObjects`
+
+```python
+value: models.OutputNutanixObjects = /* values here */
 ```
 

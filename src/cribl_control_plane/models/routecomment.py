@@ -13,7 +13,7 @@ class RouteCommentTypedDict(TypedDict):
     r"""Brief description of the Route."""
     id: str
     r"""Unique identifier for the comment."""
-    index: float
+    index: int
     r"""Relative position of the comment among all comments for the Route."""
     group_id: NotRequired[str]
     r"""Unique identifier for the Route Group that the Route is associated with."""
@@ -26,7 +26,7 @@ class RouteComment(BaseModel):
     id: str
     r"""Unique identifier for the comment."""
 
-    index: float
+    index: int
     r"""Relative position of the comment among all comments for the Route."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None

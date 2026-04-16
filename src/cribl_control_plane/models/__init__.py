@@ -2887,7 +2887,13 @@ if TYPE_CHECKING:
     )
     from .gputype import GpuType, GpuTypeTypedDict
     from .groupcreaterequest import GroupCreateRequest, GroupCreateRequestTypedDict
-    from .hbcriblinfo import Config, ConfigTypedDict, HBCriblInfo, HBCriblInfoTypedDict
+    from .hbcriblinfo import (
+        Config,
+        ConfigTypedDict,
+        DistMode,
+        HBCriblInfo,
+        HBCriblInfoTypedDict,
+    )
     from .hbleaderinfo import HBLeaderInfo, HBLeaderInfoTypedDict
     from .healthcheckauthenticationnone_healthcheckretryrulestypebackoff import (
         HealthCheckAuthenticationBasic,
@@ -3925,7 +3931,6 @@ if TYPE_CHECKING:
     from .modeoptions import ModeOptions
     from .modeoptionsgpu import ModeOptionsGpu
     from .modeoptionshost import ModeOptionsHost
-    from .modeoptionsinstancesettingsschema import ModeOptionsInstanceSettingsSchema
     from .modeoptionspq import ModeOptionsPq
     from .nestedfieldserializationoptions import NestedFieldSerializationOptions
     from .nodeactiveupgradestatus import NodeActiveUpgradeStatus
@@ -8617,6 +8622,7 @@ __all__ = [
     "DiskSpoolingTypeTypedDict",
     "DisksAndFileSystems",
     "DisksAndFileSystemsTypedDict",
+    "DistMode",
     "DistinctConfiguration",
     "DistinctConfigurationTypedDict",
     "DistributedSummary",
@@ -9990,7 +9996,6 @@ __all__ = [
     "ModeOptions",
     "ModeOptionsGpu",
     "ModeOptionsHost",
-    "ModeOptionsInstanceSettingsSchema",
     "ModeOptionsPq",
     "NestedFieldSerializationOptions",
     "NodeActiveUpgradeStatus",
@@ -14780,6 +14785,7 @@ _dynamic_imports: dict[str, str] = {
     "GroupCreateRequestTypedDict": ".groupcreaterequest",
     "Config": ".hbcriblinfo",
     "ConfigTypedDict": ".hbcriblinfo",
+    "DistMode": ".hbcriblinfo",
     "HBCriblInfo": ".hbcriblinfo",
     "HBCriblInfoTypedDict": ".hbcriblinfo",
     "HBLeaderInfo": ".hbleaderinfo",
@@ -15708,7 +15714,6 @@ _dynamic_imports: dict[str, str] = {
     "ModeOptions": ".modeoptions",
     "ModeOptionsGpu": ".modeoptionsgpu",
     "ModeOptionsHost": ".modeoptionshost",
-    "ModeOptionsInstanceSettingsSchema": ".modeoptionsinstancesettingsschema",
     "ModeOptionsPq": ".modeoptionspq",
     "NestedFieldSerializationOptions": ".nestedfieldserializationoptions",
     "NodeActiveUpgradeStatus": ".nodeactiveupgradestatus",

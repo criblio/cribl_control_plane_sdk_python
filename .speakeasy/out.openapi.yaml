@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776340892809-b0dc00e9
+  version: 4.18.0-alpha.1776343777126-e9501782
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -40917,20 +40917,26 @@ components:
         type: object
         additionalProperties:
           type: string
+      description: Lookup file deployment versions.
     HBLeaderInfo:
       type: object
       properties:
         host:
           type: string
+          description: Leader hostname or IP address.
         port:
-          type: number
+          type: integer
+          description: Leader TCP port.
         servername:
           type: string
+          description: TLS server name (SNI) for the Leader connection.
         tls:
           type: boolean
+          description: If <code>true</code>, TLS is enabled for the Leader connection.
       required:
         - host
         - port
+      description: Connection parameters for the Leader node, as reported in a Worker heartbeat.
     HBCriblInfo:
       type: object
       properties:
@@ -40939,44 +40945,77 @@ components:
           properties:
             featuresRev:
               type: string
+              description: Feature flags or feature revision string for this bundle.
             hbPeriodSeconds:
-              type: number
+              type: integer
+              description: Worker-to-Leader heartbeat interval, in seconds.
             logStreamEnv:
               type: string
+              description: GitOps or LogStream environment label associated with the bundle.
             policyRev:
               type: string
+              description: Current policies revision string.
             version:
               type: string
+              description: Configuration bundle version.
+          description: Configuration bundle and policy revision metadata for this node.
         deploymentId:
           type: string
+          description: Deployment identifier for this node or fleet, when assigned.
         disableSNIRouting:
           type: boolean
+          description: If <code>true</code>, SNI-based routing to the Leader is disabled for this connection.
         distMode:
-          $ref: "#/components/schemas/ModeOptionsInstanceSettingsSchema"
+          type: string
+          enum:
+            - edge
+            - managed-edge
+            - master
+            - outpost
+            - search-supervisor
+            - single
+            - worker
+          description: Distributed deployment mode for this instance.
+          examples:
+            - worker
+            - managed-edge
+            - master
+          x-speakeasy-unknown-values: allow
         edgeNodes:
-          type: number
+          type: integer
+          description: Count of Edge nodes reported in the Leader heartbeat.
         group:
           type: string
+          description: Worker group or fleet name.
         guid:
           type: string
+          description: Unique instance identifier for this Cribl node.
         installType:
           type: string
+          description: Value of the <code>CRIBL_INSTALL_TYPE</code> environment variable, relayed for upgrade decisions (since 4.5.0).
         lookupVersions:
           $ref: "#/components/schemas/LookupVersions"
+          description: Deployed lookup file versions by context and filename.
         master:
           $ref: "#/components/schemas/HBLeaderInfo"
+          description: Leader connection details when this node is a Worker or Edge reporting upstream.
         pid:
-          type: number
+          type: integer
+          description: PID.
         socksEnabled:
           type: boolean
+          description: If <code>true</code>, SOCKS proxy connectivity is enabled for this node.
         startTime:
-          type: number
+          type: integer
+          description: Unix epoch time in milliseconds when the Cribl server process started.
         tags:
           type: array
           items:
             type: string
+          description: Tags from the node.
         version:
           type: string
+          description: Cribl software version string for this node.
       required:
         - config
         - distMode
@@ -43927,17 +43966,6 @@ components:
         - search
         - stream
       description: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
-      x-speakeasy-unknown-values: allow
-    ModeOptionsInstanceSettingsSchema:
-      type: string
-      enum:
-        - single
-        - master
-        - worker
-        - edge
-        - managed-edge
-        - outpost
-        - search-supervisor
       x-speakeasy-unknown-values: allow
     AwsTypeHeartbeatMetadata:
       type: object

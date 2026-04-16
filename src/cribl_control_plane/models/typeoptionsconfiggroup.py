@@ -6,9 +6,11 @@ from enum import Enum
 
 
 class TypeOptionsConfigGroup(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Explicit type of the Worker Group, Outpost Group, or Edge Fleet."""
+
     EDGE = "edge"
-    OUTPOST = "outpost"
-    STREAM = "stream"
-    SEARCH = "search"
     LAKE_ACCESS = "lake_access"
     LOCAL_SEARCH = "local_search"
+    OUTPOST = "outpost"
+    SEARCH = "search"
+    STREAM = "stream"

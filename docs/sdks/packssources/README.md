@@ -38,10 +38,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to list.                            |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+| Parameter                                                                                                                                                   | Type                                                                                                                                                        | Required                                                                                                                                                    | Description                                                                                                                                                 |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pack`                                                                                                                                                      | *str*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                          | The <code>id</code> of the Pack to list.                                                                                                                    |
+| `type`                                                                                                                                                      | List[*str*]                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                          | Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
+| `retries`                                                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                            | :heavy_minus_sign:                                                                                                                                          | Configuration to override the default retry behavior of the client.                                                                                         |
 
 ### Response
 
@@ -460,6 +461,34 @@ with CriblControlPlane(
         "topics": [
             "logs",
         ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesEventhubAmqp
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesEventhubAmqp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "eventhub-amqp-source",
+        "type": models.CreateInputSystemByPackTypeEventhubAmqp.EVENTHUB_AMQP,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "event_hub_name": "my-event-hub",
+        "consumer_group": "$Default",
     })
 
     # Handle response
@@ -1140,6 +1169,42 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOpenAIComplianceLogs
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesOpenAIComplianceLogs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "openai-compliance-logs-source",
+        "type": models.CreateInputSystemByPackTypeOpenaiComplianceLogs.OPENAI_COMPLIANCE_LOGS,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "openai-api-key-secret",
+        "account_type": models.CreateInputSystemByPackAccountType.WORKSPACE,
+        "cron_schedule": "*/15 * * * *",
+        "earliest": "-1h",
+        "latest": "now",
+        "workspace_id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+        "workspace_event_types": [
+            "AUDIT_LOG",
+            "AUTH_LOG",
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenTelemetry
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesOpenTelemetry" -->
@@ -1190,7 +1255,7 @@ with CriblControlPlane(
         "pq_enabled": False,
         "discovery_type": models.CreateInputSystemByPackDiscoveryTypePrometheus.STATIC,
         "interval": 60,
-        "log_level": models.CreateInputSystemByPackLogLevelPrometheus.INFO,
+        "log_level": models.LogLevelOptions.INFO,
         "target_list": [
             "http://localhost:9090/metrics",
         ],
@@ -1357,10 +1422,22 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
-        "id": "<id>",
-        "type": models.CreateInputSystemByPackTypeSqs.SQS,
-        "queue_name": "<value>",
-        "queue_type": models.CreateInputSystemByPackQueueType.FIFO,
+        "id": "servicenow-table-source",
+        "type": models.CreateInputSystemByPackTypeServicenowTable.SERVICENOW_TABLE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "instance": "https://example.service-now.com",
+        "table_name": "incident",
+        "fields": [
+            "sys_id",
+            "number",
+            "short_description",
+        ],
+        "use_raw_values": True,
+        "page_size": 10000,
+        "cron_schedule": "0 * * * *",
+        "earliest": "-1d",
+        "latest": "now",
     })
 
     # Handle response
@@ -1895,7 +1972,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
+Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
 ### Example Usage: InputCreateExamplesAppscope
 
@@ -2299,6 +2376,34 @@ with CriblControlPlane(
         "topics": [
             "logs",
         ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesEventhubAmqp
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesEventhubAmqp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "eventhub-amqp-source",
+        "type": models.InputEventhubAmqpType.EVENTHUB_AMQP,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "event_hub_name": "my-event-hub",
+        "consumer_group": "$Default",
     })
 
     # Handle response
@@ -2979,6 +3084,42 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOpenAIComplianceLogs
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesOpenAIComplianceLogs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "openai-compliance-logs-source",
+        "type": models.InputOpenaiComplianceLogsType.OPENAI_COMPLIANCE_LOGS,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "openai-api-key-secret",
+        "account_type": models.AccountType.WORKSPACE,
+        "cron_schedule": "*/15 * * * *",
+        "earliest": "-1h",
+        "latest": "now",
+        "workspace_id": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
+        "workspace_event_types": [
+            "AUDIT_LOG",
+            "AUTH_LOG",
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenTelemetry
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesOpenTelemetry" -->
@@ -3029,7 +3170,7 @@ with CriblControlPlane(
         "pq_enabled": False,
         "discovery_type": models.InputPrometheusDiscoveryType.STATIC,
         "interval": 60,
-        "log_level": models.InputPrometheusLogLevel.INFO,
+        "log_level": models.LogLevelOptions.INFO,
         "target_list": [
             "http://localhost:9090/metrics",
         ],
@@ -3196,9 +3337,22 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
-        "type": models.InputEdgePrometheusType.EDGE_PROMETHEUS,
-        "discovery_type": models.InputEdgePrometheusDiscoveryType.K8S_PODS,
-        "interval": 2688.55,
+        "id": "servicenow-table-source",
+        "type": models.InputServicenowTableType.SERVICENOW_TABLE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "instance": "https://example.service-now.com",
+        "table_name": "incident",
+        "fields": [
+            "sys_id",
+            "number",
+            "short_description",
+        ],
+        "use_raw_values": True,
+        "page_size": 10000,
+        "cron_schedule": "0 * * * *",
+        "earliest": "-1d",
+        "latest": "now",
     })
 
     # Handle response

@@ -270,6 +270,8 @@ class InputOpenaiTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_openai_organization: NotRequired[str]
     r"""Binds 'openaiOrganization' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'openaiOrganization' at runtime."""
     template_openai_project: NotRequired[str]
@@ -357,6 +359,11 @@ class InputOpenai(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_openai_organization: Annotated[
         Optional[str], pydantic.Field(alias="__template_openaiOrganization")
     ] = None
@@ -391,6 +398,7 @@ class InputOpenai(BaseModel):
                 "metadata",
                 "retryRules",
                 "description",
+                "__template_environment",
                 "__template_openaiOrganization",
                 "__template_openaiProject",
             ]
@@ -607,6 +615,8 @@ class InputOpenaiInputTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_openai_organization: NotRequired[str]
     r"""Binds 'openaiOrganization' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'openaiOrganization' at runtime."""
     template_openai_project: NotRequired[str]
@@ -694,6 +704,11 @@ class InputOpenaiInput(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_openai_organization: Annotated[
         Optional[str], pydantic.Field(alias="__template_openaiOrganization")
     ] = None
@@ -728,6 +743,7 @@ class InputOpenaiInput(BaseModel):
                 "metadata",
                 "retryRules",
                 "description",
+                "__template_environment",
                 "__template_openaiOrganization",
                 "__template_openaiProject",
             ]

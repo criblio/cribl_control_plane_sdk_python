@@ -107,6 +107,8 @@ class InputOpenTelemetryTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
     extract_logs: NotRequired[bool]
     r"""Enable to extract each incoming log record to a separate event"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -242,6 +244,11 @@ class InputOpenTelemetry(BaseModel):
     extract_logs: Annotated[Optional[bool], pydantic.Field(alias="extractLogs")] = None
     r"""Enable to extract each incoming log record to a separate event"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -315,6 +322,7 @@ class InputOpenTelemetry(BaseModel):
                 "credentialsSecret",
                 "textSecret",
                 "extractLogs",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]

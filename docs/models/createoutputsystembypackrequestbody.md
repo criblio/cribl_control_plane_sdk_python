@@ -11,10 +11,10 @@ Output object
 value: models.CreateOutputSystemByPackOutputDefault = /* values here */
 ```
 
-### `models.CreateOutputSystemByPackOutputWebhook`
+### `models.CreateOutputSystemByPackOutputWebhookUnion`
 
 ```python
-value: models.CreateOutputSystemByPackOutputWebhook = /* values here */
+value: models.CreateOutputSystemByPackOutputWebhookUnion = /* values here */
 ```
 
 ### `models.CreateOutputSystemByPackOutputSentinel`
@@ -429,5 +429,11 @@ value: models.CreateOutputSystemByPackOutputMicrosoftFabric = /* values here */
 
 ```python
 value: models.CreateOutputSystemByPackOutputCloudflareR2 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputNutanixObjects`
+
+```python
+value: models.CreateOutputSystemByPackOutputNutanixObjects = /* values here */
 ```
 

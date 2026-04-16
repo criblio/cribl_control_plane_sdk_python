@@ -64,6 +64,8 @@ class InputExecTypedDict(TypedDict):
     r"""Interval between command executions in seconds."""
     cron_schedule: NotRequired[str]
     r"""Cron schedule to execute the command on."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
 
 class InputExec(BaseModel):
@@ -131,6 +133,11 @@ class InputExec(BaseModel):
     cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
     r"""Cron schedule to execute the command on."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     @field_serializer("schedule_type")
     def serialize_schedule_type(self, value):
         if isinstance(value, str):
@@ -162,6 +169,7 @@ class InputExec(BaseModel):
                 "description",
                 "interval",
                 "cronSchedule",
+                "__template_environment",
             ]
         )
         serialized = handler(self)

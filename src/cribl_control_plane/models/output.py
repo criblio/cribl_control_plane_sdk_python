@@ -68,6 +68,7 @@ from .outputmsk import OutputMsk, OutputMskTypedDict
 from .outputnetflow import OutputNetflow, OutputNetflowTypedDict
 from .outputnewrelic import OutputNewrelic, OutputNewrelicTypedDict
 from .outputnewrelicevents import OutputNewrelicEvents, OutputNewrelicEventsTypedDict
+from .outputnutanixobjects import OutputNutanixObjects, OutputNutanixObjectsTypedDict
 from .outputopentelemetry import OutputOpenTelemetry, OutputOpenTelemetryTypedDict
 from .outputprometheus import OutputPrometheus, OutputPrometheusTypedDict
 from .outputring import OutputRing, OutputRingTypedDict
@@ -93,7 +94,7 @@ from .outputsumologic import OutputSumoLogic, OutputSumoLogicTypedDict
 from .outputsyslog import OutputSyslog, OutputSyslogTypedDict
 from .outputtcpjson import OutputTcpjson, OutputTcpjsonTypedDict
 from .outputwavefront import OutputWavefront, OutputWavefrontTypedDict
-from .outputwebhook import OutputWebhook, OutputWebhookTypedDict
+from .outputwebhook_union import OutputWebhookUnion, OutputWebhookUnionTypedDict
 from .outputwizhec import OutputWizHec, OutputWizHecTypedDict
 from .outputxsiam import OutputXsiam, OutputXsiamTypedDict
 from cribl_control_plane.types import BaseModel
@@ -116,68 +117,69 @@ OutputTypedDict = TypeAliasType(
         OutputDiskSpoolTypedDict,
         OutputRingTypedDict,
         OutputGraphiteTypedDict,
-        OutputStatsdTypedDict,
         OutputStatsdExtTypedDict,
+        OutputStatsdTypedDict,
         OutputGooglePubsubTypedDict,
-        OutputSplunkTypedDict,
-        OutputSignalfxTypedDict,
-        OutputWavefrontTypedDict,
-        OutputHoneycombTypedDict,
         OutputAzureEventhubTypedDict,
+        OutputHoneycombTypedDict,
+        OutputSignalfxTypedDict,
+        OutputMicrosoftFabricTypedDict,
         OutputCriblTCPTypedDict,
         OutputExabeamTypedDict,
+        OutputWavefrontTypedDict,
         OutputElasticCloudTypedDict,
-        OutputMicrosoftFabricTypedDict,
         OutputCrowdstrikeNextGenSiemTypedDict,
-        OutputSumoLogicTypedDict,
+        OutputSplunkTypedDict,
         OutputHumioHecTypedDict,
-        OutputSnsTypedDict,
         OutputTcpjsonTypedDict,
-        OutputKafkaTypedDict,
+        OutputSumoLogicTypedDict,
         OutputConfluentCloudTypedDict,
-        OutputSplunkLbTypedDict,
-        OutputCloudwatchTypedDict,
+        OutputKafkaTypedDict,
+        OutputSnsTypedDict,
         OutputAzureLogsTypedDict,
-        OutputPrometheusTypedDict,
-        OutputNewrelicEventsTypedDict,
-        OutputFilesystemTypedDict,
+        OutputCloudwatchTypedDict,
         OutputSyslogTypedDict,
+        OutputSplunkLbTypedDict,
+        OutputNewrelicEventsTypedDict,
+        OutputPrometheusTypedDict,
         OutputXsiamTypedDict,
-        OutputWizHecTypedDict,
-        OutputCriblSearchEngineTypedDict,
-        OutputNewrelicTypedDict,
         OutputCriblHTTPTypedDict,
+        OutputCriblSearchEngineTypedDict,
+        OutputWizHecTypedDict,
         OutputDatasetTypedDict,
+        OutputNewrelicTypedDict,
         OutputLokiTypedDict,
-        OutputDynatraceHTTPTypedDict,
-        OutputKinesisTypedDict,
-        OutputDynatraceOtlpTypedDict,
         OutputServiceNowTypedDict,
+        OutputDynatraceOtlpTypedDict,
+        OutputKinesisTypedDict,
+        OutputDynatraceHTTPTypedDict,
+        OutputFilesystemTypedDict,
         OutputSplunkHecTypedDict,
-        OutputSqsTypedDict,
-        OutputElasticTypedDict,
-        OutputChronicleTypedDict,
         OutputDatadogTypedDict,
+        OutputChronicleTypedDict,
+        OutputElasticTypedDict,
+        OutputSqsTypedDict,
         OutputOpenTelemetryTypedDict,
         OutputInfluxdbTypedDict,
         OutputGoogleChronicleTypedDict,
         OutputSentinelOneAiSiemTypedDict,
-        OutputDatabricksTypedDict,
         OutputClickHouseTypedDict,
         OutputLocalSearchStorageTypedDict,
-        OutputCriblLakeTypedDict,
-        OutputCloudflareR2TypedDict,
+        OutputDatabricksTypedDict,
         OutputMskTypedDict,
+        OutputCriblLakeTypedDict,
+        OutputSentinelTypedDict,
         OutputGoogleCloudStorageTypedDict,
+        OutputCloudflareR2TypedDict,
+        OutputNutanixObjectsTypedDict,
+        OutputGoogleCloudLoggingTypedDict,
         OutputAzureBlobTypedDict,
         OutputMinioTypedDict,
-        OutputSentinelTypedDict,
         OutputSecurityLakeTypedDict,
-        OutputWebhookTypedDict,
-        OutputGoogleCloudLoggingTypedDict,
-        OutputS3TypedDict,
         OutputDlS3TypedDict,
+        OutputS3TypedDict,
         OutputAzureDataExplorerTypedDict,
+        OutputWebhookUnionTypedDict,
         OutputGrafanaCloudUnionTypedDict,
     ],
 )
@@ -195,7 +197,7 @@ class UnknownOutput(BaseModel):
 
 _OUTPUT_VARIANTS: dict[str, Any] = {
     "default": OutputDefault,
-    "webhook": OutputWebhook,
+    "webhook": OutputWebhookUnion,
     "sentinel": OutputSentinel,
     "devnull": OutputDevnull,
     "syslog": OutputSyslog,
@@ -265,13 +267,14 @@ _OUTPUT_VARIANTS: dict[str, Any] = {
     "databricks": OutputDatabricks,
     "microsoft_fabric": OutputMicrosoftFabric,
     "cloudflare_r2": OutputCloudflareR2,
+    "nutanix_objects": OutputNutanixObjects,
 }
 
 
 Output = Annotated[
     Union[
         OutputDefault,
-        OutputWebhook,
+        OutputWebhookUnion,
         OutputSentinel,
         OutputDevnull,
         OutputSyslog,
@@ -341,6 +344,7 @@ Output = Annotated[
         OutputDatabricks,
         OutputMicrosoftFabric,
         OutputCloudflareR2,
+        OutputNutanixObjects,
         UnknownOutput,
     ],
     BeforeValidator(

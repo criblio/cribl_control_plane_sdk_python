@@ -298,13 +298,13 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](docs/sdks/health/README.md#get) - Get the health status of the server
 
-### [LakeDatasets](docs/sdks/lakedatasets/README.md)
+### [Lakes.Datasets](docs/sdks/datasets/README.md)
 
-* [create](docs/sdks/lakedatasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
-* [list](docs/sdks/lakedatasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
-* [delete](docs/sdks/lakedatasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
-* [get](docs/sdks/lakedatasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
-* [update](docs/sdks/lakedatasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
+* [create](docs/sdks/datasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
+* [list](docs/sdks/datasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
+* [delete](docs/sdks/datasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)
+* [get](docs/sdks/datasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
+* [update](docs/sdks/datasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
 
 ### [Nodes](docs/sdks/nodes/README.md)
 
@@ -315,7 +315,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Nodes.Summaries](docs/sdks/summaries/README.md)
 
-* [get](docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment for a specific product
+* [get](docs/sdks/summaries/README.md#get) - Get a summary of the deployment for a specific product.
 
 ### [Packs](docs/sdks/packs/README.md)
 
@@ -436,7 +436,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 #### [System.Settings.Cribl](docs/sdks/cribl/README.md)
 
 * [list](docs/sdks/cribl/README.md#list) - Get Cribl system settings
-* [update](docs/sdks/cribl/README.md#update) - Update Cribl system settings
+* [update](docs/sdks/cribl/README.md#update) - Update system settings
 
 ### [Versions.Branches](docs/sdks/branches/README.md)
 
@@ -527,7 +527,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.list(product=models.ProductsBase.STREAM, filter_exp="<value>", sort_exp="<value>", filter_="<value>", sort="<value>", limit=881129, offset=990978)
+    res = ccp_client.sources.statuses.list(metrics=True, type_=False)
 
     while res is not None:
         # Handle items

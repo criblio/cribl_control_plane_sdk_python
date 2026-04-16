@@ -10,25 +10,37 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class CommitTypedDict(TypedDict):
     date_: str
+    r"""Date and time of the commit."""
     hash: str
+    r"""Full commit hash."""
     message: str
+    r"""Commit message."""
     short: str
+    r"""Abbreviated commit hash."""
     author_email: NotRequired[str]
+    r"""Email address of the commit author."""
     author_name: NotRequired[str]
+    r"""Name of the commit author."""
 
 
 class Commit(BaseModel):
     date_: Annotated[str, pydantic.Field(alias="date")]
+    r"""Date and time of the commit."""
 
     hash: str
+    r"""Full commit hash."""
 
     message: str
+    r"""Commit message."""
 
     short: str
+    r"""Abbreviated commit hash."""
 
     author_email: Optional[str] = None
+    r"""Email address of the commit author."""
 
     author_name: Optional[str] = None
+    r"""Name of the commit author."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

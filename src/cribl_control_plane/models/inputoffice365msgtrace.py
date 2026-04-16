@@ -7,9 +7,12 @@ from .itemstypeconnectionsoptional import (
     ItemsTypeConnectionsOptionalTypedDict,
 )
 from .itemstypemetadata import ItemsTypeMetadata, ItemsTypeMetadataTypedDict
-from .logleveloptions import LogLevelOptions
+from .logleveloptionsdebugerror import LogLevelOptionsDebugError
 from .pqtype import PqType, PqTypeTypedDict
-from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
+from .retryrulestypecodesenableheader import (
+    RetryRulesTypeCodesEnableHeader,
+    RetryRulesTypeCodesEnableHeaderTypedDict,
+)
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -84,9 +87,9 @@ class InputOffice365MsgTraceTypedDict(TypedDict):
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOptions]
+    log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     r"""Username to run Message Trace API call."""
@@ -107,6 +110,8 @@ class InputOffice365MsgTraceTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -115,6 +120,8 @@ class InputOffice365MsgTraceTypedDict(TypedDict):
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
     template_resource: NotRequired[str]
     r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
+    template_plan_type: NotRequired[str]
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
 
 
 class InputOffice365MsgTrace(BaseModel):
@@ -208,12 +215,12 @@ class InputOffice365MsgTrace(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+        Optional[LogLevelOptionsDebugError], pydantic.Field(alias="logLevel")
     ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     description: Optional[str] = None
@@ -253,6 +260,11 @@ class InputOffice365MsgTrace(BaseModel):
         Optional[CertOptionsType], pydantic.Field(alias="certOptions")
     ] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
     )
@@ -273,6 +285,11 @@ class InputOffice365MsgTrace(BaseModel):
     ] = None
     r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
 
+    template_plan_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_planType")
+    ] = None
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -286,7 +303,7 @@ class InputOffice365MsgTrace(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOptions(value)
+                return models.LogLevelOptionsDebugError(value)
             except ValueError:
                 return value
         return value
@@ -339,10 +356,12 @@ class InputOffice365MsgTrace(BaseModel):
                 "planType",
                 "textSecret",
                 "certOptions",
+                "__template_environment",
                 "__template_url",
                 "__template_tenantId",
                 "__template_clientId",
                 "__template_resource",
+                "__template_planType",
             ]
         )
         serialized = handler(self)

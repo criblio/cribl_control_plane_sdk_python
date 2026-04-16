@@ -86,3 +86,4 @@ value = DestinationType.DEFAULT
 | `DYNATRACE_HTTP`            | dynatrace_http              |
 | `DATABRICKS`                | databricks                  |
 | `WIZ_HEC`                   | wiz_hec                     |
+| `NUTANIX_OBJECTS`           | nutanix_objects             |

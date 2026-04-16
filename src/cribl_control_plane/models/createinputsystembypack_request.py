@@ -2,26 +2,31 @@
 
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
-from .authenticationmethodoptions1 import AuthenticationMethodOptions1
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
+)
+from .authenticationmethodoptionsmanualsecret import (
+    AuthenticationMethodOptionsManualSecret,
 )
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationmethodoptionssasl import AuthenticationMethodOptionsSasl
 from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
-from .authenticationtype1 import AuthenticationType1, AuthenticationType1TypedDict
 from .authenticationtypeoptionslokiauth import AuthenticationTypeOptionsLokiAuth
 from .authenticationtypeoptionsprometheusauth import (
     AuthenticationTypeOptionsPrometheusAuth,
 )
+from .authenticationtypeuse import AuthenticationTypeUse, AuthenticationTypeUseTypedDict
 from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCert,
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
-from .createinputsystembypack_type_tcpjson import (
+from .createinputsystembypack_disk_mode_systemmetrics import (
+    CreateInputSystemByPackCPUSystemMetrics,
+    CreateInputSystemByPackCPUSystemMetricsTypedDict,
+    CreateInputSystemByPackDiskModeSystemMetrics,
     CreateInputSystemByPackInputAppscope,
     CreateInputSystemByPackInputAppscopeTypedDict,
     CreateInputSystemByPackInputCloudflareHec,
@@ -57,6 +62,8 @@ from .createinputsystembypack_type_tcpjson import (
     CreateInputSystemByPackInputOpenTelemetry,
     CreateInputSystemByPackInputOpenTelemetryTypedDict,
     CreateInputSystemByPackInputOpenai,
+    CreateInputSystemByPackInputOpenaiComplianceLogs,
+    CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict,
     CreateInputSystemByPackInputOpenaiTypedDict,
     CreateInputSystemByPackInputRawUDP,
     CreateInputSystemByPackInputRawUDPTypedDict,
@@ -66,14 +73,14 @@ from .createinputsystembypack_type_tcpjson import (
     CreateInputSystemByPackInputS3TypedDict,
     CreateInputSystemByPackInputSecurityLake,
     CreateInputSystemByPackInputSecurityLakeTypedDict,
+    CreateInputSystemByPackInputServicenowTable,
+    CreateInputSystemByPackInputServicenowTableTypedDict,
     CreateInputSystemByPackInputSnmp,
     CreateInputSystemByPackInputSnmpTypedDict,
     CreateInputSystemByPackInputSqs,
     CreateInputSystemByPackInputSqsTypedDict,
     CreateInputSystemByPackInputSyslogUnion,
     CreateInputSystemByPackInputSyslogUnionTypedDict,
-    CreateInputSystemByPackInputSystemMetrics,
-    CreateInputSystemByPackInputSystemMetricsTypedDict,
     CreateInputSystemByPackInputSystemState,
     CreateInputSystemByPackInputSystemStateTypedDict,
     CreateInputSystemByPackInputTCP,
@@ -90,10 +97,20 @@ from .createinputsystembypack_type_tcpjson import (
     CreateInputSystemByPackInputWizWebhookTypedDict,
     CreateInputSystemByPackInputZscalerHec,
     CreateInputSystemByPackInputZscalerHecTypedDict,
-    CreateInputSystemByPackTypeTcpjson,
+    CreateInputSystemByPackMemorySystemMetrics,
+    CreateInputSystemByPackMemorySystemMetricsTypedDict,
+    CreateInputSystemByPackNetworkSystemMetrics,
+    CreateInputSystemByPackNetworkSystemMetricsTypedDict,
+    CreateInputSystemByPackSystemSystemMetrics,
+    CreateInputSystemByPackSystemSystemMetricsTypedDict,
+    CreateInputSystemByPackTypeSystemMetrics,
+)
+from .datacompressionformatoptionspersistence import (
+    DataCompressionFormatOptionsPersistence,
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
+from .gputype import GpuType, GpuTypeTypedDict
 from .itemstypeauthtokens import ItemsTypeAuthTokens, ItemsTypeAuthTokensTypedDict
 from .itemstypeauthtokensext import (
     ItemsTypeAuthTokensExt,
@@ -115,23 +132,29 @@ from .kafkaschemaregistryauthenticationtype import (
 )
 from .logleveloptions import LogLevelOptions
 from .logleveloptionscontentconfigitems import LogLevelOptionsContentConfigItems
+from .logleveloptionsdebugerror import LogLevelOptionsDebugError
+from .modeoptionshost import ModeOptionsHost
 from .outputmodeoptionssplunkcollectorconf import OutputModeOptionsSplunkCollectorConf
 from .pqtype import PqType, PqTypeTypedDict
 from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
+from .processtype import ProcessType, ProcessTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
-from .retryrulestype1 import RetryRulesType1, RetryRulesType1TypedDict
+from .retryrulestypecodesenableheader import (
+    RetryRulesTypeCodesEnableHeader,
+    RetryRulesTypeCodesEnableHeaderTypedDict,
+)
 from .signatureversionoptions import SignatureVersionOptions
-from .signatureversionoptions1 import SignatureVersionOptions1
+from .signatureversionoptionsv2v4 import SignatureVersionOptionsV2V4
 from .subscriptionplanoptions import SubscriptionPlanOptions
 from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
 )
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
@@ -150,6 +173,450 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputSystemByPackDiskSystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackDiskModeSystemMetrics]
+    r"""Select the level of detail for disk metrics"""
+    detail: NotRequired[bool]
+    r"""Generate full disk metrics"""
+    inodes: NotRequired[bool]
+    r"""Generate filesystem inode metrics"""
+    devices: NotRequired[List[str]]
+    r"""Block devices to include/exclude. Examples: sda*, !loop*. Wildcards and ! (not) operators are supported. All devices are included if this list is empty."""
+    mountpoints: NotRequired[List[str]]
+    r"""Filesystem mountpoints to include/exclude. Examples: /, /home, !/proc*, !/tmp. Wildcards and ! (not) operators are supported. All mountpoints are included if this list is empty."""
+    fstypes: NotRequired[List[str]]
+    r"""Filesystem types to include/exclude. Examples: ext4, !*tmpfs, !squashfs. Wildcards and ! (not) operators are supported. All types are included if this list is empty."""
+    per_device: NotRequired[bool]
+    r"""Generate separate metrics for each device"""
+
+
+class CreateInputSystemByPackDiskSystemMetrics(BaseModel):
+    mode: Optional[CreateInputSystemByPackDiskModeSystemMetrics] = None
+    r"""Select the level of detail for disk metrics"""
+
+    detail: Optional[bool] = None
+    r"""Generate full disk metrics"""
+
+    inodes: Optional[bool] = None
+    r"""Generate filesystem inode metrics"""
+
+    devices: Optional[List[str]] = None
+    r"""Block devices to include/exclude. Examples: sda*, !loop*. Wildcards and ! (not) operators are supported. All devices are included if this list is empty."""
+
+    mountpoints: Optional[List[str]] = None
+    r"""Filesystem mountpoints to include/exclude. Examples: /, /home, !/proc*, !/tmp. Wildcards and ! (not) operators are supported. All mountpoints are included if this list is empty."""
+
+    fstypes: Optional[List[str]] = None
+    r"""Filesystem types to include/exclude. Examples: ext4, !*tmpfs, !squashfs. Wildcards and ! (not) operators are supported. All types are included if this list is empty."""
+
+    per_device: Annotated[Optional[bool], pydantic.Field(alias="perDevice")] = None
+    r"""Generate separate metrics for each device"""
+
+    @field_serializer("mode")
+    def serialize_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputSystemByPackDiskModeSystemMetrics(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "mode",
+                "detail",
+                "inodes",
+                "devices",
+                "mountpoints",
+                "fstypes",
+                "perDevice",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackCustomSystemMetricsTypedDict(TypedDict):
+    system: NotRequired[CreateInputSystemByPackSystemSystemMetricsTypedDict]
+    cpu: NotRequired[CreateInputSystemByPackCPUSystemMetricsTypedDict]
+    memory: NotRequired[CreateInputSystemByPackMemorySystemMetricsTypedDict]
+    network: NotRequired[CreateInputSystemByPackNetworkSystemMetricsTypedDict]
+    disk: NotRequired[CreateInputSystemByPackDiskSystemMetricsTypedDict]
+
+
+class CreateInputSystemByPackCustomSystemMetrics(BaseModel):
+    system: Optional[CreateInputSystemByPackSystemSystemMetrics] = None
+
+    cpu: Optional[CreateInputSystemByPackCPUSystemMetrics] = None
+
+    memory: Optional[CreateInputSystemByPackMemorySystemMetrics] = None
+
+    network: Optional[CreateInputSystemByPackNetworkSystemMetrics] = None
+
+    disk: Optional[CreateInputSystemByPackDiskSystemMetrics] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["system", "cpu", "memory", "network", "disk"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackHostSystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[ModeOptionsHost]
+    r"""Select level of detail for host metrics"""
+    custom: NotRequired[CreateInputSystemByPackCustomSystemMetricsTypedDict]
+
+
+class CreateInputSystemByPackHostSystemMetrics(BaseModel):
+    mode: Optional[ModeOptionsHost] = None
+    r"""Select level of detail for host metrics"""
+
+    custom: Optional[CreateInputSystemByPackCustomSystemMetrics] = None
+
+    @field_serializer("mode")
+    def serialize_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptionsHost(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "custom"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Select the level of detail for container metrics"""
+
+    # Basic
+    BASIC = "basic"
+    # All
+    ALL = "all"
+    # Custom
+    CUSTOM = "custom"
+    # Disabled
+    DISABLED = "disabled"
+
+
+class CreateInputSystemByPackFilterSystemMetricsTypedDict(TypedDict):
+    expr: str
+
+
+class CreateInputSystemByPackFilterSystemMetrics(BaseModel):
+    expr: str
+
+
+class CreateInputSystemByPackContainerTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackContainerMode]
+    r"""Select the level of detail for container metrics"""
+    docker_socket: NotRequired[List[str]]
+    r"""Full paths for Docker's UNIX-domain socket"""
+    docker_timeout: NotRequired[float]
+    r"""Timeout, in seconds, for the Docker API"""
+    filters: NotRequired[List[CreateInputSystemByPackFilterSystemMetricsTypedDict]]
+    r"""Containers matching any of these will be included. All are included if no filters are added."""
+    all_containers: NotRequired[bool]
+    r"""Include stopped and paused containers"""
+    per_device: NotRequired[bool]
+    r"""Generate separate metrics for each device"""
+    detail: NotRequired[bool]
+    r"""Generate full container metrics"""
+
+
+class CreateInputSystemByPackContainer(BaseModel):
+    mode: Optional[CreateInputSystemByPackContainerMode] = None
+    r"""Select the level of detail for container metrics"""
+
+    docker_socket: Annotated[
+        Optional[List[str]], pydantic.Field(alias="dockerSocket")
+    ] = None
+    r"""Full paths for Docker's UNIX-domain socket"""
+
+    docker_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="dockerTimeout")
+    ] = None
+    r"""Timeout, in seconds, for the Docker API"""
+
+    filters: Optional[List[CreateInputSystemByPackFilterSystemMetrics]] = None
+    r"""Containers matching any of these will be included. All are included if no filters are added."""
+
+    all_containers: Annotated[Optional[bool], pydantic.Field(alias="allContainers")] = (
+        None
+    )
+    r"""Include stopped and paused containers"""
+
+    per_device: Annotated[Optional[bool], pydantic.Field(alias="perDevice")] = None
+    r"""Generate separate metrics for each device"""
+
+    detail: Optional[bool] = None
+    r"""Generate full container metrics"""
+
+    @field_serializer("mode")
+    def serialize_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputSystemByPackContainerMode(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "mode",
+                "dockerSocket",
+                "dockerTimeout",
+                "filters",
+                "allContainers",
+                "perDevice",
+                "detail",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackPersistenceSystemMetricsTypedDict(TypedDict):
+    enable: NotRequired[bool]
+    r"""Spool metrics to disk for Cribl Edge and Search"""
+    time_window: NotRequired[str]
+    r"""Time span for each file bucket"""
+    max_data_size: NotRequired[str]
+    r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
+    max_data_time: NotRequired[str]
+    r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
+    compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    dest_path: NotRequired[str]
+    r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
+
+
+class CreateInputSystemByPackPersistenceSystemMetrics(BaseModel):
+    enable: Optional[bool] = None
+    r"""Spool metrics to disk for Cribl Edge and Search"""
+
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
+    r"""Time span for each file bucket"""
+
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
+    r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
+
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
+    r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
+
+    compress: Optional[DataCompressionFormatOptionsPersistence] = None
+
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
+    r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
+
+    @field_serializer("compress")
+    def serialize_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataCompressionFormatOptionsPersistence(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackInputSystemMetricsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputSystemByPackTypeSystemMetrics
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    interval: NotRequired[float]
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+    host: NotRequired[CreateInputSystemByPackHostSystemMetricsTypedDict]
+    process: NotRequired[ProcessTypeTypedDict]
+    container: NotRequired[CreateInputSystemByPackContainerTypedDict]
+    gpu: NotRequired[GpuTypeTypedDict]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    persistence: NotRequired[CreateInputSystemByPackPersistenceSystemMetricsTypedDict]
+    description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+
+class CreateInputSystemByPackInputSystemMetrics(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputSystemByPackTypeSystemMetrics
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    interval: Optional[float] = None
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+
+    host: Optional[CreateInputSystemByPackHostSystemMetrics] = None
+
+    process: Optional[ProcessType] = None
+
+    container: Optional[CreateInputSystemByPackContainer] = None
+
+    gpu: Optional[GpuType] = None
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    persistence: Optional[CreateInputSystemByPackPersistenceSystemMetrics] = None
+
+    description: Optional[str] = None
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "host",
+                "process",
+                "container",
+                "gpu",
+                "metadata",
+                "persistence",
+                "description",
+                "__template_environment",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackTypeTcpjson(str, Enum):
+    TCPJSON = "tcpjson"
 
 
 class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
@@ -198,6 +665,8 @@ class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -294,6 +763,11 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -338,6 +812,7 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
                 "description",
                 "authToken",
                 "textSecret",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]
@@ -529,10 +1004,16 @@ class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[CreateInputSystemByPackAuthTokensExtTypedDict]]
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_cribl_api: NotRequired[str]
+    r"""Binds 'criblAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'criblAPI' at runtime."""
+    template_elastic_api: NotRequired[str]
+    r"""Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime."""
     template_splunk_hec_api: NotRequired[str]
     r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
@@ -660,6 +1141,11 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -669,6 +1155,16 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_cribl_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_criblAPI")
+    ] = None
+    r"""Binds 'criblAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'criblAPI' at runtime."""
+
+    template_elastic_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_elasticAPI")
+    ] = None
+    r"""Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime."""
 
     template_splunk_hec_api: Annotated[
         Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
@@ -707,8 +1203,11 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
                 "metadata",
                 "authTokensExt",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_criblAPI",
+                "__template_elasticAPI",
                 "__template_splunkHecAPI",
             ]
         )
@@ -780,6 +1279,8 @@ class CreateInputSystemByPackInputCriblHTTPTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -889,6 +1390,11 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -926,6 +1432,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
                 "ipDenylistRegex",
                 "metadata",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]
@@ -988,6 +1495,8 @@ class CreateInputSystemByPackInputCriblTCPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[ItemsTypeAuthTokensTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -1072,6 +1581,11 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -1104,6 +1618,7 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
                 "enableLoadBalancing",
                 "authTokens",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]
@@ -1148,6 +1663,8 @@ class CreateInputSystemByPackInputCriblTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
 
 class CreateInputSystemByPackInputCribl(BaseModel):
@@ -1187,6 +1704,11 @@ class CreateInputSystemByPackInputCribl(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -1202,6 +1724,7 @@ class CreateInputSystemByPackInputCribl(BaseModel):
                 "filter",
                 "metadata",
                 "description",
+                "__template_environment",
             ]
         )
         serialized = handler(self)
@@ -1269,6 +1792,8 @@ class CreateInputSystemByPackInputGooglePubsubTypedDict(TypedDict):
     description: NotRequired[str]
     ordered_delivery: NotRequired[bool]
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_topic_name: NotRequired[str]
     r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
     template_subscription_name: NotRequired[str]
@@ -1364,6 +1889,11 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
     ] = None
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_topic_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_topicName")
     ] = None
@@ -1413,6 +1943,7 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
                 "metadata",
                 "description",
                 "orderedDelivery",
+                "__template_environment",
                 "__template_topicName",
                 "__template_subscriptionName",
                 "__template_region",
@@ -1486,6 +2017,8 @@ class CreateInputSystemByPackInputFirehoseTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -1595,6 +2128,11 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -1632,6 +2170,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
                 "ipDenylistRegex",
                 "metadata",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]
@@ -1698,6 +2237,8 @@ class CreateInputSystemByPackInputExecTypedDict(TypedDict):
     r"""Interval between command executions in seconds."""
     cron_schedule: NotRequired[str]
     r"""Cron schedule to execute the command on."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
 
 class CreateInputSystemByPackInputExec(BaseModel):
@@ -1766,6 +2307,11 @@ class CreateInputSystemByPackInputExec(BaseModel):
     cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
     r"""Cron schedule to execute the command on."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     @field_serializer("schedule_type")
     def serialize_schedule_type(self, value):
         if isinstance(value, str):
@@ -1796,6 +2342,487 @@ class CreateInputSystemByPackInputExec(BaseModel):
                 "description",
                 "interval",
                 "cronSchedule",
+                "__template_environment",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackTypeEventhubAmqp(str, Enum):
+    EVENTHUB_AMQP = "eventhub_amqp"
+
+
+class CreateInputSystemByPackAuthenticationMechanism(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # Connection String
+    CONNECTION_STRING = "connection-string"
+
+
+class CreateInputSystemByPackAuthenticationMethodEventhubAmqp(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Enter connection string directly, or select a stored secret"""
+
+    MANUAL = "manual"
+    SECRET = "secret"
+
+
+class CreateInputSystemByPackAuthTypedDict(TypedDict):
+    auth_type: CreateInputSystemByPackAuthenticationMethodEventhubAmqp
+    r"""Enter connection string directly, or select a stored secret"""
+    mechanism: NotRequired[CreateInputSystemByPackAuthenticationMechanism]
+    connection_string: NotRequired[str]
+    r"""Event Hubs namespace or Event Hub-level connection string"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+
+
+class CreateInputSystemByPackAuth(BaseModel):
+    auth_type: Annotated[
+        CreateInputSystemByPackAuthenticationMethodEventhubAmqp,
+        pydantic.Field(alias="authType"),
+    ]
+    r"""Enter connection string directly, or select a stored secret"""
+
+    mechanism: Optional[CreateInputSystemByPackAuthenticationMechanism] = None
+
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Event Hubs namespace or Event Hub-level connection string"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    @field_serializer("mechanism")
+    def serialize_mechanism(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputSystemByPackAuthenticationMechanism(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputSystemByPackAuthenticationMethodEventhubAmqp(
+                    value
+                )
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mechanism", "connectionString", "textSecret"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackCheckpointStore(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The backing store used to persist consumer checkpoints. Select \"None\" to disable checkpointing (consumers will restart from the configured start position)."""
+
+    # None
+    NONE = "none"
+    # Azure Blob Storage
+    AZURE_BLOB = "azureBlob"
+
+
+class CreateInputSystemByPackAzureBlobStorageTypedDict(TypedDict):
+    container_name: str
+    r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
+    auth_type: NotRequired[AuthenticationMethodOptions]
+    connection_string: NotRequired[str]
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    storage_account_name: NotRequired[str]
+    r"""The name of your Azure storage account"""
+    tenant_id: NotRequired[str]
+    r"""The service principal's tenant ID"""
+    client_id: NotRequired[str]
+    r"""The service principal's client ID"""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    endpoint_suffix: NotRequired[str]
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    template_connection_string: NotRequired[str]
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+    template_storage_account_name: NotRequired[str]
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_azure_cloud: NotRequired[str]
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
+
+
+class CreateInputSystemByPackAzureBlobStorage(BaseModel):
+    container_name: Annotated[str, pydantic.Field(alias="containerName")]
+    r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
+    ] = None
+
+    connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="connectionString")
+    ] = None
+    r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="storageAccountName")
+    ] = None
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""The service principal's client ID"""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Select or create a stored text secret"""
+
+    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+
+    template_connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="__template_connectionString")
+    ] = None
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+
+    template_storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageAccountName")
+    ] = None
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_azure_cloud: Annotated[
+        Optional[str], pydantic.Field(alias="__template_azureCloud")
+    ] = None
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "authType",
+                "connectionString",
+                "textSecret",
+                "storageAccountName",
+                "tenantId",
+                "clientId",
+                "azureCloud",
+                "endpointSuffix",
+                "clientTextSecret",
+                "certificate",
+                "__template_connectionString",
+                "__template_storageAccountName",
+                "__template_tenantId",
+                "__template_clientId",
+                "__template_azureCloud",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackCheckpointingTypedDict(TypedDict):
+    checkpoint_store_type: NotRequired[CreateInputSystemByPackCheckpointStore]
+    r"""The backing store used to persist consumer checkpoints. Select \"None\" to disable checkpointing (consumers will restart from the configured start position)."""
+    blob_store: NotRequired[CreateInputSystemByPackAzureBlobStorageTypedDict]
+
+
+class CreateInputSystemByPackCheckpointing(BaseModel):
+    checkpoint_store_type: Annotated[
+        Optional[CreateInputSystemByPackCheckpointStore],
+        pydantic.Field(alias="checkpointStoreType"),
+    ] = None
+    r"""The backing store used to persist consumer checkpoints. Select \"None\" to disable checkpointing (consumers will restart from the configured start position)."""
+
+    blob_store: Annotated[
+        Optional[CreateInputSystemByPackAzureBlobStorage],
+        pydantic.Field(alias="blobStore"),
+    ] = None
+
+    @field_serializer("checkpoint_store_type")
+    def serialize_checkpoint_store_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputSystemByPackCheckpointStore(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["checkpointStoreType", "blobStore"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackInputEventhubAmqpTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputSystemByPackTypeEventhubAmqp
+    consumer_group: str
+    r"""The consumer group this instance belongs to. Default is '$Default'."""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    event_hub_name: NotRequired[str]
+    r"""The name of the Event Hub to consume from"""
+    auth: NotRequired[CreateInputSystemByPackAuthTypedDict]
+    checkpointing: NotRequired[CreateInputSystemByPackCheckpointingTypedDict]
+    from_beginning: NotRequired[bool]
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+    max_batch_size: NotRequired[int]
+    r"""Maximum number of events in each batch delivered to the consumer"""
+    max_wait_time_in_seconds: NotRequired[int]
+    r"""Maximum time to wait for a batch of events before delivering a partial batch"""
+    prefetch_count: NotRequired[int]
+    r"""Number of events to prefetch from the service for processing"""
+    max_retries: NotRequired[int]
+    r"""Maximum number of retries per operation"""
+    initial_backoff: NotRequired[int]
+    r"""Initial delay before the first retry, in milliseconds"""
+    max_backoff: NotRequired[int]
+    r"""Maximum delay between retries, in milliseconds"""
+    timeout_in_ms: NotRequired[int]
+    r"""Maximum time to wait for a request to complete"""
+    connection_initial_backoff: NotRequired[int]
+    r"""Initial delay before the first reconnection attempt, in milliseconds"""
+    connection_max_backoff: NotRequired[int]
+    r"""Maximum delay between reconnection attempts, in milliseconds"""
+    connection_timeout_in_ms: NotRequired[int]
+    r"""Maximum time to wait for a connection to complete"""
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+
+class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputSystemByPackTypeEventhubAmqp
+
+    consumer_group: Annotated[str, pydantic.Field(alias="consumerGroup")]
+    r"""The consumer group this instance belongs to. Default is '$Default'."""
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    connections: Optional[List[ItemsTypeConnectionsOptional]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    event_hub_name: Annotated[Optional[str], pydantic.Field(alias="eventHubName")] = (
+        None
+    )
+    r"""The name of the Event Hub to consume from"""
+
+    auth: Optional[CreateInputSystemByPackAuth] = None
+
+    checkpointing: Optional[CreateInputSystemByPackCheckpointing] = None
+
+    from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
+        None
+    )
+    r"""Start reading from earliest available data; relevant only during initial subscription"""
+
+    max_batch_size: Annotated[Optional[int], pydantic.Field(alias="maxBatchSize")] = (
+        None
+    )
+    r"""Maximum number of events in each batch delivered to the consumer"""
+
+    max_wait_time_in_seconds: Annotated[
+        Optional[int], pydantic.Field(alias="maxWaitTimeInSeconds")
+    ] = None
+    r"""Maximum time to wait for a batch of events before delivering a partial batch"""
+
+    prefetch_count: Annotated[Optional[int], pydantic.Field(alias="prefetchCount")] = (
+        None
+    )
+    r"""Number of events to prefetch from the service for processing"""
+
+    max_retries: Annotated[Optional[int], pydantic.Field(alias="maxRetries")] = None
+    r"""Maximum number of retries per operation"""
+
+    initial_backoff: Annotated[
+        Optional[int], pydantic.Field(alias="initialBackoff")
+    ] = None
+    r"""Initial delay before the first retry, in milliseconds"""
+
+    max_backoff: Annotated[Optional[int], pydantic.Field(alias="maxBackoff")] = None
+    r"""Maximum delay between retries, in milliseconds"""
+
+    timeout_in_ms: Annotated[Optional[int], pydantic.Field(alias="timeoutInMs")] = None
+    r"""Maximum time to wait for a request to complete"""
+
+    connection_initial_backoff: Annotated[
+        Optional[int], pydantic.Field(alias="connectionInitialBackoff")
+    ] = None
+    r"""Initial delay before the first reconnection attempt, in milliseconds"""
+
+    connection_max_backoff: Annotated[
+        Optional[int], pydantic.Field(alias="connectionMaxBackoff")
+    ] = None
+    r"""Maximum delay between reconnection attempts, in milliseconds"""
+
+    connection_timeout_in_ms: Annotated[
+        Optional[int], pydantic.Field(alias="connectionTimeoutInMs")
+    ] = None
+    r"""Maximum time to wait for a connection to complete"""
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "eventHubName",
+                "auth",
+                "checkpointing",
+                "fromBeginning",
+                "maxBatchSize",
+                "maxWaitTimeInSeconds",
+                "prefetchCount",
+                "maxRetries",
+                "initialBackoff",
+                "maxBackoff",
+                "timeoutInMs",
+                "connectionInitialBackoff",
+                "connectionMaxBackoff",
+                "connectionTimeoutInMs",
+                "metadata",
+                "description",
+                "__template_environment",
             ]
         )
         serialized = handler(self)
@@ -1858,7 +2885,7 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[AuthenticationType1TypedDict]
+    sasl: NotRequired[AuthenticationTypeUseTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
     session_timeout: NotRequired[float]
@@ -1892,6 +2919,10 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_group_id: NotRequired[str]
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
 
 
 class CreateInputSystemByPackInputEventhub(BaseModel):
@@ -1972,7 +3003,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[AuthenticationType1] = None
+    sasl: Optional[AuthenticationTypeUse] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
@@ -2035,6 +3066,16 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_group_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_groupId")
+    ] = None
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -2070,6 +3111,8 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
                 "minimizeDuplicates",
                 "metadata",
                 "description",
+                "__template_environment",
+                "__template_groupId",
             ]
         )
         serialized = handler(self)
@@ -2165,9 +3208,9 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOptions]
+    log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
     client_secret: NotRequired[str]
     r"""client_secret to pass in the OAuth request parameter."""
@@ -2182,6 +3225,8 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -2190,6 +3235,8 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
     template_resource: NotRequired[str]
     r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
+    template_plan_type: NotRequired[str]
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
 
 
 class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
@@ -2286,12 +3333,12 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+        Optional[LogLevelOptionsDebugError], pydantic.Field(alias="logLevel")
     ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     description: Optional[str] = None
@@ -2321,6 +3368,11 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
         Optional[CertOptionsType], pydantic.Field(alias="certOptions")
     ] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
     )
@@ -2341,6 +3393,11 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     ] = None
     r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
 
+    template_plan_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_planType")
+    ] = None
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -2356,7 +3413,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOptions(value)
+                return models.LogLevelOptionsDebugError(value)
             except ValueError:
                 return value
         return value
@@ -2406,10 +3463,12 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
                 "planType",
                 "textSecret",
                 "certOptions",
+                "__template_environment",
                 "__template_url",
                 "__template_tenantId",
                 "__template_clientId",
                 "__template_resource",
+                "__template_planType",
             ]
         )
         serialized = handler(self)
@@ -2490,9 +3549,9 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
     r"""Maximum number of times a task can be rescheduled"""
-    log_level: NotRequired[LogLevelOptions]
+    log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     r"""Username to run Message Trace API call."""
@@ -2513,6 +3572,8 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a secret that references your client_secret to pass in the OAuth request parameter."""
     cert_options: NotRequired[CertOptionsTypeTypedDict]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -2521,6 +3582,8 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
     template_resource: NotRequired[str]
     r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
+    template_plan_type: NotRequired[str]
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
 
 
 class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
@@ -2614,12 +3677,12 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     r"""Maximum number of times a task can be rescheduled"""
 
     log_level: Annotated[
-        Optional[LogLevelOptions], pydantic.Field(alias="logLevel")
+        Optional[LogLevelOptionsDebugError], pydantic.Field(alias="logLevel")
     ] = None
     r"""Log Level (verbosity) for collection runtime behavior."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     description: Optional[str] = None
@@ -2659,6 +3722,11 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
         Optional[CertOptionsType], pydantic.Field(alias="certOptions")
     ] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
     )
@@ -2679,6 +3747,11 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     ] = None
     r"""Binds 'resource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resource' at runtime."""
 
+    template_plan_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_planType")
+    ] = None
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -2696,7 +3769,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLevelOptions(value)
+                return models.LogLevelOptionsDebugError(value)
             except ValueError:
                 return value
         return value
@@ -2748,10 +3821,12 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
                 "planType",
                 "textSecret",
                 "certOptions",
+                "__template_environment",
                 "__template_url",
                 "__template_tenantId",
                 "__template_clientId",
                 "__template_resource",
+                "__template_planType",
             ]
         )
         serialized = handler(self)
@@ -2869,14 +3944,18 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
         List[CreateInputSystemByPackContentConfigOffice365ServiceTypedDict]
     ]
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
     r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_plan_type: NotRequired[str]
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
     template_tenant_id: NotRequired[str]
     r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     template_app_id: NotRequired[str]
@@ -2960,11 +4039,12 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsManualSecret],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -2975,6 +4055,16 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_plan_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_planType")
+    ] = None
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
 
     template_tenant_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_tenantId")
@@ -3004,7 +4094,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptionsManualSecret(value)
             except ValueError:
                 return value
         return value
@@ -3035,6 +4125,8 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
                 "description",
                 "clientSecret",
                 "textSecret",
+                "__template_environment",
+                "__template_planType",
                 "__template_tenantId",
                 "__template_appId",
                 "__template_clientSecret",
@@ -3159,14 +4251,18 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
-    retry_rules: NotRequired[RetryRulesType1TypedDict]
-    auth_type: NotRequired[AuthenticationMethodOptions1]
+    retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
     client_secret: NotRequired[str]
     r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_plan_type: NotRequired[str]
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
     template_tenant_id: NotRequired[str]
     r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     template_app_id: NotRequired[str]
@@ -3260,11 +4356,12 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
 
     retry_rules: Annotated[
-        Optional[RetryRulesType1], pydantic.Field(alias="retryRules")
+        Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
     auth_type: Annotated[
-        Optional[AuthenticationMethodOptions1], pydantic.Field(alias="authType")
+        Optional[AuthenticationMethodOptionsManualSecret],
+        pydantic.Field(alias="authType"),
     ] = None
     r"""Enter client secret directly, or select a stored secret"""
 
@@ -3275,6 +4372,16 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_plan_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_planType")
+    ] = None
+    r"""Binds 'planType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'planType' at runtime."""
 
     template_tenant_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_tenantId")
@@ -3309,7 +4416,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptions1(value)
+                return models.AuthenticationMethodOptionsManualSecret(value)
             except ValueError:
                 return value
         return value
@@ -3341,6 +4448,8 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
                 "description",
                 "clientSecret",
                 "textSecret",
+                "__template_environment",
+                "__template_planType",
                 "__template_tenantId",
                 "__template_appId",
                 "__template_publisherIdentifier",
@@ -3530,7 +4639,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions1]
+    signature_version: NotRequired[SignatureVersionOptionsV2V4]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -3562,12 +4671,16 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     r"""Password for Prometheus Basic authentication"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
     template_aws_secret_key: NotRequired[str]
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
@@ -3685,7 +4798,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsV2V4], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing EC2 requests"""
 
@@ -3755,6 +4868,11 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_aws_api_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsApiKey")
     ] = None
@@ -3769,6 +4887,11 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
         Optional[str], pydantic.Field(alias="__template_region")
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
@@ -3831,7 +4954,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions1(value)
+                return models.SignatureVersionOptionsV2V4(value)
             except ValueError:
                 return value
         return value
@@ -3882,9 +5005,11 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
                 "username",
                 "password",
                 "credentialsSecret",
+                "__template_environment",
                 "__template_awsApiKey",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
             ]
@@ -3920,17 +5045,6 @@ class CreateInputSystemByPackDiscoveryTypePrometheus(
     EC2 = "ec2"
 
 
-class CreateInputSystemByPackLogLevelPrometheus(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Collector runtime log level"""
-
-    ERROR = "error"
-    WARN = "warn"
-    INFO = "info"
-    DEBUG = "debug"
-
-
 class CreateInputSystemByPackMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Protocol to use when collecting metrics"""
 
@@ -3944,7 +5058,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     type: CreateInputSystemByPackTypePrometheus
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
-    log_level: CreateInputSystemByPackLogLevelPrometheus
+    log_level: LogLevelOptions
     r"""Collector runtime log level"""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
@@ -4009,7 +5123,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions1]
+    signature_version: NotRequired[SignatureVersionOptionsV2V4]
     r"""Signature version to use for signing EC2 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -4027,6 +5141,10 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     r"""Password for Prometheus Basic authentication"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_discovery_type: NotRequired[str]
+    r"""Binds 'discoveryType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoveryType' at runtime."""
     template_log_level: NotRequired[str]
     r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
     template_aws_api_key: NotRequired[str]
@@ -4035,10 +5153,16 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
 
 class CreateInputSystemByPackInputPrometheus(BaseModel):
@@ -4050,9 +5174,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
 
-    log_level: Annotated[
-        CreateInputSystemByPackLogLevelPrometheus, pydantic.Field(alias="logLevel")
-    ]
+    log_level: Annotated[LogLevelOptions, pydantic.Field(alias="logLevel")]
     r"""Collector runtime log level"""
 
     disabled: Optional[bool] = None
@@ -4184,7 +5306,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""EC2 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to EC2-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[SignatureVersionOptions1], pydantic.Field(alias="signatureVersion")
+        Optional[SignatureVersionOptionsV2V4], pydantic.Field(alias="signatureVersion")
     ] = None
     r"""Signature version to use for signing EC2 requests"""
 
@@ -4224,6 +5346,16 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_discovery_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoveryType")
+    ] = None
+    r"""Binds 'discoveryType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoveryType' at runtime."""
+
     template_log_level: Annotated[
         Optional[str], pydantic.Field(alias="__template_logLevel")
     ] = None
@@ -4244,6 +5376,11 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
     ] = None
@@ -4253,6 +5390,16 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
         Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     @field_serializer("discovery_type")
     def serialize_discovery_type(self, value):
@@ -4267,7 +5414,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackLogLevelPrometheus(value)
+                return models.LogLevelOptions(value)
             except ValueError:
                 return value
         return value
@@ -4312,7 +5459,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptions1(value)
+                return models.SignatureVersionOptionsV2V4(value)
             except ValueError:
                 return value
         return value
@@ -4364,12 +5511,17 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
                 "username",
                 "password",
                 "credentialsSecret",
+                "__template_environment",
+                "__template_discoveryType",
                 "__template_logLevel",
                 "__template_awsApiKey",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
+                "__template_username",
+                "__template_password",
             ]
         )
         serialized = handler(self)
@@ -4450,12 +5602,16 @@ class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
     template_prometheus_api: NotRequired[str]
     r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
 
 class CreateInputSystemByPackInputPrometheusRw(BaseModel):
@@ -4580,6 +5736,11 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -4594,6 +5755,11 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
         Optional[str], pydantic.Field(alias="__template_prometheusAPI")
     ] = None
     r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -4636,9 +5802,11 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
                 "__template_prometheusAPI",
+                "__template_username",
             ]
         )
         serialized = handler(self)
@@ -4719,10 +5887,14 @@ class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_loki_api: NotRequired[str]
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
 
 class CreateInputSystemByPackInputLoki(BaseModel):
@@ -4846,6 +6018,11 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -4855,6 +6032,11 @@ class CreateInputSystemByPackInputLoki(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_loki_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_lokiAPI")
+    ] = None
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -4897,8 +6079,10 @@ class CreateInputSystemByPackInputLoki(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_lokiAPI",
             ]
         )
         serialized = handler(self)
@@ -5112,10 +6296,16 @@ class CreateInputSystemByPackInputGrafanaGrafana2TypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_prometheus_api: NotRequired[str]
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+    template_loki_api: NotRequired[str]
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
 
 class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
@@ -5233,6 +6423,11 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -5242,6 +6437,16 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_prometheus_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_prometheusAPI")
+    ] = None
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+
+    template_loki_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_lokiAPI")
+    ] = None
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -5272,8 +6477,11 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
                 "lokiAuth",
                 "metadata",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_prometheusAPI",
+                "__template_lokiAPI",
             ]
         )
         serialized = handler(self)
@@ -5487,10 +6695,16 @@ class CreateInputSystemByPackInputGrafanaGrafana1TypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_prometheus_api: NotRequired[str]
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+    template_loki_api: NotRequired[str]
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
 
 class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
@@ -5606,6 +6820,11 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -5615,6 +6834,16 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_prometheus_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_prometheusAPI")
+    ] = None
+    r"""Binds 'prometheusAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'prometheusAPI' at runtime."""
+
+    template_loki_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_lokiAPI")
+    ] = None
+    r"""Binds 'lokiAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiAPI' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -5645,8 +6874,11 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
                 "lokiAuth",
                 "metadata",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_prometheusAPI",
+                "__template_lokiAPI",
             ]
         )
         serialized = handler(self)
@@ -5707,7 +6939,7 @@ class CreateInputSystemByPackInputConfluentCloudTypedDict(TypedDict):
     connections: NotRequired[List[ItemsTypeConnectionsOptionalTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
@@ -5762,6 +6994,10 @@ class CreateInputSystemByPackInputConfluentCloudTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_group_id: NotRequired[str]
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
 
 
 class CreateInputSystemByPackInputConfluentCloud(BaseModel):
@@ -5800,7 +7036,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
 
     pq: Optional[PqType] = None
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -5907,6 +7143,16 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_group_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_groupId")
+    ] = None
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -5942,6 +7188,8 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
                 "maxSocketErrors",
                 "metadata",
                 "description",
+                "__template_environment",
+                "__template_groupId",
             ]
         )
         serialized = handler(self)
@@ -6159,6 +7407,8 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     r"""Bearer tokens to include in the authorization header"""
     custom_api_version: NotRequired[str]
     r"""Custom version information to respond to requests"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -6306,6 +7556,11 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     ] = None
     r"""Custom version information to respond to requests"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -6369,6 +7624,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
                 "credentialsSecret",
                 "authTokens",
                 "customAPIVersion",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
             ]
@@ -6452,14 +7708,20 @@ class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_queue_name: NotRequired[str]
     r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
     template_connection_string: NotRequired[str]
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+    template_storage_account_name: NotRequired[str]
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
     r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     template_client_id: NotRequired[str]
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_azure_cloud: NotRequired[str]
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
 
 class CreateInputSystemByPackInputAzureBlob(BaseModel):
@@ -6582,6 +7844,11 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_queue_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_queueName")
     ] = None
@@ -6592,6 +7859,11 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     ] = None
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
 
+    template_storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageAccountName")
+    ] = None
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+
     template_tenant_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_tenantId")
     ] = None
@@ -6601,6 +7873,11 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
         Optional[str], pydantic.Field(alias="__template_clientId")
     ] = None
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_azure_cloud: Annotated[
+        Optional[str], pydantic.Field(alias="__template_azureCloud")
+    ] = None
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -6645,10 +7922,13 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
                 "endpointSuffix",
                 "clientTextSecret",
                 "certificate",
+                "__template_environment",
                 "__template_queueName",
                 "__template_connectionString",
+                "__template_storageAccountName",
                 "__template_tenantId",
                 "__template_clientId",
+                "__template_azureCloud",
             ]
         )
         serialized = handler(self)
@@ -6816,6 +8096,8 @@ class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -6976,6 +8258,11 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -7027,6 +8314,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
                 "accessControlAllowHeaders",
                 "emitTokenMetrics",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
                 "__template_splunkHecAPI",
@@ -7178,6 +8466,20 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_search_head: NotRequired[str]
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+    template_search: NotRequired[str]
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+    template_earliest: NotRequired[str]
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+    template_latest: NotRequired[str]
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_log_level: NotRequired[str]
+    r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
 
 
 class CreateInputSystemByPackInputSplunkSearch(BaseModel):
@@ -7330,6 +8632,41 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_search_head: Annotated[
+        Optional[str], pydantic.Field(alias="__template_searchHead")
+    ] = None
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+
+    template_search: Annotated[
+        Optional[str], pydantic.Field(alias="__template_search")
+    ] = None
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+
+    template_earliest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_earliest")
+    ] = None
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+
+    template_latest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_latest")
+    ] = None
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_log_level: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLevel")
+    ] = None
+    r"""Binds 'logLevel' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLevel' at runtime."""
+
     @field_serializer("output_mode")
     def serialize_output_mode(self, value):
         if isinstance(value, str):
@@ -7396,6 +8733,13 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
+                "__template_environment",
+                "__template_searchHead",
+                "__template_search",
+                "__template_earliest",
+                "__template_latest",
+                "__template_endpoint",
+                "__template_logLevel",
             ]
         )
         serialized = handler(self)
@@ -7519,10 +8863,16 @@ class CreateInputSystemByPackInputSplunkTypedDict(TypedDict):
     r"""Extract and process Splunk-generated metrics as Cribl metrics"""
     compress: NotRequired[CreateInputSystemByPackCompression]
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_max_s2_sversion: NotRequired[str]
+    r"""Binds 'maxS2Sversion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'maxS2Sversion' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
 
 class CreateInputSystemByPackInputSplunk(BaseModel):
@@ -7638,6 +8988,11 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     compress: Optional[CreateInputSystemByPackCompression] = None
     r"""Controls whether to support reading compressed data from a forwarder. Select 'Automatic' to match the forwarder's configuration, or 'Disabled' to reject compressed connections."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -7647,6 +9002,16 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_max_s2_sversion: Annotated[
+        Optional[str], pydantic.Field(alias="__template_maxS2Sversion")
+    ] = None
+    r"""Binds 'maxS2Sversion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'maxS2Sversion' at runtime."""
+
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
     @field_serializer("max_s2_sversion")
     def serialize_max_s2_sversion(self, value):
@@ -7695,8 +9060,11 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
                 "dropControlFields",
                 "extractMetrics",
                 "compress",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_maxS2Sversion",
+                "__template_compress",
             ]
         )
         serialized = handler(self)
@@ -7776,10 +9144,16 @@ class CreateInputSystemByPackInputHTTPTypedDict(TypedDict):
     auth_tokens_ext: NotRequired[List[ItemsTypeAuthTokensExtTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_cribl_api: NotRequired[str]
+    r"""Binds 'criblAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'criblAPI' at runtime."""
+    template_elastic_api: NotRequired[str]
+    r"""Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime."""
     template_splunk_hec_api: NotRequired[str]
     r"""Binds 'splunkHecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'splunkHecAPI' at runtime."""
 
@@ -7907,6 +9281,11 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -7916,6 +9295,16 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_cribl_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_criblAPI")
+    ] = None
+    r"""Binds 'criblAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'criblAPI' at runtime."""
+
+    template_elastic_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_elasticAPI")
+    ] = None
+    r"""Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime."""
 
     template_splunk_hec_api: Annotated[
         Optional[str], pydantic.Field(alias="__template_splunkHecAPI")
@@ -7954,8 +9343,11 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
                 "metadata",
                 "authTokensExt",
                 "description",
+                "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_criblAPI",
+                "__template_elasticAPI",
                 "__template_splunkHecAPI",
             ]
         )
@@ -8061,7 +9453,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
     auto_commit_threshold: NotRequired[float]
@@ -8076,10 +9468,16 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_group_id: NotRequired[str]
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
     template_aws_secret_key: NotRequired[str]
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
@@ -8252,7 +9650,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     auto_commit_interval: Annotated[
         Optional[float], pydantic.Field(alias="autoCommitInterval")
@@ -8284,6 +9682,16 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_group_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_groupId")
+    ] = None
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
+
     template_aws_secret_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsSecretKey")
     ] = None
@@ -8293,6 +9701,11 @@ class CreateInputSystemByPackInputMsk(BaseModel):
         Optional[str], pydantic.Field(alias="__template_region")
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
@@ -8372,8 +9785,11 @@ class CreateInputSystemByPackInputMsk(BaseModel):
                 "description",
                 "awsApiKey",
                 "awsSecret",
+                "__template_environment",
+                "__template_groupId",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
                 "__template_awsApiKey",
@@ -8442,7 +9858,7 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     session_timeout: NotRequired[float]
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
@@ -8474,6 +9890,10 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_group_id: NotRequired[str]
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
 
 
 class CreateInputSystemByPackInputKafka(BaseModel):
@@ -8562,7 +9982,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     sasl: Optional[AuthenticationType] = None
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -8619,6 +10039,16 @@ class CreateInputSystemByPackInputKafka(BaseModel):
 
     description: Optional[str] = None
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_group_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_groupId")
+    ] = None
+    r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -8654,6 +10084,8 @@ class CreateInputSystemByPackInputKafka(BaseModel):
                 "maxSocketErrors",
                 "metadata",
                 "description",
+                "__template_environment",
+                "__template_groupId",
             ]
         )
         serialized = handler(self)
@@ -8703,6 +10135,8 @@ class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     output: NotRequired[str]
     r"""Destination to send results to"""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
 
 class CreateInputSystemByPackInputCollection(BaseModel):
@@ -8758,6 +10192,11 @@ class CreateInputSystemByPackInputCollection(BaseModel):
     output: Optional[str] = None
     r"""Destination to send results to"""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -8776,6 +10215,7 @@ class CreateInputSystemByPackInputCollection(BaseModel):
                 "throttleRatePerSec",
                 "metadata",
                 "output",
+                "__template_environment",
             ]
         )
         serialized = handler(self)
@@ -8795,8 +10235,8 @@ class CreateInputSystemByPackInputCollection(BaseModel):
 CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
     "CreateInputSystemByPackRequestBodyTypedDict",
     Union[
-        CreateInputSystemByPackInputCriblTypedDict,
         CreateInputSystemByPackInputDatagenTypedDict,
+        CreateInputSystemByPackInputCriblTypedDict,
         CreateInputSystemByPackInputKubeEventsTypedDict,
         CreateInputSystemByPackInputCriblmetricsTypedDict,
         CreateInputSystemByPackInputKubeMetricsTypedDict,
@@ -8805,56 +10245,59 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputSystemMetricsTypedDict,
         CreateInputSystemByPackInputWindowsMetricsTypedDict,
         CreateInputSystemByPackInputJournalFilesTypedDict,
-        CreateInputSystemByPackInputKubeLogsTypedDict,
         CreateInputSystemByPackInputModelDrivenTelemetryTypedDict,
+        CreateInputSystemByPackInputKubeLogsTypedDict,
         CreateInputSystemByPackInputExecTypedDict,
         CreateInputSystemByPackInputWinEventLogsTypedDict,
         CreateInputSystemByPackInputRawUDPTypedDict,
         CreateInputSystemByPackInputSnmpTypedDict,
         CreateInputSystemByPackInputMetricsTypedDict,
-        CreateInputSystemByPackInputNetflowTypedDict,
         CreateInputSystemByPackInputCriblTCPTypedDict,
+        CreateInputSystemByPackInputNetflowTypedDict,
         CreateInputSystemByPackInputOpenaiTypedDict,
         CreateInputSystemByPackInputTcpjsonTypedDict,
+        CreateInputSystemByPackInputEventhubAmqpTypedDict,
         CreateInputSystemByPackInputGooglePubsubTypedDict,
-        CreateInputSystemByPackInputWizTypedDict,
         CreateInputSystemByPackInputFirehoseTypedDict,
         CreateInputSystemByPackInputCriblHTTPTypedDict,
-        CreateInputSystemByPackInputOffice365ServiceTypedDict,
         CreateInputSystemByPackInputTCPTypedDict,
+        CreateInputSystemByPackInputOffice365ServiceTypedDict,
         CreateInputSystemByPackInputDatadogAgentTypedDict,
-        CreateInputSystemByPackInputSplunkTypedDict,
+        CreateInputSystemByPackInputWizTypedDict,
         CreateInputSystemByPackInputFileTypedDict,
         CreateInputSystemByPackInputOffice365MgmtTypedDict,
-        CreateInputSystemByPackInputAppscopeTypedDict,
         CreateInputSystemByPackInputWefTypedDict,
+        CreateInputSystemByPackInputSplunkTypedDict,
+        CreateInputSystemByPackInputAppscopeTypedDict,
         CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputWizWebhookTypedDict,
-        CreateInputSystemByPackInputHTTPTypedDict,
-        CreateInputSystemByPackInputZscalerHecTypedDict,
-        CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
         CreateInputSystemByPackInputCloudflareHecTypedDict,
-        CreateInputSystemByPackInputEventhubTypedDict,
-        CreateInputSystemByPackInputKafkaTypedDict,
+        CreateInputSystemByPackInputZscalerHecTypedDict,
         CreateInputSystemByPackInputLokiTypedDict,
+        CreateInputSystemByPackInputKafkaTypedDict,
         CreateInputSystemByPackInputConfluentCloudTypedDict,
+        CreateInputSystemByPackInputEventhubTypedDict,
         CreateInputSystemByPackInputPrometheusRwTypedDict,
-        CreateInputSystemByPackInputAzureBlobTypedDict,
+        CreateInputSystemByPackInputHTTPTypedDict,
         CreateInputSystemByPackInputOpenTelemetryTypedDict,
+        CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
         CreateInputSystemByPackInputElasticTypedDict,
-        CreateInputSystemByPackInputSplunkSearchTypedDict,
-        CreateInputSystemByPackInputSqsTypedDict,
+        CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict,
+        CreateInputSystemByPackInputAzureBlobTypedDict,
         CreateInputSystemByPackInputSplunkHecTypedDict,
         CreateInputSystemByPackInputMicrosoftGraphTypedDict,
-        CreateInputSystemByPackInputKinesisTypedDict,
+        CreateInputSystemByPackInputSqsTypedDict,
         CreateInputSystemByPackInputOffice365MsgTraceTypedDict,
+        CreateInputSystemByPackInputKinesisTypedDict,
+        CreateInputSystemByPackInputSplunkSearchTypedDict,
+        CreateInputSystemByPackInputServicenowTableTypedDict,
         CreateInputSystemByPackInputEdgePrometheusTypedDict,
         CreateInputSystemByPackInputCrowdstrikeTypedDict,
-        CreateInputSystemByPackInputMskTypedDict,
         CreateInputSystemByPackInputS3TypedDict,
-        CreateInputSystemByPackInputPrometheusTypedDict,
+        CreateInputSystemByPackInputMskTypedDict,
         CreateInputSystemByPackInputSecurityLakeTypedDict,
         CreateInputSystemByPackInputS3InventoryTypedDict,
+        CreateInputSystemByPackInputPrometheusTypedDict,
         CreateInputSystemByPackInputSyslogUnionTypedDict,
         CreateInputSystemByPackInputGrafanaUnionTypedDict,
     ],
@@ -8888,6 +10331,7 @@ CreateInputSystemByPackRequestBody = Annotated[
         ],
         Annotated[CreateInputSystemByPackInputMicrosoftGraph, Tag("microsoft_graph")],
         Annotated[CreateInputSystemByPackInputEventhub, Tag("eventhub")],
+        Annotated[CreateInputSystemByPackInputEventhubAmqp, Tag("eventhub_amqp")],
         Annotated[CreateInputSystemByPackInputExec, Tag("exec")],
         Annotated[CreateInputSystemByPackInputFirehose, Tag("firehose")],
         Annotated[CreateInputSystemByPackInputGooglePubsub, Tag("google_pubsub")],
@@ -8931,8 +10375,13 @@ CreateInputSystemByPackRequestBody = Annotated[
         Annotated[CreateInputSystemByPackInputWizWebhook, Tag("wiz_webhook")],
         Annotated[CreateInputSystemByPackInputNetflow, Tag("netflow")],
         Annotated[CreateInputSystemByPackInputSecurityLake, Tag("security_lake")],
+        Annotated[CreateInputSystemByPackInputServicenowTable, Tag("servicenow_table")],
         Annotated[CreateInputSystemByPackInputZscalerHec, Tag("zscaler_hec")],
         Annotated[CreateInputSystemByPackInputCloudflareHec, Tag("cloudflare_hec")],
+        Annotated[
+            CreateInputSystemByPackInputOpenaiComplianceLogs,
+            Tag("openai_compliance_logs"),
+        ],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
@@ -8959,6 +10408,22 @@ class CreateInputSystemByPackRequest(BaseModel):
     r"""Input object"""
 
 
+try:
+    CreateInputSystemByPackDiskSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackContainer.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackPersistenceSystemMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputSystemMetrics.model_rebuild()
+except NameError:
+    pass
 try:
     CreateInputSystemByPackInputTcpjson.model_rebuild()
 except NameError:
@@ -9001,6 +10466,22 @@ except NameError:
     pass
 try:
     CreateInputSystemByPackInputExec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackAuth.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackAzureBlobStorage.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackCheckpointing.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputSystemByPackInputEventhubAmqp.model_rebuild()
 except NameError:
     pass
 try:

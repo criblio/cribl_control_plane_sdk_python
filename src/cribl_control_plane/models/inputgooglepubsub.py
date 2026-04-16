@@ -68,6 +68,8 @@ class InputGooglePubsubTypedDict(TypedDict):
     description: NotRequired[str]
     ordered_delivery: NotRequired[bool]
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_topic_name: NotRequired[str]
     r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
     template_subscription_name: NotRequired[str]
@@ -163,6 +165,11 @@ class InputGooglePubsub(BaseModel):
     ] = None
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
 
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
     template_topic_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_topicName")
     ] = None
@@ -213,6 +220,7 @@ class InputGooglePubsub(BaseModel):
                 "metadata",
                 "description",
                 "orderedDelivery",
+                "__template_environment",
                 "__template_topicName",
                 "__template_subscriptionName",
                 "__template_region",

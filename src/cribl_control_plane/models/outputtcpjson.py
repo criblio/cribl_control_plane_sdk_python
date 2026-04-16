@@ -5,14 +5,14 @@ from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
 )
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
-from .compressionoptions1 import CompressionOptions1
+from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionspq import CompressionOptionsPq
 from .itemstypehosts import ItemsTypeHosts, ItemsTypeHostsTypedDict
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -49,13 +49,13 @@ class OutputTcpjsonTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     load_balanced: NotRequired[bool]
     r"""Use load-balanced destinations"""
-    compression: NotRequired[CompressionOptions1]
+    compression: NotRequired[CompressionOptionsGzipNone]
     r"""Codec to use to compress the data before sending"""
     log_failed_requests: NotRequired[bool]
     r"""Use to troubleshoot issues with sending data"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     connection_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
@@ -90,7 +90,7 @@ class OutputTcpjsonTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -103,11 +103,15 @@ class OutputTcpjsonTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputTcpjsonPqControlsTypedDict]
     auth_token: NotRequired[str]
     r"""Optional authentication token to include as part of the connection header"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -139,7 +143,7 @@ class OutputTcpjson(BaseModel):
     )
     r"""Use load-balanced destinations"""
 
-    compression: Optional[CompressionOptions1] = None
+    compression: Optional[CompressionOptionsGzipNone] = None
     r"""Codec to use to compress the data before sending"""
 
     log_failed_requests: Annotated[
@@ -152,7 +156,7 @@ class OutputTcpjson(BaseModel):
     ] = None
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -228,7 +232,7 @@ class OutputTcpjson(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -256,6 +260,11 @@ class OutputTcpjson(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputTcpjsonPqControls], pydantic.Field(alias="pqControls")
     ] = None
@@ -265,6 +274,11 @@ class OutputTcpjson(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
@@ -280,7 +294,7 @@ class OutputTcpjson(BaseModel):
     def serialize_compression(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions1(value)
+                return models.CompressionOptionsGzipNone(value)
             except ValueError:
                 return value
         return value
@@ -368,9 +382,11 @@ class OutputTcpjson(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "authToken",
                 "textSecret",
+                "__template_onBackpressure",
                 "__template_host",
                 "__template_port",
             ]

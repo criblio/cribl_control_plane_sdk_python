@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776198483570-dbc359e3
+  version: 4.18.0-alpha.1776294249059-ff20b5d4
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -43849,7 +43849,6 @@ components:
         - 13312
         - 15360
       description: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
-      example: 4096
       x-speakeasy-enum-descriptions:
         - 12 MB/sec
         - 24 MB/sec
@@ -43871,6 +43870,7 @@ components:
         - Rate156MBPerSec
         - Rate180MBPerSec
       x-speakeasy-unknown-values: allow
+      example: 4096
     TypeOptionsConfigGroup:
       type: string
       enum:

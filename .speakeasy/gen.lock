@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: d966dbcedb29b864ac8bda6a5fa963e2
-  docVersion: 4.17.1-alpha.1776207792040-06019d8d
+  docChecksum: fcc13f706a21fafa4d19097beb2d5f77
+  docVersion: 4.17.1-alpha.1776294247447-5d455f23
   speakeasyVersion: 1.761.5
   generationVersion: 2.879.13
-  releaseVersion: 0.7.0a20
-  configChecksum: 60117aa66cbf88aa3b49bd75393c0924
+  releaseVersion: 0.7.0a21
+  configChecksum: 9878ce7aaa4be9945a719de82f494013
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 09a1f782-cec5-4113-88ae-92e8f39c6eac
-  pristine_commit_hash: 0a759629f60abea9ac72da7b234eca03c611411f
-  pristine_tree_hash: c06a738c77ee4d2509889f640712dc8b8fb8f394
+  generation_id: 8ebf9d81-cc46-4899-ac30-d622d2af89c4
+  pristine_commit_hash: adde2f6a708f6122aad73decf6e03bd79dd25ccf
+  pristine_tree_hash: 68ae114e130130c75a57d3e648f93a3ffe9ba051
 features:
   python:
     additionalDependencies: 1.0.0
@@ -10584,8 +10584,8 @@ trackedFiles:
     pristine_git_object: a6e9b0742507c08a5c073217eb58b27b9549cba0
   docs/models/restauthenticationbasic.md:
     id: 690f37760f5b
-    last_write_checksum: sha1:8ff72ca336129ea98a4e7329b111e39538da4f02
-    pristine_git_object: ba6dc9251f1d8bf76df60af0a64e61cb4905f3a2
+    last_write_checksum: sha1:55fddbf0b55a466492b193ce14b95a3e7225269f
+    pristine_git_object: 7a7595a4993da22b3260f39400474059a7db55b8
   docs/models/restauthenticationbasicauthentication.md:
     id: 326b60565008
     last_write_checksum: sha1:874c23e249a0fac20182ff3158a73927f8a6205b
@@ -10708,8 +10708,8 @@ trackedFiles:
     pristine_git_object: bb374af51bc692983f2b59c03ccd2052178091cd
   docs/models/restauthenticationbasicsecret.md:
     id: 223b425be412
-    last_write_checksum: sha1:f3c92230adac2f9c8b5ded1e7a09ed52a40a8514
-    pristine_git_object: 8e139447ed02f0492494e6d82fec947dd5ab0791
+    last_write_checksum: sha1:6c4f9da52e021122e17ba1d9ec4ff24761cec43d
+    pristine_git_object: 3aee58f39e7a16ff57585e4a6ddc517ff1a5d6f4
   docs/models/restauthenticationbasicsecretauthentication.md:
     id: 4211cbf9c9da
     last_write_checksum: sha1:30a7148e5091c6d427a4e81c8e4bc72f15fa7788
@@ -10840,8 +10840,8 @@ trackedFiles:
     pristine_git_object: eaeee7092bcd2b49701b4dfd8d3196199a3c5171
   docs/models/restauthenticationgoogleoauth.md:
     id: 7b799abc3e21
-    last_write_checksum: sha1:d4c64aa88ebdfb9841e47b3ff232c19655c0a1b4
-    pristine_git_object: 6e4c5398174e9a46cd8391a6afe0f6a1b11cbf8b
+    last_write_checksum: sha1:0b8403ab1591b45d9a167dbdfa3eec4d0f230e46
+    pristine_git_object: 52e383e3db0323436f8151807465cb55a9fd8123
   docs/models/restauthenticationgoogleoauthauthentication.md:
     id: 947db7cac21c
     last_write_checksum: sha1:967b1c6f73d6c62089ad9e1b6e4a6e8d55d12216
@@ -10964,8 +10964,8 @@ trackedFiles:
     pristine_git_object: 5447011b460ae51f5c9ddb22c3cfd7d378b8e925
   docs/models/restauthenticationgoogleoauthsecret.md:
     id: a23fcea7d64f
-    last_write_checksum: sha1:983fb5187e1836e0cd4bb5d8e9a5e319d82894b2
-    pristine_git_object: 01184e1950967027b380bd61e92a773a8bc0b89e
+    last_write_checksum: sha1:6f0681fe35d52a4879851b53e08cb536e06417d5
+    pristine_git_object: dd6d4f24e78224a8dbbc08cb72a2a8e8e5cd2383
   docs/models/restauthenticationgoogleoauthsecretauthentication.md:
     id: 584aad1721ce
     last_write_checksum: sha1:bfceacd25fdd0868effd4f95d3cadfea80db8a9a
@@ -11096,8 +11096,8 @@ trackedFiles:
     pristine_git_object: 6649fc6a64838d2e05f4825d9a24d751be17af1c
   docs/models/restauthenticationhmac.md:
     id: 06d3c5ce283e
-    last_write_checksum: sha1:09e68381d9301c47d5ab1f19d0bf69f5052a46f7
-    pristine_git_object: a0f3d606fca6c657c4ffe8bf49f0d4d740e8d9e4
+    last_write_checksum: sha1:e31d8d7392e6281ecd55a9969de525555f1bf417
+    pristine_git_object: 80ad83608e7244f4448a3d3301a648ce19b83e3f
   docs/models/restauthenticationhmacauthentication.md:
     id: c6c6ed4ba57f
     last_write_checksum: sha1:8fec868ef84cd90f34ef93c902c8a2a40d8dc65e
@@ -11224,8 +11224,8 @@ trackedFiles:
     pristine_git_object: 3c3aa0bfffb3194b9744f4d5885d6e659f249273
   docs/models/restauthenticationlogin.md:
     id: b4f80092be2e
-    last_write_checksum: sha1:1fbaa6184a776bf837eadd70f615c2d6f24a2c9b
-    pristine_git_object: ba5fc3e5ef58c0482ed8bc0539c353f0bd6440f9
+    last_write_checksum: sha1:cc25c12e3d0c5300dbd4d82fa841ae04b1a8ba83
+    pristine_git_object: 96aae5dfe7b12d31d178b39df41e29c6b53becf2
   docs/models/restauthenticationloginauthentication.md:
     id: 22cff08be6d4
     last_write_checksum: sha1:377863d8563cbb1b5c26a247ad805d6c94a6fe71
@@ -11348,8 +11348,8 @@ trackedFiles:
     pristine_git_object: c6e451857c4cd3c2ef6f04a83703bd8ce7fb057e
   docs/models/restauthenticationloginsecret.md:
     id: f5d1eed10ee1
-    last_write_checksum: sha1:409649b44ad135e97544638d6f73821912dddd1b
-    pristine_git_object: 5ed3e537157c462b44c8e1a42fa3d3d339113b55
+    last_write_checksum: sha1:8f54583c5ea6b1608c941a318eee75ba5ac652ce
+    pristine_git_object: 4b549702298431b84b163f9616fb632c29465b86
   docs/models/restauthenticationloginsecretauthentication.md:
     id: 9afdc4a43e6d
     last_write_checksum: sha1:e50a65906e662f07dacad44a7f5ea073576bb636
@@ -11480,8 +11480,8 @@ trackedFiles:
     pristine_git_object: e22c20f6f592f7d489c939b1ded4569acb8d61ba
   docs/models/restauthenticationnone.md:
     id: 71410ecf04e2
-    last_write_checksum: sha1:83c3b5cb1596f0972f23bf8786265a78b78d9c34
-    pristine_git_object: 7aaf11dba915af87b0fe8c06919f69ef45298295
+    last_write_checksum: sha1:2addc0eb541ce65e650818705b054e53d453a348
+    pristine_git_object: 27f194c2eda6d81d8d03dfc9c739eb62c3a2e7b5
   docs/models/restauthenticationnoneauthentication.md:
     id: 692d888142f1
     last_write_checksum: sha1:17d134ccccc93f58ce5425b9e398b995d2d11410
@@ -11608,8 +11608,8 @@ trackedFiles:
     pristine_git_object: fe9a992a068bc09c64415e734892d3974898afa5
   docs/models/restauthenticationoauth.md:
     id: 24a2e0a8017a
-    last_write_checksum: sha1:33f921b2f87a229164e272d445d906be2a3be064
-    pristine_git_object: 15f09d18ac9073769bf80fce58f6125b70dfd5e4
+    last_write_checksum: sha1:c200598b1e4841ec6beefb939f8677a3e042e32d
+    pristine_git_object: 8e7dbf886d6af3967f6bbeecb5d351ba5bdf4849
   docs/models/restauthenticationoauthauthentication.md:
     id: 5ed7407cb5d7
     last_write_checksum: sha1:33022ada0b83b6404220fe1bb012ead32419118e
@@ -11732,8 +11732,8 @@ trackedFiles:
     pristine_git_object: 98c690dcd902c7aa4ff392dca6c57f3045fbc143
   docs/models/restauthenticationoauthsecret.md:
     id: 893ef9048c9c
-    last_write_checksum: sha1:86667fde3524972d1351c194d01ede8e8ac00904
-    pristine_git_object: 93b6034f00962244bb022a4f0c25e75d6c7e6a60
+    last_write_checksum: sha1:e707c5b4a7aa83b5d71c96af812bfa9b5eef317d
+    pristine_git_object: 290178d47eb86848f3b4fa52d1e19be12de5eca6
   docs/models/restauthenticationoauthsecretauthentication.md:
     id: 41309e495b6a
     last_write_checksum: sha1:bac5baaa2ffab0e6473f897c46bc947ab64dac75
@@ -11864,8 +11864,8 @@ trackedFiles:
     pristine_git_object: 51f7d5c3f9c7742b64c91498ed8dcf32afb04723
   docs/models/restcollectmethodget.md:
     id: a10998d19652
-    last_write_checksum: sha1:5f40ffcca0b4fbe396c9c011743b243e3f563d20
-    pristine_git_object: 537611d7aad2bf52c42df43ae1afbba1d41752c1
+    last_write_checksum: sha1:486e60d70874fb6be3be87fee60899dd8812adfb
+    pristine_git_object: b7ddebd9529323d4ad8ffce51c0b2f6474e7f4e3
   docs/models/restcollectmethodgetauthentication.md:
     id: 0d620b7488b0
     last_write_checksum: sha1:d40aa84183fdbf397b88915b34bfb42655522715
@@ -11992,8 +11992,8 @@ trackedFiles:
     pristine_git_object: c734ded3939a861d46b95a9181c2870b60969c0a
   docs/models/restcollectmethodother.md:
     id: e1e3c93eee30
-    last_write_checksum: sha1:de6fe70c31888c0c9bd1bb40c14e3bbc06752e97
-    pristine_git_object: d93dc799dd6ec74bac9df3653dee853e1f9a99a3
+    last_write_checksum: sha1:e18054b926ea4c1ad635ea0be34c1d93b6b35d3a
+    pristine_git_object: 10f25537227eca2628acd9db3dffbafb8f9b8a7a
   docs/models/restcollectmethodotherauthentication.md:
     id: ac2fa5288640
     last_write_checksum: sha1:6a220c3f2c24aa601df183e48e7a427084b02542
@@ -12120,8 +12120,8 @@ trackedFiles:
     pristine_git_object: cbb20b8c18ed40f4bea741488578ea85c015848c
   docs/models/restcollectmethodpost.md:
     id: d2a506070dd4
-    last_write_checksum: sha1:38ba79304bcaa4bc14c03630ab90d8041711aeb7
-    pristine_git_object: 47f80bea7478295c41b1e7357ee9d51cffbbc516
+    last_write_checksum: sha1:8bc9a058ba17c6797233e15f51f7879a4028af94
+    pristine_git_object: 99165d25061a19c2d664cbe7aeec43ae94208900
   docs/models/restcollectmethodpostauthentication.md:
     id: 2e142548e0cd
     last_write_checksum: sha1:7403bc750f086492d4052e671785edf12f975346
@@ -12248,8 +12248,8 @@ trackedFiles:
     pristine_git_object: e7255becbde61516dfe4f90229a2debc45f4b377
   docs/models/restcollectmethodpostwithbody.md:
     id: 84c5f274af90
-    last_write_checksum: sha1:1448854d7f19d8c8de991a32f5ca59f903ff59c5
-    pristine_git_object: c854d0f6c274f61abd7e1c4f9f268cb1c9a66131
+    last_write_checksum: sha1:8f59ff1d0127927c30efb56a80f3418b181ac6b9
+    pristine_git_object: d3d08c5a17ea190e7ef0de403319b9eb0cc54da5
   docs/models/restcollectmethodpostwithbodyauthentication.md:
     id: 0bbd6bea6cd3
     last_write_checksum: sha1:d6c2ad5566592b9aa6706baef7b5eb1d82c5c656
@@ -13528,8 +13528,8 @@ trackedFiles:
     pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:0469bf495ce0bea5dbc067269c955068722863fd
-    pristine_git_object: 800a943435f32ecef75f4234cd08040624f17c10
+    last_write_checksum: sha1:05012bb5570dad7e05c2f3ef583ab419bbf76212
+    pristine_git_object: 3cca6220908882a30241d8fe09a9ba75d093291a
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -13560,8 +13560,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:2b0e2240d46de35d05b5ccd5896a5fda9fd3fd4f
-    pristine_git_object: e54e469a6a6dd7bb70dd80f3000ce22aa9d53320
+    last_write_checksum: sha1:e607a5ad7d13bae6d43cfac261fc0045ce2c5cc2
+    pristine_git_object: 52c89c32a25123bca7a78b04b10adebce580bf73
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:98ae942de9b5fe5b9c804f020e091e7d400c8d17
@@ -16336,16 +16336,16 @@ trackedFiles:
     pristine_git_object: 44b7263b662197b876528fe8e27e58afb7aa9fda
   src/cribl_control_plane/models/restauthenticationnone_restdiscoverydiscovertypehttpdiscovermethodpost_discover_type.py:
     id: 5108904d5629
-    last_write_checksum: sha1:1200dfd4f12d2a088c79fc7e96d5bee3acc495f7
-    pristine_git_object: 55ec875570acdf117cc780ffaff41c4d5a034ea1
+    last_write_checksum: sha1:a96f8d40fef9fcde8c6c4dac77f1e9082ac302a7
+    pristine_git_object: 710133637d3aa06246cfa60da26c5ffb50f84c08
   src/cribl_control_plane/models/restauthenticationoauth_restpaginationtyperesponseheader.py:
     id: 8fed6c10d047
-    last_write_checksum: sha1:9c76cadd24a4490c7fdad00ed02160a82f413ead
-    pristine_git_object: bc354b4031d8de6f9bfcffaca8c7a9389600e572
+    last_write_checksum: sha1:a60b4b3cd3dd4e026902041dac20fe18a2c7d45e
+    pristine_git_object: 191ac3a59e8af5f81ddd4ef3e6c0de6c2e82adad
   src/cribl_control_plane/models/restcollectorconf.py:
     id: 2fc48d1a6f95
-    last_write_checksum: sha1:3831dbd433dbd24837e4cb39a33a676c8b84d28f
-    pristine_git_object: db7ec82246f4a1e55d48ba8b98c14b7bd6786e5f
+    last_write_checksum: sha1:5e99f2637f528a750f04ca4246dcbb8198f1e955
+    pristine_git_object: 170a8fe2ef7d87c4f7565839c1d99b495e694cb9
   src/cribl_control_plane/models/retryrulestype.py:
     id: 8be2ca6f94f8
     last_write_checksum: sha1:a14ff75ebdd47bd3422e46266c83efc5c96cc3d7
@@ -27446,7 +27446,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.packs.destinations.list()`:  `response.items[]` **Changed**\n* `cribl_control_plane.packs.destinations.create()`: \n  *  `request_body` **Changed**\n  *  `response.items[]` **Changed**\n* `cribl_control_plane.packs.destinations.get()`:  `response.items[]` **Changed**\n* `cribl_control_plane.packs.destinations.update()`: \n  *  `request.output` **Changed**\n  *  `response.items[]` **Changed**\n* `cribl_control_plane.packs.destinations.delete()`:  `response.items[]` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items[]` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed**\n  *  `response.items[]` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items[]` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed**\n  *  `response.items[]` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items[]` **Changed**\n"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.packs.destinations.pq.get()`:  `response.items[].args.union(RunnableJobCollection).collector.union(rest).conf` **Changed**\n* `cribl_control_plane.destinations.pq.get()`:  `response.items[].args.union(RunnableJobCollection).collector.union(rest).conf` **Changed**\n* `cribl_control_plane.collectors.create()`: \n  *  `request.union(SavedJobCollection).collector.union(rest).conf` **Changed**\n  *  `response.items[].union(SavedJobResponseCollection).collector.union(rest).conf` **Changed**\n* `cribl_control_plane.collectors.list()`:  `response.items[].union(SavedJobResponseCollection).collector.union(rest).conf` **Changed**\n* `cribl_control_plane.collectors.delete()`:  `response.items[].union(SavedJobResponseCollection).collector.union(rest).conf` **Changed**\n* `cribl_control_plane.collectors.get()`:  `response.items[].union(SavedJobResponseCollection).collector.union(rest).conf` **Changed**\n* `cribl_control_plane.collectors.update()`: \n  *  `request.saved_job.union(SavedJobCollection).collector.union(rest).conf` **Changed**\n  *  `response.items[].union(SavedJobResponseCollection).collector.union(rest).conf` **Changed**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776294249059-ff20b5d4
+  version: 4.18.0-alpha.1776378571286-7c6d3ea4
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -11176,6 +11176,13 @@ components:
           type: boolean
           title: Capture response headers
           description: Enable to add response headers to the resHeaders field under the __collectible object
+        emitEventsForHttpStatusCodes:
+          type: array
+          title: Event HTTP status codes
+          description: HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx.
+          items:
+            type: string
+            pattern: ^(?:[x\d]{3})$
         stopOnEmptyResults:
           type: boolean
           title: Stop on empty results
@@ -20433,7 +20440,7 @@ components:
         path:
           type: string
           title: Search path
-          description: Directory path to search for files. Environment variables will be resolved, e.g. $CRIBL_HOME/log/.
+          description: "Directory path to search for files. Environment variables will be resolved (example: $CRIBL_HOME/log/)."
         depth:
           type: number
           minimum: 0
@@ -20457,7 +20464,7 @@ components:
         includeUnidentifiableBinary:
           type: boolean
           title: Enable binary files
-          description: Stream binary files as Base64-encoded chunks.
+          description: Stream binary files as Base64-encoded chunks
         __template_environment:
           type: string
           description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
@@ -26260,6 +26267,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         description:
           type: string
           title: Description
@@ -26528,6 +26537,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         objectACL:
           $ref: "#/components/schemas/ObjectAclOptions"
         storageClass:
@@ -26800,6 +26811,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         authType:
           $ref: "#/components/schemas/AuthenticationMethodOptions"
         storageClass:
@@ -27228,6 +27241,8 @@ components:
           description: Add the Output ID value to staging location
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         timeoutSec:
           type: number
           minimum: 1
@@ -28641,6 +28656,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         description:
           type: string
           title: Description
@@ -29331,6 +29348,8 @@ components:
           $ref: "#/components/schemas/DiskSpaceProtectionOptions"
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         maxFileSizeMB:
           type: number
           title: File size limit (MB)
@@ -31494,6 +31513,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         endpoint:
           type: string
           title: MinIO endpoint
@@ -35493,6 +35514,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         objectACL:
           $ref: "#/components/schemas/ObjectAclOptions"
         storageClass:
@@ -35813,6 +35836,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         objectACL:
           $ref: "#/components/schemas/ObjectAclOptions"
         storageClass:
@@ -36106,6 +36131,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         objectACL:
           $ref: "#/components/schemas/ObjectAclOptions"
         storageClass:
@@ -38180,6 +38207,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         workspaceId:
           type: string
           title: Workspace ID
@@ -38699,6 +38728,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         endpoint:
           type: string
           title: R2 endpoint
@@ -38987,6 +39018,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         endpoint:
           type: string
           title: Nutanix Objects endpoint
@@ -43371,6 +43404,20 @@ components:
           type: number
           title: Jitter (%)
           description: "Random jitter percentage added to backoff delay to prevent thundering herd. Valid range: 0-100. Values outside this range will be clamped to the nearest valid value."
+    OrphanFileRecoveryType:
+      type: object
+      title: Orphan file recovery
+      properties:
+        disabled:
+          type: boolean
+          title: Disabled
+          description: Periodically scan the staging directory for files not tracked by any Worker manifest to recover them
+        periodMin:
+          type: number
+          title: Period (minutes)
+          description: Minimum interval between reconciliation runs
+          minimum: 5
+          maximum: 1440
     CompressionOptionsHttp:
       type: string
       title: Compression

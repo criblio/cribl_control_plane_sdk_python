@@ -14,6 +14,10 @@ from .itemstypekeyvaluemetadata import (
 from .objectacloptionsauthenticatedreadbucketownerfullcontrol import (
     ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol,
 )
+from .orphanfilerecoverytype import (
+    OrphanFileRecoveryType,
+    OrphanFileRecoveryTypeTypedDict,
+)
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .signatureversionoptionsgoogle import SignatureVersionOptionsGoogle
@@ -110,6 +114,7 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -327,6 +332,8 @@ class OutputGoogleCloudStorage(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
 
@@ -605,6 +612,7 @@ class OutputGoogleCloudStorage(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "description",
                 "compress",
                 "compressionLevel",

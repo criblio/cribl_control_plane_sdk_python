@@ -15,6 +15,10 @@ from .itemstypekeyvaluemetadata import (
     ItemsTypeKeyValueMetadataTypedDict,
 )
 from .objectacloptions import ObjectACLOptions
+from .orphanfilerecoverytype import (
+    OrphanFileRecoveryType,
+    OrphanFileRecoveryTypeTypedDict,
+)
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .serversideencryptionforuploadedobjectsoptionsaes256 import (
@@ -108,6 +112,7 @@ class OutputMinioTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
@@ -344,6 +349,8 @@ class OutputMinio(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
@@ -668,6 +675,7 @@ class OutputMinio(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "objectACL",
                 "storageClass",
                 "serverSideEncryption",

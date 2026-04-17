@@ -67,6 +67,10 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
 )
 from .modeoptions import ModeOptions
 from .objectacloptions import ObjectACLOptions
+from .orphanfilerecoverytype import (
+    OrphanFileRecoveryType,
+    OrphanFileRecoveryTypeTypedDict,
+)
 from .otlpversionoptions131 import OtlpVersionOptions131
 from .parquetversionoptions import ParquetVersionOptions
 from .prometheusauthtype import PrometheusAuthType, PrometheusAuthTypeTypedDict
@@ -219,6 +223,7 @@ class CreateOutputOutputNutanixObjectsTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
@@ -444,6 +449,8 @@ class CreateOutputOutputNutanixObjects(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
 
@@ -713,6 +720,7 @@ class CreateOutputOutputNutanixObjects(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "description",
                 "awsApiKey",
                 "awsSecret",
@@ -845,6 +853,7 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
     r"""Storage class to select for uploaded objects"""
     server_side_encryption: NotRequired[
@@ -1068,6 +1077,8 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     storage_class: Annotated[
         Optional[StorageClassOptionsReducedredundancyStandard],
@@ -1358,6 +1369,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "storageClass",
                 "serverSideEncryption",
                 "description",
@@ -1991,6 +2003,7 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     workspace_host: NotRequired[str]
     r"""Hostname for the Databricks workspace. Override this to connect to government or secure cloud environments (e.g. cloud.databricks.us, cloud.databricks.mil, azuredatabricks.net)."""
     timeout_sec: NotRequired[int]
@@ -2174,6 +2187,8 @@ class CreateOutputOutputDatabricks(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     workspace_host: Annotated[Optional[str], pydantic.Field(alias="workspaceHost")] = (
         None
@@ -2389,6 +2404,7 @@ class CreateOutputOutputDatabricks(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "workspaceHost",
                 "timeoutSec",
                 "description",
@@ -6432,6 +6448,7 @@ class CreateOutputOutputCriblLakeTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptions]
@@ -6642,6 +6659,8 @@ class CreateOutputOutputCriblLake(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
@@ -6876,6 +6895,7 @@ class CreateOutputOutputCriblLake(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "objectACL",
                 "storageClass",
                 "serverSideEncryption",
@@ -7003,6 +7023,7 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptions]
@@ -7239,6 +7260,8 @@ class CreateOutputOutputSecurityLake(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
@@ -7523,6 +7546,7 @@ class CreateOutputOutputSecurityLake(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "objectACL",
                 "storageClass",
                 "serverSideEncryption",
@@ -7655,6 +7679,7 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptions]
@@ -7915,6 +7940,8 @@ class CreateOutputOutputDlS3(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
@@ -8264,6 +8291,7 @@ class CreateOutputOutputDlS3(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "objectACL",
                 "storageClass",
                 "serverSideEncryption",
@@ -16709,6 +16737,7 @@ class CreateOutputOutputMinioTypedDict(TypedDict):
     force_close_on_shutdown: NotRequired[bool]
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
@@ -16945,6 +16974,8 @@ class CreateOutputOutputMinio(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
@@ -17268,6 +17299,7 @@ class CreateOutputOutputMinio(BaseModel):
                 "onDiskFullBackpressure",
                 "forceCloseOnShutdown",
                 "retrySettings",
+                "orphans",
                 "objectACL",
                 "storageClass",
                 "serverSideEncryption",

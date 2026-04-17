@@ -3989,6 +3989,10 @@ if TYPE_CHECKING:
         ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol,
     )
     from .objectstoragefilter import ObjectStorageFilter, ObjectStorageFilterTypedDict
+    from .orphanfilerecoverytype import (
+        OrphanFileRecoveryType,
+        OrphanFileRecoveryTypeTypedDict,
+    )
     from .otlpversionoptions import OtlpVersionOptions
     from .otlpversionoptions131 import OtlpVersionOptions131
     from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
@@ -10029,6 +10033,8 @@ __all__ = [
     "OldMode",
     "OldModeTypedDict",
     "Operator",
+    "OrphanFileRecoveryType",
+    "OrphanFileRecoveryTypeTypedDict",
     "Os",
     "OsTypedDict",
     "OsUnion",
@@ -15762,6 +15768,8 @@ _dynamic_imports: dict[str, str] = {
     "ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol": ".objectacloptionsauthenticatedreadbucketownerfullcontrol",
     "ObjectStorageFilter": ".objectstoragefilter",
     "ObjectStorageFilterTypedDict": ".objectstoragefilter",
+    "OrphanFileRecoveryType": ".orphanfilerecoverytype",
+    "OrphanFileRecoveryTypeTypedDict": ".orphanfilerecoverytype",
     "OtlpVersionOptions": ".otlpversionoptions",
     "OtlpVersionOptions131": ".otlpversionoptions131",
     "OutpostNodeInfo": ".outpostnodeinfo",

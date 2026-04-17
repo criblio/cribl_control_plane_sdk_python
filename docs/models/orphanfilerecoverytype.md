@@ -1,0 +1,9 @@
+# OrphanFileRecoveryType
+
+
+## Fields
+
+| Field                                                                                                | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `disabled`                                                                                           | *Optional[bool]*                                                                                     | :heavy_minus_sign:                                                                                   | Periodically scan the staging directory for files not tracked by any Worker manifest to recover them |
+| `period_min`                                                                                         | *Optional[float]*                                                                                    | :heavy_minus_sign:                                                                                   | Minimum interval between reconciliation runs                                                         |

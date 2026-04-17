@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776378571286-7c6d3ea4
+  version: 4.18.0-alpha.1776455088361-e66ce0c1
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -23226,6 +23226,124 @@ components:
         __template_organizationId:
           type: string
           description: Binds 'organizationId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'organizationId' at runtime.
+    InputOkta:
+      type: object
+      required:
+        - type
+        - textSecret
+        - oktaDomain
+      properties:
+        id:
+          type: string
+          title: Input ID
+          description: Unique ID for this input
+        type:
+          type: string
+          enum:
+            - okta
+        disabled:
+          type: boolean
+          title: Disabled
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data from this Source before sending it through the Routes
+        sendToRoutes:
+          type: boolean
+          description: Select whether to send data to Routes, or directly to Destinations.
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        pqEnabled:
+          type: boolean
+          title: Enable persistent queue
+          description: Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers).
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline or a Pack
+          items:
+            $ref: "#/components/schemas/ItemsTypeConnectionsOptional"
+        pq:
+          $ref: "#/components/schemas/PqType"
+        oktaDomain:
+          type: string
+          title: Okta domain
+          description: "Your Okta domain (example: your-org). Do not include .okta.com, https://, or trailing slashes."
+        oktaToken:
+          type: string
+          title: Okta API token
+          description: Your Okta API token for authentication
+        textSecret:
+          type: string
+          title: Okta API token (text secret)
+          description: Select or create a stored text secret
+        cronSchedule:
+          type: string
+          title: Cron schedule
+          description: Schedule on which to run this collection job
+        earliest:
+          type: string
+          title: Earliest
+          description: Earliest time for data collection, relative to now
+        latest:
+          type: string
+          title: Latest
+          description: Latest time for data collection, relative to now
+        jobTimeout:
+          type: string
+          title: Job timeout
+          description: Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time.
+          pattern: ^\d+[sm]?$
+        requestTimeout:
+          type: number
+          title: Request timeout (seconds)
+          description: HTTP request inactivity timeout. Use 0 to disable.
+          minimum: 0
+          maximum: 2400
+        keepAliveTime:
+          type: number
+          title: Keep alive time (seconds)
+          description: How often workers should check in with the scheduler to keep job subscription alive
+          minimum: 10
+        maxMissedKeepAlives:
+          type: number
+          title: Worker timeout (periods)
+          description: The number of Keep Alive Time periods before an inactive worker will have its job subscription revoked.
+          minimum: 2
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        retryRules:
+          $ref: "#/components/schemas/RetryRulesType"
+        description:
+          type: string
+          title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_oktaDomain:
+          type: string
+          description: Binds 'oktaDomain' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oktaDomain' at runtime.
     Input:
       oneOf:
         - $ref: "#/components/schemas/InputCollection"
@@ -23293,6 +23411,7 @@ components:
         - $ref: "#/components/schemas/InputZscalerHec"
         - $ref: "#/components/schemas/InputCloudflareHec"
         - $ref: "#/components/schemas/InputOpenaiComplianceLogs"
+        - $ref: "#/components/schemas/InputOkta"
       discriminator:
         propertyName: type
         mapping:
@@ -23361,6 +23480,7 @@ components:
           zscaler_hec: "#/components/schemas/InputZscalerHec"
           cloudflare_hec: "#/components/schemas/InputCloudflareHec"
           openai_compliance_logs: "#/components/schemas/InputOpenaiComplianceLogs"
+          okta: "#/components/schemas/InputOkta"
     CountedInput:
       type: object
       properties:
@@ -41376,10 +41496,6 @@ components:
           type: boolean
         minLogStreamVersion:
           type: string
-        navItems:
-          type: array
-          items:
-            $ref: "#/components/schemas/ItemsTypePackInstallInfoNavItems"
         outputs:
           type: number
         settings:
@@ -41486,10 +41602,6 @@ components:
           type: boolean
         minLogStreamVersion:
           type: string
-        navItems:
-          type: array
-          items:
-            $ref: "#/components/schemas/ItemsTypePackInstallInfoNavItems"
         outputs:
           type: number
         settings:
@@ -44020,20 +44132,6 @@ components:
       required:
         - kind
         - name
-    ItemsTypePackInstallInfoNavItems:
-      type: object
-      properties:
-        description:
-          type: string
-        icon:
-          type: string
-        label:
-          type: string
-        path:
-          type: string
-      required:
-        - label
-        - path
     TagsTypePackInstallInfo:
       type: object
       properties:
@@ -45702,6 +45800,18 @@ components:
         type: office365_service
         tenantId: tenant-id
         appId: app-id
+        sendToRoutes: true
+        pqEnabled: false
+    InputCreateExamplesOkta:
+      summary: Okta
+      value:
+        id: okta-source
+        type: okta
+        textSecret: okta-api-token-secret
+        oktaDomain: your-org
+        cronSchedule: "*/5 * * * *"
+        earliest: -7d@d
+        latest: now
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOpenAI:
@@ -48556,6 +48666,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Service"
+              InputCreateExamplesOkta:
+                $ref: "#/components/examples/InputCreateExamplesOkta"
               InputCreateExamplesOpenAI:
                 $ref: "#/components/examples/InputCreateExamplesOpenAI"
               InputCreateExamplesOpenAIComplianceLogs:
@@ -48759,6 +48871,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Service"
+              InputCreateExamplesOkta:
+                $ref: "#/components/examples/InputCreateExamplesOkta"
               InputCreateExamplesOpenAI:
                 $ref: "#/components/examples/InputCreateExamplesOpenAI"
               InputCreateExamplesOpenAIComplianceLogs:
@@ -49154,6 +49268,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Service"
+              InputCreateExamplesOkta:
+                $ref: "#/components/examples/InputCreateExamplesOkta"
               InputCreateExamplesOpenAI:
                 $ref: "#/components/examples/InputCreateExamplesOpenAI"
               InputCreateExamplesOpenAIComplianceLogs:
@@ -49376,6 +49492,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesOffice365MsgTrace"
               InputCreateExamplesOffice365Service:
                 $ref: "#/components/examples/InputCreateExamplesOffice365Service"
+              InputCreateExamplesOkta:
+                $ref: "#/components/examples/InputCreateExamplesOkta"
               InputCreateExamplesOpenAI:
                 $ref: "#/components/examples/InputCreateExamplesOpenAI"
               InputCreateExamplesOpenAIComplianceLogs:

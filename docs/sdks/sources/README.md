@@ -1120,6 +1120,37 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOkta
+
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesOkta" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.create(request={
+        "id": "okta-source",
+        "type": models.CreateInputTypeOkta.OKTA,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "okta_domain": "your-org",
+        "text_secret": "okta-api-token-secret",
+        "cron_schedule": "*/5 * * * *",
+        "earliest": "-7d@d",
+        "latest": "now",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenAI
 
 <!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesOpenAI" -->
@@ -3027,6 +3058,37 @@ with CriblControlPlane(
         "pq_enabled": False,
         "tenant_id": "tenant-id",
         "app_id": "app-id",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesOkta
+
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesOkta" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.update(id="<id>", input_={
+        "id": "okta-source",
+        "type": models.InputOktaType.OKTA,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "okta_domain": "your-org",
+        "text_secret": "okta-api-token-secret",
+        "cron_schedule": "*/5 * * * *",
+        "earliest": "-7d@d",
+        "latest": "now",
     })
 
     # Handle response

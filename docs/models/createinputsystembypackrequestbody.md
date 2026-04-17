@@ -395,3 +395,9 @@ value: models.CreateInputSystemByPackInputCloudflareHec = /* values here */
 value: models.CreateInputSystemByPackInputOpenaiComplianceLogs = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputOkta`
+
+```python
+value: models.CreateInputSystemByPackInputOkta = /* values here */
+```
+

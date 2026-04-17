@@ -23,10 +23,9 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
-from .createinputsystembypack_disk_mode_systemmetrics import (
+from .createinputsystembypack_network_mode_systemmetrics import (
     CreateInputSystemByPackCPUSystemMetrics,
     CreateInputSystemByPackCPUSystemMetricsTypedDict,
-    CreateInputSystemByPackDiskModeSystemMetrics,
     CreateInputSystemByPackInputAppscope,
     CreateInputSystemByPackInputAppscopeTypedDict,
     CreateInputSystemByPackInputCloudflareHec,
@@ -59,6 +58,8 @@ from .createinputsystembypack_disk_mode_systemmetrics import (
     CreateInputSystemByPackInputModelDrivenTelemetryTypedDict,
     CreateInputSystemByPackInputNetflow,
     CreateInputSystemByPackInputNetflowTypedDict,
+    CreateInputSystemByPackInputOkta,
+    CreateInputSystemByPackInputOktaTypedDict,
     CreateInputSystemByPackInputOpenTelemetry,
     CreateInputSystemByPackInputOpenTelemetryTypedDict,
     CreateInputSystemByPackInputOpenai,
@@ -99,8 +100,7 @@ from .createinputsystembypack_disk_mode_systemmetrics import (
     CreateInputSystemByPackInputZscalerHecTypedDict,
     CreateInputSystemByPackMemorySystemMetrics,
     CreateInputSystemByPackMemorySystemMetricsTypedDict,
-    CreateInputSystemByPackNetworkSystemMetrics,
-    CreateInputSystemByPackNetworkSystemMetricsTypedDict,
+    CreateInputSystemByPackNetworkModeSystemMetrics,
     CreateInputSystemByPackSystemSystemMetrics,
     CreateInputSystemByPackSystemSystemMetricsTypedDict,
     CreateInputSystemByPackTypeSystemMetrics,
@@ -173,6 +173,80 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputSystemByPackNetworkSystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackNetworkModeSystemMetrics]
+    r"""Select the level of detail for network metrics"""
+    detail: NotRequired[bool]
+    r"""Generate full network metrics"""
+    protocols: NotRequired[bool]
+    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
+    devices: NotRequired[List[str]]
+    r"""Network interfaces to include/exclude. Examples: eth0, !lo. All interfaces are included if this list is empty."""
+    per_interface: NotRequired[bool]
+    r"""Generate separate metrics for each interface"""
+
+
+class CreateInputSystemByPackNetworkSystemMetrics(BaseModel):
+    mode: Optional[CreateInputSystemByPackNetworkModeSystemMetrics] = None
+    r"""Select the level of detail for network metrics"""
+
+    detail: Optional[bool] = None
+    r"""Generate full network metrics"""
+
+    protocols: Optional[bool] = None
+    r"""Generate protocol metrics for ICMP, ICMPMsg, IP, TCP, UDP and UDPLite"""
+
+    devices: Optional[List[str]] = None
+    r"""Network interfaces to include/exclude. Examples: eth0, !lo. All interfaces are included if this list is empty."""
+
+    per_interface: Annotated[Optional[bool], pydantic.Field(alias="perInterface")] = (
+        None
+    )
+    r"""Generate separate metrics for each interface"""
+
+    @field_serializer("mode")
+    def serialize_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputSystemByPackNetworkModeSystemMetrics(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            ["mode", "detail", "protocols", "devices", "perInterface"]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackDiskModeSystemMetrics(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Select the level of detail for disk metrics"""
+
+    # Basic
+    BASIC = "basic"
+    # All
+    ALL = "all"
+    # Custom
+    CUSTOM = "custom"
+    # Disabled
+    DISABLED = "disabled"
 
 
 class CreateInputSystemByPackDiskSystemMetricsTypedDict(TypedDict):
@@ -10235,18 +10309,18 @@ class CreateInputSystemByPackInputCollection(BaseModel):
 CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
     "CreateInputSystemByPackRequestBodyTypedDict",
     Union[
-        CreateInputSystemByPackInputDatagenTypedDict,
         CreateInputSystemByPackInputCriblTypedDict,
         CreateInputSystemByPackInputKubeEventsTypedDict,
+        CreateInputSystemByPackInputDatagenTypedDict,
         CreateInputSystemByPackInputCriblmetricsTypedDict,
         CreateInputSystemByPackInputKubeMetricsTypedDict,
         CreateInputSystemByPackInputCollectionTypedDict,
         CreateInputSystemByPackInputSystemStateTypedDict,
         CreateInputSystemByPackInputSystemMetricsTypedDict,
-        CreateInputSystemByPackInputWindowsMetricsTypedDict,
         CreateInputSystemByPackInputJournalFilesTypedDict,
-        CreateInputSystemByPackInputModelDrivenTelemetryTypedDict,
+        CreateInputSystemByPackInputWindowsMetricsTypedDict,
         CreateInputSystemByPackInputKubeLogsTypedDict,
+        CreateInputSystemByPackInputModelDrivenTelemetryTypedDict,
         CreateInputSystemByPackInputExecTypedDict,
         CreateInputSystemByPackInputWinEventLogsTypedDict,
         CreateInputSystemByPackInputRawUDPTypedDict,
@@ -10255,44 +10329,45 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputCriblTCPTypedDict,
         CreateInputSystemByPackInputNetflowTypedDict,
         CreateInputSystemByPackInputOpenaiTypedDict,
-        CreateInputSystemByPackInputTcpjsonTypedDict,
+        CreateInputSystemByPackInputOktaTypedDict,
         CreateInputSystemByPackInputEventhubAmqpTypedDict,
+        CreateInputSystemByPackInputTcpjsonTypedDict,
         CreateInputSystemByPackInputGooglePubsubTypedDict,
-        CreateInputSystemByPackInputFirehoseTypedDict,
         CreateInputSystemByPackInputCriblHTTPTypedDict,
-        CreateInputSystemByPackInputTCPTypedDict,
+        CreateInputSystemByPackInputFirehoseTypedDict,
         CreateInputSystemByPackInputOffice365ServiceTypedDict,
+        CreateInputSystemByPackInputTCPTypedDict,
         CreateInputSystemByPackInputDatadogAgentTypedDict,
         CreateInputSystemByPackInputWizTypedDict,
         CreateInputSystemByPackInputFileTypedDict,
         CreateInputSystemByPackInputOffice365MgmtTypedDict,
-        CreateInputSystemByPackInputWefTypedDict,
-        CreateInputSystemByPackInputSplunkTypedDict,
         CreateInputSystemByPackInputAppscopeTypedDict,
-        CreateInputSystemByPackInputHTTPRawTypedDict,
+        CreateInputSystemByPackInputSplunkTypedDict,
+        CreateInputSystemByPackInputWefTypedDict,
         CreateInputSystemByPackInputWizWebhookTypedDict,
-        CreateInputSystemByPackInputCloudflareHecTypedDict,
+        CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputZscalerHecTypedDict,
-        CreateInputSystemByPackInputLokiTypedDict,
+        CreateInputSystemByPackInputCloudflareHecTypedDict,
+        CreateInputSystemByPackInputEventhubTypedDict,
         CreateInputSystemByPackInputKafkaTypedDict,
         CreateInputSystemByPackInputConfluentCloudTypedDict,
-        CreateInputSystemByPackInputEventhubTypedDict,
-        CreateInputSystemByPackInputPrometheusRwTypedDict,
+        CreateInputSystemByPackInputLokiTypedDict,
         CreateInputSystemByPackInputHTTPTypedDict,
-        CreateInputSystemByPackInputOpenTelemetryTypedDict,
+        CreateInputSystemByPackInputPrometheusRwTypedDict,
         CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
+        CreateInputSystemByPackInputOpenTelemetryTypedDict,
         CreateInputSystemByPackInputElasticTypedDict,
-        CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict,
         CreateInputSystemByPackInputAzureBlobTypedDict,
+        CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict,
         CreateInputSystemByPackInputSplunkHecTypedDict,
         CreateInputSystemByPackInputMicrosoftGraphTypedDict,
         CreateInputSystemByPackInputSqsTypedDict,
         CreateInputSystemByPackInputOffice365MsgTraceTypedDict,
         CreateInputSystemByPackInputKinesisTypedDict,
         CreateInputSystemByPackInputSplunkSearchTypedDict,
-        CreateInputSystemByPackInputServicenowTableTypedDict,
-        CreateInputSystemByPackInputEdgePrometheusTypedDict,
         CreateInputSystemByPackInputCrowdstrikeTypedDict,
+        CreateInputSystemByPackInputEdgePrometheusTypedDict,
+        CreateInputSystemByPackInputServicenowTableTypedDict,
         CreateInputSystemByPackInputS3TypedDict,
         CreateInputSystemByPackInputMskTypedDict,
         CreateInputSystemByPackInputSecurityLakeTypedDict,
@@ -10382,6 +10457,7 @@ CreateInputSystemByPackRequestBody = Annotated[
             CreateInputSystemByPackInputOpenaiComplianceLogs,
             Tag("openai_compliance_logs"),
         ],
+        Annotated[CreateInputSystemByPackInputOkta, Tag("okta")],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
@@ -10408,6 +10484,10 @@ class CreateInputSystemByPackRequest(BaseModel):
     r"""Input object"""
 
 
+try:
+    CreateInputSystemByPackNetworkSystemMetrics.model_rebuild()
+except NameError:
+    pass
 try:
     CreateInputSystemByPackDiskSystemMetrics.model_rebuild()
 except NameError:

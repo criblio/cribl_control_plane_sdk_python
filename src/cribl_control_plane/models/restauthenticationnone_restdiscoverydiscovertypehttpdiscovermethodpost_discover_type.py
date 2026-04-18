@@ -691,8 +691,6 @@ class RestAuthenticationOauthTypedDict(TypedDict):
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
     capture_headers: NotRequired[bool]
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
-    emit_events_for_http_status_codes: NotRequired[List[str]]
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
     stop_on_empty_results: NotRequired[bool]
     r"""Stop pagination when the Event Breaker produces no events"""
     safe_headers: NotRequired[List[str]]
@@ -793,11 +791,6 @@ class RestAuthenticationOauth(BaseModel):
     ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
-    emit_events_for_http_status_codes: Annotated[
-        Optional[List[str]], pydantic.Field(alias="emitEventsForHttpStatusCodes")
-    ] = None
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
-
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
     ] = None
@@ -863,7 +856,6 @@ class RestAuthenticationOauth(BaseModel):
                 "decodeUrl",
                 "rejectUnauthorized",
                 "captureHeaders",
-                "emitEventsForHttpStatusCodes",
                 "stopOnEmptyResults",
                 "safeHeaders",
                 "retryRules",
@@ -3155,8 +3147,6 @@ class RestAuthenticationLoginSecretTypedDict(TypedDict):
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
     capture_headers: NotRequired[bool]
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
-    emit_events_for_http_status_codes: NotRequired[List[str]]
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
     stop_on_empty_results: NotRequired[bool]
     r"""Stop pagination when the Event Breaker produces no events"""
     safe_headers: NotRequired[List[str]]
@@ -3255,11 +3245,6 @@ class RestAuthenticationLoginSecret(BaseModel):
     ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
-    emit_events_for_http_status_codes: Annotated[
-        Optional[List[str]], pydantic.Field(alias="emitEventsForHttpStatusCodes")
-    ] = None
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
-
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
     ] = None
@@ -3331,7 +3316,6 @@ class RestAuthenticationLoginSecret(BaseModel):
                 "decodeUrl",
                 "rejectUnauthorized",
                 "captureHeaders",
-                "emitEventsForHttpStatusCodes",
                 "stopOnEmptyResults",
                 "safeHeaders",
                 "retryRules",
@@ -5608,8 +5592,6 @@ class RestAuthenticationLoginTypedDict(TypedDict):
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
     capture_headers: NotRequired[bool]
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
-    emit_events_for_http_status_codes: NotRequired[List[str]]
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
     stop_on_empty_results: NotRequired[bool]
     r"""Stop pagination when the Event Breaker produces no events"""
     safe_headers: NotRequired[List[str]]
@@ -5708,11 +5690,6 @@ class RestAuthenticationLogin(BaseModel):
     ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
-    emit_events_for_http_status_codes: Annotated[
-        Optional[List[str]], pydantic.Field(alias="emitEventsForHttpStatusCodes")
-    ] = None
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
-
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
     ] = None
@@ -5783,7 +5760,6 @@ class RestAuthenticationLogin(BaseModel):
                 "decodeUrl",
                 "rejectUnauthorized",
                 "captureHeaders",
-                "emitEventsForHttpStatusCodes",
                 "stopOnEmptyResults",
                 "safeHeaders",
                 "retryRules",
@@ -8061,8 +8037,6 @@ class RestAuthenticationBasicSecretTypedDict(TypedDict):
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
     capture_headers: NotRequired[bool]
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
-    emit_events_for_http_status_codes: NotRequired[List[str]]
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
     stop_on_empty_results: NotRequired[bool]
     r"""Stop pagination when the Event Breaker produces no events"""
     safe_headers: NotRequired[List[str]]
@@ -8132,11 +8106,6 @@ class RestAuthenticationBasicSecret(BaseModel):
     ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
-    emit_events_for_http_status_codes: Annotated[
-        Optional[List[str]], pydantic.Field(alias="emitEventsForHttpStatusCodes")
-    ] = None
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
-
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
     ] = None
@@ -8204,7 +8173,6 @@ class RestAuthenticationBasicSecret(BaseModel):
                 "decodeUrl",
                 "rejectUnauthorized",
                 "captureHeaders",
-                "emitEventsForHttpStatusCodes",
                 "stopOnEmptyResults",
                 "safeHeaders",
                 "retryRules",
@@ -10466,8 +10434,6 @@ class RestAuthenticationBasicTypedDict(TypedDict):
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
     capture_headers: NotRequired[bool]
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
-    emit_events_for_http_status_codes: NotRequired[List[str]]
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
     stop_on_empty_results: NotRequired[bool]
     r"""Stop pagination when the Event Breaker produces no events"""
     safe_headers: NotRequired[List[str]]
@@ -10537,11 +10503,6 @@ class RestAuthenticationBasic(BaseModel):
     ] = None
     r"""Enable to add response headers to the resHeaders field under the __collectible object"""
 
-    emit_events_for_http_status_codes: Annotated[
-        Optional[List[str]], pydantic.Field(alias="emitEventsForHttpStatusCodes")
-    ] = None
-    r"""HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx."""
-
     stop_on_empty_results: Annotated[
         Optional[bool], pydantic.Field(alias="stopOnEmptyResults")
     ] = None
@@ -10608,7 +10569,6 @@ class RestAuthenticationBasic(BaseModel):
                 "decodeUrl",
                 "rejectUnauthorized",
                 "captureHeaders",
-                "emitEventsForHttpStatusCodes",
                 "stopOnEmptyResults",
                 "safeHeaders",
                 "retryRules",

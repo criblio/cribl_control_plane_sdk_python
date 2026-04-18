@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776455088361-e66ce0c1
+  version: 4.18.0-alpha.1776467234517-c8429dbb
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -1666,10 +1666,7 @@ components:
           type: array
           items:
             type: string
-            properties:
-              domainOverride:
-                type: string
-                title: fallback
+            title: fallback
         lookupFailLogLevel:
           title: Log level for failed lookups
           type: string

@@ -106,6 +106,8 @@ class OutputAzureEventhubTypedDict(TypedDict):
     pq_controls: NotRequired[OutputAzureEventhubPqControlsTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
@@ -263,6 +265,11 @@ class OutputAzureEventhub(BaseModel):
     ] = None
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
 
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
@@ -361,6 +368,7 @@ class OutputAzureEventhub(BaseModel):
                 "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
+                "__template_format",
                 "__template_onBackpressure",
             ]
         )

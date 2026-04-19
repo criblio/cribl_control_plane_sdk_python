@@ -58,6 +58,14 @@ class AuthenticationTypeUseTypedDict(TypedDict):
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     template_mechanism: NotRequired[str]
     r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
+    template_oauth_endpoint: NotRequired[str]
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_scope: NotRequired[str]
+    r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
 
 
 class AuthenticationTypeUse(BaseModel):
@@ -131,6 +139,26 @@ class AuthenticationTypeUse(BaseModel):
     ] = None
     r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
 
+    template_oauth_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_oauthEndpoint")
+    ] = None
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_scope: Annotated[
+        Optional[str], pydantic.Field(alias="__template_scope")
+    ] = None
+    r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -189,6 +217,10 @@ class AuthenticationTypeUse(BaseModel):
                 "scope",
                 "__template_password",
                 "__template_mechanism",
+                "__template_oauthEndpoint",
+                "__template_clientId",
+                "__template_tenantId",
+                "__template_scope",
             ]
         )
         serialized = handler(self)

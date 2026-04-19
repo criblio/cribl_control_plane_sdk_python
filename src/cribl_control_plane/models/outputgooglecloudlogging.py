@@ -184,8 +184,30 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputGoogleCloudLoggingPqControlsTypedDict]
+    template_log_location_type: NotRequired[str]
+    r"""Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime."""
+    template_log_name_expression: NotRequired[str]
+    r"""Binds 'logNameExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logNameExpression' at runtime."""
+    template_payload_format: NotRequired[str]
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
+    template_resource_type_expression: NotRequired[str]
+    r"""Binds 'resourceTypeExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resourceTypeExpression' at runtime."""
+    template_severity_expression: NotRequired[str]
+    r"""Binds 'severityExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'severityExpression' at runtime."""
+    template_insert_id_expression: NotRequired[str]
+    r"""Binds 'insertIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'insertIdExpression' at runtime."""
+    template_trace_expression: NotRequired[str]
+    r"""Binds 'traceExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceExpression' at runtime."""
+    template_span_id_expression: NotRequired[str]
+    r"""Binds 'spanIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'spanIdExpression' at runtime."""
+    template_trace_sampled_expression: NotRequired[str]
+    r"""Binds 'traceSampledExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceSampledExpression' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_log_location_expression: NotRequired[str]
+    r"""Binds 'logLocationExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationExpression' at runtime."""
+    template_payload_expression: NotRequired[str]
+    r"""Binds 'payloadExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadExpression' at runtime."""
 
 
 class OutputGoogleCloudLogging(BaseModel):
@@ -507,10 +529,65 @@ class OutputGoogleCloudLogging(BaseModel):
         Optional[OutputGoogleCloudLoggingPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_log_location_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLocationType")
+    ] = None
+    r"""Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime."""
+
+    template_log_name_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logNameExpression")
+    ] = None
+    r"""Binds 'logNameExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logNameExpression' at runtime."""
+
+    template_payload_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_payloadFormat")
+    ] = None
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
+
+    template_resource_type_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_resourceTypeExpression")
+    ] = None
+    r"""Binds 'resourceTypeExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resourceTypeExpression' at runtime."""
+
+    template_severity_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_severityExpression")
+    ] = None
+    r"""Binds 'severityExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'severityExpression' at runtime."""
+
+    template_insert_id_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_insertIdExpression")
+    ] = None
+    r"""Binds 'insertIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'insertIdExpression' at runtime."""
+
+    template_trace_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_traceExpression")
+    ] = None
+    r"""Binds 'traceExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceExpression' at runtime."""
+
+    template_span_id_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_spanIdExpression")
+    ] = None
+    r"""Binds 'spanIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'spanIdExpression' at runtime."""
+
+    template_trace_sampled_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_traceSampledExpression")
+    ] = None
+    r"""Binds 'traceSampledExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceSampledExpression' at runtime."""
+
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_log_location_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLocationExpression")
+    ] = None
+    r"""Binds 'logLocationExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationExpression' at runtime."""
+
+    template_payload_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_payloadExpression")
+    ] = None
+    r"""Binds 'payloadExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadExpression' at runtime."""
 
     @field_serializer("log_location_type")
     def serialize_log_location_type(self, value):
@@ -645,7 +722,18 @@ class OutputGoogleCloudLogging(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_logLocationType",
+                "__template_logNameExpression",
+                "__template_payloadFormat",
+                "__template_resourceTypeExpression",
+                "__template_severityExpression",
+                "__template_insertIdExpression",
+                "__template_traceExpression",
+                "__template_spanIdExpression",
+                "__template_traceSampledExpression",
                 "__template_onBackpressure",
+                "__template_logLocationExpression",
+                "__template_payloadExpression",
             ]
         )
         serialized = handler(self)

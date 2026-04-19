@@ -175,6 +175,16 @@ class OutputChronicleTypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_namespace: NotRequired[str]
+    r"""Binds 'namespace' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'namespace' at runtime."""
+    template_log_type: NotRequired[str]
+    r"""Binds 'logType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logType' at runtime."""
+    template_log_text_field: NotRequired[str]
+    r"""Binds 'logTextField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logTextField' at runtime."""
+    template_gcp_project_id: NotRequired[str]
+    r"""Binds 'gcpProjectId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpProjectId' at runtime."""
+    template_gcp_instance: NotRequired[str]
+    r"""Binds 'gcpInstance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpInstance' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
@@ -397,6 +407,31 @@ class OutputChronicle(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
+    template_namespace: Annotated[
+        Optional[str], pydantic.Field(alias="__template_namespace")
+    ] = None
+    r"""Binds 'namespace' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'namespace' at runtime."""
+
+    template_log_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logType")
+    ] = None
+    r"""Binds 'logType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logType' at runtime."""
+
+    template_log_text_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logTextField")
+    ] = None
+    r"""Binds 'logTextField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logTextField' at runtime."""
+
+    template_gcp_project_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_gcpProjectId")
+    ] = None
+    r"""Binds 'gcpProjectId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpProjectId' at runtime."""
+
+    template_gcp_instance: Annotated[
+        Optional[str], pydantic.Field(alias="__template_gcpInstance")
+    ] = None
+    r"""Binds 'gcpInstance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpInstance' at runtime."""
+
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
@@ -506,6 +541,11 @@ class OutputChronicle(BaseModel):
                 "__template_region",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
+                "__template_namespace",
+                "__template_logType",
+                "__template_logTextField",
+                "__template_gcpProjectId",
+                "__template_gcpInstance",
                 "__template_endpoint",
             ]
         )

@@ -184,8 +184,14 @@ class OutputSecurityLakeTypedDict(TypedDict):
     r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
     template_kms_key_id: NotRequired[str]
     r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
+    template_account_id: NotRequired[str]
+    r"""Binds 'accountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accountId' at runtime."""
+    template_custom_source: NotRequired[str]
+    r"""Binds 'customSource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customSource' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class OutputSecurityLake(BaseModel):
@@ -519,10 +525,25 @@ class OutputSecurityLake(BaseModel):
     ] = None
     r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
 
+    template_account_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accountId")
+    ] = None
+    r"""Binds 'accountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accountId' at runtime."""
+
+    template_custom_source: Annotated[
+        Optional[str], pydantic.Field(alias="__template_customSource")
+    ] = None
+    r"""Binds 'customSource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customSource' at runtime."""
+
     template_aws_api_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsApiKey")
     ] = None
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
@@ -675,7 +696,10 @@ class OutputSecurityLake(BaseModel):
                 "__template_storageClass",
                 "__template_serverSideEncryption",
                 "__template_kmsKeyId",
+                "__template_accountId",
+                "__template_customSource",
                 "__template_awsApiKey",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)

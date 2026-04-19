@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776467234517-c8429dbb
+  version: 4.18.0-alpha.1776553479270-20b1744c
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -11173,13 +11173,6 @@ components:
           type: boolean
           title: Capture response headers
           description: Enable to add response headers to the resHeaders field under the __collectible object
-        emitEventsForHttpStatusCodes:
-          type: array
-          title: Event HTTP status codes
-          description: HTTP status codes that should emit events from the collect response body. Supports exact values like 200 or wildcard classes like 2xx, 4xx, and 5xx.
-          items:
-            type: string
-            pattern: ^(?:[x\d]{3})$
         stopOnEmptyResults:
           type: boolean
           title: Stop on empty results
@@ -26477,6 +26470,9 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     OutputS3:
       type: object
       required:
@@ -26801,6 +26797,9 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     OutputAzureBlob:
       type: object
       required:
@@ -27079,6 +27078,9 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
         __template_connectionString:
           type: string
           description: Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime.
@@ -27575,6 +27577,9 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
         __template_mappingRef:
           type: string
           description: Binds 'mappingRef' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mappingRef' at runtime.
@@ -28339,6 +28344,9 @@ components:
         __template_topic:
           type: string
           description: Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime.
+        __template_format:
+          type: string
+          description: Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime.
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
@@ -28866,9 +28874,18 @@ components:
         __template_region:
           type: string
           description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
         __template_destPath:
           type: string
           description: Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime.
+        __template_objectACL:
+          type: string
+          description: Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime.
+        __template_storageClass:
+          type: string
+          description: Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime.
         __template_partitionExpr:
           type: string
           description: Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime.
@@ -28887,6 +28904,15 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
+        __template_awsApiKey:
+          type: string
+          description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
     OutputGoogleCloudLogging:
       type: object
       required:
@@ -29203,9 +29229,42 @@ components:
         pqControls:
           type: object
           title: ""
+        __template_logLocationType:
+          type: string
+          description: Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime.
+        __template_logNameExpression:
+          type: string
+          description: Binds 'logNameExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logNameExpression' at runtime.
+        __template_payloadFormat:
+          type: string
+          description: Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime.
+        __template_resourceTypeExpression:
+          type: string
+          description: Binds 'resourceTypeExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resourceTypeExpression' at runtime.
+        __template_severityExpression:
+          type: string
+          description: Binds 'severityExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'severityExpression' at runtime.
+        __template_insertIdExpression:
+          type: string
+          description: Binds 'insertIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'insertIdExpression' at runtime.
+        __template_traceExpression:
+          type: string
+          description: Binds 'traceExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceExpression' at runtime.
+        __template_spanIdExpression:
+          type: string
+          description: Binds 'spanIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'spanIdExpression' at runtime.
+        __template_traceSampledExpression:
+          type: string
+          description: Binds 'traceSampledExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceSampledExpression' at runtime.
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_logLocationExpression:
+          type: string
+          description: Binds 'logLocationExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationExpression' at runtime.
+        __template_payloadExpression:
+          type: string
+          description: Binds 'payloadExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadExpression' at runtime.
     OutputGooglePubsub:
       type: object
       required:
@@ -29527,6 +29586,15 @@ components:
         __template_region:
           type: string
           description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
+        __template_objectACL:
+          type: string
+          description: Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime.
+        __template_storageClass:
+          type: string
+          description: Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime.
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
@@ -30298,7 +30366,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeSaslSaslExtensions"
         auth:
-          $ref: "#/components/schemas/AuthTypeAuthTypeCredentialsSecret"
+          $ref: "#/components/schemas/AuthTypeTemplatemanualApiKeyAuthType"
         elasticVersion:
           type: string
           title: Elastic version
@@ -30433,9 +30501,18 @@ components:
         pqControls:
           type: object
           title: ""
+        __template_index:
+          type: string
+          description: Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime.
+        __template_docType:
+          type: string
+          description: Binds 'docType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'docType' at runtime.
         __template_failedRequestLoggingMode:
           type: string
           description: Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime.
+        __template_elasticPipeline:
+          type: string
+          description: Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime.
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
@@ -30541,7 +30618,7 @@ components:
           items:
             $ref: "#/components/schemas/ItemsTypeSaslSaslExtensions"
         auth:
-          $ref: "#/components/schemas/AuthTypeAuthTypeCredentialsSecret"
+          $ref: "#/components/schemas/AuthTypeTemplatemanualApiKeyAuthType"
         elasticPipeline:
           type: string
           title: Elastic pipeline
@@ -30616,9 +30693,18 @@ components:
         pqControls:
           type: object
           title: ""
+        __template_url:
+          type: string
+          description: Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime.
+        __template_index:
+          type: string
+          description: Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime.
         __template_failedRequestLoggingMode:
           type: string
           description: Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime.
+        __template_elasticPipeline:
+          type: string
+          description: Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime.
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
@@ -31766,6 +31852,9 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     OutputStatsd:
       type: object
       required:
@@ -35781,6 +35870,9 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     OutputSecurityLake:
       type: object
       required:
@@ -36086,9 +36178,18 @@ components:
         __template_kmsKeyId:
           type: string
           description: Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime.
+        __template_accountId:
+          type: string
+          description: Binds 'accountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accountId' at runtime.
+        __template_customSource:
+          type: string
+          description: Binds 'customSource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customSource' at runtime.
         __template_awsApiKey:
           type: string
           description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     OutputCriblLake:
       type: object
       properties:
@@ -38203,6 +38304,21 @@ components:
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_namespace:
+          type: string
+          description: Binds 'namespace' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'namespace' at runtime.
+        __template_logType:
+          type: string
+          description: Binds 'logType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logType' at runtime.
+        __template_logTextField:
+          type: string
+          description: Binds 'logTextField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logTextField' at runtime.
+        __template_gcpProjectId:
+          type: string
+          description: Binds 'gcpProjectId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpProjectId' at runtime.
+        __template_gcpInstance:
+          type: string
+          description: Binds 'gcpInstance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpInstance' at runtime.
         __template_endpoint:
           type: string
           description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
@@ -38454,6 +38570,9 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     OutputMicrosoftFabric:
       type: object
       required:
@@ -38618,6 +38737,18 @@ components:
             __template_mechanism:
               type: string
               description: Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime.
+            __template_oauthEndpoint:
+              type: string
+              description: Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime.
+            __template_clientId:
+              type: string
+              description: Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime.
+            __template_tenantId:
+              type: string
+              description: Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime.
+            __template_scope:
+              type: string
+              description: Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime.
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideType"
         onBackpressure:
@@ -38680,6 +38811,9 @@ components:
         __template_topic:
           type: string
           description: Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime.
+        __template_format:
+          type: string
+          description: Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime.
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
@@ -38966,6 +39100,9 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     OutputNutanixObjects:
       type: object
       required:
@@ -39259,6 +39396,9 @@ components:
         __template_compress:
           type: string
           description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     Output:
       oneOf:
         - $ref: "#/components/schemas/OutputDefault"
@@ -44788,6 +44928,18 @@ components:
         __template_mechanism:
           type: string
           description: Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime.
+        __template_oauthEndpoint:
+          type: string
+          description: Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime.
+        __template_clientId:
+          type: string
+          description: Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime.
+        __template_tenantId:
+          type: string
+          description: Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime.
+        __template_scope:
+          type: string
+          description: Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime.
     ProcessType:
       type: object
       properties:
@@ -45002,7 +45154,7 @@ components:
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
-    AuthTypeAuthTypeCredentialsSecret:
+    AuthTypeTemplatemanualApiKeyAuthType:
       type: object
       required:
         - disabled
@@ -45030,6 +45182,9 @@ components:
           type: string
           title: API key (text secret)
           description: Select or create a stored text secret
+        __template_manualAPIKey:
+          type: string
+          description: Binds 'manualAPIKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'manualAPIKey' at runtime.
     PrometheusAuthType:
       type: object
       properties:

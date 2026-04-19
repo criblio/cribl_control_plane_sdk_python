@@ -204,6 +204,8 @@ class OutputS3TypedDict(TypedDict):
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class OutputS3(BaseModel):
@@ -590,6 +592,11 @@ class OutputS3(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -782,6 +789,7 @@ class OutputS3(BaseModel):
                 "__template_kmsKeyId",
                 "__template_awsApiKey",
                 "__template_compress",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)

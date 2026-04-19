@@ -13,9 +13,9 @@ from .authenticationmethodoptionss3collectorconf import (
 )
 from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
 from .authenticationtypeuse import AuthenticationTypeUse, AuthenticationTypeUseTypedDict
-from .authtypeauthtypecredentialssecret import (
-    AuthTypeAuthTypeCredentialsSecret,
-    AuthTypeAuthTypeCredentialsSecretTypedDict,
+from .authtypetemplatemanualapikeyauthtype import (
+    AuthTypeTemplatemanualAPIKeyAuthType,
+    AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict,
 )
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
@@ -1645,7 +1645,7 @@ class CreateOutputOutputElasticCloudTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
     r"""Extra parameters to use in HTTP requests"""
-    auth: NotRequired[AuthTypeAuthTypeCredentialsSecretTypedDict]
+    auth: NotRequired[AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict]
     elastic_pipeline: NotRequired[str]
     r"""Optional Elastic Cloud Destination pipeline"""
     include_doc_id: NotRequired[bool]
@@ -1681,8 +1681,14 @@ class CreateOutputOutputElasticCloudTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsElasticCloudTypedDict]
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+    template_index: NotRequired[str]
+    r"""Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_elastic_pipeline: NotRequired[str]
+    r"""Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
@@ -1767,7 +1773,7 @@ class CreateOutputOutputElasticCloud(BaseModel):
     ] = None
     r"""Extra parameters to use in HTTP requests"""
 
-    auth: Optional[AuthTypeAuthTypeCredentialsSecret] = None
+    auth: Optional[AuthTypeTemplatemanualAPIKeyAuthType] = None
 
     elastic_pipeline: Annotated[
         Optional[str], pydantic.Field(alias="elasticPipeline")
@@ -1854,10 +1860,25 @@ class CreateOutputOutputElasticCloud(BaseModel):
         Optional[CreateOutputPqControlsElasticCloud], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+    template_index: Annotated[
+        Optional[str], pydantic.Field(alias="__template_index")
+    ] = None
+    r"""Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime."""
+
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_elastic_pipeline: Annotated[
+        Optional[str], pydantic.Field(alias="__template_elasticPipeline")
+    ] = None
+    r"""Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime."""
 
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
@@ -1948,7 +1969,10 @@ class CreateOutputOutputElasticCloud(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_url",
+                "__template_index",
                 "__template_failedRequestLoggingMode",
+                "__template_elasticPipeline",
                 "__template_onBackpressure",
             ]
         )
@@ -2083,7 +2107,7 @@ class CreateOutputOutputElasticTypedDict(TypedDict):
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
-    auth: NotRequired[AuthTypeAuthTypeCredentialsSecretTypedDict]
+    auth: NotRequired[AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict]
     elastic_version: NotRequired[CreateOutputElasticVersion]
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
     elastic_pipeline: NotRequired[str]
@@ -2131,8 +2155,14 @@ class CreateOutputOutputElasticTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsElasticTypedDict]
+    template_index: NotRequired[str]
+    r"""Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime."""
+    template_doc_type: NotRequired[str]
+    r"""Binds 'docType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'docType' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_elastic_pipeline: NotRequired[str]
+    r"""Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_url: NotRequired[str]
@@ -2238,7 +2268,7 @@ class CreateOutputOutputElastic(BaseModel):
         Optional[List[ItemsTypeSaslSaslExtensions]], pydantic.Field(alias="extraParams")
     ] = None
 
-    auth: Optional[AuthTypeAuthTypeCredentialsSecret] = None
+    auth: Optional[AuthTypeTemplatemanualAPIKeyAuthType] = None
 
     elastic_version: Annotated[
         Optional[CreateOutputElasticVersion], pydantic.Field(alias="elasticVersion")
@@ -2348,10 +2378,25 @@ class CreateOutputOutputElastic(BaseModel):
         Optional[CreateOutputPqControlsElastic], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_index: Annotated[
+        Optional[str], pydantic.Field(alias="__template_index")
+    ] = None
+    r"""Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime."""
+
+    template_doc_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_docType")
+    ] = None
+    r"""Binds 'docType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'docType' at runtime."""
+
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_elastic_pipeline: Annotated[
+        Optional[str], pydantic.Field(alias="__template_elasticPipeline")
+    ] = None
+    r"""Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime."""
 
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
@@ -2476,7 +2521,10 @@ class CreateOutputOutputElastic(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_index",
+                "__template_docType",
                 "__template_failedRequestLoggingMode",
+                "__template_elasticPipeline",
                 "__template_onBackpressure",
                 "__template_url",
             ]
@@ -3963,6 +4011,12 @@ class CreateOutputOutputExabeamTypedDict(TypedDict):
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_storage_class: NotRequired[str]
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
@@ -4135,6 +4189,21 @@ class CreateOutputOutputExabeam(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_object_acl: Annotated[
+        Optional[str], pydantic.Field(alias="__template_objectACL")
+    ] = None
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+
+    template_storage_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageClass")
+    ] = None
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
@@ -4223,6 +4292,9 @@ class CreateOutputOutputExabeam(BaseModel):
                 "deadletterPath",
                 "maxRetryNum",
                 "__template_region",
+                "__template_endpoint",
+                "__template_objectACL",
+                "__template_storageClass",
                 "__template_onBackpressure",
             ]
         )
@@ -4739,8 +4811,30 @@ class CreateOutputOutputGoogleCloudLoggingTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputPqControlsGoogleCloudLoggingTypedDict]
+    template_log_location_type: NotRequired[str]
+    r"""Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime."""
+    template_log_name_expression: NotRequired[str]
+    r"""Binds 'logNameExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logNameExpression' at runtime."""
+    template_payload_format: NotRequired[str]
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
+    template_resource_type_expression: NotRequired[str]
+    r"""Binds 'resourceTypeExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resourceTypeExpression' at runtime."""
+    template_severity_expression: NotRequired[str]
+    r"""Binds 'severityExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'severityExpression' at runtime."""
+    template_insert_id_expression: NotRequired[str]
+    r"""Binds 'insertIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'insertIdExpression' at runtime."""
+    template_trace_expression: NotRequired[str]
+    r"""Binds 'traceExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceExpression' at runtime."""
+    template_span_id_expression: NotRequired[str]
+    r"""Binds 'spanIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'spanIdExpression' at runtime."""
+    template_trace_sampled_expression: NotRequired[str]
+    r"""Binds 'traceSampledExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceSampledExpression' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_log_location_expression: NotRequired[str]
+    r"""Binds 'logLocationExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationExpression' at runtime."""
+    template_payload_expression: NotRequired[str]
+    r"""Binds 'payloadExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadExpression' at runtime."""
 
 
 class CreateOutputOutputGoogleCloudLogging(BaseModel):
@@ -5063,10 +5157,65 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_log_location_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLocationType")
+    ] = None
+    r"""Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime."""
+
+    template_log_name_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logNameExpression")
+    ] = None
+    r"""Binds 'logNameExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logNameExpression' at runtime."""
+
+    template_payload_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_payloadFormat")
+    ] = None
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
+
+    template_resource_type_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_resourceTypeExpression")
+    ] = None
+    r"""Binds 'resourceTypeExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resourceTypeExpression' at runtime."""
+
+    template_severity_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_severityExpression")
+    ] = None
+    r"""Binds 'severityExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'severityExpression' at runtime."""
+
+    template_insert_id_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_insertIdExpression")
+    ] = None
+    r"""Binds 'insertIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'insertIdExpression' at runtime."""
+
+    template_trace_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_traceExpression")
+    ] = None
+    r"""Binds 'traceExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceExpression' at runtime."""
+
+    template_span_id_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_spanIdExpression")
+    ] = None
+    r"""Binds 'spanIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'spanIdExpression' at runtime."""
+
+    template_trace_sampled_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_traceSampledExpression")
+    ] = None
+    r"""Binds 'traceSampledExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceSampledExpression' at runtime."""
+
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_log_location_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLocationExpression")
+    ] = None
+    r"""Binds 'logLocationExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationExpression' at runtime."""
+
+    template_payload_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_payloadExpression")
+    ] = None
+    r"""Binds 'payloadExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadExpression' at runtime."""
 
     @field_serializer("log_location_type")
     def serialize_log_location_type(self, value):
@@ -5200,7 +5349,18 @@ class CreateOutputOutputGoogleCloudLogging(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_logLocationType",
+                "__template_logNameExpression",
+                "__template_payloadFormat",
+                "__template_resourceTypeExpression",
+                "__template_severityExpression",
+                "__template_insertIdExpression",
+                "__template_traceExpression",
+                "__template_spanIdExpression",
+                "__template_traceSampledExpression",
                 "__template_onBackpressure",
+                "__template_logLocationExpression",
+                "__template_payloadExpression",
             ]
         )
         serialized = handler(self)
@@ -5348,8 +5508,14 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_dest_path: NotRequired[str]
     r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_storage_class: NotRequired[str]
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
     template_partition_expr: NotRequired[str]
     r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
     template_format: NotRequired[str]
@@ -5362,6 +5528,12 @@ class CreateOutputOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+    template_aws_api_key: NotRequired[str]
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
 
 
 class CreateOutputOutputGoogleCloudStorage(BaseModel):
@@ -5630,10 +5802,25 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_dest_path: Annotated[
         Optional[str], pydantic.Field(alias="__template_destPath")
     ] = None
     r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+
+    template_object_acl: Annotated[
+        Optional[str], pydantic.Field(alias="__template_objectACL")
+    ] = None
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+
+    template_storage_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageClass")
+    ] = None
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
 
     template_partition_expr: Annotated[
         Optional[str], pydantic.Field(alias="__template_partitionExpr")
@@ -5664,6 +5851,21 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
         Optional[str], pydantic.Field(alias="__template_compress")
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
+    template_aws_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsApiKey")
+    ] = None
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
 
     @field_serializer("signature_version")
     def serialize_signature_version(self, value):
@@ -5823,13 +6025,19 @@ class CreateOutputOutputGoogleCloudStorage(BaseModel):
                 "awsSecret",
                 "__template_bucket",
                 "__template_region",
+                "__template_endpoint",
                 "__template_destPath",
+                "__template_objectACL",
+                "__template_storageClass",
                 "__template_partitionExpr",
                 "__template_format",
                 "__template_baseFileName",
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
                 "__template_compress",
+                "__template_parquetSchema",
+                "__template_awsApiKey",
+                "__template_awsSecretKey",
             ]
         )
         serialized = handler(self)
@@ -6509,6 +6717,8 @@ class CreateOutputOutputAzureEventhubTypedDict(TypedDict):
     pq_controls: NotRequired[CreateOutputPqControlsAzureEventhubTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
@@ -6667,6 +6877,11 @@ class CreateOutputOutputAzureEventhub(BaseModel):
     ] = None
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
 
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
@@ -6764,6 +6979,7 @@ class CreateOutputOutputAzureEventhub(BaseModel):
                 "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
+                "__template_format",
                 "__template_onBackpressure",
             ]
         )
@@ -8367,6 +8583,8 @@ class CreateOutputOutputAzureDataExplorerTypedDict(TypedDict):
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
     template_mapping_ref: NotRequired[str]
     r"""Binds 'mappingRef' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mappingRef' at runtime."""
     template_ingest_url: NotRequired[str]
@@ -8807,6 +9025,11 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
     template_mapping_ref: Annotated[
         Optional[str], pydantic.Field(alias="__template_mappingRef")
     ] = None
@@ -9051,6 +9274,7 @@ class CreateOutputOutputAzureDataExplorer(BaseModel):
                 "__template_clientSecret",
                 "__template_format",
                 "__template_compress",
+                "__template_parquetSchema",
                 "__template_mappingRef",
                 "__template_ingestUrl",
                 "__template_onBackpressure",
@@ -9214,6 +9438,8 @@ class CreateOutputOutputAzureBlobTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
     template_connection_string: NotRequired[str]
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
     template_storage_account_name: NotRequired[str]
@@ -9519,6 +9745,11 @@ class CreateOutputOutputAzureBlob(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
     template_connection_string: Annotated[
         Optional[str], pydantic.Field(alias="__template_connectionString")
     ] = None
@@ -9691,6 +9922,7 @@ class CreateOutputOutputAzureBlob(BaseModel):
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
                 "__template_compress",
+                "__template_parquetSchema",
                 "__template_connectionString",
                 "__template_storageAccountName",
                 "__template_tenantId",
@@ -9879,6 +10111,8 @@ class CreateOutputOutputS3TypedDict(TypedDict):
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class CreateOutputOutputS3(BaseModel):
@@ -10265,6 +10499,11 @@ class CreateOutputOutputS3(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -10456,6 +10695,7 @@ class CreateOutputOutputS3(BaseModel):
                 "__template_kmsKeyId",
                 "__template_awsApiKey",
                 "__template_compress",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)
@@ -10573,6 +10813,8 @@ class CreateOutputOutputFilesystemTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class CreateOutputOutputFilesystem(BaseModel):
@@ -10803,6 +11045,11 @@ class CreateOutputOutputFilesystem(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
@@ -10917,6 +11164,7 @@ class CreateOutputOutputFilesystem(BaseModel):
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
                 "__template_compress",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)
@@ -16609,66 +16857,66 @@ CreateOutputRequestTypedDict = TypeAliasType(
         CreateOutputOutputStatsdTypedDict,
         CreateOutputOutputGooglePubsubTypedDict,
         CreateOutputOutputAzureEventhubTypedDict,
+        CreateOutputOutputCriblTCPTypedDict,
         CreateOutputOutputHoneycombTypedDict,
         CreateOutputOutputSignalfxTypedDict,
-        CreateOutputOutputMicrosoftFabricTypedDict,
-        CreateOutputOutputCriblTCPTypedDict,
-        CreateOutputOutputExabeamTypedDict,
         CreateOutputOutputWavefrontTypedDict,
-        CreateOutputOutputElasticCloudTypedDict,
-        CreateOutputOutputCrowdstrikeNextGenSiemTypedDict,
-        CreateOutputOutputSplunkTypedDict,
-        CreateOutputOutputHumioHecTypedDict,
-        CreateOutputOutputTcpjsonTypedDict,
+        CreateOutputOutputMicrosoftFabricTypedDict,
         CreateOutputOutputSumoLogicTypedDict,
-        CreateOutputOutputConfluentCloudTypedDict,
-        CreateOutputOutputKafkaTypedDict,
+        CreateOutputOutputSplunkTypedDict,
+        CreateOutputOutputTcpjsonTypedDict,
+        CreateOutputOutputCrowdstrikeNextGenSiemTypedDict,
+        CreateOutputOutputHumioHecTypedDict,
+        CreateOutputOutputExabeamTypedDict,
+        CreateOutputOutputElasticCloudTypedDict,
         CreateOutputOutputSnsTypedDict,
+        CreateOutputOutputKafkaTypedDict,
+        CreateOutputOutputConfluentCloudTypedDict,
         CreateOutputOutputAzureLogsTypedDict,
         CreateOutputOutputCloudwatchTypedDict,
-        CreateOutputOutputSyslogTypedDict,
         CreateOutputOutputSplunkLbTypedDict,
+        CreateOutputOutputSyslogTypedDict,
         CreateOutputOutputNewrelicEventsTypedDict,
         CreateOutputOutputPrometheusTypedDict,
-        CreateOutputOutputXsiamTypedDict,
         CreateOutputOutputCriblHTTPTypedDict,
-        CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputWizHecTypedDict,
+        CreateOutputOutputXsiamTypedDict,
         CreateOutputOutputDatasetTypedDict,
         CreateOutputOutputNewrelicTypedDict,
+        CreateOutputOutputCriblSearchEngineTypedDict,
         CreateOutputOutputLokiTypedDict,
-        CreateOutputOutputServiceNowTypedDict,
         CreateOutputOutputDynatraceOtlpTypedDict,
         CreateOutputOutputKinesisTypedDict,
+        CreateOutputOutputServiceNowTypedDict,
         CreateOutputOutputDynatraceHTTPTypedDict,
-        CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputSplunkHecTypedDict,
+        CreateOutputOutputFilesystemTypedDict,
         CreateOutputOutputDatadogTypedDict,
-        CreateOutputOutputChronicleTypedDict,
-        CreateOutputOutputElasticTypedDict,
         CreateOutputOutputSqsTypedDict,
-        CreateOutputOutputOpenTelemetryTypedDict,
         CreateOutputOutputInfluxdbTypedDict,
-        CreateOutputOutputGoogleChronicleTypedDict,
+        CreateOutputOutputOpenTelemetryTypedDict,
+        CreateOutputOutputElasticTypedDict,
         CreateOutputOutputSentinelOneAiSiemTypedDict,
+        CreateOutputOutputGoogleChronicleTypedDict,
         CreateOutputOutputClickHouseTypedDict,
         CreateOutputOutputLocalSearchStorageTypedDict,
+        CreateOutputOutputChronicleTypedDict,
         CreateOutputOutputDatabricksTypedDict,
         CreateOutputOutputMskTypedDict,
         CreateOutputOutputCriblLakeTypedDict,
         CreateOutputOutputSentinelTypedDict,
-        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputCloudflareR2TypedDict,
         CreateOutputOutputNutanixObjectsTypedDict,
-        CreateOutputOutputGoogleCloudLoggingTypedDict,
+        CreateOutputOutputGoogleCloudStorageTypedDict,
         CreateOutputOutputAzureBlobTypedDict,
         CreateOutputOutputMinioTypedDict,
         CreateOutputOutputSecurityLakeTypedDict,
+        CreateOutputOutputGoogleCloudLoggingTypedDict,
         CreateOutputOutputDlS3TypedDict,
         CreateOutputOutputS3TypedDict,
         CreateOutputOutputAzureDataExplorerTypedDict,
-        CreateOutputOutputWebhookUnionTypedDict,
         CreateOutputOutputGrafanaCloudUnionTypedDict,
+        CreateOutputOutputWebhookUnionTypedDict,
     ],
 )
 r"""Output object"""

@@ -68,9 +68,9 @@ if TYPE_CHECKING:
     )
     from .authtoken import AuthToken, AuthTokenTypedDict
     from .authtype import AuthType, AuthTypeTypedDict
-    from .authtypeauthtypecredentialssecret import (
-        AuthTypeAuthTypeCredentialsSecret,
-        AuthTypeAuthTypeCredentialsSecretTypedDict,
+    from .authtypetemplatemanualapikeyauthtype import (
+        AuthTypeTemplatemanualAPIKeyAuthType,
+        AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict,
     )
     from .awstypeheartbeatmetadata import (
         AwsTypeHeartbeatMetadata,
@@ -6583,8 +6583,8 @@ __all__ = [
     "AuthTokensExt",
     "AuthTokensExtTypedDict",
     "AuthType",
-    "AuthTypeAuthTypeCredentialsSecret",
-    "AuthTypeAuthTypeCredentialsSecretTypedDict",
+    "AuthTypeTemplatemanualAPIKeyAuthType",
+    "AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict",
     "AuthTypeTypedDict",
     "AuthTypedDict",
     "AuthenticationMechanism",
@@ -12293,8 +12293,8 @@ _dynamic_imports: dict[str, str] = {
     "AuthTokenTypedDict": ".authtoken",
     "AuthType": ".authtype",
     "AuthTypeTypedDict": ".authtype",
-    "AuthTypeAuthTypeCredentialsSecret": ".authtypeauthtypecredentialssecret",
-    "AuthTypeAuthTypeCredentialsSecretTypedDict": ".authtypeauthtypecredentialssecret",
+    "AuthTypeTemplatemanualAPIKeyAuthType": ".authtypetemplatemanualapikeyauthtype",
+    "AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict": ".authtypetemplatemanualapikeyauthtype",
     "AwsTypeHeartbeatMetadata": ".awstypeheartbeatmetadata",
     "AwsTypeHeartbeatMetadataTypedDict": ".awstypeheartbeatmetadata",
     "AzureBlobAuthTypeClientCert": ".azureblobcollectorconf",

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776553479270-20b1744c
+  version: 4.18.0-alpha.1776726237822-d72a9c73
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -19822,7 +19822,22 @@ components:
             - 1.3.1
           x-speakeasy-unknown-values: allow
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptions"
+          type: string
+          title: Authentication type
+          description: OpenTelemetry authentication type
+          enum:
+            - none
+            - basic
+            - credentialsSecret
+            - token
+            - textSecret
+          x-speakeasy-enum-descriptions:
+            - None
+            - Basic
+            - Basic (credentials secret)
+            - Token
+            - Token (text secret)
+          x-speakeasy-unknown-values: allow
         metadata:
           type: array
           title: Fields
@@ -33978,7 +33993,23 @@ components:
         httpCompress:
           $ref: "#/components/schemas/CompressionOptionsMessages"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptions"
+          type: string
+          title: Authentication type
+          enum:
+            - none
+            - basic
+            - credentialsSecret
+            - token
+            - textSecret
+            - oauthSecret
+          x-speakeasy-enum-descriptions:
+            - None
+            - Basic
+            - Basic (credentials secret)
+            - Token
+            - Token (text secret)
+            - OAuth (text secret)
+          x-speakeasy-unknown-values: allow
         httpTracesEndpointOverride:
           type: string
           title: Traces endpoint override
@@ -34058,6 +34089,45 @@ components:
           type: string
           title: Token (text secret)
           description: Select or create a stored text secret
+        loginUrl:
+          type: string
+          title: Login URL
+          description: URL for OAuth
+          pattern: ^https?://.*
+        secretParamName:
+          type: string
+          title: OAuth Secret parameter name
+          description: Secret parameter name to pass in request body
+        oauthTextSecret:
+          type: string
+          title: OAuth secret (text secret)
+          description: Select or create a stored text secret for the OAuth secret parameter value to pass in request body
+        tokenAttributeName:
+          type: string
+          title: Token attribute name
+          description: Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token').
+        authHeaderExpr:
+          type: string
+          title: Authorize expression
+          description: "JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."
+        tokenTimeoutSecs:
+          type: number
+          title: Refresh interval (secs.)
+          description: How often the OAuth token should be refreshed.
+          minimum: 1
+          maximum: 300000
+        oauthParams:
+          type: array
+          title: OAuth parameters
+          description: Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
+          items:
+            $ref: "#/components/schemas/ItemsTypeOauthParams"
+        oauthHeaders:
+          type: array
+          title: OAuth headers
+          description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
+          items:
+            $ref: "#/components/schemas/ItemsTypeOauthHeaders"
         rejectUnauthorized:
           type: boolean
           title: Validate server certs
@@ -34147,6 +34217,9 @@ components:
         __template_onBackpressure:
           type: string
           description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime.
     OutputServiceNow:
       type: object
       required:
@@ -36539,7 +36612,7 @@ components:
           title: URL
           description: "URL of the ClickHouse instance. Example: http://localhost:8123/"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsBasicCredentialsSecret"
+          $ref: "#/components/schemas/AuthenticationTypeOptions"
         database:
           type: string
           title: ClickHouse database
@@ -36807,7 +36880,7 @@ components:
           title: URL
           description: "URL of the database instance. Example: http://localhost:8123/"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsBasicCredentialsSecret"
+          $ref: "#/components/schemas/AuthenticationTypeOptions"
         database:
           type: string
           title: Database
@@ -39140,16 +39213,7 @@ components:
           items:
             type: string
         awsAuthenticationMethod:
-          type: string
-          title: Authentication method
-          description: AWS authentication method.
-          enum:
-            - manual
-            - secret
-          x-speakeasy-enum-descriptions:
-            - Manual
-            - Secret Key pair
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/AuthenticationMethodOptionsa18be1"
         signatureVersion:
           type: string
           title: Signature version
@@ -39399,6 +39463,282 @@ components:
         __template_parquetSchema:
           type: string
           description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
+    OutputAlphasocS3:
+      type: object
+      required:
+        - type
+        - bucket
+        - stagePath
+      properties:
+        id:
+          type: string
+          title: Output ID
+          description: Unique ID for this output
+        type:
+          type: string
+          enum:
+            - alphasoc_s3
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data before sending out to this output
+        systemFields:
+          type: array
+          title: System fields
+          description: Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
+          items:
+            type: string
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        awsAuthenticationMethod:
+          $ref: "#/components/schemas/AuthenticationMethodOptionsa18be1"
+        signatureVersion:
+          type: string
+          title: Signature version
+          description: Signature version to use for signing AlphaSOC requests
+          enum:
+            - v2
+            - v4
+          x-speakeasy-unknown-values: allow
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests, which can improve performance
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
+        bucket:
+          type: string
+          title: AlphaSOC bucket name
+          description: "Name of the destination AlphaSOC bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        destPath:
+          type: string
+          title: Key prefix
+          description: "Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts upload limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          minimum: 1
+          maximum: 10
+        verifyPermissions:
+          type: boolean
+          title: Verify if bucket exists
+          description: Disable if you can access files within the bucket but not the bucket itself
+        maxClosingFilesToBackpressure:
+          type: number
+          title: Staging file limit
+          description: Maximum number of files that can be waiting for upload before backpressure is applied
+          minimum: 10
+          maximum: 4200
+        stagePath:
+          type: string
+          title: Staging location
+          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage.
+        addIdToStagePath:
+          type: boolean
+          title: Add output ID
+          description: Add the Output ID value to staging location
+        removeEmptyDirs:
+          type: boolean
+          title: Remove empty staging directories
+          description: Remove empty staging directories after moving files
+        partitionExpr:
+          type: string
+          title: Partitioning expression
+          description: JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory.
+        format:
+          $ref: "#/components/schemas/DataFormatOptions"
+        baseFileName:
+          type: string
+          title: File name prefix expression
+          description: JavaScript expression to define the output filename prefix (can be constant)
+        fileNameSuffix:
+          type: string
+          title: File name suffix expression
+          description: JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`).
+        maxFileSizeMB:
+          type: number
+          title: File size limit (MB)
+          description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
+          maximum: 1024
+          minimum: 5
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          minimum: 5
+          maximum: 86400
+        maxOpenFiles:
+          type: number
+          title: Open file limit
+          description: Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location.
+          minimum: 10
+          maximum: 2000
+        headerLine:
+          type: string
+          title: Header line
+          description: If set, this line will be written to the beginning of each output file
+        writeHighWaterMark:
+          type: number
+          title: Writing high watermark (KB)
+          description: Buffer size used to write to a file
+          maximum: 4096
+          minimum: 16
+        onBackpressure:
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+        deadletterEnabled:
+          type: boolean
+          title: Enable dead-lettering
+          description: If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors
+        onDiskFullBackpressure:
+          $ref: "#/components/schemas/DiskSpaceProtectionOptions"
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
+        endpoint:
+          type: string
+          title: AlphaSOC endpoint
+          description: "AlphaSOC S3-compatible endpoint URL (example: https://s3.alphasoc.net)"
+          pattern: ^https?://.*
+        description:
+          type: string
+          title: Description
+        awsApiKey:
+          type: string
+          title: Access key
+          description: This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references your access key and secret key
+        compress:
+          $ref: "#/components/schemas/CompressionOptionsHttp"
+        compressionLevel:
+          $ref: "#/components/schemas/CompressionLevelOptions"
+        automaticSchema:
+          type: boolean
+          title: Automatic schema
+          description: Automatically calculate the schema based on the events of each Parquet file generated
+        parquetSchema:
+          type: string
+          title: Parquet schema
+          description: To add a new schema, navigate to Processing > Knowledge > Parquet Schemas
+          minLength: 1
+        parquetVersion:
+          $ref: "#/components/schemas/ParquetVersionOptions"
+        parquetDataPageVersion:
+          $ref: "#/components/schemas/DataPageVersionOptions"
+        parquetRowGroupLength:
+          type: number
+          title: Group row limit
+          description: The number of rows that every group will contain. The final group can contain a smaller number of rows.
+          minimum: 1
+          maximum: 6.7108864e+07
+        parquetPageSize:
+          type: string
+          title: Page size
+          description: Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression.
+          pattern: ^\d+\s*(?:[kK][bB]|[mM][bB]|[gG][bB]|[tT][bB])?$
+        shouldLogInvalidRows:
+          type: boolean
+          title: Log invalid rows
+          description: Log up to 3 rows that @{product} skips due to data mismatch
+        keyValueMetadata:
+          type: array
+          title: Metadata (optional)
+          description: 'The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: "key":"OCSF Event Class", "value":"9001"'
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/ItemsTypeKeyValueMetadata"
+        enableStatistics:
+          type: boolean
+          title: Write statistics
+          description: Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics.
+        enableWritePageIndex:
+          type: boolean
+          title: Write page indexes
+          description: One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping.
+        enablePageChecksum:
+          type: boolean
+          title: Write page checksum
+          description: Parquet tools can use the checksum of a Parquet page to verify data integrity
+        emptyDirCleanupSec:
+          type: number
+          title: Staging cleanup period
+          description: How frequently, in seconds, to clean up empty directories
+          minimum: 10
+          maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+        deadletterPath:
+          type: string
+          title: Dead-letter location
+          description: Storage location for files that fail to reach their final destination after maximum retries are exceeded
+        maxRetryNum:
+          type: number
+          title: Retry limit
+          description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
+          minimum: 1
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
+        __template_bucket:
+          type: string
+          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_destPath:
+          type: string
+          description: Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime.
+        __template_format:
+          type: string
+          description: Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime.
+        __template_baseFileName:
+          type: string
+          description: Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime.
+        __template_fileNameSuffix:
+          type: string
+          description: Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime.
+        __template_onBackpressure:
+          type: string
+          description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
+        __template_awsApiKey:
+          type: string
+          description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
+        __template_compress:
+          type: string
+          description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     Output:
       oneOf:
         - $ref: "#/components/schemas/OutputDefault"
@@ -39473,6 +39813,7 @@ components:
         - $ref: "#/components/schemas/OutputMicrosoftFabric"
         - $ref: "#/components/schemas/OutputCloudflareR2"
         - $ref: "#/components/schemas/OutputNutanixObjects"
+        - $ref: "#/components/schemas/OutputAlphasocS3"
       discriminator:
         propertyName: type
         mapping:
@@ -39548,6 +39889,7 @@ components:
           microsoft_fabric: "#/components/schemas/OutputMicrosoftFabric"
           cloudflare_r2: "#/components/schemas/OutputCloudflareR2"
           nutanix_objects: "#/components/schemas/OutputNutanixObjects"
+          alphasoc_s3: "#/components/schemas/OutputAlphasocS3"
     CountedOutput:
       type: object
       properties:
@@ -39633,6 +39975,7 @@ components:
         - databricks
         - wiz_hec
         - nutanix_objects
+        - alphasoc_s3
       x-speakeasy-unknown-values: allow
     CountedOutputSamplesResponse:
       type: object
@@ -43318,23 +43661,6 @@ components:
         - v2
         - v4
       x-speakeasy-unknown-values: allow
-    AuthenticationTypeOptions:
-      type: string
-      title: Authentication type
-      description: OpenTelemetry authentication type
-      enum:
-        - none
-        - basic
-        - credentialsSecret
-        - token
-        - textSecret
-      x-speakeasy-enum-descriptions:
-        - None
-        - Basic
-        - Basic (credentials secret)
-        - Token
-        - Token (text secret)
-      x-speakeasy-unknown-values: allow
     SignatureVersionOptionsSqs:
       type: string
       title: Signature version
@@ -44102,7 +44428,7 @@ components:
         - parquet
         - ddss
       x-speakeasy-unknown-values: allow
-    AuthenticationTypeOptionsBasicCredentialsSecret:
+    AuthenticationTypeOptions:
       type: string
       title: Authentication type
       description: ""
@@ -44116,6 +44442,17 @@ components:
         - Basic
         - Basic (credentials secret)
         - SSL User Certificate
+      x-speakeasy-unknown-values: allow
+    AuthenticationMethodOptionsa18be1:
+      type: string
+      title: Authentication method
+      description: AWS authentication method.
+      enum:
+        - manual
+        - secret
+      x-speakeasy-enum-descriptions:
+        - Manual
+        - Secret Key pair
       x-speakeasy-unknown-values: allow
     AdditionalPropertiesTypeRoutesGroups:
       type: object
@@ -46320,6 +46657,14 @@ components:
         type: nutanix_objects
         bucket: my-bucket
         endpoint: https://nutanix-objects.example.com
+        stagePath: /tmp/staging
+    OutputCreateExamplesAlphasocS3:
+      summary: AlphaSOC
+      value:
+        id: alphasoc-s3-output
+        type: alphasoc_s3
+        bucket: events
+        endpoint: https://s3.alphasoc.net
         stagePath: /tmp/staging
     OutputCreateExamplesAzureBlob:
       summary: Azure Blob
@@ -50007,6 +50352,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesS3"
               OutputCreateExamplesNutanixObjects:
                 $ref: "#/components/examples/OutputCreateExamplesNutanixObjects"
+              OutputCreateExamplesAlphasocS3:
+                $ref: "#/components/examples/OutputCreateExamplesAlphasocS3"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -50222,6 +50569,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesS3"
               OutputCreateExamplesNutanixObjects:
                 $ref: "#/components/examples/OutputCreateExamplesNutanixObjects"
+              OutputCreateExamplesAlphasocS3:
+                $ref: "#/components/examples/OutputCreateExamplesAlphasocS3"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -50617,6 +50966,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesS3"
               OutputCreateExamplesNutanixObjects:
                 $ref: "#/components/examples/OutputCreateExamplesNutanixObjects"
+              OutputCreateExamplesAlphasocS3:
+                $ref: "#/components/examples/OutputCreateExamplesAlphasocS3"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -50851,6 +51202,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesS3"
               OutputCreateExamplesNutanixObjects:
                 $ref: "#/components/examples/OutputCreateExamplesNutanixObjects"
+              OutputCreateExamplesAlphasocS3:
+                $ref: "#/components/examples/OutputCreateExamplesAlphasocS3"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -53983,7 +54336,7 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Upload a Pack file
-      description: Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
+      description: Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</code>, which you must call separately.
       responses:
         "200":
           description: Pack file uploaded successfully

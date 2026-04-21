@@ -59,6 +59,33 @@ with CriblControlPlane(
 
 Create a new Destination within the specified Pack.
 
+### Example Usage: OutputCreateExamplesAlphasocS3
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesAlphasocS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "alphasoc-s3-output",
+        "type": models.CreateOutputSystemByPackTypeAlphasocS3.ALPHASOC_S3,
+        "bucket": "events",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.alphasoc.net",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesAzureBlob
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesAzureBlob" -->
@@ -2095,6 +2122,33 @@ with CriblControlPlane(
 
 Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
 
+### Example Usage: OutputCreateExamplesAlphasocS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesAlphasocS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "alphasoc-s3-output",
+        "type": models.OutputAlphasocS3Type.ALPHASOC_S3,
+        "bucket": "events",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.alphasoc.net",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesAzureBlob
 
 <!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesAzureBlob" -->

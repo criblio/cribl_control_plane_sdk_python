@@ -23,7 +23,7 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
-from .createinputsystembypack_network_mode_systemmetrics import (
+from .createinputsystembypack_memory_systemmetrics import (
     CreateInputSystemByPackCPUSystemMetrics,
     CreateInputSystemByPackCPUSystemMetricsTypedDict,
     CreateInputSystemByPackInputAppscope,
@@ -100,7 +100,6 @@ from .createinputsystembypack_network_mode_systemmetrics import (
     CreateInputSystemByPackInputZscalerHecTypedDict,
     CreateInputSystemByPackMemorySystemMetrics,
     CreateInputSystemByPackMemorySystemMetricsTypedDict,
-    CreateInputSystemByPackNetworkModeSystemMetrics,
     CreateInputSystemByPackSystemSystemMetrics,
     CreateInputSystemByPackSystemSystemMetricsTypedDict,
     CreateInputSystemByPackTypeSystemMetrics,
@@ -173,6 +172,21 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputSystemByPackNetworkModeSystemMetrics(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Select the level of detail for network metrics"""
+
+    # Basic
+    BASIC = "basic"
+    # All
+    ALL = "all"
+    # Custom
+    CUSTOM = "custom"
+    # Disabled
+    DISABLED = "disabled"
 
 
 class CreateInputSystemByPackNetworkSystemMetricsTypedDict(TypedDict):

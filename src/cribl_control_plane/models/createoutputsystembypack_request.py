@@ -29,15 +29,15 @@ from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
 from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionshttp import CompressionOptionsHTTP
 from .compressionoptionspq import CompressionOptionsPq
-from .createoutputsystembypack_timestamp_precision import (
+from .createoutputsystembypack_pqcontrols_cloudwatch import (
+    CreateOutputSystemByPackOutputAlphasocS3,
+    CreateOutputSystemByPackOutputAlphasocS3TypedDict,
     CreateOutputSystemByPackOutputChronicle,
     CreateOutputSystemByPackOutputChronicleTypedDict,
     CreateOutputSystemByPackOutputClickHouse,
     CreateOutputSystemByPackOutputClickHouseTypedDict,
     CreateOutputSystemByPackOutputCloudflareR2,
     CreateOutputSystemByPackOutputCloudflareR2TypedDict,
-    CreateOutputSystemByPackOutputCloudwatch,
-    CreateOutputSystemByPackOutputCloudwatchTypedDict,
     CreateOutputSystemByPackOutputCriblHTTP,
     CreateOutputSystemByPackOutputCriblHTTPTypedDict,
     CreateOutputSystemByPackOutputCriblLake,
@@ -108,8 +108,9 @@ from .createoutputsystembypack_timestamp_precision import (
     CreateOutputSystemByPackOutputSumoLogicTypedDict,
     CreateOutputSystemByPackOutputXsiam,
     CreateOutputSystemByPackOutputXsiamTypedDict,
-    CreateOutputSystemByPackTimestampPrecision,
-    CreateOutputSystemByPackTypeInfluxdb,
+    CreateOutputSystemByPackPqControlsCloudwatch,
+    CreateOutputSystemByPackPqControlsCloudwatchTypedDict,
+    CreateOutputSystemByPackTypeCloudwatch,
 )
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
@@ -201,6 +202,423 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateOutputSystemByPackOutputCloudwatchTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCloudwatch
+    log_group_name: str
+    r"""CloudWatch log group to associate events with"""
+    log_stream_name: str
+    r"""Prefix for CloudWatch log stream name. This prefix will be used to generate a unique log stream name per cribl instance, for example: myStream_myHost_myOutputId"""
+    region: str
+    r"""Region where the CloudWatchLogs is located"""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    endpoint: NotRequired[str]
+    r"""CloudWatchLogs service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint."""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access CloudWatchLogs"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    max_queue_size: NotRequired[float]
+    r"""Maximum number of queued batches before blocking"""
+    max_record_size_kb: NotRequired[float]
+    r"""Maximum size (KB) of each individual record before compression. For non compressible data 1MB is the max recommended size"""
+    flush_period_sec: NotRequired[float]
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
+    on_backpressure: NotRequired[BackpressureBehaviorOptions]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[ModeOptions]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+    pq_max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+    pq_max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    pq_path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    pq_compress: NotRequired[CompressionOptionsPq]
+    r"""Codec to use to compress the persisted data"""
+    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsCloudwatchTypedDict]
+    template_log_group_name: NotRequired[str]
+    r"""Binds 'logGroupName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logGroupName' at runtime."""
+    template_log_stream_name: NotRequired[str]
+    r"""Binds 'logStreamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logStreamName' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_assume_role_arn: NotRequired[str]
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+    template_assume_role_external_id: NotRequired[str]
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_aws_api_key: NotRequired[str]
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+
+class CreateOutputSystemByPackOutputCloudwatch(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCloudwatch
+
+    log_group_name: Annotated[str, pydantic.Field(alias="logGroupName")]
+    r"""CloudWatch log group to associate events with"""
+
+    log_stream_name: Annotated[str, pydantic.Field(alias="logStreamName")]
+    r"""Prefix for CloudWatch log stream name. This prefix will be used to generate a unique log stream name per cribl instance, for example: myStream_myHost_myOutputId"""
+
+    region: str
+    r"""Region where the CloudWatchLogs is located"""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = None
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    endpoint: Optional[str] = None
+    r"""CloudWatchLogs service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint."""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = None
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = None
+    r"""Use Assume Role credentials to access CloudWatchLogs"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = None
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    max_queue_size: Annotated[Optional[float], pydantic.Field(alias="maxQueueSize")] = (
+        None
+    )
+    r"""Maximum number of queued batches before blocking"""
+
+    max_record_size_kb: Annotated[
+        Optional[float], pydantic.Field(alias="maxRecordSizeKB")
+    ] = None
+    r"""Maximum size (KB) of each individual record before compression. For non compressible data 1MB is the max recommended size"""
+
+    flush_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="flushPeriodSec")
+    ] = None
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = None
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = None
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = None
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = None
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
+    pq_max_file_size: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxFileSize")
+    ] = None
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+
+    pq_compress: Annotated[
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
+    ] = None
+    r"""Codec to use to compress the persisted data"""
+
+    pq_on_backpressure: Annotated[
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
+    ] = None
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
+    pq_controls: Annotated[
+        Optional[CreateOutputSystemByPackPqControlsCloudwatch],
+        pydantic.Field(alias="pqControls"),
+    ] = None
+
+    template_log_group_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logGroupName")
+    ] = None
+    r"""Binds 'logGroupName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logGroupName' at runtime."""
+
+    template_log_stream_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logStreamName")
+    ] = None
+    r"""Binds 'logStreamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logStreamName' at runtime."""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
+    ] = None
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+
+    template_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
+    ] = None
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_aws_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsApiKey")
+    ] = None
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_mode")
+    def serialize_pq_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_compress")
+    def serialize_pq_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsPq(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_on_backpressure")
+    def serialize_pq_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.QueueFullBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "endpoint",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxQueueSize",
+                "maxRecordSizeKB",
+                "flushPeriodSec",
+                "onBackpressure",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
+                "pqControls",
+                "__template_logGroupName",
+                "__template_logStreamName",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_endpoint",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_onBackpressure",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateOutputSystemByPackTypeInfluxdb(str, Enum):
+    INFLUXDB = "influxdb"
+
+
+class CreateOutputSystemByPackTimestampPrecision(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
+
+    # Nanoseconds
+    NS = "ns"
+    # Microseconds
+    U = "u"
+    # Milliseconds
+    MS = "ms"
+    # Seconds
+    S = "s"
+    # Minutes
+    M = "m"
+    # Hours
+    H = "h"
 
 
 class CreateOutputSystemByPackAuthenticationTypeInfluxdb(
@@ -16955,8 +17373,8 @@ CreateOutputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateOutputSystemByPackOutputPrometheusTypedDict,
         CreateOutputSystemByPackOutputCriblHTTPTypedDict,
         CreateOutputSystemByPackOutputWizHecTypedDict,
-        CreateOutputSystemByPackOutputXsiamTypedDict,
         CreateOutputSystemByPackOutputDatasetTypedDict,
+        CreateOutputSystemByPackOutputXsiamTypedDict,
         CreateOutputSystemByPackOutputNewrelicTypedDict,
         CreateOutputSystemByPackOutputCriblSearchEngineTypedDict,
         CreateOutputSystemByPackOutputLokiTypedDict,
@@ -16969,17 +17387,18 @@ CreateOutputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateOutputSystemByPackOutputDatadogTypedDict,
         CreateOutputSystemByPackOutputSqsTypedDict,
         CreateOutputSystemByPackOutputInfluxdbTypedDict,
-        CreateOutputSystemByPackOutputOpenTelemetryTypedDict,
         CreateOutputSystemByPackOutputElasticTypedDict,
-        CreateOutputSystemByPackOutputSentinelOneAiSiemTypedDict,
         CreateOutputSystemByPackOutputGoogleChronicleTypedDict,
+        CreateOutputSystemByPackOutputSentinelOneAiSiemTypedDict,
         CreateOutputSystemByPackOutputClickHouseTypedDict,
-        CreateOutputSystemByPackOutputLocalSearchStorageTypedDict,
         CreateOutputSystemByPackOutputChronicleTypedDict,
+        CreateOutputSystemByPackOutputLocalSearchStorageTypedDict,
         CreateOutputSystemByPackOutputDatabricksTypedDict,
+        CreateOutputSystemByPackOutputOpenTelemetryTypedDict,
         CreateOutputSystemByPackOutputMskTypedDict,
         CreateOutputSystemByPackOutputCriblLakeTypedDict,
         CreateOutputSystemByPackOutputSentinelTypedDict,
+        CreateOutputSystemByPackOutputAlphasocS3TypedDict,
         CreateOutputSystemByPackOutputCloudflareR2TypedDict,
         CreateOutputSystemByPackOutputNutanixObjectsTypedDict,
         CreateOutputSystemByPackOutputGoogleCloudStorageTypedDict,
@@ -16990,8 +17409,8 @@ CreateOutputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateOutputSystemByPackOutputDlS3TypedDict,
         CreateOutputSystemByPackOutputS3TypedDict,
         CreateOutputSystemByPackOutputAzureDataExplorerTypedDict,
-        CreateOutputSystemByPackOutputGrafanaCloudUnionTypedDict,
         CreateOutputSystemByPackOutputWebhookUnionTypedDict,
+        CreateOutputSystemByPackOutputGrafanaCloudUnionTypedDict,
     ],
 )
 r"""Output object"""
@@ -17095,6 +17514,7 @@ CreateOutputSystemByPackRequestBody = Annotated[
         ],
         Annotated[CreateOutputSystemByPackOutputCloudflareR2, Tag("cloudflare_r2")],
         Annotated[CreateOutputSystemByPackOutputNutanixObjects, Tag("nutanix_objects")],
+        Annotated[CreateOutputSystemByPackOutputAlphasocS3, Tag("alphasoc_s3")],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
@@ -17121,6 +17541,10 @@ class CreateOutputSystemByPackRequest(BaseModel):
     r"""Output object"""
 
 
+try:
+    CreateOutputSystemByPackOutputCloudwatch.model_rebuild()
+except NameError:
+    pass
 try:
     CreateOutputSystemByPackOutputInfluxdb.model_rebuild()
 except NameError:

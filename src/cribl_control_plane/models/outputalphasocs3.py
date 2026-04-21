@@ -27,25 +27,23 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputNutanixObjectsType(str, Enum):
-    NUTANIX_OBJECTS = "nutanix_objects"
+class OutputAlphasocS3Type(str, Enum):
+    ALPHASOC_S3 = "alphasoc_s3"
 
 
-class OutputNutanixObjectsSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Signature version to use for signing Nutanix Objects requests"""
+class OutputAlphasocS3SignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Signature version to use for signing AlphaSOC requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class OutputNutanixObjectsTypedDict(TypedDict):
-    type: OutputNutanixObjectsType
+class OutputAlphasocS3TypedDict(TypedDict):
+    type: OutputAlphasocS3Type
     bucket: str
-    r"""Name of the destination Nutanix Objects bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    r"""Name of the destination AlphaSOC bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-    endpoint: str
-    r"""Nutanix Objects S3-compatible endpoint URL (example: https://objects.nutanix.local)"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -58,16 +56,14 @@ class OutputNutanixObjectsTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsa18be1]
     r"""AWS authentication method."""
-    signature_version: NotRequired[OutputNutanixObjectsSignatureVersion]
-    r"""Signature version to use for signing Nutanix Objects requests"""
+    signature_version: NotRequired[OutputAlphasocS3SignatureVersion]
+    r"""Signature version to use for signing AlphaSOC requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-    region: NotRequired[str]
-    r"""Region where the Nutanix Objects bucket is located"""
     dest_path: NotRequired[str]
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
     max_concurrent_file_parts: NotRequired[float]
@@ -110,6 +106,8 @@ class OutputNutanixObjectsTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    endpoint: NotRequired[str]
+    r"""AlphaSOC S3-compatible endpoint URL (example: https://s3.alphasoc.net)"""
     description: NotRequired[str]
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
@@ -153,12 +151,8 @@ class OutputNutanixObjectsTypedDict(TypedDict):
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
     template_dest_path: NotRequired[str]
     r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
-    template_partition_expr: NotRequired[str]
-    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
     template_format: NotRequired[str]
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
     template_base_file_name: NotRequired[str]
@@ -177,17 +171,14 @@ class OutputNutanixObjectsTypedDict(TypedDict):
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
-class OutputNutanixObjects(BaseModel):
-    type: OutputNutanixObjectsType
+class OutputAlphasocS3(BaseModel):
+    type: OutputAlphasocS3Type
 
     bucket: str
-    r"""Name of the destination Nutanix Objects bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    r"""Name of the destination AlphaSOC bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
     stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-
-    endpoint: str
-    r"""Nutanix Objects S3-compatible endpoint URL (example: https://objects.nutanix.local)"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -213,10 +204,10 @@ class OutputNutanixObjects(BaseModel):
     r"""AWS authentication method."""
 
     signature_version: Annotated[
-        Optional[OutputNutanixObjectsSignatureVersion],
+        Optional[OutputAlphasocS3SignatureVersion],
         pydantic.Field(alias="signatureVersion"),
     ] = None
-    r"""Signature version to use for signing Nutanix Objects requests"""
+    r"""Signature version to use for signing AlphaSOC requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
@@ -232,9 +223,6 @@ class OutputNutanixObjects(BaseModel):
         None
     )
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-
-    region: Optional[str] = None
-    r"""Region where the Nutanix Objects bucket is located"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
@@ -340,6 +328,9 @@ class OutputNutanixObjects(BaseModel):
 
     orphans: Optional[OrphanFileRecoveryType] = None
 
+    endpoint: Optional[str] = None
+    r"""AlphaSOC S3-compatible endpoint URL (example: https://s3.alphasoc.net)"""
+
     description: Optional[str] = None
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
@@ -442,20 +433,10 @@ class OutputNutanixObjects(BaseModel):
     ] = None
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
 
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
     template_dest_path: Annotated[
         Optional[str], pydantic.Field(alias="__template_destPath")
     ] = None
     r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
-
-    template_partition_expr: Annotated[
-        Optional[str], pydantic.Field(alias="__template_partitionExpr")
-    ] = None
-    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
 
     template_format: Annotated[
         Optional[str], pydantic.Field(alias="__template_format")
@@ -510,7 +491,7 @@ class OutputNutanixObjects(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputNutanixObjectsSignatureVersion(value)
+                return models.OutputAlphasocS3SignatureVersion(value)
             except ValueError:
                 return value
         return value
@@ -592,7 +573,6 @@ class OutputNutanixObjects(BaseModel):
                 "reuseConnections",
                 "rejectUnauthorized",
                 "awsSecretKey",
-                "region",
                 "destPath",
                 "maxConcurrentFileParts",
                 "verifyPermissions",
@@ -615,6 +595,7 @@ class OutputNutanixObjects(BaseModel):
                 "forceCloseOnShutdown",
                 "retrySettings",
                 "orphans",
+                "endpoint",
                 "description",
                 "awsApiKey",
                 "awsSecret",
@@ -637,9 +618,7 @@ class OutputNutanixObjects(BaseModel):
                 "maxRetryNum",
                 "__template_awsSecretKey",
                 "__template_bucket",
-                "__template_region",
                 "__template_destPath",
-                "__template_partitionExpr",
                 "__template_format",
                 "__template_baseFileName",
                 "__template_fileNameSuffix",
@@ -665,6 +644,6 @@ class OutputNutanixObjects(BaseModel):
 
 
 try:
-    OutputNutanixObjects.model_rebuild()
+    OutputAlphasocS3.model_rebuild()
 except NameError:
     pass

@@ -435,3 +435,9 @@ value: models.OutputCloudflareR2 = /* values here */
 value: models.OutputNutanixObjects = /* values here */
 ```
 
+### `models.OutputAlphasocS3`
+
+```python
+value: models.OutputAlphasocS3 = /* values here */
+```
+

@@ -78,3 +78,4 @@ class DestinationType(str, Enum, metaclass=utils.OpenEnumMeta):
     DATABRICKS = "databricks"
     WIZ_HEC = "wiz_hec"
     NUTANIX_OBJECTS = "nutanix_objects"
+    ALPHASOC_S3 = "alphasoc_s3"

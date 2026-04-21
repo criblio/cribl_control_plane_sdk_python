@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .acknowledgmentsoptions import AcknowledgmentsOptions
+from .authenticationmethodoptionsa18be1 import AuthenticationMethodOptionsa18be1
 from .authenticationmethodoptionsapi import AuthenticationMethodOptionsAPI
 from .authenticationmethodoptionsauthtokensitems import (
     AuthenticationMethodOptionsAuthTokensItems,
@@ -10,9 +11,6 @@ from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationtypeoptions import AuthenticationTypeOptions
-from .authenticationtypeoptionsbasiccredentialssecret import (
-    AuthenticationTypeOptionsBasicCredentialsSecret,
-)
 from .authenticationtypeoptionsprometheusauth import (
     AuthenticationTypeOptionsPrometheusAuth,
 )
@@ -55,6 +53,8 @@ from .itemstypekeyvaluemetadata import (
     ItemsTypeKeyValueMetadata,
     ItemsTypeKeyValueMetadataTypedDict,
 )
+from .itemstypeoauthheaders import ItemsTypeOauthHeaders, ItemsTypeOauthHeadersTypedDict
+from .itemstypeoauthparams import ItemsTypeOauthParams, ItemsTypeOauthParamsTypedDict
 from .itemstyperesponseretrysettings import (
     ItemsTypeResponseRetrySettings,
     ItemsTypeResponseRetrySettingsTypedDict,
@@ -126,22 +126,628 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class CreateOutputTypeNutanixObjects(str, Enum):
+class CreateOutputSystemByPackTypeAlphasocS3(str, Enum):
+    ALPHASOC_S3 = "alphasoc_s3"
+
+
+class CreateOutputSystemByPackSignatureVersionAlphasocS3(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Signature version to use for signing AlphaSOC requests"""
+
+    V2 = "v2"
+    V4 = "v4"
+
+
+class CreateOutputSystemByPackOutputAlphasocS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeAlphasocS3
+    bucket: str
+    r"""Name of the destination AlphaSOC bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsa18be1]
+    r"""AWS authentication method."""
+    signature_version: NotRequired[CreateOutputSystemByPackSignatureVersionAlphasocS3]
+    r"""Signature version to use for signing AlphaSOC requests"""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+    dest_path: NotRequired[str]
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+    max_concurrent_file_parts: NotRequired[float]
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    verify_permissions: NotRequired[bool]
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+    max_closing_files_to_backpressure: NotRequired[float]
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    add_id_to_stage_path: NotRequired[bool]
+    r"""Add the Output ID value to staging location"""
+    remove_empty_dirs: NotRequired[bool]
+    r"""Remove empty staging directories after moving files"""
+    partition_expr: NotRequired[str]
+    r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
+    format_: NotRequired[DataFormatOptions]
+    r"""Format of the output data"""
+    base_file_name: NotRequired[str]
+    r"""JavaScript expression to define the output filename prefix (can be constant)"""
+    file_name_suffix: NotRequired[str]
+    r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
+    max_file_size_mb: NotRequired[float]
+    r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+    max_file_open_time_sec: NotRequired[float]
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    max_file_idle_time_sec: NotRequired[float]
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+    max_open_files: NotRequired[float]
+    r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
+    header_line: NotRequired[str]
+    r"""If set, this line will be written to the beginning of each output file"""
+    write_high_water_mark: NotRequired[float]
+    r"""Buffer size used to write to a file"""
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    deadletter_enabled: NotRequired[bool]
+    r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
+    on_disk_full_backpressure: NotRequired[DiskSpaceProtectionOptions]
+    r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    force_close_on_shutdown: NotRequired[bool]
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    endpoint: NotRequired[str]
+    r"""AlphaSOC S3-compatible endpoint URL (example: https://s3.alphasoc.net)"""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    compress: NotRequired[CompressionOptionsHTTP]
+    r"""Data compression format to apply to HTTP content before it is delivered"""
+    compression_level: NotRequired[CompressionLevelOptions]
+    r"""Compression level to apply before moving files to final destination"""
+    automatic_schema: NotRequired[bool]
+    r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+    parquet_schema: NotRequired[str]
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
+    parquet_version: NotRequired[ParquetVersionOptions]
+    r"""Determines which data types are supported and how they are represented"""
+    parquet_data_page_version: NotRequired[DataPageVersionOptions]
+    r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
+    parquet_row_group_length: NotRequired[float]
+    r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
+    parquet_page_size: NotRequired[str]
+    r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
+    should_log_invalid_rows: NotRequired[bool]
+    r"""Log up to 3 rows that @{product} skips due to data mismatch"""
+    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
+    enable_statistics: NotRequired[bool]
+    r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
+    enable_write_page_index: NotRequired[bool]
+    r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
+    enable_page_checksum: NotRequired[bool]
+    r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
+    empty_dir_cleanup_sec: NotRequired[float]
+    r"""How frequently, in seconds, to clean up empty directories"""
+    directory_batch_size: NotRequired[float]
+    r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
+    deadletter_path: NotRequired[str]
+    r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
+    max_retry_num: NotRequired[float]
+    r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_dest_path: NotRequired[str]
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_base_file_name: NotRequired[str]
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+    template_file_name_suffix: NotRequired[str]
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_aws_api_key: NotRequired[str]
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
+
+class CreateOutputSystemByPackOutputAlphasocS3(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeAlphasocS3
+
+    bucket: str
+    r"""Name of the destination AlphaSOC bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsa18be1],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = None
+    r"""AWS authentication method."""
+
+    signature_version: Annotated[
+        Optional[CreateOutputSystemByPackSignatureVersionAlphasocS3],
+        pydantic.Field(alias="signatureVersion"),
+    ] = None
+    r"""Signature version to use for signing AlphaSOC requests"""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = None
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+
+    max_concurrent_file_parts: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    ] = None
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+
+    verify_permissions: Annotated[
+        Optional[bool], pydantic.Field(alias="verifyPermissions")
+    ] = None
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+
+    max_closing_files_to_backpressure: Annotated[
+        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
+    ] = None
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+
+    add_id_to_stage_path: Annotated[
+        Optional[bool], pydantic.Field(alias="addIdToStagePath")
+    ] = None
+    r"""Add the Output ID value to staging location"""
+
+    remove_empty_dirs: Annotated[
+        Optional[bool], pydantic.Field(alias="removeEmptyDirs")
+    ] = None
+    r"""Remove empty staging directories after moving files"""
+
+    partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
+        None
+    )
+    r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
+
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        None
+    )
+    r"""Format of the output data"""
+
+    base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
+        None
+    )
+    r"""JavaScript expression to define the output filename prefix (can be constant)"""
+
+    file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="fileNameSuffix")
+    ] = None
+    r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
+
+    max_file_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileSizeMB")
+    ] = None
+    r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+
+    max_file_open_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
+    ] = None
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+
+    max_file_idle_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    ] = None
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+
+    max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
+        None
+    )
+    r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
+
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
+    r"""If set, this line will be written to the beginning of each output file"""
+
+    write_high_water_mark: Annotated[
+        Optional[float], pydantic.Field(alias="writeHighWaterMark")
+    ] = None
+    r"""Buffer size used to write to a file"""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    deadletter_enabled: Annotated[
+        Optional[bool], pydantic.Field(alias="deadletterEnabled")
+    ] = None
+    r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
+
+    on_disk_full_backpressure: Annotated[
+        Optional[DiskSpaceProtectionOptions],
+        pydantic.Field(alias="onDiskFullBackpressure"),
+    ] = None
+    r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+
+    force_close_on_shutdown: Annotated[
+        Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
+    ] = None
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
+
+    endpoint: Optional[str] = None
+    r"""AlphaSOC S3-compatible endpoint URL (example: https://s3.alphasoc.net)"""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    compress: Optional[CompressionOptionsHTTP] = None
+    r"""Data compression format to apply to HTTP content before it is delivered"""
+
+    compression_level: Annotated[
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
+    ] = None
+    r"""Compression level to apply before moving files to final destination"""
+
+    automatic_schema: Annotated[
+        Optional[bool], pydantic.Field(alias="automaticSchema")
+    ] = None
+    r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+
+    parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
+        None
+    )
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
+
+    parquet_version: Annotated[
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
+    ] = None
+    r"""Determines which data types are supported and how they are represented"""
+
+    parquet_data_page_version: Annotated[
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
+    ] = None
+    r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
+
+    parquet_row_group_length: Annotated[
+        Optional[float], pydantic.Field(alias="parquetRowGroupLength")
+    ] = None
+    r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
+
+    parquet_page_size: Annotated[
+        Optional[str], pydantic.Field(alias="parquetPageSize")
+    ] = None
+    r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
+
+    should_log_invalid_rows: Annotated[
+        Optional[bool], pydantic.Field(alias="shouldLogInvalidRows")
+    ] = None
+    r"""Log up to 3 rows that @{product} skips due to data mismatch"""
+
+    key_value_metadata: Annotated[
+        Optional[List[ItemsTypeKeyValueMetadata]],
+        pydantic.Field(alias="keyValueMetadata"),
+    ] = None
+    r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
+
+    enable_statistics: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStatistics")
+    ] = None
+    r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
+
+    enable_write_page_index: Annotated[
+        Optional[bool], pydantic.Field(alias="enableWritePageIndex")
+    ] = None
+    r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
+
+    enable_page_checksum: Annotated[
+        Optional[bool], pydantic.Field(alias="enablePageChecksum")
+    ] = None
+    r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
+
+    empty_dir_cleanup_sec: Annotated[
+        Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
+    ] = None
+    r"""How frequently, in seconds, to clean up empty directories"""
+
+    directory_batch_size: Annotated[
+        Optional[float], pydantic.Field(alias="directoryBatchSize")
+    ] = None
+    r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
+
+    deadletter_path: Annotated[
+        Optional[str], pydantic.Field(alias="deadletterPath")
+    ] = None
+    r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
+
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
+    r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_dest_path: Annotated[
+        Optional[str], pydantic.Field(alias="__template_destPath")
+    ] = None
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+
+    template_base_file_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_baseFileName")
+    ] = None
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+
+    template_file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_fileNameSuffix")
+    ] = None
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_aws_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsApiKey")
+    ] = None
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsa18be1(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("signature_version")
+    def serialize_signature_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateOutputSystemByPackSignatureVersionAlphasocS3(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("format_")
+    def serialize_format_(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataFormatOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_disk_full_backpressure")
+    def serialize_on_disk_full_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DiskSpaceProtectionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("compress")
+    def serialize_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsHTTP(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("compression_level")
+    def serialize_compression_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionLevelOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("parquet_version")
+    def serialize_parquet_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ParquetVersionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("parquet_data_page_version")
+    def serialize_parquet_data_page_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataPageVersionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAuthenticationMethod",
+                "signatureVersion",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "awsSecretKey",
+                "destPath",
+                "maxConcurrentFileParts",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "addIdToStagePath",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "orphans",
+                "endpoint",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+                "__template_awsSecretKey",
+                "__template_bucket",
+                "__template_destPath",
+                "__template_format",
+                "__template_baseFileName",
+                "__template_fileNameSuffix",
+                "__template_onBackpressure",
+                "__template_endpoint",
+                "__template_awsApiKey",
+                "__template_compress",
+                "__template_parquetSchema",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateOutputSystemByPackTypeNutanixObjects(str, Enum):
     NUTANIX_OBJECTS = "nutanix_objects"
 
 
-class CreateOutputAuthenticationMethodNutanixObjects(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""AWS authentication method."""
-
-    # Manual
-    MANUAL = "manual"
-    # Secret Key pair
-    SECRET = "secret"
-
-
-class CreateOutputSignatureVersionNutanixObjects(
+class CreateOutputSystemByPackSignatureVersionNutanixObjects(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Signature version to use for signing Nutanix Objects requests"""
@@ -150,10 +756,10 @@ class CreateOutputSignatureVersionNutanixObjects(
     V4 = "v4"
 
 
-class CreateOutputOutputNutanixObjectsTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputNutanixObjectsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeNutanixObjects
+    type: CreateOutputSystemByPackTypeNutanixObjects
     bucket: str
     r"""Name of the destination Nutanix Objects bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -168,11 +774,11 @@ class CreateOutputOutputNutanixObjectsTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[
-        CreateOutputAuthenticationMethodNutanixObjects
-    ]
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsa18be1]
     r"""AWS authentication method."""
-    signature_version: NotRequired[CreateOutputSignatureVersionNutanixObjects]
+    signature_version: NotRequired[
+        CreateOutputSystemByPackSignatureVersionNutanixObjects
+    ]
     r"""Signature version to use for signing Nutanix Objects requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -291,11 +897,11 @@ class CreateOutputOutputNutanixObjectsTypedDict(TypedDict):
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
-class CreateOutputOutputNutanixObjects(BaseModel):
+class CreateOutputSystemByPackOutputNutanixObjects(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeNutanixObjects
+    type: CreateOutputSystemByPackTypeNutanixObjects
 
     bucket: str
     r"""Name of the destination Nutanix Objects bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -321,13 +927,13 @@ class CreateOutputOutputNutanixObjects(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[CreateOutputAuthenticationMethodNutanixObjects],
+        Optional[AuthenticationMethodOptionsa18be1],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = None
     r"""AWS authentication method."""
 
     signature_version: Annotated[
-        Optional[CreateOutputSignatureVersionNutanixObjects],
+        Optional[CreateOutputSystemByPackSignatureVersionNutanixObjects],
         pydantic.Field(alias="signatureVersion"),
     ] = None
     r"""Signature version to use for signing Nutanix Objects requests"""
@@ -615,7 +1221,7 @@ class CreateOutputOutputNutanixObjects(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAuthenticationMethodNutanixObjects(value)
+                return models.AuthenticationMethodOptionsa18be1(value)
             except ValueError:
                 return value
         return value
@@ -624,7 +1230,9 @@ class CreateOutputOutputNutanixObjects(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputSignatureVersionNutanixObjects(value)
+                return models.CreateOutputSystemByPackSignatureVersionNutanixObjects(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -777,11 +1385,11 @@ class CreateOutputOutputNutanixObjects(BaseModel):
         return m
 
 
-class CreateOutputTypeCloudflareR2(str, Enum):
+class CreateOutputSystemByPackTypeCloudflareR2(str, Enum):
     CLOUDFLARE_R2 = "cloudflare_r2"
 
 
-class CreateOutputAuthenticationMethodCloudflareR2(
+class CreateOutputSystemByPackAuthenticationMethodCloudflareR2(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -792,10 +1400,10 @@ class CreateOutputAuthenticationMethodCloudflareR2(
     SECRET = "secret"
 
 
-class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
+class CreateOutputSystemByPackOutputCloudflareR2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeCloudflareR2
+    type: CreateOutputSystemByPackTypeCloudflareR2
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -810,7 +1418,9 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[CreateOutputAuthenticationMethodCloudflareR2]
+    aws_authentication_method: NotRequired[
+        CreateOutputSystemByPackAuthenticationMethodCloudflareR2
+    ]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     signature_version: NotRequired[SignatureVersionOptionsMinIo]
     r"""Signature version to use for signing MinIO requests"""
@@ -931,11 +1541,11 @@ class CreateOutputOutputCloudflareR2TypedDict(TypedDict):
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
-class CreateOutputOutputCloudflareR2(BaseModel):
+class CreateOutputSystemByPackOutputCloudflareR2(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeCloudflareR2
+    type: CreateOutputSystemByPackTypeCloudflareR2
 
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -961,7 +1571,7 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     aws_authentication_method: Annotated[
-        Optional[CreateOutputAuthenticationMethodCloudflareR2],
+        Optional[CreateOutputSystemByPackAuthenticationMethodCloudflareR2],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -1255,7 +1865,9 @@ class CreateOutputOutputCloudflareR2(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAuthenticationMethodCloudflareR2(value)
+                return models.CreateOutputSystemByPackAuthenticationMethodCloudflareR2(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -1434,18 +2046,18 @@ class CreateOutputOutputCloudflareR2(BaseModel):
         return m
 
 
-class CreateOutputTypeMicrosoftFabric(str, Enum):
+class CreateOutputSystemByPackTypeMicrosoftFabric(str, Enum):
     MICROSOFT_FABRIC = "microsoft_fabric"
 
 
-class CreateOutputAuthenticationMethodMicrosoftFabric(
+class CreateOutputSystemByPackAuthenticationMethodMicrosoftFabric(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     SECRET = "secret"
     CERTIFICATE = "certificate"
 
 
-class CreateOutputAuthenticationTypedDict(TypedDict):
+class CreateOutputSystemByPackAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
@@ -1455,7 +2067,7 @@ class CreateOutputAuthenticationTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
     client_secret_auth_type: NotRequired[
-        CreateOutputAuthenticationMethodMicrosoftFabric
+        CreateOutputSystemByPackAuthenticationMethodMicrosoftFabric
     ]
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
@@ -1484,7 +2096,7 @@ class CreateOutputAuthenticationTypedDict(TypedDict):
     r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
 
 
-class CreateOutputAuthentication(BaseModel):
+class CreateOutputSystemByPackAuthentication(BaseModel):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
@@ -1498,7 +2110,7 @@ class CreateOutputAuthentication(BaseModel):
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
 
     client_secret_auth_type: Annotated[
-        Optional[CreateOutputAuthenticationMethodMicrosoftFabric],
+        Optional[CreateOutputSystemByPackAuthenticationMethodMicrosoftFabric],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
 
@@ -1571,7 +2183,11 @@ class CreateOutputAuthentication(BaseModel):
     def serialize_client_secret_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAuthenticationMethodMicrosoftFabric(value)
+                return (
+                    models.CreateOutputSystemByPackAuthenticationMethodMicrosoftFabric(
+                        value
+                    )
+                )
             except ValueError:
                 return value
         return value
@@ -1623,18 +2239,18 @@ class CreateOutputAuthentication(BaseModel):
         return m
 
 
-class CreateOutputPqControlsMicrosoftFabricTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsMicrosoftFabricTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsMicrosoftFabric(BaseModel):
+class CreateOutputSystemByPackPqControlsMicrosoftFabric(BaseModel):
     pass
 
 
-class CreateOutputOutputMicrosoftFabricTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputMicrosoftFabricTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeMicrosoftFabric
+    type: CreateOutputSystemByPackTypeMicrosoftFabric
     topic: str
     r"""Topic name from Fabric Eventstream's endpoint"""
     bootstrap_server: str
@@ -1673,7 +2289,7 @@ class CreateOutputOutputMicrosoftFabricTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[CreateOutputAuthenticationTypedDict]
+    sasl: NotRequired[CreateOutputSystemByPackAuthenticationTypedDict]
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -1701,7 +2317,7 @@ class CreateOutputOutputMicrosoftFabricTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsMicrosoftFabricTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsMicrosoftFabricTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
     template_format: NotRequired[str]
@@ -1712,11 +2328,11 @@ class CreateOutputOutputMicrosoftFabricTypedDict(TypedDict):
     r"""Binds 'bootstrap_server' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bootstrap_server' at runtime."""
 
 
-class CreateOutputOutputMicrosoftFabric(BaseModel):
+class CreateOutputSystemByPackOutputMicrosoftFabric(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeMicrosoftFabric
+    type: CreateOutputSystemByPackTypeMicrosoftFabric
 
     topic: str
     r"""Topic name from Fabric Eventstream's endpoint"""
@@ -1795,7 +2411,7 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
     ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[CreateOutputAuthentication] = None
+    sasl: Optional[CreateOutputSystemByPackAuthentication] = None
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
@@ -1857,7 +2473,7 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsMicrosoftFabric],
+        Optional[CreateOutputSystemByPackPqControlsMicrosoftFabric],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -1992,14 +2608,14 @@ class CreateOutputOutputMicrosoftFabric(BaseModel):
         return m
 
 
-class CreateOutputTypeDatabricks(str, Enum):
+class CreateOutputSystemByPackTypeDatabricks(str, Enum):
     DATABRICKS = "databricks"
 
 
-class CreateOutputOutputDatabricksTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputDatabricksTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeDatabricks
+    type: CreateOutputSystemByPackTypeDatabricks
     workspace_id: str
     r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
     scope: str
@@ -2115,11 +2731,11 @@ class CreateOutputOutputDatabricksTypedDict(TypedDict):
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
-class CreateOutputOutputDatabricks(BaseModel):
+class CreateOutputSystemByPackOutputDatabricks(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeDatabricks
+    type: CreateOutputSystemByPackTypeDatabricks
 
     workspace_id: Annotated[str, pydantic.Field(alias="workspaceId")]
     r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
@@ -2511,25 +3127,25 @@ class CreateOutputOutputDatabricks(BaseModel):
         return m
 
 
-class CreateOutputTypeChronicle(str, Enum):
+class CreateOutputSystemByPackTypeChronicle(str, Enum):
     CHRONICLE = "chronicle"
 
 
-class CreateOutputAuthenticationMethodChronicle(
+class CreateOutputSystemByPackAuthenticationMethodChronicle(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     SERVICE_ACCOUNT = "serviceAccount"
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
-class CreateOutputCustomLabelTypedDict(TypedDict):
+class CreateOutputSystemByPackCustomLabelTypedDict(TypedDict):
     key: str
     value: str
     rbac_enabled: NotRequired[bool]
     r"""Designate this label for role-based access control and filtering"""
 
 
-class CreateOutputCustomLabel(BaseModel):
+class CreateOutputSystemByPackCustomLabel(BaseModel):
     key: str
 
     value: str
@@ -2554,18 +3170,18 @@ class CreateOutputCustomLabel(BaseModel):
         return m
 
 
-class CreateOutputPqControlsChronicleTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsChronicleTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsChronicle(BaseModel):
+class CreateOutputSystemByPackPqControlsChronicle(BaseModel):
     pass
 
 
-class CreateOutputOutputChronicleTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputChronicleTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeChronicle
+    type: CreateOutputSystemByPackTypeChronicle
     region: str
     r"""Regional endpoint to send events to"""
     log_type: str
@@ -2583,7 +3199,9 @@ class CreateOutputOutputChronicleTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     api_version: NotRequired[str]
-    authentication_method: NotRequired[CreateOutputAuthenticationMethodChronicle]
+    authentication_method: NotRequired[
+        CreateOutputSystemByPackAuthenticationMethodChronicle
+    ]
     response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
@@ -2623,7 +3241,7 @@ class CreateOutputOutputChronicleTypedDict(TypedDict):
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     log_text_field: NotRequired[str]
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
-    custom_labels: NotRequired[List[CreateOutputCustomLabelTypedDict]]
+    custom_labels: NotRequired[List[CreateOutputSystemByPackCustomLabelTypedDict]]
     r"""Custom labels to be added to every event"""
     endpoint: NotRequired[str]
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
@@ -2654,7 +3272,7 @@ class CreateOutputOutputChronicleTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsChronicleTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsChronicleTypedDict]
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -2675,11 +3293,11 @@ class CreateOutputOutputChronicleTypedDict(TypedDict):
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
 
-class CreateOutputOutputChronicle(BaseModel):
+class CreateOutputSystemByPackOutputChronicle(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeChronicle
+    type: CreateOutputSystemByPackTypeChronicle
 
     region: str
     r"""Regional endpoint to send events to"""
@@ -2710,7 +3328,7 @@ class CreateOutputOutputChronicle(BaseModel):
     api_version: Annotated[Optional[str], pydantic.Field(alias="apiVersion")] = None
 
     authentication_method: Annotated[
-        Optional[CreateOutputAuthenticationMethodChronicle],
+        Optional[CreateOutputSystemByPackAuthenticationMethodChronicle],
         pydantic.Field(alias="authenticationMethod"),
     ] = None
 
@@ -2806,7 +3424,8 @@ class CreateOutputOutputChronicle(BaseModel):
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     custom_labels: Annotated[
-        Optional[List[CreateOutputCustomLabel]], pydantic.Field(alias="customLabels")
+        Optional[List[CreateOutputSystemByPackCustomLabel]],
+        pydantic.Field(alias="customLabels"),
     ] = None
     r"""Custom labels to be added to every event"""
 
@@ -2875,7 +3494,8 @@ class CreateOutputOutputChronicle(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsChronicle], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsChronicle],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_region: Annotated[
@@ -2927,7 +3547,9 @@ class CreateOutputOutputChronicle(BaseModel):
     def serialize_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAuthenticationMethodChronicle(value)
+                return models.CreateOutputSystemByPackAuthenticationMethodChronicle(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -3048,11 +3670,11 @@ class CreateOutputOutputChronicle(BaseModel):
         return m
 
 
-class CreateOutputTypeSentinelOneAiSiem(str, Enum):
+class CreateOutputSystemByPackTypeSentinelOneAiSiem(str, Enum):
     SENTINEL_ONE_AI_SIEM = "sentinel_one_ai_siem"
 
 
-class CreateOutputRegion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackRegion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
 
     US = "US"
@@ -3064,28 +3686,30 @@ class CreateOutputRegion(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "Custom"
 
 
-class CreateOutputAISIEMEndpointPath(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackAISIEMEndpointPath(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     ROOT_SERVICES_COLLECTOR_EVENT = "/services/collector/event"
     ROOT_SERVICES_COLLECTOR_RAW = "/services/collector/raw"
 
 
-class CreateOutputPqControlsSentinelOneAiSiemTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsSentinelOneAiSiemTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsSentinelOneAiSiem(BaseModel):
+class CreateOutputSystemByPackPqControlsSentinelOneAiSiem(BaseModel):
     pass
 
 
-class CreateOutputOutputSentinelOneAiSiemTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputSentinelOneAiSiemTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeSentinelOneAiSiem
-    region: CreateOutputRegion
+    type: CreateOutputSystemByPackTypeSentinelOneAiSiem
+    region: CreateOutputSystemByPackRegion
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
-    endpoint: CreateOutputAISIEMEndpointPath
+    endpoint: CreateOutputSystemByPackAISIEMEndpointPath
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -3184,23 +3808,25 @@ class CreateOutputOutputSentinelOneAiSiemTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsSentinelOneAiSiemTypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackPqControlsSentinelOneAiSiemTypedDict
+    ]
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputSentinelOneAiSiem(BaseModel):
+class CreateOutputSystemByPackOutputSentinelOneAiSiem(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeSentinelOneAiSiem
+    type: CreateOutputSystemByPackTypeSentinelOneAiSiem
 
-    region: CreateOutputRegion
+    region: CreateOutputSystemByPackRegion
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
 
-    endpoint: CreateOutputAISIEMEndpointPath
+    endpoint: CreateOutputSystemByPackAISIEMEndpointPath
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     pipeline: Optional[str] = None
@@ -3415,7 +4041,7 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsSentinelOneAiSiem],
+        Optional[CreateOutputSystemByPackPqControlsSentinelOneAiSiem],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -3433,7 +4059,7 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     def serialize_region(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputRegion(value)
+                return models.CreateOutputSystemByPackRegion(value)
             except ValueError:
                 return value
         return value
@@ -3442,7 +4068,7 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
     def serialize_endpoint(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAISIEMEndpointPath(value)
+                return models.CreateOutputSystemByPackAISIEMEndpointPath(value)
             except ValueError:
                 return value
         return value
@@ -3572,18 +4198,20 @@ class CreateOutputOutputSentinelOneAiSiem(BaseModel):
         return m
 
 
-class CreateOutputTypeDynatraceOtlp(str, Enum):
+class CreateOutputSystemByPackTypeDynatraceOtlp(str, Enum):
     DYNATRACE_OTLP = "dynatrace_otlp"
 
 
-class CreateOutputProtocolDynatraceOtlp(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackProtocolDynatraceOtlp(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select a transport option for Dynatrace"""
 
     # HTTP
     HTTP = "http"
 
 
-class CreateOutputEndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackEndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the type of Dynatrace endpoint configured"""
 
     # SaaS
@@ -3592,25 +4220,25 @@ class CreateOutputEndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
     AG = "ag"
 
 
-class CreateOutputPqControlsDynatraceOtlpTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsDynatraceOtlpTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsDynatraceOtlp(BaseModel):
+class CreateOutputSystemByPackPqControlsDynatraceOtlp(BaseModel):
     pass
 
 
-class CreateOutputOutputDynatraceOtlpTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputDynatraceOtlpTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeDynatraceOtlp
-    protocol: CreateOutputProtocolDynatraceOtlp
+    type: CreateOutputSystemByPackTypeDynatraceOtlp
+    protocol: CreateOutputSystemByPackProtocolDynatraceOtlp
     r"""Select a transport option for Dynatrace"""
     endpoint: str
     r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     otlp_version: OtlpVersionOptions131
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
-    endpoint_type: CreateOutputEndpointType
+    endpoint_type: CreateOutputSystemByPackEndpointType
     r"""Select the type of Dynatrace endpoint configured"""
     token_secret: str
     r"""Select or create a stored text secret"""
@@ -3692,20 +4320,20 @@ class CreateOutputOutputDynatraceOtlpTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsDynatraceOtlpTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsDynatraceOtlpTypedDict]
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputDynatraceOtlp(BaseModel):
+class CreateOutputSystemByPackOutputDynatraceOtlp(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeDynatraceOtlp
+    type: CreateOutputSystemByPackTypeDynatraceOtlp
 
-    protocol: CreateOutputProtocolDynatraceOtlp
+    protocol: CreateOutputSystemByPackProtocolDynatraceOtlp
     r"""Select a transport option for Dynatrace"""
 
     endpoint: str
@@ -3715,7 +4343,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     endpoint_type: Annotated[
-        CreateOutputEndpointType, pydantic.Field(alias="endpointType")
+        CreateOutputSystemByPackEndpointType, pydantic.Field(alias="endpointType")
     ]
     r"""Select the type of Dynatrace endpoint configured"""
 
@@ -3897,7 +4525,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsDynatraceOtlp],
+        Optional[CreateOutputSystemByPackPqControlsDynatraceOtlp],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -3915,7 +4543,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     def serialize_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputProtocolDynatraceOtlp(value)
+                return models.CreateOutputSystemByPackProtocolDynatraceOtlp(value)
             except ValueError:
                 return value
         return value
@@ -3960,7 +4588,7 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
     def serialize_endpoint_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputEndpointType(value)
+                return models.CreateOutputSystemByPackEndpointType(value)
             except ValueError:
                 return value
         return value
@@ -4063,11 +4691,11 @@ class CreateOutputOutputDynatraceOtlp(BaseModel):
         return m
 
 
-class CreateOutputTypeDynatraceHTTP(str, Enum):
+class CreateOutputSystemByPackTypeDynatraceHTTP(str, Enum):
     DYNATRACE_HTTP = "dynatrace_http"
 
 
-class CreateOutputAuthenticationTypeDynatraceHTTP(
+class CreateOutputSystemByPackAuthenticationTypeDynatraceHTTP(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # Auth token
@@ -4076,7 +4704,9 @@ class CreateOutputAuthenticationTypeDynatraceHTTP(
     TEXT_SECRET = "textSecret"
 
 
-class CreateOutputFormatDynatraceHTTP(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackFormatDynatraceHTTP(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
     # JSON
@@ -4085,7 +4715,7 @@ class CreateOutputFormatDynatraceHTTP(str, Enum, metaclass=utils.OpenEnumMeta):
     PLAINTEXT = "plaintext"
 
 
-class CreateOutputEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
     # Cloud
     CLOUD = "cloud"
     # ActiveGate
@@ -4094,29 +4724,29 @@ class CreateOutputEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
     MANUAL = "manual"
 
 
-class CreateOutputTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
     # Logs
     LOGS = "logs"
     # Metrics
     METRICS = "metrics"
 
 
-class CreateOutputPqControlsDynatraceHTTPTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsDynatraceHTTPTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsDynatraceHTTP(BaseModel):
+class CreateOutputSystemByPackPqControlsDynatraceHTTP(BaseModel):
     pass
 
 
-class CreateOutputOutputDynatraceHTTPTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputDynatraceHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeDynatraceHTTP
-    format_: CreateOutputFormatDynatraceHTTP
+    type: CreateOutputSystemByPackTypeDynatraceHTTP
+    format_: CreateOutputSystemByPackFormatDynatraceHTTP
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
-    endpoint: CreateOutputEndpoint
-    telemetry_type: CreateOutputTelemetryType
+    endpoint: CreateOutputSystemByPackEndpoint
+    telemetry_type: CreateOutputSystemByPackTelemetryType
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -4161,7 +4791,7 @@ class CreateOutputOutputDynatraceHTTPTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[CreateOutputAuthenticationTypeDynatraceHTTP]
+    auth_type: NotRequired[CreateOutputSystemByPackAuthenticationTypeDynatraceHTTP]
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
@@ -4187,7 +4817,7 @@ class CreateOutputOutputDynatraceHTTPTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsDynatraceHTTPTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsDynatraceHTTPTypedDict]
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     text_secret: NotRequired[str]
@@ -4206,19 +4836,21 @@ class CreateOutputOutputDynatraceHTTPTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class CreateOutputOutputDynatraceHTTP(BaseModel):
+class CreateOutputSystemByPackOutputDynatraceHTTP(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeDynatraceHTTP
+    type: CreateOutputSystemByPackTypeDynatraceHTTP
 
-    format_: Annotated[CreateOutputFormatDynatraceHTTP, pydantic.Field(alias="format")]
+    format_: Annotated[
+        CreateOutputSystemByPackFormatDynatraceHTTP, pydantic.Field(alias="format")
+    ]
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
-    endpoint: CreateOutputEndpoint
+    endpoint: CreateOutputSystemByPackEndpoint
 
     telemetry_type: Annotated[
-        CreateOutputTelemetryType, pydantic.Field(alias="telemetryType")
+        CreateOutputSystemByPackTelemetryType, pydantic.Field(alias="telemetryType")
     ]
 
     pipeline: Optional[str] = None
@@ -4316,7 +4948,7 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[CreateOutputAuthenticationTypeDynatraceHTTP],
+        Optional[CreateOutputSystemByPackAuthenticationTypeDynatraceHTTP],
         pydantic.Field(alias="authType"),
     ] = None
 
@@ -4377,7 +5009,7 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsDynatraceHTTP],
+        Optional[CreateOutputSystemByPackPqControlsDynatraceHTTP],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -4446,7 +5078,9 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAuthenticationTypeDynatraceHTTP(value)
+                return models.CreateOutputSystemByPackAuthenticationTypeDynatraceHTTP(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -4455,7 +5089,7 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputFormatDynatraceHTTP(value)
+                return models.CreateOutputSystemByPackFormatDynatraceHTTP(value)
             except ValueError:
                 return value
         return value
@@ -4464,7 +5098,7 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     def serialize_endpoint(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputEndpoint(value)
+                return models.CreateOutputSystemByPackEndpoint(value)
             except ValueError:
                 return value
         return value
@@ -4473,7 +5107,7 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
     def serialize_telemetry_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputTelemetryType(value)
+                return models.CreateOutputSystemByPackTelemetryType(value)
             except ValueError:
                 return value
         return value
@@ -4569,11 +5203,11 @@ class CreateOutputOutputDynatraceHTTP(BaseModel):
         return m
 
 
-class CreateOutputTypeNetflow(str, Enum):
+class CreateOutputSystemByPackTypeNetflow(str, Enum):
     NETFLOW = "netflow"
 
 
-class CreateOutputHostNetflowTypedDict(TypedDict):
+class CreateOutputSystemByPackHostNetflowTypedDict(TypedDict):
     host: str
     r"""Destination host"""
     port: float
@@ -4584,7 +5218,7 @@ class CreateOutputHostNetflowTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateOutputHostNetflow(BaseModel):
+class CreateOutputSystemByPackHostNetflow(BaseModel):
     host: str
     r"""Destination host"""
 
@@ -4618,11 +5252,11 @@ class CreateOutputHostNetflow(BaseModel):
         return m
 
 
-class CreateOutputOutputNetflowTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputNetflowTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeNetflow
-    hosts: List[CreateOutputHostNetflowTypedDict]
+    type: CreateOutputSystemByPackTypeNetflow
+    hosts: List[CreateOutputSystemByPackHostNetflowTypedDict]
     r"""One or more NetFlow Destinations to forward events to"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -4641,13 +5275,13 @@ class CreateOutputOutputNetflowTypedDict(TypedDict):
     r"""MTU in bytes. The actual maximum NetFlow payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). For example, with the default MTU of 1500, the max payload is 1472 bytes for IPv4. Payloads exceeding this limit will be dropped."""
 
 
-class CreateOutputOutputNetflow(BaseModel):
+class CreateOutputSystemByPackOutputNetflow(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeNetflow
+    type: CreateOutputSystemByPackTypeNetflow
 
-    hosts: List[CreateOutputHostNetflow]
+    hosts: List[CreateOutputSystemByPackHostNetflow]
     r"""One or more NetFlow Destinations to forward events to"""
 
     pipeline: Optional[str] = None
@@ -4709,23 +5343,25 @@ class CreateOutputOutputNetflow(BaseModel):
         return m
 
 
-class CreateOutputTypeXsiam(str, Enum):
+class CreateOutputSystemByPackTypeXsiam(str, Enum):
     XSIAM = "xsiam"
 
 
-class CreateOutputAuthenticationMethodXsiam(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackAuthenticationMethodXsiam(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Enter a token directly, or provide a secret referencing a token"""
 
     TOKEN = "token"
     SECRET = "secret"
 
 
-class CreateOutputURLXsiamTypedDict(TypedDict):
+class CreateOutputSystemByPackURLXsiamTypedDict(TypedDict):
     weight: NotRequired[float]
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
-class CreateOutputURLXsiam(BaseModel):
+class CreateOutputSystemByPackURLXsiam(BaseModel):
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
@@ -4746,18 +5382,18 @@ class CreateOutputURLXsiam(BaseModel):
         return m
 
 
-class CreateOutputPqControlsXsiamTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsXsiamTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsXsiam(BaseModel):
+class CreateOutputSystemByPackPqControlsXsiam(BaseModel):
     pass
 
 
-class CreateOutputOutputXsiamTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputXsiamTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeXsiam
+    type: CreateOutputSystemByPackTypeXsiam
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -4791,7 +5427,7 @@ class CreateOutputOutputXsiamTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    auth_type: NotRequired[CreateOutputAuthenticationMethodXsiam]
+    auth_type: NotRequired[CreateOutputSystemByPackAuthenticationMethodXsiam]
     r"""Enter a token directly, or provide a secret referencing a token"""
     response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -4811,7 +5447,7 @@ class CreateOutputOutputXsiamTypedDict(TypedDict):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    urls: NotRequired[List[CreateOutputURLXsiamTypedDict]]
+    urls: NotRequired[List[CreateOutputSystemByPackURLXsiamTypedDict]]
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -4842,7 +5478,7 @@ class CreateOutputOutputXsiamTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsXsiamTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsXsiamTypedDict]
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -4851,11 +5487,11 @@ class CreateOutputOutputXsiamTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class CreateOutputOutputXsiam(BaseModel):
+class CreateOutputSystemByPackOutputXsiam(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeXsiam
+    type: CreateOutputSystemByPackTypeXsiam
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -4926,7 +5562,7 @@ class CreateOutputOutputXsiam(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     auth_type: Annotated[
-        Optional[CreateOutputAuthenticationMethodXsiam],
+        Optional[CreateOutputSystemByPackAuthenticationMethodXsiam],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter a token directly, or provide a secret referencing a token"""
@@ -4974,7 +5610,7 @@ class CreateOutputOutputXsiam(BaseModel):
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
-    urls: Optional[List[CreateOutputURLXsiam]] = None
+    urls: Optional[List[CreateOutputSystemByPackURLXsiam]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -5042,7 +5678,8 @@ class CreateOutputOutputXsiam(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsXsiam], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsXsiam],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_failed_request_logging_mode: Annotated[
@@ -5073,7 +5710,7 @@ class CreateOutputOutputXsiam(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAuthenticationMethodXsiam(value)
+                return models.CreateOutputSystemByPackAuthenticationMethodXsiam(value)
             except ValueError:
                 return value
         return value
@@ -5180,11 +5817,13 @@ class CreateOutputOutputXsiam(BaseModel):
         return m
 
 
-class CreateOutputTypeLocalSearchStorage(str, Enum):
+class CreateOutputSystemByPackTypeLocalSearchStorage(str, Enum):
     LOCAL_SEARCH_STORAGE = "local_search_storage"
 
 
-class CreateOutputFormatLocalSearchStorage(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackFormatLocalSearchStorage(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Data format to use when sending data. Defaults to JSON Compact."""
 
     # JSONCompactEachRowWithNames
@@ -5193,7 +5832,7 @@ class CreateOutputFormatLocalSearchStorage(str, Enum, metaclass=utils.OpenEnumMe
     JSON_EACH_ROW = "json-each-row"
 
 
-class CreateOutputMappingTypeLocalSearchStorage(
+class CreateOutputSystemByPackMappingTypeLocalSearchStorage(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""How event fields are mapped to columns."""
@@ -5204,7 +5843,7 @@ class CreateOutputMappingTypeLocalSearchStorage(
     CUSTOM = "custom"
 
 
-class CreateOutputStatsDestinationTypedDict(TypedDict):
+class CreateOutputSystemByPackStatsDestinationTypedDict(TypedDict):
     url: NotRequired[str]
     database: NotRequired[str]
     table_name: NotRequired[str]
@@ -5214,7 +5853,7 @@ class CreateOutputStatsDestinationTypedDict(TypedDict):
     password: NotRequired[str]
 
 
-class CreateOutputStatsDestination(BaseModel):
+class CreateOutputSystemByPackStatsDestination(BaseModel):
     url: Optional[str] = None
 
     database: Optional[str] = None
@@ -5256,7 +5895,7 @@ class CreateOutputStatsDestination(BaseModel):
         return m
 
 
-class CreateOutputColumnMappingLocalSearchStorageTypedDict(TypedDict):
+class CreateOutputSystemByPackColumnMappingLocalSearchStorageTypedDict(TypedDict):
     column_name: str
     r"""Name of the column that will store field value"""
     column_value_expression: str
@@ -5265,7 +5904,7 @@ class CreateOutputColumnMappingLocalSearchStorageTypedDict(TypedDict):
     r"""Type of the column in the database"""
 
 
-class CreateOutputColumnMappingLocalSearchStorage(BaseModel):
+class CreateOutputSystemByPackColumnMappingLocalSearchStorage(BaseModel):
     column_name: Annotated[str, pydantic.Field(alias="columnName")]
     r"""Name of the column that will store field value"""
 
@@ -5294,18 +5933,18 @@ class CreateOutputColumnMappingLocalSearchStorage(BaseModel):
         return m
 
 
-class CreateOutputPqControlsLocalSearchStorageTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsLocalSearchStorageTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsLocalSearchStorage(BaseModel):
+class CreateOutputSystemByPackPqControlsLocalSearchStorage(BaseModel):
     pass
 
 
-class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputLocalSearchStorageTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeLocalSearchStorage
+    type: CreateOutputSystemByPackTypeLocalSearchStorage
     url: str
     r"""URL of the database instance. Example: http://localhost:8123/"""
     database: str
@@ -5319,10 +5958,10 @@ class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    auth_type: NotRequired[AuthenticationTypeOptionsBasicCredentialsSecret]
-    format_: NotRequired[CreateOutputFormatLocalSearchStorage]
+    auth_type: NotRequired[AuthenticationTypeOptions]
+    format_: NotRequired[CreateOutputSystemByPackFormatLocalSearchStorage]
     r"""Data format to use when sending data. Defaults to JSON Compact."""
-    mapping_type: NotRequired[CreateOutputMappingTypeLocalSearchStorage]
+    mapping_type: NotRequired[CreateOutputSystemByPackMappingTypeLocalSearchStorage]
     r"""How event fields are mapped to columns."""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a table immediately."""
@@ -5361,7 +6000,7 @@ class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Log the most recent event that fails to match the table schema"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    stats_destination: NotRequired[CreateOutputStatsDestinationTypedDict]
+    stats_destination: NotRequired[CreateOutputSystemByPackStatsDestinationTypedDict]
     description: NotRequired[str]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -5376,7 +6015,7 @@ class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
     describe_table: NotRequired[str]
     r"""Retrieves the table schema and populates the Column Mapping table"""
     column_mappings: NotRequired[
-        List[CreateOutputColumnMappingLocalSearchStorageTypedDict]
+        List[CreateOutputSystemByPackColumnMappingLocalSearchStorageTypedDict]
     ]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -5400,7 +6039,9 @@ class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsLocalSearchStorageTypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackPqControlsLocalSearchStorageTypedDict
+    ]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_database: NotRequired[str]
@@ -5413,11 +6054,11 @@ class CreateOutputOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputLocalSearchStorage(BaseModel):
+class CreateOutputSystemByPackOutputLocalSearchStorage(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeLocalSearchStorage
+    type: CreateOutputSystemByPackTypeLocalSearchStorage
 
     url: str
     r"""URL of the database instance. Example: http://localhost:8123/"""
@@ -5442,17 +6083,17 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeOptionsBasicCredentialsSecret],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
     ] = None
 
     format_: Annotated[
-        Optional[CreateOutputFormatLocalSearchStorage], pydantic.Field(alias="format")
+        Optional[CreateOutputSystemByPackFormatLocalSearchStorage],
+        pydantic.Field(alias="format"),
     ] = None
     r"""Data format to use when sending data. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Optional[CreateOutputMappingTypeLocalSearchStorage],
+        Optional[CreateOutputSystemByPackMappingTypeLocalSearchStorage],
         pydantic.Field(alias="mappingType"),
     ] = None
     r"""How event fields are mapped to columns."""
@@ -5544,7 +6185,8 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     stats_destination: Annotated[
-        Optional[CreateOutputStatsDestination], pydantic.Field(alias="statsDestination")
+        Optional[CreateOutputSystemByPackStatsDestination],
+        pydantic.Field(alias="statsDestination"),
     ] = None
 
     description: Optional[str] = None
@@ -5577,7 +6219,7 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     r"""Retrieves the table schema and populates the Column Mapping table"""
 
     column_mappings: Annotated[
-        Optional[List[CreateOutputColumnMappingLocalSearchStorage]],
+        Optional[List[CreateOutputSystemByPackColumnMappingLocalSearchStorage]],
         pydantic.Field(alias="columnMappings"),
     ] = None
 
@@ -5631,7 +6273,7 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsLocalSearchStorage],
+        Optional[CreateOutputSystemByPackPqControlsLocalSearchStorage],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -5664,7 +6306,7 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeOptionsBasicCredentialsSecret(value)
+                return models.AuthenticationTypeOptions(value)
             except ValueError:
                 return value
         return value
@@ -5673,7 +6315,7 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputFormatLocalSearchStorage(value)
+                return models.CreateOutputSystemByPackFormatLocalSearchStorage(value)
             except ValueError:
                 return value
         return value
@@ -5682,7 +6324,9 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
     def serialize_mapping_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputMappingTypeLocalSearchStorage(value)
+                return models.CreateOutputSystemByPackMappingTypeLocalSearchStorage(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -5804,11 +6448,11 @@ class CreateOutputOutputLocalSearchStorage(BaseModel):
         return m
 
 
-class CreateOutputTypeClickHouse(str, Enum):
+class CreateOutputSystemByPackTypeClickHouse(str, Enum):
     CLICK_HOUSE = "click_house"
 
 
-class CreateOutputFormatClickHouse(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackFormatClickHouse(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
 
     # JSONCompactEachRowWithNames
@@ -5817,7 +6461,9 @@ class CreateOutputFormatClickHouse(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON_EACH_ROW = "json-each-row"
 
 
-class CreateOutputMappingTypeClickHouse(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackMappingTypeClickHouse(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""How event fields are mapped to ClickHouse columns."""
 
     # Automatic
@@ -5826,7 +6472,7 @@ class CreateOutputMappingTypeClickHouse(str, Enum, metaclass=utils.OpenEnumMeta)
     CUSTOM = "custom"
 
 
-class CreateOutputColumnMappingClickHouseTypedDict(TypedDict):
+class CreateOutputSystemByPackColumnMappingClickHouseTypedDict(TypedDict):
     column_name: str
     r"""Name of the column in ClickHouse that will store field value"""
     column_value_expression: str
@@ -5835,7 +6481,7 @@ class CreateOutputColumnMappingClickHouseTypedDict(TypedDict):
     r"""Type of the column in the ClickHouse database"""
 
 
-class CreateOutputColumnMappingClickHouse(BaseModel):
+class CreateOutputSystemByPackColumnMappingClickHouse(BaseModel):
     column_name: Annotated[str, pydantic.Field(alias="columnName")]
     r"""Name of the column in ClickHouse that will store field value"""
 
@@ -5864,18 +6510,18 @@ class CreateOutputColumnMappingClickHouse(BaseModel):
         return m
 
 
-class CreateOutputPqControlsClickHouseTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsClickHouseTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsClickHouse(BaseModel):
+class CreateOutputSystemByPackPqControlsClickHouse(BaseModel):
     pass
 
 
-class CreateOutputOutputClickHouseTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputClickHouseTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeClickHouse
+    type: CreateOutputSystemByPackTypeClickHouse
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
     database: str
@@ -5889,10 +6535,10 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    auth_type: NotRequired[AuthenticationTypeOptionsBasicCredentialsSecret]
-    format_: NotRequired[CreateOutputFormatClickHouse]
+    auth_type: NotRequired[AuthenticationTypeOptions]
+    format_: NotRequired[CreateOutputSystemByPackFormatClickHouse]
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
-    mapping_type: NotRequired[CreateOutputMappingTypeClickHouse]
+    mapping_type: NotRequired[CreateOutputSystemByPackMappingTypeClickHouse]
     r"""How event fields are mapped to ClickHouse columns."""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a ClickHouse table immediately."""
@@ -5944,7 +6590,9 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     r"""Fields to exclude from sending to ClickHouse"""
     describe_table: NotRequired[str]
     r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
-    column_mappings: NotRequired[List[CreateOutputColumnMappingClickHouseTypedDict]]
+    column_mappings: NotRequired[
+        List[CreateOutputSystemByPackColumnMappingClickHouseTypedDict]
+    ]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -5967,7 +6615,7 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsClickHouseTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsClickHouseTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_database: NotRequired[str]
@@ -5980,11 +6628,11 @@ class CreateOutputOutputClickHouseTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputClickHouse(BaseModel):
+class CreateOutputSystemByPackOutputClickHouse(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeClickHouse
+    type: CreateOutputSystemByPackTypeClickHouse
 
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
@@ -6009,17 +6657,18 @@ class CreateOutputOutputClickHouse(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeOptionsBasicCredentialsSecret],
-        pydantic.Field(alias="authType"),
+        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
     ] = None
 
     format_: Annotated[
-        Optional[CreateOutputFormatClickHouse], pydantic.Field(alias="format")
+        Optional[CreateOutputSystemByPackFormatClickHouse],
+        pydantic.Field(alias="format"),
     ] = None
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Optional[CreateOutputMappingTypeClickHouse], pydantic.Field(alias="mappingType")
+        Optional[CreateOutputSystemByPackMappingTypeClickHouse],
+        pydantic.Field(alias="mappingType"),
     ] = None
     r"""How event fields are mapped to ClickHouse columns."""
 
@@ -6139,7 +6788,7 @@ class CreateOutputOutputClickHouse(BaseModel):
     r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
 
     column_mappings: Annotated[
-        Optional[List[CreateOutputColumnMappingClickHouse]],
+        Optional[List[CreateOutputSystemByPackColumnMappingClickHouse]],
         pydantic.Field(alias="columnMappings"),
     ] = None
 
@@ -6193,7 +6842,8 @@ class CreateOutputOutputClickHouse(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsClickHouse], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsClickHouse],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
@@ -6225,7 +6875,7 @@ class CreateOutputOutputClickHouse(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeOptionsBasicCredentialsSecret(value)
+                return models.AuthenticationTypeOptions(value)
             except ValueError:
                 return value
         return value
@@ -6234,7 +6884,7 @@ class CreateOutputOutputClickHouse(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputFormatClickHouse(value)
+                return models.CreateOutputSystemByPackFormatClickHouse(value)
             except ValueError:
                 return value
         return value
@@ -6243,7 +6893,7 @@ class CreateOutputOutputClickHouse(BaseModel):
     def serialize_mapping_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputMappingTypeClickHouse(value)
+                return models.CreateOutputSystemByPackMappingTypeClickHouse(value)
             except ValueError:
                 return value
         return value
@@ -6364,14 +7014,14 @@ class CreateOutputOutputClickHouse(BaseModel):
         return m
 
 
-class CreateOutputTypeDiskSpool(str, Enum):
+class CreateOutputSystemByPackTypeDiskSpool(str, Enum):
     DISK_SPOOL = "disk_spool"
 
 
-class CreateOutputOutputDiskSpoolTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputDiskSpoolTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeDiskSpool
+    type: CreateOutputSystemByPackTypeDiskSpool
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -6393,11 +7043,11 @@ class CreateOutputOutputDiskSpoolTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateOutputOutputDiskSpool(BaseModel):
+class CreateOutputSystemByPackOutputDiskSpool(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeDiskSpool
+    type: CreateOutputSystemByPackTypeDiskSpool
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -6471,20 +7121,22 @@ class CreateOutputOutputDiskSpool(BaseModel):
         return m
 
 
-class CreateOutputTypeCriblLake(str, Enum):
+class CreateOutputSystemByPackTypeCriblLake(str, Enum):
     CRIBL_LAKE = "cribl_lake"
 
 
-class CreateOutputAwsAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackAwsAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     AUTO = "auto"
     AUTO_RPC = "auto_rpc"
     MANUAL = "manual"
 
 
-class CreateOutputOutputCriblLakeTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputCriblLakeTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeCriblLake
+    type: CreateOutputSystemByPackTypeCriblLake
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -6561,7 +7213,9 @@ class CreateOutputOutputCriblLakeTypedDict(TypedDict):
     r"""Server-side encryption to use for uploaded objects"""
     kms_key_id: NotRequired[str]
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
-    aws_authentication_method: NotRequired[CreateOutputAwsAuthenticationMethod]
+    aws_authentication_method: NotRequired[
+        CreateOutputSystemByPackAwsAuthenticationMethod
+    ]
     format_: NotRequired[FormatOptions]
     max_concurrent_file_parts: NotRequired[float]
     r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
@@ -6604,11 +7258,11 @@ class CreateOutputOutputCriblLakeTypedDict(TypedDict):
     r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
 
 
-class CreateOutputOutputCriblLake(BaseModel):
+class CreateOutputSystemByPackOutputCriblLake(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeCriblLake
+    type: CreateOutputSystemByPackTypeCriblLake
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -6786,7 +7440,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
 
     aws_authentication_method: Annotated[
-        Optional[CreateOutputAwsAuthenticationMethod],
+        Optional[CreateOutputSystemByPackAwsAuthenticationMethod],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = None
 
@@ -6947,7 +7601,7 @@ class CreateOutputOutputCriblLake(BaseModel):
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputAwsAuthenticationMethod(value)
+                return models.CreateOutputSystemByPackAwsAuthenticationMethod(value)
             except ValueError:
                 return value
         return value
@@ -7042,21 +7696,23 @@ class CreateOutputOutputCriblLake(BaseModel):
         return m
 
 
-class CreateOutputTypeSecurityLake(str, Enum):
+class CreateOutputSystemByPackTypeSecurityLake(str, Enum):
     SECURITY_LAKE = "security_lake"
 
 
-class CreateOutputSignatureVersionSecurityLake(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackSignatureVersionSecurityLake(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Signature version to use for signing Amazon Security Lake requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputSecurityLakeTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeSecurityLake
+    type: CreateOutputSystemByPackTypeSecurityLake
     assume_role_arn: str
     r"""Amazon Resource Name (ARN) of the role to assume"""
     bucket: str
@@ -7087,7 +7743,7 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
-    signature_version: NotRequired[CreateOutputSignatureVersionSecurityLake]
+    signature_version: NotRequired[CreateOutputSystemByPackSignatureVersionSecurityLake]
     r"""Signature version to use for signing Amazon Security Lake requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -7205,11 +7861,11 @@ class CreateOutputOutputSecurityLakeTypedDict(TypedDict):
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
-class CreateOutputOutputSecurityLake(BaseModel):
+class CreateOutputSystemByPackOutputSecurityLake(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeSecurityLake
+    type: CreateOutputSystemByPackTypeSecurityLake
 
     assume_role_arn: Annotated[str, pydantic.Field(alias="assumeRoleArn")]
     r"""Amazon Resource Name (ARN) of the role to assume"""
@@ -7268,7 +7924,7 @@ class CreateOutputOutputSecurityLake(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     signature_version: Annotated[
-        Optional[CreateOutputSignatureVersionSecurityLake],
+        Optional[CreateOutputSystemByPackSignatureVersionSecurityLake],
         pydantic.Field(alias="signatureVersion"),
     ] = None
     r"""Signature version to use for signing Amazon Security Lake requests"""
@@ -7569,7 +8225,9 @@ class CreateOutputOutputSecurityLake(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputSignatureVersionSecurityLake(value)
+                return models.CreateOutputSystemByPackSignatureVersionSecurityLake(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -7726,14 +8384,14 @@ class CreateOutputOutputSecurityLake(BaseModel):
         return m
 
 
-class CreateOutputTypeDlS3(str, Enum):
+class CreateOutputSystemByPackTypeDlS3(str, Enum):
     DL_S3 = "dl_s3"
 
 
-class CreateOutputOutputDlS3TypedDict(TypedDict):
+class CreateOutputSystemByPackOutputDlS3TypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeDlS3
+    type: CreateOutputSystemByPackTypeDlS3
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -7895,11 +8553,11 @@ class CreateOutputOutputDlS3TypedDict(TypedDict):
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
-class CreateOutputOutputDlS3(BaseModel):
+class CreateOutputSystemByPackOutputDlS3(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeDlS3
+    type: CreateOutputSystemByPackTypeDlS3
 
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -8486,22 +9144,22 @@ class CreateOutputOutputDlS3(BaseModel):
         return m
 
 
-class CreateOutputTypeCrowdstrikeNextGenSiem(str, Enum):
+class CreateOutputSystemByPackTypeCrowdstrikeNextGenSiem(str, Enum):
     CROWDSTRIKE_NEXT_GEN_SIEM = "crowdstrike_next_gen_siem"
 
 
-class CreateOutputPqControlsCrowdstrikeNextGenSiemTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCrowdstrikeNextGenSiemTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsCrowdstrikeNextGenSiem(BaseModel):
+class CreateOutputSystemByPackPqControlsCrowdstrikeNextGenSiem(BaseModel):
     pass
 
 
-class CreateOutputOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeCrowdstrikeNextGenSiem
+    type: CreateOutputSystemByPackTypeCrowdstrikeNextGenSiem
     url: str
     r"""URL provided from a CrowdStrike data connector.
     Example: https://ingest.<region>.crowdstrike.com/api/ingest/hec/<connection-id>/v1/services/collector
@@ -8576,7 +9234,9 @@ class CreateOutputOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsCrowdstrikeNextGenSiemTypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackPqControlsCrowdstrikeNextGenSiemTypedDict
+    ]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -8585,11 +9245,11 @@ class CreateOutputOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
+class CreateOutputSystemByPackOutputCrowdstrikeNextGenSiem(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeCrowdstrikeNextGenSiem
+    type: CreateOutputSystemByPackTypeCrowdstrikeNextGenSiem
 
     url: str
     r"""URL provided from a CrowdStrike data connector.
@@ -8750,7 +9410,7 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsCrowdstrikeNextGenSiem],
+        Optional[CreateOutputSystemByPackPqControlsCrowdstrikeNextGenSiem],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -8890,22 +9550,22 @@ class CreateOutputOutputCrowdstrikeNextGenSiem(BaseModel):
         return m
 
 
-class CreateOutputTypeHumioHec(str, Enum):
+class CreateOutputSystemByPackTypeHumioHec(str, Enum):
     HUMIO_HEC = "humio_hec"
 
 
-class CreateOutputPqControlsHumioHecTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsHumioHecTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsHumioHec(BaseModel):
+class CreateOutputSystemByPackPqControlsHumioHec(BaseModel):
     pass
 
 
-class CreateOutputOutputHumioHecTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputHumioHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeHumioHec
+    type: CreateOutputSystemByPackTypeHumioHec
     url: str
     r"""URL to a CrowdStrike Falcon LogScale endpoint to send events to. Examples: https://cloud.us.humio.com/api/v1/ingest/hec for JSON and https://cloud.us.humio.com/api/v1/ingest/hec/raw for raw"""
     format_: RequestFormatOptions
@@ -8979,7 +9639,7 @@ class CreateOutputOutputHumioHecTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsHumioHecTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsHumioHecTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -8988,11 +9648,11 @@ class CreateOutputOutputHumioHecTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputHumioHec(BaseModel):
+class CreateOutputSystemByPackOutputHumioHec(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeHumioHec
+    type: CreateOutputSystemByPackTypeHumioHec
 
     url: str
     r"""URL to a CrowdStrike Falcon LogScale endpoint to send events to. Examples: https://cloud.us.humio.com/api/v1/ingest/hec for JSON and https://cloud.us.humio.com/api/v1/ingest/hec/raw for raw"""
@@ -9152,7 +9812,8 @@ class CreateOutputOutputHumioHec(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsHumioHec], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsHumioHec],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
@@ -9291,22 +9952,22 @@ class CreateOutputOutputHumioHec(BaseModel):
         return m
 
 
-class CreateOutputTypeCriblSearchEngine(str, Enum):
+class CreateOutputSystemByPackTypeCriblSearchEngine(str, Enum):
     CRIBL_SEARCH_ENGINE = "cribl_search_engine"
 
 
-class CreateOutputPqControlsCriblSearchEngineTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCriblSearchEngineTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsCriblSearchEngine(BaseModel):
+class CreateOutputSystemByPackPqControlsCriblSearchEngine(BaseModel):
     pass
 
 
-class CreateOutputOutputCriblSearchEngineTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputCriblSearchEngineTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeCriblSearchEngine
+    type: CreateOutputSystemByPackTypeCriblSearchEngine
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -9390,7 +10051,9 @@ class CreateOutputOutputCriblSearchEngineTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsCriblSearchEngineTypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackPqControlsCriblSearchEngineTypedDict
+    ]
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -9399,11 +10062,11 @@ class CreateOutputOutputCriblSearchEngineTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class CreateOutputOutputCriblSearchEngine(BaseModel):
+class CreateOutputSystemByPackOutputCriblSearchEngine(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeCriblSearchEngine
+    type: CreateOutputSystemByPackTypeCriblSearchEngine
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -9591,7 +10254,7 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsCriblSearchEngine],
+        Optional[CreateOutputSystemByPackPqControlsCriblSearchEngine],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -9730,22 +10393,22 @@ class CreateOutputOutputCriblSearchEngine(BaseModel):
         return m
 
 
-class CreateOutputTypeCriblHTTP(str, Enum):
+class CreateOutputSystemByPackTypeCriblHTTP(str, Enum):
     CRIBL_HTTP = "cribl_http"
 
 
-class CreateOutputPqControlsCriblHTTPTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCriblHTTPTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsCriblHTTP(BaseModel):
+class CreateOutputSystemByPackPqControlsCriblHTTP(BaseModel):
     pass
 
 
-class CreateOutputOutputCriblHTTPTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputCriblHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeCriblHTTP
+    type: CreateOutputSystemByPackTypeCriblHTTP
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -9829,7 +10492,7 @@ class CreateOutputOutputCriblHTTPTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsCriblHTTPTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsCriblHTTPTypedDict]
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -9838,11 +10501,11 @@ class CreateOutputOutputCriblHTTPTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class CreateOutputOutputCriblHTTP(BaseModel):
+class CreateOutputSystemByPackOutputCriblHTTP(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeCriblHTTP
+    type: CreateOutputSystemByPackTypeCriblHTTP
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -10030,7 +10693,8 @@ class CreateOutputOutputCriblHTTP(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsCriblHTTP], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsCriblHTTP],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_failed_request_logging_mode: Annotated[
@@ -10168,22 +10832,22 @@ class CreateOutputOutputCriblHTTP(BaseModel):
         return m
 
 
-class CreateOutputTypeCriblTCP(str, Enum):
+class CreateOutputSystemByPackTypeCriblTCP(str, Enum):
     CRIBL_TCP = "cribl_tcp"
 
 
-class CreateOutputPqControlsCriblTCPTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCriblTCPTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsCriblTCP(BaseModel):
+class CreateOutputSystemByPackPqControlsCriblTCP(BaseModel):
     pass
 
 
-class CreateOutputOutputCriblTCPTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputCriblTCPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeCriblTCP
+    type: CreateOutputSystemByPackTypeCriblTCP
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -10250,7 +10914,7 @@ class CreateOutputOutputCriblTCPTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsCriblTCPTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsCriblTCPTypedDict]
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_host: NotRequired[str]
@@ -10259,11 +10923,11 @@ class CreateOutputOutputCriblTCPTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateOutputOutputCriblTCP(BaseModel):
+class CreateOutputSystemByPackOutputCriblTCP(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeCriblTCP
+    type: CreateOutputSystemByPackTypeCriblTCP
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -10408,7 +11072,8 @@ class CreateOutputOutputCriblTCP(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsCriblTCP], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsCriblTCP],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_on_backpressure: Annotated[
@@ -10529,11 +11194,11 @@ class CreateOutputOutputCriblTCP(BaseModel):
         return m
 
 
-class CreateOutputTypeDataset(str, Enum):
+class CreateOutputSystemByPackTypeDataset(str, Enum):
     DATASET = "dataset"
 
 
-class CreateOutputSeverityDataset(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackSeverityDataset(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
 
     # 0 - finest
@@ -10552,7 +11217,7 @@ class CreateOutputSeverityDataset(str, Enum, metaclass=utils.OpenEnumMeta):
     FATAL = "fatal"
 
 
-class CreateOutputDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""DataSet site to which events should be sent"""
 
     # US
@@ -10563,18 +11228,18 @@ class CreateOutputDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class CreateOutputPqControlsDatasetTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsDatasetTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsDataset(BaseModel):
+class CreateOutputSystemByPackPqControlsDataset(BaseModel):
     pass
 
 
-class CreateOutputOutputDatasetTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputDatasetTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeDataset
+    type: CreateOutputSystemByPackTypeDataset
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -10591,14 +11256,14 @@ class CreateOutputOutputDatasetTypedDict(TypedDict):
     r"""Name of the event field that contains the `serverHost` identifier. If not specified, defaults to `cribl_<outputId>`."""
     timestamp_field: NotRequired[str]
     r"""Name of the event field that contains the timestamp. If not specified, defaults to `ts`, `_time`, or `Date.now()`, in that order."""
-    default_severity: NotRequired[CreateOutputSeverityDataset]
+    default_severity: NotRequired[CreateOutputSystemByPackSeverityDataset]
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
     response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    site: NotRequired[CreateOutputDataSetSite]
+    site: NotRequired[CreateOutputSystemByPackDataSetSite]
     r"""DataSet site to which events should be sent"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -10655,7 +11320,7 @@ class CreateOutputOutputDatasetTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsDatasetTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsDatasetTypedDict]
     api_key: NotRequired[str]
     r"""A 'Log Write Access' API key for the DataSet account"""
     text_secret: NotRequired[str]
@@ -10668,11 +11333,11 @@ class CreateOutputOutputDatasetTypedDict(TypedDict):
     r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
 
 
-class CreateOutputOutputDataset(BaseModel):
+class CreateOutputSystemByPackOutputDataset(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeDataset
+    type: CreateOutputSystemByPackTypeDataset
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -10707,7 +11372,8 @@ class CreateOutputOutputDataset(BaseModel):
     r"""Name of the event field that contains the timestamp. If not specified, defaults to `ts`, `_time`, or `Date.now()`, in that order."""
 
     default_severity: Annotated[
-        Optional[CreateOutputSeverityDataset], pydantic.Field(alias="defaultSeverity")
+        Optional[CreateOutputSystemByPackSeverityDataset],
+        pydantic.Field(alias="defaultSeverity"),
     ] = None
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
 
@@ -10726,7 +11392,7 @@ class CreateOutputOutputDataset(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    site: Optional[CreateOutputDataSetSite] = None
+    site: Optional[CreateOutputSystemByPackDataSetSite] = None
     r"""DataSet site to which events should be sent"""
 
     concurrency: Optional[float] = None
@@ -10852,7 +11518,8 @@ class CreateOutputOutputDataset(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsDataset], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsDataset],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
@@ -10880,7 +11547,7 @@ class CreateOutputOutputDataset(BaseModel):
     def serialize_default_severity(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputSeverityDataset(value)
+                return models.CreateOutputSystemByPackSeverityDataset(value)
             except ValueError:
                 return value
         return value
@@ -10889,7 +11556,7 @@ class CreateOutputOutputDataset(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputDataSetSite(value)
+                return models.CreateOutputSystemByPackDataSetSite(value)
             except ValueError:
                 return value
         return value
@@ -11014,22 +11681,22 @@ class CreateOutputOutputDataset(BaseModel):
         return m
 
 
-class CreateOutputTypeServiceNow(str, Enum):
+class CreateOutputSystemByPackTypeServiceNow(str, Enum):
     SERVICE_NOW = "service_now"
 
 
-class CreateOutputPqControlsServiceNowTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsServiceNowTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsServiceNow(BaseModel):
+class CreateOutputSystemByPackPqControlsServiceNow(BaseModel):
     pass
 
 
-class CreateOutputOutputServiceNowTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputServiceNowTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeServiceNow
+    type: CreateOutputSystemByPackTypeServiceNow
     endpoint: str
     r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     token_secret: str
@@ -11117,18 +11784,18 @@ class CreateOutputOutputServiceNowTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsServiceNowTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsServiceNowTypedDict]
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputServiceNow(BaseModel):
+class CreateOutputSystemByPackOutputServiceNow(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeServiceNow
+    type: CreateOutputSystemByPackTypeServiceNow
 
     endpoint: str
     r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
@@ -11319,7 +11986,8 @@ class CreateOutputOutputServiceNow(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsServiceNow], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsServiceNow],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_failed_request_logging_mode: Annotated[
@@ -11476,11 +12144,11 @@ class CreateOutputOutputServiceNow(BaseModel):
         return m
 
 
-class CreateOutputTypeOpenTelemetry(str, Enum):
+class CreateOutputSystemByPackTypeOpenTelemetry(str, Enum):
     OPEN_TELEMETRY = "open_telemetry"
 
 
-class CreateOutputOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     # 0.10.0
@@ -11489,18 +12157,35 @@ class CreateOutputOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     ONE_DOT_3_DOT_1 = "1.3.1"
 
 
-class CreateOutputPqControlsOpenTelemetryTypedDict(TypedDict):
+class CreateOutputSystemByPackAuthenticationTypeOpenTelemetry(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # None
+    NONE = "none"
+    # Basic
+    BASIC = "basic"
+    # Basic (credentials secret)
+    CREDENTIALS_SECRET = "credentialsSecret"
+    # Token
+    TOKEN = "token"
+    # Token (text secret)
+    TEXT_SECRET = "textSecret"
+    # OAuth (text secret)
+    OAUTH_SECRET = "oauthSecret"
+
+
+class CreateOutputSystemByPackPqControlsOpenTelemetryTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsOpenTelemetry(BaseModel):
+class CreateOutputSystemByPackPqControlsOpenTelemetry(BaseModel):
     pass
 
 
-class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputOpenTelemetryTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeOpenTelemetry
+    type: CreateOutputSystemByPackTypeOpenTelemetry
     endpoint: str
     r"""The endpoint where OTel events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets). Unspecified ports will default to 4317, unless the endpoint is an HTTPS-based URL or TLS is enabled, in which case 443 will be used."""
     pipeline: NotRequired[str]
@@ -11513,14 +12198,13 @@ class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     protocol: NotRequired[ProtocolOptions]
     r"""Select a transport option for OpenTelemetry"""
-    otlp_version: NotRequired[CreateOutputOTLPVersion]
+    otlp_version: NotRequired[CreateOutputSystemByPackOTLPVersion]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_compress: NotRequired[CompressionOptionsMessages]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
-    auth_type: NotRequired[AuthenticationTypeOptions]
-    r"""OpenTelemetry authentication type"""
+    auth_type: NotRequired[CreateOutputSystemByPackAuthenticationTypeOpenTelemetry]
     http_traces_endpoint_override: NotRequired[str]
     r"""If you want to send traces to the default `{endpoint}/v1/traces` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
     http_metrics_endpoint_override: NotRequired[str]
@@ -11556,6 +12240,22 @@ class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    login_url: NotRequired[str]
+    r"""URL for OAuth"""
+    secret_param_name: NotRequired[str]
+    r"""Secret parameter name to pass in request body"""
+    oauth_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret for the OAuth secret parameter value to pass in request body"""
+    token_attribute_name: NotRequired[str]
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+    token_timeout_secs: NotRequired[float]
+    r"""How often the OAuth token should be refreshed."""
+    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
@@ -11595,18 +12295,20 @@ class CreateOutputOutputOpenTelemetryTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsOpenTelemetryTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsOpenTelemetryTypedDict]
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
 
 
-class CreateOutputOutputOpenTelemetry(BaseModel):
+class CreateOutputSystemByPackOutputOpenTelemetry(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeOpenTelemetry
+    type: CreateOutputSystemByPackTypeOpenTelemetry
 
     endpoint: str
     r"""The endpoint where OTel events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets). Unspecified ports will default to 4317, unless the endpoint is an HTTPS-based URL or TLS is enabled, in which case 443 will be used."""
@@ -11629,7 +12331,8 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     r"""Select a transport option for OpenTelemetry"""
 
     otlp_version: Annotated[
-        Optional[CreateOutputOTLPVersion], pydantic.Field(alias="otlpVersion")
+        Optional[CreateOutputSystemByPackOTLPVersion],
+        pydantic.Field(alias="otlpVersion"),
     ] = None
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
@@ -11642,9 +12345,9 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     auth_type: Annotated[
-        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
+        Optional[CreateOutputSystemByPackAuthenticationTypeOpenTelemetry],
+        pydantic.Field(alias="authType"),
     ] = None
-    r"""OpenTelemetry authentication type"""
 
     http_traces_endpoint_override: Annotated[
         Optional[str], pydantic.Field(alias="httpTracesEndpointOverride")
@@ -11720,6 +12423,44 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL for OAuth"""
+
+    secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="secretParamName")
+    ] = None
+    r"""Secret parameter name to pass in request body"""
+
+    oauth_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="oauthTextSecret")
+    ] = None
+    r"""Select or create a stored text secret for the OAuth secret parameter value to pass in request body"""
+
+    token_attribute_name: Annotated[
+        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    ] = None
+    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
+
+    token_timeout_secs: Annotated[
+        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
+    ] = None
+    r"""How often the OAuth token should be refreshed."""
+
+    oauth_params: Annotated[
+        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+    ] = None
+    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    oauth_headers: Annotated[
+        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+    ] = None
+    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -11812,7 +12553,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsOpenTelemetry],
+        Optional[CreateOutputSystemByPackPqControlsOpenTelemetry],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -11825,6 +12566,11 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
 
     @field_serializer("protocol")
     def serialize_protocol(self, value):
@@ -11839,7 +12585,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputOTLPVersion(value)
+                return models.CreateOutputSystemByPackOTLPVersion(value)
             except ValueError:
                 return value
         return value
@@ -11866,7 +12612,9 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationTypeOptions(value)
+                return models.CreateOutputSystemByPackAuthenticationTypeOpenTelemetry(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -11948,6 +12696,14 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
+                "loginUrl",
+                "secretParamName",
+                "oauthTextSecret",
+                "tokenAttributeName",
+                "authHeaderExpr",
+                "tokenTimeoutSecs",
+                "oauthParams",
+                "oauthHeaders",
                 "rejectUnauthorized",
                 "useRoundRobinDns",
                 "extraHttpHeaders",
@@ -11970,6 +12726,7 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
                 "pqControls",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
+                "__template_loginUrl",
             ]
         )
         serialized = handler(self)
@@ -11986,21 +12743,21 @@ class CreateOutputOutputOpenTelemetry(BaseModel):
         return m
 
 
-class CreateOutputTypeRing(str, Enum):
+class CreateOutputSystemByPackTypeRing(str, Enum):
     RING = "ring"
 
 
-class CreateOutputDataFormatRing(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackDataFormatRing(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of the output data."""
 
     JSON = "json"
     RAW = "raw"
 
 
-class CreateOutputOutputRingTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputRingTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeRing
+    type: CreateOutputSystemByPackTypeRing
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -12009,7 +12766,7 @@ class CreateOutputOutputRingTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    format_: NotRequired[CreateOutputDataFormatRing]
+    format_: NotRequired[CreateOutputSystemByPackDataFormatRing]
     r"""Format of the output data."""
     partition_expr: NotRequired[str]
     r"""JS expression to define how files are partitioned and organized. If left blank, Cribl Stream will fallback on event.__partition."""
@@ -12027,11 +12784,11 @@ class CreateOutputOutputRingTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputRing(BaseModel):
+class CreateOutputSystemByPackOutputRing(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeRing
+    type: CreateOutputSystemByPackTypeRing
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -12048,7 +12805,7 @@ class CreateOutputOutputRing(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     format_: Annotated[
-        Optional[CreateOutputDataFormatRing], pydantic.Field(alias="format")
+        Optional[CreateOutputSystemByPackDataFormatRing], pydantic.Field(alias="format")
     ] = None
     r"""Format of the output data."""
 
@@ -12085,7 +12842,7 @@ class CreateOutputOutputRing(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputDataFormatRing(value)
+                return models.CreateOutputSystemByPackDataFormatRing(value)
             except ValueError:
                 return value
         return value
@@ -12141,22 +12898,22 @@ class CreateOutputOutputRing(BaseModel):
         return m
 
 
-class CreateOutputTypePrometheus(str, Enum):
+class CreateOutputSystemByPackTypePrometheus(str, Enum):
     PROMETHEUS = "prometheus"
 
 
-class CreateOutputPqControlsPrometheusTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsPrometheusTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsPrometheus(BaseModel):
+class CreateOutputSystemByPackPqControlsPrometheus(BaseModel):
     pass
 
 
-class CreateOutputOutputPrometheusTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputPrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypePrometheus
+    type: CreateOutputSystemByPackTypePrometheus
     url: str
     r"""The endpoint to send metrics to"""
     pipeline: NotRequired[str]
@@ -12230,7 +12987,7 @@ class CreateOutputOutputPrometheusTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsPrometheusTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsPrometheusTypedDict]
     username: NotRequired[str]
     password: NotRequired[str]
     token: NotRequired[str]
@@ -12247,11 +13004,11 @@ class CreateOutputOutputPrometheusTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputPrometheus(BaseModel):
+class CreateOutputSystemByPackOutputPrometheus(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypePrometheus
+    type: CreateOutputSystemByPackTypePrometheus
 
     url: str
     r"""The endpoint to send metrics to"""
@@ -12419,7 +13176,8 @@ class CreateOutputOutputPrometheus(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsPrometheus], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsPrometheus],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     username: Optional[str] = None
@@ -12570,22 +13328,22 @@ class CreateOutputOutputPrometheus(BaseModel):
         return m
 
 
-class CreateOutputTypeLoki(str, Enum):
+class CreateOutputSystemByPackTypeLoki(str, Enum):
     LOKI = "loki"
 
 
-class CreateOutputPqControlsLokiTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsLokiTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsLoki(BaseModel):
+class CreateOutputSystemByPackPqControlsLoki(BaseModel):
     pass
 
 
-class CreateOutputOutputLokiTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputLokiTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeLoki
+    type: CreateOutputSystemByPackTypeLoki
     url: str
     r"""The endpoint to send logs to"""
     pipeline: NotRequired[str]
@@ -12674,18 +13432,18 @@ class CreateOutputOutputLokiTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsLokiTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsLokiTypedDict]
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputLoki(BaseModel):
+class CreateOutputSystemByPackOutputLoki(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeLoki
+    type: CreateOutputSystemByPackTypeLoki
 
     url: str
     r"""The endpoint to send logs to"""
@@ -12873,7 +13631,8 @@ class CreateOutputOutputLoki(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsLoki], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsLoki],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_failed_request_logging_mode: Annotated[
@@ -13016,22 +13775,22 @@ class CreateOutputOutputLoki(BaseModel):
         return m
 
 
-class CreateOutputOutputGrafanaCloudType2(str, Enum):
+class CreateOutputSystemByPackOutputGrafanaCloudType2(str, Enum):
     GRAFANA_CLOUD = "grafana_cloud"
 
 
-class CreateOutputOutputGrafanaCloudPqControls2TypedDict(TypedDict):
+class CreateOutputSystemByPackOutputGrafanaCloudPqControls2TypedDict(TypedDict):
     pass
 
 
-class CreateOutputOutputGrafanaCloudPqControls2(BaseModel):
+class CreateOutputSystemByPackOutputGrafanaCloudPqControls2(BaseModel):
     pass
 
 
-class CreateOutputOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
+class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputOutputGrafanaCloudType2
+    type: CreateOutputSystemByPackOutputGrafanaCloudType2
     prometheus_url: str
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
     pipeline: NotRequired[str]
@@ -13109,7 +13868,9 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputOutputGrafanaCloudPqControls2TypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackOutputGrafanaCloudPqControls2TypedDict
+    ]
     template_loki_url: NotRequired[str]
     r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
     template_prometheus_url: NotRequired[str]
@@ -13120,11 +13881,11 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
+class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputOutputGrafanaCloudType2
+    type: CreateOutputSystemByPackOutputGrafanaCloudType2
 
     prometheus_url: Annotated[str, pydantic.Field(alias="prometheusUrl")]
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
@@ -13296,7 +14057,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputOutputGrafanaCloudPqControls2],
+        Optional[CreateOutputSystemByPackOutputGrafanaCloudPqControls2],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -13437,22 +14198,22 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud2(BaseModel):
         return m
 
 
-class CreateOutputOutputGrafanaCloudType1(str, Enum):
+class CreateOutputSystemByPackOutputGrafanaCloudType1(str, Enum):
     GRAFANA_CLOUD = "grafana_cloud"
 
 
-class CreateOutputOutputGrafanaCloudPqControls1TypedDict(TypedDict):
+class CreateOutputSystemByPackOutputGrafanaCloudPqControls1TypedDict(TypedDict):
     pass
 
 
-class CreateOutputOutputGrafanaCloudPqControls1(BaseModel):
+class CreateOutputSystemByPackOutputGrafanaCloudPqControls1(BaseModel):
     pass
 
 
-class CreateOutputOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
+class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputOutputGrafanaCloudType1
+    type: CreateOutputSystemByPackOutputGrafanaCloudType1
     loki_url: str
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
     pipeline: NotRequired[str]
@@ -13530,7 +14291,9 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputOutputGrafanaCloudPqControls1TypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackOutputGrafanaCloudPqControls1TypedDict
+    ]
     template_loki_url: NotRequired[str]
     r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
     template_prometheus_url: NotRequired[str]
@@ -13541,11 +14304,11 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
+class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputOutputGrafanaCloudType1
+    type: CreateOutputSystemByPackOutputGrafanaCloudType1
 
     loki_url: Annotated[str, pydantic.Field(alias="lokiUrl")]
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
@@ -13719,7 +14482,7 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputOutputGrafanaCloudPqControls1],
+        Optional[CreateOutputSystemByPackOutputGrafanaCloudPqControls1],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -13860,29 +14623,29 @@ class CreateOutputOutputGrafanaCloudGrafanaCloud1(BaseModel):
         return m
 
 
-CreateOutputOutputGrafanaCloudUnionTypedDict = TypeAliasType(
-    "CreateOutputOutputGrafanaCloudUnionTypedDict",
+CreateOutputSystemByPackOutputGrafanaCloudUnionTypedDict = TypeAliasType(
+    "CreateOutputSystemByPackOutputGrafanaCloudUnionTypedDict",
     Union[
-        CreateOutputOutputGrafanaCloudGrafanaCloud1TypedDict,
-        CreateOutputOutputGrafanaCloudGrafanaCloud2TypedDict,
+        CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1TypedDict,
+        CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2TypedDict,
     ],
 )
 
 
-CreateOutputOutputGrafanaCloudUnion = TypeAliasType(
-    "CreateOutputOutputGrafanaCloudUnion",
+CreateOutputSystemByPackOutputGrafanaCloudUnion = TypeAliasType(
+    "CreateOutputSystemByPackOutputGrafanaCloudUnion",
     Union[
-        CreateOutputOutputGrafanaCloudGrafanaCloud1,
-        CreateOutputOutputGrafanaCloudGrafanaCloud2,
+        CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1,
+        CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2,
     ],
 )
 
 
-class CreateOutputTypeDatadog(str, Enum):
+class CreateOutputSystemByPackTypeDatadog(str, Enum):
     DATADOG = "datadog"
 
 
-class CreateOutputSendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackSendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The content type to use when sending logs"""
 
     # text/plain
@@ -13891,7 +14654,7 @@ class CreateOutputSendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
 
 
-class CreateOutputSeverityDatadog(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackSeverityDatadog(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
     # emergency
@@ -13912,7 +14675,7 @@ class CreateOutputSeverityDatadog(str, Enum, metaclass=utils.OpenEnumMeta):
     DEBUG = "debug"
 
 
-class CreateOutputDatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackDatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Datadog site to which events should be sent"""
 
     # US
@@ -13931,18 +14694,18 @@ class CreateOutputDatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class CreateOutputPqControlsDatadogTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsDatadogTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsDatadog(BaseModel):
+class CreateOutputSystemByPackPqControlsDatadog(BaseModel):
     pass
 
 
-class CreateOutputOutputDatadogTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputDatadogTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeDatadog
+    type: CreateOutputSystemByPackTypeDatadog
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -13951,7 +14714,7 @@ class CreateOutputOutputDatadogTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    content_type: NotRequired[CreateOutputSendLogsAs]
+    content_type: NotRequired[CreateOutputSystemByPackSendLogsAs]
     r"""The content type to use when sending logs"""
     message: NotRequired[str]
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
@@ -13967,9 +14730,9 @@ class CreateOutputOutputDatadogTypedDict(TypedDict):
     r"""Batch events by API key and the ddtags field on the event. When disabled, batches events only by API key. If incoming events have high cardinality in the ddtags field, disabling this setting may improve Destination performance."""
     allow_api_key_from_events: NotRequired[bool]
     r"""Allow API key to be set from the event's '__agent_api_key' field"""
-    severity: NotRequired[CreateOutputSeverityDatadog]
+    severity: NotRequired[CreateOutputSystemByPackSeverityDatadog]
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
-    site: NotRequired[CreateOutputDatadogSite]
+    site: NotRequired[CreateOutputSystemByPackDatadogSite]
     r"""Datadog site to which events should be sent"""
     send_counters_as_count: NotRequired[bool]
     r"""If not enabled, Datadog will transform 'counter' metrics to 'gauge'. [Learn more about Datadog metrics types.](https://docs.datadoghq.com/metrics/types/?tab=count)"""
@@ -14033,7 +14796,7 @@ class CreateOutputOutputDatadogTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsDatadogTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsDatadogTypedDict]
     api_key: NotRequired[str]
     r"""Organization's API key in Datadog"""
     text_secret: NotRequired[str]
@@ -14044,11 +14807,11 @@ class CreateOutputOutputDatadogTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputDatadog(BaseModel):
+class CreateOutputSystemByPackOutputDatadog(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeDatadog
+    type: CreateOutputSystemByPackTypeDatadog
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -14065,7 +14828,8 @@ class CreateOutputOutputDatadog(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     content_type: Annotated[
-        Optional[CreateOutputSendLogsAs], pydantic.Field(alias="contentType")
+        Optional[CreateOutputSystemByPackSendLogsAs],
+        pydantic.Field(alias="contentType"),
     ] = None
     r"""The content type to use when sending logs"""
 
@@ -14092,10 +14856,10 @@ class CreateOutputOutputDatadog(BaseModel):
     ] = None
     r"""Allow API key to be set from the event's '__agent_api_key' field"""
 
-    severity: Optional[CreateOutputSeverityDatadog] = None
+    severity: Optional[CreateOutputSystemByPackSeverityDatadog] = None
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
-    site: Optional[CreateOutputDatadogSite] = None
+    site: Optional[CreateOutputSystemByPackDatadogSite] = None
     r"""Datadog site to which events should be sent"""
 
     send_counters_as_count: Annotated[
@@ -14241,7 +15005,8 @@ class CreateOutputOutputDatadog(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsDatadog], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsDatadog],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
@@ -14264,7 +15029,7 @@ class CreateOutputOutputDatadog(BaseModel):
     def serialize_content_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputSendLogsAs(value)
+                return models.CreateOutputSystemByPackSendLogsAs(value)
             except ValueError:
                 return value
         return value
@@ -14273,7 +15038,7 @@ class CreateOutputOutputDatadog(BaseModel):
     def serialize_severity(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputSeverityDatadog(value)
+                return models.CreateOutputSystemByPackSeverityDatadog(value)
             except ValueError:
                 return value
         return value
@@ -14282,7 +15047,7 @@ class CreateOutputOutputDatadog(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputDatadogSite(value)
+                return models.CreateOutputSystemByPackDatadogSite(value)
             except ValueError:
                 return value
         return value
@@ -14411,11 +15176,13 @@ class CreateOutputOutputDatadog(BaseModel):
         return m
 
 
-class CreateOutputTypeSumoLogic(str, Enum):
+class CreateOutputSystemByPackTypeSumoLogic(str, Enum):
     SUMO_LOGIC = "sumo_logic"
 
 
-class CreateOutputDataFormatSumoLogic(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackDataFormatSumoLogic(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Preserve the raw event format instead of JSONifying it"""
 
     # JSON
@@ -14424,18 +15191,18 @@ class CreateOutputDataFormatSumoLogic(str, Enum, metaclass=utils.OpenEnumMeta):
     RAW = "raw"
 
 
-class CreateOutputPqControlsSumoLogicTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsSumoLogicTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsSumoLogic(BaseModel):
+class CreateOutputSystemByPackPqControlsSumoLogic(BaseModel):
     pass
 
 
-class CreateOutputOutputSumoLogicTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputSumoLogicTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeSumoLogic
+    type: CreateOutputSystemByPackTypeSumoLogic
     url: str
     r"""Sumo Logic HTTP collector URL to which events should be sent"""
     pipeline: NotRequired[str]
@@ -14450,7 +15217,7 @@ class CreateOutputOutputSumoLogicTypedDict(TypedDict):
     r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""
     custom_category: NotRequired[str]
     r"""Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field."""
-    format_: NotRequired[CreateOutputDataFormatSumoLogic]
+    format_: NotRequired[CreateOutputSystemByPackDataFormatSumoLogic]
     r"""Preserve the raw event format instead of JSONifying it"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -14509,7 +15276,7 @@ class CreateOutputOutputSumoLogicTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsSumoLogicTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsSumoLogicTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -14518,11 +15285,11 @@ class CreateOutputOutputSumoLogicTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputSumoLogic(BaseModel):
+class CreateOutputSystemByPackOutputSumoLogic(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeSumoLogic
+    type: CreateOutputSystemByPackTypeSumoLogic
 
     url: str
     r"""Sumo Logic HTTP collector URL to which events should be sent"""
@@ -14550,7 +15317,8 @@ class CreateOutputOutputSumoLogic(BaseModel):
     r"""Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field."""
 
     format_: Annotated[
-        Optional[CreateOutputDataFormatSumoLogic], pydantic.Field(alias="format")
+        Optional[CreateOutputSystemByPackDataFormatSumoLogic],
+        pydantic.Field(alias="format"),
     ] = None
     r"""Preserve the raw event format instead of JSONifying it"""
 
@@ -14685,7 +15453,8 @@ class CreateOutputOutputSumoLogic(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsSumoLogic], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsSumoLogic],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
@@ -14707,7 +15476,7 @@ class CreateOutputOutputSumoLogic(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputDataFormatSumoLogic(value)
+                return models.CreateOutputSystemByPackDataFormatSumoLogic(value)
             except ValueError:
                 return value
         return value
@@ -14816,11 +15585,11 @@ class CreateOutputOutputSumoLogic(BaseModel):
         return m
 
 
-class CreateOutputTypeSnmp(str, Enum):
+class CreateOutputSystemByPackTypeSnmp(str, Enum):
     SNMP = "snmp"
 
 
-class CreateOutputHostSnmpTypedDict(TypedDict):
+class CreateOutputSystemByPackHostSnmpTypedDict(TypedDict):
     host: str
     r"""Destination host"""
     port: float
@@ -14831,7 +15600,7 @@ class CreateOutputHostSnmpTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateOutputHostSnmp(BaseModel):
+class CreateOutputSystemByPackHostSnmp(BaseModel):
     host: str
     r"""Destination host"""
 
@@ -14865,11 +15634,11 @@ class CreateOutputHostSnmp(BaseModel):
         return m
 
 
-class CreateOutputOutputSnmpTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputSnmpTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeSnmp
-    hosts: List[CreateOutputHostSnmpTypedDict]
+    type: CreateOutputSystemByPackTypeSnmp
+    hosts: List[CreateOutputSystemByPackHostSnmpTypedDict]
     r"""One or more SNMP destinations to forward traps to"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -14884,13 +15653,13 @@ class CreateOutputOutputSnmpTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateOutputOutputSnmp(BaseModel):
+class CreateOutputSystemByPackOutputSnmp(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeSnmp
+    type: CreateOutputSystemByPackTypeSnmp
 
-    hosts: List[CreateOutputHostSnmp]
+    hosts: List[CreateOutputSystemByPackHostSnmp]
     r"""One or more SNMP destinations to forward traps to"""
 
     pipeline: Optional[str] = None
@@ -14940,11 +15709,11 @@ class CreateOutputOutputSnmp(BaseModel):
         return m
 
 
-class CreateOutputTypeSqs(str, Enum):
+class CreateOutputSystemByPackTypeSqs(str, Enum):
     SQS = "sqs"
 
 
-class CreateOutputQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The queue type used (or created). Defaults to Standard."""
 
     # Standard
@@ -14953,21 +15722,21 @@ class CreateOutputQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
     FIFO = "fifo"
 
 
-class CreateOutputPqControlsSqsTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsSqsTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsSqs(BaseModel):
+class CreateOutputSystemByPackPqControlsSqs(BaseModel):
     pass
 
 
-class CreateOutputOutputSqsTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputSqsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeSqs
+    type: CreateOutputSystemByPackTypeSqs
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
-    queue_type: CreateOutputQueueType
+    queue_type: CreateOutputSystemByPackQueueType
     r"""The queue type used (or created). Defaults to Standard."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -15040,7 +15809,7 @@ class CreateOutputOutputSqsTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsSqsTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsSqsTypedDict]
     template_queue_name: NotRequired[str]
     r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
     template_queue_type: NotRequired[str]
@@ -15065,16 +15834,18 @@ class CreateOutputOutputSqsTypedDict(TypedDict):
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
-class CreateOutputOutputSqs(BaseModel):
+class CreateOutputSystemByPackOutputSqs(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeSqs
+    type: CreateOutputSystemByPackTypeSqs
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
-    queue_type: Annotated[CreateOutputQueueType, pydantic.Field(alias="queueType")]
+    queue_type: Annotated[
+        CreateOutputSystemByPackQueueType, pydantic.Field(alias="queueType")
+    ]
     r"""The queue type used (or created). Defaults to Standard."""
 
     pipeline: Optional[str] = None
@@ -15237,7 +16008,8 @@ class CreateOutputOutputSqs(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsSqs], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsSqs],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_queue_name: Annotated[
@@ -15299,7 +16071,7 @@ class CreateOutputOutputSqs(BaseModel):
     def serialize_queue_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputQueueType(value)
+                return models.CreateOutputSystemByPackQueueType(value)
             except ValueError:
                 return value
         return value
@@ -15427,29 +16199,31 @@ class CreateOutputOutputSqs(BaseModel):
         return m
 
 
-class CreateOutputTypeSns(str, Enum):
+class CreateOutputSystemByPackTypeSns(str, Enum):
     SNS = "sns"
 
 
-class CreateOutputSignatureVersionSns(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackSignatureVersionSns(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Signature version to use for signing SNS requests"""
 
     V2 = "v2"
     V4 = "v4"
 
 
-class CreateOutputPqControlsSnsTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsSnsTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsSns(BaseModel):
+class CreateOutputSystemByPackPqControlsSns(BaseModel):
     pass
 
 
-class CreateOutputOutputSnsTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputSnsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeSns
+    type: CreateOutputSystemByPackTypeSns
     topic_arn: str
     r"""The ARN of the SNS topic to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`"""
     message_group_id: str
@@ -15471,7 +16245,7 @@ class CreateOutputOutputSnsTypedDict(TypedDict):
     r"""Region where the SNS is located"""
     endpoint: NotRequired[str]
     r"""SNS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SNS-compatible endpoint."""
-    signature_version: NotRequired[CreateOutputSignatureVersionSns]
+    signature_version: NotRequired[CreateOutputSystemByPackSignatureVersionSns]
     r"""Signature version to use for signing SNS requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
@@ -15513,7 +16287,7 @@ class CreateOutputOutputSnsTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsSnsTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsSnsTypedDict]
     template_topic_arn: NotRequired[str]
     r"""Binds 'topicArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicArn' at runtime."""
     template_message_group_id: NotRequired[str]
@@ -15534,11 +16308,11 @@ class CreateOutputOutputSnsTypedDict(TypedDict):
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
-class CreateOutputOutputSns(BaseModel):
+class CreateOutputSystemByPackOutputSns(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeSns
+    type: CreateOutputSystemByPackTypeSns
 
     topic_arn: Annotated[str, pydantic.Field(alias="topicArn")]
     r"""The ARN of the SNS topic to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`"""
@@ -15580,7 +16354,7 @@ class CreateOutputOutputSns(BaseModel):
     r"""SNS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SNS-compatible endpoint."""
 
     signature_version: Annotated[
-        Optional[CreateOutputSignatureVersionSns],
+        Optional[CreateOutputSystemByPackSignatureVersionSns],
         pydantic.Field(alias="signatureVersion"),
     ] = None
     r"""Signature version to use for signing SNS requests"""
@@ -15677,7 +16451,8 @@ class CreateOutputOutputSns(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsSns], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsSns],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_topic_arn: Annotated[
@@ -15738,7 +16513,7 @@ class CreateOutputOutputSns(BaseModel):
     def serialize_signature_version(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputSignatureVersionSns(value)
+                return models.CreateOutputSystemByPackSignatureVersionSns(value)
             except ValueError:
                 return value
         return value
@@ -15840,11 +16615,11 @@ class CreateOutputOutputSns(BaseModel):
         return m
 
 
-class CreateOutputTypeRouter(str, Enum):
+class CreateOutputSystemByPackTypeRouter(str, Enum):
     ROUTER = "router"
 
 
-class CreateOutputRuleTypedDict(TypedDict):
+class CreateOutputSystemByPackRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression to select events to send to output"""
     output: str
@@ -15855,7 +16630,7 @@ class CreateOutputRuleTypedDict(TypedDict):
     r"""Flag to control whether to stop the event from being checked against other rules"""
 
 
-class CreateOutputRule(BaseModel):
+class CreateOutputSystemByPackRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression to select events to send to output"""
 
@@ -15885,11 +16660,11 @@ class CreateOutputRule(BaseModel):
         return m
 
 
-class CreateOutputOutputRouterTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputRouterTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeRouter
-    rules: List[CreateOutputRuleTypedDict]
+    type: CreateOutputSystemByPackTypeRouter
+    rules: List[CreateOutputSystemByPackRuleTypedDict]
     r"""Event routing rules"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -15902,13 +16677,13 @@ class CreateOutputOutputRouterTypedDict(TypedDict):
     description: NotRequired[str]
 
 
-class CreateOutputOutputRouter(BaseModel):
+class CreateOutputSystemByPackOutputRouter(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeRouter
+    type: CreateOutputSystemByPackTypeRouter
 
-    rules: List[CreateOutputRule]
+    rules: List[CreateOutputSystemByPackRule]
     r"""Event routing rules"""
 
     pipeline: Optional[str] = None
@@ -15946,22 +16721,22 @@ class CreateOutputOutputRouter(BaseModel):
         return m
 
 
-class CreateOutputTypeGraphite(str, Enum):
+class CreateOutputSystemByPackTypeGraphite(str, Enum):
     GRAPHITE = "graphite"
 
 
-class CreateOutputPqControlsGraphiteTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsGraphiteTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsGraphite(BaseModel):
+class CreateOutputSystemByPackPqControlsGraphite(BaseModel):
     pass
 
 
-class CreateOutputOutputGraphiteTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputGraphiteTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeGraphite
+    type: CreateOutputSystemByPackTypeGraphite
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
     host: str
@@ -16013,16 +16788,16 @@ class CreateOutputOutputGraphiteTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsGraphiteTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsGraphiteTypedDict]
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputGraphite(BaseModel):
+class CreateOutputSystemByPackOutputGraphite(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeGraphite
+    type: CreateOutputSystemByPackTypeGraphite
 
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
@@ -16132,7 +16907,8 @@ class CreateOutputOutputGraphite(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsGraphite], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsGraphite],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_on_backpressure: Annotated[
@@ -16230,22 +17006,22 @@ class CreateOutputOutputGraphite(BaseModel):
         return m
 
 
-class CreateOutputTypeStatsdExt(str, Enum):
+class CreateOutputSystemByPackTypeStatsdExt(str, Enum):
     STATSD_EXT = "statsd_ext"
 
 
-class CreateOutputPqControlsStatsdExtTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsStatsdExtTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsStatsdExt(BaseModel):
+class CreateOutputSystemByPackPqControlsStatsdExt(BaseModel):
     pass
 
 
-class CreateOutputOutputStatsdExtTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputStatsdExtTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeStatsdExt
+    type: CreateOutputSystemByPackTypeStatsdExt
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
     host: str
@@ -16297,16 +17073,16 @@ class CreateOutputOutputStatsdExtTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsStatsdExtTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsStatsdExtTypedDict]
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputStatsdExt(BaseModel):
+class CreateOutputSystemByPackOutputStatsdExt(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeStatsdExt
+    type: CreateOutputSystemByPackTypeStatsdExt
 
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
@@ -16416,7 +17192,8 @@ class CreateOutputOutputStatsdExt(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsStatsdExt], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsStatsdExt],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_on_backpressure: Annotated[
@@ -16514,22 +17291,22 @@ class CreateOutputOutputStatsdExt(BaseModel):
         return m
 
 
-class CreateOutputTypeStatsd(str, Enum):
+class CreateOutputSystemByPackTypeStatsd(str, Enum):
     STATSD = "statsd"
 
 
-class CreateOutputPqControlsStatsdTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsStatsdTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsStatsd(BaseModel):
+class CreateOutputSystemByPackPqControlsStatsd(BaseModel):
     pass
 
 
-class CreateOutputOutputStatsdTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputStatsdTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeStatsd
+    type: CreateOutputSystemByPackTypeStatsd
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
     host: str
@@ -16581,16 +17358,16 @@ class CreateOutputOutputStatsdTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsStatsdTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsStatsdTypedDict]
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class CreateOutputOutputStatsd(BaseModel):
+class CreateOutputSystemByPackOutputStatsd(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeStatsd
+    type: CreateOutputSystemByPackTypeStatsd
 
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
@@ -16700,7 +17477,8 @@ class CreateOutputOutputStatsd(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[CreateOutputPqControlsStatsd], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsStatsd],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_on_backpressure: Annotated[
@@ -16798,14 +17576,14 @@ class CreateOutputOutputStatsd(BaseModel):
         return m
 
 
-class CreateOutputTypeMinio(str, Enum):
+class CreateOutputSystemByPackTypeMinio(str, Enum):
     MINIO = "minio"
 
 
-class CreateOutputOutputMinioTypedDict(TypedDict):
+class CreateOutputSystemByPackOutputMinioTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
-    type: CreateOutputTypeMinio
+    type: CreateOutputSystemByPackTypeMinio
     bucket: str
     r"""Name of the destination MinIO bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -16953,11 +17731,11 @@ class CreateOutputOutputMinioTypedDict(TypedDict):
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
-class CreateOutputOutputMinio(BaseModel):
+class CreateOutputSystemByPackOutputMinio(BaseModel):
     id: str
     r"""Unique ID for this output"""
 
-    type: CreateOutputTypeMinio
+    type: CreateOutputSystemByPackTypeMinio
 
     bucket: str
     r"""Name of the destination MinIO bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -17497,621 +18275,207 @@ class CreateOutputOutputMinio(BaseModel):
         return m
 
 
-class CreateOutputTypeCloudwatch(str, Enum):
+class CreateOutputSystemByPackTypeCloudwatch(str, Enum):
     CLOUDWATCH = "cloudwatch"
 
 
-class CreateOutputPqControlsCloudwatchTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCloudwatchTypedDict(TypedDict):
     pass
 
 
-class CreateOutputPqControlsCloudwatch(BaseModel):
+class CreateOutputSystemByPackPqControlsCloudwatch(BaseModel):
     pass
-
-
-class CreateOutputOutputCloudwatchTypedDict(TypedDict):
-    id: str
-    r"""Unique ID for this output"""
-    type: CreateOutputTypeCloudwatch
-    log_group_name: str
-    r"""CloudWatch log group to associate events with"""
-    log_stream_name: str
-    r"""Prefix for CloudWatch log stream name. This prefix will be used to generate a unique log stream name per cribl instance, for example: myStream_myHost_myOutputId"""
-    region: str
-    r"""Region where the CloudWatchLogs is located"""
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data before sending out to this output"""
-    system_fields: NotRequired[List[str]]
-    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-    aws_secret_key: NotRequired[str]
-    endpoint: NotRequired[str]
-    r"""CloudWatchLogs service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint."""
-    reuse_connections: NotRequired[bool]
-    r"""Reuse connections between requests, which can improve performance"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-    enable_assume_role: NotRequired[bool]
-    r"""Use Assume Role credentials to access CloudWatchLogs"""
-    assume_role_arn: NotRequired[str]
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-    assume_role_external_id: NotRequired[str]
-    r"""External ID to use when assuming role"""
-    duration_seconds: NotRequired[float]
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    max_queue_size: NotRequired[float]
-    r"""Maximum number of queued batches before blocking"""
-    max_record_size_kb: NotRequired[float]
-    r"""Maximum size (KB) of each individual record before compression. For non compressible data 1MB is the max recommended size"""
-    flush_period_sec: NotRequired[float]
-    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions]
-    r"""How to handle events when all receivers are exerting backpressure"""
-    description: NotRequired[str]
-    aws_api_key: NotRequired[str]
-    aws_secret: NotRequired[str]
-    r"""Select or create a stored secret that references your access key and secret key"""
-    pq_strict_ordering: NotRequired[bool]
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-    pq_rate_per_sec: NotRequired[float]
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-    pq_mode: NotRequired[ModeOptions]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-    pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
-    pq_max_backpressure_sec: NotRequired[float]
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-    pq_max_file_size: NotRequired[str]
-    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
-    pq_max_size: NotRequired[str]
-    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
-    pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
-    pq_compress: NotRequired[CompressionOptionsPq]
-    r"""Codec to use to compress the persisted data"""
-    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
-    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[CreateOutputPqControlsCloudwatchTypedDict]
-    template_log_group_name: NotRequired[str]
-    r"""Binds 'logGroupName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logGroupName' at runtime."""
-    template_log_stream_name: NotRequired[str]
-    r"""Binds 'logStreamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logStreamName' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_endpoint: NotRequired[str]
-    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
-    template_assume_role_arn: NotRequired[str]
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-    template_assume_role_external_id: NotRequired[str]
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_on_backpressure: NotRequired[str]
-    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    template_aws_api_key: NotRequired[str]
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
-
-class CreateOutputOutputCloudwatch(BaseModel):
-    id: str
-    r"""Unique ID for this output"""
-
-    type: CreateOutputTypeCloudwatch
-
-    log_group_name: Annotated[str, pydantic.Field(alias="logGroupName")]
-    r"""CloudWatch log group to associate events with"""
-
-    log_stream_name: Annotated[str, pydantic.Field(alias="logStreamName")]
-    r"""Prefix for CloudWatch log stream name. This prefix will be used to generate a unique log stream name per cribl instance, for example: myStream_myHost_myOutputId"""
-
-    region: str
-    r"""Region where the CloudWatchLogs is located"""
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data before sending out to this output"""
-
-    system_fields: Annotated[
-        Optional[List[str]], pydantic.Field(alias="systemFields")
-    ] = None
-    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = None
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-
-    endpoint: Optional[str] = None
-    r"""CloudWatchLogs service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint."""
-
-    reuse_connections: Annotated[
-        Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = None
-    r"""Reuse connections between requests, which can improve performance"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-
-    enable_assume_role: Annotated[
-        Optional[bool], pydantic.Field(alias="enableAssumeRole")
-    ] = None
-    r"""Use Assume Role credentials to access CloudWatchLogs"""
-
-    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
-        None
-    )
-    r"""Amazon Resource Name (ARN) of the role to assume"""
-
-    assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
-    ] = None
-    r"""External ID to use when assuming role"""
-
-    duration_seconds: Annotated[
-        Optional[float], pydantic.Field(alias="durationSeconds")
-    ] = None
-    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-
-    max_queue_size: Annotated[Optional[float], pydantic.Field(alias="maxQueueSize")] = (
-        None
-    )
-    r"""Maximum number of queued batches before blocking"""
-
-    max_record_size_kb: Annotated[
-        Optional[float], pydantic.Field(alias="maxRecordSizeKB")
-    ] = None
-    r"""Maximum size (KB) of each individual record before compression. For non compressible data 1MB is the max recommended size"""
-
-    flush_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = None
-    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
-
-    on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = None
-    r"""How to handle events when all receivers are exerting backpressure"""
-
-    description: Optional[str] = None
-
-    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
-
-    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
-    r"""Select or create a stored secret that references your access key and secret key"""
-
-    pq_strict_ordering: Annotated[
-        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = None
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-
-    pq_rate_per_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = None
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    pq_max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
-
-    pq_max_backpressure_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = None
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-
-    pq_max_file_size: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = None
-    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
-
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
-    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
-
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
-
-    pq_compress: Annotated[
-        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = None
-    r"""Codec to use to compress the persisted data"""
-
-    pq_on_backpressure: Annotated[
-        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = None
-    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-
-    pq_controls: Annotated[
-        Optional[CreateOutputPqControlsCloudwatch], pydantic.Field(alias="pqControls")
-    ] = None
-
-    template_log_group_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_logGroupName")
-    ] = None
-    r"""Binds 'logGroupName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logGroupName' at runtime."""
-
-    template_log_stream_name: Annotated[
-        Optional[str], pydantic.Field(alias="__template_logStreamName")
-    ] = None
-    r"""Binds 'logStreamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logStreamName' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
-
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
-    ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_endpoint: Annotated[
-        Optional[str], pydantic.Field(alias="__template_endpoint")
-    ] = None
-    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
-
-    template_assume_role_arn: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
-    ] = None
-    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
-
-    template_assume_role_external_id: Annotated[
-        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
-    ] = None
-    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_on_backpressure: Annotated[
-        Optional[str], pydantic.Field(alias="__template_onBackpressure")
-    ] = None
-    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    template_aws_api_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsApiKey")
-    ] = None
-    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-
-    @field_serializer("aws_authentication_method")
-    def serialize_aws_authentication_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("on_backpressure")
-    def serialize_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.BackpressureBehaviorOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_mode")
-    def serialize_pq_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ModeOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_compress")
-    def serialize_pq_compress(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CompressionOptionsPq(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_on_backpressure")
-    def serialize_pq_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.QueueFullBehaviorOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "pipeline",
-                "systemFields",
-                "environment",
-                "streamtags",
-                "awsAuthenticationMethod",
-                "awsSecretKey",
-                "endpoint",
-                "reuseConnections",
-                "rejectUnauthorized",
-                "enableAssumeRole",
-                "assumeRoleArn",
-                "assumeRoleExternalId",
-                "durationSeconds",
-                "maxQueueSize",
-                "maxRecordSizeKB",
-                "flushPeriodSec",
-                "onBackpressure",
-                "description",
-                "awsApiKey",
-                "awsSecret",
-                "pqStrictOrdering",
-                "pqRatePerSec",
-                "pqMode",
-                "pqMaxBufferSize",
-                "pqMaxBackpressureSec",
-                "pqMaxFileSize",
-                "pqMaxSize",
-                "pqPath",
-                "pqCompress",
-                "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
-                "pqControls",
-                "__template_logGroupName",
-                "__template_logStreamName",
-                "__template_awsSecretKey",
-                "__template_region",
-                "__template_endpoint",
-                "__template_assumeRoleArn",
-                "__template_assumeRoleExternalId",
-                "__template_onBackpressure",
-                "__template_awsApiKey",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class CreateOutputTypeInfluxdb(str, Enum):
-    INFLUXDB = "influxdb"
-
-
-class CreateOutputTimestampPrecision(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
-
-    # Nanoseconds
-    NS = "ns"
-    # Microseconds
-    U = "u"
-    # Milliseconds
-    MS = "ms"
-    # Seconds
-    S = "s"
-    # Minutes
-    M = "m"
-    # Hours
-    H = "h"
 
 
 try:
-    CreateOutputOutputNutanixObjects.model_rebuild()
+    CreateOutputSystemByPackOutputAlphasocS3.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputCloudflareR2.model_rebuild()
+    CreateOutputSystemByPackOutputNutanixObjects.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputAuthentication.model_rebuild()
+    CreateOutputSystemByPackOutputCloudflareR2.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputMicrosoftFabric.model_rebuild()
+    CreateOutputSystemByPackAuthentication.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputDatabricks.model_rebuild()
+    CreateOutputSystemByPackOutputMicrosoftFabric.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputCustomLabel.model_rebuild()
+    CreateOutputSystemByPackOutputDatabricks.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputChronicle.model_rebuild()
+    CreateOutputSystemByPackCustomLabel.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputSentinelOneAiSiem.model_rebuild()
+    CreateOutputSystemByPackOutputChronicle.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputDynatraceOtlp.model_rebuild()
+    CreateOutputSystemByPackOutputSentinelOneAiSiem.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputDynatraceHTTP.model_rebuild()
+    CreateOutputSystemByPackOutputDynatraceOtlp.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputHostNetflow.model_rebuild()
+    CreateOutputSystemByPackOutputDynatraceHTTP.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputNetflow.model_rebuild()
+    CreateOutputSystemByPackHostNetflow.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputXsiam.model_rebuild()
+    CreateOutputSystemByPackOutputNetflow.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputStatsDestination.model_rebuild()
+    CreateOutputSystemByPackOutputXsiam.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputColumnMappingLocalSearchStorage.model_rebuild()
+    CreateOutputSystemByPackStatsDestination.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputLocalSearchStorage.model_rebuild()
+    CreateOutputSystemByPackColumnMappingLocalSearchStorage.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputColumnMappingClickHouse.model_rebuild()
+    CreateOutputSystemByPackOutputLocalSearchStorage.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputClickHouse.model_rebuild()
+    CreateOutputSystemByPackColumnMappingClickHouse.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputDiskSpool.model_rebuild()
+    CreateOutputSystemByPackOutputClickHouse.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputCriblLake.model_rebuild()
+    CreateOutputSystemByPackOutputDiskSpool.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputSecurityLake.model_rebuild()
+    CreateOutputSystemByPackOutputCriblLake.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputDlS3.model_rebuild()
+    CreateOutputSystemByPackOutputSecurityLake.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputCrowdstrikeNextGenSiem.model_rebuild()
+    CreateOutputSystemByPackOutputDlS3.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputHumioHec.model_rebuild()
+    CreateOutputSystemByPackOutputCrowdstrikeNextGenSiem.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputCriblSearchEngine.model_rebuild()
+    CreateOutputSystemByPackOutputHumioHec.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputCriblHTTP.model_rebuild()
+    CreateOutputSystemByPackOutputCriblSearchEngine.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputCriblTCP.model_rebuild()
+    CreateOutputSystemByPackOutputCriblHTTP.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputDataset.model_rebuild()
+    CreateOutputSystemByPackOutputCriblTCP.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputServiceNow.model_rebuild()
+    CreateOutputSystemByPackOutputDataset.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputOpenTelemetry.model_rebuild()
+    CreateOutputSystemByPackOutputServiceNow.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputRing.model_rebuild()
+    CreateOutputSystemByPackOutputOpenTelemetry.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputPrometheus.model_rebuild()
+    CreateOutputSystemByPackOutputRing.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputLoki.model_rebuild()
+    CreateOutputSystemByPackOutputPrometheus.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputGrafanaCloudGrafanaCloud2.model_rebuild()
+    CreateOutputSystemByPackOutputLoki.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputGrafanaCloudGrafanaCloud1.model_rebuild()
+    CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputDatadog.model_rebuild()
+    CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputSumoLogic.model_rebuild()
+    CreateOutputSystemByPackOutputDatadog.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputHostSnmp.model_rebuild()
+    CreateOutputSystemByPackOutputSumoLogic.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputSnmp.model_rebuild()
+    CreateOutputSystemByPackHostSnmp.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputSqs.model_rebuild()
+    CreateOutputSystemByPackOutputSnmp.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputSns.model_rebuild()
+    CreateOutputSystemByPackOutputSqs.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputRule.model_rebuild()
+    CreateOutputSystemByPackOutputSns.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputRouter.model_rebuild()
+    CreateOutputSystemByPackRule.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputGraphite.model_rebuild()
+    CreateOutputSystemByPackOutputRouter.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputStatsdExt.model_rebuild()
+    CreateOutputSystemByPackOutputGraphite.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputStatsd.model_rebuild()
+    CreateOutputSystemByPackOutputStatsdExt.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputMinio.model_rebuild()
+    CreateOutputSystemByPackOutputStatsd.model_rebuild()
 except NameError:
     pass
 try:
-    CreateOutputOutputCloudwatch.model_rebuild()
+    CreateOutputSystemByPackOutputMinio.model_rebuild()
 except NameError:
     pass

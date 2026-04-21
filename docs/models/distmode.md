@@ -1,11 +1,13 @@
-# ModeOptionsInstanceSettingsSchema
+# DistMode
+
+Distributed deployment mode for the instance.
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import ModeOptionsInstanceSettingsSchema
+from cribl_control_plane.models import DistMode
 
-value = ModeOptionsInstanceSettingsSchema.SINGLE
+value = DistMode.EDGE
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```
@@ -15,10 +17,10 @@ value = ModeOptionsInstanceSettingsSchema.SINGLE
 
 | Name                | Value               |
 | ------------------- | ------------------- |
-| `SINGLE`            | single              |
-| `MASTER`            | master              |
-| `WORKER`            | worker              |
 | `EDGE`              | edge                |
 | `MANAGED_EDGE`      | managed-edge        |
+| `MASTER`            | master              |
 | `OUTPOST`           | outpost             |
 | `SEARCH_SUPERVISOR` | search-supervisor   |
+| `SINGLE`            | single              |
+| `WORKER`            | worker              |

@@ -67,7 +67,7 @@ async def main():
     print(f"✅ Installed Search Pack {PACK_ID} from Cribl Packs Dispensary")
 
     # Create lake dataset
-    cribl.lake_datasets.create(
+    cribl.lakes.datasets.create(
         lake_id=LAKE_ID,
         id=DATASET_ID,
         retention_period_in_days=30,

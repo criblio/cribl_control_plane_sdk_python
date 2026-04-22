@@ -30,7 +30,7 @@ or new parameters in existing methods.
    - <`destinations.pq.clear`>
    - <`destinations.pq.get`>
 - <Added the `retry_connection_errors` body parameter to the `destinations.samples.create` method to specify whether to retry a request after a connection error.>
-- <Added the `limit` and `offset` query parameters to the `lake_datasets.list` method to support results pagination.>
+- <Added the `limit` and `offset` query parameters to the `lakes.datasets.list` method to support results pagination.>
 
 ## Improvements
 

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.0-7e952fa7
+  version: 4.17.1-b862732f
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -111,50 +111,38 @@ components:
             delete: "#/components/schemas/DiffLineDelete"
             insert: "#/components/schemas/DiffLineInsert"
             context: "#/components/schemas/DiffLineContext"
-    AggregateMetricsCumulativeTrue:
+    EventBreakerExistingOrNewNewTimestampTypeAuto:
       type: object
       properties:
-        cumulative:
-          type: boolean
-          const: true
-    AggregateMetricsCumulativeFalse:
+        type:
+          enum:
+            - auto
+          type: string
+        length:
+          type: number
+          title: Length
+          minimum: 2
+      required:
+        - length
+    EventBreakerExistingOrNewNewTimestampTypeFormat:
       type: object
       properties:
-        cumulative:
-          type: boolean
-          const: false
-        lagTolerance:
+        type:
+          enum:
+            - format
           type: string
-          title: Lag tolerance
-          description: The tumbling window tolerance to late events. Must be a valid time string (such as 10s).
-          pattern: \d+[sm]$
-        idleTimeLimit:
+        format:
           type: string
-          title: Idle bucket time limit
-          description: How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s).
-          pattern: \d+[sm]$
-    AggregationCumulativeTrue:
+          title: Format
+      required:
+        - format
+    EventBreakerExistingOrNewNewTimestampTypeCurrent:
       type: object
       properties:
-        cumulative:
-          type: boolean
-          const: true
-    AggregationCumulativeFalse:
-      type: object
-      properties:
-        cumulative:
-          type: boolean
-          const: false
-        lagTolerance:
+        type:
+          enum:
+            - current
           type: string
-          title: Lag tolerance
-          description: The tumbling window tolerance to late events. Must be a valid time string (such as 10s).
-          pattern: \d+[sm]$
-        idleTimeLimit:
-          type: string
-          title: Idle bucket time limit
-          description: How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s).
-          pattern: \d+[sm]$
     EventBreakerExistingOrNewNewRuleTypeRegex:
       type: object
       properties:
@@ -179,22 +167,6 @@ components:
             - aws_vpcflow
             - azure_flowlog
           type: string
-    EventBreakerExistingOrNewNewRuleTypeJsonArrayJsonExtractAllTrue:
-      type: object
-      properties:
-        jsonExtractAll:
-          type: boolean
-          const: true
-        jsonTimeField:
-          type: string
-          title: Timestamp field
-          description: Optional path to timestamp field in extracted events, such as eventTime or level1.level2.eventTime.
-    EventBreakerExistingOrNewNewRuleTypeJsonArrayJsonExtractAllFalse:
-      type: object
-      properties:
-        jsonExtractAll:
-          type: boolean
-          const: false
     EventBreakerExistingOrNewNewRuleTypeJsonArray:
       type: object
       properties:
@@ -216,10 +188,10 @@ components:
           type: boolean
           title: JSON extract fields
           description: Automatically extract fields from JSON events. When disabled, only _raw and _time are defined on extracted events.
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeJsonArrayJsonExtractAllTrue"
-            - $ref: "#/components/schemas/EventBreakerExistingOrNewNewRuleTypeJsonArrayJsonExtractAllFalse"
+        jsonTimeField:
+          type: string
+          title: Timestamp field
+          description: Optional path to timestamp field in extracted events, such as eventTime or level1.level2.eventTime.
     EventBreakerExistingOrNewNewRuleTypeHeader:
       type: object
       properties:
@@ -301,20 +273,7 @@ components:
           title: Timestamp anchor
           description: Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction.
         timestamp:
-          type: object
-          required:
-            - type
-          title: Timestamp format
-          properties:
-            type:
-              $ref: "#/components/schemas/TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp"
-            length:
-              type: number
-              title: Length
-              minimum: 2
-            format:
-              type: string
-              title: Format
+          $ref: "#/components/schemas/TimestampFormatTypeEventBreakerExistingOrNewNew"
         timestampTimezone:
           type: string
           title: Default timezone
@@ -353,72 +312,6 @@ components:
           type: string
           title: Existing ruleset
           minLength: 1
-    LookupDbLookupTrue:
-      type: object
-      properties:
-        dbLookup:
-          type: boolean
-          const: true
-    LookupDbLookupFalseMatchModeCidr:
-      type: object
-      properties:
-        matchMode:
-          enum:
-            - cidr
-            - regex
-          type: string
-        matchType:
-          title: Match type
-          type: string
-          description: "Further defines how to handle multiple matches: return the first match, the most specific match, or all matches"
-          enum:
-            - first
-            - specific
-            - all
-          x-speakeasy-unknown-values: allow
-    LookupDbLookupFalseMatchModeExact:
-      type: object
-      properties:
-        matchMode:
-          enum:
-            - exact
-          type: string
-        ignoreCase:
-          type: boolean
-          title: Ignore case
-          description: "Whether to ignore case when performing lookups using Match Mode: Exact"
-    LookupDbLookupFalse:
-      type: object
-      properties:
-        dbLookup:
-          type: boolean
-          const: false
-        matchMode:
-          title: Match mode
-          type: string
-          description: Specifies the matching method based on the format and logic used in the lookup file
-          enum:
-            - exact
-            - cidr
-            - regex
-          x-speakeasy-enum-descriptions:
-            - Exact
-            - CIDR
-            - Regex
-          x-speakeasy-unknown-values: allow
-        reloadPeriodSec:
-          type: number
-          title: Reload period (sec)
-          description: Checks the lookup file periodically for changes and reloads it if modified. Set to -1 to disable reloading (default). Useful for lookups not managed by Stream or not updated by an external process. [Learn more](https://docs.cribl.io/stream/lookup-function/#advanced-settings)
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/LookupDbLookupFalseMatchModeCidr"
-            - $ref: "#/components/schemas/LookupDbLookupFalseMatchModeExact"
-          discriminator:
-            propertyName: matchMode
-            mapping:
-              cidr: "#/components/schemas/LookupDbLookupFalseMatchModeCidr"
-              exact: "#/components/schemas/LookupDbLookupFalseMatchModeExact"
     NumerifyFormatFix:
       type: object
       properties:
@@ -441,102 +334,6 @@ components:
             - floor
             - ceil
           type: string
-    OtlpLogsBatchOTLPLogsFalse:
-      type: object
-      properties:
-        batchOTLPLogs:
-          type: boolean
-          const: false
-    OtlpLogsBatchOTLPLogsTrue:
-      type: object
-      properties:
-        batchOTLPLogs:
-          type: boolean
-          const: true
-        sendBatchSize:
-          type: number
-          title: Batch size
-          description: Number of log records after which a batch will be sent, regardless of the timeout
-        timeout:
-          type: number
-          title: Batch timeout (ms)
-          description: Time duration after which a batch will be sent, regardless of size
-        sendBatchMaxSize:
-          type: number
-          title: Batch size limit (kb)
-          description: Maximum batch size. Enter 0 for no maximum.
-        metadataKeys:
-          type: array
-          title: Batch log metadata keys
-          description: When set, this processor will create one batcher instance per distinct combination of values in the metadata
-        metadataCardinalityLimit:
-          type: number
-          title: Metadata cardinality limit
-          description: "Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped. "
-    OtlpMetricsBatchOTLPMetricsFalse:
-      type: object
-      properties:
-        batchOTLPMetrics:
-          type: boolean
-          const: false
-    OtlpMetricsBatchOTLPMetricsTrue:
-      type: object
-      properties:
-        batchOTLPMetrics:
-          type: boolean
-          const: true
-        sendBatchSize:
-          type: number
-          title: Batch size
-          description: Number of metric data points after which a batch will be sent, regardless of the timeout
-        timeout:
-          type: number
-          title: Batch timeout (ms)
-          description: Time duration after which a batch will be sent, regardless of size
-        sendBatchMaxSize:
-          type: number
-          title: Batch size limit (kb)
-          description: Maximum batch size. Enter 0 for no maximum.
-        metadataKeys:
-          type: array
-          title: Batch metrics metadata keys
-          description: When set, this processor will create one batcher instance per distinct combination of values in the metadata
-        metadataCardinalityLimit:
-          type: number
-          title: Metadata cardinality limit
-          description: Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped.
-    OtlpTracesBatchOTLPTracesFalse:
-      type: object
-      properties:
-        batchOTLPTraces:
-          type: boolean
-          const: false
-    OtlpTracesBatchOTLPTracesTrue:
-      type: object
-      properties:
-        batchOTLPTraces:
-          type: boolean
-          const: true
-        sendBatchSize:
-          type: number
-          title: Batch size
-          description: Number of spans after which a batch will be sent, regardless of the timeout
-        timeout:
-          type: number
-          title: Batch timeout (ms)
-          description: Time duration after which a batch will be sent, regardless of size
-        sendBatchMaxSize:
-          type: number
-          title: Batch size limit (kb)
-          description: Maximum batch size. Enter 0 for no maximum.
-        metadataKeys:
-          type: array
-          title: Batch traces metadata keys
-          description: When set, this processor will create one batcher instance per distinct combination of values in the metadata
-        metadataCardinalityLimit:
-          type: number
-          title: Metadata cardinality limit
-          description: Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped.
     RedisDeploymentTypeStandalone:
       type: object
       properties:
@@ -549,56 +346,9 @@ components:
           description: "Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
           type: string
         tlsOptions:
-          type: object
-          properties:
-            rejectUnauthorized:
-              type: boolean
-              title: Validate server certs
-              description: Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)
-            servername:
-              type: string
-              title: Server name (SNI)
-              description: Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address.
-            certificateName:
-              type: string
-              title: Certificate
-              description: The name of the predefined certificate
-            caPath:
-              type: string
-              title: CA certificate path
-              description: Path on client in which to find CA certificates to verify the server's certificate. PEM format. Can reference $ENV_VARS.
-            privKeyPath:
-              type: string
-              title: Private key path (mutual auth)
-              description: Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS.
-            certPath:
-              type: string
-              title: Certificate path (mutual auth)
-              description: Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
-            passphrase:
-              type: string
-              title: Passphrase
-              description: Passphrase to use to decrypt private key
-            minVersion:
-              $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
-            maxVersion:
-              $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeStandalone"
       required:
         - url
-    RedisDeploymentTypeClusterTlsTrue:
-      type: object
-      properties:
-        tls:
-          type: boolean
-          const: true
-        tlsOptions:
-          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeClusterTlsTrue"
-    RedisDeploymentTypeClusterTlsFalse:
-      type: object
-      properties:
-        tls:
-          type: boolean
-          const: false
     RedisDeploymentTypeCluster:
       type: object
       properties:
@@ -630,36 +380,9 @@ components:
           type: boolean
           description: Use TLS for connections to this cluster
         scaleReads:
-          title: Scale reads
-          type: string
-          description: Which nodes read commands should be sent to
-          enum:
-            - master
-            - replica
-            - all
-          x-speakeasy-enum-descriptions:
-            - Masters
-            - Replicas
-            - Masters and Replicas
-          x-speakeasy-unknown-values: allow
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RedisDeploymentTypeClusterTlsTrue"
-            - $ref: "#/components/schemas/RedisDeploymentTypeClusterTlsFalse"
-    RedisDeploymentTypeSentinelTlsTrue:
-      type: object
-      properties:
-        tls:
-          type: boolean
-          const: true
+          $ref: "#/components/schemas/ScaleReadsOptionsRedisDeploymentTypeCluster"
         tlsOptions:
-          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeClusterTlsTrue"
-    RedisDeploymentTypeSentinelTlsFalse:
-      type: object
-      properties:
-        tls:
-          type: boolean
-          const: false
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeCluster"
     RedisDeploymentTypeSentinel:
       type: object
       properties:
@@ -693,12 +416,10 @@ components:
           title: TLS
           type: boolean
           description: Use TLS for connections to this cluster
+        tlsOptions:
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeCluster"
       required:
         - masterName
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RedisDeploymentTypeSentinelTlsTrue"
-            - $ref: "#/components/schemas/RedisDeploymentTypeSentinelTlsFalse"
     RedisAuthTypeNone:
       type: object
       properties:
@@ -1024,6 +745,7 @@ components:
             - aes
             - aes256b
             - aes256r
+          x-speakeasy-unknown-values: allow
         privKey:
           type: string
           title: V3 privacy key
@@ -1041,11 +763,16 @@ components:
             - sha256
             - sha384
             - sha512
+          x-speakeasy-unknown-values: allow
         authKey:
           type: string
           title: V3 authentication key
         privProtocol:
           $ref: "#/components/schemas/PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone"
+        name:
+          title: Username
+          type: string
+          minLength: 1
       required:
         - authKey
         - name
@@ -1158,10 +885,16 @@ components:
           type: boolean
           title: Flush on stream close
           description: Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior.
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/AggregateMetricsCumulativeTrue"
-            - $ref: "#/components/schemas/AggregateMetricsCumulativeFalse"
+        lagTolerance:
+          type: string
+          title: Lag tolerance
+          description: The tumbling window tolerance to late events. Must be a valid time string (such as 10s).
+          pattern: \d+[sm]$
+        idleTimeLimit:
+          type: string
+          title: Idle bucket time limit
+          description: How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s).
+          pattern: \d+[sm]$
     FunctionAggregateMetrics:
       type: object
       properties:
@@ -1279,10 +1012,20 @@ components:
           type: boolean
           title: Flush on stream close
           description: Flush aggregations when an input stream is closed. If disabled, Time Window Settings control flush behavior.
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/AggregationCumulativeTrue"
-            - $ref: "#/components/schemas/AggregationCumulativeFalse"
+        printUndefineds:
+          type: boolean
+          title: Print undefined as null
+          description: When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved.
+        lagTolerance:
+          type: string
+          title: Lag tolerance
+          description: The tumbling window tolerance to late events. Must be a valid time string (such as 10s).
+          pattern: \d+[sm]$
+        idleTimeLimit:
+          type: string
+          title: Idle bucket time limit
+          description: How long to wait before flushing a bucket that has not received events. Must be a valid time string (such as 10s).
+          pattern: \d+[sm]$
     FunctionAggregation:
       type: object
       properties:
@@ -2201,6 +1944,10 @@ components:
           type: array
           items:
             type: string
+        printUndefineds:
+          type: boolean
+          title: Print undefined as null
+          description: When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved.
     FunctionEval:
       type: object
       properties:
@@ -2262,6 +2009,36 @@ components:
           type: boolean
           title: Add to cribl_breaker
           description: Add this Function name to the cribl_breaker field
+        ruleType:
+          $ref: "#/components/schemas/EventBreakerTypeOptionsEventBreakerExistingOrNewNew"
+        maxEventBytes:
+          type: number
+          title: Event byte limit
+          description: The maximum number of bytes that an event can be before being flushed to the Pipelines
+          minimum: 1
+          maximum: 1.34217728e+08
+        timestampAnchorRegex:
+          type: string
+          title: Timestamp anchor
+          description: Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction.
+        timestamp:
+          $ref: "#/components/schemas/TimestampFormatTypeEventBreakerExistingOrNewNew"
+        timestampTimezone:
+          type: string
+          title: Default timezone
+          description: Timezone to assign to timestamps without timezone info
+        timestampEarliest:
+          title: Earliest timestamp allowed
+          description: The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to current time.
+          type: string
+        timestampLatest:
+          title: Future timestamp allowed
+          description: The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time.
+          type: string
+        existingRule:
+          type: string
+          title: Existing ruleset
+          minLength: 1
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/EventBreakerExistingOrNewNew"
@@ -3219,6 +2996,52 @@ components:
         - name
         - uischema
         - version
+    FunctionConfSchemaLocalSearchSchemaMapper:
+      type: object
+    FunctionLocalSearchSchemaMapper:
+      type: object
+      properties:
+        __filename:
+          type: string
+        asyncTimeout:
+          type: number
+        cribl_version:
+          type: string
+        disabled:
+          type: boolean
+        group:
+          type: string
+        handleSignals:
+          type: boolean
+        id:
+          type: string
+          enum:
+            - local_search_schema_mapper
+        loadTime:
+          type: number
+        modTime:
+          type: number
+        name:
+          type: string
+        sync:
+          type: boolean
+        uischema:
+          type: object
+          additionalProperties: true
+        version:
+          type: string
+        schema:
+          type: object
+          additionalProperties: true
+      required:
+        - __filename
+        - group
+        - id
+        - loadTime
+        - modTime
+        - name
+        - uischema
+        - version
     FunctionConfSchemaLocalSearchTransformer:
       type: object
     FunctionLocalSearchTransformer:
@@ -3277,6 +3100,32 @@ components:
           type: boolean
           title: Use Disk-Based Lookup
           description: Enable to use a disk-based lookup. This option displays only the settings relevant to disk-based mode and hides those for in-memory lookups.
+        matchMode:
+          title: Match mode
+          type: string
+          description: Specifies the matching method based on the format and logic used in the lookup file
+          enum:
+            - exact
+            - cidr
+            - regex
+          x-speakeasy-enum-descriptions:
+            - Exact
+            - CIDR
+            - Regex
+          x-speakeasy-unknown-values: allow
+        matchType:
+          title: Match type
+          type: string
+          description: "Further defines how to handle multiple matches: return the first match, the most specific match, or all matches"
+          enum:
+            - first
+            - specific
+            - all
+          x-speakeasy-unknown-values: allow
+        reloadPeriodSec:
+          type: number
+          title: Reload period (sec)
+          description: Checks the lookup file periodically for changes and reloads it if modified. Set to -1 to disable reloading (default). Useful for lookups not managed by Stream or not updated by an external process. [Learn more](https://docs.cribl.io/stream/lookup-function/#advanced-settings)
         inFields:
           type: array
           title: Lookup fields
@@ -3322,10 +3171,10 @@ components:
           type: boolean
           title: Add to raw event
           description: Add the looked-up values to _raw, as key=value pairs
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/LookupDbLookupTrue"
-            - $ref: "#/components/schemas/LookupDbLookupFalse"
+        ignoreCase:
+          type: boolean
+          title: Ignore case
+          description: "Whether to ignore case when performing lookups using Match Mode: Regex."
     FunctionLookup:
       type: object
       properties:
@@ -3963,6 +3812,12 @@ components:
             - Floor
             - Ceil
           x-speakeasy-unknown-values: allow
+        digits:
+          type: number
+          title: Digits
+          description: Number of digits after the decimal point, between 0 and 20. If left blank, defaults to 2.
+          minimum: 0
+          maximum: 20
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/NumerifyFormatFix"
@@ -4026,10 +3881,26 @@ components:
           type: boolean
           title: Batch OTLP logs
           description: Batch OTLP log records by shared top-level `resource` attributes
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/OtlpLogsBatchOTLPLogsFalse"
-            - $ref: "#/components/schemas/OtlpLogsBatchOTLPLogsTrue"
+        sendBatchSize:
+          type: number
+          title: Batch size
+          description: Number of log records after which a batch will be sent, regardless of the timeout
+        timeout:
+          type: number
+          title: Batch timeout (ms)
+          description: Time duration after which a batch will be sent, regardless of size
+        sendBatchMaxSize:
+          type: number
+          title: Batch size limit (kb)
+          description: Maximum batch size. Enter 0 for no maximum.
+        metadataKeys:
+          type: array
+          title: Batch log metadata keys
+          description: When set, this processor will create one batcher instance per distinct combination of values in the metadata
+        metadataCardinalityLimit:
+          type: number
+          title: Metadata cardinality limit
+          description: "Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped. "
     FunctionOtlpLogs:
       type: object
       properties:
@@ -4093,10 +3964,26 @@ components:
           type: boolean
           title: Batch OTLP metrics
           description: Batch OTLP metrics by shared top-level `resource` attributes
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/OtlpMetricsBatchOTLPMetricsFalse"
-            - $ref: "#/components/schemas/OtlpMetricsBatchOTLPMetricsTrue"
+        sendBatchSize:
+          type: number
+          title: Batch size
+          description: Number of metric data points after which a batch will be sent, regardless of the timeout
+        timeout:
+          type: number
+          title: Batch timeout (ms)
+          description: Time duration after which a batch will be sent, regardless of size
+        sendBatchMaxSize:
+          type: number
+          title: Batch size limit (kb)
+          description: Maximum batch size. Enter 0 for no maximum.
+        metadataKeys:
+          type: array
+          title: Batch metrics metadata keys
+          description: When set, this processor will create one batcher instance per distinct combination of values in the metadata
+        metadataCardinalityLimit:
+          type: number
+          title: Metadata cardinality limit
+          description: Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped.
     FunctionOtlpMetrics:
       type: object
       properties:
@@ -4153,10 +4040,26 @@ components:
           type: boolean
           title: Batch OTLP traces
           description: Batch OTLP traces by shared top-level `resource` attributes
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/OtlpTracesBatchOTLPTracesFalse"
-            - $ref: "#/components/schemas/OtlpTracesBatchOTLPTracesTrue"
+        sendBatchSize:
+          type: number
+          title: Batch size
+          description: Number of spans after which a batch will be sent, regardless of the timeout
+        timeout:
+          type: number
+          title: Batch timeout (ms)
+          description: Time duration after which a batch will be sent, regardless of size
+        sendBatchMaxSize:
+          type: number
+          title: Batch size limit (kb)
+          description: Maximum batch size. Enter 0 for no maximum.
+        metadataKeys:
+          type: array
+          title: Batch traces metadata keys
+          description: When set, this processor will create one batcher instance per distinct combination of values in the metadata
+        metadataCardinalityLimit:
+          type: number
+          title: Metadata cardinality limit
+          description: Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped.
     FunctionOtlpTraces:
       type: object
       properties:
@@ -4496,6 +4399,31 @@ components:
           type: boolean
           title: Client-side cache
           description: Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache.
+        url:
+          title: Redis URL
+          description: "Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+          type: string
+        tlsOptions:
+          $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeStandalone"
+        scaleReads:
+          $ref: "#/components/schemas/ScaleReadsOptionsRedisDeploymentTypeCluster"
+        masterName:
+          title: Master group name
+          type: string
+        username:
+          title: Username
+          type: string
+        password:
+          title: Password
+          type: string
+        credentialsSecret:
+          type: string
+          title: User secret
+          description: Secret that references Redis username and password
+        textSecret:
+          type: string
+          title: Admin secret
+          description: Secret that references Redis admin password
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/RedisDeploymentTypeStandalone"
@@ -5141,6 +5069,49 @@ components:
           title: Destination field
           description: Name of the field to add fields to. Extract mode only.
           type: string
+        allowedKeyChars:
+          type: array
+          items:
+            type: string
+          title: Allowed key characters
+          description: A list of characters that may be present in a key name, even though they are normally separator or control characters
+        allowedValueChars:
+          type: array
+          items:
+            type: string
+          title: Allowed value characters
+          description: A list of characters that may be present in a value, even though they are normally separator or control characters
+        regex:
+          type: string
+          title: Regex
+          description: Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)
+        regexList:
+          type: array
+          title: Additional regex
+          items:
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeRegexRegexList"
+        iterations:
+          type: number
+          title: Max exec
+          description: The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups
+          minimum: 1
+        fieldNameExpression:
+          title: Field name format expression
+          description: "JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."
+          type: string
+        overwrite:
+          type: boolean
+          title: Overwrite existing fields
+          description: Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array.
+        pattern:
+          type: string
+          title: Pattern
+          description: "Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"
+        patternList:
+          type: array
+          title: Additional Grok patterns
+          items:
+            $ref: "#/components/schemas/ItemsTypeSerdeTypeGrokPatternList"
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SerdeTypeKvp"
@@ -5238,6 +5209,20 @@ components:
           title: Destination field
           description: Field to serialize data to
           type: string
+        cleanFields:
+          type: boolean
+          title: Clean fields
+          description: Clean field names by replacing non-[a-zA-Z0-9] characters with _
+        pairDelimiter:
+          type: string
+          title: Pair delimiter
+          minLength: 1
+          description: Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter.
+        keyValueDelimiter:
+          type: string
+          title: Key-Value delimiter
+          minLength: 1
+          description: Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SerializeTypeKvp"
@@ -6122,6 +6107,7 @@ components:
         - $ref: "#/components/schemas/FunctionLimit"
         - $ref: "#/components/schemas/FunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/FunctionLocalSearchSchemaMapper"
         - $ref: "#/components/schemas/FunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/FunctionLookup"
         - $ref: "#/components/schemas/FunctionMask"
@@ -6191,6 +6177,7 @@ components:
           limit: "#/components/schemas/FunctionLimit"
           local_search_datatype_parser: "#/components/schemas/FunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/FunctionLocalSearchRulesetRunner"
+          local_search_schema_mapper: "#/components/schemas/FunctionLocalSearchSchemaMapper"
           local_search_transformer: "#/components/schemas/FunctionLocalSearchTransformer"
           lookup: "#/components/schemas/FunctionLookup"
           mask: "#/components/schemas/FunctionMask"
@@ -7286,6 +7273,41 @@ components:
           type: boolean
         conf:
           $ref: "#/components/schemas/FunctionConfSchemaLocalSearchRulesetRunner"
+        groupId:
+          title: Group ID
+          description: Group ID
+          type: string
+    PipelineFunctionLocalSearchSchemaMapper:
+      type: object
+      required:
+        - id
+        - conf
+      additionalProperties: false
+      properties:
+        filter:
+          title: Filter
+          description: Filter that selects data to be fed through this Function
+          type: string
+        id:
+          title: ID
+          description: Function ID
+          type: string
+          enum:
+            - local_search_schema_mapper
+        description:
+          title: Description
+          description: Simple description of this step
+          type: string
+        disabled:
+          title: Disabled
+          description: If true, data will not be pushed through this function
+          type: boolean
+        final:
+          title: Final
+          description: If enabled, stops the results of this Function from being passed to the downstream Functions
+          type: boolean
+        conf:
+          $ref: "#/components/schemas/FunctionConfSchemaLocalSearchSchemaMapper"
         groupId:
           title: Group ID
           description: Group ID
@@ -8700,6 +8722,7 @@ components:
         - $ref: "#/components/schemas/PipelineFunctionLimit"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+        - $ref: "#/components/schemas/PipelineFunctionLocalSearchSchemaMapper"
         - $ref: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
         - $ref: "#/components/schemas/PipelineFunctionLookup"
         - $ref: "#/components/schemas/PipelineFunctionMask"
@@ -8769,6 +8792,7 @@ components:
           limit: "#/components/schemas/PipelineFunctionLimit"
           local_search_datatype_parser: "#/components/schemas/PipelineFunctionLocalSearchDatatypeParser"
           local_search_ruleset_runner: "#/components/schemas/PipelineFunctionLocalSearchRulesetRunner"
+          local_search_schema_mapper: "#/components/schemas/PipelineFunctionLocalSearchSchemaMapper"
           local_search_transformer: "#/components/schemas/PipelineFunctionLocalSearchTransformer"
           lookup: "#/components/schemas/PipelineFunctionLookup"
           mask: "#/components/schemas/PipelineFunctionMask"
@@ -8999,6 +9023,20 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
+        connectionString:
+          type: string
+          title: Connection string
+          description: Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING.
+        textSecret:
+          type: string
+          title: Connection string (text secret)
+          description: Text secret
+        clientTextSecret:
+          type: string
+          title: Client secret (text secret)
+          description: Text secret containing the client secret
+        certificate:
+          $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/AzureBlobAuthTypeManual"
@@ -9259,6 +9297,14 @@ components:
           description: The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified.
           maximum: 3600
           minimum: 1
+        serviceAccountCredentials:
+          type: string
+          title: Service account credentials
+          description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload button at this field's upper right.
+        textSecret:
+          type: string
+          title: Service account credentials (text secret)
+          description: Select or create a stored text secret that references your credentials
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/GoogleCloudStorageAuthTypeAuto"
@@ -9590,18 +9636,7 @@ components:
           title: Discover URL
           description: Expression to derive URL to use for the Discover operation (can be a constant).
         discoverMethod:
-          type: string
-          title: Discover method
-          description: Discover HTTP method.
-          enum:
-            - get
-            - post
-            - post_with_body
-          x-speakeasy-enum-descriptions:
-            - GET
-            - POST
-            - POST with Body
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHttp"
         discoverRequestHeaders:
           title: Discover Headers
           description: Optional discover request headers.
@@ -9771,6 +9806,31 @@ components:
                 - Item List
                 - None
               x-speakeasy-unknown-values: allow
+            discoverUrl:
+              type: string
+              title: Discover URL
+              description: Expression to derive URL to use for the Discover operation (can be a constant).
+            discoverMethod:
+              $ref: "#/components/schemas/DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHttp"
+            discoverRequestHeaders:
+              title: Discover Headers
+              description: Optional discover request headers.
+              type: array
+              items:
+                $ref: "#/components/schemas/ItemsTypeHealthCheckAuthenticationLoginAuthRequestHeaders"
+            manualDiscoverResult:
+              type: string
+              title: Discover result
+              description: Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field.
+            itemList:
+              type: array
+              title: Discover items
+              description: Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters.
+              minItems: 1
+              items:
+                type: string
+                title: Items
+                description: List of items to return from discovery.
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/HealthCheckDiscoveryDiscoverTypeHttp"
@@ -9872,6 +9932,14 @@ components:
                   none: "#/components/schemas/HealthCheckRetryRulesTypeNone"
                   static: "#/components/schemas/HealthCheckRetryRulesTypeStatic"
                   backoff: "#/components/schemas/HealthCheckRetryRulesTypeBackoff"
+        clientSecretParamValue:
+          type: string
+          title: Client secret value
+          description: Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters
+        textSecret:
+          type: string
+          title: Client secret value (text secret)
+          description: Select or create a text secret that contains the client secret's value.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/HealthCheckCollectMethodGet"
@@ -10009,22 +10077,6 @@ components:
           description: Select or create a stored secret that references your credentials
       required:
         - credentialsSecret
-    RestAuthenticationLoginGetAuthTokenFromHeaderFalse:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          const: false
-        tokenRespAttribute:
-          type: string
-          title: Token attribute
-          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
-    RestAuthenticationLoginGetAuthTokenFromHeaderTrue:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          const: true
     RestAuthenticationLogin:
       type: object
       properties:
@@ -10047,7 +10099,7 @@ components:
         loginBody:
           type: string
           title: POST body
-          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =.
         getAuthTokenFromHeader:
           type: boolean
           title: Get auth token from header
@@ -10065,32 +10117,16 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
+        tokenRespAttribute:
+          type: string
+          title: Token attribute
+          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
       required:
         - loginUrl
         - username
         - password
         - loginBody
         - authHeaderExpr
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderFalse"
-            - $ref: "#/components/schemas/RestAuthenticationLoginGetAuthTokenFromHeaderTrue"
-    RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          const: false
-        tokenRespAttribute:
-          type: string
-          title: Token attribute
-          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
-    RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue:
-      type: object
-      properties:
-        getAuthTokenFromHeader:
-          type: boolean
-          const: true
     RestAuthenticationLoginSecret:
       type: object
       properties:
@@ -10109,7 +10145,7 @@ components:
         loginBody:
           type: string
           title: POST body
-          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message.
+          description: Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =.
         getAuthTokenFromHeader:
           type: boolean
           title: Get auth token from header
@@ -10127,15 +10163,15 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
+        tokenRespAttribute:
+          type: string
+          title: Token attribute
+          description: Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header.
       required:
         - loginUrl
         - credentialsSecret
         - loginBody
         - authHeaderExpr
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderFalse"
-            - $ref: "#/components/schemas/RestAuthenticationLoginSecretGetAuthTokenFromHeaderTrue"
     RestAuthenticationOauth:
       type: object
       properties:
@@ -10298,40 +10334,172 @@ components:
           description: Select or create an HMAC Function to use with authentication
       required:
         - hmacFunctionId
-    RestDiscoveryDiscoverTypeHttpEnableStrictDiscoverParsingFalse:
+    RestDiscoveryDiscoverTypeHttpPaginationTypeNone:
       type: object
       properties:
-        enableStrictDiscoverParsing:
-          type: boolean
-          const: false
-    RestDiscoveryDiscoverTypeHttpEnableStrictDiscoverParsingTrue:
-      type: object
-      properties:
-        enableStrictDiscoverParsing:
-          type: boolean
-          const: true
-        discoverResponseFormat:
+        type:
+          enum:
+            - none
           type: string
-          title: Discover response format
-          description: If 'Strict discover response parsing' parsing is enabled, provide the response format
+    RestDiscoveryDiscoverTypeHttpPaginationTypeResponseBody:
+      type: object
+      properties:
+        type:
+          enum:
+            - response_body
+          type: string
+        attribute:
+          type: array
+          title: Response attributes
+          description: Names of attributes within the response that contain next-page information
+          items:
+            type: string
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+        lastPageExpr:
+          type: string
+          title: Last-page expression
+          description: JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section.
       required:
-        - discoverResponseFormat
-    RestDiscoveryDiscoverTypeHttpEnableDiscoverCodeFalse:
+        - attribute
+        - maxPages
+    RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeader:
       type: object
       properties:
-        enableDiscoverCode:
-          type: boolean
-          const: false
-    RestDiscoveryDiscoverTypeHttpEnableDiscoverCodeTrue:
-      type: object
-      properties:
-        enableDiscoverCode:
-          type: boolean
-          const: true
-        formatResultCode:
+        type:
+          enum:
+            - response_header
           type: string
-          title: Format discover result
-          description: "Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."
+        attribute:
+          type: array
+          title: Response attributes
+          description: Names of attributes within the response that contain next-page information
+          items:
+            type: string
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+      required:
+        - attribute
+        - maxPages
+    RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeaderLink:
+      type: object
+      properties:
+        type:
+          enum:
+            - response_header_link
+          type: string
+        nextRelationAttribute:
+          type: string
+          title: Next page relation name
+          description: 'Relation name used in the link header that refers to the next page in the result set. Example: rel="next" refers to the next page of results: <https://myHost/nextPage>; rel="next"'
+        curRelationAttribute:
+          type: string
+          title: Current page relation name
+          description: 'Relation name used in the link header that refers to the current result set. Example: rel="self" refers to the current page of results: <https://myHost/curPage>; rel="self" '
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+      required:
+        - nextRelationAttribute
+        - maxPages
+    RestDiscoveryDiscoverTypeHttpPaginationTypeRequestOffset:
+      type: object
+      properties:
+        type:
+          enum:
+            - request_offset
+          type: string
+        offsetField:
+          type: string
+          title: Offset field name
+          description: "Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        offset:
+          type: number
+          title: Starting offset
+          description: Offset index from which to start request. Defaults to undefined, which will start discovery from the first record.
+        limitField:
+          type: string
+          title: Limit field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        limit:
+          type: number
+          title: Record limit
+          description: Maximum number of records to retrieve per request
+          minimum: 1
+        totalRecordField:
+          type: string
+          title: Total record count field name
+          description: Name of the attribute in the response that contains the total number of records for the query
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+        zeroIndexed:
+          type: boolean
+          title: Zero-based index
+          description: Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1.
+      required:
+        - maxPages
+        - zeroIndexed
+        - offsetField
+        - limitField
+        - limit
+    RestDiscoveryDiscoverTypeHttpPaginationTypeRequestPage:
+      type: object
+      properties:
+        type:
+          enum:
+            - request_page
+          type: string
+        pageField:
+          type: string
+          title: Page number field name
+          description: "Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        page:
+          type: number
+          title: Starting page number
+          description: Page number from which to start request. Defaults to undefined, which will start discovery from the first page.
+        sizeField:
+          type: string
+          title: Page size field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        size:
+          type: number
+          title: Record limit
+          description: Maximum number of records to retrieve per page
+          minimum: 1
+        totalPageField:
+          type: string
+          title: Total page count field name
+          description: Name of the attribute in the response that contains the total number of pages for the query
+        totalRecordField:
+          type: string
+          title: Total record count field name
+          description: Name of the attribute in the response that contains the total number of records for the query
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
+        zeroIndexed:
+          type: boolean
+          title: Zero-based index
+          description: Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1.
+      required:
+        - maxPages
+        - zeroIndexed
+        - pageField
+        - sizeField
+        - size
     RestDiscoveryDiscoverTypeHttpDiscoverMethodGet:
       type: object
       properties:
@@ -10403,31 +10571,14 @@ components:
           title: Discover URL
           description: URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL.
         discoverMethod:
-          type: string
-          title: Discover method
-          enum:
-            - get
-            - post
-            - post_with_body
-            - other
-          x-speakeasy-enum-descriptions:
-            - GET
-            - POST
-            - POST with Body
-            - Other
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/DiscoverMethodOptionsRestDiscoveryDiscoverTypeHttp"
         discoverRequestHeaders:
           title: Discover headers
           type: array
           items:
             $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
         pagination:
-          type: object
-          required:
-            - type
-          properties:
-            type:
-              $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination"
+          $ref: "#/components/schemas/PaginationTypeRestDiscoveryDiscoverTypeHttp"
         discoverDataField:
           type: string
           title: Discover data field
@@ -10436,19 +10587,21 @@ components:
           type: boolean
           title: Strict discover response parsing
           description: Explicitly set the discover response format. When disabled, best effort parsing is used.
+        discoverResponseFormat:
+          type: string
+          title: Discover response format
+          description: If 'Strict discover response parsing' parsing is enabled, provide the response format
         enableDiscoverCode:
           type: boolean
           title: Format discover result with custom code
+        formatResultCode:
+          type: string
+          title: Format discover result
+          description: "Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."
       required:
         - discoverUrl
         - discoverMethod
       allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpEnableStrictDiscoverParsingFalse"
-            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpEnableStrictDiscoverParsingTrue"
-        - oneOf:
-            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpEnableDiscoverCodeFalse"
-            - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpEnableDiscoverCodeTrue"
         - oneOf:
             - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodGet"
             - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpDiscoverMethodPost"
@@ -10676,21 +10829,6 @@ components:
           enum:
             - none
           type: string
-    RestRetryRulesTypeStaticEnableHeaderFalse:
-      type: object
-      properties:
-        enableHeader:
-          type: boolean
-          const: false
-    RestRetryRulesTypeStaticEnableHeaderTrue:
-      type: object
-      properties:
-        enableHeader:
-          type: boolean
-          const: true
-        retryHeaderName:
-          type: string
-          title: Retry-After header name
     RestRetryRulesTypeStatic:
       type: object
       properties:
@@ -10730,22 +10868,6 @@ components:
           type: boolean
           title: Retry connection reset
           description: Retry request when a connection reset (ECONNRESET) error occurs
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RestRetryRulesTypeStaticEnableHeaderFalse"
-            - $ref: "#/components/schemas/RestRetryRulesTypeStaticEnableHeaderTrue"
-    RestRetryRulesTypeBackoffEnableHeaderFalse:
-      type: object
-      properties:
-        enableHeader:
-          type: boolean
-          const: false
-    RestRetryRulesTypeBackoffEnableHeaderTrue:
-      type: object
-      properties:
-        enableHeader:
-          type: boolean
-          const: true
         retryHeaderName:
           type: string
           title: Retry-After header name
@@ -10798,10 +10920,9 @@ components:
           type: boolean
           title: Retry connection reset
           description: Retry request when a connection reset (ECONNRESET) error occurs
-      allOf:
-        - oneOf:
-            - $ref: "#/components/schemas/RestRetryRulesTypeBackoffEnableHeaderFalse"
-            - $ref: "#/components/schemas/RestRetryRulesTypeBackoffEnableHeaderTrue"
+        retryHeaderName:
+          type: string
+          title: Retry-After header name
     RestCollectorConf:
       type: object
       title: ""
@@ -10825,6 +10946,39 @@ components:
                 - list
                 - none
               x-speakeasy-unknown-values: allow
+            discoverUrl:
+              type: string
+              title: Discover URL
+              description: URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL.
+            discoverMethod:
+              $ref: "#/components/schemas/DiscoverMethodOptionsRestDiscoveryDiscoverTypeHttp"
+            discoverRequestHeaders:
+              title: Discover headers
+              type: array
+              items:
+                $ref: "#/components/schemas/ItemsTypeRestCollectMethodGetCollectRequestParams"
+            pagination:
+              $ref: "#/components/schemas/PaginationTypeRestDiscoveryDiscoverTypeHttp"
+            enableStrictDiscoverParsing:
+              type: boolean
+              title: Strict discover response parsing
+              description: Explicitly set the discover response format. When disabled, best effort parsing is used.
+            enableDiscoverCode:
+              type: boolean
+              title: Format discover result with custom code
+            manualDiscoverResult:
+              type: string
+              title: Discover result
+              description: Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field.
+            itemList:
+              type: array
+              title: Discover items
+              description: Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters.
+              minItems: 1
+              items:
+                type: string
+                title: Items
+                description: List of items to return from discovery
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttp"
@@ -10868,6 +11022,56 @@ components:
           properties:
             type:
               $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination"
+            lastPageExpr:
+              type: string
+              title: Last-page expression
+              description: JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section.
+            nextRelationAttribute:
+              type: string
+              title: Next page relation name
+              description: 'Relation name used in the link header that refers to the next page in the result set. Example: rel="next" refers to the next page of results: <https://myHost/nextPage>; rel="next"'
+            curRelationAttribute:
+              type: string
+              title: Current page relation name
+              description: 'Relation name used in the link header that refers to the current result set. Example: rel="self" refers to the current page of results: <https://myHost/curPage>; rel="self" '
+            offsetField:
+              type: string
+              title: Offset field name
+              description: "Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+            offset:
+              type: number
+              title: Starting offset
+              description: Offset index from which to start request. Defaults to undefined, which will start collection from the first record.
+            limitField:
+              type: string
+              title: Limit field name
+              description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+            limit:
+              type: number
+              title: Record limit
+              description: Maximum number of records to collect per request
+              minimum: 1
+            pageField:
+              type: string
+              title: Page number field name
+              description: "Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+            page:
+              type: number
+              title: Starting page number
+              description: Page number from which to start request. Defaults to undefined, which will start collection from the first page.
+            sizeField:
+              type: string
+              title: Page size field name
+              description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+            size:
+              type: number
+              title: Record limit
+              description: Maximum number of records to collect per page
+              minimum: 1
+            totalPageField:
+              type: string
+              title: Total page count field name
+              description: Name of the attribute in the response that contains the total number of pages for the query
           allOf:
             - oneOf:
                 - $ref: "#/components/schemas/RestPaginationTypeNone"
@@ -10907,6 +11111,10 @@ components:
           description: HTTP request inactivity timeout. Use 0 to disable.
           minimum: 0
           maximum: 1800
+        maxResponseBodySize:
+          type: string
+          title: Max response body size
+          description: Maximum amount of data to buffer from a single response body. Responses exceeding this limit will be rejected. Maximum allowed value is 512 MB. Leave unset to rely on default error handling.
         useRoundRobinDns:
           type: boolean
           title: Round-robin DNS
@@ -10965,6 +11173,19 @@ components:
                   type: boolean
                   title: Enabled
                   description: Track collection progress between consecutive scheduled executions
+        clientSecretParamValue:
+          type: string
+          title: Client secret value
+          description: Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters.
+        serviceAccountCredentials:
+          type: string
+          title: Service account credentials
+          description: Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right.
+          minLength: 1
+        hmacFunctionId:
+          type: string
+          title: HMAC Function
+          description: Select or create an HMAC Function to use with authentication
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/RestCollectMethodGet"
@@ -11181,6 +11402,18 @@ components:
           type: boolean
           title: Disable time filter
           description: Disable Collector event time filtering when a date range is specified
+        awsApiKey:
+          type: string
+          title: Access key
+          description: Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression.
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references AWS access key and secret key.
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/S3PartitioningSchemeDdss"
@@ -11544,6 +11777,13 @@ components:
                   none: "#/components/schemas/SplunkRetryRulesTypeNone"
                   static: "#/components/schemas/SplunkRetryRulesTypeStatic"
                   backoff: "#/components/schemas/SplunkRetryRulesTypeBackoff"
+        token:
+          type: string
+          title: Bearer token
+        tokenSecret:
+          type: string
+          title: Bearer token secret
+          description: Select or create a stored secret that references your Bearer token
       allOf:
         - oneOf:
             - $ref: "#/components/schemas/SplunkAuthenticationNone"
@@ -14645,11 +14885,11 @@ components:
         tenantId:
           type: string
           title: Tenant ID
-          description: Office 365 Azure Tenant ID
+          description: Microsoft 365 Azure Tenant ID
         appId:
           type: string
           title: App ID
-          description: Office 365 Azure Application ID
+          description: Microsoft 365 Azure Application ID
         timeout:
           type: number
           title: Request timeout (seconds)
@@ -14699,7 +14939,7 @@ components:
               contentType:
                 type: string
                 title: Content Type
-                description: Office 365 Management Activity API Content Type
+                description: Microsoft 365 Management Activity API Content Type
               description:
                 type: string
                 title: Interval Description
@@ -14714,11 +14954,11 @@ components:
               enabled:
                 type: boolean
                 title: Enabled
-          description: "Enable Office 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."
+          description: "Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."
         ingestionLag:
           type: number
           title: Ingestion lag (minutes)
-          description: Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Office 365 events are available for retrieval.
+          description: Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval.
           minimum: 0
           maximum: 7200
         retryRules:
@@ -14731,7 +14971,7 @@ components:
         clientSecret:
           type: string
           title: Client secret
-          description: Office 365 Azure client secret
+          description: Microsoft 365 Azure client secret
         textSecret:
           type: string
           title: Client secret (text secret)
@@ -14800,11 +15040,11 @@ components:
         tenantId:
           type: string
           title: Tenant ID
-          description: Office 365 Azure Tenant ID
+          description: Microsoft 365 Azure Tenant ID
         appId:
           type: string
           title: App ID
-          description: Office 365 Azure Application ID
+          description: Microsoft 365 Azure Application ID
         timeout:
           type: number
           title: Request timeout (seconds)
@@ -14850,7 +15090,7 @@ components:
               contentType:
                 type: string
                 title: Content Type
-                description: Office 365 Services API Content Type
+                description: Microsoft 365 Services API Content Type
               description:
                 type: string
                 title: Interval Description
@@ -14865,7 +15105,7 @@ components:
               enabled:
                 type: boolean
                 title: Enabled
-          description: "Enable Office 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."
+          description: "Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."
         retryRules:
           $ref: "#/components/schemas/RetryRulesType1"
         authType:
@@ -14876,7 +15116,7 @@ components:
         clientSecret:
           type: string
           title: Client secret
-          description: Office 365 Azure client secret
+          description: Microsoft 365 Azure client secret
         textSecret:
           type: string
           title: Client secret (text secret)
@@ -14966,7 +15206,16 @@ components:
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          title: Authentication method
+          type: string
+          enum:
+            - manual
+            - secret
+            - oauth
+            - oauthSecret
+            - oauthCert
+          description: Select authentication method.
+          x-speakeasy-unknown-values: allow
         keepAliveTime:
           type: number
           title: Keep alive time (seconds)
@@ -15136,8 +15385,20 @@ components:
           type: boolean
           title: Disable time filter
           description: Disables time filtering of events when a date range is specified.
+        maxPages:
+          type: integer
+          title: Page limit
+          description: Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages.
+          minimum: 0
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions2"
+          title: Authentication method
+          type: string
+          enum:
+            - oauth
+            - oauthSecret
+            - oauthCert
+          description: Select authentication method.
+          x-speakeasy-unknown-values: allow
         keepAliveTime:
           type: number
           title: Keep alive time (seconds)
@@ -15184,18 +15445,6 @@ components:
         description:
           type: string
           title: Description
-        username:
-          type: string
-          title: Username
-          description: Username to run Microsoft Graph API call.
-        password:
-          type: string
-          title: Password
-          description: Password to run Microsoft Graph API call.
-        credentialsSecret:
-          type: string
-          title: Credentials secret
-          description: Select or create a secret that references your credentials.
         clientSecret:
           type: string
           title: Client secret
@@ -15213,7 +15462,22 @@ components:
           title: Resource
           description: Resource to pass in the OAuth request parameter.
         planType:
-          $ref: "#/components/schemas/SubscriptionPlanOptions"
+          type: string
+          title: Subscription plan
+          description: Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise
+          enum:
+            - enterprise_gcc
+            - gcc
+            - gcc_high
+            - dod
+            - china
+          x-speakeasy-enum-descriptions:
+            - Microsoft 365 Enterprise
+            - Microsoft 365 GCC
+            - Microsoft 365 GCC High
+            - Microsoft 365 DoD
+            - Microsoft 365 China (21Vianet)
+          x-speakeasy-unknown-values: allow
         textSecret:
           type: string
           title: Client secret
@@ -19611,6 +19875,10 @@ components:
           type: boolean
           title: Salt file hash
           description: Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion.
+        optimizeLeafDirectories:
+          type: boolean
+          title: Optimize for leaf directories
+          description: Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories.
         includeUnidentifiableBinary:
           type: boolean
           title: Enable binary files
@@ -24457,6 +24725,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         description:
           type: string
           title: Description
@@ -24692,6 +24962,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -24949,6 +25221,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         authType:
           $ref: "#/components/schemas/AuthenticationMethodOptions"
         storageClass:
@@ -25353,6 +25627,8 @@ components:
           description: Add the Output ID value to staging location
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         timeoutSec:
           type: number
           minimum: 1
@@ -26050,7 +26326,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         description:
           type: string
           title: Description
@@ -26694,6 +26970,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         description:
           type: string
           title: Description
@@ -27350,6 +27628,8 @@ components:
           $ref: "#/components/schemas/DiskSpaceProtectionOptions"
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         maxFileSizeMB:
           type: number
           title: File size limit (MB)
@@ -28569,7 +28849,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -28753,7 +29033,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         description:
           type: string
           title: Description
@@ -29380,6 +29660,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -30738,7 +31020,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -31235,6 +31517,10 @@ components:
           type: boolean
           title: Send metadata
           description: Generate and send metadata (`type` and `metricFamilyName`) requests
+        usePrometheusHistogramBucketSuffix:
+          type: boolean
+          title: Use `_bucket` suffix for histogram buckets
+          description: Serialize histogram bucket series as `<metric>_bucket` to match Prometheus histogram naming convention
         concurrency:
           type: number
           title: Request concurrency
@@ -31999,7 +32285,7 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationMethodOptions3"
+          $ref: "#/components/schemas/AuthenticationMethodOptions2"
         totalMemoryLimitKB:
           type: number
           title: Buffer memory limit (KB)
@@ -33133,6 +33419,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -33423,6 +33711,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -33701,6 +33991,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -33724,7 +34016,12 @@ components:
           minimum: 10
           maximum: 4200
         awsAuthenticationMethod:
-          $ref: "#/components/schemas/AwsAuthenticationMethodOptions"
+          type: string
+          enum:
+            - auto
+            - auto_rpc
+            - manual
+          x-speakeasy-unknown-values: allow
         format:
           $ref: "#/components/schemas/FormatOptions"
         maxConcurrentFileParts:
@@ -34414,6 +34711,10 @@ components:
           title: Events-per-request limit
           description: Maximum number of events to include in the request body. Default is 0 (unlimited).
           minimum: 0
+        compress:
+          type: boolean
+          title: Compress
+          description: Compress the payload body before sending
         rejectUnauthorized:
           type: boolean
           title: Validate server certs
@@ -35677,10 +35978,16 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         workspaceId:
           type: string
           title: Workspace ID
           description: Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL.
+        workspaceHost:
+          type: string
+          title: Workspace host
+          description: Hostname for the Databricks workspace. Override this to connect to government or secure cloud environments (e.g. cloud.databricks.us, cloud.databricks.mil, azuredatabricks.net).
         scope:
           type: string
           title: OAuth scope
@@ -36151,6 +36458,8 @@ components:
           description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
         retrySettings:
           $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
         maxFileOpenTimeSec:
           type: number
           title: File open time limit (sec)
@@ -37078,20 +37387,7 @@ components:
         groups:
           type: object
           additionalProperties:
-            type: object
-            properties:
-              description:
-                type: string
-                description: Brief description of the Route Group.
-              index:
-                type: number
-                description: Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group.
-              name:
-                type: string
-                description: Name of the Route Group.
-            required:
-              - index
-              - name
+            $ref: "#/components/schemas/AdditionalPropertiesTypeRoutesGroups"
           description: Information about the Route Groups that the Route is associated with.
         id:
           type: string
@@ -37104,10 +37400,84 @@ components:
       required:
         - id
         - routes
+    RouteConfInput:
+      type: object
+      properties:
+        clones:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteCloneConf"
+          description: Array of clone configurations, each with a key-value pair to set or overwrite in cloned events. Original events continue to the next Route.
+        context:
+          type: string
+          description: "Context for the Route: <code>group</code> (Worker Group or Edge Fleet) or <code>pack</code>."
+        description:
+          type: string
+          description: Brief description of the Route.
+        disabled:
+          type: boolean
+          description: If <code>true</code>, disable the Route. Otherwise, <code>false</code>.
+        enableOutputExpression:
+          type: boolean
+          description: If <code>true</code>, use the <code>outputExpression</code> for dynamic Destination selection. Otherwise, <code>false</code>.
+        filter:
+          type: string
+          description: JavaScript expression to select events for routing.
+        groupId:
+          type: string
+          description: Unique identifier for the Route Group that the Route is associated with.
+        name:
+          type: string
+          description: Name of the Route.
+        output:
+          type: string
+          description: Destination that the Route sends matching events to after the Pipeline processes the events.
+        outputExpression:
+          type: string
+          description: JavaScript expression to evaluate for dynamic Destination selection. Evaluation occurs when the Route is constructed, not for each event.
+        pipeline:
+          type: string
+          description: Pipeline that the Route sends matching events to.
+        targetContext:
+          $ref: "#/components/schemas/TargetContext"
+          description: "Target context for subsequent event processing after applying the Route: <code>group</code> (Worker Group or Edge Fleet) or <code>pack</code>."
+        final:
+          type: boolean
+          description: If <code>true</code> (default), the Route processes matched events and sends them to the specified Pipeline. Matched events do not continue to the next Route, but non-matched events do continue to the next Route. If <code>false</code>, the Route processes matched events and sends them to the specified Pipeline, and all events (matched and non-matched) continue to the next Route. Must be <code>false</code> to clone events.
+        id:
+          type: string
+          description: Unique identifier for the Route. If omitted, the server generates a deterministic identifier.
+      required:
+        - name
+        - pipeline
+    RoutesInput:
+      type: object
+      properties:
+        comments:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteComment"
+          description: Array of user-provided comments that describe or annotate Routes.
+        groups:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AdditionalPropertiesTypeRoutesGroups"
+          description: Information about the Route Groups that the Route is associated with.
+        id:
+          type: string
+          description: Unique identifier for the Routing table. The supported value is <code>default</code>.
+        routes:
+          type: array
+          items:
+            $ref: "#/components/schemas/RouteConfInput"
+          description: Array of Route configurations that define how events are processed and routed.
+      required:
+        - id
+        - routes
     RouteDefinitions:
       type: array
       items:
-        $ref: "#/components/schemas/RouteConf"
+        $ref: "#/components/schemas/RouteConfInput"
     CountedInputStatus:
       type: object
       properties:
@@ -37175,7 +37545,7 @@ components:
       required:
         - id
         - status
-    CountedSavedJob:
+    CountedSavedJobResponse:
       type: object
       properties:
         count:
@@ -37184,7 +37554,191 @@ components:
         items:
           type: array
           items:
-            $ref: "#/components/schemas/SavedJob"
+            $ref: "#/components/schemas/SavedJobResponse"
+    SavedJobResponseEnrichedFields:
+      type: object
+      properties:
+        savedState:
+          type: object
+          additionalProperties:
+            $ref: "#/components/schemas/AdditionalPropertiesTypeEnrichedFieldsSavedState"
+          description: Runtime collection state.
+        notifications:
+          type: array
+          items:
+            $ref: "#/components/schemas/Notification"
+          description: Notification targets.
+    SavedJobResponseCollection:
+      required:
+        - collector
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        workerAffinity:
+          type: boolean
+          title: Worker affinity
+          description: If enabled, tasks are created and run by the same Worker Node
+        collector:
+          $ref: "#/components/schemas/Collector"
+        input:
+          $ref: "#/components/schemas/TypeCollectionWithBreakerRulesetsConstraint"
+      type: object
+    SavedJobResponseExecutor:
+      required:
+        - executor
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        executor:
+          $ref: "#/components/schemas/ExecutorTypeRunnableJobExecutor"
+      type: object
+    SavedJobResponseScheduledSearch:
+      required:
+        - savedQueryId
+        - type
+      properties:
+        id:
+          type: string
+          title: Job ID
+          pattern: ^[a-zA-Z0-9_-]+$
+          description: Unique ID for this Job
+        description:
+          type: string
+          title: Description
+        type:
+          $ref: "#/components/schemas/JobTypeOptionsRunnableJobCollection"
+        ttl:
+          type: string
+          title: Time to live
+          description: Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector.
+          pattern: \d+[smh]$
+        ignoreGroupJobsLimit:
+          type: boolean
+          title: Ignore Worker Group job limits
+          description: When enabled, this job's artifacts are not counted toward the Worker Group's finished job artifacts limit. Artifacts will be removed only after the Collector's configured time to live.
+        removeFields:
+          type: array
+          title: Remove Discover fields
+          description: List of fields to remove from Discover results. Wildcards (for example, aws*) are allowed. This is useful when discovery returns sensitive fields that should not be exposed in the Jobs user interface.
+          minItems: 0
+          items:
+            type: string
+            title: Items
+            description: List of fields to remove from Discover results
+        resumeOnBoot:
+          type: boolean
+          title: Resume job on boot
+          description: Resume the ad hoc job if a failure condition causes Stream to restart during job execution
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        schedule:
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        savedQueryId:
+          type: string
+          title: ID of the SavedQuery
+          description: Identifies which search query to run
+      type: object
+    SavedJobResponse:
+      allOf:
+        - $ref: "#/components/schemas/SavedJobResponseEnrichedFields"
+        - oneOf:
+            - $ref: "#/components/schemas/SavedJobResponseCollection"
+            - $ref: "#/components/schemas/SavedJobResponseExecutor"
+            - $ref: "#/components/schemas/SavedJobResponseScheduledSearch"
     SavedJobCollection:
       required:
         - collector
@@ -37227,7 +37781,7 @@ components:
           title: Environment
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
         schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
         streamtags:
           type: array
           title: Tags
@@ -37285,7 +37839,7 @@ components:
           title: Environment
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
         schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
         streamtags:
           type: array
           title: Tags
@@ -37337,7 +37891,7 @@ components:
           title: Environment
           description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
         schedule:
-          $ref: "#/components/schemas/ScheduleTypeSavedJobCollection"
+          $ref: "#/components/schemas/ScheduleTypeSavedJobResponseCollection"
         streamtags:
           type: array
           title: Tags
@@ -37354,6 +37908,113 @@ components:
         - $ref: "#/components/schemas/SavedJobCollection"
         - $ref: "#/components/schemas/SavedJobExecutor"
         - $ref: "#/components/schemas/SavedJobScheduledSearch"
+    Notification:
+      type: object
+      required:
+        - id
+        - condition
+      properties:
+        id:
+          type: string
+          title: ID
+          pattern: ^[a-zA-Z0-9_-]+$
+        disabled:
+          type: boolean
+          title: Disabled
+        condition:
+          type: string
+          title: Condition
+        targets:
+          type: array
+          title: Notification targets
+          description: Targets to send any Notifications to
+          items:
+            type: string
+        targetConfigs:
+          type: array
+          title: Target configuration
+          items:
+            type: object
+            required:
+              - id
+            properties:
+              id:
+                type: string
+                title: Notification target ID
+                pattern: ^[a-zA-Z0-9_-]+$
+            anyOf:
+              - properties:
+                  conf:
+                    type: object
+                    title: Notification config for SMTP target
+                    properties:
+                      subject:
+                        type: string
+                        title: Subject
+                        description: Email subject
+                      body:
+                        type: string
+                        title: Message
+                        description: Email body
+                      emailRecipient:
+                        type: object
+                        required:
+                          - to
+                        properties:
+                          to:
+                            type: string
+                            title: To
+                            description: Recipients' email addresses
+                          cc:
+                            type: string
+                            title: Cc
+                            description: "Cc: Recipients' email addresses"
+                          bcc:
+                            type: string
+                            title: Bcc
+                            description: "Bcc: Recipients' email addresses"
+        conf:
+          type: object
+          title: Condition-specific configs
+          properties: {}
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events from this input
+          items:
+            $ref: "#/components/schemas/ItemsTypeMetadata"
+        mode:
+          type: string
+          title: Mode
+          description: "Notification mode: direct or policy-based"
+          enum:
+            - direct
+            - policy
+          x-speakeasy-unknown-values: allow
+        templateTargetPairs:
+          type: array
+          title: Template & Target Pairs
+          description: Pairs of templates and targets for notification routing
+          items:
+            $ref: "#/components/schemas/ItemsTypePoliciesItemsTemplateTargetPairs"
+      oneOf:
+        - properties:
+            mode:
+              const: direct
+            templateTargetPairs:
+              minItems: 1
+          required:
+            - mode
+            - templateTargetPairs
+        - properties:
+            mode:
+              const: policy
+            templateTargetPairs:
+              maxItems: 0
+          required:
+            - mode
+        - properties:
+            mode: {}
     CloudProvider:
       type:
         - string
@@ -38263,21 +38924,25 @@ components:
         role:
           type: string
           enum:
-            - standby
             - primary
+            - standby
+          description: "Leader Node role: <code>primary</code> or <code>standby</code>."
           x-speakeasy-unknown-values: allow
         startTime:
-          type: number
+          type: integer
+          description: Timestamp (in Unix time) when the Cribl process started.
         status:
           type: string
           enum:
-            - shutting down
             - healthy
+            - shutting down
             - standby
+          description: "Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."
           x-speakeasy-unknown-values: allow
       required:
         - startTime
         - status
+      description: Health status of the Leader or Worker Node.
     CountedPackInstallInfo:
       type: object
       properties:
@@ -39112,6 +39777,14 @@ components:
       required:
         - name
         - value
+    AdditionalPropertiesTypeEnrichedFieldsSavedState:
+      type: object
+      required:
+        - data
+      properties:
+        data:
+          type: object
+          additionalProperties: true
     EventBreakerTypeOptionsEventBreakerExistingOrNewNew:
       type: string
       title: Event Breaker type
@@ -39144,6 +39817,17 @@ components:
         - format
         - current
       x-speakeasy-unknown-values: allow
+    EventBreakerExistingOrNewNewPart0TypeTimestamp:
+      oneOf:
+        - $ref: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeAuto"
+        - $ref: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeFormat"
+        - $ref: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeCurrent"
+      discriminator:
+        propertyName: type
+        mapping:
+          auto: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeAuto"
+          format: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeFormat"
+          current: "#/components/schemas/EventBreakerExistingOrNewNewTimestampTypeCurrent"
     MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions:
       type: string
       title: Minimum TLS version
@@ -39163,6 +39847,19 @@ components:
         - TLSv1.1
         - TLSv1.2
         - TLSv1.3
+      x-speakeasy-unknown-values: allow
+    ScaleReadsOptionsRedisDeploymentTypeCluster:
+      title: Scale reads
+      type: string
+      description: Which nodes read commands should be sent to
+      enum:
+        - master
+        - replica
+        - all
+      x-speakeasy-enum-descriptions:
+        - Masters
+        - Replicas
+        - Masters and Replicas
       x-speakeasy-unknown-values: allow
     ItemsTypeSerdeTypeRegexRegexList:
       type: object
@@ -39349,6 +40046,19 @@ components:
           type: string
           title: Value
           description: JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings.
+    DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHttp:
+      type: string
+      title: Discover method
+      description: Discover HTTP method.
+      enum:
+        - get
+        - post
+        - post_with_body
+      x-speakeasy-enum-descriptions:
+        - GET
+        - POST
+        - POST with Body
+      x-speakeasy-unknown-values: allow
     RetryTypeOptionsHealthCheckCollectorConfRetryRules:
       type: string
       title: Retry type
@@ -39375,6 +40085,20 @@ components:
           title: Value
           type: string
           description: JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants.
+    DiscoverMethodOptionsRestDiscoveryDiscoverTypeHttp:
+      type: string
+      title: Discover method
+      enum:
+        - get
+        - post
+        - post_with_body
+        - other
+      x-speakeasy-enum-descriptions:
+        - GET
+        - POST
+        - POST with Body
+        - Other
+      x-speakeasy-unknown-values: allow
     PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination:
       type: string
       title: Pagination
@@ -39393,6 +40117,23 @@ components:
         - Offset/Limit
         - Page/Size
       x-speakeasy-unknown-values: allow
+    RestDiscoveryDiscoverTypeHttpPart0TypePagination:
+      oneOf:
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeNone"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseBody"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeader"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeaderLink"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeRequestOffset"
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeRequestPage"
+      discriminator:
+        propertyName: type
+        mapping:
+          none: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeNone"
+          response_body: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseBody"
+          response_header: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeader"
+          response_header_link: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeResponseHeaderLink"
+          request_offset: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeRequestOffset"
+          request_page: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPaginationTypeRequestPage"
     AuthenticationMethodOptionsS3CollectorConf:
       type: string
       title: Authentication method
@@ -39585,6 +40326,8 @@ components:
         - secret
         - clientSecret
         - clientCert
+        - clientAssertion
+        - clientAssertion_rpc
       x-speakeasy-unknown-values: allow
     ItemsTypeExtraHttpHeaders:
       type: object
@@ -39685,17 +40428,17 @@ components:
     SubscriptionPlanOptions:
       type: string
       title: Subscription plan
-      description: Office 365 subscription plan for your organization, typically Office 365 Enterprise
+      description: Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise
       enum:
         - enterprise_gcc
         - gcc
         - gcc_high
         - dod
       x-speakeasy-enum-descriptions:
-        - Office 365 Enterprise
-        - Office 365 GCC
-        - Office 365 GCC High
-        - Office 365 DoD
+        - Microsoft 365 Enterprise
+        - Microsoft 365 GCC
+        - Microsoft 365 GCC High
+        - Microsoft 365 DoD
       x-speakeasy-unknown-values: allow
     LogLevelOptionsContentConfigItems:
       type: string
@@ -39714,17 +40457,6 @@ components:
         - manual
         - secret
       description: Enter client secret directly, or select a stored secret
-      x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions2:
-      title: Authentication method
-      type: string
-      enum:
-        - manual
-        - secret
-        - oauth
-        - oauthSecret
-        - oauthCert
-      description: Select authentication method.
       x-speakeasy-unknown-values: allow
     LogLevelOptions:
       type: string
@@ -40173,6 +40905,20 @@ components:
           type: number
           title: Jitter (%)
           description: "Random jitter percentage added to backoff delay to prevent thundering herd. Valid range: 0-100. Values outside this range will be clamped to the nearest valid value."
+    OrphanFileRecoveryType:
+      type: object
+      title: Orphan file recovery
+      properties:
+        disabled:
+          type: boolean
+          title: Disabled
+          description: Periodically scan the staging directory for files not tracked by any Worker manifest to recover them
+        periodMin:
+          type: number
+          title: Period (minutes)
+          description: Minimum interval between reconciliation runs
+          minimum: 5
+          maximum: 1440
     CompressionOptions2:
       type: string
       title: Compression
@@ -40284,7 +41030,7 @@ components:
         - Amazon S3 Managed Key
         - AWS KMS Managed Key
       x-speakeasy-unknown-values: allow
-    AuthenticationMethodOptions3:
+    AuthenticationMethodOptions2:
       title: Authentication method
       type: string
       enum:
@@ -40600,13 +41346,6 @@ components:
         - Raw
       description: When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent.
       x-speakeasy-unknown-values: allow
-    AwsAuthenticationMethodOptions:
-      type: string
-      enum:
-        - auto
-        - auto_rpc
-        - manual
-      x-speakeasy-unknown-values: allow
     FormatOptions:
       type: string
       enum:
@@ -40665,6 +41404,21 @@ components:
         - type: object
           additionalProperties:
             type: number
+    AdditionalPropertiesTypeRoutesGroups:
+      type: object
+      properties:
+        description:
+          type: string
+          description: Brief description of the Route Group.
+        index:
+          type: number
+          description: Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group.
+        name:
+          type: string
+          description: Name of the Route Group.
+      required:
+        - index
+        - name
     ErrorTypeStatus:
       type: object
       properties:
@@ -40966,7 +41720,59 @@ components:
         - count
         - memory
         - minimum
-    TlsOptionsTypeRedisDeploymentTypeClusterTlsTrue:
+    TimestampFormatTypeEventBreakerExistingOrNewNew:
+      type: object
+      required:
+        - type
+      title: Timestamp format
+      properties:
+        type:
+          $ref: "#/components/schemas/TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp"
+        length:
+          type: number
+          title: Length
+          minimum: 2
+        format:
+          type: string
+          title: Format
+      allOf:
+        - $ref: "#/components/schemas/EventBreakerExistingOrNewNewPart0TypeTimestamp"
+    TlsOptionsTypeRedisDeploymentTypeStandalone:
+      type: object
+      properties:
+        rejectUnauthorized:
+          type: boolean
+          title: Validate server certs
+          description: Reject certificates that are not authorized by a CA in the 'CA certificate path', or by another trusted CA (such as the system's CA)
+        servername:
+          type: string
+          title: Server name (SNI)
+          description: Server name for the SNI (Server Name Indication) TLS extension. Must be a host name, not an IP address.
+        certificateName:
+          type: string
+          title: Certificate
+          description: The name of the predefined certificate
+        caPath:
+          type: string
+          title: CA certificate path
+          description: Path on client in which to find CA certificates to verify the server's certificate. PEM format. Can reference $ENV_VARS.
+        privKeyPath:
+          type: string
+          title: Private key path (mutual auth)
+          description: Path on client in which to find the private key to use. PEM format. Can reference $ENV_VARS.
+        certPath:
+          type: string
+          title: Certificate path (mutual auth)
+          description: Path on client in which to find certificates to use. PEM format. Can reference $ENV_VARS.
+        passphrase:
+          type: string
+          title: Passphrase
+          description: Passphrase to use to decrypt private key
+        minVersion:
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+        maxVersion:
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+    TlsOptionsTypeRedisDeploymentTypeCluster:
       type: object
       properties:
         rejectUnauthorized:
@@ -41001,6 +41807,65 @@ components:
           $ref: "#/components/schemas/MinimumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
         maxVersion:
           $ref: "#/components/schemas/MaximumTlsVersionOptionsRedisDeploymentTypeStandaloneTlsOptions"
+    PaginationTypeRestDiscoveryDiscoverTypeHttp:
+      type: object
+      required:
+        - type
+      properties:
+        type:
+          $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagination"
+        lastPageExpr:
+          type: string
+          title: Last-page expression
+          description: JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section.
+        nextRelationAttribute:
+          type: string
+          title: Next page relation name
+          description: 'Relation name used in the link header that refers to the next page in the result set. Example: rel="next" refers to the next page of results: <https://myHost/nextPage>; rel="next"'
+        curRelationAttribute:
+          type: string
+          title: Current page relation name
+          description: 'Relation name used in the link header that refers to the current result set. Example: rel="self" refers to the current page of results: <https://myHost/curPage>; rel="self" '
+        offsetField:
+          type: string
+          title: Offset field name
+          description: "Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        offset:
+          type: number
+          title: Starting offset
+          description: Offset index from which to start request. Defaults to undefined, which will start discovery from the first record.
+        limitField:
+          type: string
+          title: Limit field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"
+        limit:
+          type: number
+          title: Record limit
+          description: Maximum number of records to retrieve per request
+          minimum: 1
+        pageField:
+          type: string
+          title: Page number field name
+          description: "Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        page:
+          type: number
+          title: Starting page number
+          description: Page number from which to start request. Defaults to undefined, which will start discovery from the first page.
+        sizeField:
+          type: string
+          title: Page size field name
+          description: "Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"
+        size:
+          type: number
+          title: Record limit
+          description: Maximum number of records to retrieve per page
+          minimum: 1
+        totalPageField:
+          type: string
+          title: Total page count field name
+          description: Name of the attribute in the response that contains the total number of pages for the query
+      allOf:
+        - $ref: "#/components/schemas/RestDiscoveryDiscoverTypeHttpPart0TypePagination"
     PqType:
       type: object
       properties:
@@ -41867,7 +42732,7 @@ components:
         - healthCounts
         - timestamp
       description: Status information for the Source or Destination, aggregated across all Worker Processes.
-    RunSettingsTypeSavedJobCollectionSchedule:
+    RunSettingsTypeSavedJobResponseCollectionSchedule:
       type: object
       title: Run settings
       allOf:
@@ -41901,7 +42766,7 @@ components:
           minimum: 1
         run:
           $ref: "#/components/schemas/RunSettingsTypeRunnableJobCollectionSchedule"
-    ScheduleTypeSavedJobCollection:
+    ScheduleTypeSavedJobResponseCollection:
       type: object
       title: Schedule
       description: Configuration for a scheduled job
@@ -41928,7 +42793,7 @@ components:
           description: The maximum number of instances of this scheduled job that may be running at any time
           minimum: 1
         run:
-          $ref: "#/components/schemas/RunSettingsTypeSavedJobCollectionSchedule"
+          $ref: "#/components/schemas/RunSettingsTypeSavedJobResponseCollectionSchedule"
   examples:
     DatabaseConnectionExamplesMySQLWithConnectionString:
       summary: MySQL with connection string
@@ -42362,7 +43227,7 @@ components:
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365Mgmt:
-      summary: Office 365 Management Activity
+      summary: Microsoft 365 Management Activity
       value:
         id: office365-mgmt-source
         type: office365_mgmt
@@ -42381,7 +43246,7 @@ components:
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365MsgTrace:
-      summary: Office 365 Message Trace
+      summary: Microsoft 365 Message Trace
       value:
         id: office365-msg-trace-source
         type: office365_msg_trace
@@ -42390,7 +43255,7 @@ components:
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesOffice365Service:
-      summary: Office 365 Services
+      summary: Microsoft 365 Services
       value:
         id: office365-service-source
         type: office365_service
@@ -44130,7 +44995,7 @@ components:
                 pretty: false
     RoutesUpdateExamplesBasicRoute:
       summary: Update Routes with a basic Route configuration
-      description: "Update the default Routes table (id: default) with a simple Route that filters access.log events and sends them to the main pipeline"
+      description: "Example request body for updating the default Routes table (<code>id: default</code>) with a simple Route that filters access.log events and sends them to the main Pipeline"
       value:
         id: default
         routes:
@@ -44138,11 +45003,11 @@ components:
             name: my-route
             pipeline: main
             filter: source == "access.log"
-            description: Route access logs to main pipeline
+            description: Route access logs to main Pipeline
             final: true
     RoutesUpdateExamplesMultipleRoutes:
       summary: Update Routes with multiple Routes and a catch-all
-      description: "Update the default Routes table (id: default) with multiple specific Routes evaluated in order, followed by a default catch-all Route"
+      description: "Example request body for updating the default Routes table (<code>id: default</code>) with multiple specific Routes evaluated in order, followed by a default catch-all Route"
       value:
         id: default
         routes:
@@ -44176,7 +45041,7 @@ components:
             final: true
     RoutesUpdateExamplesRouteWithOutputExpression:
       summary: Update Routes with dynamic Destination expression
-      description: "Update the default Routes table (id: default) with a Route that uses a JavaScript expression to dynamically determine the Destination"
+      description: "Example request body for updating the default Routes table (<code>id: default</code>) with a Route that uses a JavaScript expression to dynamically determine the Destination"
       value:
         id: default
         routes:
@@ -44188,6 +45053,16 @@ components:
             filter: source == "dynamic.log"
             description: Route with dynamic Destination based on environment
             final: true
+    RoutesUpdateExamplesRouteWithDefaults:
+      summary: Update the basic Route configuration
+      description: "Example request body for updating the default Routes table (<code>id: default</code>) with a basic Route that omits the <code>id</code> and <code>final</code> fields. The server generates a deterministic <code>id</code> and sets <code>final</code> to <code>true</code> by default."
+      value:
+        id: default
+        routes:
+          - name: my-route
+            pipeline: main
+            filter: source == "access.log"
+            description: Route access logs to main Pipeline
     RoutesAppendExamplesSingleRoute:
       summary: Append a single Route to the Routing table
       description: "Add a single Route to the end of the default Routes table (id: default)"
@@ -44228,6 +45103,14 @@ components:
           filter: source == "dynamic.log"
           description: Route with dynamic Destination based on environment
           final: true
+    RoutesAppendExamplesRouteWithDefaults:
+      summary: Append a Route omitting optional id and final fields
+      description: "Example request body for adding a Route to the end of the default Routes table (<code>id: default</code>) omitting the <code>id</code> and <code>final</code> fields. The server generates a deterministic <code>id</code> and sets <code>final</code> to <code>true</code> by default."
+      value:
+        - name: new-route
+          pipeline: main
+          filter: source == "new.log"
+          description: Route with server-generated id and default final value
     CollectorExamplesRest:
       summary: REST API Collector
       value:
@@ -44536,6 +45419,50 @@ components:
         onPrem: false
         estimatedIngestRate: 4096
         provisioned: true
+    LakeDatasetCreateExamplesJsonDataset:
+      summary: Create a Lake Dataset in JSON format
+      description: Example request body for creating a Lake Dataset in JSON format with a 90-day retention period.
+      value:
+        id: web_access_logs
+        description: Web server access logs
+        storageLocationId: my-storage-location
+        format: json
+        retentionPeriodInDays: 90
+        acceleratedFields:
+          - host
+          - status
+    LakeDatasetCreateExamplesParquetDataset:
+      summary: Create a Lake Dataset in Parquet format
+      description: Example request body for creating a Lake Dataset in Parquet format with a 365-day retention period and search configuration.
+      value:
+        id: security_events
+        description: Security event data in Parquet format
+        storageLocationId: my-storage-location
+        format: parquet
+        retentionPeriodInDays: 365
+        searchConfig:
+          datatypes:
+            - palo_alto_firewall
+            - crowdstrike_fdr
+    LakeDatasetCreateExamplesMinimalDataset:
+      summary: Create a minimal Lake Dataset
+      description: Example request body for creating a Lake Dataset with only the required body parameters.
+      value:
+        id: app_logs
+    LakeDatasetUpdateExamplesUpdateRetention:
+      summary: Update the retention period for a Lake Dataset
+      description: Example request body for updating the retention period for an existing Lake Dataset.
+      value:
+        retentionPeriodInDays: 180
+    LakeDatasetUpdateExamplesUpdateDescription:
+      summary: Update description and accelerated fields for a Lake Dataset
+      description: Example request body for updating the description and accelerated fields for an existing Lake Dataset.
+      value:
+        description: Web server access logs with accelerated fields.
+        acceleratedFields:
+          - host
+          - status
+          - source
     CaptureExamplesSimpleExpression:
       summary: Capture events by sourcetype
       value:
@@ -44572,6 +45499,27 @@ components:
           - guid-12345678-abcd-1234-abcd-123456789abc
           - guid-87654321-dcba-4321-dcba-cba987654321
           - guid-11111111-2222-3333-4444-555555555555
+    HealthExamplesHealthyPrimary:
+      summary: Healthy (primary)
+      description: Example response for a healthy server that is acting as primary.
+      value:
+        status: healthy
+        startTime: 1700000000000
+        role: primary
+    Health420ExamplesShuttingDown:
+      summary: Shutting down (primary)
+      description: Example response for a server that is acting as primary and is in the process of shutting down.
+      value:
+        status: shutting down
+        startTime: 1700000000000
+        role: primary
+    Health420ExamplesStandby:
+      summary: Standby
+      description: Example response for a server that is in standby mode.
+      value:
+        status: standby
+        startTime: 1700000000000
+        role: standby
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
       value:
@@ -48120,12 +49068,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: Routes object
+        description: RoutesInput object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Routes"
+              $ref: "#/components/schemas/RoutesInput"
             examples:
               RoutesUpdateExamplesBasicRoute:
                 $ref: "#/components/examples/RoutesUpdateExamplesBasicRoute"
@@ -48133,6 +49081,8 @@ paths:
                 $ref: "#/components/examples/RoutesUpdateExamplesMultipleRoutes"
               RoutesUpdateExamplesRouteWithOutputExpression:
                 $ref: "#/components/examples/RoutesUpdateExamplesRouteWithOutputExpression"
+              RoutesUpdateExamplesRouteWithDefaults:
+                $ref: "#/components/examples/RoutesUpdateExamplesRouteWithDefaults"
       parameters:
         - name: id
           in: path
@@ -48206,6 +49156,8 @@ paths:
                 $ref: "#/components/examples/RoutesAppendExamplesMultipleRoutes"
               RoutesAppendExamplesRouteWithOutputExpression:
                 $ref: "#/components/examples/RoutesAppendExamplesRouteWithOutputExpression"
+              RoutesAppendExamplesRouteWithDefaults:
+                $ref: "#/components/examples/RoutesAppendExamplesRouteWithDefaults"
       parameters:
         - name: id
           in: path
@@ -48278,12 +49230,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: Routes object
+        description: RoutesInput object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/Routes"
+              $ref: "#/components/schemas/RoutesInput"
             examples:
               RoutesUpdateExamplesBasicRoute:
                 $ref: "#/components/examples/RoutesUpdateExamplesBasicRoute"
@@ -48291,6 +49243,8 @@ paths:
                 $ref: "#/components/examples/RoutesUpdateExamplesMultipleRoutes"
               RoutesUpdateExamplesRouteWithOutputExpression:
                 $ref: "#/components/examples/RoutesUpdateExamplesRouteWithOutputExpression"
+              RoutesUpdateExamplesRouteWithDefaults:
+                $ref: "#/components/examples/RoutesUpdateExamplesRouteWithDefaults"
       parameters:
         - name: id
           in: path
@@ -48377,6 +49331,8 @@ paths:
                 $ref: "#/components/examples/RoutesAppendExamplesMultipleRoutes"
               RoutesAppendExamplesRouteWithOutputExpression:
                 $ref: "#/components/examples/RoutesAppendExamplesRouteWithOutputExpression"
+              RoutesAppendExamplesRouteWithDefaults:
+                $ref: "#/components/examples/RoutesAppendExamplesRouteWithDefaults"
       parameters:
         - name: id
           in: path
@@ -48763,11 +49719,11 @@ paths:
       description: Create a new Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48802,13 +49758,6 @@ paths:
                 $ref: "#/components/examples/CollectorExamplesScript"
               CollectorExamplesCriblLake:
                 $ref: "#/components/examples/CollectorExamplesCriblLake"
-      parameters:
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack to create the Collector in.
     get:
       operationId: getSavedJob
       tags:
@@ -48821,11 +49770,11 @@ paths:
       description: Get a list of all Collectors.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48841,18 +49790,6 @@ paths:
           schema:
             type: string
           description: Filter by collector type
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Pack ID
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: Worker group ID
   /lib/jobs/{id}:
     delete:
       operationId: deleteSavedJobById
@@ -48866,11 +49803,11 @@ paths:
       description: Delete the specified Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48886,18 +49823,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to delete.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to delete.
-        - name: groupId
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Worker Group that includes the Collector to delete.
     get:
       operationId: getSavedJobById
       tags:
@@ -48910,11 +49835,11 @@ paths:
       description: Get the specified Collector.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48930,12 +49855,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to get.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to get.
     patch:
       operationId: updateSavedJobById
       tags:
@@ -48948,11 +49867,11 @@ paths:
       description: Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
       responses:
         "200":
-          description: a list of SavedJob objects
+          description: a list of SavedJobResponse objects
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedSavedJob"
+                $ref: "#/components/schemas/CountedSavedJobResponse"
         "401":
           description: Unauthorized
         "500":
@@ -48994,12 +49913,6 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Collector to update.
-        - name: criblPack
-          in: query
-          required: false
-          schema:
-            type: string
-          description: The <code>id</code> of the Pack that includes the Collector to update.
   /products/{product}/groups:
     get:
       operationId: listConfigGroupByProduct
@@ -49401,7 +50314,7 @@ paths:
       operationId: createCriblLakeDatasetByLakeId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: create
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -49429,6 +50342,13 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CriblLakeDataset"
+            examples:
+              LakeDatasetCreateExamplesJsonDataset:
+                $ref: "#/components/examples/LakeDatasetCreateExamplesJsonDataset"
+              LakeDatasetCreateExamplesParquetDataset:
+                $ref: "#/components/examples/LakeDatasetCreateExamplesParquetDataset"
+              LakeDatasetCreateExamplesMinimalDataset:
+                $ref: "#/components/examples/LakeDatasetCreateExamplesMinimalDataset"
       parameters:
         - name: lakeId
           in: path
@@ -49440,7 +50360,7 @@ paths:
       operationId: getCriblLakeDatasetByLakeId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: list
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -49509,7 +50429,7 @@ paths:
       operationId: deleteCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: delete
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -49547,7 +50467,7 @@ paths:
       operationId: getCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: get
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -49585,7 +50505,7 @@ paths:
       operationId: updateCriblLakeDatasetByLakeIdAndId
       tags:
         - lake
-      x-speakeasy-group: lakeDatasets
+      x-speakeasy-group: lakes.datasets
       x-speakeasy-name-override: update
       x-cribl-internal: false
       x-cribl-availability: cloud
@@ -49613,6 +50533,11 @@ paths:
           application/json:
             schema:
               $ref: "#/components/schemas/CriblLakeDatasetUpdate"
+            examples:
+              LakeDatasetUpdateExamplesUpdateRetention:
+                $ref: "#/components/examples/LakeDatasetUpdateExamplesUpdateRetention"
+              LakeDatasetUpdateExamplesUpdateDescription:
+                $ref: "#/components/examples/LakeDatasetUpdateExamplesUpdateDescription"
       parameters:
         - name: lakeId
           in: path
@@ -49971,8 +50896,8 @@ paths:
       x-speakeasy-name-override: get
       x-cribl-internal: false
       x-cribl-availability: both
-      summary: Retrieve health status of the server
-      description: Get the current health status of the server.
+      summary: Get the health status of the server
+      description: Get the current health status of the server (Leader or Worker Node).
       security: []
       responses:
         "200":
@@ -49981,12 +50906,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthServerStatus"
+              examples:
+                HealthExamplesHealthyPrimary:
+                  $ref: "#/components/examples/HealthExamplesHealthyPrimary"
         "420":
           description: Server is shutting down or in standby mode
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthServerStatus"
+              examples:
+                Health420ExamplesShuttingDown:
+                  $ref: "#/components/examples/Health420ExamplesShuttingDown"
+                Health420ExamplesStandby:
+                  $ref: "#/components/examples/Health420ExamplesStandby"
         "500":
           description: Unexpected error
           content:

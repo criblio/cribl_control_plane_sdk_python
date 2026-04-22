@@ -12,10 +12,6 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class GetSavedJobRequestTypedDict(TypedDict):
     collector_type: NotRequired[str]
     r"""Filter by collector type"""
-    cribl_pack: NotRequired[str]
-    r"""Pack ID"""
-    group_id: NotRequired[str]
-    r"""Worker group ID"""
 
 
 class GetSavedJobRequest(BaseModel):
@@ -26,23 +22,9 @@ class GetSavedJobRequest(BaseModel):
     ] = None
     r"""Filter by collector type"""
 
-    cribl_pack: Annotated[
-        Optional[str],
-        pydantic.Field(alias="criblPack"),
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Pack ID"""
-
-    group_id: Annotated[
-        Optional[str],
-        pydantic.Field(alias="groupId"),
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Worker group ID"""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["collectorType", "criblPack", "groupId"])
+        optional_fields = set(["collectorType"])
         serialized = handler(self)
         m = {}
 

@@ -11,28 +11,42 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class Role(str, Enum, metaclass=utils.OpenEnumMeta):
-    STANDBY = "standby"
+    r"""Leader Node role: <code>primary</code> or <code>standby</code>."""
+
     PRIMARY = "primary"
+    STANDBY = "standby"
 
 
 class HealthServerStatusStatus(str, Enum, metaclass=utils.OpenEnumMeta):
-    SHUTTING_DOWN = "shutting down"
+    r"""Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."""
+
     HEALTHY = "healthy"
+    SHUTTING_DOWN = "shutting down"
     STANDBY = "standby"
 
 
 class HealthServerStatusTypedDict(TypedDict):
-    start_time: float
+    r"""Health status of the Leader or Worker Node."""
+
+    start_time: int
+    r"""Timestamp (in Unix time) when the Cribl process started."""
     status: HealthServerStatusStatus
+    r"""Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."""
     role: NotRequired[Role]
+    r"""Leader Node role: <code>primary</code> or <code>standby</code>."""
 
 
 class HealthServerStatus(BaseModel):
-    start_time: Annotated[float, pydantic.Field(alias="startTime")]
+    r"""Health status of the Leader or Worker Node."""
+
+    start_time: Annotated[int, pydantic.Field(alias="startTime")]
+    r"""Timestamp (in Unix time) when the Cribl process started."""
 
     status: HealthServerStatusStatus
+    r"""Health state: <code>healthy</code>, <code>standby</code>, or <code>shutting down</code>."""
 
     role: Optional[Role] = None
+    r"""Leader Node role: <code>primary</code> or <code>standby</code>."""
 
     @field_serializer("role")
     def serialize_role(self, value):

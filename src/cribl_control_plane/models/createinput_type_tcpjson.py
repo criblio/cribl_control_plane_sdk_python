@@ -4158,6 +4158,8 @@ class CreateInputInputFileTypedDict(TypedDict):
     r"""Delete files after they have been collected"""
     salt_hash: NotRequired[bool]
     r"""Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion."""
+    optimize_leaf_directories: NotRequired[bool]
+    r"""Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories."""
     include_unidentifiable_binary: NotRequired[bool]
     r"""Stream binary files as Base64-encoded chunks."""
 
@@ -4260,6 +4262,11 @@ class CreateInputInputFile(BaseModel):
     salt_hash: Annotated[Optional[bool], pydantic.Field(alias="saltHash")] = None
     r"""Salt the file hash with the Source file path. Ensures that all files with the same header hash, such as CSV files, are ingested. Moving or renaming the file, or toggling this after starting the Source will cause re-ingestion."""
 
+    optimize_leaf_directories: Annotated[
+        Optional[bool], pydantic.Field(alias="optimizeLeafDirectories")
+    ] = None
+    r"""Skip rescans of unchanged directories based on directory modification time. Uses an exponential backoff strategy, reducing load on the filesystems, but possibly delaying detection of new data. This option is optimized for search paths where files exist in the leaf directories."""
+
     include_unidentifiable_binary: Annotated[
         Optional[bool], pydantic.Field(alias="includeUnidentifiableBinary")
     ] = None
@@ -4306,6 +4313,7 @@ class CreateInputInputFile(BaseModel):
                 "suppressMissingPathErrors",
                 "deleteFiles",
                 "saltHash",
+                "optimizeLeafDirectories",
                 "includeUnidentifiableBinary",
             ]
         )

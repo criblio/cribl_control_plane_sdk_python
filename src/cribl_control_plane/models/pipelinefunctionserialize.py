@@ -45,6 +45,12 @@ class SerializeTypeCsvTypedDict(TypedDict):
     r"""Field containing object to serialize. Leave blank to serialize top-level event fields."""
     dst_field: NotRequired[str]
     r"""Field to serialize data to"""
+    clean_fields: NotRequired[bool]
+    r"""Clean field names by replacing non-[a-zA-Z0-9] characters with _"""
+    pair_delimiter: NotRequired[str]
+    r"""Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter."""
+    key_value_delimiter: NotRequired[str]
+    r"""Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter."""
 
 
 class SerializeTypeCsv(BaseModel):
@@ -60,6 +66,19 @@ class SerializeTypeCsv(BaseModel):
     dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Field to serialize data to"""
 
+    clean_fields: Annotated[Optional[bool], pydantic.Field(alias="cleanFields")] = None
+    r"""Clean field names by replacing non-[a-zA-Z0-9] characters with _"""
+
+    pair_delimiter: Annotated[Optional[str], pydantic.Field(alias="pairDelimiter")] = (
+        None
+    )
+    r"""Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter."""
+
+    key_value_delimiter: Annotated[
+        Optional[str], pydantic.Field(alias="keyValueDelimiter")
+    ] = None
+    r"""Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter."""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -71,7 +90,16 @@ class SerializeTypeCsv(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["fields", "srcField", "dstField"])
+        optional_fields = set(
+            [
+                "fields",
+                "srcField",
+                "dstField",
+                "cleanFields",
+                "pairDelimiter",
+                "keyValueDelimiter",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -120,6 +148,12 @@ class SerializeTypeDelimTypedDict(TypedDict):
     r"""Field containing object to serialize. Leave blank to serialize top-level event fields."""
     dst_field: NotRequired[str]
     r"""Field to serialize data to"""
+    clean_fields: NotRequired[bool]
+    r"""Clean field names by replacing non-[a-zA-Z0-9] characters with _"""
+    pair_delimiter: NotRequired[str]
+    r"""Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter."""
+    key_value_delimiter: NotRequired[str]
+    r"""Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter."""
 
 
 class SerializeTypeDelim(BaseModel):
@@ -147,6 +181,19 @@ class SerializeTypeDelim(BaseModel):
     dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Field to serialize data to"""
 
+    clean_fields: Annotated[Optional[bool], pydantic.Field(alias="cleanFields")] = None
+    r"""Clean field names by replacing non-[a-zA-Z0-9] characters with _"""
+
+    pair_delimiter: Annotated[Optional[str], pydantic.Field(alias="pairDelimiter")] = (
+        None
+    )
+    r"""Delimiter used to separate key=value pairs. Defaults to a single space character. Should not have common characters with key-value delimiter."""
+
+    key_value_delimiter: Annotated[
+        Optional[str], pydantic.Field(alias="keyValueDelimiter")
+    ] = None
+    r"""Delimiter used to separate key and value in pair. Defaults to a '='. Should not have common characters with pair delimiter."""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -167,6 +214,9 @@ class SerializeTypeDelim(BaseModel):
                 "fields",
                 "srcField",
                 "dstField",
+                "cleanFields",
+                "pairDelimiter",
+                "keyValueDelimiter",
             ]
         )
         serialized = handler(self)
@@ -281,8 +331,8 @@ class SerializeTypeKvp(BaseModel):
 PipelineFunctionSerializeConfTypedDict = TypeAliasType(
     "PipelineFunctionSerializeConfTypedDict",
     Union[
-        SerializeTypeCsvTypedDict,
         SerializeTypeKvpTypedDict,
+        SerializeTypeCsvTypedDict,
         SerializeTypeDelimTypedDict,
     ],
 )

@@ -4,8 +4,9 @@ from __future__ import annotations
 from .eventbreakertypeoptionseventbreakerexistingornewnew import (
     EventBreakerTypeOptionsEventBreakerExistingOrNewNew,
 )
-from .timestamptypeoptionseventbreakerexistingornewnewtimestamp import (
-    TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp,
+from .timestampformattypeeventbreakerexistingornewnew import (
+    TimestampFormatTypeEventBreakerExistingOrNewNew,
+    TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -39,6 +40,18 @@ class EventBreakerExistingOrNewExistingTypedDict(TypedDict):
     existing_rule: NotRequired[str]
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
+    rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
+    max_event_bytes: NotRequired[float]
+    r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
+    timestamp_anchor_regex: NotRequired[str]
+    r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
+    timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
+    timestamp_timezone: NotRequired[str]
+    r"""Timezone to assign to timestamps without timezone info"""
+    timestamp_earliest: NotRequired[str]
+    r"""The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to current time."""
+    timestamp_latest: NotRequired[str]
+    r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time."""
 
 
 class EventBreakerExistingOrNewExisting(BaseModel):
@@ -54,6 +67,38 @@ class EventBreakerExistingOrNewExisting(BaseModel):
     ] = None
     r"""Add this Function name to the cribl_breaker field"""
 
+    rule_type: Annotated[
+        Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
+        pydantic.Field(alias="ruleType"),
+    ] = None
+
+    max_event_bytes: Annotated[
+        Optional[float], pydantic.Field(alias="maxEventBytes")
+    ] = None
+    r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
+
+    timestamp_anchor_regex: Annotated[
+        Optional[str], pydantic.Field(alias="timestampAnchorRegex")
+    ] = None
+    r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
+
+    timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
+
+    timestamp_timezone: Annotated[
+        Optional[str], pydantic.Field(alias="timestampTimezone")
+    ] = None
+    r"""Timezone to assign to timestamps without timezone info"""
+
+    timestamp_earliest: Annotated[
+        Optional[str], pydantic.Field(alias="timestampEarliest")
+    ] = None
+    r"""The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to current time."""
+
+    timestamp_latest: Annotated[
+        Optional[str], pydantic.Field(alias="timestampLatest")
+    ] = None
+    r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time."""
+
     @field_serializer("existing_or_new")
     def serialize_existing_or_new(self, value):
         if isinstance(value, str):
@@ -63,9 +108,30 @@ class EventBreakerExistingOrNewExisting(BaseModel):
                 return value
         return value
 
+    @field_serializer("rule_type")
+    def serialize_rule_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.EventBreakerTypeOptionsEventBreakerExistingOrNewNew(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["existingRule", "shouldMarkCriblBreaker"])
+        optional_fields = set(
+            [
+                "existingRule",
+                "shouldMarkCriblBreaker",
+                "ruleType",
+                "maxEventBytes",
+                "timestampAnchorRegex",
+                "timestamp",
+                "timestampTimezone",
+                "timestampEarliest",
+                "timestampLatest",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -89,47 +155,6 @@ class EventBreakerExistingOrNewNewRuleTypeCsvExistingOrNew(
     NEW = "new"
 
 
-class EventBreakerExistingOrNewNewRuleTypeCsvTimestampFormatTypedDict(TypedDict):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    length: NotRequired[float]
-    format_: NotRequired[str]
-
-
-class EventBreakerExistingOrNewNewRuleTypeCsvTimestampFormat(BaseModel):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-
-    length: Optional[float] = None
-
-    format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["length", "format"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
 class EventBreakerExistingOrNewNewRuleTypeCsvTypedDict(TypedDict):
     delimiter: str
     r"""Delimiter character to use to split values"""
@@ -145,9 +170,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsvTypedDict(TypedDict):
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
-    timestamp: NotRequired[
-        EventBreakerExistingOrNewNewRuleTypeCsvTimestampFormatTypedDict
-    ]
+    timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -156,6 +179,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsvTypedDict(TypedDict):
     r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time."""
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
+    existing_rule: NotRequired[str]
 
 
 class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
@@ -191,7 +215,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
     ] = None
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
-    timestamp: Optional[EventBreakerExistingOrNewNewRuleTypeCsvTimestampFormat] = None
+    timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -212,6 +236,8 @@ class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
         Optional[bool], pydantic.Field(alias="shouldMarkCriblBreaker")
     ] = None
     r"""Add this Function name to the cribl_breaker field"""
+
+    existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
 
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
@@ -246,6 +272,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
                 "timestampEarliest",
                 "timestampLatest",
                 "shouldMarkCriblBreaker",
+                "existingRule",
             ]
         )
         serialized = handler(self)
@@ -271,47 +298,6 @@ class EventBreakerExistingOrNewNewRuleTypeHeaderExistingOrNew(
     NEW = "new"
 
 
-class EventBreakerExistingOrNewNewRuleTypeHeaderTimestampFormatTypedDict(TypedDict):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    length: NotRequired[float]
-    format_: NotRequired[str]
-
-
-class EventBreakerExistingOrNewNewRuleTypeHeaderTimestampFormat(BaseModel):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-
-    length: Optional[float] = None
-
-    format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["length", "format"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
 class EventBreakerExistingOrNewNewRuleTypeHeaderTypedDict(TypedDict):
     delimiter_regex: str
     r"""Field delimiter regex"""
@@ -329,9 +315,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeaderTypedDict(TypedDict):
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
-    timestamp: NotRequired[
-        EventBreakerExistingOrNewNewRuleTypeHeaderTimestampFormatTypedDict
-    ]
+    timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -340,6 +324,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeaderTypedDict(TypedDict):
     r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time."""
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
+    existing_rule: NotRequired[str]
 
 
 class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
@@ -380,9 +365,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
     ] = None
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
-    timestamp: Optional[EventBreakerExistingOrNewNewRuleTypeHeaderTimestampFormat] = (
-        None
-    )
+    timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -403,6 +386,8 @@ class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
         Optional[bool], pydantic.Field(alias="shouldMarkCriblBreaker")
     ] = None
     r"""Add this Function name to the cribl_breaker field"""
+
+    existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
 
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
@@ -438,6 +423,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
                 "timestampEarliest",
                 "timestampLatest",
                 "shouldMarkCriblBreaker",
+                "existingRule",
             ]
         )
         serialized = handler(self)
@@ -454,7 +440,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
         return m
 
 
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseExistingOrNew(
+class EventBreakerExistingOrNewNewRuleTypeJSONArrayExistingOrNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # Use Existing
@@ -463,71 +449,22 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseExistingOr
     NEW = "new"
 
 
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTimestampFormatTypedDict(
-    TypedDict
-):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    length: NotRequired[float]
-    format_: NotRequired[str]
-
-
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTimestampFormat(
-    BaseModel
-):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-
-    length: Optional[float] = None
-
-    format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["length", "format"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTypedDict(
-    TypedDict
-):
-    existing_or_new: (
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseExistingOrNew
-    )
-    json_extract_all: NotRequired[bool]
-    r"""Automatically extract fields from JSON events. When disabled, only _raw and _time are defined on extracted events."""
+class EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict(TypedDict):
+    existing_or_new: EventBreakerExistingOrNewNewRuleTypeJSONArrayExistingOrNew
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
     json_array_field: NotRequired[str]
     r"""The path to an array in a JSON event with records to extract, such as Records or level1.level2.events. Leave blank if result itself is an array, such as [{...},{...}]"""
     parent_fields_to_copy: NotRequired[List[str]]
     r"""Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
+    json_extract_all: NotRequired[bool]
+    r"""Automatically extract fields from JSON events. When disabled, only _raw and _time are defined on extracted events."""
+    json_time_field: NotRequired[str]
+    r"""Optional path to timestamp field in extracted events, such as eventTime or level1.level2.eventTime."""
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
-    timestamp: NotRequired[
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTimestampFormatTypedDict
-    ]
+    timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -536,18 +473,14 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTypedDict(
     r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time."""
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
+    existing_rule: NotRequired[str]
 
 
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalse(BaseModel):
+class EventBreakerExistingOrNewNewRuleTypeJSONArray(BaseModel):
     existing_or_new: Annotated[
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseExistingOrNew,
+        EventBreakerExistingOrNewNewRuleTypeJSONArrayExistingOrNew,
         pydantic.Field(alias="existingOrNew"),
     ]
-
-    json_extract_all: Annotated[
-        Optional[bool], pydantic.Field(alias="jsonExtractAll")
-    ] = None
-    r"""Automatically extract fields from JSON events. When disabled, only _raw and _time are defined on extracted events."""
 
     rule_type: Annotated[
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
@@ -563,183 +496,6 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalse(BaseModel
         Optional[List[str]], pydantic.Field(alias="parentFieldsToCopy")
     ] = None
     r"""Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
-
-    max_event_bytes: Annotated[
-        Optional[float], pydantic.Field(alias="maxEventBytes")
-    ] = None
-    r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
-
-    timestamp_anchor_regex: Annotated[
-        Optional[str], pydantic.Field(alias="timestampAnchorRegex")
-    ] = None
-    r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
-
-    timestamp: Optional[
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTimestampFormat
-    ] = None
-
-    timestamp_timezone: Annotated[
-        Optional[str], pydantic.Field(alias="timestampTimezone")
-    ] = None
-    r"""Timezone to assign to timestamps without timezone info"""
-
-    timestamp_earliest: Annotated[
-        Optional[str], pydantic.Field(alias="timestampEarliest")
-    ] = None
-    r"""The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to current time."""
-
-    timestamp_latest: Annotated[
-        Optional[str], pydantic.Field(alias="timestampLatest")
-    ] = None
-    r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time."""
-
-    should_mark_cribl_breaker: Annotated[
-        Optional[bool], pydantic.Field(alias="shouldMarkCriblBreaker")
-    ] = None
-    r"""Add this Function name to the cribl_breaker field"""
-
-    @field_serializer("rule_type")
-    def serialize_rule_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.EventBreakerTypeOptionsEventBreakerExistingOrNewNew(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("existing_or_new")
-    def serialize_existing_or_new(self, value):
-        if isinstance(value, str):
-            try:
-                return models.EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseExistingOrNew(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "jsonExtractAll",
-                "ruleType",
-                "jsonArrayField",
-                "parentFieldsToCopy",
-                "maxEventBytes",
-                "timestampAnchorRegex",
-                "timestamp",
-                "timestampTimezone",
-                "timestampEarliest",
-                "timestampLatest",
-                "shouldMarkCriblBreaker",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueExistingOrNew(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    # Use Existing
-    EXISTING = "existing"
-    # Create New
-    NEW = "new"
-
-
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueTimestampFormatTypedDict(
-    TypedDict
-):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    length: NotRequired[float]
-    format_: NotRequired[str]
-
-
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueTimestampFormat(
-    BaseModel
-):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-
-    length: Optional[float] = None
-
-    format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["length", "format"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueTypedDict(
-    TypedDict
-):
-    existing_or_new: (
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueExistingOrNew
-    )
-    json_extract_all: NotRequired[bool]
-    r"""Automatically extract fields from JSON events. When disabled, only _raw and _time are defined on extracted events."""
-    json_time_field: NotRequired[str]
-    r"""Optional path to timestamp field in extracted events, such as eventTime or level1.level2.eventTime."""
-    rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
-    json_array_field: NotRequired[str]
-    r"""The path to an array in a JSON event with records to extract, such as Records or level1.level2.events. Leave blank if result itself is an array, such as [{...},{...}]"""
-    parent_fields_to_copy: NotRequired[List[str]]
-    r"""Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
-    max_event_bytes: NotRequired[float]
-    r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
-    timestamp_anchor_regex: NotRequired[str]
-    r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
-    timestamp: NotRequired[
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueTimestampFormatTypedDict
-    ]
-    timestamp_timezone: NotRequired[str]
-    r"""Timezone to assign to timestamps without timezone info"""
-    timestamp_earliest: NotRequired[str]
-    r"""The earliest timestamp value allowed relative to now, such as -42years. Parsed values prior to this date will be set to current time."""
-    timestamp_latest: NotRequired[str]
-    r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time."""
-    should_mark_cribl_breaker: NotRequired[bool]
-    r"""Add this Function name to the cribl_breaker field"""
-
-
-class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel):
-    existing_or_new: Annotated[
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueExistingOrNew,
-        pydantic.Field(alias="existingOrNew"),
-    ]
 
     json_extract_all: Annotated[
         Optional[bool], pydantic.Field(alias="jsonExtractAll")
@@ -751,21 +507,6 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel)
     )
     r"""Optional path to timestamp field in extracted events, such as eventTime or level1.level2.eventTime."""
 
-    rule_type: Annotated[
-        Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
-        pydantic.Field(alias="ruleType"),
-    ] = None
-
-    json_array_field: Annotated[
-        Optional[str], pydantic.Field(alias="jsonArrayField")
-    ] = None
-    r"""The path to an array in a JSON event with records to extract, such as Records or level1.level2.events. Leave blank if result itself is an array, such as [{...},{...}]"""
-
-    parent_fields_to_copy: Annotated[
-        Optional[List[str]], pydantic.Field(alias="parentFieldsToCopy")
-    ] = None
-    r"""Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
-
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
     ] = None
@@ -776,9 +517,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel)
     ] = None
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
-    timestamp: Optional[
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueTimestampFormat
-    ] = None
+    timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -800,6 +539,8 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel)
     ] = None
     r"""Add this Function name to the cribl_breaker field"""
 
+    existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
+
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
         if isinstance(value, str):
@@ -813,8 +554,10 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel)
     def serialize_existing_or_new(self, value):
         if isinstance(value, str):
             try:
-                return models.EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueExistingOrNew(
-                    value
+                return (
+                    models.EventBreakerExistingOrNewNewRuleTypeJSONArrayExistingOrNew(
+                        value
+                    )
                 )
             except ValueError:
                 return value
@@ -824,11 +567,11 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel)
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "jsonExtractAll",
-                "jsonTimeField",
                 "ruleType",
                 "jsonArrayField",
                 "parentFieldsToCopy",
+                "jsonExtractAll",
+                "jsonTimeField",
                 "maxEventBytes",
                 "timestampAnchorRegex",
                 "timestamp",
@@ -836,6 +579,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel)
                 "timestampEarliest",
                 "timestampLatest",
                 "shouldMarkCriblBreaker",
+                "existingRule",
             ]
         )
         serialized = handler(self)
@@ -852,24 +596,6 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue(BaseModel)
         return m
 
 
-EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict = TypeAliasType(
-    "EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict",
-    Union[
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTypedDict,
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueTypedDict,
-    ],
-)
-
-
-EventBreakerExistingOrNewNewRuleTypeJSONArray = TypeAliasType(
-    "EventBreakerExistingOrNewNewRuleTypeJSONArray",
-    Union[
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalse,
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue,
-    ],
-)
-
-
 class EventBreakerExistingOrNewNewRuleTypeJSONExistingOrNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
@@ -879,47 +605,6 @@ class EventBreakerExistingOrNewNewRuleTypeJSONExistingOrNew(
     NEW = "new"
 
 
-class EventBreakerExistingOrNewNewRuleTypeJSONTimestampFormatTypedDict(TypedDict):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    length: NotRequired[float]
-    format_: NotRequired[str]
-
-
-class EventBreakerExistingOrNewNewRuleTypeJSONTimestampFormat(BaseModel):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-
-    length: Optional[float] = None
-
-    format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["length", "format"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
 class EventBreakerExistingOrNewNewRuleTypeJSONTypedDict(TypedDict):
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeJSONExistingOrNew
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
@@ -927,9 +612,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONTypedDict(TypedDict):
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
-    timestamp: NotRequired[
-        EventBreakerExistingOrNewNewRuleTypeJSONTimestampFormatTypedDict
-    ]
+    timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -938,6 +621,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONTypedDict(TypedDict):
     r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time."""
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
+    existing_rule: NotRequired[str]
 
 
 class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
@@ -961,7 +645,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
     ] = None
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
-    timestamp: Optional[EventBreakerExistingOrNewNewRuleTypeJSONTimestampFormat] = None
+    timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -982,6 +666,8 @@ class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
         Optional[bool], pydantic.Field(alias="shouldMarkCriblBreaker")
     ] = None
     r"""Add this Function name to the cribl_breaker field"""
+
+    existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
 
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
@@ -1015,6 +701,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
                 "timestampEarliest",
                 "timestampLatest",
                 "shouldMarkCriblBreaker",
+                "existingRule",
             ]
         )
         serialized = handler(self)
@@ -1040,47 +727,6 @@ class EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew(
     NEW = "new"
 
 
-class EventBreakerExistingOrNewNewRuleTypeRegexTimestampFormatTypedDict(TypedDict):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    length: NotRequired[float]
-    format_: NotRequired[str]
-
-
-class EventBreakerExistingOrNewNewRuleTypeRegexTimestampFormat(BaseModel):
-    type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-
-    length: Optional[float] = None
-
-    format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
-
-    @field_serializer("type")
-    def serialize_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
-                    value
-                )
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["length", "format"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
 class EventBreakerExistingOrNewNewRuleTypeRegexTypedDict(TypedDict):
     event_breaker_regex: str
     r"""The regex used to break the stream into events at the beginning of the match. Matched content will be consumed, unless you use a lookahead regex such as (?=pattern) to keep it. Do NOT use capturing groups in the pattern."""
@@ -1090,9 +736,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegexTypedDict(TypedDict):
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
-    timestamp: NotRequired[
-        EventBreakerExistingOrNewNewRuleTypeRegexTimestampFormatTypedDict
-    ]
+    timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -1101,6 +745,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegexTypedDict(TypedDict):
     r"""The latest timestamp value allowed relative to now, such as +42days. Parsed values after this date will be set to current time."""
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
+    existing_rule: NotRequired[str]
 
 
 class EventBreakerExistingOrNewNewRuleTypeRegex(BaseModel):
@@ -1127,7 +772,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegex(BaseModel):
     ] = None
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
-    timestamp: Optional[EventBreakerExistingOrNewNewRuleTypeRegexTimestampFormat] = None
+    timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -1148,6 +793,8 @@ class EventBreakerExistingOrNewNewRuleTypeRegex(BaseModel):
         Optional[bool], pydantic.Field(alias="shouldMarkCriblBreaker")
     ] = None
     r"""Add this Function name to the cribl_breaker field"""
+
+    existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
 
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
@@ -1181,6 +828,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegex(BaseModel):
                 "timestampEarliest",
                 "timestampLatest",
                 "shouldMarkCriblBreaker",
+                "existingRule",
             ]
         )
         serialized = handler(self)
@@ -1202,9 +850,9 @@ EventBreakerExistingOrNewNewTypedDict = TypeAliasType(
     Union[
         EventBreakerExistingOrNewNewRuleTypeJSONTypedDict,
         EventBreakerExistingOrNewNewRuleTypeRegexTypedDict,
+        EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict,
         EventBreakerExistingOrNewNewRuleTypeCsvTypedDict,
         EventBreakerExistingOrNewNewRuleTypeHeaderTypedDict,
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict,
     ],
 )
 
@@ -1351,15 +999,7 @@ try:
 except NameError:
     pass
 try:
-    EventBreakerExistingOrNewNewRuleTypeCsvTimestampFormat.model_rebuild()
-except NameError:
-    pass
-try:
     EventBreakerExistingOrNewNewRuleTypeCsv.model_rebuild()
-except NameError:
-    pass
-try:
-    EventBreakerExistingOrNewNewRuleTypeHeaderTimestampFormat.model_rebuild()
 except NameError:
     pass
 try:
@@ -1367,31 +1007,11 @@ try:
 except NameError:
     pass
 try:
-    EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalseTimestampFormat.model_rebuild()
-except NameError:
-    pass
-try:
-    EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllFalse.model_rebuild()
-except NameError:
-    pass
-try:
-    EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrueTimestampFormat.model_rebuild()
-except NameError:
-    pass
-try:
-    EventBreakerExistingOrNewNewRuleTypeJSONArrayJSONExtractAllTrue.model_rebuild()
-except NameError:
-    pass
-try:
-    EventBreakerExistingOrNewNewRuleTypeJSONTimestampFormat.model_rebuild()
+    EventBreakerExistingOrNewNewRuleTypeJSONArray.model_rebuild()
 except NameError:
     pass
 try:
     EventBreakerExistingOrNewNewRuleTypeJSON.model_rebuild()
-except NameError:
-    pass
-try:
-    EventBreakerExistingOrNewNewRuleTypeRegexTimestampFormat.model_rebuild()
 except NameError:
     pass
 try:

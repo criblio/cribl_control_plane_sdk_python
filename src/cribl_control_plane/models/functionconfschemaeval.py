@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class FunctionConfSchemaEvalAddTypedDict(TypedDict):
@@ -48,6 +49,8 @@ class FunctionConfSchemaEvalTypedDict(TypedDict):
     r"""List of fields to keep. Supports * wildcards. Takes precedence over 'Remove fields'."""
     remove: NotRequired[List[str]]
     r"""List of fields to remove. Supports * wildcards. Fields that match 'Keep fields' will not be removed. Enclose field names containing special characters in single or double quotes."""
+    print_undefineds: NotRequired[bool]
+    r"""When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved."""
 
 
 class FunctionConfSchemaEval(BaseModel):
@@ -60,9 +63,14 @@ class FunctionConfSchemaEval(BaseModel):
     remove: Optional[List[str]] = None
     r"""List of fields to remove. Supports * wildcards. Fields that match 'Keep fields' will not be removed. Enclose field names containing special characters in single or double quotes."""
 
+    print_undefineds: Annotated[
+        Optional[bool], pydantic.Field(alias="printUndefineds")
+    ] = None
+    r"""When enabled (e.g. for Cribl Search), convert undefined expression results to null so requested-but-missing fields appear in JSON output. When disabled (default), undefined is preserved."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["add", "keep", "remove"])
+        optional_fields = set(["add", "keep", "remove", "printUndefineds"])
         serialized = handler(self)
         m = {}
 
@@ -75,3 +83,9 @@ class FunctionConfSchemaEval(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    FunctionConfSchemaEval.model_rebuild()
+except NameError:
+    pass

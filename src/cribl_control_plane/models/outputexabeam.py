@@ -4,6 +4,10 @@ from __future__ import annotations
 from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
 from .objectacloptions1 import ObjectACLOptions1
+from .orphanfilerecoverytype import (
+    OrphanFileRecoveryType,
+    OrphanFileRecoveryTypeTypedDict,
+)
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .signatureversionoptions4 import SignatureVersionOptions4
 from .storageclassoptions1 import StorageClassOptions1
@@ -71,6 +75,7 @@ class OutputExabeamTypedDict(TypedDict):
     on_disk_full_backpressure: NotRequired[DiskSpaceProtectionOptions]
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
     encoded_configuration: NotRequired[str]
@@ -204,6 +209,8 @@ class OutputExabeam(BaseModel):
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
 
+    orphans: Optional[OrphanFileRecoveryType] = None
+
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
     ] = None
@@ -327,6 +334,7 @@ class OutputExabeam(BaseModel):
                 "deadletterEnabled",
                 "onDiskFullBackpressure",
                 "retrySettings",
+                "orphans",
                 "maxFileSizeMB",
                 "encodedConfiguration",
                 "siteName",

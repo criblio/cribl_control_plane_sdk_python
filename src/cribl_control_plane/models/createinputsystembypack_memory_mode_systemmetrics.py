@@ -848,6 +848,8 @@ class CreateInputSystemByPackInputCloudflareHecTypedDict(TypedDict):
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_hec_api: NotRequired[str]
+    r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
 
 
 class CreateInputSystemByPackInputCloudflareHec(BaseModel):
@@ -997,6 +999,11 @@ class CreateInputSystemByPackInputCloudflareHec(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    template_hec_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_hecAPI")
+    ] = None
+    r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -1032,6 +1039,7 @@ class CreateInputSystemByPackInputCloudflareHec(BaseModel):
                 "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_hecAPI",
             ]
         )
         serialized = handler(self)
@@ -1419,6 +1427,15 @@ class CreateInputSystemByPackAuthenticationTypeServicenowTable(
     OAUTH_SECRET = "oauthSecret"
 
 
+class CreateInputSystemByPackGrantType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""ServiceNow OAuth grant type used for token requests"""
+
+    # Password
+    CLIENT_CREDENTIALS = "client_credentials"
+    # Client credentials
+    PASSWORD = "password"
+
+
 class CreateInputSystemByPackManageStateServicenowTableTypedDict(TypedDict):
     pass
 
@@ -1497,22 +1514,21 @@ class CreateInputSystemByPackInputServicenowTableTypedDict(TypedDict):
     description: NotRequired[str]
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
+    oauth_grant_type: NotRequired[CreateInputSystemByPackGrantType]
+    r"""ServiceNow OAuth grant type used for token requests"""
+    username: NotRequired[str]
+    r"""ServiceNow username for the password grant type"""
     text_secret: NotRequired[str]
-    r"""Select or create a stored text secret for the OAuth client secret parameter value"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
+    r"""Select or create a stored text secret for the ServiceNow password value"""
+    use_custom_o_auth_params_or_headers: NotRequired[bool]
+    r"""Enable custom OAuth request parameters or headers for advanced ServiceNow configurations. Leave disabled for standard ServiceNow OAuth flows."""
     oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    client_id: NotRequired[str]
+    client_text_secret: NotRequired[str]
+    r"""Select or create a stored text secret for the OAuth client secret value"""
     state_update_expression: NotRequired[str]
     r"""JavaScript expression that defines how to update the state from an event. This source defaults to checking that `_time` is a finite number (not only `__timestampExtracted`), so state still advances when the event breaker assigns a fallback time. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields)."""
     state_merge_expression: NotRequired[str]
@@ -1528,8 +1544,10 @@ class CreateInputSystemByPackInputServicenowTableTypedDict(TypedDict):
     r"""Binds 'orderByField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'orderByField' at runtime."""
     template_query: NotRequired[str]
     r"""Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
 
 class CreateInputSystemByPackInputServicenowTable(BaseModel):
@@ -1671,31 +1689,22 @@ class CreateInputSystemByPackInputServicenowTable(BaseModel):
     ] = None
     r"""Select or create a secret that references your credentials"""
 
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
+    oauth_grant_type: Annotated[
+        Optional[CreateInputSystemByPackGrantType],
+        pydantic.Field(alias="oauthGrantType"),
     ] = None
-    r"""Secret parameter name to pass in request body"""
+    r"""ServiceNow OAuth grant type used for token requests"""
+
+    username: Optional[str] = None
+    r"""ServiceNow username for the password grant type"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret for the OAuth client secret parameter value"""
+    r"""Select or create a stored text secret for the ServiceNow password value"""
 
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
+    use_custom_o_auth_params_or_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="useCustomOAuthParamsOrHeaders")
     ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
+    r"""Enable custom OAuth request parameters or headers for advanced ServiceNow configurations. Leave disabled for standard ServiceNow OAuth flows."""
 
     oauth_params: Annotated[
         Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
@@ -1706,6 +1715,13 @@ class CreateInputSystemByPackInputServicenowTable(BaseModel):
         Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+
+    client_text_secret: Annotated[
+        Optional[str], pydantic.Field(alias="clientTextSecret")
+    ] = None
+    r"""Select or create a stored text secret for the OAuth client secret value"""
 
     state_update_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateUpdateExpression")
@@ -1742,10 +1758,15 @@ class CreateInputSystemByPackInputServicenowTable(BaseModel):
     ] = None
     r"""Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime."""
 
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
     ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
     @field_serializer("order_by_direction")
     def serialize_order_by_direction(self, value):
@@ -1772,6 +1793,15 @@ class CreateInputSystemByPackInputServicenowTable(BaseModel):
         if isinstance(value, str):
             try:
                 return models.LogLevelOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("oauth_grant_type")
+    def serialize_oauth_grant_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputSystemByPackGrantType(value)
             except ValueError:
                 return value
         return value
@@ -1810,14 +1840,14 @@ class CreateInputSystemByPackInputServicenowTable(BaseModel):
                 "retryRules",
                 "description",
                 "credentialsSecret",
-                "loginUrl",
-                "secretParamName",
+                "oauthGrantType",
+                "username",
                 "textSecret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
+                "useCustomOAuthParamsOrHeaders",
                 "oauthParams",
                 "oauthHeaders",
+                "clientId",
+                "clientTextSecret",
                 "stateUpdateExpression",
                 "stateMergeExpression",
                 "manageState",
@@ -1825,7 +1855,8 @@ class CreateInputSystemByPackInputServicenowTable(BaseModel):
                 "__template_instance",
                 "__template_orderByField",
                 "__template_query",
-                "__template_loginUrl",
+                "__template_username",
+                "__template_clientId",
             ]
         )
         serialized = handler(self)
@@ -4365,6 +4396,10 @@ class CreateInputSystemByPackInputWefTypedDict(TypedDict):
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_keytab: NotRequired[str]
+    r"""Binds 'keytab' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'keytab' at runtime."""
+    template_principal: NotRequired[str]
+    r"""Binds 'principal' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'principal' at runtime."""
 
 
 class CreateInputSystemByPackInputWef(BaseModel):
@@ -4500,6 +4535,16 @@ class CreateInputSystemByPackInputWef(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    template_keytab: Annotated[
+        Optional[str], pydantic.Field(alias="__template_keytab")
+    ] = None
+    r"""Binds 'keytab' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'keytab' at runtime."""
+
+    template_principal: Annotated[
+        Optional[str], pydantic.Field(alias="__template_principal")
+    ] = None
+    r"""Binds 'principal' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'principal' at runtime."""
+
     @field_serializer("auth_method")
     def serialize_auth_method(self, value):
         if isinstance(value, str):
@@ -4542,6 +4587,8 @@ class CreateInputSystemByPackInputWef(BaseModel):
                 "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_keytab",
+                "__template_principal",
             ]
         )
         serialized = handler(self)
@@ -6657,6 +6704,10 @@ class CreateInputSystemByPackInputOpenTelemetryTypedDict(TypedDict):
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_protocol: NotRequired[str]
+    r"""Binds 'protocol' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'protocol' at runtime."""
+    template_otlp_version: NotRequired[str]
+    r"""Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime."""
 
 
 class CreateInputSystemByPackInputOpenTelemetry(BaseModel):
@@ -6805,6 +6856,16 @@ class CreateInputSystemByPackInputOpenTelemetry(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    template_protocol: Annotated[
+        Optional[str], pydantic.Field(alias="__template_protocol")
+    ] = None
+    r"""Binds 'protocol' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'protocol' at runtime."""
+
+    template_otlp_version: Annotated[
+        Optional[str], pydantic.Field(alias="__template_otlpVersion")
+    ] = None
+    r"""Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime."""
+
     @field_serializer("protocol")
     def serialize_protocol(self, value):
         if isinstance(value, str):
@@ -6872,6 +6933,8 @@ class CreateInputSystemByPackInputOpenTelemetry(BaseModel):
                 "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_protocol",
+                "__template_otlpVersion",
             ]
         )
         serialized = handler(self)
@@ -11602,46 +11665,6 @@ class CreateInputSystemByPackMemoryModeSystemMetrics(
     CUSTOM = "custom"
     # Disabled
     DISABLED = "disabled"
-
-
-class CreateInputSystemByPackMemorySystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackMemoryModeSystemMetrics]
-    r"""Select the level of detail for memory metrics"""
-    detail: NotRequired[bool]
-    r"""Generate metrics for all memory states"""
-
-
-class CreateInputSystemByPackMemorySystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackMemoryModeSystemMetrics] = None
-    r"""Select the level of detail for memory metrics"""
-
-    detail: Optional[bool] = None
-    r"""Generate metrics for all memory states"""
-
-    @field_serializer("mode")
-    def serialize_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CreateInputSystemByPackMemoryModeSystemMetrics(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["mode", "detail"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 try:

@@ -13,7 +13,9 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict(TypedDict):
+class KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict(
+    TypedDict
+):
     disabled: bool
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
@@ -30,9 +32,11 @@ class KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict(TypedD
     r"""Used when __keySchemaIdOut is not present, to transform key values, leave blank if key transformation is not required by default."""
     default_value_schema_id: NotRequired[float]
     r"""Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default."""
+    template_schema_registry_url: NotRequired[str]
+    r"""Binds 'schemaRegistryURL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'schemaRegistryURL' at runtime."""
 
 
-class KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout(BaseModel):
+class KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth(BaseModel):
     disabled: bool
 
     schema_registry_url: Annotated[
@@ -68,6 +72,11 @@ class KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout(BaseModel):
     ] = None
     r"""Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default."""
 
+    template_schema_registry_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_schemaRegistryURL")
+    ] = None
+    r"""Binds 'schemaRegistryURL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'schemaRegistryURL' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -80,6 +89,7 @@ class KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout(BaseModel):
                 "tls",
                 "defaultKeySchemaId",
                 "defaultValueSchemaId",
+                "__template_schemaRegistryURL",
             ]
         )
         serialized = handler(self)
@@ -97,6 +107,6 @@ class KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout(BaseModel):
 
 
 try:
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout.model_rebuild()
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth.model_rebuild()
 except NameError:
     pass

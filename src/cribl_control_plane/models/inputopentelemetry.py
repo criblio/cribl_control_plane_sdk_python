@@ -127,6 +127,10 @@ class InputOpenTelemetryTypedDict(TypedDict):
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_protocol: NotRequired[str]
+    r"""Binds 'protocol' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'protocol' at runtime."""
+    template_otlp_version: NotRequired[str]
+    r"""Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime."""
 
 
 class InputOpenTelemetry(BaseModel):
@@ -273,6 +277,16 @@ class InputOpenTelemetry(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    template_protocol: Annotated[
+        Optional[str], pydantic.Field(alias="__template_protocol")
+    ] = None
+    r"""Binds 'protocol' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'protocol' at runtime."""
+
+    template_otlp_version: Annotated[
+        Optional[str], pydantic.Field(alias="__template_otlpVersion")
+    ] = None
+    r"""Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime."""
+
     @field_serializer("protocol")
     def serialize_protocol(self, value):
         if isinstance(value, str):
@@ -339,6 +353,8 @@ class InputOpenTelemetry(BaseModel):
                 "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_protocol",
+                "__template_otlpVersion",
             ]
         )
         serialized = handler(self)

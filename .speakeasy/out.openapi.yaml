@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776765370303-78edef6e
+  version: 4.18.0-alpha.1776812634562-fcf48b5e
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -13784,6 +13784,9 @@ components:
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
+        __template_elasticAPI:
+          type: string
+          description: Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime.
     InputConfluentCloud:
       type: object
       required:
@@ -19883,6 +19886,12 @@ components:
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
+        __template_protocol:
+          type: string
+          description: Binds 'protocol' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'protocol' at runtime.
+        __template_otlpVersion:
+          type: string
+          description: Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime.
     InputModelDrivenTelemetry:
       type: object
       required:
@@ -21102,6 +21111,12 @@ components:
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
+        __template_keytab:
+          type: string
+          description: Binds 'keytab' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'keytab' at runtime.
+        __template_principal:
+          type: string
+          description: Binds 'principal' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'principal' at runtime.
     InputWinEventLogs:
       type: object
       required:
@@ -22534,33 +22549,30 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-        loginUrl:
+        oauthGrantType:
+          enum:
+            - client_credentials
+            - password
           type: string
-          title: Login URL
-          description: URL for OAuth
-          pattern: ^https?://.*
-        secretParamName:
+          title: Grant type
+          description: ServiceNow OAuth grant type used for token requests
+          x-speakeasy-enum-descriptions:
+            - Password
+            - Client credentials
+          x-speakeasy-unknown-values: allow
+        username:
           type: string
-          title: OAuth Secret parameter name
-          description: Secret parameter name to pass in request body
+          title: Username
+          description: ServiceNow username for the password grant type
+          pattern: .*\S.*
         textSecret:
           type: string
-          title: OAuth secret (text secret)
-          description: Select or create a stored text secret for the OAuth client secret parameter value
-        tokenAttributeName:
-          type: string
-          title: Token attribute name
-          description: Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token').
-        authHeaderExpr:
-          type: string
-          title: Authorize expression
-          description: "JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."
-        tokenTimeoutSecs:
-          type: number
-          title: Refresh interval (secs.)
-          description: How often the OAuth token should be refreshed.
-          minimum: 1
-          maximum: 300000
+          title: Password
+          description: Select or create a stored text secret for the ServiceNow password value
+        useCustomOAuthParamsOrHeaders:
+          type: boolean
+          title: Use custom parameters and/or headers
+          description: Enable custom OAuth request parameters or headers for advanced ServiceNow configurations. Leave disabled for standard ServiceNow OAuth flows.
         oauthParams:
           type: array
           title: OAuth parameters
@@ -22573,6 +22585,14 @@ components:
           description: Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request.
           items:
             $ref: "#/components/schemas/ItemsTypeOauthHeaders"
+        clientId:
+          type: string
+          title: ServiceNow OAuth client ID
+          pattern: .*\S.*
+        clientTextSecret:
+          type: string
+          title: Client secret
+          description: Select or create a stored text secret for the OAuth client secret value
         stateUpdateExpression:
           type: string
           title: State update expression
@@ -22595,9 +22615,12 @@ components:
         __template_query:
           type: string
           description: Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime.
-        __template_loginUrl:
+        __template_username:
           type: string
-          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime.
+          description: Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime.
+        __template_clientId:
+          type: string
+          description: Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime.
     InputZscalerHec:
       type: object
       required:
@@ -23050,6 +23073,9 @@ components:
         __template_port:
           type: string
           description: Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime.
+        __template_hecAPI:
+          type: string
+          description: Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime.
     InputOpenaiComplianceLogs:
       type: object
       required:
@@ -29682,7 +29708,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryUrlAuth"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -29879,7 +29905,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryUrlAuth"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -30074,7 +30100,7 @@ components:
           title: Flush period (sec)
           description: The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent.
         kafkaSchemaRegistry:
-          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout"
+          $ref: "#/components/schemas/KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryUrlAuth"
         connectionTimeout:
           type: number
           title: Connection timeout (ms)
@@ -45051,6 +45077,24 @@ components:
           description: Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId
           items:
             $ref: "#/components/schemas/ItemsTypeSaslSaslExtensions"
+        __template_mechanism:
+          type: string
+          description: Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime.
+        __template_keytabLocation:
+          type: string
+          description: Binds 'keytabLocation' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'keytabLocation' at runtime.
+        __template_principal:
+          type: string
+          description: Binds 'principal' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'principal' at runtime.
+        __template_brokerServiceClass:
+          type: string
+          description: Binds 'brokerServiceClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokerServiceClass' at runtime.
+        __template_tokenUrl:
+          type: string
+          description: Binds 'tokenUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenUrl' at runtime.
+        __template_clientId:
+          type: string
+          description: Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime.
     TlsSettingsServerSideType:
       type: object
       title: TLS settings (server side)
@@ -45727,13 +45771,16 @@ components:
           $ref: "#/components/schemas/AuthType"
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideTypeCaPathCertPath"
+        __template_schemaRegistryURL:
+          type: string
+          description: Binds 'schemaRegistryURL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'schemaRegistryURL' at runtime.
     RunSettingsTypeRunnableJobCollectionSchedule:
       type: object
       title: Run settings
       allOf:
         - $ref: "#/components/schemas/RunnableJobCollectionTypeCollectionConstraint"
         - $ref: "#/components/schemas/RunnableJobCollectionScheduleRunType"
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout:
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryUrlAuth:
       type: object
       title: Kafka Schema Registry Authentication
       required:
@@ -45776,6 +45823,9 @@ components:
           type: number
           title: Default value schema ID
           description: Used when __valueSchemaIdOut is not present, to transform _raw, leave blank if value transformation is not required by default.
+        __template_schemaRegistryURL:
+          type: string
+          description: Binds 'schemaRegistryURL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'schemaRegistryURL' at runtime.
     RunSettingsTypeSavedJobResponseCollectionSchedule:
       type: object
       title: Run settings

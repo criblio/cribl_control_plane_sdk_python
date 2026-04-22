@@ -8,9 +8,9 @@ from .authenticationmethodoptionss3collectorconf import (
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
 from .compressionoptionspq import CompressionOptionsPq
-from .kafkaschemaregistryauthenticationtypeauthconnectiontimeout import (
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout,
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict,
+from .kafkaschemaregistryauthenticationtypetemplateschemaregistryurlauth import (
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth,
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict,
 )
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
@@ -74,7 +74,7 @@ class OutputMskTypedDict(TypedDict):
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
     kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+        KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -227,7 +227,7 @@ class OutputMsk(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 

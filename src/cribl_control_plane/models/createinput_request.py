@@ -23,7 +23,7 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
-from .createinput_memory_systemmetrics import (
+from .createinput_memory_mode_systemmetrics import (
     CreateInputCPUSystemMetrics,
     CreateInputCPUSystemMetricsTypedDict,
     CreateInputInputAppscope,
@@ -98,8 +98,7 @@ from .createinput_memory_systemmetrics import (
     CreateInputInputWizWebhookTypedDict,
     CreateInputInputZscalerHec,
     CreateInputInputZscalerHecTypedDict,
-    CreateInputMemorySystemMetrics,
-    CreateInputMemorySystemMetricsTypedDict,
+    CreateInputMemoryModeSystemMetrics,
     CreateInputSystemSystemMetrics,
     CreateInputSystemSystemMetricsTypedDict,
     CreateInputTypeSystemMetrics,
@@ -167,6 +166,46 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputMemorySystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputMemoryModeSystemMetrics]
+    r"""Select the level of detail for memory metrics"""
+    detail: NotRequired[bool]
+    r"""Generate metrics for all memory states"""
+
+
+class CreateInputMemorySystemMetrics(BaseModel):
+    mode: Optional[CreateInputMemoryModeSystemMetrics] = None
+    r"""Select the level of detail for memory metrics"""
+
+    detail: Optional[bool] = None
+    r"""Generate metrics for all memory states"""
+
+    @field_serializer("mode")
+    def serialize_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputMemoryModeSystemMetrics(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "detail"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputNetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -7453,6 +7492,8 @@ class CreateInputInputElasticTypedDict(TypedDict):
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_elastic_api: NotRequired[str]
+    r"""Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime."""
 
 
 class CreateInputInputElastic(BaseModel):
@@ -7609,6 +7650,11 @@ class CreateInputInputElastic(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    template_elastic_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_elasticAPI")
+    ] = None
+    r"""Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -7665,6 +7711,7 @@ class CreateInputInputElastic(BaseModel):
                 "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_elasticAPI",
             ]
         )
         serialized = handler(self)
@@ -10297,36 +10344,36 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputWizTypedDict,
         CreateInputInputFileTypedDict,
         CreateInputInputOffice365MgmtTypedDict,
-        CreateInputInputAppscopeTypedDict,
         CreateInputInputSplunkTypedDict,
-        CreateInputInputWefTypedDict,
-        CreateInputInputWizWebhookTypedDict,
+        CreateInputInputAppscopeTypedDict,
         CreateInputInputHTTPRawTypedDict,
+        CreateInputInputWizWebhookTypedDict,
         CreateInputInputZscalerHecTypedDict,
-        CreateInputInputCloudflareHecTypedDict,
-        CreateInputInputEventhubTypedDict,
+        CreateInputInputWefTypedDict,
         CreateInputInputKafkaTypedDict,
+        CreateInputInputEventhubTypedDict,
         CreateInputInputConfluentCloudTypedDict,
         CreateInputInputLokiTypedDict,
+        CreateInputInputCloudflareHecTypedDict,
         CreateInputInputHTTPTypedDict,
-        CreateInputInputPrometheusRwTypedDict,
         CreateInputInputCriblLakeHTTPTypedDict,
-        CreateInputInputOpenTelemetryTypedDict,
-        CreateInputInputElasticTypedDict,
+        CreateInputInputPrometheusRwTypedDict,
         CreateInputInputAzureBlobTypedDict,
         CreateInputInputOpenaiComplianceLogsTypedDict,
+        CreateInputInputElasticTypedDict,
+        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputSplunkHecTypedDict,
         CreateInputInputMicrosoftGraphTypedDict,
         CreateInputInputSqsTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
         CreateInputInputKinesisTypedDict,
         CreateInputInputSplunkSearchTypedDict,
-        CreateInputInputCrowdstrikeTypedDict,
         CreateInputInputEdgePrometheusTypedDict,
+        CreateInputInputCrowdstrikeTypedDict,
         CreateInputInputServicenowTableTypedDict,
         CreateInputInputS3TypedDict,
-        CreateInputInputMskTypedDict,
         CreateInputInputSecurityLakeTypedDict,
+        CreateInputInputMskTypedDict,
         CreateInputInputS3InventoryTypedDict,
         CreateInputInputPrometheusTypedDict,
         CreateInputInputSyslogUnionTypedDict,

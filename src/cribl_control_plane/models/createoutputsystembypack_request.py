@@ -137,9 +137,9 @@ from .itemstypesaslsaslextensions import (
     ItemsTypeSaslSaslExtensions,
     ItemsTypeSaslSaslExtensionsTypedDict,
 )
-from .kafkaschemaregistryauthenticationtypeauthconnectiontimeout import (
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout,
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict,
+from .kafkaschemaregistryauthenticationtypetemplateschemaregistryurlauth import (
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth,
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict,
 )
 from .maxs2sversionoptions import MaxS2SVersionOptions
 from .methodoptions import MethodOptions
@@ -3019,7 +3019,7 @@ class CreateOutputSystemByPackOutputMskTypedDict(TypedDict):
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
     kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+        KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -3172,7 +3172,7 @@ class CreateOutputSystemByPackOutputMsk(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -3580,7 +3580,7 @@ class CreateOutputSystemByPackOutputConfluentCloudTypedDict(TypedDict):
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
     kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+        KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -3695,7 +3695,7 @@ class CreateOutputSystemByPackOutputConfluentCloud(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -3992,7 +3992,7 @@ class CreateOutputSystemByPackOutputKafkaTypedDict(TypedDict):
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
     kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+        KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -4106,7 +4106,7 @@ class CreateOutputSystemByPackOutputKafka(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 

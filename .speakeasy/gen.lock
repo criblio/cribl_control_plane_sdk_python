@@ -5,15 +5,15 @@ management:
   docVersion: 4.17.1-b862732f
   speakeasyVersion: 1.761.8
   generationVersion: 2.881.2
-  releaseVersion: 0.7.0rc22
-  configChecksum: 9303eb11aaf14c43e3600201b4747241
+  releaseVersion: 0.7.0
+  configChecksum: 72e9667607add32f22b11275e61bab8f
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: a4c5c54f-2f4d-466d-b6b5-ee1a4ec7bdb3
-  pristine_commit_hash: 152bb246a2674218a4b75460b99c66253c4e2436
-  pristine_tree_hash: 266683eebbe6212d7037695211cb21d607218e86
+  generation_id: ab36a19e-c3f4-4295-b8b7-26504392c87a
+  pristine_commit_hash: 10315abd27a9a0b2fece9f90e31bdc652869a84a
+  pristine_tree_hash: f86cdba6d768f16955f09a08198b1336cd18be31
 features:
   python:
     additionalDependencies: 1.0.0
@@ -13528,8 +13528,8 @@ trackedFiles:
     pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:7e2b4195df1b1a15c64890cf6f295d3026152283
-    pristine_git_object: c76a316d66674dbcce08684b718eb030d55d347f
+    last_write_checksum: sha1:ec563e8d5fb5c8548f7cc755d02cef66357bed95
+    pristine_git_object: fb9e746074e68b6cd5a93f296701ada4356e77f6
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -13560,8 +13560,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:bea05cb234f1c8a7ea2985c1bca1a002b097f466
-    pristine_git_object: 8b37a25e5f38dfec8dc01b852c746bfccaba8a5a
+    last_write_checksum: sha1:f23a2ea2698082bd812a36d34964a69572c9f7c3
+    pristine_git_object: de341ffb11d53ca4036c0f9556a423687b7e5ce3
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:946b9e00ff4cd9f5c57d0b198caa87ccbeb13bea

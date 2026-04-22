@@ -88,6 +88,10 @@ class S3AwsAuthenticationMethodSecretTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
     disable_time_filter: NotRequired[bool]
     r"""Disable Collector event time filtering when a date range is specified"""
+    aws_api_key: NotRequired[str]
+    r"""Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
 
 
 class S3AwsAuthenticationMethodSecret(BaseModel):
@@ -185,6 +189,14 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
     ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -236,6 +248,8 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
                 "rejectUnauthorized",
                 "verifyPermissions",
                 "disableTimeFilter",
+                "awsApiKey",
+                "awsSecretKey",
             ]
         )
         serialized = handler(self)
@@ -323,6 +337,8 @@ class S3AwsAuthenticationMethodManualTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
     disable_time_filter: NotRequired[bool]
     r"""Disable Collector event time filtering when a date range is specified"""
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references AWS access key and secret key."""
 
 
 class S3AwsAuthenticationMethodManual(BaseModel):
@@ -425,6 +441,9 @@ class S3AwsAuthenticationMethodManual(BaseModel):
     ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references AWS access key and secret key."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -477,6 +496,7 @@ class S3AwsAuthenticationMethodManual(BaseModel):
                 "rejectUnauthorized",
                 "verifyPermissions",
                 "disableTimeFilter",
+                "awsSecret",
             ]
         )
         serialized = handler(self)
@@ -560,6 +580,12 @@ class S3AwsAuthenticationMethodAutoTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
     disable_time_filter: NotRequired[bool]
     r"""Disable Collector event time filtering when a date range is specified"""
+    aws_api_key: NotRequired[str]
+    r"""Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references AWS access key and secret key."""
 
 
 class S3AwsAuthenticationMethodAuto(BaseModel):
@@ -654,6 +680,17 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
     ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references AWS access key and secret key."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -704,6 +741,9 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
                 "rejectUnauthorized",
                 "verifyPermissions",
                 "disableTimeFilter",
+                "awsApiKey",
+                "awsSecretKey",
+                "awsSecret",
             ]
         )
         serialized = handler(self)
@@ -789,6 +829,12 @@ class S3PartitioningSchemeNoneTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
     disable_time_filter: NotRequired[bool]
     r"""Disable Collector event time filtering when a date range is specified"""
+    aws_api_key: NotRequired[str]
+    r"""Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references AWS access key and secret key."""
 
 
 class S3PartitioningSchemeNone(BaseModel):
@@ -886,6 +932,17 @@ class S3PartitioningSchemeNone(BaseModel):
     ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references AWS access key and secret key."""
+
     @field_serializer("partitioning_scheme")
     def serialize_partitioning_scheme(self, value):
         if isinstance(value, str):
@@ -937,6 +994,9 @@ class S3PartitioningSchemeNone(BaseModel):
                 "rejectUnauthorized",
                 "verifyPermissions",
                 "disableTimeFilter",
+                "awsApiKey",
+                "awsSecretKey",
+                "awsSecret",
             ]
         )
         serialized = handler(self)
@@ -1020,6 +1080,12 @@ class S3PartitioningSchemeDdssTypedDict(TypedDict):
     r"""Disable if you can access files within the bucket but not the bucket itself. Resolves errors of the form \"discover task initialization failed...error: Forbidden\"."""
     disable_time_filter: NotRequired[bool]
     r"""Disable Collector event time filtering when a date range is specified"""
+    aws_api_key: NotRequired[str]
+    r"""Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references AWS access key and secret key."""
 
 
 class S3PartitioningSchemeDdss(BaseModel):
@@ -1114,6 +1180,17 @@ class S3PartitioningSchemeDdss(BaseModel):
     ] = None
     r"""Disable Collector event time filtering when a date range is specified"""
 
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key. If not present, will fall back to env.AWS_ACCESS_KEY_ID, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. If not present, will fall back to env.AWS_SECRET_ACCESS_KEY, or to the metadata endpoint for IAM creds. Optional when running on AWS. This value can be a constant or a JavaScript expression."""
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references AWS access key and secret key."""
+
     @field_serializer("partitioning_scheme")
     def serialize_partitioning_scheme(self, value):
         if isinstance(value, str):
@@ -1164,6 +1241,9 @@ class S3PartitioningSchemeDdss(BaseModel):
                 "rejectUnauthorized",
                 "verifyPermissions",
                 "disableTimeFilter",
+                "awsApiKey",
+                "awsSecretKey",
+                "awsSecret",
             ]
         )
         serialized = handler(self)
@@ -1185,9 +1265,9 @@ S3CollectorConfTypedDict = TypeAliasType(
     Union[
         S3PartitioningSchemeDdssTypedDict,
         S3AwsAuthenticationMethodAutoTypedDict,
-        S3PartitioningSchemeNoneTypedDict,
-        S3AwsAuthenticationMethodSecretTypedDict,
         S3AwsAuthenticationMethodManualTypedDict,
+        S3AwsAuthenticationMethodSecretTypedDict,
+        S3PartitioningSchemeNoneTypedDict,
     ],
 )
 

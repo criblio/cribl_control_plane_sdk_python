@@ -20,6 +20,10 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
     MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
 )
 from .modeoptions import ModeOptions
+from .orphanfilerecoverytype import (
+    OrphanFileRecoveryType,
+    OrphanFileRecoveryTypeTypedDict,
+)
 from .parquetversionoptions import ParquetVersionOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
@@ -286,6 +290,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_immediately: NotRequired[bool]
@@ -598,6 +603,8 @@ class OutputAzureDataExplorer(BaseModel):
     retry_settings: Annotated[
         Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
     ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
@@ -963,6 +970,7 @@ class OutputAzureDataExplorer(BaseModel):
                 "onDiskFullBackpressure",
                 "addIdToStagePath",
                 "retrySettings",
+                "orphans",
                 "timeoutSec",
                 "flushImmediately",
                 "retainBlobOnSuccess",

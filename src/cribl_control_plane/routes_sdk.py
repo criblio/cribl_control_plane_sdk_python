@@ -85,7 +85,7 @@ class RoutesSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -177,7 +177,7 @@ class RoutesSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -201,13 +201,16 @@ class RoutesSDK(BaseSDK):
         *,
         id_param: str,
         id: str,
-        routes: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        routes: Union[
+            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+        ],
         comments: Optional[
             Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
         ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
+                Dict[str, models.AdditionalPropertiesTypeRoutesGroups],
+                Dict[str, models.AdditionalPropertiesTypeRoutesGroupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -241,15 +244,16 @@ class RoutesSDK(BaseSDK):
 
         request = models.UpdateRoutesByIDRequest(
             id_param=id_param,
-            routes=models.Routes(
+            routes_input=models.RoutesInput(
                 comments=utils.get_pydantic_model(
                     comments, Optional[List[models.RouteComment]]
                 ),
                 groups=utils.get_pydantic_model(
-                    groups, Optional[Dict[str, models.RoutesGroups]]
+                    groups,
+                    Optional[Dict[str, models.AdditionalPropertiesTypeRoutesGroups]],
                 ),
                 id=id,
-                routes=utils.get_pydantic_model(routes, List[models.RouteConf]),
+                routes=utils.get_pydantic_model(routes, List[models.RouteConfInput]),
             ),
         )
 
@@ -267,7 +271,7 @@ class RoutesSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.routes, False, False, "json", models.Routes
+                request.routes_input, False, False, "json", models.RoutesInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -296,7 +300,7 @@ class RoutesSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -320,13 +324,16 @@ class RoutesSDK(BaseSDK):
         *,
         id_param: str,
         id: str,
-        routes: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        routes: Union[
+            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+        ],
         comments: Optional[
             Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
         ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.RoutesGroups], Dict[str, models.RoutesGroupsTypedDict]
+                Dict[str, models.AdditionalPropertiesTypeRoutesGroups],
+                Dict[str, models.AdditionalPropertiesTypeRoutesGroupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -360,15 +367,16 @@ class RoutesSDK(BaseSDK):
 
         request = models.UpdateRoutesByIDRequest(
             id_param=id_param,
-            routes=models.Routes(
+            routes_input=models.RoutesInput(
                 comments=utils.get_pydantic_model(
                     comments, Optional[List[models.RouteComment]]
                 ),
                 groups=utils.get_pydantic_model(
-                    groups, Optional[Dict[str, models.RoutesGroups]]
+                    groups,
+                    Optional[Dict[str, models.AdditionalPropertiesTypeRoutesGroups]],
                 ),
                 id=id,
-                routes=utils.get_pydantic_model(routes, List[models.RouteConf]),
+                routes=utils.get_pydantic_model(routes, List[models.RouteConfInput]),
             ),
         )
 
@@ -386,7 +394,7 @@ class RoutesSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.routes, False, False, "json", models.Routes
+                request.routes_input, False, False, "json", models.RoutesInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -415,7 +423,7 @@ class RoutesSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -500,7 +508,7 @@ class RoutesSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -585,7 +593,7 @@ class RoutesSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -608,7 +616,9 @@ class RoutesSDK(BaseSDK):
         self,
         *,
         id: str,
-        request_body: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        request_body: Union[
+            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -637,7 +647,9 @@ class RoutesSDK(BaseSDK):
 
         request = models.CreateRoutesAppendByIDRequest(
             id=id,
-            request_body=utils.get_pydantic_model(request_body, List[models.RouteConf]),
+            request_body=utils.get_pydantic_model(
+                request_body, List[models.RouteConfInput]
+            ),
         )
 
         req = self._build_request(
@@ -654,7 +666,7 @@ class RoutesSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body, False, False, "json", List[models.RouteConf]
+                request.request_body, False, False, "json", List[models.RouteConfInput]
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -683,7 +695,7 @@ class RoutesSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -706,7 +718,9 @@ class RoutesSDK(BaseSDK):
         self,
         *,
         id: str,
-        request_body: Union[List[models.RouteConf], List[models.RouteConfTypedDict]],
+        request_body: Union[
+            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+        ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -735,7 +749,9 @@ class RoutesSDK(BaseSDK):
 
         request = models.CreateRoutesAppendByIDRequest(
             id=id,
-            request_body=utils.get_pydantic_model(request_body, List[models.RouteConf]),
+            request_body=utils.get_pydantic_model(
+                request_body, List[models.RouteConfInput]
+            ),
         )
 
         req = self._build_request_async(
@@ -752,7 +768,7 @@ class RoutesSDK(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.request_body, False, False, "json", List[models.RouteConf]
+                request.request_body, False, False, "json", List[models.RouteConfInput]
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -781,7 +797,7 @@ class RoutesSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 

@@ -10,7 +10,7 @@ from typing import Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class AuthTypeAuthTypeCredentialsSecretTypedDict(TypedDict):
+class AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict(TypedDict):
     disabled: bool
     username: NotRequired[str]
     password: NotRequired[str]
@@ -22,9 +22,11 @@ class AuthTypeAuthTypeCredentialsSecretTypedDict(TypedDict):
     r"""Enter API key directly"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_manual_api_key: NotRequired[str]
+    r"""Binds 'manualAPIKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'manualAPIKey' at runtime."""
 
 
-class AuthTypeAuthTypeCredentialsSecret(BaseModel):
+class AuthTypeTemplatemanualAPIKeyAuthType(BaseModel):
     disabled: bool
 
     username: Optional[str] = None
@@ -49,6 +51,11 @@ class AuthTypeAuthTypeCredentialsSecret(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_manual_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_manualAPIKey")
+    ] = None
+    r"""Binds 'manualAPIKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'manualAPIKey' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -68,6 +75,7 @@ class AuthTypeAuthTypeCredentialsSecret(BaseModel):
                 "credentialsSecret",
                 "manualAPIKey",
                 "textSecret",
+                "__template_manualAPIKey",
             ]
         )
         serialized = handler(self)
@@ -85,6 +93,6 @@ class AuthTypeAuthTypeCredentialsSecret(BaseModel):
 
 
 try:
-    AuthTypeAuthTypeCredentialsSecret.model_rebuild()
+    AuthTypeTemplatemanualAPIKeyAuthType.model_rebuild()
 except NameError:
     pass

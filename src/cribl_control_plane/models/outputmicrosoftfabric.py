@@ -64,6 +64,14 @@ class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     r"""Scope to pass in the OAuth request parameter"""
     template_mechanism: NotRequired[str]
     r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
+    template_oauth_endpoint: NotRequired[str]
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_scope: NotRequired[str]
+    r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
 
 
 class OutputMicrosoftFabricAuthentication(BaseModel):
@@ -120,6 +128,26 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     ] = None
     r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
 
+    template_oauth_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_oauthEndpoint")
+    ] = None
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_scope: Annotated[
+        Optional[str], pydantic.Field(alias="__template_scope")
+    ] = None
+    r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
+
     @field_serializer("mechanism")
     def serialize_mechanism(self, value):
         if isinstance(value, str):
@@ -165,6 +193,10 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
                 "tenantId",
                 "scope",
                 "__template_mechanism",
+                "__template_oauthEndpoint",
+                "__template_clientId",
+                "__template_tenantId",
+                "__template_scope",
             ]
         )
         serialized = handler(self)
@@ -262,6 +294,8 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     pq_controls: NotRequired[OutputMicrosoftFabricPqControlsTypedDict]
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_bootstrap_server: NotRequired[str]
@@ -421,6 +455,11 @@ class OutputMicrosoftFabric(BaseModel):
     ] = None
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
 
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
@@ -524,6 +563,7 @@ class OutputMicrosoftFabric(BaseModel):
                 "pqMaxBufferSizeBytes",
                 "pqControls",
                 "__template_topic",
+                "__template_format",
                 "__template_onBackpressure",
                 "__template_bootstrap_server",
             ]

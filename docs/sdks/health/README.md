@@ -16,11 +16,15 @@ Get the current health status of the server (Leader or Worker Node).
 
 <!-- UsageSnippet language="python" operationID="getHealth" method="get" path="/health" example="HealthExamplesHealthyPrimary" -->
 ```python
-from cribl_control_plane import CriblControlPlane
+from cribl_control_plane import CriblControlPlane, models
+import os
 
 
 with CriblControlPlane(
     "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
 ) as ccp_client:
 
     res = ccp_client.health.get()

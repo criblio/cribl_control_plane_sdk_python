@@ -372,6 +372,8 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
     template_mapping_ref: NotRequired[str]
     r"""Binds 'mappingRef' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mappingRef' at runtime."""
     template_ingest_url: NotRequired[str]
@@ -808,6 +810,11 @@ class OutputAzureDataExplorer(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
     template_mapping_ref: Annotated[
         Optional[str], pydantic.Field(alias="__template_mappingRef")
     ] = None
@@ -1053,6 +1060,7 @@ class OutputAzureDataExplorer(BaseModel):
                 "__template_clientSecret",
                 "__template_format",
                 "__template_compress",
+                "__template_parquetSchema",
                 "__template_mappingRef",
                 "__template_ingestUrl",
                 "__template_onBackpressure",

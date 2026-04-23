@@ -49,6 +49,18 @@ class AuthenticationTypeTypedDict(TypedDict):
     r"""Additional fields to send to the token endpoint, such as scope or audience"""
     sasl_extensions: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
     r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""
+    template_mechanism: NotRequired[str]
+    r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
+    template_keytab_location: NotRequired[str]
+    r"""Binds 'keytabLocation' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'keytabLocation' at runtime."""
+    template_principal: NotRequired[str]
+    r"""Binds 'principal' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'principal' at runtime."""
+    template_broker_service_class: NotRequired[str]
+    r"""Binds 'brokerServiceClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokerServiceClass' at runtime."""
+    template_token_url: NotRequired[str]
+    r"""Binds 'tokenUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenUrl' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
 
 class AuthenticationType(BaseModel):
@@ -116,6 +128,36 @@ class AuthenticationType(BaseModel):
     ] = None
     r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""
 
+    template_mechanism: Annotated[
+        Optional[str], pydantic.Field(alias="__template_mechanism")
+    ] = None
+    r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
+
+    template_keytab_location: Annotated[
+        Optional[str], pydantic.Field(alias="__template_keytabLocation")
+    ] = None
+    r"""Binds 'keytabLocation' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'keytabLocation' at runtime."""
+
+    template_principal: Annotated[
+        Optional[str], pydantic.Field(alias="__template_principal")
+    ] = None
+    r"""Binds 'principal' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'principal' at runtime."""
+
+    template_broker_service_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_brokerServiceClass")
+    ] = None
+    r"""Binds 'brokerServiceClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokerServiceClass' at runtime."""
+
+    template_token_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tokenUrl")
+    ] = None
+    r"""Binds 'tokenUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenUrl' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -153,6 +195,12 @@ class AuthenticationType(BaseModel):
                 "clientTextSecret",
                 "oauthParams",
                 "saslExtensions",
+                "__template_mechanism",
+                "__template_keytabLocation",
+                "__template_principal",
+                "__template_brokerServiceClass",
+                "__template_tokenUrl",
+                "__template_clientId",
             ]
         )
         serialized = handler(self)

@@ -26,6 +26,8 @@ class KafkaSchemaRegistryAuthenticationTypeTypedDict(TypedDict):
     auth: NotRequired[AuthTypeTypedDict]
     r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    template_schema_registry_url: NotRequired[str]
+    r"""Binds 'schemaRegistryURL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'schemaRegistryURL' at runtime."""
 
 
 class KafkaSchemaRegistryAuthenticationType(BaseModel):
@@ -54,6 +56,11 @@ class KafkaSchemaRegistryAuthenticationType(BaseModel):
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
+    template_schema_registry_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_schemaRegistryURL")
+    ] = None
+    r"""Binds 'schemaRegistryURL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'schemaRegistryURL' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -64,6 +71,7 @@ class KafkaSchemaRegistryAuthenticationType(BaseModel):
                 "maxRetries",
                 "auth",
                 "tls",
+                "__template_schemaRegistryURL",
             ]
         )
         serialized = handler(self)

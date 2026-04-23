@@ -8,7 +8,7 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class HBLeaderInfoTypedDict(TypedDict):
-    r"""Connection parameters for the Leader node, as reported in a Worker heartbeat."""
+    r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
 
     host: str
     r"""Leader hostname or IP address."""
@@ -21,7 +21,7 @@ class HBLeaderInfoTypedDict(TypedDict):
 
 
 class HBLeaderInfo(BaseModel):
-    r"""Connection parameters for the Leader node, as reported in a Worker heartbeat."""
+    r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
 
     host: str
     r"""Leader hostname or IP address."""

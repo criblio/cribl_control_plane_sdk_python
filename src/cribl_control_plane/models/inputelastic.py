@@ -226,6 +226,8 @@ class InputElasticTypedDict(TypedDict):
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_elastic_api: NotRequired[str]
+    r"""Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime."""
 
 
 class InputElastic(BaseModel):
@@ -382,6 +384,11 @@ class InputElastic(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    template_elastic_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_elasticAPI")
+    ] = None
+    r"""Binds 'elasticAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticAPI' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -439,6 +446,7 @@ class InputElastic(BaseModel):
                 "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_elasticAPI",
             ]
         )
         serialized = handler(self)

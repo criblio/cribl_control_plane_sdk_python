@@ -145,6 +145,8 @@ class OutputDatabricksTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class OutputDatabricks(BaseModel):
@@ -404,6 +406,11 @@ class OutputDatabricks(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
@@ -522,6 +529,7 @@ class OutputDatabricks(BaseModel):
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
                 "__template_compress",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)

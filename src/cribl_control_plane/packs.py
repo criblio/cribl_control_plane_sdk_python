@@ -118,7 +118,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -215,7 +215,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -307,7 +307,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -399,7 +399,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -430,7 +430,7 @@ class Packs(BaseSDK):
     ) -> models.UploadPackResponse:
         r"""Upload a Pack file
 
-        Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
+        Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</code>, which you must call separately.
 
         :param filename: Filename of the Pack file to upload.
         :param request_body:
@@ -501,7 +501,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -532,7 +532,7 @@ class Packs(BaseSDK):
     ) -> models.UploadPackResponse:
         r"""Upload a Pack file
 
-        Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
+        Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</code>, which you must call separately.
 
         :param filename: Filename of the Pack file to upload.
         :param request_body:
@@ -603,7 +603,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -695,7 +695,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -787,7 +787,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -879,7 +879,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -971,7 +971,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -1084,7 +1084,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -1197,7 +1197,7 @@ class Packs(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 

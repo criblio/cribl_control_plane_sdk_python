@@ -6,15 +6,11 @@ from enum import Enum
 
 
 class AuthenticationTypeOptions(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""OpenTelemetry authentication type"""
-
     # None
     NONE = "none"
     # Basic
     BASIC = "basic"
     # Basic (credentials secret)
     CREDENTIALS_SECRET = "credentialsSecret"
-    # Token
-    TOKEN = "token"
-    # Token (text secret)
-    TEXT_SECRET = "textSecret"
+    # SSL User Certificate
+    SSL_USER_CERTIFICATE = "sslUserCertificate"

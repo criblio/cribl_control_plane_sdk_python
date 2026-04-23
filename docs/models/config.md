@@ -1,13 +1,13 @@
 # Config
 
-Configuration bundle and policy revision metadata for this node.
+Configuration bundle and policy revision metadata for the node.
 
 
 ## Fields
 
 | Field                                                             | Type                                                              | Required                                                          | Description                                                       |
 | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- | ----------------------------------------------------------------- |
-| `features_rev`                                                    | *Optional[str]*                                                   | :heavy_minus_sign:                                                | Feature flags or feature revision string for this bundle.         |
+| `features_rev`                                                    | *Optional[str]*                                                   | :heavy_minus_sign:                                                | Feature flags or feature revision string for the bundle.          |
 | `hb_period_seconds`                                               | *Optional[int]*                                                   | :heavy_minus_sign:                                                | Worker-to-Leader heartbeat interval, in seconds.                  |
 | `log_stream_env`                                                  | *Optional[str]*                                                   | :heavy_minus_sign:                                                | GitOps or LogStream environment label associated with the bundle. |
 | `policy_rev`                                                      | *Optional[str]*                                                   | :heavy_minus_sign:                                                | Current policies revision string.                                 |

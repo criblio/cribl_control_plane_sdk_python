@@ -437,3 +437,9 @@ value: models.CreateOutputSystemByPackOutputCloudflareR2 = /* values here */
 value: models.CreateOutputSystemByPackOutputNutanixObjects = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputAlphasocS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputAlphasocS3 = /* values here */
+```
+

@@ -393,3 +393,9 @@ value: models.InputCloudflareHec = /* values here */
 value: models.InputOpenaiComplianceLogs = /* values here */
 ```
 
+### `models.InputOkta`
+
+```python
+value: models.InputOkta = /* values here */
+```
+

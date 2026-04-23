@@ -12,10 +12,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class ConfigTypedDict(TypedDict):
-    r"""Configuration bundle and policy revision metadata for this node."""
+    r"""Configuration bundle and policy revision metadata for the node."""
 
     features_rev: NotRequired[str]
-    r"""Feature flags or feature revision string for this bundle."""
+    r"""Feature flags or feature revision string for the bundle."""
     hb_period_seconds: NotRequired[int]
     r"""Worker-to-Leader heartbeat interval, in seconds."""
     log_stream_env: NotRequired[str]
@@ -27,10 +27,10 @@ class ConfigTypedDict(TypedDict):
 
 
 class Config(BaseModel):
-    r"""Configuration bundle and policy revision metadata for this node."""
+    r"""Configuration bundle and policy revision metadata for the node."""
 
     features_rev: Annotated[Optional[str], pydantic.Field(alias="featuresRev")] = None
-    r"""Feature flags or feature revision string for this bundle."""
+    r"""Feature flags or feature revision string for the bundle."""
 
     hb_period_seconds: Annotated[
         Optional[int], pydantic.Field(alias="hbPeriodSeconds")
@@ -68,7 +68,7 @@ class Config(BaseModel):
 
 
 class DistMode(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Distributed deployment mode for this instance."""
+    r"""Distributed deployment mode for the instance."""
 
     EDGE = "edge"
     MANAGED_EDGE = "managed-edge"
@@ -81,60 +81,60 @@ class DistMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class HBCriblInfoTypedDict(TypedDict):
     config: ConfigTypedDict
-    r"""Configuration bundle and policy revision metadata for this node."""
+    r"""Configuration bundle and policy revision metadata for the node."""
     dist_mode: DistMode
-    r"""Distributed deployment mode for this instance."""
+    r"""Distributed deployment mode for the instance."""
     group: str
-    r"""Worker group or fleet name."""
+    r"""Worker Group or Edge Fleet name."""
     guid: str
-    r"""Unique instance identifier for this Cribl node."""
+    r"""Unique instance identifier for the Cribl node."""
     start_time: int
-    r"""Unix epoch time in milliseconds when the Cribl server process started."""
+    r"""Timestamp (in Unix time) when the Cribl server process started, in milliseconds."""
     deployment_id: NotRequired[str]
-    r"""Deployment identifier for this node or fleet, when assigned."""
+    r"""Unique identifier for the deployment assigned for the node."""
     disable_sni_routing: NotRequired[bool]
-    r"""If <code>true</code>, SNI-based routing to the Leader is disabled for this connection."""
+    r"""If <code>true</code>, SNI-based routing to the Leader is disabled for the connection."""
     edge_nodes: NotRequired[int]
     r"""Count of Edge nodes reported in the Leader heartbeat."""
     install_type: NotRequired[str]
     r"""Value of the <code>CRIBL_INSTALL_TYPE</code> environment variable, relayed for upgrade decisions (since 4.5.0)."""
     lookup_versions: NotRequired[Dict[str, Dict[str, str]]]
-    r"""Lookup file deployment versions."""
+    r"""Objects that map Lookup files to deployment versions."""
     master: NotRequired[HBLeaderInfoTypedDict]
-    r"""Connection parameters for the Leader node, as reported in a Worker heartbeat."""
+    r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
     pid: NotRequired[int]
-    r"""PID."""
+    r"""The process ID."""
     socks_enabled: NotRequired[bool]
-    r"""If <code>true</code>, SOCKS proxy connectivity is enabled for this node."""
+    r"""If <code>true</code>, SOCKS proxy connectivity is enabled for the node."""
     tags: NotRequired[List[str]]
     r"""Tags from the node."""
     version: NotRequired[str]
-    r"""Cribl software version string for this node."""
+    r"""Cribl software version string for the node."""
 
 
 class HBCriblInfo(BaseModel):
     config: Config
-    r"""Configuration bundle and policy revision metadata for this node."""
+    r"""Configuration bundle and policy revision metadata for the node."""
 
     dist_mode: Annotated[DistMode, pydantic.Field(alias="distMode")]
-    r"""Distributed deployment mode for this instance."""
+    r"""Distributed deployment mode for the instance."""
 
     group: str
-    r"""Worker group or fleet name."""
+    r"""Worker Group or Edge Fleet name."""
 
     guid: str
-    r"""Unique instance identifier for this Cribl node."""
+    r"""Unique instance identifier for the Cribl node."""
 
     start_time: Annotated[int, pydantic.Field(alias="startTime")]
-    r"""Unix epoch time in milliseconds when the Cribl server process started."""
+    r"""Timestamp (in Unix time) when the Cribl server process started, in milliseconds."""
 
     deployment_id: Annotated[Optional[str], pydantic.Field(alias="deploymentId")] = None
-    r"""Deployment identifier for this node or fleet, when assigned."""
+    r"""Unique identifier for the deployment assigned for the node."""
 
     disable_sni_routing: Annotated[
         Optional[bool], pydantic.Field(alias="disableSNIRouting")
     ] = None
-    r"""If <code>true</code>, SNI-based routing to the Leader is disabled for this connection."""
+    r"""If <code>true</code>, SNI-based routing to the Leader is disabled for the connection."""
 
     edge_nodes: Annotated[Optional[int], pydantic.Field(alias="edgeNodes")] = None
     r"""Count of Edge nodes reported in the Leader heartbeat."""
@@ -145,24 +145,24 @@ class HBCriblInfo(BaseModel):
     lookup_versions: Annotated[
         Optional[Dict[str, Dict[str, str]]], pydantic.Field(alias="lookupVersions")
     ] = None
-    r"""Lookup file deployment versions."""
+    r"""Objects that map Lookup files to deployment versions."""
 
     master: Optional[HBLeaderInfo] = None
-    r"""Connection parameters for the Leader node, as reported in a Worker heartbeat."""
+    r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
 
     pid: Optional[int] = None
-    r"""PID."""
+    r"""The process ID."""
 
     socks_enabled: Annotated[Optional[bool], pydantic.Field(alias="socksEnabled")] = (
         None
     )
-    r"""If <code>true</code>, SOCKS proxy connectivity is enabled for this node."""
+    r"""If <code>true</code>, SOCKS proxy connectivity is enabled for the node."""
 
     tags: Optional[List[str]] = None
     r"""Tags from the node."""
 
     version: Optional[str] = None
-    r"""Cribl software version string for this node."""
+    r"""Cribl software version string for the node."""
 
     @field_serializer("dist_mode")
     def serialize_dist_mode(self, value):

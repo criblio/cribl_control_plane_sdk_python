@@ -368,6 +368,10 @@ class InputWefTypedDict(TypedDict):
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_keytab: NotRequired[str]
+    r"""Binds 'keytab' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'keytab' at runtime."""
+    template_principal: NotRequired[str]
+    r"""Binds 'principal' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'principal' at runtime."""
 
 
 class InputWef(BaseModel):
@@ -502,6 +506,16 @@ class InputWef(BaseModel):
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
+    template_keytab: Annotated[
+        Optional[str], pydantic.Field(alias="__template_keytab")
+    ] = None
+    r"""Binds 'keytab' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'keytab' at runtime."""
+
+    template_principal: Annotated[
+        Optional[str], pydantic.Field(alias="__template_principal")
+    ] = None
+    r"""Binds 'principal' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'principal' at runtime."""
+
     @field_serializer("auth_method")
     def serialize_auth_method(self, value):
         if isinstance(value, str):
@@ -545,6 +559,8 @@ class InputWef(BaseModel):
                 "__template_environment",
                 "__template_host",
                 "__template_port",
+                "__template_keytab",
+                "__template_principal",
             ]
         )
         serialized = handler(self)

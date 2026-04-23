@@ -57,6 +57,100 @@ class InputOpenTelemetryAuthenticationType(str, Enum, metaclass=utils.OpenEnumMe
     TEXT_SECRET = "textSecret"
 
 
+class InputOpenTelemetryAuthMethodsExtAuthenticationType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # Token
+    TOKEN = "token"
+    # Token (secret)
+    TOKEN_SECRET = "tokenSecret"
+    # Basic
+    BASIC = "basic"
+    # Basic (credentials secret)
+    BASIC_SECRET = "basicSecret"
+
+
+class AuthMethodsExtTypedDict(TypedDict):
+    auth_type: InputOpenTelemetryAuthMethodsExtAuthenticationType
+    token: NotRequired[str]
+    r"""Bearer token for Authorization header"""
+    description: NotRequired[str]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events referencing this auth method"""
+    enabled: NotRequired[bool]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class AuthMethodsExt(BaseModel):
+    auth_type: Annotated[
+        InputOpenTelemetryAuthMethodsExtAuthenticationType,
+        pydantic.Field(alias="authType"),
+    ]
+
+    token: Optional[str] = None
+    r"""Bearer token for Authorization header"""
+
+    description: Optional[str] = None
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events referencing this auth method"""
+
+    enabled: Optional[bool] = None
+
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputOpenTelemetryAuthMethodsExtAuthenticationType(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "token",
+                "description",
+                "metadata",
+                "enabled",
+                "tokenSecret",
+                "username",
+                "password",
+                "credentialsSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class InputOpenTelemetryTypedDict(TypedDict):
     type: InputOpenTelemetryType
     host: str
@@ -106,6 +200,8 @@ class InputOpenTelemetryTypedDict(TypedDict):
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
     auth_type: NotRequired[InputOpenTelemetryAuthenticationType]
     r"""OpenTelemetry authentication type"""
+    auth_methods_ext: NotRequired[List[AuthMethodsExtTypedDict]]
+    r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
@@ -234,6 +330,11 @@ class InputOpenTelemetry(BaseModel):
     ] = None
     r"""OpenTelemetry authentication type"""
 
+    auth_methods_ext: Annotated[
+        Optional[List[AuthMethodsExt]], pydantic.Field(alias="authMethodsExt")
+    ] = None
+    r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
+
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
@@ -341,6 +442,7 @@ class InputOpenTelemetry(BaseModel):
                 "extractMetrics",
                 "otlpVersion",
                 "authType",
+                "authMethodsExt",
                 "metadata",
                 "maxActiveCxn",
                 "description",
@@ -371,6 +473,10 @@ class InputOpenTelemetry(BaseModel):
         return m
 
 
+try:
+    AuthMethodsExt.model_rebuild()
+except NameError:
+    pass
 try:
     InputOpenTelemetry.model_rebuild()
 except NameError:

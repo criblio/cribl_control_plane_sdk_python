@@ -6600,6 +6600,99 @@ class CreateInputAuthenticationTypeOpenTelemetry(
     TEXT_SECRET = "textSecret"
 
 
+class CreateInputAuthMethodsExtAuthenticationType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    # Token
+    TOKEN = "token"
+    # Token (secret)
+    TOKEN_SECRET = "tokenSecret"
+    # Basic
+    BASIC = "basic"
+    # Basic (credentials secret)
+    BASIC_SECRET = "basicSecret"
+
+
+class CreateInputAuthMethodsExtTypedDict(TypedDict):
+    auth_type: CreateInputAuthMethodsExtAuthenticationType
+    token: NotRequired[str]
+    r"""Bearer token for Authorization header"""
+    description: NotRequired[str]
+    metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
+    r"""Fields to add to events referencing this auth method"""
+    enabled: NotRequired[bool]
+    token_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+
+
+class CreateInputAuthMethodsExt(BaseModel):
+    auth_type: Annotated[
+        CreateInputAuthMethodsExtAuthenticationType, pydantic.Field(alias="authType")
+    ]
+
+    token: Optional[str] = None
+    r"""Bearer token for Authorization header"""
+
+    description: Optional[str] = None
+
+    metadata: Optional[List[ItemsTypeMetadata]] = None
+    r"""Fields to add to events referencing this auth method"""
+
+    enabled: Optional[bool] = None
+
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputAuthMethodsExtAuthenticationType(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "token",
+                "description",
+                "metadata",
+                "enabled",
+                "tokenSecret",
+                "username",
+                "password",
+                "credentialsSecret",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
@@ -6649,6 +6742,8 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
     auth_type: NotRequired[CreateInputAuthenticationTypeOpenTelemetry]
     r"""OpenTelemetry authentication type"""
+    auth_methods_ext: NotRequired[List[CreateInputAuthMethodsExtTypedDict]]
+    r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
@@ -6778,6 +6873,12 @@ class CreateInputInputOpenTelemetry(BaseModel):
     ] = None
     r"""OpenTelemetry authentication type"""
 
+    auth_methods_ext: Annotated[
+        Optional[List[CreateInputAuthMethodsExt]],
+        pydantic.Field(alias="authMethodsExt"),
+    ] = None
+    r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
+
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
@@ -6884,6 +6985,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
                 "extractMetrics",
                 "otlpVersion",
                 "authType",
+                "authMethodsExt",
                 "metadata",
                 "maxActiveCxn",
                 "description",
@@ -11543,69 +11645,6 @@ class CreateInputCPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class CreateInputCPUSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputCPUModeSystemMetrics]
-    r"""Select the level of detail for CPU metrics"""
-    per_cpu: NotRequired[bool]
-    r"""Generate metrics for each CPU"""
-    detail: NotRequired[bool]
-    r"""Generate metrics for all CPU states"""
-    time: NotRequired[bool]
-    r"""Generate raw, monotonic CPU time counters"""
-
-
-class CreateInputCPUSystemMetrics(BaseModel):
-    mode: Optional[CreateInputCPUModeSystemMetrics] = None
-    r"""Select the level of detail for CPU metrics"""
-
-    per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
-    r"""Generate metrics for each CPU"""
-
-    detail: Optional[bool] = None
-    r"""Generate metrics for all CPU states"""
-
-    time: Optional[bool] = None
-    r"""Generate raw, monotonic CPU time counters"""
-
-    @field_serializer("mode")
-    def serialize_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CreateInputCPUModeSystemMetrics(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["mode", "perCpu", "detail", "time"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class CreateInputMemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Select the level of detail for memory metrics"""
-
-    # Basic
-    BASIC = "basic"
-    # All
-    ALL = "all"
-    # Custom
-    CUSTOM = "custom"
-    # Disabled
-    DISABLED = "disabled"
-
-
 try:
     CreateInputInputOkta.model_rebuild()
 except NameError:
@@ -11735,6 +11774,10 @@ try:
 except NameError:
     pass
 try:
+    CreateInputAuthMethodsExt.model_rebuild()
+except NameError:
+    pass
+try:
     CreateInputInputOpenTelemetry.model_rebuild()
 except NameError:
     pass
@@ -11844,9 +11887,5 @@ except NameError:
     pass
 try:
     CreateInputInputSystemState.model_rebuild()
-except NameError:
-    pass
-try:
-    CreateInputCPUSystemMetrics.model_rebuild()
 except NameError:
     pass

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776812634562-fcf48b5e
+  version: 4.18.0-alpha.1776899118430-0a861897
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -19841,6 +19841,68 @@ components:
             - Token
             - Token (text secret)
           x-speakeasy-unknown-values: allow
+        authMethodsExt:
+          type: array
+          title: Auth methods
+          description: Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted.
+          minItems: 0
+          items:
+            type: object
+            required:
+              - authType
+            properties:
+              authType:
+                type: string
+                title: Authentication type
+                enum:
+                  - token
+                  - tokenSecret
+                  - basic
+                  - basicSecret
+                x-speakeasy-enum-descriptions:
+                  - Token
+                  - Token (secret)
+                  - Basic
+                  - Basic (credentials secret)
+                x-speakeasy-unknown-values: allow
+              token:
+                type: string
+                minLength: 1
+                pattern: .*\S.*
+                title: Token
+                description: Bearer token for Authorization header
+              description:
+                type: string
+                title: Description
+              metadata:
+                type: array
+                title: Fields
+                description: Fields to add to events referencing this auth method
+                items:
+                  $ref: "#/components/schemas/ItemsTypeMetadata"
+              enabled:
+                type: boolean
+                title: Enable
+              tokenSecret:
+                type: string
+                title: Token secret (text secret)
+                description: Select or create a stored text secret
+                minLength: 1
+              username:
+                type: string
+                minLength: 1
+                pattern: .*\S.*
+                title: Username
+              password:
+                type: string
+                minLength: 1
+                pattern: .*\S.*
+                title: Password
+              credentialsSecret:
+                type: string
+                title: Credentials secret
+                description: Select or create a secret that references your credentials
+                minLength: 1
         metadata:
           type: array
           title: Fields
@@ -22430,6 +22492,7 @@ components:
           description: Field names to return from the Table API (sysparm_fields). Leave empty to return all fields.
           items:
             type: string
+            pattern: ^[^*?\[\]]+$
         orderByField:
           type: string
           title: Sort by field
@@ -42299,11 +42362,7 @@ components:
           checksumAfter:
             type: string
           checksumBefore:
-            oneOf:
-              - type: string
-              - type: array
-                items:
-                  type: string
+            $ref: "#/components/schemas/ScalarOrArray"
           deletedFileMode:
             type: string
           deletedLines:
@@ -42335,11 +42394,7 @@ components:
           newName:
             type: string
           oldMode:
-            oneOf:
-              - type: string
-              - type: array
-                items:
-                  type: string
+            $ref: "#/components/schemas/ScalarOrArray"
           oldName:
             type: string
           unchangedPercentage:
@@ -44579,6 +44634,12 @@ components:
         - stream
       description: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
       x-speakeasy-unknown-values: allow
+    ScalarOrArray:
+      oneOf:
+        - type: string
+        - type: array
+          items:
+            type: string
     AwsTypeHeartbeatMetadata:
       type: object
       properties:

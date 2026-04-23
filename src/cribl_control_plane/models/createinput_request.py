@@ -23,9 +23,8 @@ from .certificatetypeazureblobauthtypeclientcert import (
     CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
 )
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
-from .createinput_memory_mode_systemmetrics import (
-    CreateInputCPUSystemMetrics,
-    CreateInputCPUSystemMetricsTypedDict,
+from .createinput_cpu_mode_systemmetrics import (
+    CreateInputCPUModeSystemMetrics,
     CreateInputInputAppscope,
     CreateInputInputAppscopeTypedDict,
     CreateInputInputCloudflareHec,
@@ -98,7 +97,6 @@ from .createinput_memory_mode_systemmetrics import (
     CreateInputInputWizWebhookTypedDict,
     CreateInputInputZscalerHec,
     CreateInputInputZscalerHecTypedDict,
-    CreateInputMemoryModeSystemMetrics,
     CreateInputSystemSystemMetrics,
     CreateInputSystemSystemMetricsTypedDict,
     CreateInputTypeSystemMetrics,
@@ -166,6 +164,69 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputCPUSystemMetricsTypedDict(TypedDict):
+    mode: NotRequired[CreateInputCPUModeSystemMetrics]
+    r"""Select the level of detail for CPU metrics"""
+    per_cpu: NotRequired[bool]
+    r"""Generate metrics for each CPU"""
+    detail: NotRequired[bool]
+    r"""Generate metrics for all CPU states"""
+    time: NotRequired[bool]
+    r"""Generate raw, monotonic CPU time counters"""
+
+
+class CreateInputCPUSystemMetrics(BaseModel):
+    mode: Optional[CreateInputCPUModeSystemMetrics] = None
+    r"""Select the level of detail for CPU metrics"""
+
+    per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
+    r"""Generate metrics for each CPU"""
+
+    detail: Optional[bool] = None
+    r"""Generate metrics for all CPU states"""
+
+    time: Optional[bool] = None
+    r"""Generate raw, monotonic CPU time counters"""
+
+    @field_serializer("mode")
+    def serialize_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CreateInputCPUModeSystemMetrics(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "perCpu", "detail", "time"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputMemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Select the level of detail for memory metrics"""
+
+    # Basic
+    BASIC = "basic"
+    # All
+    ALL = "all"
+    # Custom
+    CUSTOM = "custom"
+    # Disabled
+    DISABLED = "disabled"
 
 
 class CreateInputMemorySystemMetricsTypedDict(TypedDict):
@@ -10457,6 +10518,10 @@ CreateInputRequest = Annotated[
 r"""Input object"""
 
 
+try:
+    CreateInputCPUSystemMetrics.model_rebuild()
+except NameError:
+    pass
 try:
     CreateInputNetworkSystemMetrics.model_rebuild()
 except NameError:

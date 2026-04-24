@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1776899118430-0a861897
+  version: 4.18.0-alpha.1776985436024-4d6d9d19
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -15974,7 +15974,7 @@ components:
         auth:
           type: object
           required:
-            - authType
+            - mechanism
           properties:
             mechanism:
               type: string
@@ -36749,7 +36749,7 @@ components:
           title: Body size limit (KB)
           description: Maximum size, in KB, of the request body
           minimum: 1024
-          maximum: 10240
+          maximum: 25600
         maxPayloadEvents:
           type: number
           title: Events-per-request limit
@@ -37017,7 +37017,7 @@ components:
           title: Body size limit (KB)
           description: Maximum size, in KB, of the request body
           minimum: 1024
-          maximum: 10240
+          maximum: 25600
         maxPayloadEvents:
           type: number
           title: Events-per-request limit
@@ -41539,34 +41539,35 @@ components:
         - BeforePostProcessingPipeline
         - BeforeDestination
       x-speakeasy-unknown-values: allow
-    CaptureParams:
+    CaptureParamsReq:
       type: object
       properties:
         duration:
-          type: number
-          description: Amount of time to keep capture open, in seconds.
+          type: integer
+          description: Amount of time to keep capture open, in seconds. If not provided, the default is 5 seconds.
+          minimum: 1
         filter:
           type: string
-          description: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators.
+          description: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators. If not provided, all events are captured.
         level:
           $ref: "#/components/schemas/CaptureLevel"
+          description: Stage at which events are captured. If not provided, the default is 0.
+          minimum: 0
+          maximum: 3
         maxEvents:
           type: integer
-          description: Maximum number of events to capture.
+          description: Maximum number of events to capture. If not provided, the default is 100.
+          minimum: 1
+          maximum: 10000
         stepDuration:
           type: integer
-          description: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer.
+          description: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer. If not provided, the default is 5 seconds.
         workerId:
           type: string
           description: Unique ID of the Worker.
         workerThreshold:
           type: integer
-          description: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture).
-      required:
-        - duration
-        - filter
-        - level
-        - maxEvents
+          description: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture). If not provided, the default is 50.
     CountedNumber:
       type: object
       properties:
@@ -54083,12 +54084,12 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
       requestBody:
-        description: CaptureParams object
+        description: CaptureParamsReq object
         required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CaptureParams"
+              $ref: "#/components/schemas/CaptureParamsReq"
             examples:
               CaptureExamplesSimpleExpression:
                 $ref: "#/components/examples/CaptureExamplesSimpleExpression"
@@ -54360,8 +54361,11 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Get the health status of the server
-      description: Get the current health status of the server (Leader or Worker Node).
-      security: []
+      description: Get the current health status of the server (Leader or Worker Node).  In Distributed deployments, requests routed to a Worker or Edge node using the [host context](https://docs.cribl.io/cribl-as-code/api#base-url-group-fleet-host) require a Bearer token for [authentication](https://docs.cribl.io/cribl-as-code/api-auth/).
+      security:
+        - {}
+        - bearerAuth: []
+        - clientOauth: []
       responses:
         "200":
           description: Healthy status

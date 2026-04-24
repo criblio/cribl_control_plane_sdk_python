@@ -13,10 +13,10 @@ class Captures(BaseSDK):
     def create(
         self,
         *,
-        duration: float,
-        filter_: str,
-        level: models.CaptureLevel,
-        max_events: int,
+        duration: Optional[int] = None,
+        filter_: Optional[str] = None,
+        level: Optional[models.CaptureLevel] = None,
+        max_events: Optional[int] = None,
         step_duration: Optional[int] = None,
         worker_id: Optional[str] = None,
         worker_threshold: Optional[int] = None,
@@ -29,13 +29,13 @@ class Captures(BaseSDK):
 
         Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
 
-        :param duration: Amount of time to keep capture open, in seconds.
-        :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators.
+        :param duration: Amount of time to keep capture open, in seconds. If not provided, the default is 5 seconds.
+        :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators. If not provided, all events are captured.
         :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination.
-        :param max_events: Maximum number of events to capture.
-        :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer.
+        :param max_events: Maximum number of events to capture. If not provided, the default is 100.
+        :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer. If not provided, the default is 5 seconds.
         :param worker_id: Unique ID of the Worker.
-        :param worker_threshold: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture).
+        :param worker_threshold: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture). If not provided, the default is 50.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -51,7 +51,7 @@ class Captures(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CaptureParams(
+        request = models.CaptureParamsReq(
             duration=duration,
             filter_=filter_,
             level=level,
@@ -75,7 +75,7 @@ class Captures(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CaptureParams
+                request, False, False, "json", models.CaptureParamsReq
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -135,10 +135,10 @@ class Captures(BaseSDK):
     async def create_async(
         self,
         *,
-        duration: float,
-        filter_: str,
-        level: models.CaptureLevel,
-        max_events: int,
+        duration: Optional[int] = None,
+        filter_: Optional[str] = None,
+        level: Optional[models.CaptureLevel] = None,
+        max_events: Optional[int] = None,
         step_duration: Optional[int] = None,
         worker_id: Optional[str] = None,
         worker_threshold: Optional[int] = None,
@@ -151,13 +151,13 @@ class Captures(BaseSDK):
 
         Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
 
-        :param duration: Amount of time to keep capture open, in seconds.
-        :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators.
+        :param duration: Amount of time to keep capture open, in seconds. If not provided, the default is 5 seconds.
+        :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators. If not provided, all events are captured.
         :param level: Stage at which events are captured. <br><code>0</code> == Before pre-processing Pipeline <br><code>1</code> == Before the Routes <br><code>2</code> == Before post-processing Pipeline <br><code>3</code> == Before the Destination.
-        :param max_events: Maximum number of events to capture.
-        :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer.
+        :param max_events: Maximum number of events to capture. If not provided, the default is 100.
+        :param step_duration: How long to wait before increasing the capture sample size. Specify <code>1</code> second or longer. If not provided, the default is 5 seconds.
         :param worker_id: Unique ID of the Worker.
-        :param worker_threshold: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture).
+        :param worker_threshold: Maximum number of Workers that can capture initially. A value of <code>0</code> means unlimited (all available Workers can capture). If not provided, the default is 50.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -173,7 +173,7 @@ class Captures(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CaptureParams(
+        request = models.CaptureParamsReq(
             duration=duration,
             filter_=filter_,
             level=level,
@@ -197,7 +197,7 @@ class Captures(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CaptureParams
+                request, False, False, "json", models.CaptureParamsReq
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,

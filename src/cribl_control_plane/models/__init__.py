@@ -119,7 +119,7 @@ if TYPE_CHECKING:
     from .cacheconnection import CacheConnection, CacheConnectionTypedDict
     from .cacheconnectionbackfillstatus import CacheConnectionBackfillStatus
     from .capturelevel import CaptureLevel
-    from .captureparams import CaptureParams, CaptureParamsTypedDict
+    from .captureparamsreq import CaptureParamsReq, CaptureParamsReqTypedDict
     from .certificatetypeazureblobauthtypeclientcert import (
         CertificateTypeAzureBlobAuthTypeClientCert,
         CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
@@ -6682,8 +6682,8 @@ __all__ = [
     "CacheConnectionBackfillStatus",
     "CacheConnectionTypedDict",
     "CaptureLevel",
-    "CaptureParams",
-    "CaptureParamsTypedDict",
+    "CaptureParamsReq",
+    "CaptureParamsReqTypedDict",
     "CaptureSettings",
     "CaptureSettingsTypedDict",
     "CertOptionsType",
@@ -12385,8 +12385,8 @@ _dynamic_imports: dict[str, str] = {
     "CacheConnectionTypedDict": ".cacheconnection",
     "CacheConnectionBackfillStatus": ".cacheconnectionbackfillstatus",
     "CaptureLevel": ".capturelevel",
-    "CaptureParams": ".captureparams",
-    "CaptureParamsTypedDict": ".captureparams",
+    "CaptureParamsReq": ".captureparamsreq",
+    "CaptureParamsReqTypedDict": ".captureparamsreq",
     "CertificateTypeAzureBlobAuthTypeClientCert": ".certificatetypeazureblobauthtypeclientcert",
     "CertificateTypeAzureBlobAuthTypeClientCertTypedDict": ".certificatetypeazureblobauthtypeclientcert",
     "CertOptionsType": ".certoptionstype",

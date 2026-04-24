@@ -2553,9 +2553,9 @@ class CreateInputAuthenticationMethodEventhubAmqp(
 
 
 class CreateInputAuthTypedDict(TypedDict):
-    auth_type: CreateInputAuthenticationMethodEventhubAmqp
+    mechanism: CreateInputAuthenticationMechanism
+    auth_type: NotRequired[CreateInputAuthenticationMethodEventhubAmqp]
     r"""Enter connection string directly, or select a stored secret"""
-    mechanism: NotRequired[CreateInputAuthenticationMechanism]
     connection_string: NotRequired[str]
     r"""Event Hubs namespace or Event Hub-level connection string"""
     text_secret: NotRequired[str]
@@ -2563,12 +2563,13 @@ class CreateInputAuthTypedDict(TypedDict):
 
 
 class CreateInputAuth(BaseModel):
-    auth_type: Annotated[
-        CreateInputAuthenticationMethodEventhubAmqp, pydantic.Field(alias="authType")
-    ]
-    r"""Enter connection string directly, or select a stored secret"""
+    mechanism: CreateInputAuthenticationMechanism
 
-    mechanism: Optional[CreateInputAuthenticationMechanism] = None
+    auth_type: Annotated[
+        Optional[CreateInputAuthenticationMethodEventhubAmqp],
+        pydantic.Field(alias="authType"),
+    ] = None
+    r"""Enter connection string directly, or select a stored secret"""
 
     connection_string: Annotated[
         Optional[str], pydantic.Field(alias="connectionString")
@@ -2598,7 +2599,7 @@ class CreateInputAuth(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["mechanism", "connectionString", "textSecret"])
+        optional_fields = set(["authType", "connectionString", "textSecret"])
         serialized = handler(self)
         m = {}
 

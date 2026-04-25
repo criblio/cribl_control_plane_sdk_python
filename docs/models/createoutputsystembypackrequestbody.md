@@ -437,9 +437,27 @@ value: models.CreateOutputSystemByPackOutputCloudflareR2 = /* values here */
 value: models.CreateOutputSystemByPackOutputNutanixObjects = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputStorjS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputStorjS3 = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputAlphasocS3`
 
 ```python
 value: models.CreateOutputSystemByPackOutputAlphasocS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputDellS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputDellS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputCloudianS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputCloudianS3 = /* values here */
 ```
 

@@ -1910,6 +1910,8 @@ class CreateInputInputSecurityLakeTypedDict(TypedDict):
     r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
     num_receivers: NotRequired[float]
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    file_concurrency: NotRequired[float]
+    r"""The maximum number of files to process concurrently per receiver. Applicable only when processing multi-file messages."""
     socket_timeout: NotRequired[float]
     r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
     skip_on_error: NotRequired[bool]
@@ -2062,6 +2064,11 @@ class CreateInputInputSecurityLake(BaseModel):
         None
     )
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    file_concurrency: Annotated[
+        Optional[float], pydantic.Field(alias="fileConcurrency")
+    ] = None
+    r"""The maximum number of files to process concurrently per receiver. Applicable only when processing multi-file messages."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
@@ -2243,6 +2250,7 @@ class CreateInputInputSecurityLake(BaseModel):
                 "maxMessages",
                 "visibilityTimeout",
                 "numReceivers",
+                "fileConcurrency",
                 "socketTimeout",
                 "skipOnError",
                 "includeSqsMetadata",
@@ -7347,6 +7355,8 @@ class CreateInputInputS3InventoryTypedDict(TypedDict):
     r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
     num_receivers: NotRequired[float]
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    file_concurrency: NotRequired[float]
+    r"""The maximum number of files to process concurrently per receiver. Applicable only when processing multi-file messages."""
     socket_timeout: NotRequired[float]
     r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
     skip_on_error: NotRequired[bool]
@@ -7503,6 +7513,11 @@ class CreateInputInputS3Inventory(BaseModel):
         None
     )
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    file_concurrency: Annotated[
+        Optional[float], pydantic.Field(alias="fileConcurrency")
+    ] = None
+    r"""The maximum number of files to process concurrently per receiver. Applicable only when processing multi-file messages."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
@@ -7696,6 +7711,7 @@ class CreateInputInputS3Inventory(BaseModel):
                 "maxMessages",
                 "visibilityTimeout",
                 "numReceivers",
+                "fileConcurrency",
                 "socketTimeout",
                 "skipOnError",
                 "includeSqsMetadata",
@@ -7795,6 +7811,8 @@ class CreateInputInputS3TypedDict(TypedDict):
     r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
     num_receivers: NotRequired[float]
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    file_concurrency: NotRequired[float]
+    r"""The maximum number of files to process concurrently per receiver. Applicable only when processing multi-file messages."""
     socket_timeout: NotRequired[float]
     r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
     skip_on_error: NotRequired[bool]
@@ -7948,6 +7966,11 @@ class CreateInputInputS3(BaseModel):
         None
     )
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    file_concurrency: Annotated[
+        Optional[float], pydantic.Field(alias="fileConcurrency")
+    ] = None
+    r"""The maximum number of files to process concurrently per receiver. Applicable only when processing multi-file messages."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
@@ -8121,6 +8144,7 @@ class CreateInputInputS3(BaseModel):
                 "maxMessages",
                 "visibilityTimeout",
                 "numReceivers",
+                "fileConcurrency",
                 "socketTimeout",
                 "skipOnError",
                 "includeSqsMetadata",
@@ -9574,6 +9598,8 @@ class CreateInputInputCrowdstrikeTypedDict(TypedDict):
     r"""After messages are retrieved by a ReceiveMessage request, @{product} will hide them from subsequent retrieve requests for at least this duration. You can set this as high as 43200 sec. (12 hours)."""
     num_receivers: NotRequired[float]
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+    file_concurrency: NotRequired[float]
+    r"""The maximum number of files to process concurrently per receiver. Applicable only when processing multi-file messages."""
     socket_timeout: NotRequired[float]
     r"""Socket inactivity timeout (in seconds). Increase this value if timeouts occur due to backpressure."""
     skip_on_error: NotRequired[bool]
@@ -9722,6 +9748,11 @@ class CreateInputInputCrowdstrike(BaseModel):
         None
     )
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
+
+    file_concurrency: Annotated[
+        Optional[float], pydantic.Field(alias="fileConcurrency")
+    ] = None
+    r"""The maximum number of files to process concurrently per receiver. Applicable only when processing multi-file messages."""
 
     socket_timeout: Annotated[
         Optional[float], pydantic.Field(alias="socketTimeout")
@@ -9893,6 +9924,7 @@ class CreateInputInputCrowdstrike(BaseModel):
                 "maxMessages",
                 "visibilityTimeout",
                 "numReceivers",
+                "fileConcurrency",
                 "socketTimeout",
                 "skipOnError",
                 "includeSqsMetadata",

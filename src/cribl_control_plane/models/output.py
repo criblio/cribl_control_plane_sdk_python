@@ -12,6 +12,7 @@ from .outputazurelogs import OutputAzureLogs, OutputAzureLogsTypedDict
 from .outputchronicle import OutputChronicle, OutputChronicleTypedDict
 from .outputclickhouse import OutputClickHouse, OutputClickHouseTypedDict
 from .outputcloudflarer2 import OutputCloudflareR2, OutputCloudflareR2TypedDict
+from .outputcloudians3 import OutputCloudianS3, OutputCloudianS3TypedDict
 from .outputcloudwatch import OutputCloudwatch, OutputCloudwatchTypedDict
 from .outputconfluentcloud import OutputConfluentCloud, OutputConfluentCloudTypedDict
 from .outputcriblhttp import OutputCriblHTTP, OutputCriblHTTPTypedDict
@@ -29,6 +30,7 @@ from .outputdatabricks import OutputDatabricks, OutputDatabricksTypedDict
 from .outputdatadog import OutputDatadog, OutputDatadogTypedDict
 from .outputdataset import OutputDataset, OutputDatasetTypedDict
 from .outputdefault import OutputDefault, OutputDefaultTypedDict
+from .outputdells3 import OutputDellS3, OutputDellS3TypedDict
 from .outputdevnull import OutputDevnull, OutputDevnullTypedDict
 from .outputdiskspool import OutputDiskSpool, OutputDiskSpoolTypedDict
 from .outputdls3 import OutputDlS3, OutputDlS3TypedDict
@@ -91,6 +93,7 @@ from .outputsplunklb import OutputSplunkLb, OutputSplunkLbTypedDict
 from .outputsqs import OutputSqs, OutputSqsTypedDict
 from .outputstatsd import OutputStatsd, OutputStatsdTypedDict
 from .outputstatsdext import OutputStatsdExt, OutputStatsdExtTypedDict
+from .outputstorjs3 import OutputStorjS3, OutputStorjS3TypedDict
 from .outputsumologic import OutputSumoLogic, OutputSumoLogicTypedDict
 from .outputsyslog import OutputSyslog, OutputSyslogTypedDict
 from .outputtcpjson import OutputTcpjson, OutputTcpjsonTypedDict
@@ -160,29 +163,32 @@ OutputTypedDict = TypeAliasType(
         OutputSqsTypedDict,
         OutputInfluxdbTypedDict,
         OutputElasticTypedDict,
-        OutputGoogleChronicleTypedDict,
         OutputSentinelOneAiSiemTypedDict,
+        OutputGoogleChronicleTypedDict,
         OutputClickHouseTypedDict,
         OutputChronicleTypedDict,
         OutputLocalSearchStorageTypedDict,
         OutputDatabricksTypedDict,
         OutputOpenTelemetryTypedDict,
-        OutputMskTypedDict,
         OutputCriblLakeTypedDict,
+        OutputMskTypedDict,
         OutputSentinelTypedDict,
         OutputAlphasocS3TypedDict,
+        OutputStorjS3TypedDict,
         OutputCloudflareR2TypedDict,
         OutputNutanixObjectsTypedDict,
+        OutputDellS3TypedDict,
         OutputGoogleCloudStorageTypedDict,
         OutputAzureBlobTypedDict,
         OutputMinioTypedDict,
         OutputSecurityLakeTypedDict,
+        OutputCloudianS3TypedDict,
         OutputGoogleCloudLoggingTypedDict,
         OutputDlS3TypedDict,
         OutputS3TypedDict,
         OutputAzureDataExplorerTypedDict,
-        OutputWebhookUnionTypedDict,
         OutputGrafanaCloudUnionTypedDict,
+        OutputWebhookUnionTypedDict,
     ],
 )
 
@@ -270,7 +276,10 @@ _OUTPUT_VARIANTS: dict[str, Any] = {
     "microsoft_fabric": OutputMicrosoftFabric,
     "cloudflare_r2": OutputCloudflareR2,
     "nutanix_objects": OutputNutanixObjects,
+    "storj_s3": OutputStorjS3,
     "alphasoc_s3": OutputAlphasocS3,
+    "dell_s3": OutputDellS3,
+    "cloudian_s3": OutputCloudianS3,
 }
 
 
@@ -348,7 +357,10 @@ Output = Annotated[
         OutputMicrosoftFabric,
         OutputCloudflareR2,
         OutputNutanixObjects,
+        OutputStorjS3,
         OutputAlphasocS3,
+        OutputDellS3,
+        OutputCloudianS3,
         UnknownOutput,
     ],
     BeforeValidator(

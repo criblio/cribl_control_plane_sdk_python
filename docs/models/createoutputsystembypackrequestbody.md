@@ -461,3 +461,9 @@ value: models.CreateOutputSystemByPackOutputDellS3 = /* values here */
 value: models.CreateOutputSystemByPackOutputCloudianS3 = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputScalityS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputScalityS3 = /* values here */
+```
+

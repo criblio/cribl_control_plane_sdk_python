@@ -459,3 +459,9 @@ value: models.OutputDellS3 = /* values here */
 value: models.OutputCloudianS3 = /* values here */
 ```
 
+### `models.OutputScalityS3`
+
+```python
+value: models.OutputScalityS3 = /* values here */
+```
+

@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1777071906856-861abf27
+  version: 4.18.0-alpha.1777158259436-c50c6be4
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -40774,6 +40774,293 @@ components:
         __template_parquetSchema:
           type: string
           description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
+    OutputScalityS3:
+      type: object
+      required:
+        - type
+        - bucket
+        - stagePath
+        - endpoint
+      properties:
+        id:
+          type: string
+          title: Output ID
+          description: Unique ID for this output
+        type:
+          type: string
+          enum:
+            - scality_s3
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data before sending out to this output
+        systemFields:
+          type: array
+          title: System fields
+          description: Fields to automatically add to events, such as cribl_pipe. Supports wildcards.
+          items:
+            type: string
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere.
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        awsAuthenticationMethod:
+          $ref: "#/components/schemas/AuthenticationMethodOptionse9c778"
+        signatureVersion:
+          type: string
+          title: Signature version
+          description: Signature version to use for signing Scality requests
+          enum:
+            - v2
+            - v4
+          x-speakeasy-unknown-values: allow
+        reuseConnections:
+          type: boolean
+          title: Reuse connections
+          description: Reuse connections between requests, which can improve performance
+        rejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject certificates that cannot be verified against a valid CA, such as self-signed certificates
+        awsSecretKey:
+          type: string
+          title: Secret key
+          description: "Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"
+        bucket:
+          type: string
+          title: Scality bucket name
+          description: "Name of the destination Scality bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"
+        region:
+          type: string
+          title: Region
+          description: Region where the Scality bucket is located
+        destPath:
+          type: string
+          title: Key prefix
+          description: "Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"
+        maxConcurrentFileParts:
+          type: number
+          title: Concurrent file parts upload limit
+          description: Maximum number of parts to upload in parallel per file. Minimum part size is 5MB.
+          minimum: 1
+          maximum: 10
+        verifyPermissions:
+          type: boolean
+          title: Verify if bucket exists
+          description: Disable if you can access files within the bucket but not the bucket itself
+        maxClosingFilesToBackpressure:
+          type: number
+          title: Staging file limit
+          description: Maximum number of files that can be waiting for upload before backpressure is applied
+          minimum: 10
+          maximum: 4200
+        stagePath:
+          type: string
+          title: Staging location
+          description: Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage.
+        addIdToStagePath:
+          type: boolean
+          title: Add output ID
+          description: Add the Output ID value to staging location
+        removeEmptyDirs:
+          type: boolean
+          title: Remove empty staging directories
+          description: Remove empty staging directories after moving files
+        partitionExpr:
+          type: string
+          title: Partitioning expression
+          description: JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory.
+        format:
+          $ref: "#/components/schemas/DataFormatOptions"
+        baseFileName:
+          type: string
+          title: File name prefix expression
+          description: JavaScript expression to define the output filename prefix (can be constant)
+        fileNameSuffix:
+          type: string
+          title: File name suffix expression
+          description: JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`).
+        maxFileSizeMB:
+          type: number
+          title: File size limit (MB)
+          description: Maximum uncompressed output file size. Files of this size will be closed and moved to final output location.
+          maximum: 1024
+          minimum: 5
+        maxFileOpenTimeSec:
+          type: number
+          title: File open time limit (sec)
+          description: Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location.
+          minimum: 10
+          maximum: 86400
+        maxFileIdleTimeSec:
+          type: number
+          title: Idle time limit (sec)
+          description: Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location.
+          minimum: 5
+          maximum: 86400
+        maxOpenFiles:
+          type: number
+          title: Open file limit
+          description: Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location.
+          minimum: 10
+          maximum: 2000
+        headerLine:
+          type: string
+          title: Header line
+          description: If set, this line will be written to the beginning of each output file
+        writeHighWaterMark:
+          type: number
+          title: Writing high watermark (KB)
+          description: Buffer size used to write to a file
+          maximum: 4096
+          minimum: 16
+        onBackpressure:
+          $ref: "#/components/schemas/BackpressureBehaviorOptionsBlockDrop"
+        deadletterEnabled:
+          type: boolean
+          title: Enable dead-lettering
+          description: If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors
+        onDiskFullBackpressure:
+          $ref: "#/components/schemas/DiskSpaceProtectionOptions"
+        forceCloseOnShutdown:
+          type: boolean
+          title: Force close on shutdown
+          description: Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss.
+        retrySettings:
+          $ref: "#/components/schemas/RetrySettingsType"
+        orphans:
+          $ref: "#/components/schemas/OrphanFileRecoveryType"
+        endpoint:
+          type: string
+          title: Scality endpoint
+          description: "Scality RING S3-compatible endpoint URL (example: https://s3.scality.example.com)"
+          pattern: ^https?://.*
+        description:
+          type: string
+          title: Description
+        awsApiKey:
+          type: string
+          title: Access key
+          description: This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references your access key and secret key
+        compress:
+          $ref: "#/components/schemas/CompressionOptionsHttp"
+        compressionLevel:
+          $ref: "#/components/schemas/CompressionLevelOptions"
+        automaticSchema:
+          type: boolean
+          title: Automatic schema
+          description: Automatically calculate the schema based on the events of each Parquet file generated
+        parquetSchema:
+          type: string
+          title: Parquet schema
+          description: To add a new schema, navigate to Processing > Knowledge > Parquet Schemas
+          minLength: 1
+        parquetVersion:
+          $ref: "#/components/schemas/ParquetVersionOptions"
+        parquetDataPageVersion:
+          $ref: "#/components/schemas/DataPageVersionOptions"
+        parquetRowGroupLength:
+          type: number
+          title: Group row limit
+          description: The number of rows that every group will contain. The final group can contain a smaller number of rows.
+          minimum: 1
+          maximum: 6.7108864e+07
+        parquetPageSize:
+          type: string
+          title: Page size
+          description: Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression.
+          pattern: ^\d+\s*(?:[kK][bB]|[mM][bB]|[gG][bB]|[tT][bB])?$
+        shouldLogInvalidRows:
+          type: boolean
+          title: Log invalid rows
+          description: Log up to 3 rows that @{product} skips due to data mismatch
+        keyValueMetadata:
+          type: array
+          title: Metadata (optional)
+          description: 'The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: "key":"OCSF Event Class", "value":"9001"'
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/ItemsTypeKeyValueMetadata"
+        enableStatistics:
+          type: boolean
+          title: Write statistics
+          description: Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics.
+        enableWritePageIndex:
+          type: boolean
+          title: Write page indexes
+          description: One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping.
+        enablePageChecksum:
+          type: boolean
+          title: Write page checksum
+          description: Parquet tools can use the checksum of a Parquet page to verify data integrity
+        emptyDirCleanupSec:
+          type: number
+          title: Staging cleanup period
+          description: How frequently, in seconds, to clean up empty directories
+          minimum: 10
+          maximum: 86400
+        directoryBatchSize:
+          type: number
+          title: Directory batch size
+          description: Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory.
+        deadletterPath:
+          type: string
+          title: Dead-letter location
+          description: Storage location for files that fail to reach their final destination after maximum retries are exceeded
+        maxRetryNum:
+          type: number
+          title: Retry limit
+          description: The maximum number of times a file will attempt to move to its final destination before being dead-lettered
+          minimum: 1
+        __template_awsSecretKey:
+          type: string
+          description: Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
+        __template_bucket:
+          type: string
+          description: Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime.
+        __template_region:
+          type: string
+          description: Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime.
+        __template_destPath:
+          type: string
+          description: Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime.
+        __template_partitionExpr:
+          type: string
+          description: Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime.
+        __template_format:
+          type: string
+          description: Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime.
+        __template_baseFileName:
+          type: string
+          description: Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime.
+        __template_fileNameSuffix:
+          type: string
+          description: Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime.
+        __template_onBackpressure:
+          type: string
+          description: Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime.
+        __template_endpoint:
+          type: string
+          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime.
+        __template_awsApiKey:
+          type: string
+          description: Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime.
+        __template_compress:
+          type: string
+          description: Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime.
     Output:
       oneOf:
         - $ref: "#/components/schemas/OutputDefault"
@@ -40852,6 +41139,7 @@ components:
         - $ref: "#/components/schemas/OutputAlphasocS3"
         - $ref: "#/components/schemas/OutputDellS3"
         - $ref: "#/components/schemas/OutputCloudianS3"
+        - $ref: "#/components/schemas/OutputScalityS3"
       discriminator:
         propertyName: type
         mapping:
@@ -40931,6 +41219,7 @@ components:
           alphasoc_s3: "#/components/schemas/OutputAlphasocS3"
           dell_s3: "#/components/schemas/OutputDellS3"
           cloudian_s3: "#/components/schemas/OutputCloudianS3"
+          scality_s3: "#/components/schemas/OutputScalityS3"
     CountedOutput:
       type: object
       properties:
@@ -41020,6 +41309,7 @@ components:
         - alphasoc_s3
         - dell_s3
         - cloudian_s3
+        - scality_s3
       x-speakeasy-unknown-values: allow
     CountedOutputSamplesResponse:
       type: object
@@ -47803,6 +48093,14 @@ components:
         bucket: my-bucket
         endpoint: https://s3.hyperstore.example.com
         stagePath: /tmp/staging
+    OutputCreateExamplesscalityS3:
+      summary: Scality
+      value:
+        id: scality-s3-output
+        type: scality_s3
+        bucket: my-bucket
+        endpoint: https://s3.scality.example.com
+        stagePath: /tmp/staging
     OutputCreateExamplesAzureBlob:
       summary: Azure Blob
       value:
@@ -51497,6 +51795,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesdellS3"
               OutputCreateExamplescloudianS3:
                 $ref: "#/components/examples/OutputCreateExamplescloudianS3"
+              OutputCreateExamplesscalityS3:
+                $ref: "#/components/examples/OutputCreateExamplesscalityS3"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -51720,6 +52020,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesdellS3"
               OutputCreateExamplescloudianS3:
                 $ref: "#/components/examples/OutputCreateExamplescloudianS3"
+              OutputCreateExamplesscalityS3:
+                $ref: "#/components/examples/OutputCreateExamplesscalityS3"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -52123,6 +52425,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesdellS3"
               OutputCreateExamplescloudianS3:
                 $ref: "#/components/examples/OutputCreateExamplescloudianS3"
+              OutputCreateExamplesscalityS3:
+                $ref: "#/components/examples/OutputCreateExamplesscalityS3"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:
@@ -52365,6 +52669,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesdellS3"
               OutputCreateExamplescloudianS3:
                 $ref: "#/components/examples/OutputCreateExamplescloudianS3"
+              OutputCreateExamplesscalityS3:
+                $ref: "#/components/examples/OutputCreateExamplesscalityS3"
               OutputCreateExamplesAzureBlob:
                 $ref: "#/components/examples/OutputCreateExamplesAzureBlob"
               OutputCreateExamplesAzureDataExplorer:

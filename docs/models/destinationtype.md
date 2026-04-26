@@ -91,3 +91,4 @@ value = DestinationType.DEFAULT
 | `ALPHASOC_S3`               | alphasoc_s3                 |
 | `DELL_S3`                   | dell_s3                     |
 | `CLOUDIAN_S3`               | cloudian_s3                 |
+| `SCALITY_S3`                | scality_s3                  |

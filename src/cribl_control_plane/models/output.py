@@ -77,6 +77,7 @@ from .outputprometheus import OutputPrometheus, OutputPrometheusTypedDict
 from .outputring import OutputRing, OutputRingTypedDict
 from .outputrouter import OutputRouter, OutputRouterTypedDict
 from .outputs3 import OutputS3, OutputS3TypedDict
+from .outputscalitys3 import OutputScalityS3, OutputScalityS3TypedDict
 from .outputsecuritylake import OutputSecurityLake, OutputSecurityLakeTypedDict
 from .outputsentinel import OutputSentinel, OutputSentinelTypedDict
 from .outputsentineloneaisiem import (
@@ -176,9 +177,10 @@ OutputTypedDict = TypeAliasType(
         OutputAlphasocS3TypedDict,
         OutputStorjS3TypedDict,
         OutputCloudflareR2TypedDict,
+        OutputScalityS3TypedDict,
         OutputNutanixObjectsTypedDict,
-        OutputDellS3TypedDict,
         OutputGoogleCloudStorageTypedDict,
+        OutputDellS3TypedDict,
         OutputAzureBlobTypedDict,
         OutputMinioTypedDict,
         OutputSecurityLakeTypedDict,
@@ -280,6 +282,7 @@ _OUTPUT_VARIANTS: dict[str, Any] = {
     "alphasoc_s3": OutputAlphasocS3,
     "dell_s3": OutputDellS3,
     "cloudian_s3": OutputCloudianS3,
+    "scality_s3": OutputScalityS3,
 }
 
 
@@ -361,6 +364,7 @@ Output = Annotated[
         OutputAlphasocS3,
         OutputDellS3,
         OutputCloudianS3,
+        OutputScalityS3,
         UnknownOutput,
     ],
     BeforeValidator(

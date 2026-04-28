@@ -33,6 +33,7 @@ class Datasets(BaseSDK):
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
             ]
         ] = None,
+        storage_class: Optional[models.StorageClassOptionsCriblLakeDataset] = None,
         storage_location_id: Optional[str] = None,
         view_name: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -56,6 +57,7 @@ class Datasets(BaseSDK):
         :param metrics:
         :param retention_period_in_days:
         :param search_config:
+        :param storage_class:
         :param storage_location_id:
         :param view_name:
         :param retries: Override the default retry configuration for this method
@@ -93,6 +95,7 @@ class Datasets(BaseSDK):
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
                 ),
+                storage_class=storage_class,
                 storage_location_id=storage_location_id,
                 view_name=view_name,
             ),
@@ -187,6 +190,7 @@ class Datasets(BaseSDK):
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
             ]
         ] = None,
+        storage_class: Optional[models.StorageClassOptionsCriblLakeDataset] = None,
         storage_location_id: Optional[str] = None,
         view_name: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -210,6 +214,7 @@ class Datasets(BaseSDK):
         :param metrics:
         :param retention_period_in_days:
         :param search_config:
+        :param storage_class:
         :param storage_location_id:
         :param view_name:
         :param retries: Override the default retry configuration for this method
@@ -247,6 +252,7 @@ class Datasets(BaseSDK):
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
                 ),
+                storage_class=storage_class,
                 storage_location_id=storage_location_id,
                 view_name=view_name,
             ),
@@ -942,6 +948,7 @@ class Datasets(BaseSDK):
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
             ]
         ] = None,
+        storage_class: Optional[models.StorageClassOptionsCriblLakeDataset] = None,
         storage_location_id: Optional[str] = None,
         view_name: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -966,6 +973,7 @@ class Datasets(BaseSDK):
         :param metrics:
         :param retention_period_in_days:
         :param search_config:
+        :param storage_class:
         :param storage_location_id:
         :param view_name:
         :param retries: Override the default retry configuration for this method
@@ -1004,6 +1012,7 @@ class Datasets(BaseSDK):
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
                 ),
+                storage_class=storage_class,
                 storage_location_id=storage_location_id,
                 view_name=view_name,
             ),
@@ -1099,6 +1108,7 @@ class Datasets(BaseSDK):
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
             ]
         ] = None,
+        storage_class: Optional[models.StorageClassOptionsCriblLakeDataset] = None,
         storage_location_id: Optional[str] = None,
         view_name: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1123,6 +1133,7 @@ class Datasets(BaseSDK):
         :param metrics:
         :param retention_period_in_days:
         :param search_config:
+        :param storage_class:
         :param storage_location_id:
         :param view_name:
         :param retries: Override the default retry configuration for this method
@@ -1161,6 +1172,7 @@ class Datasets(BaseSDK):
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
                 ),
+                storage_class=storage_class,
                 storage_location_id=storage_location_id,
                 view_name=view_name,
             ),

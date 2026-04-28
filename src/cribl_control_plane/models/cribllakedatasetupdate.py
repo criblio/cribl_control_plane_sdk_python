@@ -8,6 +8,7 @@ from .lakedatasetsearchconfig import (
     LakeDatasetSearchConfig,
     LakeDatasetSearchConfigTypedDict,
 )
+from .storageclassoptionscribllakedataset import StorageClassOptionsCriblLakeDataset
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
@@ -28,6 +29,7 @@ class CriblLakeDatasetUpdateTypedDict(TypedDict):
     metrics: NotRequired[LakeDatasetMetricsTypedDict]
     retention_period_in_days: NotRequired[float]
     search_config: NotRequired[LakeDatasetSearchConfigTypedDict]
+    storage_class: NotRequired[StorageClassOptionsCriblLakeDataset]
     storage_location_id: NotRequired[str]
     view_name: NotRequired[str]
 
@@ -65,6 +67,11 @@ class CriblLakeDatasetUpdate(BaseModel):
         Optional[LakeDatasetSearchConfig], pydantic.Field(alias="searchConfig")
     ] = None
 
+    storage_class: Annotated[
+        Optional[StorageClassOptionsCriblLakeDataset],
+        pydantic.Field(alias="storageClass"),
+    ] = None
+
     storage_location_id: Annotated[
         Optional[str], pydantic.Field(alias="storageLocationId")
     ] = None
@@ -76,6 +83,15 @@ class CriblLakeDatasetUpdate(BaseModel):
         if isinstance(value, str):
             try:
                 return models.FormatOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("storage_class")
+    def serialize_storage_class(self, value):
+        if isinstance(value, str):
+            try:
+                return models.StorageClassOptionsCriblLakeDataset(value)
             except ValueError:
                 return value
         return value
@@ -95,6 +111,7 @@ class CriblLakeDatasetUpdate(BaseModel):
                 "metrics",
                 "retentionPeriodInDays",
                 "searchConfig",
+                "storageClass",
                 "storageLocationId",
                 "viewName",
             ]

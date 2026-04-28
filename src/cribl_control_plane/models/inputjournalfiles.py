@@ -80,6 +80,7 @@ class InputJournalFilesTypedDict(TypedDict):
     r"""Skip log messages that are not part of the current boot session."""
     max_age_dur: NotRequired[str]
     r"""The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."""
+    suppress_missing_path_errors: NotRequired[bool]
     metadata: NotRequired[List[ItemsTypeMetadataTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
@@ -135,6 +136,10 @@ class InputJournalFiles(BaseModel):
     max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
     r"""The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."""
 
+    suppress_missing_path_errors: Annotated[
+        Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
+    ] = None
+
     metadata: Optional[List[ItemsTypeMetadata]] = None
     r"""Fields to add to events from this input"""
 
@@ -162,6 +167,7 @@ class InputJournalFiles(BaseModel):
                 "rules",
                 "currentBoot",
                 "maxAgeDur",
+                "suppressMissingPathErrors",
                 "metadata",
                 "description",
                 "__template_environment",

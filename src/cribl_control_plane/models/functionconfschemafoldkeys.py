@@ -15,6 +15,8 @@ class FunctionConfSchemaFoldkeysTypedDict(TypedDict):
     r"""Character or string used to separate key levels to be folded. Defaults to the dot (.) character."""
     selection_reg_exp: NotRequired[str]
     r"""Optional regular expression to select a subset of the keys to fold."""
+    max_depth: NotRequired[int]
+    r"""Maximum recursion depth when traversing nested objects. Prevents infinite loops caused by cyclic references. Defaults to 20."""
 
 
 class FunctionConfSchemaFoldkeys(BaseModel):
@@ -31,9 +33,14 @@ class FunctionConfSchemaFoldkeys(BaseModel):
     ] = None
     r"""Optional regular expression to select a subset of the keys to fold."""
 
+    max_depth: Annotated[Optional[int], pydantic.Field(alias="maxDepth")] = None
+    r"""Maximum recursion depth when traversing nested objects. Prevents infinite loops caused by cyclic references. Defaults to 20."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["deleteOriginal", "separator", "selectionRegExp"])
+        optional_fields = set(
+            ["deleteOriginal", "separator", "selectionRegExp", "maxDepth"]
+        )
         serialized = handler(self)
         m = {}
 

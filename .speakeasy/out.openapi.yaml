@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.2-alpha.1776455739868-9388be7a
+  version: 4.17.2-alpha.1777331376265-2b887cf3
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -2289,6 +2289,11 @@ components:
           title: Selection regular expression
           description: Optional regular expression to select a subset of the keys to fold.
           type: string
+        maxDepth:
+          title: Maximum depth
+          description: Maximum recursion depth when traversing nested objects. Prevents infinite loops caused by cyclic references. Defaults to 20.
+          type: integer
+          minimum: 1
     FunctionFoldkeys:
       type: object
       properties:

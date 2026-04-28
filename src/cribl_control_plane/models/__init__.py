@@ -6460,6 +6460,7 @@ if TYPE_CHECKING:
     from .statuserror import StatusError, StatusErrorTypedDict
     from .storageclassoptions import StorageClassOptions
     from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
+    from .storageclassoptionscribllakedataset import StorageClassOptionsCriblLakeDataset
     from .storageclassoptionsreducedredundancystandard import (
         StorageClassOptionsReducedredundancyStandard,
     )
@@ -12164,6 +12165,7 @@ __all__ = [
     "StatusErrorTypedDict",
     "StorageClassOptions",
     "StorageClassOptionsArchiveColdline",
+    "StorageClassOptionsCriblLakeDataset",
     "StorageClassOptionsReducedredundancyStandard",
     "StoreFunctionConfiguration",
     "StoreFunctionConfigurationTypedDict",
@@ -18102,6 +18104,7 @@ _dynamic_imports: dict[str, str] = {
     "StatusErrorTypedDict": ".statuserror",
     "StorageClassOptions": ".storageclassoptions",
     "StorageClassOptionsArchiveColdline": ".storageclassoptionsarchivecoldline",
+    "StorageClassOptionsCriblLakeDataset": ".storageclassoptionscribllakedataset",
     "StorageClassOptionsReducedredundancyStandard": ".storageclassoptionsreducedredundancystandard",
     "SubscriptionPlanOptions": ".subscriptionplanoptions",
     "SupportTypeSystemSettingsConf": ".supporttypesystemsettingsconf",

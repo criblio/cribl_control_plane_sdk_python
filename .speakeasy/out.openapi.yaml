@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1777158259436-c50c6be4
+  version: 4.18.0-alpha.1777331377810-588516ad
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -2292,6 +2292,11 @@ components:
           title: Selection regular expression
           description: Optional regular expression to select a subset of the keys to fold.
           type: string
+        maxDepth:
+          title: Maximum depth
+          description: Maximum recursion depth when traversing nested objects. Prevents infinite loops caused by cyclic references. Defaults to 20.
+          type: integer
+          minimum: 1
     FunctionFoldkeys:
       type: object
       properties:
@@ -21497,6 +21502,9 @@ components:
           type: string
           title: Age duration limit
           description: "The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."
+        suppressMissingPathErrors:
+          type: boolean
+          title: Suppress errors when search path does not exist
         metadata:
           type: array
           title: Fields
@@ -42706,6 +42714,8 @@ components:
           type: number
         searchConfig:
           $ref: "#/components/schemas/LakeDatasetSearchConfig"
+        storageClass:
+          $ref: "#/components/schemas/StorageClassOptionsCriblLakeDataset"
         storageLocationId:
           type: string
         viewName:
@@ -42739,6 +42749,8 @@ components:
           type: number
         searchConfig:
           $ref: "#/components/schemas/LakeDatasetSearchConfig"
+        storageClass:
+          $ref: "#/components/schemas/StorageClassOptionsCriblLakeDataset"
         storageLocationId:
           type: string
         viewName:
@@ -45898,6 +45910,17 @@ components:
         - search
         - stream
       description: Explicit type of the Worker Group, Outpost Group, or Edge Fleet.
+      x-speakeasy-unknown-values: allow
+    StorageClassOptionsCriblLakeDataset:
+      type: string
+      enum:
+        - STANDARD
+        - STANDARD_IA
+        - ONEZONE_IA
+        - INTELLIGENT_TIERING
+        - GLACIER
+        - GLACIER_IR
+        - DEEP_ARCHIVE
       x-speakeasy-unknown-values: allow
     ScalarOrArray:
       oneOf:

@@ -25,7 +25,7 @@ class PacksPipelines(BaseSDK):
 
         Create a new Pipeline within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param id:
         :param conf:
         :param retries: Override the default retry configuration for this method
@@ -128,7 +128,7 @@ class PacksPipelines(BaseSDK):
 
         Create a new Pipeline within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param id:
         :param conf:
         :param retries: Override the default retry configuration for this method
@@ -229,7 +229,7 @@ class PacksPipelines(BaseSDK):
 
         Get a list of all Pipelines within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -321,7 +321,7 @@ class PacksPipelines(BaseSDK):
 
         Get a list of all Pipelines within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -415,7 +415,7 @@ class PacksPipelines(BaseSDK):
         Delete the specified Pipeline within the specified Pack.
 
         :param id: The <code>id</code> of the Pipeline to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -510,7 +510,7 @@ class PacksPipelines(BaseSDK):
         Delete the specified Pipeline within the specified Pack.
 
         :param id: The <code>id</code> of the Pipeline to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -605,7 +605,7 @@ class PacksPipelines(BaseSDK):
         Get the specified Pipeline within the specified Pack.
 
         :param id: The <code>id</code> of the Pipeline to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -700,7 +700,7 @@ class PacksPipelines(BaseSDK):
         Get the specified Pipeline within the specified Pack.
 
         :param id: The <code>id</code> of the Pipeline to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -797,7 +797,7 @@ class PacksPipelines(BaseSDK):
         Update the specified Pipeline within the specified Pack.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
 
         :param id_param: The <code>id</code> of the Pipeline to update.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param id:
         :param conf:
         :param retries: Override the default retry configuration for this method
@@ -903,7 +903,7 @@ class PacksPipelines(BaseSDK):
         Update the specified Pipeline within the specified Pack.</br></br>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
 
         :param id_param: The <code>id</code> of the Pipeline to update.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param id:
         :param conf:
         :param retries: Override the default retry configuration for this method

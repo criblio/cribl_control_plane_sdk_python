@@ -11,7 +11,7 @@ class CreateOutputSystemTestByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Destination to send sample event data to."""
     pack: str
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
     output_test_request: OutputTestRequestTypedDict
     r"""OutputTestRequest object"""
 
@@ -25,7 +25,7 @@ class CreateOutputSystemTestByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
 
     output_test_request: Annotated[
         OutputTestRequest,

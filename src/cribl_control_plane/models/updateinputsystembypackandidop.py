@@ -11,7 +11,7 @@ class UpdateInputSystemByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Source to update."""
     pack: str
-    r"""The <code>id</code> of the Pack to update."""
+    r"""The <code>id</code> of the Pack."""
     input: Input2TypedDict
     r"""Input object"""
 
@@ -25,7 +25,7 @@ class UpdateInputSystemByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to update."""
+    r"""The <code>id</code> of the Pack."""
 
     input: Annotated[
         Input2, FieldMetadata(request=RequestMetadata(media_type="application/json"))

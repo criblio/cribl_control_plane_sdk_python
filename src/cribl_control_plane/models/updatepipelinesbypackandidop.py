@@ -12,7 +12,7 @@ class UpdatePipelinesByPackAndIDRequestTypedDict(TypedDict):
     id_param: str
     r"""The <code>id</code> of the Pipeline to update."""
     pack: str
-    r"""The <code>id</code> of the Pack to update."""
+    r"""The <code>id</code> of the Pack."""
     pipeline: PipelineInputTypedDict
     r"""Pipeline object"""
 
@@ -28,7 +28,7 @@ class UpdatePipelinesByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to update."""
+    r"""The <code>id</code> of the Pack."""
 
     pipeline: Annotated[
         PipelineInput,

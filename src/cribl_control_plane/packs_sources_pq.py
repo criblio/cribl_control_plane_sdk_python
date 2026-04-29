@@ -25,7 +25,7 @@ class PacksSourcesPq(BaseSDK):
         Clear the persistent queue (PQ) for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to clear the PQ for.
-        :param pack: The <code>id</code> of the Pack to clear.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -120,7 +120,7 @@ class PacksSourcesPq(BaseSDK):
         Clear the persistent queue (PQ) for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to clear the PQ for.
-        :param pack: The <code>id</code> of the Pack to clear.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -215,7 +215,7 @@ class PacksSourcesPq(BaseSDK):
         Get information about the latest job to clear the persistent queue (PQ) for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get PQ job information for.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -310,7 +310,7 @@ class PacksSourcesPq(BaseSDK):
         Get information about the latest job to clear the persistent queue (PQ) for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get PQ job information for.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

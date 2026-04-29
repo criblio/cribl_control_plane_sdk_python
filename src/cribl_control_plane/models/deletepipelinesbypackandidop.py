@@ -10,7 +10,7 @@ class DeletePipelinesByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Pipeline to delete."""
     pack: str
-    r"""The <code>id</code> of the Pack to delete."""
+    r"""The <code>id</code> of the Pack."""
 
 
 class DeletePipelinesByPackAndIDRequest(BaseModel):
@@ -22,4 +22,4 @@ class DeletePipelinesByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to delete."""
+    r"""The <code>id</code> of the Pack."""

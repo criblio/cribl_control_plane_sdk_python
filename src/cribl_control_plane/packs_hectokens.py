@@ -35,7 +35,7 @@ class PacksHecTokens(BaseSDK):
         Add an HEC token and optional metadata to the specified Splunk HEC Source within the specified Pack.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param token: The HEC token value to add to the Splunk HEC Source.
         :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
         :param description: Brief description for the HEC token.
@@ -161,7 +161,7 @@ class PacksHecTokens(BaseSDK):
         Add an HEC token and optional metadata to the specified Splunk HEC Source within the specified Pack.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param token: The HEC token value to add to the Splunk HEC Source.
         :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
         :param description: Brief description for the HEC token.
@@ -288,7 +288,7 @@ class PacksHecTokens(BaseSDK):
 
         :param id: The <code>id</code> of the Splunk HEC Source.
         :param token: The HEC token value to update.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
         :param description: Brief description for the HEC token.
         :param enabled: If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>.
@@ -414,7 +414,7 @@ class PacksHecTokens(BaseSDK):
 
         :param id: The <code>id</code> of the Splunk HEC Source.
         :param token: The HEC token value to update.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
         :param description: Brief description for the HEC token.
         :param enabled: If <code>true</code>, the HEC token is enabled. Otherwise, <code>false</code>.

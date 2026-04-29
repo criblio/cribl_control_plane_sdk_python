@@ -13,7 +13,7 @@ class UpdateInputSystemHecTokenByPackAndIDAndTokenRequestTypedDict(TypedDict):
     token: str
     r"""The HEC token value to update."""
     pack: str
-    r"""The <code>id</code> of the Pack to update."""
+    r"""The <code>id</code> of the Pack."""
     update_hec_token_request: UpdateHecTokenRequestTypedDict
     r"""UpdateHecTokenRequest object"""
 
@@ -32,7 +32,7 @@ class UpdateInputSystemHecTokenByPackAndIDAndTokenRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to update."""
+    r"""The <code>id</code> of the Pack."""
 
     update_hec_token_request: Annotated[
         UpdateHecTokenRequest,

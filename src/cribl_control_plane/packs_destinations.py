@@ -48,7 +48,7 @@ class PacksDestinations(BaseSDK):
 
         Get a list of all Destinations within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param type: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -143,7 +143,7 @@ class PacksDestinations(BaseSDK):
 
         Get a list of all Destinations within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param type: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -241,7 +241,7 @@ class PacksDestinations(BaseSDK):
 
         Create a new Destination within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param request_body: Output object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -348,7 +348,7 @@ class PacksDestinations(BaseSDK):
 
         Create a new Destination within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param request_body: Output object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -453,7 +453,7 @@ class PacksDestinations(BaseSDK):
         Get the specified Destination within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -548,7 +548,7 @@ class PacksDestinations(BaseSDK):
         Get the specified Destination within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -644,7 +644,7 @@ class PacksDestinations(BaseSDK):
         Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to update.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param output: Output object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -745,7 +745,7 @@ class PacksDestinations(BaseSDK):
         Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to update.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param output: Output object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -845,7 +845,7 @@ class PacksDestinations(BaseSDK):
         Delete the specified Destination within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -940,7 +940,7 @@ class PacksDestinations(BaseSDK):
         Delete the specified Destination within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

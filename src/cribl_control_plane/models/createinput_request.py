@@ -3091,6 +3091,8 @@ class CreateInputInputEventhubTypedDict(TypedDict):
     description: NotRequired[str]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_brokers: NotRequired[str]
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
     template_group_id: NotRequired[str]
     r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
 
@@ -3241,6 +3243,11 @@ class CreateInputInputEventhub(BaseModel):
     ] = None
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
+    template_brokers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_brokers")
+    ] = None
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
+
     template_group_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_groupId")
     ] = None
@@ -3282,6 +3289,7 @@ class CreateInputInputEventhub(BaseModel):
                 "metadata",
                 "description",
                 "__template_environment",
+                "__template_brokers",
                 "__template_groupId",
             ]
         )
@@ -10406,20 +10414,20 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputWizTypedDict,
         CreateInputInputFileTypedDict,
         CreateInputInputOffice365MgmtTypedDict,
-        CreateInputInputSplunkTypedDict,
         CreateInputInputAppscopeTypedDict,
+        CreateInputInputSplunkTypedDict,
         CreateInputInputWizWebhookTypedDict,
         CreateInputInputHTTPRawTypedDict,
         CreateInputInputZscalerHecTypedDict,
         CreateInputInputWefTypedDict,
-        CreateInputInputKafkaTypedDict,
-        CreateInputInputEventhubTypedDict,
-        CreateInputInputCloudflareHecTypedDict,
         CreateInputInputConfluentCloudTypedDict,
+        CreateInputInputCloudflareHecTypedDict,
         CreateInputInputLokiTypedDict,
+        CreateInputInputKafkaTypedDict,
         CreateInputInputHTTPTypedDict,
         CreateInputInputPrometheusRwTypedDict,
         CreateInputInputCriblLakeHTTPTypedDict,
+        CreateInputInputEventhubTypedDict,
         CreateInputInputAzureBlobTypedDict,
         CreateInputInputOpenaiComplianceLogsTypedDict,
         CreateInputInputElasticTypedDict,

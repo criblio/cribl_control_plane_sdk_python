@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1777331377810-588516ad
+  version: 4.18.0-alpha.1777417409113-fff94df6
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -15917,6 +15917,9 @@ components:
         __template_environment:
           type: string
           description: Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_brokers:
+          type: string
+          description: Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime.
         __template_groupId:
           type: string
           description: Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime.
@@ -51126,7 +51129,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to list.
+          description: The <code>id</code> of the Pack.
     post:
       operationId: createInputSystemByPack
       x-speakeasy-group: packs.sources
@@ -51298,7 +51301,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to create.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/system/inputs/{id}:
     get:
       operationId: getInputSystemByPackAndId
@@ -51322,7 +51325,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to get.
+          description: The <code>id</code> of the Pack.
       responses:
         "200":
           description: a Source object
@@ -51360,7 +51363,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to update.
+          description: The <code>id</code> of the Pack.
       requestBody:
         description: Input object
         required: true
@@ -51538,7 +51541,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to delete.
+          description: The <code>id</code> of the Pack.
       responses:
         "200":
           description: the deleted Source object
@@ -51604,7 +51607,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to create.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/system/inputs/{id}/pq:
     delete:
       operationId: deleteInputSystemPqByPackAndId
@@ -51643,7 +51646,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to clear.
+          description: The <code>id</code> of the Pack.
     get:
       operationId: getInputSystemPqByPackAndId
       tags:
@@ -51681,7 +51684,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to get.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/system/inputs/{id}/hectoken/{token}:
     patch:
       operationId: updateInputSystemHecTokenByPackAndIdAndToken
@@ -51738,7 +51741,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to update.
+          description: The <code>id</code> of the Pack.
   /system/outputs:
     get:
       operationId: listOutput
@@ -52401,7 +52404,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to list.
+          description: The <code>id</code> of the Pack.
     post:
       operationId: createOutputSystemByPack
       x-speakeasy-group: packs.destinations
@@ -52595,7 +52598,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to create.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/system/outputs/{id}:
     get:
       operationId: getOutputSystemByPackAndId
@@ -52619,7 +52622,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to get.
+          description: The <code>id</code> of the Pack.
       responses:
         "200":
           description: a Destination object
@@ -52657,7 +52660,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to update.
+          description: The <code>id</code> of the Pack.
       requestBody:
         description: Output object
         required: true
@@ -52855,7 +52858,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to delete.
+          description: The <code>id</code> of the Pack.
       responses:
         "200":
           description: the deleted Destination object
@@ -52909,7 +52912,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to clear.
+          description: The <code>id</code> of the Pack.
     get:
       operationId: getOutputSystemPqByPackAndId
       tags:
@@ -52947,7 +52950,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to get.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/system/outputs/{id}/samples:
     get:
       operationId: getOutputSystemSamplesByPackAndId
@@ -52988,7 +52991,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to get.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/system/outputs/{id}/test:
     post:
       operationId: createOutputSystemTestByPackAndId
@@ -53041,7 +53044,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to create.
+          description: The <code>id</code> of the Pack.
   /pipelines:
     post:
       operationId: createPipelines
@@ -53486,7 +53489,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to create.
+          description: The <code>id</code> of the Pack.
     get:
       operationId: getPipelinesByPack
       tags:
@@ -53518,7 +53521,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to list.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/pipelines/{id}:
     delete:
       operationId: deletePipelinesByPackAndId
@@ -53557,7 +53560,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to delete.
+          description: The <code>id</code> of the Pack.
     get:
       operationId: getPipelinesByPackAndId
       tags:
@@ -53595,7 +53598,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to get.
+          description: The <code>id</code> of the Pack.
     patch:
       operationId: updatePipelinesByPackAndId
       tags:
@@ -53721,7 +53724,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to update.
+          description: The <code>id</code> of the Pack.
   /routes/{id}:
     get:
       operationId: getRoutesById
@@ -53916,7 +53919,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to get.
+          description: The <code>id</code> of the Pack.
     patch:
       operationId: updateRoutesByPackAndId
       tags:
@@ -53970,7 +53973,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to update.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/routes:
     get:
       operationId: getRoutesByPack
@@ -54003,7 +54006,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to list.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/routes/{id}/append:
     post:
       operationId: createRoutesAppendByPackAndId
@@ -54058,7 +54061,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to append.
+          description: The <code>id</code> of the Pack.
   /system/status/inputs/{id}:
     get:
       operationId: getInputStatusById
@@ -54218,7 +54221,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to get.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/system/status/inputs:
     get:
       operationId: getInputStatusSystemInputsByPack
@@ -54277,7 +54280,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to list.
+          description: The <code>id</code> of the Pack.
       x-speakeasy-pagination:
         type: offsetLimit
         inputs:
@@ -54448,7 +54451,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to get.
+          description: The <code>id</code> of the Pack.
   /p/{pack}/system/status/outputs:
     get:
       operationId: getOutputStatusSystemOutputsByPack
@@ -54507,7 +54510,7 @@ paths:
           required: true
           schema:
             type: string
-          description: The <code>id</code> of the Pack to list.
+          description: The <code>id</code> of the Pack.
       x-speakeasy-pagination:
         type: offsetLimit
         inputs:

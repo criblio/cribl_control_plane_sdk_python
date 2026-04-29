@@ -28,7 +28,7 @@ class PacksSourcesStatuses(BaseSDK):
         Get the status and optional metrics for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get the status for.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param metrics: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
         :param retries: Override the default retry configuration for this method
@@ -129,7 +129,7 @@ class PacksSourcesStatuses(BaseSDK):
         Get the status and optional metrics for the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get the status for.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param metrics: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
         :param retries: Override the default retry configuration for this method
@@ -230,7 +230,7 @@ class PacksSourcesStatuses(BaseSDK):
 
         List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param metrics: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
         :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
@@ -364,7 +364,7 @@ class PacksSourcesStatuses(BaseSDK):
 
         List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param metrics: Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default).
         :param type: Set to <code>true</code> to prefix the Source <code>id</code> with the Source type. Otherwise, <code>false</code> (default).
         :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.

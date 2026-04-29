@@ -1105,7 +1105,7 @@ r"""Output object"""
 
 class CreateOutputSystemByPackRequestTypedDict(TypedDict):
     pack: str
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
     request_body: CreateOutputSystemByPackRequestBodyTypedDict
     r"""Output object"""
 
@@ -1114,7 +1114,7 @@ class CreateOutputSystemByPackRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
 
     request_body: Annotated[
         CreateOutputSystemByPackRequestBody,

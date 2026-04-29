@@ -25,7 +25,7 @@ class PacksRoutes(BaseSDK):
         Get the specified Routing table within the specified Pack.
 
         :param id: The <code>id</code> of the Routing table to get. The supported value is <code>default</code>.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -120,7 +120,7 @@ class PacksRoutes(BaseSDK):
         Get the specified Routing table within the specified Pack.
 
         :param id: The <code>id</code> of the Routing table to get. The supported value is <code>default</code>.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -228,7 +228,7 @@ class PacksRoutes(BaseSDK):
         Update the specified Route within the specified Pack.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
         :param routes: Array of Route configurations that define how events are processed and routed.
         :param comments: Array of user-provided comments that describe or annotate Routes.
@@ -354,7 +354,7 @@ class PacksRoutes(BaseSDK):
         Update the specified Route within the specified Pack.</br></br>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body. This endpoint does not support partial updates. Cribl removes any omitted Routes and fields when updating.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the Routing table might not function as expected.
 
         :param id_param: The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param id: Unique identifier for the Routing table. The supported value is <code>default</code>.
         :param routes: Array of Route configurations that define how events are processed and routed.
         :param comments: Array of user-provided comments that describe or annotate Routes.
@@ -465,7 +465,7 @@ class PacksRoutes(BaseSDK):
 
         Get a list of all Routes within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -557,7 +557,7 @@ class PacksRoutes(BaseSDK):
 
         Get a list of all Routes within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -654,7 +654,7 @@ class PacksRoutes(BaseSDK):
         Add a Route to the end of the specified Routing table within the specified Pack.
 
         :param id: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
-        :param pack: The <code>id</code> of the Pack to append.
+        :param pack: The <code>id</code> of the Pack.
         :param request_body: RouteDefinitions object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -759,7 +759,7 @@ class PacksRoutes(BaseSDK):
         Add a Route to the end of the specified Routing table within the specified Pack.
 
         :param id: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
-        :param pack: The <code>id</code> of the Pack to append.
+        :param pack: The <code>id</code> of the Pack.
         :param request_body: RouteDefinitions object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

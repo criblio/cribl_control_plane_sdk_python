@@ -14,7 +14,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetInputSystemByPackRequestTypedDict(TypedDict):
     pack: str
-    r"""The <code>id</code> of the Pack to list."""
+    r"""The <code>id</code> of the Pack."""
     type: NotRequired[List[str]]
     r"""Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported."""
 
@@ -23,7 +23,7 @@ class GetInputSystemByPackRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to list."""
+    r"""The <code>id</code> of the Pack."""
 
     type: Annotated[
         Optional[List[str]],

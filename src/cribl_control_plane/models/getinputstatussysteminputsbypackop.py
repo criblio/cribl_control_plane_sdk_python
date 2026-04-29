@@ -15,7 +15,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetInputStatusSystemInputsByPackRequestTypedDict(TypedDict):
     pack: str
-    r"""The <code>id</code> of the Pack to list."""
+    r"""The <code>id</code> of the Pack."""
     metrics: NotRequired[bool]
     r"""Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default)."""
     type: NotRequired[bool]
@@ -30,7 +30,7 @@ class GetInputStatusSystemInputsByPackRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to list."""
+    r"""The <code>id</code> of the Pack."""
 
     metrics: Annotated[
         Optional[bool],

@@ -10,7 +10,7 @@ class DeleteInputSystemByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Source to delete."""
     pack: str
-    r"""The <code>id</code> of the Pack to delete."""
+    r"""The <code>id</code> of the Pack."""
 
 
 class DeleteInputSystemByPackAndIDRequest(BaseModel):
@@ -22,4 +22,4 @@ class DeleteInputSystemByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to delete."""
+    r"""The <code>id</code> of the Pack."""

@@ -9,7 +9,7 @@ from typing_extensions import Annotated, TypedDict
 
 class CreatePipelinesByPackRequestTypedDict(TypedDict):
     pack: str
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
     pipeline: PipelineInputTypedDict
     r"""Pipeline object"""
 
@@ -18,7 +18,7 @@ class CreatePipelinesByPackRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
 
     pipeline: Annotated[
         PipelineInput,

@@ -48,7 +48,7 @@ class PacksSources(BaseSDK):
 
         Get a list of all Sources within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -143,7 +143,7 @@ class PacksSources(BaseSDK):
 
         Get a list of all Sources within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -241,7 +241,7 @@ class PacksSources(BaseSDK):
 
         Create a new Source within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param request_body: Input object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -348,7 +348,7 @@ class PacksSources(BaseSDK):
 
         Create a new Source within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param request_body: Input object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -453,7 +453,7 @@ class PacksSources(BaseSDK):
         Get the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -548,7 +548,7 @@ class PacksSources(BaseSDK):
         Get the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -644,7 +644,7 @@ class PacksSources(BaseSDK):
         Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Source to update.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param input: Input object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -745,7 +745,7 @@ class PacksSources(BaseSDK):
         Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Source to update.
-        :param pack: The <code>id</code> of the Pack to update.
+        :param pack: The <code>id</code> of the Pack.
         :param input: Input object
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -845,7 +845,7 @@ class PacksSources(BaseSDK):
         Delete the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -940,7 +940,7 @@ class PacksSources(BaseSDK):
         Delete the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

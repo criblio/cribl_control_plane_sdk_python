@@ -3111,6 +3111,8 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     description: NotRequired[str]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_brokers: NotRequired[str]
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
     template_group_id: NotRequired[str]
     r"""Binds 'groupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'groupId' at runtime."""
 
@@ -3261,6 +3263,11 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     ] = None
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
+    template_brokers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_brokers")
+    ] = None
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
+
     template_group_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_groupId")
     ] = None
@@ -3302,6 +3309,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
                 "metadata",
                 "description",
                 "__template_environment",
+                "__template_brokers",
                 "__template_groupId",
             ]
         )
@@ -10465,20 +10473,20 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputWizTypedDict,
         CreateInputSystemByPackInputFileTypedDict,
         CreateInputSystemByPackInputOffice365MgmtTypedDict,
-        CreateInputSystemByPackInputSplunkTypedDict,
         CreateInputSystemByPackInputAppscopeTypedDict,
+        CreateInputSystemByPackInputSplunkTypedDict,
         CreateInputSystemByPackInputWizWebhookTypedDict,
         CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputZscalerHecTypedDict,
         CreateInputSystemByPackInputWefTypedDict,
-        CreateInputSystemByPackInputKafkaTypedDict,
-        CreateInputSystemByPackInputEventhubTypedDict,
-        CreateInputSystemByPackInputCloudflareHecTypedDict,
         CreateInputSystemByPackInputConfluentCloudTypedDict,
+        CreateInputSystemByPackInputCloudflareHecTypedDict,
         CreateInputSystemByPackInputLokiTypedDict,
+        CreateInputSystemByPackInputKafkaTypedDict,
         CreateInputSystemByPackInputHTTPTypedDict,
         CreateInputSystemByPackInputPrometheusRwTypedDict,
         CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
+        CreateInputSystemByPackInputEventhubTypedDict,
         CreateInputSystemByPackInputAzureBlobTypedDict,
         CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict,
         CreateInputSystemByPackInputElasticTypedDict,
@@ -10590,7 +10598,7 @@ r"""Input object"""
 
 class CreateInputSystemByPackRequestTypedDict(TypedDict):
     pack: str
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
     request_body: CreateInputSystemByPackRequestBodyTypedDict
     r"""Input object"""
 
@@ -10599,7 +10607,7 @@ class CreateInputSystemByPackRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
 
     request_body: Annotated[
         CreateInputSystemByPackRequestBody,

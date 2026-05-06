@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.17.2-alpha.1777331376265-2b887cf3
+  version: 4.17.2-alpha.1778022445373-0aa80216
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -50611,11 +50611,13 @@ paths:
       description: Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
       responses:
         "200":
-          description: CapturedEvent object
+          description: Stream of captured events.
           content:
             application/x-ndjson:
               schema:
                 $ref: "#/components/schemas/CapturedEvent"
+        "400":
+          description: No worker nodes are connected to this worker group.
         "401":
           description: Unauthorized
         "500":

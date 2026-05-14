@@ -10,7 +10,7 @@ from cribl_control_plane.sources_statuses import SourcesStatuses
 from cribl_control_plane.types import BaseModel, OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union, cast
+from typing import Any, List, Mapping, Optional, Union, cast
 
 
 class Sources(BaseSDK):
@@ -37,15 +37,17 @@ class Sources(BaseSDK):
     def list(
         self,
         *,
+        type_: Optional[List[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""List all Sources
 
         Get a list of all Sources.
 
+        :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -60,12 +62,17 @@ class Sources(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.ListInputRequest(
+            type=type_,
+        )
+
         req = self._build_request(
             method="GET",
             path="/system/inputs",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -106,7 +113,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -122,15 +129,17 @@ class Sources(BaseSDK):
     async def list_async(
         self,
         *,
+        type_: Optional[List[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""List all Sources
 
         Get a list of all Sources.
 
+        :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -145,12 +154,17 @@ class Sources(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.ListInputRequest(
+            type=type_,
+        )
+
         req = self._build_request_async(
             method="GET",
             path="/system/inputs",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -191,7 +205,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -212,10 +226,10 @@ class Sources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Create a Source
 
-        Create a new Source.
+        Create a new Source. The system-managed provenance field (JSON <code>criblSourceProvenance</code>) must be omitted from the request body.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -286,7 +300,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -307,10 +321,10 @@ class Sources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Create a Source
 
-        Create a new Source.
+        Create a new Source. The system-managed provenance field (JSON <code>criblSourceProvenance</code>) must be omitted from the request body.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -381,7 +395,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -402,7 +416,7 @@ class Sources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Get a Source
 
         Get the specified Source.
@@ -473,7 +487,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -494,7 +508,7 @@ class Sources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Get a Source
 
         Get the specified Source.
@@ -565,7 +579,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -582,18 +596,18 @@ class Sources(BaseSDK):
         self,
         *,
         id: str,
-        input_: Union[models.Input2, models.Input2TypedDict],
+        input_: Union[models.Input, models.InputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Update a Source
 
-        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
+        Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes omitted fields when updating the Source, except for <code>criblSourceProvenance</code> (its value is preserved when omitted and cannot be overwritten).<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
 
         :param id: The <code>id</code> of the Source to update.
-        :param input: Input object
+        :param input: Input object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -611,7 +625,7 @@ class Sources(BaseSDK):
 
         request = models.UpdateInputByIDRequest(
             id=id,
-            input=utils.get_pydantic_model(input_, models.Input2),
+            input=utils.get_pydantic_model(input_, models.Input),
         )
 
         req = self._build_request(
@@ -628,7 +642,7 @@ class Sources(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.input, False, False, "json", models.Input2
+                request.input, False, False, "json", models.Input
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -663,7 +677,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -680,18 +694,18 @@ class Sources(BaseSDK):
         self,
         *,
         id: str,
-        input_: Union[models.Input2, models.Input2TypedDict],
+        input_: Union[models.Input, models.InputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Update a Source
 
-        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
+        Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes omitted fields when updating the Source, except for <code>criblSourceProvenance</code> (its value is preserved when omitted and cannot be overwritten).<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
 
         :param id: The <code>id</code> of the Source to update.
-        :param input: Input object
+        :param input: Input object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -709,7 +723,7 @@ class Sources(BaseSDK):
 
         request = models.UpdateInputByIDRequest(
             id=id,
-            input=utils.get_pydantic_model(input_, models.Input2),
+            input=utils.get_pydantic_model(input_, models.Input),
         )
 
         req = self._build_request_async(
@@ -726,7 +740,7 @@ class Sources(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.input, False, False, "json", models.Input2
+                request.input, False, False, "json", models.Input
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -761,7 +775,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -782,7 +796,7 @@ class Sources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Delete a Source
 
         Delete the specified Source.
@@ -853,7 +867,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -874,7 +888,7 @@ class Sources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Delete a Source
 
         Delete the specified Source.
@@ -945,7 +959,7 @@ class Sources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

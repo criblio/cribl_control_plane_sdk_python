@@ -11,7 +11,7 @@ class UpdateOutputByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Destination to update."""
     output: OutputTypedDict
-    r"""Output object"""
+    r"""Output object."""
 
 
 class UpdateOutputByIDRequest(BaseModel):
@@ -23,4 +23,4 @@ class UpdateOutputByIDRequest(BaseModel):
     output: Annotated[
         Output, FieldMetadata(request=RequestMetadata(media_type="application/json"))
     ]
-    r"""Output object"""
+    r"""Output object."""

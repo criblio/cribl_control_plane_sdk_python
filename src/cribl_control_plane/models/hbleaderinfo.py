@@ -8,20 +8,32 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class HBLeaderInfoTypedDict(TypedDict):
+    r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
+
     host: str
-    port: float
+    r"""Leader hostname or IP address."""
+    port: int
+    r"""Leader TCP port."""
     servername: NotRequired[str]
+    r"""TLS server name (SNI) for the Leader connection."""
     tls: NotRequired[bool]
+    r"""If <code>true</code>, TLS is enabled for the Leader connection."""
 
 
 class HBLeaderInfo(BaseModel):
-    host: str
+    r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
 
-    port: float
+    host: str
+    r"""Leader hostname or IP address."""
+
+    port: int
+    r"""Leader TCP port."""
 
     servername: Optional[str] = None
+    r"""TLS server name (SNI) for the Leader connection."""
 
     tls: Optional[bool] = None
+    r"""If <code>true</code>, TLS is enabled for the Leader connection."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

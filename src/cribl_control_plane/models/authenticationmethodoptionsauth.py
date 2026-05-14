@@ -6,9 +6,5 @@ from enum import Enum
 
 
 class AuthenticationMethodOptionsAuth(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Enter credentials directly, or select a stored secret"""
-
-    MANUAL = "manual"
     SECRET = "secret"
-    MANUAL_API_KEY = "manualAPIKey"
-    TEXT_SECRET = "textSecret"
+    CERTIFICATE = "certificate"

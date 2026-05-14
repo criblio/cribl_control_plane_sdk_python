@@ -7,7 +7,7 @@ Default value for message facility. Will be overwritten by value of __facility i
 ```python
 from cribl_control_plane.models import CreateOutputSystemByPackFacility
 
-value = CreateOutputSystemByPackFacility.ZERO
+value = CreateOutputSystemByPackFacility.KERN
 
 # Open enum: unrecognized values are captured as UnrecognizedInt
 ```
@@ -15,27 +15,27 @@ value = CreateOutputSystemByPackFacility.ZERO
 
 ## Values
 
-| Name         | Value        |
-| ------------ | ------------ |
-| `ZERO`       | 0            |
-| `ONE`        | 1            |
-| `TWO`        | 2            |
-| `THREE`      | 3            |
-| `FOUR`       | 4            |
-| `FIVE`       | 5            |
-| `SIX`        | 6            |
-| `SEVEN`      | 7            |
-| `EIGHT`      | 8            |
-| `NINE`       | 9            |
-| `TEN`        | 10           |
-| `ELEVEN`     | 11           |
-| `TWELVE`     | 12           |
-| `THIRTEEN`   | 13           |
-| `FOURTEEN`   | 14           |
-| `FIFTEEN`    | 15           |
-| `SIXTEEN`    | 16           |
-| `SEVENTEEN`  | 17           |
-| `EIGHTEEN`   | 18           |
-| `NINETEEN`   | 19           |
-| `TWENTY`     | 20           |
-| `TWENTY_ONE` | 21           |
+| Name           | Value          |
+| -------------- | -------------- |
+| `KERN`         | 0              |
+| `USER`         | 1              |
+| `MAIL`         | 2              |
+| `DAEMON`       | 3              |
+| `AUTH`         | 4              |
+| `SYSLOG`       | 5              |
+| `LPR`          | 6              |
+| `NEWS`         | 7              |
+| `UUCP`         | 8              |
+| `CRON`         | 9              |
+| `AUTHPRIV`     | 10             |
+| `FTP`          | 11             |
+| `NTP`          | 12             |
+| `SECURITY`     | 13             |
+| `CONSOLE`      | 14             |
+| `SOLARIS_CRON` | 15             |
+| `LOCAL0`       | 16             |
+| `LOCAL1`       | 17             |
+| `LOCAL2`       | 18             |
+| `LOCAL3`       | 19             |
+| `LOCAL4`       | 20             |
+| `LOCAL5`       | 21             |

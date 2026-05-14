@@ -12,7 +12,7 @@ class UpdatePipelinesByIDRequestTypedDict(TypedDict):
     id_param: str
     r"""The <code>id</code> of the Pipeline to update."""
     pipeline: PipelineInputTypedDict
-    r"""Pipeline object"""
+    r"""Pipeline object."""
 
 
 class UpdatePipelinesByIDRequest(BaseModel):
@@ -27,4 +27,4 @@ class UpdatePipelinesByIDRequest(BaseModel):
         PipelineInput,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""Pipeline object"""
+    r"""Pipeline object."""

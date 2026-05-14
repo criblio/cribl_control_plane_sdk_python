@@ -4,12 +4,12 @@ from __future__ import annotations
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
-from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
+from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
-from .itemstypekeyvaluemetadata import (
-    ItemsTypeKeyValueMetadata,
-    ItemsTypeKeyValueMetadataTypedDict,
+from .keyvaluemetadataconfoutputfilesystem import (
+    KeyValueMetadataConfOutputFilesystem,
+    KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .objectacloptions import ObjectACLOptions
 from .orphanfilerecoverytype import (
@@ -22,7 +22,7 @@ from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
 )
 from .storageclassoptions import StorageClassOptions
-from cribl_control_plane import models, utils
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -35,21 +35,14 @@ class OutputSecurityLakeType(str, Enum):
     SECURITY_LAKE = "security_lake"
 
 
-class OutputSecurityLakeSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Signature version to use for signing Amazon Security Lake requests"""
-
-    V2 = "v2"
-    V4 = "v4"
-
-
 class OutputSecurityLakeTypedDict(TypedDict):
     type: OutputSecurityLakeType
+    assume_role_arn: str
+    r"""Amazon Resource Name (ARN) of the role to assume"""
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     region: str
     r"""Region where the Amazon Security Lake is located."""
-    assume_role_arn: str
-    r"""Amazon Resource Name (ARN) of the role to assume"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     account_id: str
@@ -66,45 +59,45 @@ class OutputSecurityLakeTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    aws_secret_key: NotRequired[str]
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""Amazon Security Lake service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Amazon Security Lake-compatible endpoint."""
-    signature_version: NotRequired[OutputSecurityLakeSignatureVersion]
-    r"""Signature version to use for signing Amazon Security Lake requests"""
-    reuse_connections: NotRequired[bool]
-    r"""Reuse connections between requests, which can improve performance"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
     enable_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials to access S3"""
     assume_role_external_id: NotRequired[str]
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    max_concurrent_file_parts: NotRequired[float]
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    verify_permissions: NotRequired[bool]
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+    max_closing_files_to_backpressure: NotRequired[float]
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
     add_id_to_stage_path: NotRequired[bool]
     r"""Add the Output ID value to staging location"""
-    object_acl: NotRequired[ObjectACLOptions]
-    r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptions]
-    r"""Storage class to select for uploaded objects"""
-    server_side_encryption: NotRequired[ServerSideEncryptionForUploadedObjectsOptions]
-    kms_key_id: NotRequired[str]
-    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
     remove_empty_dirs: NotRequired[bool]
     r"""Remove empty staging directories after moving files"""
     base_file_name: NotRequired[str]
     r"""JavaScript expression to define the output filename prefix (can be constant)"""
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+    max_file_open_time_sec: NotRequired[float]
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    max_file_idle_time_sec: NotRequired[float]
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
     max_open_files: NotRequired[float]
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
     header_line: NotRequired[str]
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -114,16 +107,15 @@ class OutputSecurityLakeTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
-    max_file_open_time_sec: NotRequired[float]
-    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
-    max_file_idle_time_sec: NotRequired[float]
-    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
-    max_concurrent_file_parts: NotRequired[float]
-    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
-    verify_permissions: NotRequired[bool]
-    r"""Disable if you can access files within the bucket but not the bucket itself"""
-    max_closing_files_to_backpressure: NotRequired[float]
-    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    aws_secret_key: NotRequired[str]
+    object_acl: NotRequired[ObjectACLOptions]
+    r"""Object ACL to assign to uploaded objects"""
+    storage_class: NotRequired[StorageClassOptions]
+    r"""Storage class to select for uploaded objects"""
+    server_side_encryption: NotRequired[ServerSideEncryptionForUploadedObjectsOptions]
+    r"""Server-side encryption to use for uploaded objects"""
+    kms_key_id: NotRequired[str]
+    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
     automatic_schema: NotRequired[bool]
     r"""Automatically calculate the schema based on the events of each Parquet file generated"""
     parquet_version: NotRequired[ParquetVersionOptions]
@@ -136,7 +128,7 @@ class OutputSecurityLakeTypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -159,31 +151,53 @@ class OutputSecurityLakeTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
-    template_bucket: NotRequired[str]
-    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_base_file_name: NotRequired[str]
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_storage_class: NotRequired[str]
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+    template_server_side_encryption: NotRequired[str]
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
+    template_kms_key_id: NotRequired[str]
+    r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
+    template_account_id: NotRequired[str]
+    r"""Binds 'accountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accountId' at runtime."""
+    template_custom_source: NotRequired[str]
+    r"""Binds 'customSource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customSource' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class OutputSecurityLake(BaseModel):
     type: OutputSecurityLakeType
+
+    assume_role_arn: Annotated[str, pydantic.Field(alias="assumeRoleArn")]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
 
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
     region: str
     r"""Region where the Amazon Security Lake is located."""
-
-    assume_role_arn: Annotated[str, pydantic.Field(alias="assumeRoleArn")]
-    r"""Amazon Resource Name (ARN) of the role to assume"""
 
     stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
@@ -211,34 +225,8 @@ class OutputSecurityLake(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = None
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
     endpoint: Optional[str] = None
     r"""Amazon Security Lake service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Amazon Security Lake-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[OutputSecurityLakeSignatureVersion],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing Amazon Security Lake requests"""
-
-    reuse_connections: Annotated[
-        Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = None
-    r"""Reuse connections between requests, which can improve performance"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
@@ -255,28 +243,41 @@ class OutputSecurityLake(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = None
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = None
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    max_concurrent_file_parts: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    ] = None
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+
+    verify_permissions: Annotated[
+        Optional[bool], pydantic.Field(alias="verifyPermissions")
+    ] = None
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+
+    max_closing_files_to_backpressure: Annotated[
+        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
+    ] = None
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+
     add_id_to_stage_path: Annotated[
         Optional[bool], pydantic.Field(alias="addIdToStagePath")
     ] = None
     r"""Add the Output ID value to staging location"""
-
-    object_acl: Annotated[
-        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
-    ] = None
-    r"""Object ACL to assign to uploaded objects"""
-
-    storage_class: Annotated[
-        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
-    ] = None
-    r"""Storage class to select for uploaded objects"""
-
-    server_side_encryption: Annotated[
-        Optional[ServerSideEncryptionForUploadedObjectsOptions],
-        pydantic.Field(alias="serverSideEncryption"),
-    ] = None
-
-    kms_key_id: Annotated[Optional[str], pydantic.Field(alias="kmsKeyId")] = None
-    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
@@ -293,6 +294,16 @@ class OutputSecurityLake(BaseModel):
     ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
+    max_file_open_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
+    ] = None
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+
+    max_file_idle_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    ] = None
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
         None
     )
@@ -307,7 +318,8 @@ class OutputSecurityLake(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -333,30 +345,28 @@ class OutputSecurityLake(BaseModel):
 
     orphans: Optional[OrphanFileRecoveryType] = None
 
-    max_file_open_time_sec: Annotated[
-        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = None
-    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
 
-    max_file_idle_time_sec: Annotated[
-        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    object_acl: Annotated[
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = None
-    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+    r"""Object ACL to assign to uploaded objects"""
 
-    max_concurrent_file_parts: Annotated[
-        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    storage_class: Annotated[
+        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
     ] = None
-    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    r"""Storage class to select for uploaded objects"""
 
-    verify_permissions: Annotated[
-        Optional[bool], pydantic.Field(alias="verifyPermissions")
+    server_side_encryption: Annotated[
+        Optional[ServerSideEncryptionForUploadedObjectsOptions],
+        pydantic.Field(alias="serverSideEncryption"),
     ] = None
-    r"""Disable if you can access files within the bucket but not the bucket itself"""
+    r"""Server-side encryption to use for uploaded objects"""
 
-    max_closing_files_to_backpressure: Annotated[
-        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
-    ] = None
-    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    kms_key_id: Annotated[Optional[str], pydantic.Field(alias="kmsKeyId")] = None
+    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
 
     automatic_schema: Annotated[
         Optional[bool], pydantic.Field(alias="automaticSchema")
@@ -389,7 +399,7 @@ class OutputSecurityLake(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -442,20 +452,15 @@ class OutputSecurityLake(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
-    template_bucket: Annotated[
-        Optional[str], pydantic.Field(alias="__template_bucket")
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
     ] = None
-    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
@@ -467,10 +472,70 @@ class OutputSecurityLake(BaseModel):
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
 
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_base_file_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_baseFileName")
+    ] = None
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_object_acl: Annotated[
+        Optional[str], pydantic.Field(alias="__template_objectACL")
+    ] = None
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+
+    template_storage_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageClass")
+    ] = None
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+
+    template_server_side_encryption: Annotated[
+        Optional[str], pydantic.Field(alias="__template_serverSideEncryption")
+    ] = None
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
+
+    template_kms_key_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_kmsKeyId")
+    ] = None
+    r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
+
+    template_account_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accountId")
+    ] = None
+    r"""Binds 'accountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accountId' at runtime."""
+
+    template_custom_source: Annotated[
+        Optional[str], pydantic.Field(alias="__template_customSource")
+    ] = None
+    r"""Binds 'customSource' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customSource' at runtime."""
+
     template_aws_api_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsApiKey")
     ] = None
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
@@ -481,11 +546,20 @@ class OutputSecurityLake(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputSecurityLakeSignatureVersion(value)
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_disk_full_backpressure")
+    def serialize_on_disk_full_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DiskSpaceProtectionOptions(value)
             except ValueError:
                 return value
         return value
@@ -517,24 +591,6 @@ class OutputSecurityLake(BaseModel):
                 return value
         return value
 
-    @field_serializer("on_backpressure")
-    def serialize_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.BackpressureBehaviorOptions1(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("on_disk_full_backpressure")
-    def serialize_on_disk_full_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.DiskSpaceProtectionOptions(value)
-            except ValueError:
-                return value
-        return value
-
     @field_serializer("parquet_version")
     def serialize_parquet_version(self, value):
         if isinstance(value, str):
@@ -562,23 +618,22 @@ class OutputSecurityLake(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
-                "awsSecretKey",
-                "awsAuthenticationMethod",
                 "endpoint",
-                "signatureVersion",
-                "reuseConnections",
-                "rejectUnauthorized",
                 "enableAssumeRole",
                 "assumeRoleExternalId",
                 "durationSeconds",
+                "awsAuthenticationMethod",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "maxConcurrentFileParts",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
                 "addIdToStagePath",
-                "objectACL",
-                "storageClass",
-                "serverSideEncryption",
-                "kmsKeyId",
                 "removeEmptyDirs",
                 "baseFileName",
                 "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
                 "maxOpenFiles",
                 "headerLine",
                 "writeHighWaterMark",
@@ -588,11 +643,11 @@ class OutputSecurityLake(BaseModel):
                 "forceCloseOnShutdown",
                 "retrySettings",
                 "orphans",
-                "maxFileOpenTimeSec",
-                "maxFileIdleTimeSec",
-                "maxConcurrentFileParts",
-                "verifyPermissions",
-                "maxClosingFilesToBackpressure",
+                "awsSecretKey",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "kmsKeyId",
                 "automaticSchema",
                 "parquetVersion",
                 "parquetDataPageVersion",
@@ -611,12 +666,23 @@ class OutputSecurityLake(BaseModel):
                 "parquetSchema",
                 "deadletterPath",
                 "maxRetryNum",
-                "__template_bucket",
-                "__template_region",
-                "__template_awsSecretKey",
+                "__template_streamtags",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
+                "__template_bucket",
+                "__template_region",
+                "__template_baseFileName",
+                "__template_onBackpressure",
+                "__template_awsSecretKey",
+                "__template_objectACL",
+                "__template_storageClass",
+                "__template_serverSideEncryption",
+                "__template_kmsKeyId",
+                "__template_accountId",
+                "__template_customSource",
                 "__template_awsApiKey",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)

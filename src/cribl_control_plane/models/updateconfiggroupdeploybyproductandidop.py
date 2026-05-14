@@ -16,7 +16,7 @@ class UpdateConfigGroupDeployByProductAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the target Worker Group, Outpost Group, or Edge Fleet for commit deployment."""
     deploy_request: DeployRequestTypedDict
-    r"""DeployRequest object"""
+    r"""DeployRequest object."""
 
 
 class UpdateConfigGroupDeployByProductAndIDRequest(BaseModel):
@@ -35,7 +35,7 @@ class UpdateConfigGroupDeployByProductAndIDRequest(BaseModel):
         DeployRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""DeployRequest object"""
+    r"""DeployRequest object."""
 
     @field_serializer("product")
     def serialize_product(self, value):

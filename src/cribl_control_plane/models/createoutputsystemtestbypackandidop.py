@@ -13,7 +13,7 @@ class CreateOutputSystemTestByPackAndIDRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
     output_test_request: OutputTestRequestTypedDict
-    r"""OutputTestRequest object"""
+    r"""OutputTestRequest object."""
 
 
 class CreateOutputSystemTestByPackAndIDRequest(BaseModel):
@@ -31,4 +31,4 @@ class CreateOutputSystemTestByPackAndIDRequest(BaseModel):
         OutputTestRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""OutputTestRequest object"""
+    r"""OutputTestRequest object."""

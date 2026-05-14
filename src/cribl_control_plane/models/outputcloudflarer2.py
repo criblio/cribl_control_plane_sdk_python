@@ -7,9 +7,9 @@ from .compressionoptionshttp import CompressionOptionsHTTP
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
-from .itemstypekeyvaluemetadata import (
-    ItemsTypeKeyValueMetadata,
-    ItemsTypeKeyValueMetadataTypedDict,
+from .keyvaluemetadataconfoutputfilesystem import (
+    KeyValueMetadataConfOutputFilesystem,
+    KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .orphanfilerecoverytype import (
     OrphanFileRecoveryType,
@@ -20,7 +20,6 @@ from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .serversideencryptionforuploadedobjectsoptionsaes256 import (
     ServerSideEncryptionForUploadedObjectsOptionsAes256,
 )
-from .signatureversionoptionsminio import SignatureVersionOptionsMinIo
 from .storageclassoptionsreducedredundancystandard import (
     StorageClassOptionsReducedredundancyStandard,
 )
@@ -66,14 +65,10 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     aws_authentication_method: NotRequired[OutputCloudflareR2AuthenticationMethod]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
-    signature_version: NotRequired[SignatureVersionOptionsMinIo]
-    r"""Signature version to use for signing MinIO requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-    aws_secret_key: NotRequired[str]
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
     dest_path: NotRequired[str]
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
     max_concurrent_file_parts: NotRequired[float]
@@ -116,6 +111,8 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
     storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
     r"""Storage class to select for uploaded objects"""
     server_side_encryption: NotRequired[
@@ -143,7 +140,7 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -159,8 +156,8 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_dest_path: NotRequired[str]
@@ -175,6 +172,8 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_storage_class: NotRequired[str]
     r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
     template_server_side_encryption: NotRequired[str]
@@ -220,11 +219,6 @@ class OutputCloudflareR2(BaseModel):
     ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsMinIo], pydantic.Field(alias="signatureVersion")
-    ] = None
-    r"""Signature version to use for signing MinIO requests"""
-
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
     ] = None
@@ -234,11 +228,6 @@ class OutputCloudflareR2(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
@@ -344,6 +333,11 @@ class OutputCloudflareR2(BaseModel):
 
     orphans: Optional[OrphanFileRecoveryType] = None
 
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+
     storage_class: Annotated[
         Optional[StorageClassOptionsReducedredundancyStandard],
         pydantic.Field(alias="storageClass"),
@@ -405,7 +399,7 @@ class OutputCloudflareR2(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -445,10 +439,10 @@ class OutputCloudflareR2(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
     ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_bucket: Annotated[
         Optional[str], pydantic.Field(alias="__template_bucket")
@@ -485,6 +479,11 @@ class OutputCloudflareR2(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
     template_storage_class: Annotated[
         Optional[str], pydantic.Field(alias="__template_storageClass")
     ] = None
@@ -510,15 +509,6 @@ class OutputCloudflareR2(BaseModel):
         if isinstance(value, str):
             try:
                 return models.OutputCloudflareR2AuthenticationMethod(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsMinIo(value)
             except ValueError:
                 return value
         return value
@@ -614,10 +604,8 @@ class OutputCloudflareR2(BaseModel):
                 "environment",
                 "streamtags",
                 "awsAuthenticationMethod",
-                "signatureVersion",
                 "reuseConnections",
                 "rejectUnauthorized",
-                "awsSecretKey",
                 "destPath",
                 "maxConcurrentFileParts",
                 "verifyPermissions",
@@ -640,6 +628,7 @@ class OutputCloudflareR2(BaseModel):
                 "forceCloseOnShutdown",
                 "retrySettings",
                 "orphans",
+                "awsSecretKey",
                 "storageClass",
                 "serverSideEncryption",
                 "description",
@@ -661,7 +650,7 @@ class OutputCloudflareR2(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
-                "__template_awsSecretKey",
+                "__template_streamtags",
                 "__template_bucket",
                 "__template_destPath",
                 "__template_partitionExpr",
@@ -669,6 +658,7 @@ class OutputCloudflareR2(BaseModel):
                 "__template_baseFileName",
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
+                "__template_awsSecretKey",
                 "__template_storageClass",
                 "__template_serverSideEncryption",
                 "__template_compress",

@@ -6,10 +6,12 @@ from enum import Enum
 
 
 class StorageClassOptionsCriblLakeDataset(str, Enum, metaclass=utils.OpenEnumMeta):
-    STANDARD = "STANDARD"
-    STANDARD_IA = "STANDARD_IA"
-    ONEZONE_IA = "ONEZONE_IA"
-    INTELLIGENT_TIERING = "INTELLIGENT_TIERING"
+    r"""Storage class used for objects written to the Dataset."""
+
+    DEEP_ARCHIVE = "DEEP_ARCHIVE"
     GLACIER = "GLACIER"
     GLACIER_IR = "GLACIER_IR"
-    DEEP_ARCHIVE = "DEEP_ARCHIVE"
+    INTELLIGENT_TIERING = "INTELLIGENT_TIERING"
+    ONEZONE_IA = "ONEZONE_IA"
+    STANDARD = "STANDARD"
+    STANDARD_IA = "STANDARD_IA"

@@ -8,7 +8,7 @@ from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from cribl_control_plane import models, utils
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -19,13 +19,6 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class OutputSnsType(str, Enum):
     SNS = "sns"
-
-
-class OutputSnsSignatureVersion(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Signature version to use for signing SNS requests"""
-
-    V2 = "v2"
-    V4 = "v4"
 
 
 class OutputSnsPqControlsTypedDict(TypedDict):
@@ -61,8 +54,6 @@ class OutputSnsTypedDict(TypedDict):
     r"""Region where the SNS is located"""
     endpoint: NotRequired[str]
     r"""SNS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SNS-compatible endpoint."""
-    signature_version: NotRequired[OutputSnsSignatureVersion]
-    r"""Signature version to use for signing SNS requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -104,6 +95,8 @@ class OutputSnsTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputSnsPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic_arn: NotRequired[str]
     r"""Binds 'topicArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicArn' at runtime."""
     template_message_group_id: NotRequired[str]
@@ -168,11 +161,6 @@ class OutputSns(BaseModel):
 
     endpoint: Optional[str] = None
     r"""SNS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SNS-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[OutputSnsSignatureVersion], pydantic.Field(alias="signatureVersion")
-    ] = None
-    r"""Signature version to use for signing SNS requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
@@ -269,6 +257,11 @@ class OutputSns(BaseModel):
         Optional[OutputSnsPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_topic_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_topicArn")
     ] = None
@@ -323,15 +316,6 @@ class OutputSns(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.OutputSnsSignatureVersion(value)
-            except ValueError:
-                return value
-        return value
-
     @field_serializer("on_backpressure")
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
@@ -382,7 +366,6 @@ class OutputSns(BaseModel):
                 "awsSecretKey",
                 "region",
                 "endpoint",
-                "signatureVersion",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "enableAssumeRole",
@@ -405,6 +388,7 @@ class OutputSns(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_topicArn",
                 "__template_messageGroupId",
                 "__template_awsSecretKey",

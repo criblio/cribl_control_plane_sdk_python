@@ -4,9 +4,6 @@ from __future__ import annotations
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
-from .signatureversionoptionss3collectorconf import (
-    SignatureVersionOptionsS3CollectorConf,
-)
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils.unions import parse_open_union
@@ -68,8 +65,6 @@ class S3AwsAuthenticationMethodSecretTypedDict(TypedDict):
     r"""Allows using template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)}, will enrich discovery results with a human readable \"date\" field."""
     endpoint: NotRequired[str]
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
-    r"""Signature version to use for signing S3 requests"""
     enable_assume_role: NotRequired[bool]
     r"""Use AssumeRole credentials"""
     assume_role_arn: NotRequired[str]
@@ -147,12 +142,6 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
 
     endpoint: Optional[str] = None
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsS3CollectorConf],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
@@ -250,15 +239,6 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -273,7 +253,6 @@ class S3AwsAuthenticationMethodSecret(BaseModel):
                 "partitioningScheme",
                 "extractors",
                 "endpoint",
-                "signatureVersion",
                 "enableAssumeRole",
                 "assumeRoleArn",
                 "assumeRoleExternalId",
@@ -357,8 +336,6 @@ class S3AwsAuthenticationMethodManualTypedDict(TypedDict):
     r"""Allows using template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)}, will enrich discovery results with a human readable \"date\" field."""
     endpoint: NotRequired[str]
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
-    r"""Signature version to use for signing S3 requests"""
     enable_assume_role: NotRequired[bool]
     r"""Use AssumeRole credentials"""
     assume_role_arn: NotRequired[str]
@@ -439,12 +416,6 @@ class S3AwsAuthenticationMethodManual(BaseModel):
 
     endpoint: Optional[str] = None
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsS3CollectorConf],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
@@ -537,15 +508,6 @@ class S3AwsAuthenticationMethodManual(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -561,7 +523,6 @@ class S3AwsAuthenticationMethodManual(BaseModel):
                 "partitioningScheme",
                 "extractors",
                 "endpoint",
-                "signatureVersion",
                 "enableAssumeRole",
                 "assumeRoleArn",
                 "assumeRoleExternalId",
@@ -640,8 +601,6 @@ class S3AwsAuthenticationMethodAutoTypedDict(TypedDict):
     r"""Allows using template tokens as context for expressions that enrich discovery results. For example, given a template /path/${epoch}, an extractor under key \"epoch\" with an expression {date: new Date(+value*1000)}, will enrich discovery results with a human readable \"date\" field."""
     endpoint: NotRequired[str]
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
-    r"""Signature version to use for signing S3 requests"""
     enable_assume_role: NotRequired[bool]
     r"""Use AssumeRole credentials"""
     assume_role_arn: NotRequired[str]
@@ -718,12 +677,6 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
 
     endpoint: Optional[str] = None
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsS3CollectorConf],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
@@ -824,15 +777,6 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -846,7 +790,6 @@ class S3AwsAuthenticationMethodAuto(BaseModel):
                 "partitioningScheme",
                 "extractors",
                 "endpoint",
-                "signatureVersion",
                 "enableAssumeRole",
                 "assumeRoleArn",
                 "assumeRoleExternalId",
@@ -929,8 +872,6 @@ class S3PartitioningSchemeNoneTypedDict(TypedDict):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
-    r"""Signature version to use for signing S3 requests"""
     enable_assume_role: NotRequired[bool]
     r"""Use AssumeRole credentials"""
     assume_role_arn: NotRequired[str]
@@ -1010,12 +951,6 @@ class S3PartitioningSchemeNone(BaseModel):
 
     endpoint: Optional[str] = None
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsS3CollectorConf],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
@@ -1116,15 +1051,6 @@ class S3PartitioningSchemeNone(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -1139,7 +1065,6 @@ class S3PartitioningSchemeNone(BaseModel):
                 "extractors",
                 "awsAuthenticationMethod",
                 "endpoint",
-                "signatureVersion",
                 "enableAssumeRole",
                 "assumeRoleArn",
                 "assumeRoleExternalId",
@@ -1220,8 +1145,6 @@ class S3PartitioningSchemeDdssTypedDict(TypedDict):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
-    r"""Signature version to use for signing S3 requests"""
     enable_assume_role: NotRequired[bool]
     r"""Use AssumeRole credentials"""
     assume_role_arn: NotRequired[str]
@@ -1298,12 +1221,6 @@ class S3PartitioningSchemeDdss(BaseModel):
 
     endpoint: Optional[str] = None
     r"""Must point to an S3-compatible endpoint. If empty, defaults to an AWS region-specific endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsS3CollectorConf],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing S3 requests"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
@@ -1404,15 +1321,6 @@ class S3PartitioningSchemeDdss(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -1426,7 +1334,6 @@ class S3PartitioningSchemeDdss(BaseModel):
                 "extractors",
                 "awsAuthenticationMethod",
                 "endpoint",
-                "signatureVersion",
                 "enableAssumeRole",
                 "assumeRoleArn",
                 "assumeRoleExternalId",

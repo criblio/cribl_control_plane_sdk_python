@@ -11,7 +11,6 @@ from .orphanfilerecoverytype import (
     OrphanFileRecoveryTypeTypedDict,
 )
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
-from .signatureversionoptionsgoogle import SignatureVersionOptionsGoogle
 from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -50,8 +49,6 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    signature_version: NotRequired[SignatureVersionOptionsGoogle]
-    r"""Signature version to use for signing Google Cloud Storage requests"""
     object_acl: NotRequired[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptionsArchiveColdline]
@@ -100,6 +97,8 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
     template_endpoint: NotRequired[str]
@@ -148,12 +147,6 @@ class OutputExabeam(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsGoogle],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing Google Cloud Storage requests"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol],
@@ -275,6 +268,11 @@ class OutputExabeam(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_region: Annotated[
         Optional[str], pydantic.Field(alias="__template_region")
     ] = None
@@ -299,15 +297,6 @@ class OutputExabeam(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsGoogle(value)
-            except ValueError:
-                return value
-        return value
 
     @field_serializer("object_acl")
     def serialize_object_acl(self, value):
@@ -356,7 +345,6 @@ class OutputExabeam(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
-                "signatureVersion",
                 "objectACL",
                 "storageClass",
                 "reuseConnections",
@@ -383,6 +371,7 @@ class OutputExabeam(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
+                "__template_streamtags",
                 "__template_region",
                 "__template_endpoint",
                 "__template_objectACL",

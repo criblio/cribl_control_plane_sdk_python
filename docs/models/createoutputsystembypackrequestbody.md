@@ -1,6 +1,6 @@
 # CreateOutputSystemByPackRequestBody
 
-Output object
+Output object.
 
 
 ## Supported Types
@@ -465,5 +465,11 @@ value: models.CreateOutputSystemByPackOutputCloudianS3 = /* values here */
 
 ```python
 value: models.CreateOutputSystemByPackOutputScalityS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputAlibabaCloudS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputAlibabaCloudS3 = /* values here */
 ```
 

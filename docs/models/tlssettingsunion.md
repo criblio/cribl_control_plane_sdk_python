@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `models.TLSSettings1`
+### `models.TLSSettings`
 
 ```python
-value: models.TLSSettings1 = /* values here */
+value: models.TLSSettings = /* values here */
 ```
 
-### `models.TLSSettings2`
+### `models.EmptyObject`
 
 ```python
-value: models.TLSSettings2 = /* values here */
+value: models.EmptyObject = /* values here */
 ```
 

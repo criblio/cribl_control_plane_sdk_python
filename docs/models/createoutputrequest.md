@@ -1,6 +1,6 @@
 # CreateOutputRequest
 
-Output object
+Output object.
 
 
 ## Supported Types
@@ -465,5 +465,11 @@ value: models.CreateOutputOutputCloudianS3 = /* values here */
 
 ```python
 value: models.CreateOutputOutputScalityS3 = /* values here */
+```
+
+### `models.CreateOutputOutputAlibabaCloudS3`
+
+```python
+value: models.CreateOutputOutputAlibabaCloudS3 = /* values here */
 ```
 

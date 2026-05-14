@@ -465,3 +465,9 @@ value: models.OutputCloudianS3 = /* values here */
 value: models.OutputScalityS3 = /* values here */
 ```
 
+### `models.OutputAlibabaCloudS3`
+
+```python
+value: models.OutputAlibabaCloudS3 = /* values here */
+```
+

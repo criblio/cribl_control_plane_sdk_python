@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 from .authenticationmethodoptionssasl import AuthenticationMethodOptionsSasl
-from .itemstypesasloauthparams import (
-    ItemsTypeSaslOauthParams,
-    ItemsTypeSaslOauthParamsTypedDict,
+from .oauthparamconfinputkafka import (
+    OauthParamConfInputKafka,
+    OauthParamConfInputKafkaTypedDict,
 )
-from .itemstypesaslsaslextensions import (
-    ItemsTypeSaslSaslExtensions,
-    ItemsTypeSaslSaslExtensionsTypedDict,
+from .saslextensionconfinputkafka import (
+    SaslExtensionConfInputKafka,
+    SaslExtensionConfInputKafkaTypedDict,
 )
 from .saslmechanismoptionssasl import SaslMechanismOptionsSasl
 from cribl_control_plane import models
@@ -45,9 +45,9 @@ class AuthenticationTypeTypedDict(TypedDict):
     oauth_secret_type: NotRequired[str]
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    oauth_params: NotRequired[List[ItemsTypeSaslOauthParamsTypedDict]]
+    oauth_params: NotRequired[List[OauthParamConfInputKafkaTypedDict]]
     r"""Additional fields to send to the token endpoint, such as scope or audience"""
-    sasl_extensions: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
+    sasl_extensions: NotRequired[List[SaslExtensionConfInputKafkaTypedDict]]
     r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""
     template_mechanism: NotRequired[str]
     r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
@@ -118,12 +118,12 @@ class AuthenticationType(BaseModel):
     r"""Select or create a stored text secret"""
 
     oauth_params: Annotated[
-        Optional[List[ItemsTypeSaslOauthParams]], pydantic.Field(alias="oauthParams")
+        Optional[List[OauthParamConfInputKafka]], pydantic.Field(alias="oauthParams")
     ] = None
     r"""Additional fields to send to the token endpoint, such as scope or audience"""
 
     sasl_extensions: Annotated[
-        Optional[List[ItemsTypeSaslSaslExtensions]],
+        Optional[List[SaslExtensionConfInputKafka]],
         pydantic.Field(alias="saslExtensions"),
     ] = None
     r"""Additional SASL extension fields, such as Confluent's logicalCluster or identityPoolId"""

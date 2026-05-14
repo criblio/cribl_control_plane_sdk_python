@@ -12,14 +12,18 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class ObjectStorageFilterTypedDict(TypedDict):
     data_type_id: str
+    r"""Datatype identifier that maps filtered objects to a data type definition."""
     filter_: str
+    r"""Glob pattern for selecting files within the storage path."""
     data_path_format: NotRequired[PathFilterDataFormat]
 
 
 class ObjectStorageFilter(BaseModel):
     data_type_id: Annotated[str, pydantic.Field(alias="dataTypeId")]
+    r"""Datatype identifier that maps filtered objects to a data type definition."""
 
     filter_: Annotated[str, pydantic.Field(alias="filter")]
+    r"""Glob pattern for selecting files within the storage path."""
 
     data_path_format: Annotated[
         Optional[PathFilterDataFormat], pydantic.Field(alias="dataPathFormat")

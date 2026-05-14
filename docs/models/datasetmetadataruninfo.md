@@ -3,9 +3,9 @@
 
 ## Fields
 
-| Field                   | Type                    | Required                | Description             |
-| ----------------------- | ----------------------- | ----------------------- | ----------------------- |
-| `earliest_scanned_time` | *Optional[float]*       | :heavy_minus_sign:      | N/A                     |
-| `finished_at`           | *Optional[float]*       | :heavy_minus_sign:      | N/A                     |
-| `latest_scanned_time`   | *Optional[float]*       | :heavy_minus_sign:      | N/A                     |
-| `object_count`          | *Optional[float]*       | :heavy_minus_sign:      | N/A                     |
+| Field                                                                                        | Type                                                                                         | Required                                                                                     | Description                                                                                  |
+| -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| `earliest_scanned_time`                                                                      | *Optional[int]*                                                                              | :heavy_minus_sign:                                                                           | Timestamp (in Unix time) for the earliest event that was observed during the scan (seconds). |
+| `finished_at`                                                                                | *Optional[int]*                                                                              | :heavy_minus_sign:                                                                           | Timestamp (in Unix time) when the acceleration run finished (milliseconds).                  |
+| `latest_scanned_time`                                                                        | *Optional[int]*                                                                              | :heavy_minus_sign:                                                                           | Timestamp (in Unix time) for the latest event that was observed during the scan (seconds).   |
+| `object_count`                                                                               | *Optional[int]*                                                                              | :heavy_minus_sign:                                                                           | Number of objects on the acceleration manifest after the scan completed.                     |

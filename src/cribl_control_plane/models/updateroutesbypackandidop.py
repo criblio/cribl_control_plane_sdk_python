@@ -14,7 +14,7 @@ class UpdateRoutesByPackAndIDRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
     routes_input: RoutesInputTypedDict
-    r"""RoutesInput object"""
+    r"""RoutesInput object."""
 
 
 class UpdateRoutesByPackAndIDRequest(BaseModel):
@@ -34,4 +34,4 @@ class UpdateRoutesByPackAndIDRequest(BaseModel):
         RoutesInput,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""RoutesInput object"""
+    r"""RoutesInput object."""

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .acknowledgmentsoptions import AcknowledgmentsOptions
+from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .microsoftentraidauthenticationendpointoptionssasl import (
@@ -17,7 +18,7 @@ from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
 )
-from cribl_control_plane import models, utils
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -30,13 +31,6 @@ class OutputMicrosoftFabricType(str, Enum):
     MICROSOFT_FABRIC = "microsoft_fabric"
 
 
-class OutputMicrosoftFabricAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    SECRET = "secret"
-    CERTIFICATE = "certificate"
-
-
 class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
@@ -46,7 +40,7 @@ class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     r"""The username for authentication. This should always be $ConnectionString."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
-    client_secret_auth_type: NotRequired[OutputMicrosoftFabricAuthenticationMethod]
+    client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate_name: NotRequired[str]
@@ -88,7 +82,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
 
     client_secret_auth_type: Annotated[
-        Optional[OutputMicrosoftFabricAuthenticationMethod],
+        Optional[AuthenticationMethodOptionsAuth],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
 
@@ -161,7 +155,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     def serialize_client_secret_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputMicrosoftFabricAuthenticationMethod(value)
+                return models.AuthenticationMethodOptionsAuth(value)
             except ValueError:
                 return value
         return value
@@ -292,6 +286,8 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputMicrosoftFabricPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
     template_format: NotRequired[str]
@@ -450,6 +446,11 @@ class OutputMicrosoftFabric(BaseModel):
         Optional[OutputMicrosoftFabricPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_topic: Annotated[
         Optional[str], pydantic.Field(alias="__template_topic")
     ] = None
@@ -562,6 +563,7 @@ class OutputMicrosoftFabric(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_topic",
                 "__template_format",
                 "__template_onBackpressure",

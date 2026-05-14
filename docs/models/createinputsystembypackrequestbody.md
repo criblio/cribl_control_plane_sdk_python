@@ -1,6 +1,6 @@
 # CreateInputSystemByPackRequestBody
 
-Input object
+Input object.
 
 
 ## Supported Types
@@ -329,6 +329,12 @@ value: models.CreateInputSystemByPackInputWef = /* values here */
 value: models.CreateInputSystemByPackInputWinEventLogs = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputAppleUnifiedLogs`
+
+```python
+value: models.CreateInputSystemByPackInputAppleUnifiedLogs = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputRawUDP`
 
 ```python
@@ -393,6 +399,12 @@ value: models.CreateInputSystemByPackInputCloudflareHec = /* values here */
 
 ```python
 value: models.CreateInputSystemByPackInputOpenaiComplianceLogs = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputAnthropicCompliance`
+
+```python
+value: models.CreateInputSystemByPackInputAnthropicCompliance = /* values here */
 ```
 
 ### `models.CreateInputSystemByPackInputOkta`

@@ -5,6 +5,10 @@ from .apitypesystemsettingsconf import (
     APITypeSystemSettingsConf,
     APITypeSystemSettingsConfTypedDict,
 )
+from .appstypesystemsettingsconf import (
+    AppsTypeSystemSettingsConf,
+    AppsTypeSystemSettingsConfTypedDict,
+)
 from .backupssettings_union import BackupsSettingsUnion, BackupsSettingsUnionTypedDict
 from .customlogotypesystemsettingsconf import (
     CustomLogoTypeSystemSettingsConf,
@@ -37,10 +41,7 @@ from .systemtypesystemsettingsconf import (
     SystemTypeSystemSettingsConfTypedDict,
 )
 from .tlssettings_union import TLSSettingsUnion, TLSSettingsUnionTypedDict
-from .upgradegroupsettings_union import (
-    UpgradeGroupSettingsUnion,
-    UpgradeGroupSettingsUnionTypedDict,
-)
+from .upgradegroupsettings import UpgradeGroupSettings, UpgradeGroupSettingsTypedDict
 from .upgradesettings import UpgradeSettings, UpgradeSettingsTypedDict
 from .workerstypesystemsettingsconf import (
     WorkersTypeSystemSettingsConf,
@@ -63,9 +64,10 @@ class SystemSettingsConfTypedDict(TypedDict):
     sni: SniSettingsUnionTypedDict
     system: SystemTypeSystemSettingsConfTypedDict
     tls: TLSSettingsUnionTypedDict
-    upgrade_group_settings: UpgradeGroupSettingsUnionTypedDict
+    upgrade_group_settings: UpgradeGroupSettingsTypedDict
     upgrade_settings: UpgradeSettingsTypedDict
     workers: WorkersTypeSystemSettingsConfTypedDict
+    apps: NotRequired[AppsTypeSystemSettingsConfTypedDict]
     custom_logo: NotRequired[CustomLogoTypeSystemSettingsConfTypedDict]
     sockets: NotRequired[SocketsTypeSystemSettingsConfTypedDict]
     support: NotRequired[SupportTypeSystemSettingsConfTypedDict]
@@ -91,7 +93,7 @@ class SystemSettingsConf(BaseModel):
     tls: TLSSettingsUnion
 
     upgrade_group_settings: Annotated[
-        UpgradeGroupSettingsUnion, pydantic.Field(alias="upgradeGroupSettings")
+        UpgradeGroupSettings, pydantic.Field(alias="upgradeGroupSettings")
     ]
 
     upgrade_settings: Annotated[
@@ -99,6 +101,8 @@ class SystemSettingsConf(BaseModel):
     ]
 
     workers: WorkersTypeSystemSettingsConf
+
+    apps: Optional[AppsTypeSystemSettingsConf] = None
 
     custom_logo: Annotated[
         Optional[CustomLogoTypeSystemSettingsConf], pydantic.Field(alias="customLogo")
@@ -110,7 +114,7 @@ class SystemSettingsConf(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["customLogo", "sockets", "support"])
+        optional_fields = set(["apps", "customLogo", "sockets", "support"])
         serialized = handler(self)
         m = {}
 

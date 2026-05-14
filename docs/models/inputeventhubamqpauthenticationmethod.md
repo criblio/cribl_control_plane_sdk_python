@@ -1,13 +1,11 @@
 # InputEventhubAmqpAuthenticationMethod
 
-Enter connection string directly, or select a stored secret
-
 ## Example Usage
 
 ```python
 from cribl_control_plane.models import InputEventhubAmqpAuthenticationMethod
 
-value = InputEventhubAmqpAuthenticationMethod.MANUAL
+value = InputEventhubAmqpAuthenticationMethod.SECRET
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```
@@ -15,7 +13,10 @@ value = InputEventhubAmqpAuthenticationMethod.MANUAL
 
 ## Values
 
-| Name     | Value    |
-| -------- | -------- |
-| `MANUAL` | manual   |
-| `SECRET` | secret   |
+| Name                   | Value                  |
+| ---------------------- | ---------------------- |
+| `SECRET`               | secret                 |
+| `CLIENT_SECRET`        | clientSecret           |
+| `CLIENT_CERT`          | clientCert             |
+| `CLIENT_ASSERTION`     | clientAssertion        |
+| `CLIENT_ASSERTION_RPC` | clientAssertion_rpc    |

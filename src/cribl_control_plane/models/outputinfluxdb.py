@@ -3,17 +3,17 @@
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -31,7 +31,7 @@ class OutputInfluxdbType(str, Enum):
     INFLUXDB = "influxdb"
 
 
-class TimestampPrecision(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputInfluxdbTimestampPrecision(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
 
     # Nanoseconds
@@ -87,7 +87,7 @@ class OutputInfluxdbTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     use_v2_api: NotRequired[bool]
     r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
-    timestamp_precision: NotRequired[TimestampPrecision]
+    timestamp_precision: NotRequired[OutputInfluxdbTimestampPrecision]
     r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
     dynamic_value_field_name: NotRequired[bool]
     r"""Enabling this will pull the value field from the metric name. E,g, 'db.query.user' will use 'db.query' as the measurement and 'user' as the value field."""
@@ -110,7 +110,7 @@ class OutputInfluxdbTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -118,7 +118,9 @@ class OutputInfluxdbTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -165,6 +167,8 @@ class OutputInfluxdbTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -204,7 +208,8 @@ class OutputInfluxdb(BaseModel):
     r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
 
     timestamp_precision: Annotated[
-        Optional[TimestampPrecision], pydantic.Field(alias="timestampPrecision")
+        Optional[OutputInfluxdbTimestampPrecision],
+        pydantic.Field(alias="timestampPrecision"),
     ] = None
     r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
 
@@ -251,7 +256,7 @@ class OutputInfluxdb(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -273,7 +278,7 @@ class OutputInfluxdb(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -376,6 +381,11 @@ class OutputInfluxdb(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
     )
@@ -405,7 +415,7 @@ class OutputInfluxdb(BaseModel):
     def serialize_timestamp_precision(self, value):
         if isinstance(value, str):
             try:
-                return models.TimestampPrecision(value)
+                return models.OutputInfluxdbTimestampPrecision(value)
             except ValueError:
                 return value
         return value
@@ -514,6 +524,7 @@ class OutputInfluxdb(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
+                "__template_streamtags",
                 "__template_url",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",

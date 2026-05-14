@@ -28,18 +28,18 @@ class Nodes(BaseSDK):
     def count(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         filter_exp: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedNumber:
-        r"""Get a count of Worker or Edge Nodes
+        r"""Get a count of Worker, Edge, or Outpost Nodes
 
-        Get a count of all Worker or Edge Nodes for the specified Cribl product.
+        Get a count of all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get the count of Worker or Edge Nodes for.
+        :param product: Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for.
         :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -123,18 +123,18 @@ class Nodes(BaseSDK):
     async def count_async(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         filter_exp: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedNumber:
-        r"""Get a count of Worker or Edge Nodes
+        r"""Get a count of Worker, Edge, or Outpost Nodes
 
-        Get a count of all Worker or Edge Nodes for the specified Cribl product.
+        Get a count of all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get the count of Worker or Edge Nodes for.
+        :param product: Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for.
         :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -218,16 +218,16 @@ class Nodes(BaseSDK):
     def get(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedMasterWorkerEntry:
-        r"""Get detailed metadata for a Worker or Edge Node
+        r"""Get detailed metadata for a Worker, Edge, or Outpost Node
 
-        Get detailed metadata for the specified Worker or Edge Node for the specified Cribl product.
+        Get detailed metadata for the specified Worker, Edge, or Outpost Node for the specified Cribl product.
 
         :param product: Name of the Cribl product that contains the Node.
         :param id: The <code>id</code> of the Node to get the metadata for.
@@ -313,16 +313,16 @@ class Nodes(BaseSDK):
     async def get_async(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         id: str,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedMasterWorkerEntry:
-        r"""Get detailed metadata for a Worker or Edge Node
+        r"""Get detailed metadata for a Worker, Edge, or Outpost Node
 
-        Get detailed metadata for the specified Worker or Edge Node for the specified Cribl product.
+        Get detailed metadata for the specified Worker, Edge, or Outpost Node for the specified Cribl product.
 
         :param product: Name of the Cribl product that contains the Node.
         :param id: The <code>id</code> of the Node to get the metadata for.
@@ -408,7 +408,7 @@ class Nodes(BaseSDK):
     def list(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         filter_exp: Optional[str] = None,
         sort_exp: Optional[str] = None,
         filter_: Optional[str] = None,
@@ -420,11 +420,11 @@ class Nodes(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> Optional[models.GetProductsWorkersByProductResponse]:
-        r"""Get detailed metadata for Worker or Edge Nodes
+        r"""Get detailed metadata for Worker, Edge, or Outpost Nodes
 
-        Get detailed metadata for Worker or Edge Nodes for the specified Cribl product.
+        Get detailed metadata for Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get Worker or Edge Nodes for.
+        :param product: Name of the Cribl product to get Worker, Edge, or Outpost Nodes for.
         :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
         :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
@@ -510,8 +510,8 @@ class Nodes(BaseSDK):
             results = JSONPath("$.items").parse(body)
             if len(results) == 0 or len(results[0]) == 0:
                 return None
-            limit = request.limit if isinstance(request.limit, int) else 0
-            if len(results[0]) < limit:
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
                 return None
             next_offset = offset + len(results[0])
 
@@ -552,7 +552,7 @@ class Nodes(BaseSDK):
     async def list_async(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         filter_exp: Optional[str] = None,
         sort_exp: Optional[str] = None,
         filter_: Optional[str] = None,
@@ -564,11 +564,11 @@ class Nodes(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> Optional[models.GetProductsWorkersByProductResponse]:
-        r"""Get detailed metadata for Worker or Edge Nodes
+        r"""Get detailed metadata for Worker, Edge, or Outpost Nodes
 
-        Get detailed metadata for Worker or Edge Nodes for the specified Cribl product.
+        Get detailed metadata for Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get Worker or Edge Nodes for.
+        :param product: Name of the Cribl product to get Worker, Edge, or Outpost Nodes for.
         :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
         :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
@@ -659,8 +659,8 @@ class Nodes(BaseSDK):
             results = JSONPath("$.items").parse(body)
             if len(results) == 0 or len(results[0]) == 0:
                 return empty_result()
-            limit = request.limit if isinstance(request.limit, int) else 0
-            if len(results[0]) < limit:
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
                 return empty_result()
             next_offset = offset + len(results[0])
 
@@ -701,18 +701,18 @@ class Nodes(BaseSDK):
     def restart(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         guids: List[str],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedRestartResponse:
-        r"""Restart Worker or Edge Nodes
+        r"""Restart Worker, Edge, or Outpost Nodes
 
-        Restart all Worker or Edge Nodes for the specified Cribl product.
+        Restart all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product whose Worker or Edge Nodes you want to restart.
+        :param product: Name of the Cribl product whose Worker, Edge, or Outpost Nodes you want to restart.
         :param guids: GUIDs of the Worker or Edge Nodes to restart.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -801,18 +801,18 @@ class Nodes(BaseSDK):
     async def restart_async(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         guids: List[str],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedRestartResponse:
-        r"""Restart Worker or Edge Nodes
+        r"""Restart Worker, Edge, or Outpost Nodes
 
-        Restart all Worker or Edge Nodes for the specified Cribl product.
+        Restart all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product whose Worker or Edge Nodes you want to restart.
+        :param product: Name of the Cribl product whose Worker, Edge, or Outpost Nodes you want to restart.
         :param guids: GUIDs of the Worker or Edge Nodes to restart.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

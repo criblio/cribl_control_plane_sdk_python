@@ -11,7 +11,7 @@ class CreateOutputTestByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Destination to send sample event data to."""
     output_test_request: OutputTestRequestTypedDict
-    r"""OutputTestRequest object"""
+    r"""OutputTestRequest object."""
 
 
 class CreateOutputTestByIDRequest(BaseModel):
@@ -24,4 +24,4 @@ class CreateOutputTestByIDRequest(BaseModel):
         OutputTestRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""OutputTestRequest object"""
+    r"""OutputTestRequest object."""

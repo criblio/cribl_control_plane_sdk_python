@@ -7,7 +7,7 @@ from .authenticationmethodoptionsauthtokensitems import (
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionspq import CompressionOptionsPq
-from .itemstypehosts import ItemsTypeHosts, ItemsTypeHostsTypedDict
+from .hostconfoutputsyslog import HostConfOutputSyslog, HostConfOutputSyslogTypedDict
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .tlssettingsclientsidetypecapathcertpath import (
@@ -75,7 +75,7 @@ class OutputTcpjsonTypedDict(TypedDict):
     r"""The port to connect to on the provided host"""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    hosts: NotRequired[List[ItemsTypeHostsTypedDict]]
+    hosts: NotRequired[List[HostConfOutputSyslogTypedDict]]
     r"""Set of hosts to load-balance data to"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
@@ -110,6 +110,8 @@ class OutputTcpjsonTypedDict(TypedDict):
     r"""Optional authentication token to include as part of the connection header"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_host: NotRequired[str]
@@ -198,7 +200,7 @@ class OutputTcpjson(BaseModel):
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
-    hosts: Optional[List[ItemsTypeHosts]] = None
+    hosts: Optional[List[HostConfOutputSyslog]] = None
     r"""Set of hosts to load-balance data to"""
 
     dns_resolve_period_sec: Annotated[
@@ -274,6 +276,11 @@ class OutputTcpjson(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
@@ -386,6 +393,7 @@ class OutputTcpjson(BaseModel):
                 "pqControls",
                 "authToken",
                 "textSecret",
+                "__template_streamtags",
                 "__template_onBackpressure",
                 "__template_host",
                 "__template_port",

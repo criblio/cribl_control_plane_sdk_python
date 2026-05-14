@@ -11,7 +11,7 @@ class CreatePipelinesByPackRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
     pipeline: PipelineInputTypedDict
-    r"""Pipeline object"""
+    r"""Pipeline object."""
 
 
 class CreatePipelinesByPackRequest(BaseModel):
@@ -24,4 +24,4 @@ class CreatePipelinesByPackRequest(BaseModel):
         PipelineInput,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""Pipeline object"""
+    r"""Pipeline object."""

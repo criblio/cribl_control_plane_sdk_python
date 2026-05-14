@@ -38,6 +38,8 @@ class OutputDiskSpoolTypedDict(TypedDict):
     partition_expr: NotRequired[str]
     r"""JavaScript expression defining how files are partitioned and organized within the time-buckets. If blank, the event's __partition property is used and otherwise, events go directly into the time-bucket directory."""
     description: NotRequired[str]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class OutputDiskSpool(BaseModel):
@@ -79,6 +81,11 @@ class OutputDiskSpool(BaseModel):
 
     description: Optional[str] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @field_serializer("compress")
     def serialize_compress(self, value):
         if isinstance(value, str):
@@ -103,6 +110,7 @@ class OutputDiskSpool(BaseModel):
                 "compress",
                 "partitionExpr",
                 "description",
+                "__template_streamtags",
             ]
         )
         serialized = handler(self)

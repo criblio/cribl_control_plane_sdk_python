@@ -41,6 +41,7 @@ class MasterWorkerEntryTypedDict(TypedDict):
     last_metrics: NotRequired[Dict[str, Any]]
     metadata: NotRequired[HeartbeatMetadataTypedDict]
     node_upgrade_status: NotRequired[NodeUpgradeStatusTypedDict]
+    provisioning_token_id: NotRequired[str]
     status: NotRequired[str]
     type: NotRequired[MasterWorkerEntryType]
     workers: NotRequired[MasterWorkerEntryWorkersTypedDict]
@@ -77,6 +78,10 @@ class MasterWorkerEntry(BaseModel):
         Optional[NodeUpgradeStatus], pydantic.Field(alias="nodeUpgradeStatus")
     ] = None
 
+    provisioning_token_id: Annotated[
+        Optional[str], pydantic.Field(alias="provisioningTokenId")
+    ] = None
+
     status: Optional[str] = None
 
     type: Optional[MasterWorkerEntryType] = None
@@ -111,6 +116,7 @@ class MasterWorkerEntry(BaseModel):
                 "lastMetrics",
                 "metadata",
                 "nodeUpgradeStatus",
+                "provisioningTokenId",
                 "status",
                 "type",
                 "workers",

@@ -14,7 +14,7 @@ class UpdatePipelinesByPackAndIDRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
     pipeline: PipelineInputTypedDict
-    r"""Pipeline object"""
+    r"""Pipeline object."""
 
 
 class UpdatePipelinesByPackAndIDRequest(BaseModel):
@@ -34,4 +34,4 @@ class UpdatePipelinesByPackAndIDRequest(BaseModel):
         PipelineInput,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""Pipeline object"""
+    r"""Pipeline object."""

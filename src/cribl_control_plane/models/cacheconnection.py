@@ -13,24 +13,33 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class CacheConnectionTypedDict(TypedDict):
     cache_ref: str
+    r"""Identifier of the Lakehouse cache referenced by the Dataset."""
     created_at: float
+    r"""Timestamp when the continuous data feed to the Lakehouse cache started, in Unix time (milliseconds)."""
     retention_in_days: float
+    r"""Retention period for the Lakehouse cache connection, in days."""
     accelerated_fields: NotRequired[List[str]]
+    r"""Accelerated fields (materialized columns) for the cache connection."""
     backfill_status: NotRequired[CacheConnectionBackfillStatus]
     lakehouse_connection_type: NotRequired[LakehouseConnectionType]
     migration_query_id: NotRequired[str]
+    r"""Query identifier of the active Lakehouse migration. Omitted if no migration is in progress."""
 
 
 class CacheConnection(BaseModel):
     cache_ref: Annotated[str, pydantic.Field(alias="cacheRef")]
+    r"""Identifier of the Lakehouse cache referenced by the Dataset."""
 
     created_at: Annotated[float, pydantic.Field(alias="createdAt")]
+    r"""Timestamp when the continuous data feed to the Lakehouse cache started, in Unix time (milliseconds)."""
 
     retention_in_days: Annotated[float, pydantic.Field(alias="retentionInDays")]
+    r"""Retention period for the Lakehouse cache connection, in days."""
 
     accelerated_fields: Annotated[
         Optional[List[str]], pydantic.Field(alias="acceleratedFields")
     ] = None
+    r"""Accelerated fields (materialized columns) for the cache connection."""
 
     backfill_status: Annotated[
         Optional[CacheConnectionBackfillStatus], pydantic.Field(alias="backfillStatus")
@@ -44,6 +53,7 @@ class CacheConnection(BaseModel):
     migration_query_id: Annotated[
         Optional[str], pydantic.Field(alias="migrationQueryId")
     ] = None
+    r"""Query identifier of the active Lakehouse migration. Omitted if no migration is in progress."""
 
     @field_serializer("backfill_status")
     def serialize_backfill_status(self, value):

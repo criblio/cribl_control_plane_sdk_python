@@ -12,9 +12,9 @@ from .compressionoptionshttp import CompressionOptionsHTTP
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
-from .itemstypekeyvaluemetadata import (
-    ItemsTypeKeyValueMetadata,
-    ItemsTypeKeyValueMetadataTypedDict,
+from .keyvaluemetadataconfoutputfilesystem import (
+    KeyValueMetadataConfOutputFilesystem,
+    KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .orphanfilerecoverytype import (
     OrphanFileRecoveryType,
@@ -35,7 +35,7 @@ class OutputAzureBlobType(str, Enum):
     AZURE_BLOB = "azure_blob"
 
 
-class BlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureBlobBlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
     # Default account access tier
     INFERRED = "Inferred"
     # Hot tier
@@ -105,7 +105,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     auth_type: NotRequired[AuthenticationMethodOptions]
-    storage_class: NotRequired[BlobAccessTier]
+    storage_class: NotRequired[OutputAzureBlobBlobAccessTier]
     description: NotRequired[str]
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -125,7 +125,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -158,6 +158,8 @@ class OutputAzureBlobTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_dest_path: NotRequired[str]
@@ -318,7 +320,7 @@ class OutputAzureBlob(BaseModel):
     ] = None
 
     storage_class: Annotated[
-        Optional[BlobAccessTier], pydantic.Field(alias="storageClass")
+        Optional[OutputAzureBlobBlobAccessTier], pydantic.Field(alias="storageClass")
     ] = None
 
     description: Optional[str] = None
@@ -367,7 +369,7 @@ class OutputAzureBlob(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -440,6 +442,11 @@ class OutputAzureBlob(BaseModel):
     r"""Select or create a stored text secret"""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
@@ -551,7 +558,7 @@ class OutputAzureBlob(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.BlobAccessTier(value)
+                return models.OutputAzureBlobBlobAccessTier(value)
             except ValueError:
                 return value
         return value
@@ -651,6 +658,7 @@ class OutputAzureBlob(BaseModel):
                 "endpointSuffix",
                 "clientTextSecret",
                 "certificate",
+                "__template_streamtags",
                 "__template_containerName",
                 "__template_destPath",
                 "__template_partitionExpr",

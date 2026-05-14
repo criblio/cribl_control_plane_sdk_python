@@ -4,7 +4,10 @@ from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
-from .itemstypeloglabels import ItemsTypeLogLabels, ItemsTypeLogLabelsTypedDict
+from .loglabelconfoutputgooglecloudlogging import (
+    LogLabelConfOutputGoogleCloudLogging,
+    LogLabelConfOutputGoogleCloudLoggingTypedDict,
+)
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from cribl_control_plane import models, utils
@@ -20,7 +23,7 @@ class OutputGoogleCloudLoggingType(str, Enum):
     GOOGLE_CLOUD_LOGGING = "google_cloud_logging"
 
 
-class LogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputGoogleCloudLoggingLogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
     # Project
     PROJECT = "project"
     # Organization
@@ -31,7 +34,7 @@ class LogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
     FOLDER = "folder"
 
 
-class PayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputGoogleCloudLoggingPayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format to use when sending payload. Defaults to Text."""
 
     # Text
@@ -50,7 +53,7 @@ class OutputGoogleCloudLoggingPqControls(BaseModel):
 
 class OutputGoogleCloudLoggingTypedDict(TypedDict):
     type: OutputGoogleCloudLoggingType
-    log_location_type: LogLocationType
+    log_location_type: OutputGoogleCloudLoggingLogLocationType
     log_name_expression: str
     r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
     log_location_expression: str
@@ -66,13 +69,15 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     sanitize_log_names: NotRequired[bool]
-    payload_format: NotRequired[PayloadFormat]
+    payload_format: NotRequired[OutputGoogleCloudLoggingPayloadFormat]
     r"""Format to use when sending payload. Defaults to Text."""
-    log_labels: NotRequired[List[ItemsTypeLogLabelsTypedDict]]
+    log_labels: NotRequired[List[LogLabelConfOutputGoogleCloudLoggingTypedDict]]
     r"""Labels to apply to the log entry"""
     resource_type_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the managed resource type field. Must evaluate to one of the valid values [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types). Defaults to \"global\"."""
-    resource_type_labels: NotRequired[List[ItemsTypeLogLabelsTypedDict]]
+    resource_type_labels: NotRequired[
+        List[LogLabelConfOutputGoogleCloudLoggingTypedDict]
+    ]
     r"""Labels to apply to the managed resource. These must correspond to the valid labels for the specified resource type (see [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types)). Otherwise, they will be dropped by Google Cloud Logging."""
     severity_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the severity field. Must evaluate to one of the severity values supported by Google Cloud Logging [here](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#logseverity) (case insensitive). Defaults to \"DEFAULT\"."""
@@ -184,6 +189,8 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputGoogleCloudLoggingPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_log_location_type: NotRequired[str]
     r"""Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime."""
     template_log_name_expression: NotRequired[str]
@@ -214,7 +221,7 @@ class OutputGoogleCloudLogging(BaseModel):
     type: OutputGoogleCloudLoggingType
 
     log_location_type: Annotated[
-        LogLocationType, pydantic.Field(alias="logLocationType")
+        OutputGoogleCloudLoggingLogLocationType, pydantic.Field(alias="logLocationType")
     ]
 
     log_name_expression: Annotated[str, pydantic.Field(alias="logNameExpression")]
@@ -247,12 +254,14 @@ class OutputGoogleCloudLogging(BaseModel):
     ] = None
 
     payload_format: Annotated[
-        Optional[PayloadFormat], pydantic.Field(alias="payloadFormat")
+        Optional[OutputGoogleCloudLoggingPayloadFormat],
+        pydantic.Field(alias="payloadFormat"),
     ] = None
     r"""Format to use when sending payload. Defaults to Text."""
 
     log_labels: Annotated[
-        Optional[List[ItemsTypeLogLabels]], pydantic.Field(alias="logLabels")
+        Optional[List[LogLabelConfOutputGoogleCloudLogging]],
+        pydantic.Field(alias="logLabels"),
     ] = None
     r"""Labels to apply to the log entry"""
 
@@ -262,7 +271,8 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""JavaScript expression to compute the value of the managed resource type field. Must evaluate to one of the valid values [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types). Defaults to \"global\"."""
 
     resource_type_labels: Annotated[
-        Optional[List[ItemsTypeLogLabels]], pydantic.Field(alias="resourceTypeLabels")
+        Optional[List[LogLabelConfOutputGoogleCloudLogging]],
+        pydantic.Field(alias="resourceTypeLabels"),
     ] = None
     r"""Labels to apply to the managed resource. These must correspond to the valid labels for the specified resource type (see [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types)). Otherwise, they will be dropped by Google Cloud Logging."""
 
@@ -529,6 +539,11 @@ class OutputGoogleCloudLogging(BaseModel):
         Optional[OutputGoogleCloudLoggingPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_log_location_type: Annotated[
         Optional[str], pydantic.Field(alias="__template_logLocationType")
     ] = None
@@ -593,7 +608,7 @@ class OutputGoogleCloudLogging(BaseModel):
     def serialize_log_location_type(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLocationType(value)
+                return models.OutputGoogleCloudLoggingLogLocationType(value)
             except ValueError:
                 return value
         return value
@@ -602,7 +617,7 @@ class OutputGoogleCloudLogging(BaseModel):
     def serialize_payload_format(self, value):
         if isinstance(value, str):
             try:
-                return models.PayloadFormat(value)
+                return models.OutputGoogleCloudLoggingPayloadFormat(value)
             except ValueError:
                 return value
         return value
@@ -722,6 +737,7 @@ class OutputGoogleCloudLogging(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_logLocationType",
                 "__template_logNameExpression",
                 "__template_payloadFormat",

@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `models.BackupsSettings1`
+### `models.BackupsSettings`
 
 ```python
-value: models.BackupsSettings1 = /* values here */
+value: models.BackupsSettings = /* values here */
 ```
 
-### `models.BackupsSettings2`
+### `models.EmptyObject`
 
 ```python
-value: models.BackupsSettings2 = /* values here */
+value: models.EmptyObject = /* values here */
 ```
 

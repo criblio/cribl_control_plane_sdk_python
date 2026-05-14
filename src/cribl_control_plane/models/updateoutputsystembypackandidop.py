@@ -13,7 +13,7 @@ class UpdateOutputSystemByPackAndIDRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
     output: OutputTypedDict
-    r"""Output object"""
+    r"""Output object."""
 
 
 class UpdateOutputSystemByPackAndIDRequest(BaseModel):
@@ -30,4 +30,4 @@ class UpdateOutputSystemByPackAndIDRequest(BaseModel):
     output: Annotated[
         Output, FieldMetadata(request=RequestMetadata(media_type="application/json"))
     ]
-    r"""Output object"""
+    r"""Output object."""

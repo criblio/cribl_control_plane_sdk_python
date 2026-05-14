@@ -46,7 +46,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 
@@ -1780,7 +1780,7 @@ with CriblControlPlane(
         id="splunk-lb-output",
         type=models.CreateOutputSystemByPackTypeSplunkLb.SPLUNK_LB,
         hosts=[
-            models.ItemsTypeHosts(
+            models.HostConfOutputSyslog(
                 host="localhost",
                 port=9997,
             ),
@@ -2080,6 +2080,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesalibabaCloudS3
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesalibabaCloudS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "alibaba-oss-output",
+        "type": models.CreateOutputSystemByPackTypeAlibabaCloudS3.ALIBABA_CLOUD_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.oss-cn-hangzhou.aliyuncs.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplescloudianS3
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplescloudianS3" -->
@@ -2167,12 +2194,12 @@ with CriblControlPlane(
 | Parameter                                                                                         | Type                                                                                              | Required                                                                                          | Description                                                                                       |
 | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | `pack`                                                                                            | *str*                                                                                             | :heavy_check_mark:                                                                                | The <code>id</code> of the Pack.                                                                  |
-| `request_body`                                                                                    | [models.CreateOutputSystemByPackRequestBody](../../models/createoutputsystembypackrequestbody.md) | :heavy_check_mark:                                                                                | Output object                                                                                     |
+| `request_body`                                                                                    | [models.CreateOutputSystemByPackRequestBody](../../models/createoutputsystembypackrequestbody.md) | :heavy_check_mark:                                                                                | Output object.                                                                                    |
 | `retries`                                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                  | :heavy_minus_sign:                                                                                | Configuration to override the default retry behavior of the client.                               |
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 
@@ -2217,7 +2244,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 
@@ -2304,7 +2331,7 @@ with CriblControlPlane(
         "cluster_url": "https://mycluster.kusto.windows.net",
         "database": "mydatabase",
         "table": "mytable",
-        "ingest_mode": models.IngestionMode.STREAMING,
+        "ingest_mode": models.OutputAzureDataExplorerIngestionMode.STREAMING,
         "oauth_endpoint": models.MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM,
         "tenant_id": "tenant-id",
         "client_id": "client-id",
@@ -2876,8 +2903,8 @@ with CriblControlPlane(
         "type": models.OutputDynatraceHTTPType.DYNATRACE_HTTP,
         "auth_type": models.OutputDynatraceHTTPAuthenticationType.TOKEN,
         "format_": models.OutputDynatraceHTTPFormat.JSON_ARRAY,
-        "endpoint": models.Endpoint.CLOUD,
-        "telemetry_type": models.TelemetryType.LOGS,
+        "endpoint": models.OutputDynatraceHTTPEndpoint.CLOUD,
+        "telemetry_type": models.OutputDynatraceHTTPTelemetryType.LOGS,
         "token": "your-api-key",
     })
 
@@ -2906,7 +2933,7 @@ with CriblControlPlane(
         "protocol": models.OutputDynatraceOtlpProtocol.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
         "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
-        "endpoint_type": models.EndpointType.SAAS,
+        "endpoint_type": models.OutputDynatraceOtlpEndpointType.SAAS,
         "token_secret": "your-token-secret",
     })
 
@@ -3037,7 +3064,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "google-chronicle-output",
         "type": models.OutputGoogleChronicleType.GOOGLE_CHRONICLE,
-        "log_format_type": models.SendEventsAs.UNSTRUCTURED,
+        "log_format_type": models.OutputGoogleChronicleSendEventsAs.UNSTRUCTURED,
         "region": "us",
         "customer_id": "customer-id",
     })
@@ -3064,7 +3091,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "google-cloud-logging-output",
         "type": models.OutputGoogleCloudLoggingType.GOOGLE_CLOUD_LOGGING,
-        "log_location_type": models.LogLocationType.PROJECT,
+        "log_location_type": models.OutputGoogleCloudLoggingLogLocationType.PROJECT,
         "log_name_expression": "my-log",
         "log_location_expression": "my-project",
     })
@@ -3737,7 +3764,7 @@ with CriblControlPlane(
         "login_url": "https://login.microsoftonline.com",
         "secret": "client-secret",
         "client_id": "client-id",
-        "endpoint_url_configuration": models.EndpointConfiguration.URL,
+        "endpoint_url_configuration": models.OutputSentinelEndpointConfiguration.URL,
         "url": "https://your-workspace.ingest.monitor.azure.com",
     })
 
@@ -3763,8 +3790,8 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "sentinel-one-ai-siem-output",
         "type": models.OutputSentinelOneAiSiemType.SENTINEL_ONE_AI_SIEM,
-        "region": models.Region.US,
-        "endpoint": models.AISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT,
+        "region": models.OutputSentinelOneAiSiemRegion.US,
+        "endpoint": models.OutputSentinelOneAISIEMAISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT,
     })
 
     # Handle response
@@ -3951,7 +3978,7 @@ with CriblControlPlane(
         id="splunk-lb-output",
         type=models.OutputSplunkLbType.SPLUNK_LB,
         hosts=[
-            models.ItemsTypeHosts(
+            models.HostConfOutputSyslog(
                 host="localhost",
                 port=9997,
             ),
@@ -4251,6 +4278,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesalibabaCloudS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesalibabaCloudS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "alibaba-oss-output",
+        "type": models.OutputAlibabaCloudS3Type.ALIBABA_CLOUD_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.oss-cn-hangzhou.aliyuncs.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplescloudianS3
 
 <!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplescloudianS3" -->
@@ -4364,12 +4418,12 @@ with CriblControlPlane(
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Destination to update.                   |
 | `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
-| `output`                                                            | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | Output object                                                       |
+| `output`                                                            | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | Output object.                                                      |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 
@@ -4414,7 +4468,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 

@@ -1,6 +1,6 @@
 # CreateInputRequest
 
-Input object
+Input object.
 
 
 ## Supported Types
@@ -329,6 +329,12 @@ value: models.CreateInputInputWef = /* values here */
 value: models.CreateInputInputWinEventLogs = /* values here */
 ```
 
+### `models.CreateInputInputAppleUnifiedLogs`
+
+```python
+value: models.CreateInputInputAppleUnifiedLogs = /* values here */
+```
+
 ### `models.CreateInputInputRawUDP`
 
 ```python
@@ -393,6 +399,12 @@ value: models.CreateInputInputCloudflareHec = /* values here */
 
 ```python
 value: models.CreateInputInputOpenaiComplianceLogs = /* values here */
+```
+
+### `models.CreateInputInputAnthropicCompliance`
+
+```python
+value: models.CreateInputInputAnthropicCompliance = /* values here */
 ```
 
 ### `models.CreateInputInputOkta`

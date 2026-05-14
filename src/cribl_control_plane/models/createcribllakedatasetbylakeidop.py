@@ -12,7 +12,7 @@ class CreateCriblLakeDatasetByLakeIDRequestTypedDict(TypedDict):
     lake_id: str
     r"""The <code>id</code> of the Lake to create the Lake Dataset in."""
     cribl_lake_dataset: CriblLakeDatasetTypedDict
-    r"""CriblLakeDataset object"""
+    r"""CriblLakeDataset object."""
 
 
 class CreateCriblLakeDatasetByLakeIDRequest(BaseModel):
@@ -27,4 +27,4 @@ class CreateCriblLakeDatasetByLakeIDRequest(BaseModel):
         CriblLakeDataset,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""CriblLakeDataset object"""
+    r"""CriblLakeDataset object."""

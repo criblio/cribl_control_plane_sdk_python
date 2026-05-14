@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `models.PiiSettings1`
+### `models.PiiSettings`
 
 ```python
-value: models.PiiSettings1 = /* values here */
+value: models.PiiSettings = /* values here */
 ```
 
-### `models.PiiSettings2`
+### `models.EmptyObject`
 
 ```python
-value: models.PiiSettings2 = /* values here */
+value: models.EmptyObject = /* values here */
 ```
 

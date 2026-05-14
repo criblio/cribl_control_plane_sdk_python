@@ -22,12 +22,12 @@ class Datasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.FormatOptions] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
-        retention_period_in_days: Optional[float] = None,
+        retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
@@ -46,20 +46,20 @@ class Datasets(BaseSDK):
         Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
-        :param id:
-        :param accelerated_fields:
-        :param bucket_name:
+        :param id: Unique identifier for the Dataset.
+        :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
-        :param deletion_started_at:
-        :param description:
-        :param format_:
-        :param http_da_used:
+        :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
+        :param description: Brief description of the Dataset.
+        :param format_: Storage format used for data persisted in the Dataset.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
         :param metrics:
-        :param retention_period_in_days:
+        :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
-        :param storage_class:
-        :param storage_location_id:
-        :param view_name:
+        :param storage_class: Storage class used for objects written to the Dataset.
+        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -179,12 +179,12 @@ class Datasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.FormatOptions] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
-        retention_period_in_days: Optional[float] = None,
+        retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
@@ -203,20 +203,20 @@ class Datasets(BaseSDK):
         Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
 
         :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
-        :param id:
-        :param accelerated_fields:
-        :param bucket_name:
+        :param id: Unique identifier for the Dataset.
+        :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
-        :param deletion_started_at:
-        :param description:
-        :param format_:
-        :param http_da_used:
+        :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
+        :param description: Brief description of the Dataset.
+        :param format_: Storage format used for data persisted in the Dataset.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
         :param metrics:
-        :param retention_period_in_days:
+        :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
-        :param storage_class:
-        :param storage_location_id:
-        :param view_name:
+        :param storage_class: Storage class used for objects written to the Dataset.
+        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -936,13 +936,13 @@ class Datasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.FormatOptions] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
-        retention_period_in_days: Optional[float] = None,
+        retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
@@ -962,20 +962,20 @@ class Datasets(BaseSDK):
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
-        :param accelerated_fields:
-        :param bucket_name:
+        :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
-        :param deletion_started_at:
-        :param description:
-        :param format_:
-        :param http_da_used:
-        :param id:
+        :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
+        :param description: Brief description of the Dataset.
+        :param format_: Storage format used for data persisted in the Dataset.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param id: Dataset identifier. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
-        :param retention_period_in_days:
+        :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
-        :param storage_class:
-        :param storage_location_id:
-        :param view_name:
+        :param storage_class: Storage class used for objects written to the Dataset.
+        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1096,13 +1096,13 @@ class Datasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.FormatOptions] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
-        retention_period_in_days: Optional[float] = None,
+        retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
@@ -1122,20 +1122,20 @@ class Datasets(BaseSDK):
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
-        :param accelerated_fields:
-        :param bucket_name:
+        :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
-        :param deletion_started_at:
-        :param description:
-        :param format_:
-        :param http_da_used:
-        :param id:
+        :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
+        :param description: Brief description of the Dataset.
+        :param format_: Storage format used for data persisted in the Dataset.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param id: Dataset identifier. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
-        :param retention_period_in_days:
+        :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
-        :param storage_class:
-        :param storage_location_id:
-        :param view_name:
+        :param storage_class: Storage class used for objects written to the Dataset.
+        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

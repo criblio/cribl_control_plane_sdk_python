@@ -14,7 +14,7 @@ class CreateRoutesAppendByPackAndIDRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
     request_body: List[RouteConfInputTypedDict]
-    r"""RouteDefinitions object"""
+    r"""RouteDefinitions object."""
 
 
 class CreateRoutesAppendByPackAndIDRequest(BaseModel):
@@ -32,4 +32,4 @@ class CreateRoutesAppendByPackAndIDRequest(BaseModel):
         List[RouteConfInput],
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""RouteDefinitions object"""
+    r"""RouteDefinitions object."""

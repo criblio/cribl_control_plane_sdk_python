@@ -1,11 +1,13 @@
 # StorageClassOptionsCriblLakeDataset
 
+Storage class used for objects written to the Dataset.
+
 ## Example Usage
 
 ```python
 from cribl_control_plane.models import StorageClassOptionsCriblLakeDataset
 
-value = StorageClassOptionsCriblLakeDataset.STANDARD
+value = StorageClassOptionsCriblLakeDataset.DEEP_ARCHIVE
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```
@@ -15,10 +17,10 @@ value = StorageClassOptionsCriblLakeDataset.STANDARD
 
 | Name                  | Value                 |
 | --------------------- | --------------------- |
-| `STANDARD`            | STANDARD              |
-| `STANDARD_IA`         | STANDARD_IA           |
-| `ONEZONE_IA`          | ONEZONE_IA            |
-| `INTELLIGENT_TIERING` | INTELLIGENT_TIERING   |
+| `DEEP_ARCHIVE`        | DEEP_ARCHIVE          |
 | `GLACIER`             | GLACIER               |
 | `GLACIER_IR`          | GLACIER_IR            |
-| `DEEP_ARCHIVE`        | DEEP_ARCHIVE          |
+| `INTELLIGENT_TIERING` | INTELLIGENT_TIERING   |
+| `ONEZONE_IA`          | ONEZONE_IA            |
+| `STANDARD`            | STANDARD              |
+| `STANDARD_IA`         | STANDARD_IA           |

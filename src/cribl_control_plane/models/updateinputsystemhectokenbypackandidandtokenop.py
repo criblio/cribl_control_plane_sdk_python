@@ -15,7 +15,7 @@ class UpdateInputSystemHecTokenByPackAndIDAndTokenRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
     update_hec_token_request: UpdateHecTokenRequestTypedDict
-    r"""UpdateHecTokenRequest object"""
+    r"""UpdateHecTokenRequest object."""
 
 
 class UpdateInputSystemHecTokenByPackAndIDAndTokenRequest(BaseModel):
@@ -38,4 +38,4 @@ class UpdateInputSystemHecTokenByPackAndIDAndTokenRequest(BaseModel):
         UpdateHecTokenRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""UpdateHecTokenRequest object"""
+    r"""UpdateHecTokenRequest object."""

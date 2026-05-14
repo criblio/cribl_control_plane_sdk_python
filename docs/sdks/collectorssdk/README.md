@@ -376,7 +376,7 @@ with CriblControlPlane(
                 earliest=432.8,
                 latest=2023.34,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="true",
                 min_task_size="1MB",
                 max_task_size="10MB",
@@ -419,7 +419,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="0",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -878,7 +878,7 @@ with CriblControlPlane(
                 earliest=9142.96,
                 latest=521.08,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="true",
                 min_task_size="1MB",
                 max_task_size="10MB",
@@ -924,7 +924,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="0",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1169,7 +1169,7 @@ with CriblControlPlane(
                 earliest=9142.96,
                 latest=521.08,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="true",
                 min_task_size="1MB",
                 max_task_size="10MB",
@@ -1215,7 +1215,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="0",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1426,7 +1426,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to update.                     |
-| `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object                                                     |
+| `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object.                                                    |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

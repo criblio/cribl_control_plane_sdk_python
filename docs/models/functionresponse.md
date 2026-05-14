@@ -183,6 +183,12 @@ value: models.FunctionLocalSearchRulesetRunner = /* values here */
 value: models.FunctionLocalSearchSchemaMapper = /* values here */
 ```
 
+### `models.FunctionLocalSearchTimeRangeNormalizer`
+
+```python
+value: models.FunctionLocalSearchTimeRangeNormalizer = /* values here */
+```
+
 ### `models.FunctionLocalSearchTransformer`
 
 ```python
@@ -307,6 +313,12 @@ value: models.FunctionRollupMetrics = /* values here */
 
 ```python
 value: models.FunctionSampling = /* values here */
+```
+
+### `models.FunctionSearchEngineExport`
+
+```python
+value: models.FunctionSearchEngineExport = /* values here */
 ```
 
 ### `models.FunctionSend`

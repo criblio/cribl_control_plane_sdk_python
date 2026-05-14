@@ -298,10 +298,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [Nodes](docs/sdks/nodes/README.md)
 
-* [count](docs/sdks/nodes/README.md#count) - Get a count of Worker or Edge Nodes
-* [get](docs/sdks/nodes/README.md#get) - Get detailed metadata for a Worker or Edge Node
-* [list](docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker or Edge Nodes
-* [restart](docs/sdks/nodes/README.md#restart) - Restart Worker or Edge Nodes
+* [count](docs/sdks/nodes/README.md#count) - Get a count of Worker, Edge, or Outpost Nodes
+* [get](docs/sdks/nodes/README.md#get) - Get detailed metadata for a Worker, Edge, or Outpost Node
+* [list](docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker, Edge, or Outpost Nodes
+* [restart](docs/sdks/nodes/README.md#restart) - Restart Worker, Edge, or Outpost Nodes
 
 #### [Nodes.Summaries](docs/sdks/summaries/README.md)
 

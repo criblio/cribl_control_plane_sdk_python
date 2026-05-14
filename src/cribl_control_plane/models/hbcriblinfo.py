@@ -22,6 +22,8 @@ class ConfigTypedDict(TypedDict):
     r"""GitOps or LogStream environment label associated with the bundle."""
     policy_rev: NotRequired[str]
     r"""Current policies revision string."""
+    users_rev: NotRequired[str]
+    r"""Current users revision string. Only used in leader <> leader universal subscription."""
     version: NotRequired[str]
     r"""Configuration bundle version."""
 
@@ -45,13 +47,23 @@ class Config(BaseModel):
     policy_rev: Annotated[Optional[str], pydantic.Field(alias="policyRev")] = None
     r"""Current policies revision string."""
 
+    users_rev: Annotated[Optional[str], pydantic.Field(alias="usersRev")] = None
+    r"""Current users revision string. Only used in leader <> leader universal subscription."""
+
     version: Optional[str] = None
     r"""Configuration bundle version."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            ["featuresRev", "hbPeriodSeconds", "logStreamEnv", "policyRev", "version"]
+            [
+                "featuresRev",
+                "hbPeriodSeconds",
+                "logStreamEnv",
+                "policyRev",
+                "usersRev",
+                "version",
+            ]
         )
         serialized = handler(self)
         m = {}

@@ -13,7 +13,7 @@ class CreateInputSystemHecTokenByPackAndIDRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
     add_hec_token_request: AddHecTokenRequestTypedDict
-    r"""AddHecTokenRequest object"""
+    r"""AddHecTokenRequest object."""
 
 
 class CreateInputSystemHecTokenByPackAndIDRequest(BaseModel):
@@ -31,4 +31,4 @@ class CreateInputSystemHecTokenByPackAndIDRequest(BaseModel):
         AddHecTokenRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""AddHecTokenRequest object"""
+    r"""AddHecTokenRequest object."""

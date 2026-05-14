@@ -9,6 +9,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class CriblLakeCollectorConfTypedDict(TypedDict):
+    storage_location_id: str
+    r"""Storage location for the Lake Dataset"""
     dataset: str
     r"""Lake dataset to collect data from."""
     template_dataset: NotRequired[str]
@@ -16,6 +18,9 @@ class CriblLakeCollectorConfTypedDict(TypedDict):
 
 
 class CriblLakeCollectorConf(BaseModel):
+    storage_location_id: Annotated[str, pydantic.Field(alias="storageLocationId")]
+    r"""Storage location for the Lake Dataset"""
+
     dataset: str
     r"""Lake dataset to collect data from."""
 

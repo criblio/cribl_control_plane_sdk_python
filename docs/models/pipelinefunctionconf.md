@@ -183,6 +183,12 @@ value: models.PipelineFunctionLocalSearchRulesetRunner = /* values here */
 value: models.PipelineFunctionLocalSearchSchemaMapper = /* values here */
 ```
 
+### `models.PipelineFunctionLocalSearchTimeRangeNormalizer`
+
+```python
+value: models.PipelineFunctionLocalSearchTimeRangeNormalizer = /* values here */
+```
+
 ### `models.PipelineFunctionLocalSearchTransformer`
 
 ```python
@@ -307,6 +313,12 @@ value: models.PipelineFunctionRollupMetrics = /* values here */
 
 ```python
 value: models.PipelineFunctionSampling = /* values here */
+```
+
+### `models.PipelineFunctionSearchEngineExport`
+
+```python
+value: models.PipelineFunctionSearchEngineExport = /* values here */
 ```
 
 ### `models.PipelineFunctionSend`

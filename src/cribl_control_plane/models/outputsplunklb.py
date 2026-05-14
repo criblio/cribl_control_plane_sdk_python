@@ -7,14 +7,14 @@ from .authenticationmethodoptionsauthtokensitems import (
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptions import CompressionOptions
 from .compressionoptionspq import CompressionOptionsPq
-from .itemstypehosts import ItemsTypeHosts, ItemsTypeHostsTypedDict
+from .hostconfoutputsyslog import HostConfOutputSyslog, HostConfOutputSyslogTypedDict
 from .maxs2sversionoptions import MaxS2SVersionOptions
 from .modeoptions import ModeOptions
 from .nestedfieldserializationoptions import NestedFieldSerializationOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -77,7 +77,7 @@ class OutputSplunkLbAuthToken(BaseModel):
         return m
 
 
-class IndexerDiscoveryConfigsTypedDict(TypedDict):
+class OutputSplunkLbIndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
     site: str
@@ -98,7 +98,7 @@ class IndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class IndexerDiscoveryConfigs(BaseModel):
+class OutputSplunkLbIndexerDiscoveryConfigs(BaseModel):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
     site: str
@@ -170,7 +170,7 @@ class OutputSplunkLbPqControls(BaseModel):
 
 class OutputSplunkLbTypedDict(TypedDict):
     type: OutputSplunkLbType
-    hosts: List[ItemsTypeHostsTypedDict]
+    hosts: List[HostConfOutputSyslogTypedDict]
     r"""Set of Splunk indexers to load-balance data to."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -196,7 +196,7 @@ class OutputSplunkLbTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     enable_multi_metrics: NotRequired[bool]
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
     enable_ack: NotRequired[bool]
@@ -218,7 +218,9 @@ class OutputSplunkLbTypedDict(TypedDict):
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
     compress: NotRequired[CompressionOptions]
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
-    indexer_discovery_configs: NotRequired[IndexerDiscoveryConfigsTypedDict]
+    indexer_discovery_configs: NotRequired[
+        OutputSplunkLbIndexerDiscoveryConfigsTypedDict
+    ]
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
@@ -229,7 +231,7 @@ class OutputSplunkLbTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -242,17 +244,29 @@ class OutputSplunkLbTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputSplunkLbPqControlsTypedDict]
     auth_token: NotRequired[str]
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_nested_fields: NotRequired[str]
+    r"""Binds 'nestedFields' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'nestedFields' at runtime."""
+    template_max_s2_sversion: NotRequired[str]
+    r"""Binds 'maxS2Sversion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'maxS2Sversion' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
 
 class OutputSplunkLb(BaseModel):
     type: OutputSplunkLbType
 
-    hosts: List[ItemsTypeHosts]
+    hosts: List[HostConfOutputSyslog]
     r"""Set of Splunk indexers to load-balance data to."""
 
     id: Optional[str] = None
@@ -307,7 +321,7 @@ class OutputSplunkLb(BaseModel):
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
@@ -359,7 +373,7 @@ class OutputSplunkLb(BaseModel):
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     indexer_discovery_configs: Annotated[
-        Optional[IndexerDiscoveryConfigs],
+        Optional[OutputSplunkLbIndexerDiscoveryConfigs],
         pydantic.Field(alias="indexerDiscoveryConfigs"),
     ] = None
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
@@ -383,7 +397,7 @@ class OutputSplunkLb(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -411,6 +425,11 @@ class OutputSplunkLb(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputSplunkLbPqControls], pydantic.Field(alias="pqControls")
     ] = None
@@ -420,6 +439,31 @@ class OutputSplunkLb(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_nested_fields: Annotated[
+        Optional[str], pydantic.Field(alias="__template_nestedFields")
+    ] = None
+    r"""Binds 'nestedFields' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'nestedFields' at runtime."""
+
+    template_max_s2_sversion: Annotated[
+        Optional[str], pydantic.Field(alias="__template_maxS2Sversion")
+    ] = None
+    r"""Binds 'maxS2Sversion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'maxS2Sversion' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
     @field_serializer("nested_fields")
     def serialize_nested_fields(self, value):
@@ -533,9 +577,15 @@ class OutputSplunkLb(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "authToken",
                 "textSecret",
+                "__template_streamtags",
+                "__template_nestedFields",
+                "__template_maxS2Sversion",
+                "__template_onBackpressure",
+                "__template_compress",
             ]
         )
         serialized = handler(self)
@@ -557,7 +607,7 @@ try:
 except NameError:
     pass
 try:
-    IndexerDiscoveryConfigs.model_rebuild()
+    OutputSplunkLbIndexerDiscoveryConfigs.model_rebuild()
 except NameError:
     pass
 try:

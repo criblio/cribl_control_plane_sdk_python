@@ -298,14 +298,14 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [Nodes](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md)
 
-* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#count) - Get a count of Worker or Edge Nodes
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#get) - Get detailed metadata for a Worker or Edge Node
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker or Edge Nodes
-* [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#restart) - Restart Worker or Edge Nodes
+* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#count) - Get a count of Worker, Edge, or Outpost Nodes
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#get) - Get detailed metadata for a Worker, Edge, or Outpost Node
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#list) - Get detailed metadata for Worker, Edge, or Outpost Nodes
+* [restart](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/nodes/README.md#restart) - Restart Worker, Edge, or Outpost Nodes
 
 #### [Nodes.Summaries](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the Distributed deployment for a specific product
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the deployment for a specific product.
 
 ### [Packs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md)
 
@@ -426,7 +426,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 #### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#list) - Get Cribl system settings
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#update) - Update Cribl system settings
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#update) - Update system settings
 
 ### [Versions.Branches](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/branches/README.md)
 
@@ -517,7 +517,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.list(product=models.ProductsBase.STREAM)
+    res = ccp_client.sources.statuses.list()
 
     while res is not None:
         # Handle items

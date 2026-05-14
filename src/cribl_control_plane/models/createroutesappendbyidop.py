@@ -12,7 +12,7 @@ class CreateRoutesAppendByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>."""
     request_body: List[RouteConfInputTypedDict]
-    r"""RouteDefinitions object"""
+    r"""RouteDefinitions object."""
 
 
 class CreateRoutesAppendByIDRequest(BaseModel):
@@ -25,4 +25,4 @@ class CreateRoutesAppendByIDRequest(BaseModel):
         List[RouteConfInput],
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""RouteDefinitions object"""
+    r"""RouteDefinitions object."""

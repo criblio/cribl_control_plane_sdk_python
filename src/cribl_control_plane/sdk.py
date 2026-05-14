@@ -15,7 +15,7 @@ from typing import Callable, Optional, TYPE_CHECKING, Union, cast
 import weakref
 
 if TYPE_CHECKING:
-    from cribl_control_plane.auth import Auth
+    from cribl_control_plane.auth_sdk import AuthSDK
     from cribl_control_plane.collectors_sdk import CollectorsSDK
     from cribl_control_plane.databaseconnections import DatabaseConnections
     from cribl_control_plane.destinations import Destinations
@@ -43,6 +43,7 @@ class CriblControlPlane(BaseSDK):
     """
 
     database_connections: "DatabaseConnections"
+    r"""Actions related to DatabaseConnections"""
     functions: "Functions"
     r"""Actions related to functions"""
     sources: "Sources"
@@ -60,7 +61,7 @@ class CriblControlPlane(BaseSDK):
     groups: "GroupsSDK"
     r"""Actions related to Groups"""
     lakes: "Lakes"
-    auth: "Auth"
+    auth: "AuthSDK"
     system: "SystemSDK"
     nodes: "Nodes"
     health: "Health"
@@ -80,7 +81,7 @@ class CriblControlPlane(BaseSDK):
         "collectors": ("cribl_control_plane.collectors_sdk", "CollectorsSDK"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
         "lakes": ("cribl_control_plane.lakes", "Lakes"),
-        "auth": ("cribl_control_plane.auth", "Auth"),
+        "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
         "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
         "nodes": ("cribl_control_plane.nodes", "Nodes"),
         "health": ("cribl_control_plane.health", "Health"),

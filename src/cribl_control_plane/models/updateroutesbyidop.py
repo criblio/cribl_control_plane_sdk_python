@@ -12,7 +12,7 @@ class UpdateRoutesByIDRequestTypedDict(TypedDict):
     id_param: str
     r"""The <code>id</code> of the Routing table that contains the Route to update. The supported value is <code>default</code>."""
     routes_input: RoutesInputTypedDict
-    r"""RoutesInput object"""
+    r"""RoutesInput object."""
 
 
 class UpdateRoutesByIDRequest(BaseModel):
@@ -27,4 +27,4 @@ class UpdateRoutesByIDRequest(BaseModel):
         RoutesInput,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""RoutesInput object"""
+    r"""RoutesInput object."""

@@ -11,7 +11,7 @@ class CreateInputHecTokenByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Splunk HEC Source."""
     add_hec_token_request: AddHecTokenRequestTypedDict
-    r"""AddHecTokenRequest object"""
+    r"""AddHecTokenRequest object."""
 
 
 class CreateInputHecTokenByIDRequest(BaseModel):
@@ -24,4 +24,4 @@ class CreateInputHecTokenByIDRequest(BaseModel):
         AddHecTokenRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""AddHecTokenRequest object"""
+    r"""AddHecTokenRequest object."""

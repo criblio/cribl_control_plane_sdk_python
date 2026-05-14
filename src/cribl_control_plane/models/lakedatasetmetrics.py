@@ -8,13 +8,17 @@ from typing_extensions import Annotated, TypedDict
 
 class LakeDatasetMetricsTypedDict(TypedDict):
     current_size_bytes: float
+    r"""Total current logical size of the Dataset, in bytes."""
     metrics_date: str
+    r"""Timestamp (ISO 8601) when the metrics snapshot was generated."""
 
 
 class LakeDatasetMetrics(BaseModel):
     current_size_bytes: Annotated[float, pydantic.Field(alias="currentSizeBytes")]
+    r"""Total current logical size of the Dataset, in bytes."""
 
     metrics_date: Annotated[str, pydantic.Field(alias="metricsDate")]
+    r"""Timestamp (ISO 8601) when the metrics snapshot was generated."""
 
 
 try:

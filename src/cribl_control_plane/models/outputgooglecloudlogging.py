@@ -4,7 +4,10 @@ from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
-from .itemstypeloglabels import ItemsTypeLogLabels, ItemsTypeLogLabelsTypedDict
+from .loglabelconfoutputgooglecloudlogging import (
+    LogLabelConfOutputGoogleCloudLogging,
+    LogLabelConfOutputGoogleCloudLoggingTypedDict,
+)
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from cribl_control_plane import models, utils
@@ -20,7 +23,7 @@ class OutputGoogleCloudLoggingType(str, Enum):
     GOOGLE_CLOUD_LOGGING = "google_cloud_logging"
 
 
-class LogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputGoogleCloudLoggingLogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
     # Project
     PROJECT = "project"
     # Organization
@@ -31,7 +34,7 @@ class LogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
     FOLDER = "folder"
 
 
-class PayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputGoogleCloudLoggingPayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format to use when sending payload. Defaults to Text."""
 
     # Text
@@ -50,7 +53,7 @@ class OutputGoogleCloudLoggingPqControls(BaseModel):
 
 class OutputGoogleCloudLoggingTypedDict(TypedDict):
     type: OutputGoogleCloudLoggingType
-    log_location_type: LogLocationType
+    log_location_type: OutputGoogleCloudLoggingLogLocationType
     log_name_expression: str
     r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
     log_location_expression: str
@@ -66,13 +69,15 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     sanitize_log_names: NotRequired[bool]
-    payload_format: NotRequired[PayloadFormat]
+    payload_format: NotRequired[OutputGoogleCloudLoggingPayloadFormat]
     r"""Format to use when sending payload. Defaults to Text."""
-    log_labels: NotRequired[List[ItemsTypeLogLabelsTypedDict]]
+    log_labels: NotRequired[List[LogLabelConfOutputGoogleCloudLoggingTypedDict]]
     r"""Labels to apply to the log entry"""
     resource_type_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the managed resource type field. Must evaluate to one of the valid values [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types). Defaults to \"global\"."""
-    resource_type_labels: NotRequired[List[ItemsTypeLogLabelsTypedDict]]
+    resource_type_labels: NotRequired[
+        List[LogLabelConfOutputGoogleCloudLoggingTypedDict]
+    ]
     r"""Labels to apply to the managed resource. These must correspond to the valid labels for the specified resource type (see [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types)). Otherwise, they will be dropped by Google Cloud Logging."""
     severity_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the severity field. Must evaluate to one of the severity values supported by Google Cloud Logging [here](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#logseverity) (case insensitive). Defaults to \"DEFAULT\"."""
@@ -168,7 +173,7 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -181,14 +186,42 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputGoogleCloudLoggingPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_log_location_type: NotRequired[str]
+    r"""Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime."""
+    template_log_name_expression: NotRequired[str]
+    r"""Binds 'logNameExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logNameExpression' at runtime."""
+    template_payload_format: NotRequired[str]
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
+    template_resource_type_expression: NotRequired[str]
+    r"""Binds 'resourceTypeExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resourceTypeExpression' at runtime."""
+    template_severity_expression: NotRequired[str]
+    r"""Binds 'severityExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'severityExpression' at runtime."""
+    template_insert_id_expression: NotRequired[str]
+    r"""Binds 'insertIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'insertIdExpression' at runtime."""
+    template_trace_expression: NotRequired[str]
+    r"""Binds 'traceExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceExpression' at runtime."""
+    template_span_id_expression: NotRequired[str]
+    r"""Binds 'spanIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'spanIdExpression' at runtime."""
+    template_trace_sampled_expression: NotRequired[str]
+    r"""Binds 'traceSampledExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceSampledExpression' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_log_location_expression: NotRequired[str]
+    r"""Binds 'logLocationExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationExpression' at runtime."""
+    template_payload_expression: NotRequired[str]
+    r"""Binds 'payloadExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadExpression' at runtime."""
 
 
 class OutputGoogleCloudLogging(BaseModel):
     type: OutputGoogleCloudLoggingType
 
     log_location_type: Annotated[
-        LogLocationType, pydantic.Field(alias="logLocationType")
+        OutputGoogleCloudLoggingLogLocationType, pydantic.Field(alias="logLocationType")
     ]
 
     log_name_expression: Annotated[str, pydantic.Field(alias="logNameExpression")]
@@ -221,12 +254,14 @@ class OutputGoogleCloudLogging(BaseModel):
     ] = None
 
     payload_format: Annotated[
-        Optional[PayloadFormat], pydantic.Field(alias="payloadFormat")
+        Optional[OutputGoogleCloudLoggingPayloadFormat],
+        pydantic.Field(alias="payloadFormat"),
     ] = None
     r"""Format to use when sending payload. Defaults to Text."""
 
     log_labels: Annotated[
-        Optional[List[ItemsTypeLogLabels]], pydantic.Field(alias="logLabels")
+        Optional[List[LogLabelConfOutputGoogleCloudLogging]],
+        pydantic.Field(alias="logLabels"),
     ] = None
     r"""Labels to apply to the log entry"""
 
@@ -236,7 +271,8 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""JavaScript expression to compute the value of the managed resource type field. Must evaluate to one of the valid values [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types). Defaults to \"global\"."""
 
     resource_type_labels: Annotated[
-        Optional[List[ItemsTypeLogLabels]], pydantic.Field(alias="resourceTypeLabels")
+        Optional[List[LogLabelConfOutputGoogleCloudLogging]],
+        pydantic.Field(alias="resourceTypeLabels"),
     ] = None
     r"""Labels to apply to the managed resource. These must correspond to the valid labels for the specified resource type (see [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types)). Otherwise, they will be dropped by Google Cloud Logging."""
 
@@ -466,7 +502,7 @@ class OutputGoogleCloudLogging(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -494,15 +530,85 @@ class OutputGoogleCloudLogging(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputGoogleCloudLoggingPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_log_location_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLocationType")
+    ] = None
+    r"""Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime."""
+
+    template_log_name_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logNameExpression")
+    ] = None
+    r"""Binds 'logNameExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logNameExpression' at runtime."""
+
+    template_payload_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_payloadFormat")
+    ] = None
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
+
+    template_resource_type_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_resourceTypeExpression")
+    ] = None
+    r"""Binds 'resourceTypeExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resourceTypeExpression' at runtime."""
+
+    template_severity_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_severityExpression")
+    ] = None
+    r"""Binds 'severityExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'severityExpression' at runtime."""
+
+    template_insert_id_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_insertIdExpression")
+    ] = None
+    r"""Binds 'insertIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'insertIdExpression' at runtime."""
+
+    template_trace_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_traceExpression")
+    ] = None
+    r"""Binds 'traceExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceExpression' at runtime."""
+
+    template_span_id_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_spanIdExpression")
+    ] = None
+    r"""Binds 'spanIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'spanIdExpression' at runtime."""
+
+    template_trace_sampled_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_traceSampledExpression")
+    ] = None
+    r"""Binds 'traceSampledExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceSampledExpression' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_log_location_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLocationExpression")
+    ] = None
+    r"""Binds 'logLocationExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationExpression' at runtime."""
+
+    template_payload_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_payloadExpression")
+    ] = None
+    r"""Binds 'payloadExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadExpression' at runtime."""
 
     @field_serializer("log_location_type")
     def serialize_log_location_type(self, value):
         if isinstance(value, str):
             try:
-                return models.LogLocationType(value)
+                return models.OutputGoogleCloudLoggingLogLocationType(value)
             except ValueError:
                 return value
         return value
@@ -511,7 +617,7 @@ class OutputGoogleCloudLogging(BaseModel):
     def serialize_payload_format(self, value):
         if isinstance(value, str):
             try:
-                return models.PayloadFormat(value)
+                return models.OutputGoogleCloudLoggingPayloadFormat(value)
             except ValueError:
                 return value
         return value
@@ -629,7 +735,21 @@ class OutputGoogleCloudLogging(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
+                "__template_logLocationType",
+                "__template_logNameExpression",
+                "__template_payloadFormat",
+                "__template_resourceTypeExpression",
+                "__template_severityExpression",
+                "__template_insertIdExpression",
+                "__template_traceExpression",
+                "__template_spanIdExpression",
+                "__template_traceSampledExpression",
+                "__template_onBackpressure",
+                "__template_logLocationExpression",
+                "__template_payloadExpression",
             ]
         )
         serialized = handler(self)

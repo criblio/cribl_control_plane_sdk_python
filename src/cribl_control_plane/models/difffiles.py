@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 from .diffline import DiffLine, DiffLineTypedDict
+from .scalarorarray import ScalarOrArray, ScalarOrArrayTypedDict
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
-from typing import List, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+from typing import List, Optional
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class BlockTypedDict(TypedDict):
@@ -49,20 +50,6 @@ class Block(BaseModel):
         return m
 
 
-ChecksumBeforeTypedDict = TypeAliasType(
-    "ChecksumBeforeTypedDict", Union[str, List[str]]
-)
-
-
-ChecksumBefore = TypeAliasType("ChecksumBefore", Union[str, List[str]])
-
-
-OldModeTypedDict = TypeAliasType("OldModeTypedDict", Union[str, List[str]])
-
-
-OldMode = TypeAliasType("OldMode", Union[str, List[str]])
-
-
 class DiffFilesTypedDict(TypedDict):
     added_lines: float
     blocks: List[BlockTypedDict]
@@ -74,7 +61,7 @@ class DiffFilesTypedDict(TypedDict):
     old_name: str
     changed_percentage: NotRequired[float]
     checksum_after: NotRequired[str]
-    checksum_before: NotRequired[ChecksumBeforeTypedDict]
+    checksum_before: NotRequired[ScalarOrArrayTypedDict]
     deleted_file_mode: NotRequired[str]
     is_binary: NotRequired[bool]
     is_copy: NotRequired[bool]
@@ -85,7 +72,7 @@ class DiffFilesTypedDict(TypedDict):
     mode: NotRequired[str]
     new_file_mode: NotRequired[str]
     new_mode: NotRequired[str]
-    old_mode: NotRequired[OldModeTypedDict]
+    old_mode: NotRequired[ScalarOrArrayTypedDict]
     unchanged_percentage: NotRequired[float]
 
 
@@ -115,7 +102,7 @@ class DiffFiles(BaseModel):
     )
 
     checksum_before: Annotated[
-        Optional[ChecksumBefore], pydantic.Field(alias="checksumBefore")
+        Optional[ScalarOrArray], pydantic.Field(alias="checksumBefore")
     ] = None
 
     deleted_file_mode: Annotated[
@@ -140,7 +127,7 @@ class DiffFiles(BaseModel):
 
     new_mode: Annotated[Optional[str], pydantic.Field(alias="newMode")] = None
 
-    old_mode: Annotated[Optional[OldMode], pydantic.Field(alias="oldMode")] = None
+    old_mode: Annotated[Optional[ScalarOrArray], pydantic.Field(alias="oldMode")] = None
 
     unchanged_percentage: Annotated[
         Optional[float], pydantic.Field(alias="unchangedPercentage")

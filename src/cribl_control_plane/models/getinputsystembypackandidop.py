@@ -10,7 +10,7 @@ class GetInputSystemByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Source to get."""
     pack: str
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""
 
 
 class GetInputSystemByPackAndIDRequest(BaseModel):
@@ -22,4 +22,4 @@ class GetInputSystemByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""

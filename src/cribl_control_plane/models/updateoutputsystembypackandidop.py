@@ -11,9 +11,9 @@ class UpdateOutputSystemByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Destination to update."""
     pack: str
-    r"""The <code>id</code> of the Pack to update."""
+    r"""The <code>id</code> of the Pack."""
     output: OutputTypedDict
-    r"""Output object"""
+    r"""Output object."""
 
 
 class UpdateOutputSystemByPackAndIDRequest(BaseModel):
@@ -25,9 +25,9 @@ class UpdateOutputSystemByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to update."""
+    r"""The <code>id</code> of the Pack."""
 
     output: Annotated[
         Output, FieldMetadata(request=RequestMetadata(media_type="application/json"))
     ]
-    r"""Output object"""
+    r"""Output object."""

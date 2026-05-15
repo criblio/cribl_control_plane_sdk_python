@@ -15,7 +15,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.0-alpha.1778593897422-b0f720b7
+  version: 4.18.0-alpha.1778797227893-05b0252f
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -9279,7 +9279,6 @@ components:
       title: ""
       required:
         - dataset
-        - storageLocationId
       properties:
         storageLocationId:
           type: string
@@ -21927,16 +21926,6 @@ components:
             - From last entry
           description: Read all log entries (historical and upcoming), or only upcoming, from the last entry
           x-speakeasy-unknown-values: allow
-        interval:
-          type: number
-          minimum: 1
-          title: Polling interval
-          description: Time, in seconds, between checking for new entries
-        batchSize:
-          type: number
-          minimum: 1
-          title: Batch size
-          description: "[TO BE REMOVED BEFORE RELEASE] Maximum number of entries to read in each native module call"
         metadata:
           type: array
           title: Fields

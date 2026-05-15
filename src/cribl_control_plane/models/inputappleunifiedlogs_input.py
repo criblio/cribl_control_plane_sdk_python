@@ -54,10 +54,6 @@ class InputAppleUnifiedLogsInputTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     read_mode: NotRequired[InputAppleUnifiedLogsReadMode]
     r"""Read all log entries (historical and upcoming), or only upcoming, from the last entry"""
-    interval: NotRequired[float]
-    r"""Time, in seconds, between checking for new entries"""
-    batch_size: NotRequired[float]
-    r"""[TO BE REMOVED BEFORE RELEASE] Maximum number of entries to read in each native module call"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
@@ -105,12 +101,6 @@ class InputAppleUnifiedLogsInput(BaseModel):
     ] = None
     r"""Read all log entries (historical and upcoming), or only upcoming, from the last entry"""
 
-    interval: Optional[float] = None
-    r"""Time, in seconds, between checking for new entries"""
-
-    batch_size: Annotated[Optional[float], pydantic.Field(alias="batchSize")] = None
-    r"""[TO BE REMOVED BEFORE RELEASE] Maximum number of entries to read in each native module call"""
-
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
@@ -149,8 +139,6 @@ class InputAppleUnifiedLogsInput(BaseModel):
                 "connections",
                 "pq",
                 "readMode",
-                "interval",
-                "batchSize",
                 "metadata",
                 "description",
                 "__template_environment",

@@ -9,20 +9,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class CriblLakeCollectorConfTypedDict(TypedDict):
-    storage_location_id: str
-    r"""Storage location for the Lake Dataset"""
     dataset: str
     r"""Lake dataset to collect data from."""
+    storage_location_id: NotRequired[str]
+    r"""Storage location for the Lake Dataset"""
     template_dataset: NotRequired[str]
     r"""Binds 'dataset' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'dataset' at runtime."""
 
 
 class CriblLakeCollectorConf(BaseModel):
-    storage_location_id: Annotated[str, pydantic.Field(alias="storageLocationId")]
-    r"""Storage location for the Lake Dataset"""
-
     dataset: str
     r"""Lake dataset to collect data from."""
+
+    storage_location_id: Annotated[
+        Optional[str], pydantic.Field(alias="storageLocationId")
+    ] = None
+    r"""Storage location for the Lake Dataset"""
 
     template_dataset: Annotated[
         Optional[str], pydantic.Field(alias="__template_dataset")
@@ -31,7 +33,7 @@ class CriblLakeCollectorConf(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["__template_dataset"])
+        optional_fields = set(["storageLocationId", "__template_dataset"])
         serialized = handler(self)
         m = {}
 

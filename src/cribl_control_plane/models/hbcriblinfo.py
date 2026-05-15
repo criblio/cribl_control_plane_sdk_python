@@ -14,6 +14,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class ConfigTypedDict(TypedDict):
     r"""Configuration bundle and policy revision metadata for the node."""
 
+    api_credentials_rev: NotRequired[str]
+    r"""Current API credentials revision string. Only used in leader <> leader universal subscription."""
     features_rev: NotRequired[str]
     r"""Feature flags or feature revision string for the bundle."""
     hb_period_seconds: NotRequired[int]
@@ -30,6 +32,11 @@ class ConfigTypedDict(TypedDict):
 
 class Config(BaseModel):
     r"""Configuration bundle and policy revision metadata for the node."""
+
+    api_credentials_rev: Annotated[
+        Optional[str], pydantic.Field(alias="apiCredentialsRev")
+    ] = None
+    r"""Current API credentials revision string. Only used in leader <> leader universal subscription."""
 
     features_rev: Annotated[Optional[str], pydantic.Field(alias="featuresRev")] = None
     r"""Feature flags or feature revision string for the bundle."""
@@ -57,6 +64,7 @@ class Config(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "apiCredentialsRev",
                 "featuresRev",
                 "hbPeriodSeconds",
                 "logStreamEnv",

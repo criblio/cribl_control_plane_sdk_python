@@ -554,6 +554,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesCustomerMetricsStorage
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesCustomerMetricsStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "customer-metrics-storage-output",
+        "type": models.CreateOutputSystemByPackTypeCustomerMetricsStorage.CUSTOMER_METRICS_STORAGE,
+        "url": "http://localhost:8123/",
+        "database": "default",
+        "table_name": "mytable",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesDatabricks
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesDatabricks" -->
@@ -2746,6 +2773,33 @@ with CriblControlPlane(
         "format_": models.RequestFormatOptions.JSON,
         "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
         "token": "your-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesCustomerMetricsStorage
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesCustomerMetricsStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "customer-metrics-storage-output",
+        "type": models.OutputCustomerMetricsStorageType.CUSTOMER_METRICS_STORAGE,
+        "url": "http://localhost:8123/",
+        "database": "default",
+        "table_name": "mytable",
     })
 
     # Handle response

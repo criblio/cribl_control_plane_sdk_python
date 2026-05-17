@@ -555,6 +555,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesCustomerMetricsStorage
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesCustomerMetricsStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "customer-metrics-storage-output",
+        "type": models.CreateOutputTypeCustomerMetricsStorage.CUSTOMER_METRICS_STORAGE,
+        "url": "http://localhost:8123/",
+        "database": "default",
+        "table_name": "mytable",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesDatabricks
 
 <!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesDatabricks" -->
@@ -2745,6 +2772,33 @@ with CriblControlPlane(
         "format_": models.RequestFormatOptions.JSON,
         "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
         "token": "your-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesCustomerMetricsStorage
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="OutputCreateExamplesCustomerMetricsStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "customer-metrics-storage-output",
+        "type": models.OutputCustomerMetricsStorageType.CUSTOMER_METRICS_STORAGE,
+        "url": "http://localhost:8123/",
+        "database": "default",
+        "table_name": "mytable",
     })
 
     # Handle response

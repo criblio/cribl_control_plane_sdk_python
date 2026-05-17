@@ -38,20 +38,20 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputClickHouseType(str, Enum):
-    CLICK_HOUSE = "click_house"
+class OutputCustomerMetricsStorageType(str, Enum):
+    CUSTOMER_METRICS_STORAGE = "customer_metrics_storage"
 
 
-class OutputClickHousePqControlsTypedDict(TypedDict):
+class OutputCustomerMetricsStoragePqControlsTypedDict(TypedDict):
     pass
 
 
-class OutputClickHousePqControls(BaseModel):
+class OutputCustomerMetricsStoragePqControls(BaseModel):
     pass
 
 
-class OutputClickHouseTypedDict(TypedDict):
-    type: OutputClickHouseType
+class OutputCustomerMetricsStorageTypedDict(TypedDict):
+    type: OutputCustomerMetricsStorageType
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
     database: str
@@ -147,7 +147,7 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[OutputClickHousePqControlsTypedDict]
+    pq_controls: NotRequired[OutputCustomerMetricsStoragePqControlsTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -162,8 +162,8 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
-class OutputClickHouse(BaseModel):
-    type: OutputClickHouseType
+class OutputCustomerMetricsStorage(BaseModel):
+    type: OutputCustomerMetricsStorageType
 
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
@@ -372,7 +372,8 @@ class OutputClickHouse(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
 
     pq_controls: Annotated[
-        Optional[OutputClickHousePqControls], pydantic.Field(alias="pqControls")
+        Optional[OutputCustomerMetricsStoragePqControls],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -551,6 +552,6 @@ class OutputClickHouse(BaseModel):
 
 
 try:
-    OutputClickHouse.model_rebuild()
+    OutputCustomerMetricsStorage.model_rebuild()
 except NameError:
     pass

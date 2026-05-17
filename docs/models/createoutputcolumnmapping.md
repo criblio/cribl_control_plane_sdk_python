@@ -1,4 +1,4 @@
-# CreateOutputColumnMappingLocalSearchStorage
+# CreateOutputColumnMapping
 
 
 ## Fields

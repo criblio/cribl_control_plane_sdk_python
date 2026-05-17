@@ -1,13 +1,13 @@
-# OutputClickHouseMappingType
+# CreateOutputSystemByPackMappingType
 
-How event fields are mapped to ClickHouse columns
+How event fields are mapped to columns.
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import OutputClickHouseMappingType
+from cribl_control_plane.models import CreateOutputSystemByPackMappingType
 
-value = OutputClickHouseMappingType.AUTOMATIC
+value = CreateOutputSystemByPackMappingType.AUTOMATIC
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

@@ -1,13 +1,13 @@
-# OutputClickHouseFormat
+# FormatOptions
 
 Data format to use when sending data to ClickHouse. Defaults to JSON Compact.
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import OutputClickHouseFormat
+from cribl_control_plane.models import FormatOptions
 
-value = OutputClickHouseFormat.JSON_COMPACT_EACH_ROW_WITH_NAMES
+value = FormatOptions.JSON_COMPACT_EACH_ROW_WITH_NAMES
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

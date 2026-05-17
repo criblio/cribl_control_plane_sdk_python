@@ -371,6 +371,12 @@ value: models.CreateOutputSystemByPackOutputDiskSpool = /* values here */
 value: models.CreateOutputSystemByPackOutputClickHouse = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputCustomerMetricsStorage`
+
+```python
+value: models.CreateOutputSystemByPackOutputCustomerMetricsStorage = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputLocalSearchStorage`
 
 ```python

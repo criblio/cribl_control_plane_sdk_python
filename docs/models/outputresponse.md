@@ -371,6 +371,12 @@ value: models.OutputResponseOutputDiskSpool = /* values here */
 value: models.OutputResponseOutputClickHouse = /* values here */
 ```
 
+### `models.OutputResponseOutputCustomerMetricsStorage`
+
+```python
+value: models.OutputResponseOutputCustomerMetricsStorage = /* values here */
+```
+
 ### `models.OutputResponseOutputLocalSearchStorage`
 
 ```python

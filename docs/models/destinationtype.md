@@ -80,6 +80,7 @@ value = DestinationType.DEFAULT
 | `EXABEAM`                   | exabeam                     |
 | `DISK_SPOOL`                | disk_spool                  |
 | `CLICK_HOUSE`               | click_house                 |
+| `CUSTOMER_METRICS_STORAGE`  | customer_metrics_storage    |
 | `LOCAL_SEARCH_STORAGE`      | local_search_storage        |
 | `XSIAM`                     | xsiam                       |
 | `NETFLOW`                   | netflow                     |

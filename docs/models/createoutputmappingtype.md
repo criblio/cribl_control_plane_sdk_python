@@ -1,13 +1,13 @@
-# CreateOutputMappingTypeLocalSearchStorage
+# CreateOutputMappingType
 
 How event fields are mapped to columns.
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import CreateOutputMappingTypeLocalSearchStorage
+from cribl_control_plane.models import CreateOutputMappingType
 
-value = CreateOutputMappingTypeLocalSearchStorage.AUTOMATIC
+value = CreateOutputMappingType.AUTOMATIC
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

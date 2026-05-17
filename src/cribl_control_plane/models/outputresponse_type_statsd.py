@@ -28,6 +28,10 @@ from .authtokenconfoutputcriblhttp import (
 )
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
+from .columnmappingconfoutputclickhouse import (
+    ColumnMappingConfOutputClickHouse,
+    ColumnMappingConfOutputClickHouseTypedDict,
+)
 from .compressionleveloptions import CompressionLevelOptions
 from .compressionoptionsdeflategzip import CompressionOptionsDeflateGzip
 from .compressionoptionsgzipnone import CompressionOptionsGzipNone
@@ -47,11 +51,13 @@ from .extrahttpheaderconfinputelastic import (
     ExtraHTTPHeaderConfInputElasticTypedDict,
 )
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
+from .formatoptions import FormatOptions
 from .hostconfoutputsyslog import HostConfOutputSyslog, HostConfOutputSyslogTypedDict
 from .keyvaluemetadataconfoutputfilesystem import (
     KeyValueMetadataConfOutputFilesystem,
     KeyValueMetadataConfOutputFilesystemTypedDict,
 )
+from .mappingtypeoptions import MappingTypeOptions
 from .messageformatoptions import MessageFormatOptions
 from .methodoptions import MethodOptions
 from .microsoftentraidauthenticationendpointoptionssasl import (
@@ -9049,9 +9055,7 @@ class OutputResponseFormatLocalSearchStorage(str, Enum, metaclass=utils.OpenEnum
     JSON_EACH_ROW = "json-each-row"
 
 
-class OutputResponseMappingTypeLocalSearchStorage(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class OutputResponseMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How event fields are mapped to columns."""
 
     # Automatic
@@ -9112,7 +9116,7 @@ class OutputResponseStatsDestination(BaseModel):
         return m
 
 
-class OutputResponseColumnMappingLocalSearchStorageTypedDict(TypedDict):
+class OutputResponseColumnMappingTypedDict(TypedDict):
     column_name: str
     r"""Name of the column that will store field value"""
     column_value_expression: str
@@ -9121,7 +9125,7 @@ class OutputResponseColumnMappingLocalSearchStorageTypedDict(TypedDict):
     r"""Type of the column in the database"""
 
 
-class OutputResponseColumnMappingLocalSearchStorage(BaseModel):
+class OutputResponseColumnMapping(BaseModel):
     column_name: Annotated[str, pydantic.Field(alias="columnName")]
     r"""Name of the column that will store field value"""
 
@@ -9178,7 +9182,7 @@ class OutputResponseOutputLocalSearchStorageTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptions]
     format_: NotRequired[OutputResponseFormatLocalSearchStorage]
     r"""Data format to use when sending data. Defaults to JSON Compact."""
-    mapping_type: NotRequired[OutputResponseMappingTypeLocalSearchStorage]
+    mapping_type: NotRequired[OutputResponseMappingType]
     r"""How event fields are mapped to columns."""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a table immediately."""
@@ -9233,9 +9237,7 @@ class OutputResponseOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Fields to exclude from sending"""
     describe_table: NotRequired[str]
     r"""Retrieves the table schema and populates the Column Mapping table"""
-    column_mappings: NotRequired[
-        List[OutputResponseColumnMappingLocalSearchStorageTypedDict]
-    ]
+    column_mappings: NotRequired[List[OutputResponseColumnMappingTypedDict]]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -9315,8 +9317,7 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     r"""Data format to use when sending data. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Optional[OutputResponseMappingTypeLocalSearchStorage],
-        pydantic.Field(alias="mappingType"),
+        Optional[OutputResponseMappingType], pydantic.Field(alias="mappingType")
     ] = None
     r"""How event fields are mapped to columns."""
 
@@ -9441,7 +9442,7 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     r"""Retrieves the table schema and populates the Column Mapping table"""
 
     column_mappings: Annotated[
-        Optional[List[OutputResponseColumnMappingLocalSearchStorage]],
+        Optional[List[OutputResponseColumnMapping]],
         pydantic.Field(alias="columnMappings"),
     ] = None
 
@@ -9557,7 +9558,7 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     def serialize_mapping_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseMappingTypeLocalSearchStorage(value)
+                return models.OutputResponseMappingType(value)
             except ValueError:
                 return value
         return value
@@ -9683,76 +9684,20 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
         return m
 
 
-class OutputResponseTypeClickHouse(str, Enum):
-    CLICK_HOUSE = "click_house"
+class OutputResponseTypeCustomerMetricsStorage(str, Enum):
+    CUSTOMER_METRICS_STORAGE = "customer_metrics_storage"
 
 
-class OutputResponseFormatClickHouse(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
-
-    # JSONCompactEachRowWithNames
-    JSON_COMPACT_EACH_ROW_WITH_NAMES = "json-compact-each-row-with-names"
-    # JSONEachRow
-    JSON_EACH_ROW = "json-each-row"
-
-
-class OutputResponseMappingTypeClickHouse(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""How event fields are mapped to ClickHouse columns"""
-
-    # Automatic
-    AUTOMATIC = "automatic"
-    # Custom
-    CUSTOM = "custom"
-
-
-class OutputResponseColumnMappingClickHouseTypedDict(TypedDict):
-    column_name: str
-    r"""Name of the column in ClickHouse that will store field value"""
-    column_value_expression: str
-    r"""JavaScript expression to compute value to be inserted into ClickHouse table"""
-    column_type: NotRequired[str]
-    r"""Type of the column in the ClickHouse database"""
-
-
-class OutputResponseColumnMappingClickHouse(BaseModel):
-    column_name: Annotated[str, pydantic.Field(alias="columnName")]
-    r"""Name of the column in ClickHouse that will store field value"""
-
-    column_value_expression: Annotated[
-        str, pydantic.Field(alias="columnValueExpression")
-    ]
-    r"""JavaScript expression to compute value to be inserted into ClickHouse table"""
-
-    column_type: Annotated[Optional[str], pydantic.Field(alias="columnType")] = None
-    r"""Type of the column in the ClickHouse database"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["columnType"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class OutputResponsePqControlsClickHouseTypedDict(TypedDict):
+class OutputResponsePqControlsCustomerMetricsStorageTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsClickHouse(BaseModel):
+class OutputResponsePqControlsCustomerMetricsStorage(BaseModel):
     pass
 
 
-class OutputResponseOutputClickHouseTypedDict(TypedDict):
-    type: OutputResponseTypeClickHouse
+class OutputResponseOutputCustomerMetricsStorageTypedDict(TypedDict):
+    type: OutputResponseTypeCustomerMetricsStorage
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
     database: str
@@ -9769,9 +9714,9 @@ class OutputResponseOutputClickHouseTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     auth_type: NotRequired[AuthenticationTypeOptions]
-    format_: NotRequired[OutputResponseFormatClickHouse]
+    format_: NotRequired[FormatOptions]
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
-    mapping_type: NotRequired[OutputResponseMappingTypeClickHouse]
+    mapping_type: NotRequired[MappingTypeOptions]
     r"""How event fields are mapped to ClickHouse columns"""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing on the ClickHouse server. Disable to write to a ClickHouse table immediately. Cribl sends the configured value with every insert (<code>async_insert=1</code> or <code>async_insert=0</code>) so behavior is consistent across ClickHouse versions, including 26.3 LTS and later, where async inserts are enabled by default on the server."""
@@ -9825,7 +9770,7 @@ class OutputResponseOutputClickHouseTypedDict(TypedDict):
     r"""Fields to exclude from sending to ClickHouse"""
     describe_table: NotRequired[str]
     r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
-    column_mappings: NotRequired[List[OutputResponseColumnMappingClickHouseTypedDict]]
+    column_mappings: NotRequired[List[ColumnMappingConfOutputClickHouseTypedDict]]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -9848,7 +9793,7 @@ class OutputResponseOutputClickHouseTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsClickHouseTypedDict]
+    pq_controls: NotRequired[OutputResponsePqControlsCustomerMetricsStorageTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -9867,8 +9812,8 @@ class OutputResponseOutputClickHouseTypedDict(TypedDict):
     r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputClickHouse(BaseModel):
-    type: OutputResponseTypeClickHouse
+class OutputResponseOutputCustomerMetricsStorage(BaseModel):
+    type: OutputResponseTypeCustomerMetricsStorage
 
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
@@ -9899,14 +9844,11 @@ class OutputResponseOutputClickHouse(BaseModel):
         Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
     ] = None
 
-    format_: Annotated[
-        Optional[OutputResponseFormatClickHouse], pydantic.Field(alias="format")
-    ] = None
+    format_: Annotated[Optional[FormatOptions], pydantic.Field(alias="format")] = None
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Optional[OutputResponseMappingTypeClickHouse],
-        pydantic.Field(alias="mappingType"),
+        Optional[MappingTypeOptions], pydantic.Field(alias="mappingType")
     ] = None
     r"""How event fields are mapped to ClickHouse columns"""
 
@@ -10026,7 +9968,532 @@ class OutputResponseOutputClickHouse(BaseModel):
     r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
 
     column_mappings: Annotated[
-        Optional[List[OutputResponseColumnMappingClickHouse]],
+        Optional[List[ColumnMappingConfOutputClickHouse]],
+        pydantic.Field(alias="columnMappings"),
+    ] = None
+
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = None
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = None
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = None
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = None
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
+    pq_max_file_size: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxFileSize")
+    ] = None
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+
+    pq_compress: Annotated[
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
+    ] = None
+    r"""Codec to use to compress the persisted data"""
+
+    pq_on_backpressure: Annotated[
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
+    ] = None
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
+    pq_controls: Annotated[
+        Optional[OutputResponsePqControlsCustomerMetricsStorage],
+        pydantic.Field(alias="pqControls"),
+    ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+    template_database: Annotated[
+        Optional[str], pydantic.Field(alias="__template_database")
+    ] = None
+    r"""Binds 'database' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'database' at runtime."""
+
+    template_table_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tableName")
+    ] = None
+    r"""Binds 'tableName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tableName' at runtime."""
+
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    notifications: Optional[List[NotificationUnion]] = None
+    r"""Notifications attached to the Destination."""
+
+    status: Optional[StatusType] = None
+    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationTypeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("format_")
+    def serialize_format_(self, value):
+        if isinstance(value, str):
+            try:
+                return models.FormatOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("mapping_type")
+    def serialize_mapping_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.MappingTypeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("failed_request_logging_mode")
+    def serialize_failed_request_logging_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.FailedRequestLoggingModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_mode")
+    def serialize_pq_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_compress")
+    def serialize_pq_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsPq(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_on_backpressure")
+    def serialize_pq_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.QueueFullBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "authType",
+                "format",
+                "mappingType",
+                "asyncInserts",
+                "tls",
+                "concurrency",
+                "maxPayloadSizeKB",
+                "maxPayloadEvents",
+                "compress",
+                "rejectUnauthorized",
+                "timeoutSec",
+                "flushPeriodSec",
+                "extraHttpHeaders",
+                "useRoundRobinDns",
+                "failedRequestLoggingMode",
+                "safeHeaders",
+                "responseRetrySettings",
+                "timeoutRetrySettings",
+                "responseHonorRetryAfterHeader",
+                "dumpFormatErrorsToDisk",
+                "onBackpressure",
+                "description",
+                "username",
+                "password",
+                "credentialsSecret",
+                "sqlUsername",
+                "waitForAsyncInserts",
+                "excludeMappingFields",
+                "describeTable",
+                "columnMappings",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
+                "pqControls",
+                "__template_streamtags",
+                "__template_url",
+                "__template_database",
+                "__template_tableName",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
+                "notifications",
+                "status",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class OutputResponseTypeClickHouse(str, Enum):
+    CLICK_HOUSE = "click_house"
+
+
+class OutputResponsePqControlsClickHouseTypedDict(TypedDict):
+    pass
+
+
+class OutputResponsePqControlsClickHouse(BaseModel):
+    pass
+
+
+class OutputResponseOutputClickHouseTypedDict(TypedDict):
+    type: OutputResponseTypeClickHouse
+    url: str
+    r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
+    database: str
+    table_name: str
+    r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    auth_type: NotRequired[AuthenticationTypeOptions]
+    format_: NotRequired[FormatOptions]
+    r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
+    mapping_type: NotRequired[MappingTypeOptions]
+    r"""How event fields are mapped to ClickHouse columns"""
+    async_inserts: NotRequired[bool]
+    r"""Collect data into batches for later processing on the ClickHouse server. Disable to write to a ClickHouse table immediately. Cribl sends the configured value with every insert (<code>async_insert=1</code> or <code>async_insert=0</code>) so behavior is consistent across ClickHouse versions, including 26.3 LTS and later, where async inserts are enabled by default on the server."""
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    concurrency: NotRequired[float]
+    r"""Maximum number of ongoing requests before blocking"""
+    max_payload_size_kb: NotRequired[float]
+    r"""Maximum size, in KB, of the request body"""
+    max_payload_events: NotRequired[float]
+    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+    compress: NotRequired[bool]
+    r"""Compress the payload body before sending"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+    Enabled by default. When this setting is also present in TLS Settings (Client Side),
+    that value will take precedence.
+    """
+    timeout_sec: NotRequired[float]
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    flush_period_sec: NotRequired[float]
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
+    r"""Headers to add to all events"""
+    use_round_robin_dns: NotRequired[bool]
+    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
+    failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
+    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
+    safe_headers: NotRequired[List[str]]
+    r"""List of headers that are safe to log in plain text"""
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
+    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
+    timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
+    response_honor_retry_after_header: NotRequired[bool]
+    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+    dump_format_errors_to_disk: NotRequired[bool]
+    r"""Log the most recent event that fails to match the table schema"""
+    on_backpressure: NotRequired[BackpressureBehaviorOptions]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    description: NotRequired[str]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a secret that references your credentials"""
+    sql_username: NotRequired[str]
+    r"""Username for certificate authentication"""
+    wait_for_async_inserts: NotRequired[bool]
+    r"""Cribl will wait for confirmation that data has been fully inserted into the ClickHouse database before proceeding. Disabling this option can increase throughput, but Cribl won't be able to verify data has been completely inserted."""
+    exclude_mapping_fields: NotRequired[List[str]]
+    r"""Fields to exclude from sending to ClickHouse"""
+    describe_table: NotRequired[str]
+    r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
+    column_mappings: NotRequired[List[ColumnMappingConfOutputClickHouseTypedDict]]
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[ModeOptions]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+    pq_max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+    pq_max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    pq_path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    pq_compress: NotRequired[CompressionOptionsPq]
+    r"""Codec to use to compress the persisted data"""
+    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    pq_controls: NotRequired[OutputResponsePqControlsClickHouseTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+    template_database: NotRequired[str]
+    r"""Binds 'database' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'database' at runtime."""
+    template_table_name: NotRequired[str]
+    r"""Binds 'tableName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tableName' at runtime."""
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    notifications: NotRequired[List[NotificationUnionTypedDict]]
+    r"""Notifications attached to the Destination."""
+    status: NotRequired[StatusTypeTypedDict]
+    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
+
+
+class OutputResponseOutputClickHouse(BaseModel):
+    type: OutputResponseTypeClickHouse
+
+    url: str
+    r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
+
+    database: str
+
+    table_name: Annotated[str, pydantic.Field(alias="tableName")]
+    r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    auth_type: Annotated[
+        Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
+    ] = None
+
+    format_: Annotated[Optional[FormatOptions], pydantic.Field(alias="format")] = None
+    r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
+
+    mapping_type: Annotated[
+        Optional[MappingTypeOptions], pydantic.Field(alias="mappingType")
+    ] = None
+    r"""How event fields are mapped to ClickHouse columns"""
+
+    async_inserts: Annotated[Optional[bool], pydantic.Field(alias="asyncInserts")] = (
+        None
+    )
+    r"""Collect data into batches for later processing on the ClickHouse server. Disable to write to a ClickHouse table immediately. Cribl sends the configured value with every insert (<code>async_insert=1</code> or <code>async_insert=0</code>) so behavior is consistent across ClickHouse versions, including 26.3 LTS and later, where async inserts are enabled by default on the server."""
+
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+
+    concurrency: Optional[float] = None
+    r"""Maximum number of ongoing requests before blocking"""
+
+    max_payload_size_kb: Annotated[
+        Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
+    ] = None
+    r"""Maximum size, in KB, of the request body"""
+
+    max_payload_events: Annotated[
+        Optional[float], pydantic.Field(alias="maxPayloadEvents")
+    ] = None
+    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+
+    compress: Optional[bool] = None
+    r"""Compress the payload body before sending"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
+    Enabled by default. When this setting is also present in TLS Settings (Client Side),
+    that value will take precedence.
+    """
+
+    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
+    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    flush_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="flushPeriodSec")
+    ] = None
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
+
+    extra_http_headers: Annotated[
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
+        pydantic.Field(alias="extraHttpHeaders"),
+    ] = None
+    r"""Headers to add to all events"""
+
+    use_round_robin_dns: Annotated[
+        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
+    ] = None
+    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
+
+    failed_request_logging_mode: Annotated[
+        Optional[FailedRequestLoggingModeOptions],
+        pydantic.Field(alias="failedRequestLoggingMode"),
+    ] = None
+    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
+
+    safe_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="safeHeaders")
+    ] = None
+    r"""List of headers that are safe to log in plain text"""
+
+    response_retry_settings: Annotated[
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
+        pydantic.Field(alias="responseRetrySettings"),
+    ] = None
+    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
+
+    timeout_retry_settings: Annotated[
+        Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
+    ] = None
+
+    response_honor_retry_after_header: Annotated[
+        Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
+    ] = None
+    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+
+    dump_format_errors_to_disk: Annotated[
+        Optional[bool], pydantic.Field(alias="dumpFormatErrorsToDisk")
+    ] = None
+    r"""Log the most recent event that fails to match the table schema"""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    description: Optional[str] = None
+
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a secret that references your credentials"""
+
+    sql_username: Annotated[Optional[str], pydantic.Field(alias="sqlUsername")] = None
+    r"""Username for certificate authentication"""
+
+    wait_for_async_inserts: Annotated[
+        Optional[bool], pydantic.Field(alias="waitForAsyncInserts")
+    ] = None
+    r"""Cribl will wait for confirmation that data has been fully inserted into the ClickHouse database before proceeding. Disabling this option can increase throughput, but Cribl won't be able to verify data has been completely inserted."""
+
+    exclude_mapping_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="excludeMappingFields")
+    ] = None
+    r"""Fields to exclude from sending to ClickHouse"""
+
+    describe_table: Annotated[Optional[str], pydantic.Field(alias="describeTable")] = (
+        None
+    )
+    r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
+
+    column_mappings: Annotated[
+        Optional[List[ColumnMappingConfOutputClickHouse]],
         pydantic.Field(alias="columnMappings"),
     ] = None
 
@@ -10132,7 +10599,7 @@ class OutputResponseOutputClickHouse(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseFormatClickHouse(value)
+                return models.FormatOptions(value)
             except ValueError:
                 return value
         return value
@@ -10141,7 +10608,7 @@ class OutputResponseOutputClickHouse(BaseModel):
     def serialize_mapping_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseMappingTypeClickHouse(value)
+                return models.MappingTypeOptions(value)
             except ValueError:
                 return value
         return value
@@ -21097,7 +21564,7 @@ try:
 except NameError:
     pass
 try:
-    OutputResponseColumnMappingLocalSearchStorage.model_rebuild()
+    OutputResponseColumnMapping.model_rebuild()
 except NameError:
     pass
 try:
@@ -21105,7 +21572,7 @@ try:
 except NameError:
     pass
 try:
-    OutputResponseColumnMappingClickHouse.model_rebuild()
+    OutputResponseOutputCustomerMetricsStorage.model_rebuild()
 except NameError:
     pass
 try:

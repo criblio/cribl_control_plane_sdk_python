@@ -369,6 +369,12 @@ value: models.OutputDiskSpool = /* values here */
 value: models.OutputClickHouse = /* values here */
 ```
 
+### `models.OutputCustomerMetricsStorage`
+
+```python
+value: models.OutputCustomerMetricsStorage = /* values here */
+```
+
 ### `models.OutputLocalSearchStorage`
 
 ```python

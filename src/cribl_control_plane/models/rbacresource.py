@@ -13,3 +13,4 @@ class RbacResource(str, Enum, metaclass=utils.OpenEnumMeta):
     DASHBOARDS = "dashboards"
     MACROS = "macros"
     NOTEBOOKS = "notebooks"
+    NOTEBOOK_TEMPLATES = "notebook-templates"

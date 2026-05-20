@@ -4,15 +4,15 @@ from __future__ import annotations
 from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
-from .backpressurebehavioroptions1 import BackpressureBehaviorOptions1
+from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
 from .compressionleveloptions import CompressionLevelOptions
-from .compressionoptions2 import CompressionOptions2
+from .compressionoptionshttp import CompressionOptionsHTTP
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
-from .itemstypekeyvaluemetadata import (
-    ItemsTypeKeyValueMetadata,
-    ItemsTypeKeyValueMetadataTypedDict,
+from .keyvaluemetadataconfoutputfilesystem import (
+    KeyValueMetadataConfOutputFilesystem,
+    KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .objectacloptions import ObjectACLOptions
 from .orphanfilerecoverytype import (
@@ -23,9 +23,6 @@ from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
-)
-from .signatureversionoptionss3collectorconf import (
-    SignatureVersionOptionsS3CollectorConf,
 )
 from .storageclassoptions import StorageClassOptions
 from cribl_control_plane import models
@@ -57,20 +54,8 @@ class OutputS3TypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    region: NotRequired[str]
-    r"""Region where the S3 bucket is located"""
-    aws_secret_key: NotRequired[str]
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
     endpoint: NotRequired[str]
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
-    r"""Signature version to use for signing S3 requests"""
-    reuse_connections: NotRequired[bool]
-    r"""Reuse connections between requests, which can improve performance"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
     enable_assume_role: NotRequired[bool]
     r"""Use Assume Role credentials to access S3"""
     assume_role_arn: NotRequired[str]
@@ -79,17 +64,24 @@ class OutputS3TypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
-    add_id_to_stage_path: NotRequired[bool]
-    r"""Add the Output ID value to staging location"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    region: NotRequired[str]
+    r"""Region where the S3 bucket is located"""
     dest_path: NotRequired[str]
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
-    object_acl: NotRequired[ObjectACLOptions]
-    r"""Object ACL to assign to uploaded objects"""
-    storage_class: NotRequired[StorageClassOptions]
-    r"""Storage class to select for uploaded objects"""
-    server_side_encryption: NotRequired[ServerSideEncryptionForUploadedObjectsOptions]
-    kms_key_id: NotRequired[str]
-    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
+    max_concurrent_file_parts: NotRequired[float]
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    verify_permissions: NotRequired[bool]
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+    max_closing_files_to_backpressure: NotRequired[float]
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    add_id_to_stage_path: NotRequired[bool]
+    r"""Add the Output ID value to staging location"""
     remove_empty_dirs: NotRequired[bool]
     r"""Remove empty staging directories after moving files"""
     partition_expr: NotRequired[str]
@@ -102,13 +94,17 @@ class OutputS3TypedDict(TypedDict):
     r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+    max_file_open_time_sec: NotRequired[float]
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    max_file_idle_time_sec: NotRequired[float]
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
     max_open_files: NotRequired[float]
     r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
     header_line: NotRequired[str]
     r"""If set, this line will be written to the beginning of each output file"""
     write_high_water_mark: NotRequired[float]
     r"""Buffer size used to write to a file"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions1]
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     deadletter_enabled: NotRequired[bool]
     r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
@@ -118,22 +114,22 @@ class OutputS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
-    max_file_open_time_sec: NotRequired[float]
-    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
-    max_file_idle_time_sec: NotRequired[float]
-    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
-    max_concurrent_file_parts: NotRequired[float]
-    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
-    verify_permissions: NotRequired[bool]
-    r"""Disable if you can access files within the bucket but not the bucket itself"""
-    max_closing_files_to_backpressure: NotRequired[float]
-    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+    object_acl: NotRequired[ObjectACLOptions]
+    r"""Object ACL to assign to uploaded objects"""
+    storage_class: NotRequired[StorageClassOptions]
+    r"""Storage class to select for uploaded objects"""
+    server_side_encryption: NotRequired[ServerSideEncryptionForUploadedObjectsOptions]
+    r"""Server-side encryption to use for uploaded objects"""
+    kms_key_id: NotRequired[str]
+    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
     description: NotRequired[str]
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
-    compress: NotRequired[CompressionOptions2]
+    compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
     r"""Compression level to apply before moving files to final destination"""
@@ -151,7 +147,7 @@ class OutputS3TypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -167,20 +163,46 @@ class OutputS3TypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
-    template_bucket: NotRequired[str]
-    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
-    template_region: NotRequired[str]
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_dest_path: NotRequired[str]
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+    template_partition_expr: NotRequired[str]
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
     template_format: NotRequired[str]
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_base_file_name: NotRequired[str]
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+    template_file_name_suffix: NotRequired[str]
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_storage_class: NotRequired[str]
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+    template_server_side_encryption: NotRequired[str]
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
+    template_kms_key_id: NotRequired[str]
+    r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class OutputS3(BaseModel):
@@ -209,38 +231,8 @@ class OutputS3(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
-    region: Optional[str] = None
-    r"""Region where the S3 bucket is located"""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
-
-    aws_authentication_method: Annotated[
-        Optional[AuthenticationMethodOptionsS3CollectorConf],
-        pydantic.Field(alias="awsAuthenticationMethod"),
-    ] = None
-    r"""AWS authentication method. Choose Auto to use IAM roles."""
-
     endpoint: Optional[str] = None
     r"""S3 service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to S3-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsS3CollectorConf],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing S3 requests"""
-
-    reuse_connections: Annotated[
-        Optional[bool], pydantic.Field(alias="reuseConnections")
-    ] = None
-    r"""Reuse connections between requests, which can improve performance"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
 
     enable_assume_role: Annotated[
         Optional[bool], pydantic.Field(alias="enableAssumeRole")
@@ -262,31 +254,47 @@ class OutputS3(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
-    add_id_to_stage_path: Annotated[
-        Optional[bool], pydantic.Field(alias="addIdToStagePath")
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
     ] = None
-    r"""Add the Output ID value to staging location"""
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = None
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    region: Optional[str] = None
+    r"""Region where the S3 bucket is located"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
 
-    object_acl: Annotated[
-        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
+    max_concurrent_file_parts: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
     ] = None
-    r"""Object ACL to assign to uploaded objects"""
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
 
-    storage_class: Annotated[
-        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
+    verify_permissions: Annotated[
+        Optional[bool], pydantic.Field(alias="verifyPermissions")
     ] = None
-    r"""Storage class to select for uploaded objects"""
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
 
-    server_side_encryption: Annotated[
-        Optional[ServerSideEncryptionForUploadedObjectsOptions],
-        pydantic.Field(alias="serverSideEncryption"),
+    max_closing_files_to_backpressure: Annotated[
+        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
     ] = None
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
 
-    kms_key_id: Annotated[Optional[str], pydantic.Field(alias="kmsKeyId")] = None
-    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
+    add_id_to_stage_path: Annotated[
+        Optional[bool], pydantic.Field(alias="addIdToStagePath")
+    ] = None
+    r"""Add the Output ID value to staging location"""
 
     remove_empty_dirs: Annotated[
         Optional[bool], pydantic.Field(alias="removeEmptyDirs")
@@ -318,6 +326,16 @@ class OutputS3(BaseModel):
     ] = None
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
 
+    max_file_open_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
+    ] = None
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+
+    max_file_idle_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    ] = None
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+
     max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
         None
     )
@@ -332,7 +350,8 @@ class OutputS3(BaseModel):
     r"""Buffer size used to write to a file"""
 
     on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions1], pydantic.Field(alias="onBackpressure")
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
@@ -358,30 +377,29 @@ class OutputS3(BaseModel):
 
     orphans: Optional[OrphanFileRecoveryType] = None
 
-    max_file_open_time_sec: Annotated[
-        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
-    ] = None
-    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
-    max_file_idle_time_sec: Annotated[
-        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    object_acl: Annotated[
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = None
-    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+    r"""Object ACL to assign to uploaded objects"""
 
-    max_concurrent_file_parts: Annotated[
-        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    storage_class: Annotated[
+        Optional[StorageClassOptions], pydantic.Field(alias="storageClass")
     ] = None
-    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    r"""Storage class to select for uploaded objects"""
 
-    verify_permissions: Annotated[
-        Optional[bool], pydantic.Field(alias="verifyPermissions")
+    server_side_encryption: Annotated[
+        Optional[ServerSideEncryptionForUploadedObjectsOptions],
+        pydantic.Field(alias="serverSideEncryption"),
     ] = None
-    r"""Disable if you can access files within the bucket but not the bucket itself"""
+    r"""Server-side encryption to use for uploaded objects"""
 
-    max_closing_files_to_backpressure: Annotated[
-        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
-    ] = None
-    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    kms_key_id: Annotated[Optional[str], pydantic.Field(alias="kmsKeyId")] = None
+    r"""ID or ARN of the KMS customer-managed key to use for encryption"""
 
     description: Optional[str] = None
 
@@ -391,7 +409,7 @@ class OutputS3(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
-    compress: Optional[CompressionOptions2] = None
+    compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     compression_level: Annotated[
@@ -435,7 +453,7 @@ class OutputS3(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -475,20 +493,15 @@ class OutputS3(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
-    template_bucket: Annotated[
-        Optional[str], pydantic.Field(alias="__template_bucket")
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
     ] = None
-    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
-    template_region: Annotated[
-        Optional[str], pydantic.Field(alias="__template_region")
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
-    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
@@ -500,15 +513,85 @@ class OutputS3(BaseModel):
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
 
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_dest_path: Annotated[
+        Optional[str], pydantic.Field(alias="__template_destPath")
+    ] = None
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+
+    template_partition_expr: Annotated[
+        Optional[str], pydantic.Field(alias="__template_partitionExpr")
+    ] = None
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
+
     template_format: Annotated[
         Optional[str], pydantic.Field(alias="__template_format")
     ] = None
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
+    template_base_file_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_baseFileName")
+    ] = None
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+
+    template_file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_fileNameSuffix")
+    ] = None
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_object_acl: Annotated[
+        Optional[str], pydantic.Field(alias="__template_objectACL")
+    ] = None
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+
+    template_storage_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageClass")
+    ] = None
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+
+    template_server_side_encryption: Annotated[
+        Optional[str], pydantic.Field(alias="__template_serverSideEncryption")
+    ] = None
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
+
+    template_kms_key_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_kmsKeyId")
+    ] = None
+    r"""Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'kmsKeyId' at runtime."""
+
     template_aws_api_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsApiKey")
     ] = None
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
@@ -519,11 +602,29 @@ class OutputS3(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
+    @field_serializer("format_")
+    def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.SignatureVersionOptionsS3CollectorConf(value)
+                return models.DataFormatOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_disk_full_backpressure")
+    def serialize_on_disk_full_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DiskSpaceProtectionOptions(value)
             except ValueError:
                 return value
         return value
@@ -555,38 +656,11 @@ class OutputS3(BaseModel):
                 return value
         return value
 
-    @field_serializer("format_")
-    def serialize_format_(self, value):
-        if isinstance(value, str):
-            try:
-                return models.DataFormatOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("on_backpressure")
-    def serialize_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.BackpressureBehaviorOptions1(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("on_disk_full_backpressure")
-    def serialize_on_disk_full_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.DiskSpaceProtectionOptions(value)
-            except ValueError:
-                return value
-        return value
-
     @field_serializer("compress")
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -627,29 +701,28 @@ class OutputS3(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
-                "region",
-                "awsSecretKey",
-                "awsAuthenticationMethod",
                 "endpoint",
-                "signatureVersion",
-                "reuseConnections",
-                "rejectUnauthorized",
                 "enableAssumeRole",
                 "assumeRoleArn",
                 "assumeRoleExternalId",
                 "durationSeconds",
-                "addIdToStagePath",
+                "awsAuthenticationMethod",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "region",
                 "destPath",
-                "objectACL",
-                "storageClass",
-                "serverSideEncryption",
-                "kmsKeyId",
+                "maxConcurrentFileParts",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "addIdToStagePath",
                 "removeEmptyDirs",
                 "partitionExpr",
                 "format",
                 "baseFileName",
                 "fileNameSuffix",
                 "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
                 "maxOpenFiles",
                 "headerLine",
                 "writeHighWaterMark",
@@ -659,11 +732,11 @@ class OutputS3(BaseModel):
                 "forceCloseOnShutdown",
                 "retrySettings",
                 "orphans",
-                "maxFileOpenTimeSec",
-                "maxFileIdleTimeSec",
-                "maxConcurrentFileParts",
-                "verifyPermissions",
-                "maxClosingFilesToBackpressure",
+                "awsSecretKey",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "kmsKeyId",
                 "description",
                 "awsApiKey",
                 "awsSecret",
@@ -684,13 +757,26 @@ class OutputS3(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
-                "__template_bucket",
-                "__template_region",
-                "__template_awsSecretKey",
+                "__template_streamtags",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
+                "__template_bucket",
+                "__template_region",
+                "__template_destPath",
+                "__template_partitionExpr",
                 "__template_format",
+                "__template_baseFileName",
+                "__template_fileNameSuffix",
+                "__template_onBackpressure",
+                "__template_awsSecretKey",
+                "__template_objectACL",
+                "__template_storageClass",
+                "__template_serverSideEncryption",
+                "__template_kmsKeyId",
                 "__template_awsApiKey",
+                "__template_compress",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)

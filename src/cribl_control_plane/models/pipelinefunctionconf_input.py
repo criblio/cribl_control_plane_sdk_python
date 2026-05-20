@@ -94,6 +94,10 @@ from .pipelinefunctionlocalsearchschemamapper import (
     PipelineFunctionLocalSearchSchemaMapper,
     PipelineFunctionLocalSearchSchemaMapperTypedDict,
 )
+from .pipelinefunctionlocalsearchtimerangenormalizer import (
+    PipelineFunctionLocalSearchTimeRangeNormalizer,
+    PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
+)
 from .pipelinefunctionlocalsearchtransformer import (
     PipelineFunctionLocalSearchTransformer,
     PipelineFunctionLocalSearchTransformerTypedDict,
@@ -165,6 +169,10 @@ from .pipelinefunctionrollupmetrics import (
 from .pipelinefunctionsampling import (
     PipelineFunctionSampling,
     PipelineFunctionSamplingTypedDict,
+)
+from .pipelinefunctionsearchengineexport import (
+    PipelineFunctionSearchEngineExport,
+    PipelineFunctionSearchEngineExportTypedDict,
 )
 from .pipelinefunctionsend import PipelineFunctionSend, PipelineFunctionSendTypedDict
 from .pipelinefunctionsensitivedatascanner import (
@@ -251,6 +259,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
         PipelineFunctionLocalSearchSchemaMapperTypedDict,
+        PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
         PipelineFunctionLocalSearchTransformerTypedDict,
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
@@ -272,6 +281,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionRenameTypedDict,
         PipelineFunctionRollupMetricsTypedDict,
         PipelineFunctionSamplingTypedDict,
+        PipelineFunctionSearchEngineExportTypedDict,
         PipelineFunctionSendTypedDict,
         PipelineFunctionSensitiveDataScannerTypedDict,
         PipelineFunctionSerdeTypedDict,
@@ -332,6 +342,10 @@ PipelineFunctionConfInput = Annotated[
             PipelineFunctionLocalSearchSchemaMapper, Tag("local_search_schema_mapper")
         ],
         Annotated[
+            PipelineFunctionLocalSearchTimeRangeNormalizer,
+            Tag("local_search_time_range_normalizer"),
+        ],
+        Annotated[
             PipelineFunctionLocalSearchTransformer, Tag("local_search_transformer")
         ],
         Annotated[PipelineFunctionLookup, Tag("lookup")],
@@ -354,6 +368,7 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionRename, Tag("rename")],
         Annotated[PipelineFunctionRollupMetrics, Tag("rollup_metrics")],
         Annotated[PipelineFunctionSampling, Tag("sampling")],
+        Annotated[PipelineFunctionSearchEngineExport, Tag("search_engine_export")],
         Annotated[PipelineFunctionSend, Tag("send")],
         Annotated[PipelineFunctionSensitiveDataScanner, Tag("sensitive_data_scanner")],
         Annotated[PipelineFunctionSerde, Tag("serde")],

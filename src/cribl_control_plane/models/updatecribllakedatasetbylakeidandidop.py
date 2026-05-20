@@ -17,7 +17,7 @@ class UpdateCriblLakeDatasetByLakeIDAndIDRequestTypedDict(TypedDict):
     id_param: str
     r"""The <code>id</code> of the Lake Dataset to update."""
     cribl_lake_dataset_update: CriblLakeDatasetUpdateTypedDict
-    r"""CriblLakeDatasetUpdate object"""
+    r"""CriblLakeDatasetUpdate object."""
 
 
 class UpdateCriblLakeDatasetByLakeIDAndIDRequest(BaseModel):
@@ -39,4 +39,4 @@ class UpdateCriblLakeDatasetByLakeIDAndIDRequest(BaseModel):
         CriblLakeDatasetUpdate,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""CriblLakeDatasetUpdate object"""
+    r"""CriblLakeDatasetUpdate object."""

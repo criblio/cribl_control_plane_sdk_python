@@ -6,17 +6,17 @@ from .authenticationmethodoptionsauthtokensitems import (
 )
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -75,7 +75,7 @@ class OutputWavefrontTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -83,7 +83,9 @@ class OutputWavefrontTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -102,7 +104,7 @@ class OutputWavefrontTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -115,7 +117,15 @@ class OutputWavefrontTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputWavefrontPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
 class OutputWavefront(BaseModel):
@@ -180,7 +190,7 @@ class OutputWavefront(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -202,7 +212,7 @@ class OutputWavefront(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -245,7 +255,7 @@ class OutputWavefront(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -273,9 +283,29 @@ class OutputWavefront(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputWavefrontPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -369,7 +399,11 @@ class OutputWavefront(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
             ]
         )
         serialized = handler(self)

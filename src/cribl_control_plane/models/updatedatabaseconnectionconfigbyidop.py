@@ -15,7 +15,7 @@ class UpdateDatabaseConnectionConfigByIDRequestTypedDict(TypedDict):
     id_param: str
     r"""The <code>id</code> of the Database Connection to update."""
     database_connection_config: DatabaseConnectionConfigTypedDict
-    r"""DatabaseConnectionConfig object"""
+    r"""DatabaseConnectionConfig object."""
 
 
 class UpdateDatabaseConnectionConfigByIDRequest(BaseModel):
@@ -30,4 +30,4 @@ class UpdateDatabaseConnectionConfigByIDRequest(BaseModel):
         DatabaseConnectionConfig,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""DatabaseConnectionConfig object"""
+    r"""DatabaseConnectionConfig object."""

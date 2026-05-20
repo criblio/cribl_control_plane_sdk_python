@@ -55,7 +55,7 @@ with CriblControlPlane(
 
 ## list
 
-List status information and optional health metrics for all configured Destinations in the Worker Group or Edge Fleet.
+List status information and optional metrics for all configured Destinations in the Worker Group or Edge Fleet.
 
 ### Example Usage
 
@@ -74,22 +74,26 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.statuses.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
 ### Parameters
 
-| Parameter                                                                                                                              | Type                                                                                                                                   | Required                                                                                                                               | Description                                                                                                                            |
-| -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------- |
-| `metrics`                                                                                                                              | *Optional[bool]*                                                                                                                       | :heavy_minus_sign:                                                                                                                     | Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).                             |
-| `type`                                                                                                                                 | *Optional[bool]*                                                                                                                       | :heavy_minus_sign:                                                                                                                     | Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default). |
-| `retries`                                                                                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                       | :heavy_minus_sign:                                                                                                                     | Configuration to override the default retry behavior of the client.                                                                    |
+| Parameter                                                                                                                                          | Type                                                                                                                                               | Required                                                                                                                                           | Description                                                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `metrics`                                                                                                                                          | *Optional[bool]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                 | Set to <code>true</code> to include metrics for each Destination. Otherwise, <code>false</code> (default).                                         |
+| `type`                                                                                                                                             | *Optional[bool]*                                                                                                                                   | :heavy_minus_sign:                                                                                                                                 | Set to <code>true</code> to prefix the Destination <code>id</code> with the Destination type. Otherwise, <code>false</code> (default).             |
+| `offset`                                                                                                                                           | *Optional[int]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.      |
+| `limit`                                                                                                                                            | *Optional[int]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | Maximum number of items to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches. |
+| `retries`                                                                                                                                          | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                   | :heavy_minus_sign:                                                                                                                                 | Configuration to override the default retry behavior of the client.                                                                                |
 
 ### Response
 
-**[models.CountedOutputStatus](../../models/countedoutputstatus.md)**
+**[models.GetOutputStatusResponse](../../models/getoutputstatusresponse.md)**
 
 ### Errors
 

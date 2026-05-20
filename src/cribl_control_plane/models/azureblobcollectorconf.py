@@ -83,6 +83,10 @@ class AzureBlobAuthTypeClientCertTypedDict(TypedDict):
     r"""Text secret"""
     client_text_secret: NotRequired[str]
     r"""Text secret containing the client secret"""
+    template_container_name: NotRequired[str]
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
 
 
 class AzureBlobAuthTypeClientCert(BaseModel):
@@ -162,6 +166,16 @@ class AzureBlobAuthTypeClientCert(BaseModel):
     ] = None
     r"""Text secret containing the client secret"""
 
+    template_container_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_containerName")
+    ] = None
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -190,6 +204,8 @@ class AzureBlobAuthTypeClientCert(BaseModel):
                 "connectionString",
                 "textSecret",
                 "clientTextSecret",
+                "__template_containerName",
+                "__template_path",
             ]
         )
         serialized = handler(self)
@@ -272,6 +288,10 @@ class AzureBlobAuthTypeClientSecretTypedDict(TypedDict):
     text_secret: NotRequired[str]
     r"""Text secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    template_container_name: NotRequired[str]
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
 
 
 class AzureBlobAuthTypeClientSecret(BaseModel):
@@ -349,6 +369,16 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
+    template_container_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_containerName")
+    ] = None
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -377,6 +407,8 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
                 "connectionString",
                 "textSecret",
                 "certificate",
+                "__template_containerName",
+                "__template_path",
             ]
         )
         serialized = handler(self)
@@ -449,6 +481,10 @@ class AzureBlobAuthTypeSecretTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Text secret containing the client secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    template_container_name: NotRequired[str]
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
 
 
 class AzureBlobAuthTypeSecret(BaseModel):
@@ -511,6 +547,16 @@ class AzureBlobAuthTypeSecret(BaseModel):
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
+    template_container_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_containerName")
+    ] = None
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -537,6 +583,8 @@ class AzureBlobAuthTypeSecret(BaseModel):
                 "connectionString",
                 "clientTextSecret",
                 "certificate",
+                "__template_containerName",
+                "__template_path",
             ]
         )
         serialized = handler(self)
@@ -609,6 +657,10 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Text secret containing the client secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    template_container_name: NotRequired[str]
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+    template_path: NotRequired[str]
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
 
 
 class AzureBlobAuthTypeManual(BaseModel):
@@ -669,6 +721,16 @@ class AzureBlobAuthTypeManual(BaseModel):
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
+    template_container_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_containerName")
+    ] = None
+    r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
+
+    template_path: Annotated[Optional[str], pydantic.Field(alias="__template_path")] = (
+        None
+    )
+    r"""Binds 'path' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'path' at runtime."""
+
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -695,6 +757,8 @@ class AzureBlobAuthTypeManual(BaseModel):
                 "textSecret",
                 "clientTextSecret",
                 "certificate",
+                "__template_containerName",
+                "__template_path",
             ]
         )
         serialized = handler(self)

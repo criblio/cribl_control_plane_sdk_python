@@ -3,13 +3,13 @@
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
+from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
+)
 from .scheduletypesavedjobresponsecollection import (
     ScheduleTypeSavedJobResponseCollection,
     ScheduleTypeSavedJobResponseCollectionTypedDict,
-)
-from .typecollectionwithbreakerrulesetsconstraint import (
-    TypeCollectionWithBreakerRulesetsConstraint,
-    TypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -42,7 +42,11 @@ class SavedJobCollectionTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[TypeCollectionWithBreakerRulesetsConstraintTypedDict]
+    input: NotRequired[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
+    ]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class SavedJobCollection(BaseModel):
@@ -88,7 +92,14 @@ class SavedJobCollection(BaseModel):
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[TypeCollectionWithBreakerRulesetsConstraint] = None
+    input: Optional[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
+    ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -114,6 +125,7 @@ class SavedJobCollection(BaseModel):
                 "streamtags",
                 "workerAffinity",
                 "input",
+                "__template_streamtags",
             ]
         )
         serialized = handler(self)

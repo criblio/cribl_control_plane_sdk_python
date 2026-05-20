@@ -49,6 +49,10 @@ from .functionlocalsearchschemamapper import (
     FunctionLocalSearchSchemaMapper,
     FunctionLocalSearchSchemaMapperTypedDict,
 )
+from .functionlocalsearchtimerangenormalizer import (
+    FunctionLocalSearchTimeRangeNormalizer,
+    FunctionLocalSearchTimeRangeNormalizerTypedDict,
+)
 from .functionlocalsearchtransformer import (
     FunctionLocalSearchTransformer,
     FunctionLocalSearchTransformerTypedDict,
@@ -79,6 +83,10 @@ from .functionregexfilter import FunctionRegexFilter, FunctionRegexFilterTypedDi
 from .functionrename import FunctionRename, FunctionRenameTypedDict
 from .functionrollupmetrics import FunctionRollupMetrics, FunctionRollupMetricsTypedDict
 from .functionsampling import FunctionSampling, FunctionSamplingTypedDict
+from .functionsearchengineexport import (
+    FunctionSearchEngineExport,
+    FunctionSearchEngineExportTypedDict,
+)
 from .functionsend import FunctionSend, FunctionSendTypedDict
 from .functionsensitivedatascanner import (
     FunctionSensitiveDataScanner,
@@ -143,6 +151,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionLocalSearchDatatypeParserTypedDict,
         FunctionLocalSearchRulesetRunnerTypedDict,
         FunctionLocalSearchSchemaMapperTypedDict,
+        FunctionLocalSearchTimeRangeNormalizerTypedDict,
         FunctionLocalSearchTransformerTypedDict,
         FunctionLookupTypedDict,
         FunctionMaskTypedDict,
@@ -164,6 +173,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionRenameTypedDict,
         FunctionRollupMetricsTypedDict,
         FunctionSamplingTypedDict,
+        FunctionSearchEngineExportTypedDict,
         FunctionSendTypedDict,
         FunctionSensitiveDataScannerTypedDict,
         FunctionSerdeTypedDict,
@@ -225,6 +235,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "local_search_datatype_parser": FunctionLocalSearchDatatypeParser,
     "local_search_ruleset_runner": FunctionLocalSearchRulesetRunner,
     "local_search_schema_mapper": FunctionLocalSearchSchemaMapper,
+    "local_search_time_range_normalizer": FunctionLocalSearchTimeRangeNormalizer,
     "local_search_transformer": FunctionLocalSearchTransformer,
     "lookup": FunctionLookup,
     "mask": FunctionMask,
@@ -246,6 +257,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "rename": FunctionRename,
     "rollup_metrics": FunctionRollupMetrics,
     "sampling": FunctionSampling,
+    "search_engine_export": FunctionSearchEngineExport,
     "send": FunctionSend,
     "sensitive_data_scanner": FunctionSensitiveDataScanner,
     "serde": FunctionSerde,
@@ -297,6 +309,7 @@ FunctionResponse = Annotated[
         FunctionLocalSearchDatatypeParser,
         FunctionLocalSearchRulesetRunner,
         FunctionLocalSearchSchemaMapper,
+        FunctionLocalSearchTimeRangeNormalizer,
         FunctionLocalSearchTransformer,
         FunctionLookup,
         FunctionMask,
@@ -318,6 +331,7 @@ FunctionResponse = Annotated[
         FunctionRename,
         FunctionRollupMetrics,
         FunctionSampling,
+        FunctionSearchEngineExport,
         FunctionSend,
         FunctionSensitiveDataScanner,
         FunctionSerde,

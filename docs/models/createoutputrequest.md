@@ -1,6 +1,6 @@
 # CreateOutputRequest
 
-Output object
+Output object.
 
 
 ## Supported Types
@@ -11,10 +11,10 @@ Output object
 value: models.CreateOutputOutputDefault = /* values here */
 ```
 
-### `models.CreateOutputOutputWebhook`
+### `models.CreateOutputOutputWebhookUnion`
 
 ```python
-value: models.CreateOutputOutputWebhook = /* values here */
+value: models.CreateOutputOutputWebhookUnion = /* values here */
 ```
 
 ### `models.CreateOutputOutputSentinel`
@@ -429,5 +429,47 @@ value: models.CreateOutputOutputMicrosoftFabric = /* values here */
 
 ```python
 value: models.CreateOutputOutputCloudflareR2 = /* values here */
+```
+
+### `models.CreateOutputOutputNutanixObjects`
+
+```python
+value: models.CreateOutputOutputNutanixObjects = /* values here */
+```
+
+### `models.CreateOutputOutputStorjS3`
+
+```python
+value: models.CreateOutputOutputStorjS3 = /* values here */
+```
+
+### `models.CreateOutputOutputAlphasocS3`
+
+```python
+value: models.CreateOutputOutputAlphasocS3 = /* values here */
+```
+
+### `models.CreateOutputOutputDellS3`
+
+```python
+value: models.CreateOutputOutputDellS3 = /* values here */
+```
+
+### `models.CreateOutputOutputCloudianS3`
+
+```python
+value: models.CreateOutputOutputCloudianS3 = /* values here */
+```
+
+### `models.CreateOutputOutputScalityS3`
+
+```python
+value: models.CreateOutputOutputScalityS3 = /* values here */
+```
+
+### `models.CreateOutputOutputAlibabaCloudS3`
+
+```python
+value: models.CreateOutputOutputAlibabaCloudS3 = /* values here */
 ```
 

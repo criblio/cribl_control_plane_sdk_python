@@ -14,7 +14,7 @@ class FunctionConfSchemaCodeTypedDict(TypedDict):
     max_num_of_iterations: NotRequired[float]
     r"""The maximum number of allowed iterations within this Function. Defaults to 5,000."""
     active_log_sample_rate: NotRequired[float]
-    r"""Rate at which this Function logs errors. For example, a value of 1 (the default) logs every error, a value of 10 logs every tenth error, and so on."""
+    r"""Rate at which this Function logs errors. For example, a value of 1 logs every error, a value of 1000 (the default) logs every thousandth error, and so on."""
     use_unique_log_channel: NotRequired[bool]
     r"""Logs from this Function will be sent to a unique channel in the form `func:code:${pipelineName}:${functionIndex}`. Disable to use the generic `func:code` log channel instead."""
 
@@ -31,7 +31,7 @@ class FunctionConfSchemaCode(BaseModel):
     active_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activeLogSampleRate")
     ] = None
-    r"""Rate at which this Function logs errors. For example, a value of 1 (the default) logs every error, a value of 10 logs every tenth error, and so on."""
+    r"""Rate at which this Function logs errors. For example, a value of 1 logs every error, a value of 1000 (the default) logs every thousandth error, and so on."""
 
     use_unique_log_channel: Annotated[
         Optional[bool], pydantic.Field(alias="useUniqueLogChannel")

@@ -42,7 +42,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""List all Destinations
 
         Get a list of all Destinations.
@@ -113,7 +113,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -134,7 +134,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""List all Destinations
 
         Get a list of all Destinations.
@@ -205,7 +205,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -226,7 +226,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Create a Destination
 
         Create a new Destination.
@@ -300,7 +300,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -321,7 +321,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Create a Destination
 
         Create a new Destination.
@@ -395,7 +395,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -416,7 +416,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Get a Destination
 
         Get the specified Destination.
@@ -487,7 +487,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -508,7 +508,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Get a Destination
 
         Get the specified Destination.
@@ -579,7 +579,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -601,13 +601,13 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Update a Destination
 
         Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
 
         :param id: The <code>id</code> of the Destination to update.
-        :param output: Output object
+        :param output: Output object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -677,7 +677,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -699,13 +699,13 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Update a Destination
 
         Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected.
 
         :param id: The <code>id</code> of the Destination to update.
-        :param output: Output object
+        :param output: Output object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -775,7 +775,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -796,7 +796,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Delete a Destination
 
         Delete the specified Destination.
@@ -867,7 +867,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -888,7 +888,7 @@ class Destinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Delete a Destination
 
         Delete the specified Destination.
@@ -959,7 +959,7 @@ class Destinations(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

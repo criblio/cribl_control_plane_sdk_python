@@ -14,7 +14,7 @@ class CreateConfigGroupByProductRequestTypedDict(TypedDict):
     product: ProductsCore
     r"""Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to."""
     group_create_request: GroupCreateRequestTypedDict
-    r"""GroupCreateRequest object"""
+    r"""GroupCreateRequest object."""
 
 
 class CreateConfigGroupByProductRequest(BaseModel):
@@ -28,7 +28,7 @@ class CreateConfigGroupByProductRequest(BaseModel):
         GroupCreateRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""GroupCreateRequest object"""
+    r"""GroupCreateRequest object."""
 
     @field_serializer("product")
     def serialize_product(self, value):

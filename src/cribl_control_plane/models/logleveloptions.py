@@ -6,10 +6,9 @@ from enum import Enum
 
 
 class LogLevelOptions(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Log Level (verbosity) for collection runtime behavior."""
+    r"""Collector runtime log level"""
 
     ERROR = "error"
     WARN = "warn"
     INFO = "info"
     DEBUG = "debug"
-    SILLY = "silly"

@@ -1,12 +1,15 @@
 # Config
 
+Configuration bundle and policy revision metadata for the node.
+
 
 ## Fields
 
-| Field               | Type                | Required            | Description         |
-| ------------------- | ------------------- | ------------------- | ------------------- |
-| `features_rev`      | *Optional[str]*     | :heavy_minus_sign:  | N/A                 |
-| `hb_period_seconds` | *Optional[float]*   | :heavy_minus_sign:  | N/A                 |
-| `log_stream_env`    | *Optional[str]*     | :heavy_minus_sign:  | N/A                 |
-| `policy_rev`        | *Optional[str]*     | :heavy_minus_sign:  | N/A                 |
-| `version`           | *Optional[str]*     | :heavy_minus_sign:  | N/A                 |
+| Field                                                                                | Type                                                                                 | Required                                                                             | Description                                                                          |
+| ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------ |
+| `features_rev`                                                                       | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | Feature flags or feature revision string for the bundle.                             |
+| `hb_period_seconds`                                                                  | *Optional[int]*                                                                      | :heavy_minus_sign:                                                                   | Worker-to-Leader heartbeat interval, in seconds.                                     |
+| `log_stream_env`                                                                     | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | GitOps or LogStream environment label associated with the bundle.                    |
+| `policy_rev`                                                                         | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | Current policies revision string.                                                    |
+| `users_rev`                                                                          | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | Current users revision string. Only used in leader <> leader universal subscription. |
+| `version`                                                                            | *Optional[str]*                                                                      | :heavy_minus_sign:                                                                   | Configuration bundle version.                                                        |

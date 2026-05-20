@@ -11,12 +11,14 @@ from typing_extensions import TypedDict
 class ConfigGroupCloudTypedDict(TypedDict):
     provider: Nullable[CloudProvider]
     region: str
+    r"""Cloud region where the Worker Group is deployed."""
 
 
 class ConfigGroupCloud(BaseModel):
     provider: Nullable[CloudProvider]
 
     region: str
+    r"""Cloud region where the Worker Group is deployed."""
 
     @field_serializer("provider")
     def serialize_provider(self, value):

@@ -75,6 +75,8 @@ class OutputSnmpTypedDict(TypedDict):
     dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every trap sent will incur a DNS lookup."""
     description: NotRequired[str]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class OutputSnmp(BaseModel):
@@ -107,6 +109,11 @@ class OutputSnmp(BaseModel):
 
     description: Optional[str] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -118,6 +125,7 @@ class OutputSnmp(BaseModel):
                 "streamtags",
                 "dnsResolvePeriodSec",
                 "description",
+                "__template_streamtags",
             ]
         )
         serialized = handler(self)

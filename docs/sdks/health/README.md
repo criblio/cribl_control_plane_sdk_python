@@ -10,17 +10,21 @@ Actions related to REST server health
 
 ## get
 
-Get the current health status of the server (Leader or Worker Node).
+Get the current health status of the server (Leader or Worker Node).  In Distributed deployments, requests routed to a Worker or Edge node using the [host context](https://docs.cribl.io/cribl-as-code/api#base-url-group-fleet-host) require a Bearer token for [authentication](https://docs.cribl.io/cribl-as-code/api-auth/).
 
 ### Example Usage
 
 <!-- UsageSnippet language="python" operationID="getHealth" method="get" path="/health" example="HealthExamplesHealthyPrimary" -->
 ```python
-from cribl_control_plane import CriblControlPlane
+from cribl_control_plane import CriblControlPlane, models
+import os
 
 
 with CriblControlPlane(
     "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
 ) as ccp_client:
 
     res = ccp_client.health.get()

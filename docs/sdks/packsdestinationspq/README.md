@@ -38,7 +38,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Destination to clear the PQ for.         |
-| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to clear.                           |
+| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -83,7 +83,7 @@ with CriblControlPlane(
 | Parameter                                                             | Type                                                                  | Required                                                              | Description                                                           |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `id`                                                                  | *str*                                                                 | :heavy_check_mark:                                                    | The <code>id</code> of the Destination to get PQ job information for. |
-| `pack`                                                                | *str*                                                                 | :heavy_check_mark:                                                    | The <code>id</code> of the Pack to get.                               |
+| `pack`                                                                | *str*                                                                 | :heavy_check_mark:                                                    | The <code>id</code> of the Pack.                                      |
 | `retries`                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)      | :heavy_minus_sign:                                                    | Configuration to override the default retry behavior of the client.   |
 
 ### Response

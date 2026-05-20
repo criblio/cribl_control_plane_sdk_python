@@ -10,18 +10,24 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class ConfigGroupLookupsLookupTypedDict(TypedDict):
     file: str
+    r"""File name of the deployed lookup."""
     deployed_version: NotRequired[str]
+    r"""Version of the lookup file currently deployed on the Worker or Node."""
     version: NotRequired[str]
+    r"""Version of the lookup file currently staged for deployment."""
 
 
 class ConfigGroupLookupsLookup(BaseModel):
     file: str
+    r"""File name of the deployed lookup."""
 
     deployed_version: Annotated[
         Optional[str], pydantic.Field(alias="deployedVersion")
     ] = None
+    r"""Version of the lookup file currently deployed on the Worker or Node."""
 
     version: Optional[str] = None
+    r"""Version of the lookup file currently staged for deployment."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -42,13 +48,17 @@ class ConfigGroupLookupsLookup(BaseModel):
 
 class ConfigGroupLookupsTypedDict(TypedDict):
     context: str
+    r"""The Worker or Node context for the lookup deployment."""
     lookups: List[ConfigGroupLookupsLookupTypedDict]
+    r"""List of lookup files deployed to this context."""
 
 
 class ConfigGroupLookups(BaseModel):
     context: str
+    r"""The Worker or Node context for the lookup deployment."""
 
     lookups: List[ConfigGroupLookupsLookup]
+    r"""List of lookup files deployed to this context."""
 
 
 try:

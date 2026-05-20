@@ -40,13 +40,13 @@ with CriblControlPlane(
 
 | Parameter                                                                                                                                                        | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pack`                                                                                                                                                           | *str*                                                                                                                                                            | :heavy_check_mark:                                                                                                                                               | The <code>id</code> of the Pack to list.                                                                                                                         |
+| `pack`                                                                                                                                                           | *str*                                                                                                                                                            | :heavy_check_mark:                                                                                                                                               | The <code>id</code> of the Pack.                                                                                                                                 |
 | `type`                                                                                                                                                           | [Optional[models.DestinationType]](../../models/destinationtype.md)                                                                                              | :heavy_minus_sign:                                                                                                                                               | Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
 | `retries`                                                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                 | :heavy_minus_sign:                                                                                                                                               | Configuration to override the default retry behavior of the client.                                                                                              |
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 
@@ -59,6 +59,33 @@ with CriblControlPlane(
 
 Create a new Destination within the specified Pack.
 
+### Example Usage: OutputCreateExamplesAlphasocS3
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesAlphasocS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "alphasoc-s3-output",
+        "type": models.CreateOutputSystemByPackTypeAlphasocS3.ALPHASOC_S3,
+        "bucket": "events",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.alphasoc.net",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesAzureBlob
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesAzureBlob" -->
@@ -114,7 +141,7 @@ with CriblControlPlane(
         "oauth_type": models.CreateOutputSystemByPackAuthenticationMethodAzureDataExplorer.CLIENT_SECRET,
         "client_secret": "client-secret",
         "format_": models.DataFormatOptions.JSON,
-        "compress": models.CompressionOptions2.GZIP,
+        "compress": models.CompressionOptionsHTTP.GZIP,
     })
 
     # Handle response
@@ -250,9 +277,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "cloudflare-r2-output",
         "type": models.CreateOutputSystemByPackTypeCloudflareR2.CLOUDFLARE_R2,
-        "endpoint": "https://account-id.r2.cloudflarestorage.com",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "https://account-id.r2.cloudflarestorage.com",
     })
 
     # Handle response
@@ -394,7 +421,7 @@ with CriblControlPlane(
             "__metadata",
             "__winEvent",
         ],
-        "compression": models.CompressionOptions1.GZIP,
+        "compression": models.CompressionOptionsGzipNone.GZIP,
         "concurrency": 5,
         "max_payload_size_kb": 4096,
         "max_payload_events": 0,
@@ -707,7 +734,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackTypeDynatraceOtlp.DYNATRACE_OTLP,
         "protocol": models.CreateOutputSystemByPackProtocolDynatraceOtlp.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "endpoint_type": models.CreateOutputSystemByPackEndpointType.SAAS,
         "token_secret": "your-token-secret",
     })
@@ -1209,9 +1236,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "minio-output",
         "type": models.CreateOutputSystemByPackTypeMinio.MINIO,
-        "endpoint": "http://localhost:9000",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "http://localhost:9000",
     })
 
     # Handle response
@@ -1324,6 +1351,33 @@ with CriblControlPlane(
         "account_id": "123456",
         "event_type": "CriblEvent",
         "api_key": "your-api-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesNutanixObjects
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesNutanixObjects" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "nutanix-objects-output",
+        "type": models.CreateOutputSystemByPackTypeNutanixObjects.NUTANIX_OBJECTS,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://nutanix-objects.example.com",
     })
 
     # Handle response
@@ -1479,9 +1533,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "security-lake-output",
         "type": models.CreateOutputSystemByPackTypeSecurityLake.SECURITY_LAKE,
+        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "bucket": "my-bucket",
         "region": "us-east-1",
-        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "stage_path": "/tmp/staging",
         "account_id": "123456789012",
         "custom_source": "my-custom-source",
@@ -1566,7 +1620,7 @@ with CriblControlPlane(
         "type": models.CreateOutputSystemByPackTypeServiceNow.SERVICE_NOW,
         "endpoint": "ingest.lightstep.com:443",
         "token_secret": "your-token-secret",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "protocol": models.ProtocolOptions.HTTP,
     })
 
@@ -1726,7 +1780,7 @@ with CriblControlPlane(
         id="splunk-lb-output",
         type=models.CreateOutputSystemByPackTypeSplunkLb.SPLUNK_LB,
         hosts=[
-            models.ItemsTypeHosts(
+            models.HostConfOutputSyslog(
                 host="localhost",
                 port=9997,
             ),
@@ -1812,6 +1866,33 @@ with CriblControlPlane(
         "protocol": models.DestinationProtocolOptions.UDP,
         "host": "localhost",
         "port": 8125,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesStorjS3
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesStorjS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "storj-s3-output",
+        "type": models.CreateOutputSystemByPackTypeStorjS3.STORJ_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://gateway.storjshare.io",
     })
 
     # Handle response
@@ -1938,7 +2019,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "webhook-output",
-        "type": models.CreateOutputSystemByPackTypeWebhook.WEBHOOK,
+        "type": models.CreateOutputSystemByPackOutputWebhookType1.WEBHOOK,
         "url": "https://example.com/webhook",
     })
 
@@ -1999,18 +2080,126 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesalibabaCloudS3
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesalibabaCloudS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "alibaba-oss-output",
+        "type": models.CreateOutputSystemByPackTypeAlibabaCloudS3.ALIBABA_CLOUD_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.oss-cn-hangzhou.aliyuncs.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplescloudianS3
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplescloudianS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "cloudian-s3-output",
+        "type": models.CreateOutputSystemByPackTypeCloudianS3.CLOUDIAN_S3,
+        "endpoint": "https://s3.hyperstore.example.com",
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesdellS3
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesdellS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "dell-s3-output",
+        "type": models.CreateOutputSystemByPackTypeDellS3.DELL_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://powerscale.example.com:9021",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesscalityS3
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesscalityS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "scality-s3-output",
+        "type": models.CreateOutputSystemByPackTypeScalityS3.SCALITY_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.scality.example.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
 | Parameter                                                                                         | Type                                                                                              | Required                                                                                          | Description                                                                                       |
 | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| `pack`                                                                                            | *str*                                                                                             | :heavy_check_mark:                                                                                | The <code>id</code> of the Pack to create.                                                        |
-| `request_body`                                                                                    | [models.CreateOutputSystemByPackRequestBody](../../models/createoutputsystembypackrequestbody.md) | :heavy_check_mark:                                                                                | Output object                                                                                     |
+| `pack`                                                                                            | *str*                                                                                             | :heavy_check_mark:                                                                                | The <code>id</code> of the Pack.                                                                  |
+| `request_body`                                                                                    | [models.CreateOutputSystemByPackRequestBody](../../models/createoutputsystembypackrequestbody.md) | :heavy_check_mark:                                                                                | Output object.                                                                                    |
 | `retries`                                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                  | :heavy_minus_sign:                                                                                | Configuration to override the default retry behavior of the client.                               |
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 
@@ -2050,12 +2239,12 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Destination to get.                      |
-| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to get.                             |
+| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 
@@ -2068,6 +2257,33 @@ with CriblControlPlane(
 
 Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
 
+### Example Usage: OutputCreateExamplesAlphasocS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesAlphasocS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "alphasoc-s3-output",
+        "type": models.OutputAlphasocS3Type.ALPHASOC_S3,
+        "bucket": "events",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.alphasoc.net",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesAzureBlob
 
 <!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesAzureBlob" -->
@@ -2115,7 +2331,7 @@ with CriblControlPlane(
         "cluster_url": "https://mycluster.kusto.windows.net",
         "database": "mydatabase",
         "table": "mytable",
-        "ingest_mode": models.IngestionMode.STREAMING,
+        "ingest_mode": models.OutputAzureDataExplorerIngestionMode.STREAMING,
         "oauth_endpoint": models.MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM,
         "tenant_id": "tenant-id",
         "client_id": "client-id",
@@ -2123,7 +2339,7 @@ with CriblControlPlane(
         "oauth_type": models.OutputAzureDataExplorerAuthenticationMethod.CLIENT_SECRET,
         "client_secret": "client-secret",
         "format_": models.DataFormatOptions.JSON,
-        "compress": models.CompressionOptions2.GZIP,
+        "compress": models.CompressionOptionsHTTP.GZIP,
     })
 
     # Handle response
@@ -2259,9 +2475,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "cloudflare-r2-output",
         "type": models.OutputCloudflareR2Type.CLOUDFLARE_R2,
-        "endpoint": "https://account-id.r2.cloudflarestorage.com",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "https://account-id.r2.cloudflarestorage.com",
     })
 
     # Handle response
@@ -2403,7 +2619,7 @@ with CriblControlPlane(
             "__metadata",
             "__winEvent",
         ],
-        "compression": models.CompressionOptions1.GZIP,
+        "compression": models.CompressionOptionsGzipNone.GZIP,
         "concurrency": 5,
         "max_payload_size_kb": 4096,
         "max_payload_events": 0,
@@ -2687,8 +2903,8 @@ with CriblControlPlane(
         "type": models.OutputDynatraceHTTPType.DYNATRACE_HTTP,
         "auth_type": models.OutputDynatraceHTTPAuthenticationType.TOKEN,
         "format_": models.OutputDynatraceHTTPFormat.JSON_ARRAY,
-        "endpoint": models.Endpoint.CLOUD,
-        "telemetry_type": models.TelemetryType.LOGS,
+        "endpoint": models.OutputDynatraceHTTPEndpoint.CLOUD,
+        "telemetry_type": models.OutputDynatraceHTTPTelemetryType.LOGS,
         "token": "your-api-key",
     })
 
@@ -2716,8 +2932,8 @@ with CriblControlPlane(
         "type": models.OutputDynatraceOtlpType.DYNATRACE_OTLP,
         "protocol": models.OutputDynatraceOtlpProtocol.HTTP,
         "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
-        "endpoint_type": models.EndpointType.SAAS,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
+        "endpoint_type": models.OutputDynatraceOtlpEndpointType.SAAS,
         "token_secret": "your-token-secret",
     })
 
@@ -2848,7 +3064,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "google-chronicle-output",
         "type": models.OutputGoogleChronicleType.GOOGLE_CHRONICLE,
-        "log_format_type": models.SendEventsAs.UNSTRUCTURED,
+        "log_format_type": models.OutputGoogleChronicleSendEventsAs.UNSTRUCTURED,
         "region": "us",
         "customer_id": "customer-id",
     })
@@ -2875,7 +3091,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "google-cloud-logging-output",
         "type": models.OutputGoogleCloudLoggingType.GOOGLE_CLOUD_LOGGING,
-        "log_location_type": models.LogLocationType.PROJECT,
+        "log_location_type": models.OutputGoogleCloudLoggingLogLocationType.PROJECT,
         "log_name_expression": "my-log",
         "log_location_expression": "my-project",
     })
@@ -3218,9 +3434,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "minio-output",
         "type": models.OutputMinioType.MINIO,
-        "endpoint": "http://localhost:9000",
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
+        "endpoint": "http://localhost:9000",
     })
 
     # Handle response
@@ -3333,6 +3549,33 @@ with CriblControlPlane(
         "account_id": "123456",
         "event_type": "CriblEvent",
         "api_key": "your-api-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesNutanixObjects
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesNutanixObjects" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "nutanix-objects-output",
+        "type": models.OutputNutanixObjectsType.NUTANIX_OBJECTS,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://nutanix-objects.example.com",
     })
 
     # Handle response
@@ -3488,9 +3731,9 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "security-lake-output",
         "type": models.OutputSecurityLakeType.SECURITY_LAKE,
+        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "bucket": "my-bucket",
         "region": "us-east-1",
-        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "stage_path": "/tmp/staging",
         "account_id": "123456789012",
         "custom_source": "my-custom-source",
@@ -3521,7 +3764,7 @@ with CriblControlPlane(
         "login_url": "https://login.microsoftonline.com",
         "secret": "client-secret",
         "client_id": "client-id",
-        "endpoint_url_configuration": models.EndpointConfiguration.URL,
+        "endpoint_url_configuration": models.OutputSentinelEndpointConfiguration.URL,
         "url": "https://your-workspace.ingest.monitor.azure.com",
     })
 
@@ -3547,8 +3790,8 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "sentinel-one-ai-siem-output",
         "type": models.OutputSentinelOneAiSiemType.SENTINEL_ONE_AI_SIEM,
-        "region": models.Region.US,
-        "endpoint": models.AISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT,
+        "region": models.OutputSentinelOneAiSiemRegion.US,
+        "endpoint": models.OutputSentinelOneAISIEMAISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT,
     })
 
     # Handle response
@@ -3575,7 +3818,7 @@ with CriblControlPlane(
         "type": models.OutputServiceNowType.SERVICE_NOW,
         "endpoint": "ingest.lightstep.com:443",
         "token_secret": "your-token-secret",
-        "otlp_version": models.OtlpVersionOptions1.ONE_DOT_3_DOT_1,
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
         "protocol": models.ProtocolOptions.HTTP,
     })
 
@@ -3735,7 +3978,7 @@ with CriblControlPlane(
         id="splunk-lb-output",
         type=models.OutputSplunkLbType.SPLUNK_LB,
         hosts=[
-            models.ItemsTypeHosts(
+            models.HostConfOutputSyslog(
                 host="localhost",
                 port=9997,
             ),
@@ -3821,6 +4064,33 @@ with CriblControlPlane(
         "protocol": models.DestinationProtocolOptions.UDP,
         "host": "localhost",
         "port": 8125,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesStorjS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesStorjS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "storj-s3-output",
+        "type": models.OutputStorjS3Type.STORJ_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://gateway.storjshare.io",
     })
 
     # Handle response
@@ -3947,7 +4217,7 @@ with CriblControlPlane(
 
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "webhook-output",
-        "type": models.OutputWebhookType.WEBHOOK,
+        "type": models.OutputWebhookType1.WEBHOOK,
         "url": "https://example.com/webhook",
     })
 
@@ -4008,6 +4278,114 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesalibabaCloudS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesalibabaCloudS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "alibaba-oss-output",
+        "type": models.OutputAlibabaCloudS3Type.ALIBABA_CLOUD_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.oss-cn-hangzhou.aliyuncs.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplescloudianS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplescloudianS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "cloudian-s3-output",
+        "type": models.OutputCloudianS3Type.CLOUDIAN_S3,
+        "endpoint": "https://s3.hyperstore.example.com",
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesdellS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesdellS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "dell-s3-output",
+        "type": models.OutputDellS3Type.DELL_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://powerscale.example.com:9021",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesscalityS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputCreateExamplesscalityS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "scality-s3-output",
+        "type": models.OutputScalityS3Type.SCALITY_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.scality.example.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputExamplesDefault
 
 <!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="OutputExamplesDefault" -->
@@ -4039,13 +4417,13 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Destination to update.                   |
-| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to update.                          |
-| `output`                                                            | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | Output object                                                       |
+| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
+| `output`                                                            | [models.Output](../../models/output.md)                             | :heavy_check_mark:                                                  | Output object.                                                      |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 
@@ -4085,12 +4463,12 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Destination to delete.                   |
-| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to delete.                          |
+| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedOutput](../../models/countedoutput.md)**
+**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
 
 ### Errors
 

@@ -3,12 +3,12 @@
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
-from .itemstypehosts import ItemsTypeHosts, ItemsTypeHostsTypedDict
+from .hostconfoutputsyslog import HostConfOutputSyslog, HostConfOutputSyslogTypedDict
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .tlssettingsclientsidetypekafkaschemaregistry import (
-    TLSSettingsClientSideTypeKafkaSchemaRegistry,
-    TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict,
+from .tlssettingsclientsidetypecapathcertpath import (
+    TLSSettingsClientSideTypeCaPathCertPath,
+    TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -32,31 +32,53 @@ class OutputSyslogProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     UDP = "udp"
 
 
-class Facility(int, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSyslogFacility(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
 
-    ZERO = 0
-    ONE = 1
-    TWO = 2
-    THREE = 3
-    FOUR = 4
-    FIVE = 5
-    SIX = 6
-    SEVEN = 7
-    EIGHT = 8
-    NINE = 9
-    TEN = 10
-    ELEVEN = 11
-    TWELVE = 12
-    THIRTEEN = 13
-    FOURTEEN = 14
-    FIFTEEN = 15
-    SIXTEEN = 16
-    SEVENTEEN = 17
-    EIGHTEEN = 18
-    NINETEEN = 19
-    TWENTY = 20
-    TWENTY_ONE = 21
+    # kern
+    KERN = 0
+    # user
+    USER = 1
+    # mail
+    MAIL = 2
+    # daemon
+    DAEMON = 3
+    # auth
+    AUTH = 4
+    # syslog
+    SYSLOG = 5
+    # lpr
+    LPR = 6
+    # news
+    NEWS = 7
+    # uucp
+    UUCP = 8
+    # cron
+    CRON = 9
+    # authpriv
+    AUTHPRIV = 10
+    # ftp
+    FTP = 11
+    # ntp
+    NTP = 12
+    # security
+    SECURITY = 13
+    # console
+    CONSOLE = 14
+    # solaris-cron
+    SOLARIS_CRON = 15
+    # local0
+    LOCAL0 = 16
+    # local1
+    LOCAL1 = 17
+    # local2
+    LOCAL2 = 18
+    # local3
+    LOCAL3 = 19
+    # local4
+    LOCAL4 = 20
+    # local5
+    LOCAL5 = 21
 
 
 class OutputSyslogSeverity(int, Enum, metaclass=utils.OpenEnumMeta):
@@ -80,7 +102,7 @@ class OutputSyslogSeverity(int, Enum, metaclass=utils.OpenEnumMeta):
     DEBUG = 7
 
 
-class MessageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSyslogMessageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The syslog message format depending on the receiver's support"""
 
     # RFC3164
@@ -89,7 +111,7 @@ class MessageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     RFC5424 = "rfc5424"
 
 
-class TimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSyslogTimestampFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Timestamp format to use when serializing event's time field"""
 
     # Syslog
@@ -120,15 +142,15 @@ class OutputSyslogTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     protocol: NotRequired[OutputSyslogProtocol]
     r"""The network protocol to use for sending out syslog messages"""
-    facility: NotRequired[Facility]
+    facility: NotRequired[OutputSyslogFacility]
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
     severity: NotRequired[OutputSyslogSeverity]
     r"""Default value for message severity. Will be overwritten by value of __severity if set. Defaults to notice."""
     app_name: NotRequired[str]
     r"""Default name for device or application that originated the message. Defaults to Cribl, but will be overwritten by value of __appname if set."""
-    message_format: NotRequired[MessageFormat]
+    message_format: NotRequired[OutputSyslogMessageFormat]
     r"""The syslog message format depending on the receiver's support"""
-    timestamp_format: NotRequired[TimestampFormat]
+    timestamp_format: NotRequired[OutputSyslogTimestampFormat]
     r"""Timestamp format to use when serializing event's time field"""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
@@ -145,7 +167,7 @@ class OutputSyslogTypedDict(TypedDict):
     r"""The port to connect to on the provided host"""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    hosts: NotRequired[List[ItemsTypeHostsTypedDict]]
+    hosts: NotRequired[List[HostConfOutputSyslogTypedDict]]
     r"""Set of hosts to load-balance data to"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
@@ -157,7 +179,7 @@ class OutputSyslogTypedDict(TypedDict):
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    tls: NotRequired[TLSSettingsClientSideTypeKafkaSchemaRegistryTypedDict]
+    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     max_record_size: NotRequired[float]
@@ -173,7 +195,7 @@ class OutputSyslogTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -186,11 +208,17 @@ class OutputSyslogTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputSyslogPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
 class OutputSyslog(BaseModel):
@@ -216,7 +244,7 @@ class OutputSyslog(BaseModel):
     protocol: Optional[OutputSyslogProtocol] = None
     r"""The network protocol to use for sending out syslog messages"""
 
-    facility: Optional[Facility] = None
+    facility: Optional[OutputSyslogFacility] = None
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
 
     severity: Optional[OutputSyslogSeverity] = None
@@ -226,12 +254,12 @@ class OutputSyslog(BaseModel):
     r"""Default name for device or application that originated the message. Defaults to Cribl, but will be overwritten by value of __appname if set."""
 
     message_format: Annotated[
-        Optional[MessageFormat], pydantic.Field(alias="messageFormat")
+        Optional[OutputSyslogMessageFormat], pydantic.Field(alias="messageFormat")
     ] = None
     r"""The syslog message format depending on the receiver's support"""
 
     timestamp_format: Annotated[
-        Optional[TimestampFormat], pydantic.Field(alias="timestampFormat")
+        Optional[OutputSyslogTimestampFormat], pydantic.Field(alias="timestampFormat")
     ] = None
     r"""Timestamp format to use when serializing event's time field"""
 
@@ -266,7 +294,7 @@ class OutputSyslog(BaseModel):
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
-    hosts: Optional[List[ItemsTypeHosts]] = None
+    hosts: Optional[List[HostConfOutputSyslog]] = None
     r"""Set of hosts to load-balance data to"""
 
     dns_resolve_period_sec: Annotated[
@@ -294,7 +322,7 @@ class OutputSyslog(BaseModel):
     )
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
-    tls: Optional[TLSSettingsClientSideTypeKafkaSchemaRegistry] = None
+    tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -332,7 +360,7 @@ class OutputSyslog(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -360,9 +388,19 @@ class OutputSyslog(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputSyslogPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
@@ -373,6 +411,11 @@ class OutputSyslog(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     @field_serializer("protocol")
     def serialize_protocol(self, value):
@@ -387,7 +430,7 @@ class OutputSyslog(BaseModel):
     def serialize_facility(self, value):
         if isinstance(value, str):
             try:
-                return models.Facility(value)
+                return models.OutputSyslogFacility(value)
             except ValueError:
                 return value
         return value
@@ -405,7 +448,7 @@ class OutputSyslog(BaseModel):
     def serialize_message_format(self, value):
         if isinstance(value, str):
             try:
-                return models.MessageFormat(value)
+                return models.OutputSyslogMessageFormat(value)
             except ValueError:
                 return value
         return value
@@ -414,7 +457,7 @@ class OutputSyslog(BaseModel):
     def serialize_timestamp_format(self, value):
         if isinstance(value, str):
             try:
-                return models.TimestampFormat(value)
+                return models.OutputSyslogTimestampFormat(value)
             except ValueError:
                 return value
         return value
@@ -499,9 +542,12 @@ class OutputSyslog(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_host",
                 "__template_port",
+                "__template_onBackpressure",
             ]
         )
         serialized = handler(self)

@@ -8,11 +8,11 @@ from typing_extensions import Annotated, TypedDict
 
 class GetRoutesByPackRequestTypedDict(TypedDict):
     pack: str
-    r"""The <code>id</code> of the Pack to list."""
+    r"""The <code>id</code> of the Pack."""
 
 
 class GetRoutesByPackRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to list."""
+    r"""The <code>id</code> of the Pack."""

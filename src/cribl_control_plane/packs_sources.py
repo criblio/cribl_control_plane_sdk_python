@@ -10,7 +10,7 @@ from cribl_control_plane.packs_sources_statuses import PacksSourcesStatuses
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional, Union
+from typing import Any, List, Mapping, Optional, Union
 
 
 class PacksSources(BaseSDK):
@@ -38,16 +38,18 @@ class PacksSources(BaseSDK):
         self,
         *,
         pack: str,
+        type_: Optional[List[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""List all Sources within a Pack
 
         Get a list of all Sources within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
+        :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -64,6 +66,7 @@ class PacksSources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetInputSystemByPackRequest(
+            type=type_,
             pack=pack,
         )
 
@@ -113,7 +116,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -130,16 +133,18 @@ class PacksSources(BaseSDK):
         self,
         *,
         pack: str,
+        type_: Optional[List[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""List all Sources within a Pack
 
         Get a list of all Sources within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
+        :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -156,6 +161,7 @@ class PacksSources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetInputSystemByPackRequest(
+            type=type_,
             pack=pack,
         )
 
@@ -205,7 +211,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -230,13 +236,13 @@ class PacksSources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Create a Source within a Pack
 
-        Create a new Source within the specified Pack.
+        Create a new Source. The system-managed provenance field (JSON <code>criblSourceProvenance</code>) must be omitted from the request body within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
-        :param request_body: Input object
+        :param pack: The <code>id</code> of the Pack.
+        :param request_body: Input object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -312,7 +318,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -337,13 +343,13 @@ class PacksSources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Create a Source within a Pack
 
-        Create a new Source within the specified Pack.
+        Create a new Source. The system-managed provenance field (JSON <code>criblSourceProvenance</code>) must be omitted from the request body within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
-        :param request_body: Input object
+        :param pack: The <code>id</code> of the Pack.
+        :param request_body: Input object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -419,7 +425,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -441,13 +447,13 @@ class PacksSources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Get a Source within a Pack
 
         Get the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -514,7 +520,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -536,13 +542,13 @@ class PacksSources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Get a Source within a Pack
 
         Get the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -609,7 +615,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -627,19 +633,19 @@ class PacksSources(BaseSDK):
         *,
         id: str,
         pack: str,
-        input_: Union[models.Input2, models.Input2TypedDict],
+        input_: Union[models.Input, models.InputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Update a Source within a Pack
 
-        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
+        Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes omitted fields when updating the Source, except for <code>criblSourceProvenance</code> (its value is preserved when omitted and cannot be overwritten).<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Source to update.
-        :param pack: The <code>id</code> of the Pack to update.
-        :param input: Input object
+        :param pack: The <code>id</code> of the Pack.
+        :param input: Input object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -658,7 +664,7 @@ class PacksSources(BaseSDK):
         request = models.UpdateInputSystemByPackAndIDRequest(
             id=id,
             pack=pack,
-            input=utils.get_pydantic_model(input_, models.Input2),
+            input=utils.get_pydantic_model(input_, models.Input),
         )
 
         req = self._build_request(
@@ -675,7 +681,7 @@ class PacksSources(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.input, False, False, "json", models.Input2
+                request.input, False, False, "json", models.Input
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -710,7 +716,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -728,19 +734,19 @@ class PacksSources(BaseSDK):
         *,
         id: str,
         pack: str,
-        input_: Union[models.Input2, models.Input2TypedDict],
+        input_: Union[models.Input, models.InputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Update a Source within a Pack
 
-        Update the specified Source.</br></br>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
+        Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes omitted fields when updating the Source, except for <code>criblSourceProvenance</code> (its value is preserved when omitted and cannot be overwritten).<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Source to update.
-        :param pack: The <code>id</code> of the Pack to update.
-        :param input: Input object
+        :param pack: The <code>id</code> of the Pack.
+        :param input: Input object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -759,7 +765,7 @@ class PacksSources(BaseSDK):
         request = models.UpdateInputSystemByPackAndIDRequest(
             id=id,
             pack=pack,
-            input=utils.get_pydantic_model(input_, models.Input2),
+            input=utils.get_pydantic_model(input_, models.Input),
         )
 
         req = self._build_request_async(
@@ -776,7 +782,7 @@ class PacksSources(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request.input, False, False, "json", models.Input2
+                request.input, False, False, "json", models.Input
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -811,7 +817,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -833,13 +839,13 @@ class PacksSources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Delete a Source within a Pack
 
         Delete the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -906,7 +912,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -928,13 +934,13 @@ class PacksSources(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInput:
+    ) -> models.CountedInputResponse:
         r"""Delete a Source within a Pack
 
         Delete the specified Source within the specified Pack.
 
         :param id: The <code>id</code> of the Source to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1001,7 +1007,7 @@ class PacksSources(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInput, http_res)
+            return unmarshal_json_response(models.CountedInputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

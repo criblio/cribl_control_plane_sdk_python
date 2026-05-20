@@ -14,23 +14,35 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class JobInfoTypedDict(TypedDict):
+    r"""Detailed information about a job, including its configuration, status, and statistics."""
+
     args: RunnableJobTypedDict
     id: str
+    r"""Unique identifier for the job."""
     stats: Dict[str, AdditionalPropertiesTypeJobInfoStatsTypedDict]
+    r"""Counters and metrics collected during job execution."""
     status: JobStatusTypedDict
+    r"""Status of a job, including its current state and failure reason."""
     keep: NotRequired[bool]
+    r"""If <code>true</code>, retain the job and its artifacts instead of deleting according to the time-to-live or retention policy. The job persists until it is manually deleted."""
 
 
 class JobInfo(BaseModel):
+    r"""Detailed information about a job, including its configuration, status, and statistics."""
+
     args: RunnableJob
 
     id: str
+    r"""Unique identifier for the job."""
 
     stats: Dict[str, AdditionalPropertiesTypeJobInfoStats]
+    r"""Counters and metrics collected during job execution."""
 
     status: JobStatus
+    r"""Status of a job, including its current state and failure reason."""
 
     keep: Optional[bool] = None
+    r"""If <code>true</code>, retain the job and its artifacts instead of deleting according to the time-to-live or retention policy. The job persists until it is manually deleted."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

@@ -12,13 +12,13 @@ from .executortyperunnablejobexecutor import (
 )
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
 from .notification_union import NotificationUnion, NotificationUnionTypedDict
+from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
+    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
+)
 from .scheduletypesavedjobresponsecollection import (
     ScheduleTypeSavedJobResponseCollection,
     ScheduleTypeSavedJobResponseCollectionTypedDict,
-)
-from .typecollectionwithbreakerrulesetsconstraint import (
-    TypeCollectionWithBreakerRulesetsConstraint,
-    TypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -49,6 +49,8 @@ class SavedJobResponseScheduledSearchTypedDict(TypedDict):
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     saved_state: NotRequired[
         Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict]
     ]
@@ -95,6 +97,11 @@ class SavedJobResponseScheduledSearch(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     saved_state: Annotated[
         Optional[Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedState]],
         pydantic.Field(alias="savedState"),
@@ -126,6 +133,7 @@ class SavedJobResponseScheduledSearch(BaseModel):
                 "environment",
                 "schedule",
                 "streamtags",
+                "__template_streamtags",
                 "savedState",
                 "notifications",
             ]
@@ -164,6 +172,8 @@ class SavedJobResponseExecutorTypedDict(TypedDict):
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     saved_state: NotRequired[
         Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict]
     ]
@@ -209,6 +219,11 @@ class SavedJobResponseExecutor(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     saved_state: Annotated[
         Optional[Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedState]],
         pydantic.Field(alias="savedState"),
@@ -240,6 +255,7 @@ class SavedJobResponseExecutor(BaseModel):
                 "environment",
                 "schedule",
                 "streamtags",
+                "__template_streamtags",
                 "savedState",
                 "notifications",
             ]
@@ -281,7 +297,11 @@ class SavedJobResponseCollectionTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[TypeCollectionWithBreakerRulesetsConstraintTypedDict]
+    input: NotRequired[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
+    ]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     saved_state: NotRequired[
         Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedStateTypedDict]
     ]
@@ -333,7 +353,14 @@ class SavedJobResponseCollection(BaseModel):
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[TypeCollectionWithBreakerRulesetsConstraint] = None
+    input: Optional[
+        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
+    ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     saved_state: Annotated[
         Optional[Dict[str, AdditionalPropertiesTypeEnrichedFieldsSavedState]],
@@ -368,6 +395,7 @@ class SavedJobResponseCollection(BaseModel):
                 "streamtags",
                 "workerAffinity",
                 "input",
+                "__template_streamtags",
                 "savedState",
                 "notifications",
             ]

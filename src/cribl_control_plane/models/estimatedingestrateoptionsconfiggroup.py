@@ -6,7 +6,7 @@ from enum import Enum
 
 
 class EstimatedIngestRateOptionsConfigGroup(int, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Estimated ingest rate for Cloud Groups, in GB/sec."""
+    r"""Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec."""
 
     # 12 MB/sec
     RATE12_MB_PER_SEC = 1024

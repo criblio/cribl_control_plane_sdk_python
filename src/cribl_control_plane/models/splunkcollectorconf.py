@@ -328,6 +328,18 @@ class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenSecretRetryRulesTypedDict]
     token: NotRequired[str]
+    template_search_head: NotRequired[str]
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+    template_search: NotRequired[str]
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+    template_earliest: NotRequired[str]
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+    template_latest: NotRequired[str]
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_output_mode: NotRequired[str]
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
 
 
 class SplunkAuthenticationTokenSecret(BaseModel):
@@ -399,6 +411,36 @@ class SplunkAuthenticationTokenSecret(BaseModel):
 
     token: Optional[str] = None
 
+    template_search_head: Annotated[
+        Optional[str], pydantic.Field(alias="__template_searchHead")
+    ] = None
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+
+    template_search: Annotated[
+        Optional[str], pydantic.Field(alias="__template_search")
+    ] = None
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+
+    template_earliest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_earliest")
+    ] = None
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+
+    template_latest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_latest")
+    ] = None
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_output_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_outputMode")
+    ] = None
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -432,6 +474,12 @@ class SplunkAuthenticationTokenSecret(BaseModel):
                 "handleEscapedChars",
                 "retryRules",
                 "token",
+                "__template_searchHead",
+                "__template_search",
+                "__template_earliest",
+                "__template_latest",
+                "__template_endpoint",
+                "__template_outputMode",
             ]
         )
         serialized = handler(self)
@@ -757,6 +805,18 @@ class SplunkAuthenticationTokenTypedDict(TypedDict):
     retry_rules: NotRequired[SplunkAuthenticationTokenRetryRulesTypedDict]
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
+    template_search_head: NotRequired[str]
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+    template_search: NotRequired[str]
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+    template_earliest: NotRequired[str]
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+    template_latest: NotRequired[str]
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_output_mode: NotRequired[str]
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
 
 
 class SplunkAuthenticationToken(BaseModel):
@@ -828,6 +888,36 @@ class SplunkAuthenticationToken(BaseModel):
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
 
+    template_search_head: Annotated[
+        Optional[str], pydantic.Field(alias="__template_searchHead")
+    ] = None
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+
+    template_search: Annotated[
+        Optional[str], pydantic.Field(alias="__template_search")
+    ] = None
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+
+    template_earliest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_earliest")
+    ] = None
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+
+    template_latest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_latest")
+    ] = None
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_output_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_outputMode")
+    ] = None
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -861,6 +951,12 @@ class SplunkAuthenticationToken(BaseModel):
                 "handleEscapedChars",
                 "retryRules",
                 "tokenSecret",
+                "__template_searchHead",
+                "__template_search",
+                "__template_earliest",
+                "__template_latest",
+                "__template_endpoint",
+                "__template_outputMode",
             ]
         )
         serialized = handler(self)
@@ -1190,6 +1286,18 @@ class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
     token: NotRequired[str]
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
+    template_search_head: NotRequired[str]
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+    template_search: NotRequired[str]
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+    template_earliest: NotRequired[str]
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+    template_latest: NotRequired[str]
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_output_mode: NotRequired[str]
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
 
 
 class SplunkAuthenticationBasicSecret(BaseModel):
@@ -1264,6 +1372,36 @@ class SplunkAuthenticationBasicSecret(BaseModel):
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
 
+    template_search_head: Annotated[
+        Optional[str], pydantic.Field(alias="__template_searchHead")
+    ] = None
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+
+    template_search: Annotated[
+        Optional[str], pydantic.Field(alias="__template_search")
+    ] = None
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+
+    template_earliest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_earliest")
+    ] = None
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+
+    template_latest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_latest")
+    ] = None
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_output_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_outputMode")
+    ] = None
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -1298,6 +1436,12 @@ class SplunkAuthenticationBasicSecret(BaseModel):
                 "retryRules",
                 "token",
                 "tokenSecret",
+                "__template_searchHead",
+                "__template_search",
+                "__template_earliest",
+                "__template_latest",
+                "__template_endpoint",
+                "__template_outputMode",
             ]
         )
         serialized = handler(self)
@@ -1627,6 +1771,18 @@ class SplunkAuthenticationBasicTypedDict(TypedDict):
     token: NotRequired[str]
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
+    template_search_head: NotRequired[str]
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+    template_search: NotRequired[str]
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+    template_earliest: NotRequired[str]
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+    template_latest: NotRequired[str]
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_output_mode: NotRequired[str]
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
 
 
 class SplunkAuthenticationBasic(BaseModel):
@@ -1704,6 +1860,36 @@ class SplunkAuthenticationBasic(BaseModel):
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
 
+    template_search_head: Annotated[
+        Optional[str], pydantic.Field(alias="__template_searchHead")
+    ] = None
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+
+    template_search: Annotated[
+        Optional[str], pydantic.Field(alias="__template_search")
+    ] = None
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+
+    template_earliest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_earliest")
+    ] = None
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+
+    template_latest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_latest")
+    ] = None
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_output_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_outputMode")
+    ] = None
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -1738,6 +1924,12 @@ class SplunkAuthenticationBasic(BaseModel):
                 "retryRules",
                 "token",
                 "tokenSecret",
+                "__template_searchHead",
+                "__template_search",
+                "__template_earliest",
+                "__template_latest",
+                "__template_endpoint",
+                "__template_outputMode",
             ]
         )
         serialized = handler(self)
@@ -2063,6 +2255,18 @@ class SplunkAuthenticationNoneTypedDict(TypedDict):
     token: NotRequired[str]
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
+    template_search_head: NotRequired[str]
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+    template_search: NotRequired[str]
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+    template_earliest: NotRequired[str]
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+    template_latest: NotRequired[str]
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_output_mode: NotRequired[str]
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
 
 
 class SplunkAuthenticationNone(BaseModel):
@@ -2133,6 +2337,36 @@ class SplunkAuthenticationNone(BaseModel):
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
 
+    template_search_head: Annotated[
+        Optional[str], pydantic.Field(alias="__template_searchHead")
+    ] = None
+    r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
+
+    template_search: Annotated[
+        Optional[str], pydantic.Field(alias="__template_search")
+    ] = None
+    r"""Binds 'search' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'search' at runtime."""
+
+    template_earliest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_earliest")
+    ] = None
+    r"""Binds 'earliest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'earliest' at runtime."""
+
+    template_latest: Annotated[
+        Optional[str], pydantic.Field(alias="__template_latest")
+    ] = None
+    r"""Binds 'latest' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'latest' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_output_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_outputMode")
+    ] = None
+    r"""Binds 'outputMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'outputMode' at runtime."""
+
     @field_serializer("authentication")
     def serialize_authentication(self, value):
         if isinstance(value, str):
@@ -2167,6 +2401,12 @@ class SplunkAuthenticationNone(BaseModel):
                 "retryRules",
                 "token",
                 "tokenSecret",
+                "__template_searchHead",
+                "__template_search",
+                "__template_earliest",
+                "__template_latest",
+                "__template_endpoint",
+                "__template_outputMode",
             ]
         )
         serialized = handler(self)

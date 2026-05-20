@@ -4,14 +4,14 @@
 
 ### Available Operations
 
-* [count](#count) - Get a count of Worker or Edge Nodes
-* [get](#get) - Get detailed metadata for a Worker or Edge Node
-* [list](#list) - Get detailed metadata for Worker or Edge Nodes
-* [restart](#restart) - Restart Worker or Edge Nodes
+* [count](#count) - Get a count of Worker, Edge, or Outpost Nodes
+* [get](#get) - Get detailed metadata for a Worker, Edge, or Outpost Node
+* [list](#list) - Get detailed metadata for Worker, Edge, or Outpost Nodes
+* [restart](#restart) - Restart Worker, Edge, or Outpost Nodes
 
 ## count
 
-Get a count of all Worker or Edge Nodes for the specified Cribl product.
+Get a count of all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
 ### Example Usage
 
@@ -28,7 +28,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.count(product=models.ProductsBase.EDGE)
+    res = ccp_client.nodes.count(product=models.ProductsCore.EDGE)
 
     # Handle response
     print(res)
@@ -37,11 +37,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                  | Type                                                                       | Required                                                                   | Description                                                                |
-| -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| `product`                                                                  | [models.ProductsBase](../../models/productsbase.md)                        | :heavy_check_mark:                                                         | Name of the Cribl product to get the count of Worker or Edge Nodes for.    |
-| `filter_exp`                                                               | *Optional[str]*                                                            | :heavy_minus_sign:                                                         | Filter expression to evaluate against Nodes for inclusion in the response. |
-| `retries`                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)           | :heavy_minus_sign:                                                         | Configuration to override the default retry behavior of the client.        |
+| Parameter                                                                         | Type                                                                              | Required                                                                          | Description                                                                       |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `product`                                                                         | [models.ProductsCore](../../models/productscore.md)                               | :heavy_check_mark:                                                                | Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for. |
+| `filter_exp`                                                                      | *Optional[str]*                                                                   | :heavy_minus_sign:                                                                | Filter expression to evaluate against Nodes for inclusion in the response.        |
+| `retries`                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                  | :heavy_minus_sign:                                                                | Configuration to override the default retry behavior of the client.               |
 
 ### Response
 
@@ -56,7 +56,7 @@ with CriblControlPlane(
 
 ## get
 
-Get detailed metadata for the specified Worker or Edge Node for the specified Cribl product.
+Get detailed metadata for the specified Worker, Edge, or Outpost Node for the specified Cribl product.
 
 ### Example Usage
 
@@ -73,7 +73,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.get(product=models.ProductsBase.STREAM, id="<id>")
+    res = ccp_client.nodes.get(product=models.ProductsCore.STREAM, id="<id>")
 
     # Handle response
     print(res)
@@ -84,7 +84,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `product`                                                           | [models.ProductsBase](../../models/productsbase.md)                 | :heavy_check_mark:                                                  | Name of the Cribl product that contains the Node.                   |
+| `product`                                                           | [models.ProductsCore](../../models/productscore.md)                 | :heavy_check_mark:                                                  | Name of the Cribl product that contains the Node.                   |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Node to get the metadata for.            |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
@@ -101,7 +101,7 @@ with CriblControlPlane(
 
 ## list
 
-Get detailed metadata for Worker or Edge Nodes for the specified Cribl product.
+Get detailed metadata for Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
 ### Example Usage
 
@@ -118,7 +118,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.list(product=models.ProductsBase.STREAM)
+    res = ccp_client.nodes.list(product=models.ProductsCore.STREAM)
 
     while res is not None:
         # Handle items
@@ -131,7 +131,7 @@ with CriblControlPlane(
 
 | Parameter                                                                                                                                          | Type                                                                                                                                               | Required                                                                                                                                           | Description                                                                                                                                        |
 | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `product`                                                                                                                                          | [models.ProductsBase](../../models/productsbase.md)                                                                                                | :heavy_check_mark:                                                                                                                                 | Name of the Cribl product to get Worker or Edge Nodes for.                                                                                         |
+| `product`                                                                                                                                          | [models.ProductsCore](../../models/productscore.md)                                                                                                | :heavy_check_mark:                                                                                                                                 | Name of the Cribl product to get Worker, Edge, or Outpost Nodes for.                                                                               |
 | `filter_exp`                                                                                                                                       | *Optional[str]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | Filter expression to evaluate against Nodes for inclusion in the response.                                                                         |
 | `sort_exp`                                                                                                                                         | *Optional[str]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | Sorting expression to evaluate against Nodes to specify the sort order for the response.                                                           |
 | `filter_`                                                                                                                                          | *Optional[str]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | JSON-stringified filter object to evaluate against Nodes for inclusion in the response.                                                            |
@@ -153,7 +153,7 @@ with CriblControlPlane(
 
 ## restart
 
-Restart all Worker or Edge Nodes for the specified Cribl product.
+Restart all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
 ### Example Usage
 
@@ -170,7 +170,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.restart(product=models.ProductsBase.EDGE, guids=[
+    res = ccp_client.nodes.restart(product=models.ProductsCore.EDGE, guids=[
         "guid-12345678-abcd-1234-abcd-123456789abc",
         "guid-87654321-dcba-4321-dcba-cba987654321",
         "guid-11111111-2222-3333-4444-555555555555",
@@ -183,11 +183,11 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `product`                                                                 | [models.ProductsBase](../../models/productsbase.md)                       | :heavy_check_mark:                                                        | Name of the Cribl product whose Worker or Edge Nodes you want to restart. |
-| `guids`                                                                   | List[*str*]                                                               | :heavy_check_mark:                                                        | GUIDs of the Worker or Edge Nodes to restart.                             |
-| `retries`                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)          | :heavy_minus_sign:                                                        | Configuration to override the default retry behavior of the client.       |
+| Parameter                                                                           | Type                                                                                | Required                                                                            | Description                                                                         |
+| ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `product`                                                                           | [models.ProductsCore](../../models/productscore.md)                                 | :heavy_check_mark:                                                                  | Name of the Cribl product whose Worker, Edge, or Outpost Nodes you want to restart. |
+| `guids`                                                                             | List[*str*]                                                                         | :heavy_check_mark:                                                                  | GUIDs of the Worker or Edge Nodes to restart.                                       |
+| `retries`                                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                    | :heavy_minus_sign:                                                                  | Configuration to override the default retry behavior of the client.                 |
 
 ### Response
 

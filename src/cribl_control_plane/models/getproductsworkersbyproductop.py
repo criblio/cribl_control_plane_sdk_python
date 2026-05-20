@@ -5,7 +5,7 @@ from .countedmasterworkerentry import (
     CountedMasterWorkerEntry,
     CountedMasterWorkerEntryTypedDict,
 )
-from .productsbase import ProductsBase
+from .productscore import ProductsCore
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import (
@@ -20,8 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GetProductsWorkersByProductRequestTypedDict(TypedDict):
-    product: ProductsBase
-    r"""Name of the Cribl product to get Worker or Edge Nodes for."""
+    product: ProductsCore
+    r"""Name of the Cribl product to get Worker, Edge, or Outpost Nodes for."""
     filter_exp: NotRequired[str]
     r"""Filter expression to evaluate against Nodes for inclusion in the response."""
     sort_exp: NotRequired[str]
@@ -38,10 +38,10 @@ class GetProductsWorkersByProductRequestTypedDict(TypedDict):
 
 class GetProductsWorkersByProductRequest(BaseModel):
     product: Annotated[
-        ProductsBase,
+        ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product to get Worker or Edge Nodes for."""
+    r"""Name of the Cribl product to get Worker, Edge, or Outpost Nodes for."""
 
     filter_exp: Annotated[
         Optional[str],
@@ -86,7 +86,7 @@ class GetProductsWorkersByProductRequest(BaseModel):
     def serialize_product(self, value):
         if isinstance(value, str):
             try:
-                return models.ProductsBase(value)
+                return models.ProductsCore(value)
             except ValueError:
                 return value
         return value

@@ -1,6 +1,6 @@
 # CreateInputSystemByPackRequestBody
 
-Input object
+Input object.
 
 
 ## Supported Types
@@ -123,6 +123,12 @@ value: models.CreateInputSystemByPackInputMicrosoftGraph = /* values here */
 
 ```python
 value: models.CreateInputSystemByPackInputEventhub = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputEventhubAmqp`
+
+```python
+value: models.CreateInputSystemByPackInputEventhubAmqp = /* values here */
 ```
 
 ### `models.CreateInputSystemByPackInputExec`
@@ -323,6 +329,12 @@ value: models.CreateInputSystemByPackInputWef = /* values here */
 value: models.CreateInputSystemByPackInputWinEventLogs = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputAppleUnifiedLogs`
+
+```python
+value: models.CreateInputSystemByPackInputAppleUnifiedLogs = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputRawUDP`
 
 ```python
@@ -365,6 +377,12 @@ value: models.CreateInputSystemByPackInputNetflow = /* values here */
 value: models.CreateInputSystemByPackInputSecurityLake = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputServicenowTable`
+
+```python
+value: models.CreateInputSystemByPackInputServicenowTable = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputZscalerHec`
 
 ```python
@@ -375,5 +393,23 @@ value: models.CreateInputSystemByPackInputZscalerHec = /* values here */
 
 ```python
 value: models.CreateInputSystemByPackInputCloudflareHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputOpenaiComplianceLogs`
+
+```python
+value: models.CreateInputSystemByPackInputOpenaiComplianceLogs = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputAnthropicCompliance`
+
+```python
+value: models.CreateInputSystemByPackInputAnthropicCompliance = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputOkta`
+
+```python
+value: models.CreateInputSystemByPackInputOkta = /* values here */
 ```
 

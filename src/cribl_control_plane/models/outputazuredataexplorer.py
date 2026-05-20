@@ -3,18 +3,14 @@
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionleveloptions import CompressionLevelOptions
-from .compressionoptions2 import CompressionOptions2
+from .compressionoptionshttp import CompressionOptionsHTTP
 from .compressionoptionspq import CompressionOptionsPq
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
-from .itemstypekeyvaluemetadata import (
-    ItemsTypeKeyValueMetadata,
-    ItemsTypeKeyValueMetadataTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
+from .keyvaluemetadataconfoutputfilesystem import (
+    KeyValueMetadataConfOutputFilesystem,
+    KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .microsoftentraidauthenticationendpointoptionssasl import (
     MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
@@ -26,6 +22,10 @@ from .orphanfilerecoverytype import (
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
@@ -44,7 +44,7 @@ class OutputAzureDataExplorerType(str, Enum):
     AZURE_DATA_EXPLORER = "azure_data_explorer"
 
 
-class IngestionMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureDataExplorerIngestionMode(str, Enum, metaclass=utils.OpenEnumMeta):
     # Batching
     BATCHING = "batching"
     # Streaming
@@ -64,12 +64,12 @@ class OutputAzureDataExplorerAuthenticationMethod(
     CERTIFICATE = "certificate"
 
 
-class CertificateTypedDict(TypedDict):
+class OutputAzureDataExplorerCertificateTypedDict(TypedDict):
     certificate_name: NotRequired[str]
     r"""The certificate you registered as credentials for your app in the Azure portal"""
 
 
-class Certificate(BaseModel):
+class OutputAzureDataExplorerCertificate(BaseModel):
     certificate_name: Annotated[
         Optional[str], pydantic.Field(alias="certificateName")
     ] = None
@@ -92,28 +92,28 @@ class Certificate(BaseModel):
         return m
 
 
-class PrefixOptional(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureDataExplorerPrefixOptional(str, Enum, metaclass=utils.OpenEnumMeta):
     # drop-by
     DROP_BY = "dropBy"
     # ingest-by
     INGEST_BY = "ingestBy"
 
 
-class ExtentTagTypedDict(TypedDict):
+class OutputAzureDataExplorerExtentTagTypedDict(TypedDict):
     value: str
-    prefix: NotRequired[PrefixOptional]
+    prefix: NotRequired[OutputAzureDataExplorerPrefixOptional]
 
 
-class ExtentTag(BaseModel):
+class OutputAzureDataExplorerExtentTag(BaseModel):
     value: str
 
-    prefix: Optional[PrefixOptional] = None
+    prefix: Optional[OutputAzureDataExplorerPrefixOptional] = None
 
     @field_serializer("prefix")
     def serialize_prefix(self, value):
         if isinstance(value, str):
             try:
-                return models.PrefixOptional(value)
+                return models.OutputAzureDataExplorerPrefixOptional(value)
             except ValueError:
                 return value
         return value
@@ -135,15 +135,15 @@ class ExtentTag(BaseModel):
         return m
 
 
-class IngestIfNotExistTypedDict(TypedDict):
+class OutputAzureDataExplorerIngestIfNotExistTypedDict(TypedDict):
     value: str
 
 
-class IngestIfNotExist(BaseModel):
+class OutputAzureDataExplorerIngestIfNotExist(BaseModel):
     value: str
 
 
-class ReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureDataExplorerReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     # FailuresOnly
@@ -154,7 +154,7 @@ class ReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     FAILURES_AND_SUCCESSES = "failuresAndSuccesses"
 
 
-class ReportMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputAzureDataExplorerReportMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
     # Queue
@@ -165,12 +165,12 @@ class ReportMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     QUEUE_AND_TABLE = "queueAndTable"
 
 
-class AdditionalPropertyTypedDict(TypedDict):
+class OutputAzureDataExplorerAdditionalPropertyTypedDict(TypedDict):
     key: str
     value: str
 
 
-class AdditionalProperty(BaseModel):
+class OutputAzureDataExplorerAdditionalProperty(BaseModel):
     key: str
 
     value: str
@@ -202,7 +202,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Scope to pass in the OAuth request parameter"""
     oauth_type: OutputAzureDataExplorerAuthenticationMethod
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
-    compress: CompressionOptions2
+    compress: CompressionOptionsHTTP
     r"""Data compression format to apply to HTTP content before it is delivered"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -216,13 +216,13 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     validate_database_settings: NotRequired[bool]
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
-    ingest_mode: NotRequired[IngestionMode]
+    ingest_mode: NotRequired[OutputAzureDataExplorerIngestionMode]
     description: NotRequired[str]
     client_secret: NotRequired[str]
     r"""The client secret that you generated for your app in the Azure portal"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypedDict]
+    certificate: NotRequired[OutputAzureDataExplorerCertificateTypedDict]
     format_: NotRequired[DataFormatOptions]
     r"""Format of the output data"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -241,7 +241,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -297,17 +297,23 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Bypass the data management service's aggregation mechanism"""
     retain_blob_on_success: NotRequired[bool]
     r"""Prevent blob deletion after ingestion is complete"""
-    extent_tags: NotRequired[List[ExtentTagTypedDict]]
+    extent_tags: NotRequired[List[OutputAzureDataExplorerExtentTagTypedDict]]
     r"""Strings or tags associated with the extent (ingested data shard)"""
-    ingest_if_not_exists: NotRequired[List[IngestIfNotExistTypedDict]]
+    ingest_if_not_exists: NotRequired[
+        List[OutputAzureDataExplorerIngestIfNotExistTypedDict]
+    ]
     r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
-    report_level: NotRequired[ReportLevel]
+    report_level: NotRequired[OutputAzureDataExplorerReportLevel]
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
-    report_method: NotRequired[ReportMethod]
+    report_method: NotRequired[OutputAzureDataExplorerReportMethod]
     r"""Target of the ingestion status reporting. Defaults to Queue."""
-    additional_properties: NotRequired[List[AdditionalPropertyTypedDict]]
+    additional_properties: NotRequired[
+        List[OutputAzureDataExplorerAdditionalPropertyTypedDict]
+    ]
     r"""Optionally, enter additional configuration properties to send to the ingestion service"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -336,7 +342,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -349,13 +355,19 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputAzureDataExplorerPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_cluster_url: NotRequired[str]
     r"""Binds 'clusterUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clusterUrl' at runtime."""
     template_database: NotRequired[str]
     r"""Binds 'database' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'database' at runtime."""
     template_table: NotRequired[str]
     r"""Binds 'table' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'table' at runtime."""
+    template_oauth_endpoint: NotRequired[str]
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
     template_tenant_id: NotRequired[str]
     r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     template_client_id: NotRequired[str]
@@ -366,8 +378,18 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Binds 'clientSecret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecret' at runtime."""
     template_format: NotRequired[str]
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+    template_mapping_ref: NotRequired[str]
+    r"""Binds 'mappingRef' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mappingRef' at runtime."""
     template_ingest_url: NotRequired[str]
     r"""Binds 'ingestUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'ingestUrl' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_file_name_suffix: NotRequired[str]
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
 
 
 class OutputAzureDataExplorer(BaseModel):
@@ -402,7 +424,7 @@ class OutputAzureDataExplorer(BaseModel):
     ]
     r"""The type of OAuth 2.0 client credentials grant flow to use"""
 
-    compress: CompressionOptions2
+    compress: CompressionOptionsHTTP
     r"""Data compression format to apply to HTTP content before it is delivered"""
 
     id: Optional[str] = None
@@ -428,7 +450,8 @@ class OutputAzureDataExplorer(BaseModel):
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
 
     ingest_mode: Annotated[
-        Optional[IngestionMode], pydantic.Field(alias="ingestMode")
+        Optional[OutputAzureDataExplorerIngestionMode],
+        pydantic.Field(alias="ingestMode"),
     ] = None
 
     description: Optional[str] = None
@@ -439,7 +462,7 @@ class OutputAzureDataExplorer(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[Certificate] = None
+    certificate: Optional[OutputAzureDataExplorerCertificate] = None
 
     format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
         None
@@ -487,7 +510,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -620,32 +643,37 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Prevent blob deletion after ingestion is complete"""
 
     extent_tags: Annotated[
-        Optional[List[ExtentTag]], pydantic.Field(alias="extentTags")
+        Optional[List[OutputAzureDataExplorerExtentTag]],
+        pydantic.Field(alias="extentTags"),
     ] = None
     r"""Strings or tags associated with the extent (ingested data shard)"""
 
     ingest_if_not_exists: Annotated[
-        Optional[List[IngestIfNotExist]], pydantic.Field(alias="ingestIfNotExists")
+        Optional[List[OutputAzureDataExplorerIngestIfNotExist]],
+        pydantic.Field(alias="ingestIfNotExists"),
     ] = None
     r"""Prevents duplicate ingestion by verifying whether an extent with the specified ingest-by tag already exists"""
 
     report_level: Annotated[
-        Optional[ReportLevel], pydantic.Field(alias="reportLevel")
+        Optional[OutputAzureDataExplorerReportLevel],
+        pydantic.Field(alias="reportLevel"),
     ] = None
     r"""Level of ingestion status reporting. Defaults to FailuresOnly."""
 
     report_method: Annotated[
-        Optional[ReportMethod], pydantic.Field(alias="reportMethod")
+        Optional[OutputAzureDataExplorerReportMethod],
+        pydantic.Field(alias="reportMethod"),
     ] = None
     r"""Target of the ingestion status reporting. Defaults to Queue."""
 
     additional_properties: Annotated[
-        Optional[List[AdditionalProperty]], pydantic.Field(alias="additionalProperties")
+        Optional[List[OutputAzureDataExplorerAdditionalProperty]],
+        pydantic.Field(alias="additionalProperties"),
     ] = None
     r"""Optionally, enter additional configuration properties to send to the ingestion service"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -709,7 +737,7 @@ class OutputAzureDataExplorer(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -737,9 +765,19 @@ class OutputAzureDataExplorer(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputAzureDataExplorerPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_cluster_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_clusterUrl")
@@ -755,6 +793,11 @@ class OutputAzureDataExplorer(BaseModel):
         Optional[str], pydantic.Field(alias="__template_table")
     ] = None
     r"""Binds 'table' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'table' at runtime."""
+
+    template_oauth_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_oauthEndpoint")
+    ] = None
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
 
     template_tenant_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_tenantId")
@@ -781,16 +824,41 @@ class OutputAzureDataExplorer(BaseModel):
     ] = None
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
+    template_mapping_ref: Annotated[
+        Optional[str], pydantic.Field(alias="__template_mappingRef")
+    ] = None
+    r"""Binds 'mappingRef' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mappingRef' at runtime."""
+
     template_ingest_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_ingestUrl")
     ] = None
     r"""Binds 'ingestUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'ingestUrl' at runtime."""
 
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_fileNameSuffix")
+    ] = None
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+
     @field_serializer("ingest_mode")
     def serialize_ingest_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.IngestionMode(value)
+                return models.OutputAzureDataExplorerIngestionMode(value)
             except ValueError:
                 return value
         return value
@@ -826,7 +894,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_compress(self, value):
         if isinstance(value, str):
             try:
-                return models.CompressionOptions2(value)
+                return models.CompressionOptionsHTTP(value)
             except ValueError:
                 return value
         return value
@@ -880,7 +948,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_report_level(self, value):
         if isinstance(value, str):
             try:
-                return models.ReportLevel(value)
+                return models.OutputAzureDataExplorerReportLevel(value)
             except ValueError:
                 return value
         return value
@@ -889,7 +957,7 @@ class OutputAzureDataExplorer(BaseModel):
     def serialize_report_method(self, value):
         if isinstance(value, str):
             try:
-                return models.ReportMethod(value)
+                return models.OutputAzureDataExplorerReportMethod(value)
             except ValueError:
                 return value
         return value
@@ -999,16 +1067,24 @@ class OutputAzureDataExplorer(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_clusterUrl",
                 "__template_database",
                 "__template_table",
+                "__template_oauthEndpoint",
                 "__template_tenantId",
                 "__template_clientId",
                 "__template_scope",
                 "__template_clientSecret",
                 "__template_format",
+                "__template_compress",
+                "__template_parquetSchema",
+                "__template_mappingRef",
                 "__template_ingestUrl",
+                "__template_onBackpressure",
+                "__template_fileNameSuffix",
             ]
         )
         serialized = handler(self)
@@ -1026,7 +1102,7 @@ class OutputAzureDataExplorer(BaseModel):
 
 
 try:
-    Certificate.model_rebuild()
+    OutputAzureDataExplorerCertificate.model_rebuild()
 except NameError:
     pass
 try:

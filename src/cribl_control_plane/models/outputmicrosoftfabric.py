@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 from .acknowledgmentsoptions import AcknowledgmentsOptions
+from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .microsoftentraidauthenticationendpointoptionssasl import (
@@ -10,12 +11,14 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions import RecordDataFormatOptions
-from .saslmechanismoptionssasl1 import SaslMechanismOptionsSasl1
+from .saslmechanismoptionssasloauthbearerplain import (
+    SaslMechanismOptionsSaslOauthbearerPlain,
+)
 from .tlssettingsclientsidetype import (
     TLSSettingsClientSideType,
     TLSSettingsClientSideTypeTypedDict,
 )
-from cribl_control_plane import models, utils
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -28,23 +31,16 @@ class OutputMicrosoftFabricType(str, Enum):
     MICROSOFT_FABRIC = "microsoft_fabric"
 
 
-class OutputMicrosoftFabricAuthenticationMethod(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    SECRET = "secret"
-    CERTIFICATE = "certificate"
-
-
 class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
-    mechanism: NotRequired[SaslMechanismOptionsSasl1]
+    mechanism: NotRequired[SaslMechanismOptionsSaslOauthbearerPlain]
     username: NotRequired[str]
     r"""The username for authentication. This should always be $ConnectionString."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
-    client_secret_auth_type: NotRequired[OutputMicrosoftFabricAuthenticationMethod]
+    client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate_name: NotRequired[str]
@@ -60,6 +56,16 @@ class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     r"""Directory ID (tenant identifier) in Azure Active Directory"""
     scope: NotRequired[str]
     r"""Scope to pass in the OAuth request parameter"""
+    template_mechanism: NotRequired[str]
+    r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
+    template_oauth_endpoint: NotRequired[str]
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_scope: NotRequired[str]
+    r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
 
 
 class OutputMicrosoftFabricAuthentication(BaseModel):
@@ -67,7 +73,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
 
     disabled: bool
 
-    mechanism: Optional[SaslMechanismOptionsSasl1] = None
+    mechanism: Optional[SaslMechanismOptionsSaslOauthbearerPlain] = None
 
     username: Optional[str] = None
     r"""The username for authentication. This should always be $ConnectionString."""
@@ -76,7 +82,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
 
     client_secret_auth_type: Annotated[
-        Optional[OutputMicrosoftFabricAuthenticationMethod],
+        Optional[AuthenticationMethodOptionsAuth],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
 
@@ -111,11 +117,36 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     scope: Optional[str] = None
     r"""Scope to pass in the OAuth request parameter"""
 
+    template_mechanism: Annotated[
+        Optional[str], pydantic.Field(alias="__template_mechanism")
+    ] = None
+    r"""Binds 'mechanism' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mechanism' at runtime."""
+
+    template_oauth_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_oauthEndpoint")
+    ] = None
+    r"""Binds 'oauthEndpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oauthEndpoint' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_scope: Annotated[
+        Optional[str], pydantic.Field(alias="__template_scope")
+    ] = None
+    r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
+
     @field_serializer("mechanism")
     def serialize_mechanism(self, value):
         if isinstance(value, str):
             try:
-                return models.SaslMechanismOptionsSasl1(value)
+                return models.SaslMechanismOptionsSaslOauthbearerPlain(value)
             except ValueError:
                 return value
         return value
@@ -124,7 +155,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     def serialize_client_secret_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputMicrosoftFabricAuthenticationMethod(value)
+                return models.AuthenticationMethodOptionsAuth(value)
             except ValueError:
                 return value
         return value
@@ -155,6 +186,11 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
                 "clientId",
                 "tenantId",
                 "scope",
+                "__template_mechanism",
+                "__template_oauthEndpoint",
+                "__template_clientId",
+                "__template_tenantId",
+                "__template_scope",
             ]
         )
         serialized = handler(self)
@@ -234,7 +270,7 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -247,9 +283,17 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputMicrosoftFabricPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_bootstrap_server: NotRequired[str]
     r"""Binds 'bootstrap_server' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bootstrap_server' at runtime."""
 
@@ -365,7 +409,7 @@ class OutputMicrosoftFabric(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -393,14 +437,34 @@ class OutputMicrosoftFabric(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputMicrosoftFabricPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_topic: Annotated[
         Optional[str], pydantic.Field(alias="__template_topic")
     ] = None
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     template_bootstrap_server: Annotated[
         Optional[str], pydantic.Field(alias="__template_bootstrap_server")
@@ -497,8 +561,12 @@ class OutputMicrosoftFabric(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_topic",
+                "__template_format",
+                "__template_onBackpressure",
                 "__template_bootstrap_server",
             ]
         )

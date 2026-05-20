@@ -91,6 +91,10 @@ from .pipelinefunctionlocalsearchschemamapper import (
     PipelineFunctionLocalSearchSchemaMapper,
     PipelineFunctionLocalSearchSchemaMapperTypedDict,
 )
+from .pipelinefunctionlocalsearchtimerangenormalizer import (
+    PipelineFunctionLocalSearchTimeRangeNormalizer,
+    PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
+)
 from .pipelinefunctionlocalsearchtransformer import (
     PipelineFunctionLocalSearchTransformer,
     PipelineFunctionLocalSearchTransformerTypedDict,
@@ -162,6 +166,10 @@ from .pipelinefunctionrollupmetrics import (
 from .pipelinefunctionsampling import (
     PipelineFunctionSampling,
     PipelineFunctionSamplingTypedDict,
+)
+from .pipelinefunctionsearchengineexport import (
+    PipelineFunctionSearchEngineExport,
+    PipelineFunctionSearchEngineExportTypedDict,
 )
 from .pipelinefunctionsend import PipelineFunctionSend, PipelineFunctionSendTypedDict
 from .pipelinefunctionsensitivedatascanner import (
@@ -251,6 +259,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLocalSearchDatatypeParserTypedDict,
         PipelineFunctionLocalSearchRulesetRunnerTypedDict,
         PipelineFunctionLocalSearchSchemaMapperTypedDict,
+        PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict,
         PipelineFunctionLocalSearchTransformerTypedDict,
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
@@ -272,6 +281,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionRenameTypedDict,
         PipelineFunctionRollupMetricsTypedDict,
         PipelineFunctionSamplingTypedDict,
+        PipelineFunctionSearchEngineExportTypedDict,
         PipelineFunctionSendTypedDict,
         PipelineFunctionSensitiveDataScannerTypedDict,
         PipelineFunctionSerdeTypedDict,
@@ -333,6 +343,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "local_search_datatype_parser": PipelineFunctionLocalSearchDatatypeParser,
     "local_search_ruleset_runner": PipelineFunctionLocalSearchRulesetRunner,
     "local_search_schema_mapper": PipelineFunctionLocalSearchSchemaMapper,
+    "local_search_time_range_normalizer": PipelineFunctionLocalSearchTimeRangeNormalizer,
     "local_search_transformer": PipelineFunctionLocalSearchTransformer,
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
@@ -354,6 +365,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "rename": PipelineFunctionRename,
     "rollup_metrics": PipelineFunctionRollupMetrics,
     "sampling": PipelineFunctionSampling,
+    "search_engine_export": PipelineFunctionSearchEngineExport,
     "send": PipelineFunctionSend,
     "sensitive_data_scanner": PipelineFunctionSensitiveDataScanner,
     "serde": PipelineFunctionSerde,
@@ -405,6 +417,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLocalSearchDatatypeParser,
         PipelineFunctionLocalSearchRulesetRunner,
         PipelineFunctionLocalSearchSchemaMapper,
+        PipelineFunctionLocalSearchTimeRangeNormalizer,
         PipelineFunctionLocalSearchTransformer,
         PipelineFunctionLookup,
         PipelineFunctionMask,
@@ -426,6 +439,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionRename,
         PipelineFunctionRollupMetrics,
         PipelineFunctionSampling,
+        PipelineFunctionSearchEngineExport,
         PipelineFunctionSend,
         PipelineFunctionSensitiveDataScanner,
         PipelineFunctionSerde,

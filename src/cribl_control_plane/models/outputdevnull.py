@@ -25,6 +25,8 @@ class OutputDevnullTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class OutputDevnull(BaseModel):
@@ -47,10 +49,22 @@ class OutputDevnull(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            ["id", "pipeline", "systemFields", "environment", "streamtags"]
+            [
+                "id",
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "__template_streamtags",
+            ]
         )
         serialized = handler(self)
         m = {}

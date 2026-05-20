@@ -9,10 +9,10 @@
 value: models.OutputDefault = /* values here */
 ```
 
-### `models.OutputWebhook`
+### `models.OutputWebhookUnion`
 
 ```python
-value: models.OutputWebhook = /* values here */
+value: models.OutputWebhookUnion = /* values here */
 ```
 
 ### `models.OutputSentinel`
@@ -427,5 +427,47 @@ value: models.OutputMicrosoftFabric = /* values here */
 
 ```python
 value: models.OutputCloudflareR2 = /* values here */
+```
+
+### `models.OutputNutanixObjects`
+
+```python
+value: models.OutputNutanixObjects = /* values here */
+```
+
+### `models.OutputStorjS3`
+
+```python
+value: models.OutputStorjS3 = /* values here */
+```
+
+### `models.OutputAlphasocS3`
+
+```python
+value: models.OutputAlphasocS3 = /* values here */
+```
+
+### `models.OutputDellS3`
+
+```python
+value: models.OutputDellS3 = /* values here */
+```
+
+### `models.OutputCloudianS3`
+
+```python
+value: models.OutputCloudianS3 = /* values here */
+```
+
+### `models.OutputScalityS3`
+
+```python
+value: models.OutputScalityS3 = /* values here */
+```
+
+### `models.OutputAlibabaCloudS3`
+
+```python
+value: models.OutputAlibabaCloudS3 = /* values here */
 ```
 

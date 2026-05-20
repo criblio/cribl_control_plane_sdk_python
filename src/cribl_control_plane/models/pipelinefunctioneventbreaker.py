@@ -458,6 +458,8 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict(TypedDict):
     r"""Top-level fields to copy to the output events. Nested fields are not supported. 'Array field' is always excluded. If 'Array field' points to a nested array, the entire top-level object will be excluded. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
     json_extract_all: NotRequired[bool]
     r"""Automatically extract fields from JSON events. When disabled, only _raw and _time are defined on extracted events."""
+    fields_to_remove: NotRequired[List[str]]
+    r"""List of fields to remove from the output events. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
     json_time_field: NotRequired[str]
     r"""Optional path to timestamp field in extracted events, such as eventTime or level1.level2.eventTime."""
     max_event_bytes: NotRequired[float]
@@ -501,6 +503,11 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArray(BaseModel):
         Optional[bool], pydantic.Field(alias="jsonExtractAll")
     ] = None
     r"""Automatically extract fields from JSON events. When disabled, only _raw and _time are defined on extracted events."""
+
+    fields_to_remove: Annotated[
+        Optional[List[str]], pydantic.Field(alias="fieldsToRemove")
+    ] = None
+    r"""List of fields to remove from the output events. Supports * wildcards. Enclose field names containing special characters in single or double quotes."""
 
     json_time_field: Annotated[Optional[str], pydantic.Field(alias="jsonTimeField")] = (
         None
@@ -571,6 +578,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArray(BaseModel):
                 "jsonArrayField",
                 "parentFieldsToCopy",
                 "jsonExtractAll",
+                "fieldsToRemove",
                 "jsonTimeField",
                 "maxEventBytes",
                 "timestampAnchorRegex",
@@ -850,8 +858,8 @@ EventBreakerExistingOrNewNewTypedDict = TypeAliasType(
     Union[
         EventBreakerExistingOrNewNewRuleTypeJSONTypedDict,
         EventBreakerExistingOrNewNewRuleTypeRegexTypedDict,
-        EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict,
         EventBreakerExistingOrNewNewRuleTypeCsvTypedDict,
+        EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict,
         EventBreakerExistingOrNewNewRuleTypeHeaderTypedDict,
     ],
 )

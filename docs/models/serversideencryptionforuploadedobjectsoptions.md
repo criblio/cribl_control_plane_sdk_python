@@ -1,5 +1,7 @@
 # ServerSideEncryptionForUploadedObjectsOptions
 
+Server-side encryption to use for uploaded objects
+
 ## Example Usage
 
 ```python

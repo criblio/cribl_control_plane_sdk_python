@@ -1,0 +1,23 @@
+# StorageClassOptionsArchiveColdline
+
+Storage class to select for uploaded objects
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import StorageClassOptionsArchiveColdline
+
+value = StorageClassOptionsArchiveColdline.STANDARD
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
+
+## Values
+
+| Name       | Value      |
+| ---------- | ---------- |
+| `STANDARD` | STANDARD   |
+| `NEARLINE` | NEARLINE   |
+| `COLDLINE` | COLDLINE   |
+| `ARCHIVE`  | ARCHIVE    |

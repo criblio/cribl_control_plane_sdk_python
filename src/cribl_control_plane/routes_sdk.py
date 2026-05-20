@@ -629,7 +629,7 @@ class RoutesSDK(BaseSDK):
         Add a Route to the end of the specified Routing table.
 
         :param id: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
-        :param request_body: RouteDefinitions object
+        :param request_body: RouteDefinitions object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -731,7 +731,7 @@ class RoutesSDK(BaseSDK):
         Add a Route to the end of the specified Routing table.
 
         :param id: The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>.
-        :param request_body: RouteDefinitions object
+        :param request_body: RouteDefinitions object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

@@ -10,7 +10,7 @@ class GetPipelinesByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Pipeline to get."""
     pack: str
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""
 
 
 class GetPipelinesByPackAndIDRequest(BaseModel):
@@ -22,4 +22,4 @@ class GetPipelinesByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""

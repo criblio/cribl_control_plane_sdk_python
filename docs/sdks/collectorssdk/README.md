@@ -60,7 +60,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -87,8 +87,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -107,7 +107,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -352,7 +352,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -379,8 +379,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -399,7 +399,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -457,7 +457,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -484,8 +484,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -504,7 +504,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -562,7 +562,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -589,8 +589,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -609,7 +609,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -667,7 +667,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -694,8 +694,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -714,7 +714,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -772,7 +772,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -799,8 +799,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -819,7 +819,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1095,7 +1095,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1124,7 +1124,6 @@ with CriblControlPlane(
                     ),
                 ],
                 endpoint="<value>",
-                signature_version=models.SignatureVersionOptionsS3CollectorConf.V4,
                 enable_assume_role=True,
                 assume_role_arn="<value>",
                 assume_role_external_id="<id>",
@@ -1138,8 +1137,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
             ],
@@ -1156,7 +1155,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1213,7 +1212,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1242,7 +1241,6 @@ with CriblControlPlane(
                     ),
                 ],
                 endpoint="<value>",
-                signature_version=models.SignatureVersionOptionsS3CollectorConf.V4,
                 enable_assume_role=True,
                 assume_role_arn="<value>",
                 assume_role_external_id="<id>",
@@ -1256,8 +1254,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
             ],
@@ -1274,7 +1272,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1456,7 +1454,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1485,7 +1483,6 @@ with CriblControlPlane(
                     ),
                 ],
                 endpoint="<value>",
-                signature_version=models.SignatureVersionOptionsS3CollectorConf.V4,
                 enable_assume_role=True,
                 assume_role_arn="<value>",
                 assume_role_external_id="<id>",
@@ -1499,8 +1496,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
             ],
@@ -1517,7 +1514,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1638,7 +1635,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1667,7 +1664,6 @@ with CriblControlPlane(
                     ),
                 ],
                 endpoint="<value>",
-                signature_version=models.SignatureVersionOptionsS3CollectorConf.V4,
                 enable_assume_role=True,
                 assume_role_arn="<value>",
                 assume_role_external_id="<id>",
@@ -1681,8 +1677,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
             ],
@@ -1699,7 +1695,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1756,7 +1752,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.MetricsStore(),
+                time_warning=models.BrokenEventProcessor(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1785,7 +1781,6 @@ with CriblControlPlane(
                     ),
                 ],
                 endpoint="<value>",
-                signature_version=models.SignatureVersionOptionsS3CollectorConf.V4,
                 enable_assume_role=True,
                 assume_role_arn="<value>",
                 assume_role_external_id="<id>",
@@ -1799,8 +1794,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.TypeCollectionWithBreakerRulesetsConstraint(
-            type=models.TypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
+            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
             ],
@@ -1817,7 +1812,7 @@ with CriblControlPlane(
             ),
             throttle_rate_per_sec="<value>",
             metadata=[
-                models.ItemsTypeMetadata(
+                models.MetadataConfInputCollection(
                     name="<value>",
                     value="<value>",
                 ),
@@ -1837,7 +1832,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to update.                     |
-| `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object                                                     |
+| `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object.                                                    |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

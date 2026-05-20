@@ -1,9 +1,11 @@
 # JobStatus
 
+Status of a job, including its current state and failure reason.
+
 
 ## Fields
 
-| Field                              | Type                               | Required                           | Description                        |
-| ---------------------------------- | ---------------------------------- | ---------------------------------- | ---------------------------------- |
-| `reason`                           | Dict[str, *Any*]                   | :heavy_minus_sign:                 | N/A                                |
-| `state`                            | [models.State](../models/state.md) | :heavy_check_mark:                 | State of the Job                   |
+| Field                                                                                                                              | Type                                                                                                                               | Required                                                                                                                           | Description                                                                                                                        |
+| ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `reason`                                                                                                                           | [Optional[models.TaskErrorDetail]](../models/taskerrordetail.md)                                                                   | :heavy_minus_sign:                                                                                                                 | Task error details. May include a nested <code>reason</code> for wrapped errors and additional properties from the original error. |
+| `state`                                                                                                                            | [models.State](../models/state.md)                                                                                                 | :heavy_check_mark:                                                                                                                 | State of the Job                                                                                                                   |

@@ -2,12 +2,13 @@
 
 from __future__ import annotations
 from .cacheconnection import CacheConnection, CacheConnectionTypedDict
-from .formatoptions import FormatOptions
+from .formatoptionscribllakedataset import FormatOptionsCriblLakeDataset
 from .lakedatasetmetrics import LakeDatasetMetrics, LakeDatasetMetricsTypedDict
 from .lakedatasetsearchconfig import (
     LakeDatasetSearchConfig,
     LakeDatasetSearchConfigTypedDict,
 )
+from .storageclassoptionscribllakedataset import StorageClassOptionsCriblLakeDataset
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
@@ -18,28 +19,43 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class CriblLakeDatasetTypedDict(TypedDict):
     id: str
+    r"""Unique identifier for the Dataset."""
     accelerated_fields: NotRequired[List[str]]
+    r"""Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance."""
     bucket_name: NotRequired[str]
+    r"""Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>."""
     cache_connection: NotRequired[CacheConnectionTypedDict]
     deletion_started_at: NotRequired[float]
+    r"""Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds."""
     description: NotRequired[str]
-    format_: NotRequired[FormatOptions]
+    r"""Brief description of the Dataset."""
+    format_: NotRequired[FormatOptionsCriblLakeDataset]
+    r"""Storage format used for data persisted in the Dataset."""
     http_da_used: NotRequired[bool]
+    r"""If <code>true</code>, the Dataset is used by Direct Access HTTP."""
     metrics: NotRequired[LakeDatasetMetricsTypedDict]
-    retention_period_in_days: NotRequired[float]
+    retention_period_in_days: NotRequired[int]
+    r"""Dataset retention period, in days."""
     search_config: NotRequired[LakeDatasetSearchConfigTypedDict]
+    storage_class: NotRequired[StorageClassOptionsCriblLakeDataset]
+    r"""Storage class used for objects written to the Dataset."""
     storage_location_id: NotRequired[str]
+    r"""Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>."""
     view_name: NotRequired[str]
+    r"""Name of the ClickHouse view for the Dataset on the Lakehouse."""
 
 
 class CriblLakeDataset(BaseModel):
     id: str
+    r"""Unique identifier for the Dataset."""
 
     accelerated_fields: Annotated[
         Optional[List[str]], pydantic.Field(alias="acceleratedFields")
     ] = None
+    r"""Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance."""
 
     bucket_name: Annotated[Optional[str], pydantic.Field(alias="bucketName")] = None
+    r"""Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>."""
 
     cache_connection: Annotated[
         Optional[CacheConnection], pydantic.Field(alias="cacheConnection")
@@ -48,34 +64,58 @@ class CriblLakeDataset(BaseModel):
     deletion_started_at: Annotated[
         Optional[float], pydantic.Field(alias="deletionStartedAt")
     ] = None
+    r"""Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds."""
 
     description: Optional[str] = None
+    r"""Brief description of the Dataset."""
 
-    format_: Annotated[Optional[FormatOptions], pydantic.Field(alias="format")] = None
+    format_: Annotated[
+        Optional[FormatOptionsCriblLakeDataset], pydantic.Field(alias="format")
+    ] = None
+    r"""Storage format used for data persisted in the Dataset."""
 
     http_da_used: Annotated[Optional[bool], pydantic.Field(alias="httpDAUsed")] = None
+    r"""If <code>true</code>, the Dataset is used by Direct Access HTTP."""
 
     metrics: Optional[LakeDatasetMetrics] = None
 
     retention_period_in_days: Annotated[
-        Optional[float], pydantic.Field(alias="retentionPeriodInDays")
+        Optional[int], pydantic.Field(alias="retentionPeriodInDays")
     ] = None
+    r"""Dataset retention period, in days."""
 
     search_config: Annotated[
         Optional[LakeDatasetSearchConfig], pydantic.Field(alias="searchConfig")
     ] = None
 
+    storage_class: Annotated[
+        Optional[StorageClassOptionsCriblLakeDataset],
+        pydantic.Field(alias="storageClass"),
+    ] = None
+    r"""Storage class used for objects written to the Dataset."""
+
     storage_location_id: Annotated[
         Optional[str], pydantic.Field(alias="storageLocationId")
     ] = None
+    r"""Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>."""
 
     view_name: Annotated[Optional[str], pydantic.Field(alias="viewName")] = None
+    r"""Name of the ClickHouse view for the Dataset on the Lakehouse."""
 
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.FormatOptions(value)
+                return models.FormatOptionsCriblLakeDataset(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("storage_class")
+    def serialize_storage_class(self, value):
+        if isinstance(value, str):
+            try:
+                return models.StorageClassOptionsCriblLakeDataset(value)
             except ValueError:
                 return value
         return value
@@ -94,6 +134,7 @@ class CriblLakeDataset(BaseModel):
                 "metrics",
                 "retentionPeriodInDays",
                 "searchConfig",
+                "storageClass",
                 "storageLocationId",
                 "viewName",
             ]

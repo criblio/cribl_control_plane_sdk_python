@@ -8,7 +8,6 @@ from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .signatureversionoptions3 import SignatureVersionOptions3
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -68,8 +67,6 @@ class OutputSqsTypedDict(TypedDict):
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions3]
-    r"""Signature version to use for signing SQS requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -103,7 +100,7 @@ class OutputSqsTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -116,19 +113,31 @@ class OutputSqsTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputSqsPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_queue_name: NotRequired[str]
     r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
+    template_queue_type: NotRequired[str]
+    r"""Binds 'queueType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueType' at runtime."""
     template_aws_account_id: NotRequired[str]
     r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
+    template_message_group_id: NotRequired[str]
+    r"""Binds 'messageGroupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'messageGroupId' at runtime."""
     template_aws_secret_key: NotRequired[str]
     r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
@@ -187,11 +196,6 @@ class OutputSqs(BaseModel):
 
     endpoint: Optional[str] = None
     r"""SQS service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to SQS-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptions3], pydantic.Field(alias="signatureVersion")
-    ] = None
-    r"""Signature version to use for signing SQS requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
@@ -271,7 +275,7 @@ class OutputSqs(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -299,19 +303,39 @@ class OutputSqs(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputSqsPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_queue_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_queueName")
     ] = None
     r"""Binds 'queueName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueName' at runtime."""
 
+    template_queue_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_queueType")
+    ] = None
+    r"""Binds 'queueType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'queueType' at runtime."""
+
     template_aws_account_id: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsAccountId")
     ] = None
     r"""Binds 'awsAccountId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsAccountId' at runtime."""
+
+    template_message_group_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_messageGroupId")
+    ] = None
+    r"""Binds 'messageGroupId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'messageGroupId' at runtime."""
 
     template_aws_secret_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsSecretKey")
@@ -323,6 +347,11 @@ class OutputSqs(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_assume_role_arn: Annotated[
         Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
     ] = None
@@ -332,6 +361,11 @@ class OutputSqs(BaseModel):
         Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     template_aws_api_key: Annotated[
         Optional[str], pydantic.Field(alias="__template_awsApiKey")
@@ -352,15 +386,6 @@ class OutputSqs(BaseModel):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptions3(value)
             except ValueError:
                 return value
         return value
@@ -417,7 +442,6 @@ class OutputSqs(BaseModel):
                 "awsSecretKey",
                 "region",
                 "endpoint",
-                "signatureVersion",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "enableAssumeRole",
@@ -442,13 +466,19 @@ class OutputSqs(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_queueName",
+                "__template_queueType",
                 "__template_awsAccountId",
+                "__template_messageGroupId",
                 "__template_awsSecretKey",
                 "__template_region",
+                "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
+                "__template_onBackpressure",
                 "__template_awsApiKey",
             ]
         )

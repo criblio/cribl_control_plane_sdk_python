@@ -1,5 +1,7 @@
 # OutputTestRequest
 
+Request body for testing a Destination by sending sample events.
+
 
 ## Fields
 

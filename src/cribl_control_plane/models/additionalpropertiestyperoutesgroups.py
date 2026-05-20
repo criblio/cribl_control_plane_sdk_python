@@ -8,7 +8,7 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class AdditionalPropertiesTypeRoutesGroupsTypedDict(TypedDict):
-    index: float
+    index: int
     r"""Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group."""
     name: str
     r"""Name of the Route Group."""
@@ -17,7 +17,7 @@ class AdditionalPropertiesTypeRoutesGroupsTypedDict(TypedDict):
 
 
 class AdditionalPropertiesTypeRoutesGroups(BaseModel):
-    index: float
+    index: int
     r"""Relative position of the Route Group among all Route Groups. Routes are evaluated in ascending order according to the index value of their Route Group."""
 
     name: str

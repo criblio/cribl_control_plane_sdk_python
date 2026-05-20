@@ -10,7 +10,7 @@ class GetOutputSystemPqByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Destination to get PQ job information for."""
     pack: str
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""
 
 
 class GetOutputSystemPqByPackAndIDRequest(BaseModel):
@@ -22,4 +22,4 @@ class GetOutputSystemPqByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""

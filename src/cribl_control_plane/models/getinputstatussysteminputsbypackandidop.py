@@ -16,7 +16,7 @@ class GetInputStatusSystemInputsByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Source to get the status for."""
     pack: str
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""
     metrics: NotRequired[bool]
     r"""Set to <code>true</code> to include metrics for each Source. Otherwise, <code>false</code> (default)."""
     type: NotRequired[bool]
@@ -32,7 +32,7 @@ class GetInputStatusSystemInputsByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""
 
     metrics: Annotated[
         Optional[bool],

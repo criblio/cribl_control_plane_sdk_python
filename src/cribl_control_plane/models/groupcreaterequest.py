@@ -2,9 +2,7 @@
 
 from __future__ import annotations
 from .configgroupcloud import ConfigGroupCloud, ConfigGroupCloudTypedDict
-from .configgrouplookups import ConfigGroupLookups, ConfigGroupLookupsTypedDict
 from .estimatedingestrateoptionsconfiggroup import EstimatedIngestRateOptionsConfigGroup
-from .gittypeconfiggroup import GitTypeConfigGroup, GitTypeConfigGroupTypedDict
 from .typeoptionsconfiggroup import TypeOptionsConfigGroup
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -17,29 +15,36 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class GroupCreateRequestTypedDict(TypedDict):
     id: str
     cloud: NotRequired[ConfigGroupCloudTypedDict]
-    deploying_worker_count: NotRequired[float]
     description: NotRequired[str]
+    r"""Brief description of the Worker Group, Outpost Group, or Edge Fleet."""
     estimated_ingest_rate: NotRequired[EstimatedIngestRateOptionsConfigGroup]
-    r"""Estimated ingest rate for Cloud Groups, in GB/sec."""
-    git: NotRequired[GitTypeConfigGroupTypedDict]
-    incompatible_worker_count: NotRequired[float]
+    r"""Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec."""
     inherits: NotRequired[str]
+    r"""The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets."""
     is_fleet: NotRequired[bool]
-    r"""Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets."""
+    r"""Indicates whether this is an Edge Fleet. Deprecated. Use to identify Edge Fleets."""
     is_search: NotRequired[bool]
-    r"""Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups."""
-    lookup_deployments: NotRequired[List[ConfigGroupLookupsTypedDict]]
+    r"""Indicates whether this is an internal Search Group. Deprecated. Use to identify Search Groups."""
     max_worker_age: NotRequired[str]
+    r"""Maximum duration a Worker or Node can remain disconnected before the Leader removes it. The value is a numeral with units, such as <code>8h</code>, <code>5d</code>, <code>1w</code>."""
     name: NotRequired[str]
+    r"""Name of the Worker Group, Outpost Group, or Edge Fleet."""
     on_prem: NotRequired[bool]
+    r"""If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud."""
     provisioned: NotRequired[bool]
+    r"""If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups."""
     source_group_id: NotRequired[str]
+    r"""The <code>id</code> of an existing Worker Group, Outpost Group, or Edge Fleet to copy configuration from when creating a new Group or Fleet."""
     streamtags: NotRequired[List[str]]
+    r"""Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl."""
     tags: NotRequired[str]
+    r"""Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead."""
     type: NotRequired[TypeOptionsConfigGroup]
+    r"""Explicit type of the Worker Group, Outpost Group, or Edge Fleet."""
     upgrade_version: NotRequired[str]
-    worker_count: NotRequired[float]
+    r"""Target software upgrade version. Applies only to Outpost Groups and Edge Fleets."""
     worker_remote_access: NotRequired[bool]
+    r"""If <code>true</code>, the Leader allows remote access (teleporting) into the Workers or Nodes of the Worker Group, Outpost Group, or Edge Fleet."""
 
 
 class GroupCreateRequest(BaseModel):
@@ -47,25 +52,17 @@ class GroupCreateRequest(BaseModel):
 
     cloud: Optional[ConfigGroupCloud] = None
 
-    deploying_worker_count: Annotated[
-        Optional[float], pydantic.Field(alias="deployingWorkerCount")
-    ] = None
-
     description: Optional[str] = None
+    r"""Brief description of the Worker Group, Outpost Group, or Edge Fleet."""
 
     estimated_ingest_rate: Annotated[
         Optional[EstimatedIngestRateOptionsConfigGroup],
         pydantic.Field(alias="estimatedIngestRate"),
     ] = None
-    r"""Estimated ingest rate for Cloud Groups, in GB/sec."""
-
-    git: Optional[GitTypeConfigGroup] = None
-
-    incompatible_worker_count: Annotated[
-        Optional[float], pydantic.Field(alias="incompatibleWorkerCount")
-    ] = None
+    r"""Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec."""
 
     inherits: Optional[str] = None
+    r"""The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets."""
 
     is_fleet: Annotated[
         Optional[bool],
@@ -74,7 +71,7 @@ class GroupCreateRequest(BaseModel):
             alias="isFleet",
         ),
     ] = None
-    r"""Indicates whether this is an Edge Fleet. This flag is deprecated — use to identify Edge Fleets."""
+    r"""Indicates whether this is an Edge Fleet. Deprecated. Use to identify Edge Fleets."""
 
     is_search: Annotated[
         Optional[bool],
@@ -83,41 +80,50 @@ class GroupCreateRequest(BaseModel):
             alias="isSearch",
         ),
     ] = None
-    r"""Indicates whether this is an internal Search Group. This flag is deprecated — use to identify Search Groups."""
-
-    lookup_deployments: Annotated[
-        Optional[List[ConfigGroupLookups]], pydantic.Field(alias="lookupDeployments")
-    ] = None
+    r"""Indicates whether this is an internal Search Group. Deprecated. Use to identify Search Groups."""
 
     max_worker_age: Annotated[Optional[str], pydantic.Field(alias="maxWorkerAge")] = (
         None
     )
+    r"""Maximum duration a Worker or Node can remain disconnected before the Leader removes it. The value is a numeral with units, such as <code>8h</code>, <code>5d</code>, <code>1w</code>."""
 
     name: Optional[str] = None
+    r"""Name of the Worker Group, Outpost Group, or Edge Fleet."""
 
     on_prem: Annotated[Optional[bool], pydantic.Field(alias="onPrem")] = None
+    r"""If <code>true</code>, the Worker Group, Outpost Group, or Edge Fleet uses customer-hosted (on-prem) workers. If <code>false</code>, the Worker Group, Outpost Group, or Edge Fleet is managed in Cribl.Cloud."""
 
     provisioned: Optional[bool] = None
+    r"""If <code>true</code>, the Cribl.Cloud Worker Group has active Workers provisioned. Applies only to Cribl.Cloud Worker Groups."""
 
     source_group_id: Annotated[Optional[str], pydantic.Field(alias="sourceGroupId")] = (
         None
     )
+    r"""The <code>id</code> of an existing Worker Group, Outpost Group, or Edge Fleet to copy configuration from when creating a new Group or Fleet."""
 
     streamtags: Optional[List[str]] = None
+    r"""Metadata tags attached to the Worker Group, Outpost Group, or Edge Fleet for categorization, filtering, and tag-based routing and policy application. Useful for organizing Groups and Fleets and enabling tag-driven workflows in Cribl."""
 
-    tags: Optional[str] = None
+    tags: Annotated[
+        Optional[str],
+        pydantic.Field(
+            deprecated="warning: ** DEPRECATED ** - This will be removed in a future release, please migrate away from it as soon as possible."
+        ),
+    ] = None
+    r"""Legacy system-level tags associated with the Worker Group, Outpost Group, or Edge Fleet. Use <code>streamtags</code> instead."""
 
     type: Optional[TypeOptionsConfigGroup] = None
+    r"""Explicit type of the Worker Group, Outpost Group, or Edge Fleet."""
 
     upgrade_version: Annotated[
         Optional[str], pydantic.Field(alias="upgradeVersion")
     ] = None
-
-    worker_count: Annotated[Optional[float], pydantic.Field(alias="workerCount")] = None
+    r"""Target software upgrade version. Applies only to Outpost Groups and Edge Fleets."""
 
     worker_remote_access: Annotated[
         Optional[bool], pydantic.Field(alias="workerRemoteAccess")
     ] = None
+    r"""If <code>true</code>, the Leader allows remote access (teleporting) into the Workers or Nodes of the Worker Group, Outpost Group, or Edge Fleet."""
 
     @field_serializer("estimated_ingest_rate")
     def serialize_estimated_ingest_rate(self, value):
@@ -142,15 +148,11 @@ class GroupCreateRequest(BaseModel):
         optional_fields = set(
             [
                 "cloud",
-                "deployingWorkerCount",
                 "description",
                 "estimatedIngestRate",
-                "git",
-                "incompatibleWorkerCount",
                 "inherits",
                 "isFleet",
                 "isSearch",
-                "lookupDeployments",
                 "maxWorkerAge",
                 "name",
                 "onPrem",
@@ -160,7 +162,6 @@ class GroupCreateRequest(BaseModel):
                 "tags",
                 "type",
                 "upgradeVersion",
-                "workerCount",
                 "workerRemoteAccess",
             ]
         )

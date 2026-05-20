@@ -11,7 +11,7 @@ class UpdateSavedJobByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Collector to update."""
     saved_job: SavedJobTypedDict
-    r"""SavedJob object"""
+    r"""SavedJob object."""
 
 
 class UpdateSavedJobByIDRequest(BaseModel):
@@ -23,4 +23,4 @@ class UpdateSavedJobByIDRequest(BaseModel):
     saved_job: Annotated[
         SavedJob, FieldMetadata(request=RequestMetadata(media_type="application/json"))
     ]
-    r"""SavedJob object"""
+    r"""SavedJob object."""

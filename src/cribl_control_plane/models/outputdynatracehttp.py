@@ -3,18 +3,18 @@
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .methodoptions import MethodOptions
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -48,7 +48,7 @@ class OutputDynatraceHTTPFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     PLAINTEXT = "plaintext"
 
 
-class Endpoint(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputDynatraceHTTPEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
     # Cloud
     CLOUD = "cloud"
     # ActiveGate
@@ -57,7 +57,7 @@ class Endpoint(str, Enum, metaclass=utils.OpenEnumMeta):
     MANUAL = "manual"
 
 
-class TelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputDynatraceHTTPTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
     # Logs
     LOGS = "logs"
     # Metrics
@@ -76,8 +76,8 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     type: OutputDynatraceHTTPType
     format_: OutputDynatraceHTTPFormat
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
-    endpoint: Endpoint
-    telemetry_type: TelemetryType
+    endpoint: OutputDynatraceHTTPEndpoint
+    telemetry_type: OutputDynatraceHTTPTelemetryType
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -109,7 +109,7 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -117,7 +117,9 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -135,7 +137,7 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     pq_mode: NotRequired[ModeOptions]
     r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
     pq_max_buffer_size: NotRequired[float]
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
     pq_max_backpressure_sec: NotRequired[float]
     r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
     pq_max_file_size: NotRequired[str]
@@ -148,6 +150,8 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     r"""Codec to use to compress the persisted data"""
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputDynatraceHTTPPqControlsTypedDict]
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
@@ -159,6 +163,12 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     r"""ActiveGate domain with Log analytics collector module enabled. For example https://{activeGate-domain}:9999/e/{environment-id}/api/v2/logs/ingest."""
     url: NotRequired[str]
     r"""URL to send events to. Can be overwritten by an event's __url field."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_failed_request_logging_mode: NotRequired[str]
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
@@ -169,9 +179,11 @@ class OutputDynatraceHTTP(BaseModel):
     format_: Annotated[OutputDynatraceHTTPFormat, pydantic.Field(alias="format")]
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
-    endpoint: Endpoint
+    endpoint: OutputDynatraceHTTPEndpoint
 
-    telemetry_type: Annotated[TelemetryType, pydantic.Field(alias="telemetryType")]
+    telemetry_type: Annotated[
+        OutputDynatraceHTTPTelemetryType, pydantic.Field(alias="telemetryType")
+    ]
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -229,7 +241,7 @@ class OutputDynatraceHTTP(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
@@ -251,7 +263,7 @@ class OutputDynatraceHTTP(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -298,7 +310,7 @@ class OutputDynatraceHTTP(BaseModel):
     pq_max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBufferSize")
     ] = None
-    r"""The maximum number of events to hold in memory before writing the events to disk"""
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
 
     pq_max_backpressure_sec: Annotated[
         Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
@@ -326,6 +338,11 @@ class OutputDynatraceHTTP(BaseModel):
     ] = None
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
 
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
     pq_controls: Annotated[
         Optional[OutputDynatraceHTTPPqControls], pydantic.Field(alias="pqControls")
     ] = None
@@ -348,6 +365,21 @@ class OutputDynatraceHTTP(BaseModel):
 
     url: Optional[str] = None
     r"""URL to send events to. Can be overwritten by an event's __url field."""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_failed_request_logging_mode: Annotated[
+        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
+    ] = None
+    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
@@ -403,7 +435,7 @@ class OutputDynatraceHTTP(BaseModel):
     def serialize_endpoint(self, value):
         if isinstance(value, str):
             try:
-                return models.Endpoint(value)
+                return models.OutputDynatraceHTTPEndpoint(value)
             except ValueError:
                 return value
         return value
@@ -412,7 +444,7 @@ class OutputDynatraceHTTP(BaseModel):
     def serialize_telemetry_type(self, value):
         if isinstance(value, str):
             try:
-                return models.TelemetryType(value)
+                return models.OutputDynatraceHTTPTelemetryType(value)
             except ValueError:
                 return value
         return value
@@ -483,12 +515,16 @@ class OutputDynatraceHTTP(BaseModel):
                 "pqPath",
                 "pqCompress",
                 "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
                 "pqControls",
                 "token",
                 "textSecret",
                 "environmentId",
                 "activeGateDomain",
                 "url",
+                "__template_streamtags",
+                "__template_failedRequestLoggingMode",
+                "__template_onBackpressure",
                 "__template_url",
             ]
         )

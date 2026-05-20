@@ -35,6 +35,8 @@ class RunnableJobScheduledSearchTypedDict(TypedDict):
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class RunnableJobScheduledSearch(BaseModel):
@@ -75,6 +77,11 @@ class RunnableJobScheduledSearch(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -97,6 +104,7 @@ class RunnableJobScheduledSearch(BaseModel):
                 "environment",
                 "schedule",
                 "streamtags",
+                "__template_streamtags",
             ]
         )
         serialized = handler(self)

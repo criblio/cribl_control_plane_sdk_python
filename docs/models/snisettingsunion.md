@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `models.SniSettings1`
+### `models.SniSettings`
 
 ```python
-value: models.SniSettings1 = /* values here */
+value: models.SniSettings = /* values here */
 ```
 
-### `models.SniSettings2`
+### `models.EmptyObject`
 
 ```python
-value: models.SniSettings2 = /* values here */
+value: models.EmptyObject = /* values here */
 ```
 

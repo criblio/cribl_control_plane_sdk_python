@@ -2,31 +2,71 @@
 
 from __future__ import annotations
 from .datasetmetadata import DatasetMetadata, DatasetMetadataTypedDict
+from .objectstoragefilter import ObjectStorageFilter, ObjectStorageFilterTypedDict
+from .searchversion import SearchVersion
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from pydantic import model_serializer
+import pydantic
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class LakeDatasetSearchConfigTypedDict(TypedDict):
     datatypes: NotRequired[List[str]]
+    r"""Datatype identifiers assigned to the Dataset for search-time event classification."""
     description: NotRequired[str]
+    r"""Brief description of Dataset search configuration."""
     metadata: NotRequired[DatasetMetadataTypedDict]
+    path_filters: NotRequired[List[ObjectStorageFilterTypedDict]]
+    r"""Glob-to-Datatype mappings for the Lake bucket path. Used only for search execution v2."""
+    search_version: NotRequired[SearchVersion]
     tags: NotRequired[str]
+    r"""Comma-separated tags for the Dataset search configuration."""
 
 
 class LakeDatasetSearchConfig(BaseModel):
     datatypes: Optional[List[str]] = None
+    r"""Datatype identifiers assigned to the Dataset for search-time event classification."""
 
     description: Optional[str] = None
+    r"""Brief description of Dataset search configuration."""
 
     metadata: Optional[DatasetMetadata] = None
 
+    path_filters: Annotated[
+        Optional[List[ObjectStorageFilter]], pydantic.Field(alias="pathFilters")
+    ] = None
+    r"""Glob-to-Datatype mappings for the Lake bucket path. Used only for search execution v2."""
+
+    search_version: Annotated[
+        Optional[SearchVersion], pydantic.Field(alias="searchVersion")
+    ] = None
+
     tags: Optional[str] = None
+    r"""Comma-separated tags for the Dataset search configuration."""
+
+    @field_serializer("search_version")
+    def serialize_search_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SearchVersion(value)
+            except ValueError:
+                return value
+        return value
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["datatypes", "description", "metadata", "tags"])
+        optional_fields = set(
+            [
+                "datatypes",
+                "description",
+                "metadata",
+                "pathFilters",
+                "searchVersion",
+                "tags",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -39,3 +79,9 @@ class LakeDatasetSearchConfig(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    LakeDatasetSearchConfig.model_rebuild()
+except NameError:
+    pass

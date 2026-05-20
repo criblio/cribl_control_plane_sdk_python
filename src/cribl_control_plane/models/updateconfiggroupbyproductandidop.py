@@ -17,7 +17,7 @@ class UpdateConfigGroupByProductAndIDRequestTypedDict(TypedDict):
     id_param: str
     r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update."""
     config_group: ConfigGroupTypedDict
-    r"""ConfigGroup object"""
+    r"""ConfigGroup object."""
 
 
 class UpdateConfigGroupByProductAndIDRequest(BaseModel):
@@ -38,7 +38,7 @@ class UpdateConfigGroupByProductAndIDRequest(BaseModel):
         ConfigGroup,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""ConfigGroup object"""
+    r"""ConfigGroup object."""
 
     @field_serializer("product")
     def serialize_product(self, value):

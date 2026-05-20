@@ -9,24 +9,32 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class DatasetMetadataRunInfoTypedDict(TypedDict):
-    earliest_scanned_time: NotRequired[float]
-    finished_at: NotRequired[float]
-    latest_scanned_time: NotRequired[float]
-    object_count: NotRequired[float]
+    earliest_scanned_time: NotRequired[int]
+    r"""Timestamp (in Unix time) for the earliest event that was observed during the scan (seconds)."""
+    finished_at: NotRequired[int]
+    r"""Timestamp (in Unix time) when the acceleration run finished (milliseconds)."""
+    latest_scanned_time: NotRequired[int]
+    r"""Timestamp (in Unix time) for the latest event that was observed during the scan (seconds)."""
+    object_count: NotRequired[int]
+    r"""Number of objects on the acceleration manifest after the scan completed."""
 
 
 class DatasetMetadataRunInfo(BaseModel):
     earliest_scanned_time: Annotated[
-        Optional[float], pydantic.Field(alias="earliestScannedTime")
+        Optional[int], pydantic.Field(alias="earliestScannedTime")
     ] = None
+    r"""Timestamp (in Unix time) for the earliest event that was observed during the scan (seconds)."""
 
-    finished_at: Annotated[Optional[float], pydantic.Field(alias="finishedAt")] = None
+    finished_at: Annotated[Optional[int], pydantic.Field(alias="finishedAt")] = None
+    r"""Timestamp (in Unix time) when the acceleration run finished (milliseconds)."""
 
     latest_scanned_time: Annotated[
-        Optional[float], pydantic.Field(alias="latestScannedTime")
+        Optional[int], pydantic.Field(alias="latestScannedTime")
     ] = None
+    r"""Timestamp (in Unix time) for the latest event that was observed during the scan (seconds)."""
 
-    object_count: Annotated[Optional[float], pydantic.Field(alias="objectCount")] = None
+    object_count: Annotated[Optional[int], pydantic.Field(alias="objectCount")] = None
+    r"""Number of objects on the acceleration manifest after the scan completed."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

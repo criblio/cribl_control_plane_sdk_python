@@ -1,6 +1,6 @@
 # CreateInputRequest
 
-Input object
+Input object.
 
 
 ## Supported Types
@@ -123,6 +123,12 @@ value: models.CreateInputInputMicrosoftGraph = /* values here */
 
 ```python
 value: models.CreateInputInputEventhub = /* values here */
+```
+
+### `models.CreateInputInputEventhubAmqp`
+
+```python
+value: models.CreateInputInputEventhubAmqp = /* values here */
 ```
 
 ### `models.CreateInputInputExec`
@@ -323,6 +329,12 @@ value: models.CreateInputInputWef = /* values here */
 value: models.CreateInputInputWinEventLogs = /* values here */
 ```
 
+### `models.CreateInputInputAppleUnifiedLogs`
+
+```python
+value: models.CreateInputInputAppleUnifiedLogs = /* values here */
+```
+
 ### `models.CreateInputInputRawUDP`
 
 ```python
@@ -365,6 +377,12 @@ value: models.CreateInputInputNetflow = /* values here */
 value: models.CreateInputInputSecurityLake = /* values here */
 ```
 
+### `models.CreateInputInputServicenowTable`
+
+```python
+value: models.CreateInputInputServicenowTable = /* values here */
+```
+
 ### `models.CreateInputInputZscalerHec`
 
 ```python
@@ -375,5 +393,23 @@ value: models.CreateInputInputZscalerHec = /* values here */
 
 ```python
 value: models.CreateInputInputCloudflareHec = /* values here */
+```
+
+### `models.CreateInputInputOpenaiComplianceLogs`
+
+```python
+value: models.CreateInputInputOpenaiComplianceLogs = /* values here */
+```
+
+### `models.CreateInputInputAnthropicCompliance`
+
+```python
+value: models.CreateInputInputAnthropicCompliance = /* values here */
+```
+
+### `models.CreateInputInputOkta`
+
+```python
+value: models.CreateInputInputOkta = /* values here */
 ```
 

@@ -54,6 +54,8 @@ class PipelineConfTypedDict(TypedDict):
     functions: NotRequired[List[PipelineFunctionConfTypedDict]]
     r"""List of Functions to pass data through"""
     groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class PipelineConf(BaseModel):
@@ -75,6 +77,11 @@ class PipelineConf(BaseModel):
 
     groups: Optional[Dict[str, PipelineGroups]] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -85,6 +92,7 @@ class PipelineConf(BaseModel):
                 "streamtags",
                 "functions",
                 "groups",
+                "__template_streamtags",
             ]
         )
         serialized = handler(self)
@@ -123,6 +131,8 @@ class ConfInputTypedDict(TypedDict):
     functions: NotRequired[List[PipelineFunctionConfInputTypedDict]]
     r"""List of Functions to pass data through"""
     groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class ConfInput(BaseModel):
@@ -144,6 +154,11 @@ class ConfInput(BaseModel):
 
     groups: Optional[Dict[str, PipelineGroups]] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -154,6 +169,7 @@ class ConfInput(BaseModel):
                 "streamtags",
                 "functions",
                 "groups",
+                "__template_streamtags",
             ]
         )
         serialized = handler(self)

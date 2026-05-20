@@ -25,7 +25,7 @@ class PacksSamples(BaseSDK):
         Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to get sample event data for.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -98,7 +98,7 @@ class PacksSamples(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "401", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -122,7 +122,7 @@ class PacksSamples(BaseSDK):
         Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to get sample event data for.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -195,7 +195,7 @@ class PacksSamples(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "401", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -220,7 +220,7 @@ class PacksSamples(BaseSDK):
         Send sample event data to the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to send sample event data to.
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param events: Array of event objects to send to the Destination for testing.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -302,7 +302,7 @@ class PacksSamples(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "401", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -327,7 +327,7 @@ class PacksSamples(BaseSDK):
         Send sample event data to the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to send sample event data to.
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param events: Array of event objects to send to the Destination for testing.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -409,7 +409,7 @@ class PacksSamples(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "401", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

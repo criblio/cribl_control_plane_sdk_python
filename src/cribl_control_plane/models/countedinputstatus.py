@@ -12,6 +12,7 @@ class CountedInputStatusTypedDict(TypedDict):
     count: NotRequired[int]
     r"""number of items present in the items array"""
     items: NotRequired[List[InputStatusTypedDict]]
+    r"""List of items in this response."""
 
 
 class CountedInputStatus(BaseModel):
@@ -19,6 +20,7 @@ class CountedInputStatus(BaseModel):
     r"""number of items present in the items array"""
 
     items: Optional[List[InputStatus]] = None
+    r"""List of items in this response."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

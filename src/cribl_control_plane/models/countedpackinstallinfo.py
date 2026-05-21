@@ -12,6 +12,7 @@ class CountedPackInstallInfoTypedDict(TypedDict):
     count: NotRequired[int]
     r"""number of items present in the items array"""
     items: NotRequired[List[PackInstallInfoTypedDict]]
+    r"""List of items in this response."""
 
 
 class CountedPackInstallInfo(BaseModel):
@@ -19,6 +20,7 @@ class CountedPackInstallInfo(BaseModel):
     r"""number of items present in the items array"""
 
     items: Optional[List[PackInstallInfo]] = None
+    r"""List of items in this response."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

@@ -80,7 +80,7 @@ class InputJournalFilesInputTypedDict(TypedDict):
     rules: NotRequired[List[InputJournalFilesRuleTypedDict]]
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
     current_boot: NotRequired[bool]
-    r"""Skip log messages that are not part of the current boot session."""
+    r"""Skip log messages that are not part of the current boot session"""
     max_age_dur: NotRequired[str]
     r"""The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."""
     suppress_missing_path_errors: NotRequired[bool]
@@ -136,7 +136,7 @@ class InputJournalFilesInput(BaseModel):
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
     current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = None
-    r"""Skip log messages that are not part of the current boot session."""
+    r"""Skip log messages that are not part of the current boot session"""
 
     max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
     r"""The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."""

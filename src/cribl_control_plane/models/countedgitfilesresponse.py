@@ -12,6 +12,7 @@ class CountedGitFilesResponseTypedDict(TypedDict):
     count: NotRequired[int]
     r"""number of items present in the items array"""
     items: NotRequired[List[GitFilesResponseTypedDict]]
+    r"""List of items in this response."""
 
 
 class CountedGitFilesResponse(BaseModel):
@@ -19,6 +20,7 @@ class CountedGitFilesResponse(BaseModel):
     r"""number of items present in the items array"""
 
     items: Optional[List[GitFilesResponse]] = None
+    r"""List of items in this response."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

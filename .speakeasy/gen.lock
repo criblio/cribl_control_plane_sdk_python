@@ -31224,6 +31224,11 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
+releaseNotes: |
+  ## Python SDK Changes
+
+  This version of the SDK is generated for Cribl version 4.18.1.
+
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

@@ -1,31 +1,31 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 2c43c0b9379c0c93ba2f77ce97724113
-  docVersion: 4.18.0-dfc74421
-  speakeasyVersion: 1.763.3
-  generationVersion: 2.884.7
-  releaseVersion: 0.8.0
-  configChecksum: 5e2c68e96af46bc65940a4ee62f26b90
+  docChecksum: 70fdd4175b18ed88b946718a359c1d8b
+  docVersion: 4.18.1-37206a7f
+  speakeasyVersion: 1.764.0
+  generationVersion: 2.885.0
+  releaseVersion: 0.8.1
+  configChecksum: ae9e6a751abe1db794010c97d9111145
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 0dfeb7e9-6df8-477a-9af7-937c1f905ad2
-  pristine_commit_hash: ce13a9756fb9dde2f3afb16cf425c88ffe5a7962
-  pristine_tree_hash: 822089e53760de552e6575593f2ab185e4de1955
+  generation_id: fe725283-53f3-48b9-b828-d74f71548027
+  pristine_commit_hash: 8424cd0b9a42f177f05486ca4841defa3a4dc537
+  pristine_tree_hash: d64ab9f6aba5faea2d8bf1e19fa1ce3fa559da10
 features:
   python:
     additionalDependencies: 1.0.0
     additionalProperties: 1.0.1
     constsAndDefaults: 1.0.7
-    core: 6.0.21
+    core: 6.0.22
     defaultEnabledRetries: 0.2.0
     deprecations: 3.0.2
     devContainers: 3.0.0
     enumUnions: 0.1.1
     enums: 3.2.0
-    envVarSecurityUsage: 0.3.2
+    envVarSecurityUsage: 0.3.3
     flatRequests: 1.0.1
     flattening: 3.1.1
     globalSecurity: 3.0.7
@@ -16612,8 +16612,8 @@ trackedFiles:
     pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:325c7ac0405f9ab7ca47e79dd0f678f657a6e24e
-    pristine_git_object: 542a6c55f649fb2b20bcfef79d93679a9464d36e
+    last_write_checksum: sha1:bb4e1a8cdec5a74e3581e379d37ad317090dc8da
+    pristine_git_object: 3e16900d4d760e43721db2dcb5f9f186b16e8593
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -16644,8 +16644,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:3b3540612d0ef9b8b5bb012822445516016841df
-    pristine_git_object: 23b6567d48091810202ff22d95c20866cd71a48a
+    last_write_checksum: sha1:0f89b46d34297d9eeb7ed257e76d39cce797b698
+    pristine_git_object: b69ab37d7bd4e8f6d39ccc62e514dc9792ddbb90
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:946b9e00ff4cd9f5c57d0b198caa87ccbeb13bea
@@ -31227,26 +31227,7 @@ generatedTests:
 releaseNotes: |
   ## Python SDK Changes
 
-  This version of the SDK is generated for Cribl version 4.18.0.
-
-  **New source models**
-
-  * `InputAnthropicCompliance`
-  * `InputAppleUnifiedLogs`
-  * `InputEventhubAmqp`
-  * `InputOkta`
-  * `InputOpenaiComplianceLogs`
-  * `InputServicenowTable`
-
-  **New destinations models**
-
-  * `OutputAlibabaCloudS3`
-  * `OutputAlphasocS3`
-  * `OutputCloudianS3`
-  * `OutputDellS3`
-  * `OutputNutanixObjects`
-  * `OutputScalityS3`
-  * `OutputStorjS3`
+  This version of the SDK is generated for Cribl version 4.18.1.
 
 generatedFiles:
   - .devcontainer/README.md

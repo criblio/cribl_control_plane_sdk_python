@@ -15,7 +15,7 @@ info:
         - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
         - Search context: /api/v1/m/default_search
-    version: 4.19.0-alpha.1779318273531-b75cd27e
+    version: 4.19.0-alpha.1779404923302-0177223e
     contact:
         name: Support
         url: https://portal.support.cribl.io
@@ -24888,6 +24888,9 @@ components:
                 status:
                     $ref: "#/components/schemas/JobStatus"
                     description: Status of the job.
+                workerOwner:
+                    type: string
+                    description: The GUID of the worker node that owns this artifact, set when the job ran on a Captain while the leader was offline. When present, the leader proxies read access to the artifact; mutating actions (replay, delete, stop) are not supported.
             required:
                 - args
                 - id
@@ -25012,6 +25015,7 @@ components:
                     mode:
                         const: direct
                     templateTargetPairs:
+                        type: array
                         minItems: 1
                   required:
                     - mode
@@ -25020,6 +25024,7 @@ components:
                     mode:
                         const: policy
                     templateTargetPairs:
+                        type: array
                         maxItems: 0
                   required:
                     - mode

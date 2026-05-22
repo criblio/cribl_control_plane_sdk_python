@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 25835bc6ba4a367ef8aa084dd50a0a93
-  docVersion: 4.19.0-alpha.1779318273531-b75cd27e
+  docChecksum: f6f885938cbeeee00949ea008324c256
+  docVersion: 4.19.0-alpha.1779404923302-0177223e
   speakeasyVersion: 1.763.3
   generationVersion: 2.884.7
-  releaseVersion: 0.9.0b1
-  configChecksum: 4a4e9a4117eddfc75b0d6c22c52bc70f
+  releaseVersion: 0.9.0b2
+  configChecksum: 5af22911b2cf413769ac4c80d2161162
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: b9c669f8-1214-4419-8fcc-82e511644320
-  pristine_commit_hash: 5ce04f36c9d0a0129415ad9011e9a341745a8ba3
-  pristine_tree_hash: 574160ee90bfd335093311b4cbb295bd0e8d2155
+  generation_id: 176530cc-e242-4d54-b77d-c08153c513e0
+  pristine_commit_hash: 92b1088974d3428682b7cbb2a936f8bb0e0f8793
+  pristine_tree_hash: 4b064113e2c7e647c5f54e41e4e7f5056ea9512b
 features:
   python:
     additionalDependencies: 1.0.0
@@ -9792,8 +9792,8 @@ trackedFiles:
     pristine_git_object: e02688939e4ca1d0ffa36daed4f512677098e4df
   docs/models/jobinfo.md:
     id: 2ab73ab8c9a9
-    last_write_checksum: sha1:5647166a4d2947ec201eed974185c00ede458b4d
-    pristine_git_object: 597eac405ed6047089990e57f4f9a687571eeb1e
+    last_write_checksum: sha1:e6601af961403b433c093939bdb33a2ebf2dd205
+    pristine_git_object: 9539ef4452465963bc9697fd0e1da996eb6760c5
   docs/models/jobstatus.md:
     id: 697a9a5e9e12
     last_write_checksum: sha1:b59027b31ae58c7fedc81313144359af27bd6500
@@ -16624,8 +16624,8 @@ trackedFiles:
     pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:e54232263717df9af47a0a1b96d3f8b53e77e5f5
-    pristine_git_object: 3dadf07c6443cd0336609d4798146b0182b2d91e
+    last_write_checksum: sha1:c2d4f69682303b0f8f90a00ea84f38af6e907a76
+    pristine_git_object: 7766565270398fc6c9373a285f8d8e60154a1e09
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -16656,8 +16656,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:917af5e1d280433da6dd477335f630183fd1a42d
-    pristine_git_object: 8a1e7056372813c084f855c671e64c4f3c15fe02
+    last_write_checksum: sha1:2076764e1b06b4a907ae6923ccd953b8bc20a6d7
+    pristine_git_object: 6c4e9bcc8e7b911f8693d75ae8c3e2bf3a65c2ea
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:946b9e00ff4cd9f5c57d0b198caa87ccbeb13bea
@@ -18560,8 +18560,8 @@ trackedFiles:
     pristine_git_object: 9c1d20672c110ff97989f25224ad7efdb65f8d7b
   src/cribl_control_plane/models/jobinfo.py:
     id: 5b0f0dc0bf44
-    last_write_checksum: sha1:1be66e3068153cb46318c1de0f4631193efbc2d2
-    pristine_git_object: a7d737e50c8b76efefa7dd5a675bfac30ec30e5f
+    last_write_checksum: sha1:7db95c95e26df0903254e19cae5abe776bc36e28
+    pristine_git_object: 00a88ed6314d1b6e3cad9a4fb57dc9c931efeb4c
   src/cribl_control_plane/models/jobstatus.py:
     id: 0f337e4b51fe
     last_write_checksum: sha1:443eb1a3e7ce5d952c0100c3d82e1b830434b01e
@@ -31322,14 +31322,10 @@ generatedTests:
   updateGroupsById: "2025-08-04T02:32:44Z"
 releaseNotes: |
   ## Python SDK Changes:
-  * `cribl_control_plane.sources.create()`:  `error.status[409]` **Added**
-  * `cribl_control_plane.sources.hec_tokens.create()`:  `error.status[400]` **Added**
-  * `cribl_control_plane.sources.hec_tokens.update()`:  `error.status[400]` **Added**
-  * `cribl_control_plane.packs.sources.create()`:  `error.status[409]` **Added**
-  * `cribl_control_plane.packs.sources.hec_tokens.create()`:  `error.status[400]` **Added**
-  * `cribl_control_plane.packs.sources.hec_tokens.update()`:  `error.status[400]` **Added**
-  * `cribl_control_plane.groups.create()`:  `error` **Changed**
-  * `cribl_control_plane.groups.update()`:  `error.status[400]` **Added**
+  * `cribl_control_plane.sources.pq.get()`:  `response.items[].worker_owner` **Added**
+  * `cribl_control_plane.packs.sources.pq.get()`:  `response.items[].worker_owner` **Added**
+  * `cribl_control_plane.packs.destinations.pq.get()`:  `response.items[].worker_owner` **Added**
+  * `cribl_control_plane.destinations.pq.get()`:  `response.items[].worker_owner` **Added**
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

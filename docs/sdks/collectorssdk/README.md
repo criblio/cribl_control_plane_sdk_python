@@ -6,11 +6,55 @@ Actions related to Collectors
 
 ### Available Operations
 
-* [create](#create) - Create a Collector
 * [list](#list) - List all Collectors
-* [delete](#delete) - Delete a Collector
+* [create](#create) - Create a Collector
 * [get](#get) - Get a Collector
 * [update](#update) - Update a Collector
+* [delete](#delete) - Delete a Collector
+
+## list
+
+Get a list of all Collectors.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="getSavedJob" method="get" path="/lib/jobs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.list(collector_type="<value>")
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `collector_type`                                                    | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Filter by collector type                                            |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
 
 ## create
 
@@ -715,94 +759,6 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `request`                                                           | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | The request object to use for the request.                          |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
-
-### Response
-
-**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
-## list
-
-Get a list of all Collectors.
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="getSavedJob" method="get" path="/lib/jobs" -->
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    "https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.collectors.list(collector_type="<value>")
-
-    # Handle response
-    print(res)
-
-```
-
-### Parameters
-
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `collector_type`                                                    | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Filter by collector type                                            |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
-
-### Response
-
-**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
-## delete
-
-Delete the specified Collector.
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="deleteSavedJobById" method="delete" path="/lib/jobs/{id}" -->
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    "https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.collectors.delete(id="<id>")
-
-    # Handle response
-    print(res)
-
-```
-
-### Parameters
-
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to delete.                     |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -1750,6 +1706,50 @@ with CriblControlPlane(
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to update.                     |
 | `saved_job`                                                         | [models.SavedJob](../../models/savedjob.md)                         | :heavy_check_mark:                                                  | SavedJob object.                                                    |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
+
+## delete
+
+Delete the specified Collector.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="deleteSavedJobById" method="delete" path="/lib/jobs/{id}" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.delete(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Collector to delete.                     |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

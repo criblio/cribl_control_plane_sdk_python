@@ -15,8 +15,8 @@ from typing import Any, List, Mapping, Optional, Union
 class GroupsSDK(BaseSDK):
     r"""Actions related to Groups"""
 
-    configs: GroupsConfigs
     acl: ACL
+    configs: GroupsConfigs
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -26,8 +26,8 @@ class GroupsSDK(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.configs = GroupsConfigs(self.sdk_configuration, parent_ref=self.parent_ref)
         self.acl = ACL(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.configs = GroupsConfigs(self.sdk_configuration, parent_ref=self.parent_ref)
 
     def list(
         self,

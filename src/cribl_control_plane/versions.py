@@ -10,8 +10,8 @@ from typing import Optional
 
 
 class Versions(BaseSDK):
-    branches: Branches
     commits: Commits
+    branches: Branches
     configs: VersionsConfigs
     statuses: VersionsStatuses
 
@@ -23,8 +23,8 @@ class Versions(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.branches = Branches(self.sdk_configuration, parent_ref=self.parent_ref)
         self.commits = Commits(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.branches = Branches(self.sdk_configuration, parent_ref=self.parent_ref)
         self.configs = VersionsConfigs(
             self.sdk_configuration, parent_ref=self.parent_ref
         )

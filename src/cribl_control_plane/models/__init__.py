@@ -2825,6 +2825,10 @@ if TYPE_CHECKING:
         GetDatabaseConnectionConfigByIDRequest,
         GetDatabaseConnectionConfigByIDRequestTypedDict,
     )
+    from .getdatabaseconnectionconfigop import (
+        GetDatabaseConnectionConfigRequest,
+        GetDatabaseConnectionConfigRequestTypedDict,
+    )
     from .getfunctionsbyidop import (
         GetFunctionsByIDRequest,
         GetFunctionsByIDRequestTypedDict,
@@ -10161,6 +10165,8 @@ __all__ = [
     "GetCriblLakeDatasetByLakeIDRequestTypedDict",
     "GetDatabaseConnectionConfigByIDRequest",
     "GetDatabaseConnectionConfigByIDRequestTypedDict",
+    "GetDatabaseConnectionConfigRequest",
+    "GetDatabaseConnectionConfigRequestTypedDict",
     "GetFunctionsByIDRequest",
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
@@ -16845,6 +16851,8 @@ _dynamic_imports: dict[str, str] = {
     "GetCriblLakeDatasetByLakeIDRequestTypedDict": ".getcribllakedatasetbylakeidop",
     "GetDatabaseConnectionConfigByIDRequest": ".getdatabaseconnectionconfigbyidop",
     "GetDatabaseConnectionConfigByIDRequestTypedDict": ".getdatabaseconnectionconfigbyidop",
+    "GetDatabaseConnectionConfigRequest": ".getdatabaseconnectionconfigop",
+    "GetDatabaseConnectionConfigRequestTypedDict": ".getdatabaseconnectionconfigop",
     "GetFunctionsByIDRequest": ".getfunctionsbyidop",
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",

@@ -3,17 +3,17 @@
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -35,7 +35,7 @@ class OutputSentinelAuthType(str, Enum, metaclass=utils.OpenEnumMeta):
     OAUTH = "oauth"
 
 
-class EndpointConfiguration(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputSentinelEndpointConfiguration(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Enter the data collection endpoint URL or the individual ID"""
 
     # URL
@@ -67,7 +67,7 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Secret parameter value to pass in request body"""
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
-    endpoint_url_configuration: EndpointConfiguration
+    endpoint_url_configuration: OutputSentinelEndpointConfiguration
     r"""Enter the data collection endpoint URL or the individual ID"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -98,7 +98,7 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -106,7 +106,9 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -167,6 +169,8 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Data collection endpoint (DCE) URL. In the format: `https://<Endpoint-Name>-<Identifier>.<Region>.ingest.monitor.azure.com`"""
     stream_name: NotRequired[str]
     r"""The name of the stream (Sentinel table) in which to store the events"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -202,7 +206,8 @@ class OutputSentinel(BaseModel):
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
 
     endpoint_url_configuration: Annotated[
-        EndpointConfiguration, pydantic.Field(alias="endpointURLConfiguration")
+        OutputSentinelEndpointConfiguration,
+        pydantic.Field(alias="endpointURLConfiguration"),
     ]
     r"""Enter the data collection endpoint URL or the individual ID"""
 
@@ -259,7 +264,7 @@ class OutputSentinel(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
@@ -281,7 +286,7 @@ class OutputSentinel(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -423,6 +428,11 @@ class OutputSentinel(BaseModel):
     stream_name: Annotated[Optional[str], pydantic.Field(alias="streamName")] = None
     r"""The name of the stream (Sentinel table) in which to store the events"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
@@ -504,7 +514,7 @@ class OutputSentinel(BaseModel):
     def serialize_endpoint_url_configuration(self, value):
         if isinstance(value, str):
             try:
-                return models.EndpointConfiguration(value)
+                return models.OutputSentinelEndpointConfiguration(value)
             except ValueError:
                 return value
         return value
@@ -599,6 +609,7 @@ class OutputSentinel(BaseModel):
                 "dcrID",
                 "dceEndpoint",
                 "streamName",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_loginUrl",

@@ -3,15 +3,15 @@
 
 ## Supported Types
 
-### `models.RollbackSettings1`
+### `models.RollbackSettings`
 
 ```python
-value: models.RollbackSettings1 = /* values here */
+value: models.RollbackSettings = /* values here */
 ```
 
-### `models.RollbackSettings2`
+### `models.EmptyObject`
 
 ```python
-value: models.RollbackSettings2 = /* values here */
+value: models.EmptyObject = /* values here */
 ```
 

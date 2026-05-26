@@ -1,7 +1,5 @@
 # AuthenticationTypeOptions
 
-OpenTelemetry authentication type
-
 ## Example Usage
 
 ```python
@@ -15,10 +13,9 @@ value = AuthenticationTypeOptions.NONE
 
 ## Values
 
-| Name                 | Value                |
-| -------------------- | -------------------- |
-| `NONE`               | none                 |
-| `BASIC`              | basic                |
-| `CREDENTIALS_SECRET` | credentialsSecret    |
-| `TOKEN`              | token                |
-| `TEXT_SECRET`        | textSecret           |
+| Name                   | Value                  |
+| ---------------------- | ---------------------- |
+| `NONE`                 | none                   |
+| `BASIC`                | basic                  |
+| `CREDENTIALS_SECRET`   | credentialsSecret      |
+| `SSL_USER_CERTIFICATE` | sslUserCertificate     |

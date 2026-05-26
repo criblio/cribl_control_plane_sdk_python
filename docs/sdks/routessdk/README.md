@@ -6,10 +6,53 @@ Actions related to Routes
 
 ### Available Operations
 
+* [list](#list) - List all Routes
 * [get](#get) - Get a Routing table
 * [update](#update) - Update a Route
-* [list](#list) - List all Routes
 * [append](#append) - Add a Route to the end of the Routing table
+
+## list
+
+Get a list of all Routes.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="getRoutes" method="get" path="/routes" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.list()
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.CountedRoutes](../../models/countedroutes.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
 
 ## get
 
@@ -230,49 +273,6 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## list
-
-Get a list of all Routes.
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="getRoutes" method="get" path="/routes" -->
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    "https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.routes.list()
-
-    # Handle response
-    print(res)
-
-```
-
-### Parameters
-
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
-
-### Response
-
-**[models.CountedRoutes](../../models/countedroutes.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
 ## append
 
 Add a Route to the end of the specified Routing table.
@@ -413,7 +413,7 @@ with CriblControlPlane(
 | Parameter                                                                                                  | Type                                                                                                       | Required                                                                                                   | Description                                                                                                |
 | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
 | `id`                                                                                                       | *str*                                                                                                      | :heavy_check_mark:                                                                                         | The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>. |
-| `request_body`                                                                                             | List[[models.RouteConfInput](../../models/routeconfinput.md)]                                              | :heavy_check_mark:                                                                                         | RouteDefinitions object                                                                                    |
+| `request_body`                                                                                             | List[[models.RouteConfInput](../../models/routeconfinput.md)]                                              | :heavy_check_mark:                                                                                         | RouteDefinitions object.                                                                                   |
 | `retries`                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                           | :heavy_minus_sign:                                                                                         | Configuration to override the default retry behavior of the client.                                        |
 
 ### Response

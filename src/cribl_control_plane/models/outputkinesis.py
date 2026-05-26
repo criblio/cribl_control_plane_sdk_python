@@ -8,7 +8,6 @@ from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
-from .signatureversionoptionskinesis import SignatureVersionOptionsKinesis
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -60,8 +59,6 @@ class OutputKinesisTypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsKinesis]
-    r"""Signature version to use for signing Kinesis stream requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -117,6 +114,8 @@ class OutputKinesisTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputKinesisPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_stream_name: NotRequired[str]
     r"""Binds 'streamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamName' at runtime."""
     template_aws_secret_key: NotRequired[str]
@@ -173,12 +172,6 @@ class OutputKinesis(BaseModel):
 
     endpoint: Optional[str] = None
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsKinesis],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing Kinesis stream requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
@@ -304,6 +297,11 @@ class OutputKinesis(BaseModel):
         Optional[OutputKinesisPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_stream_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamName")
     ] = None
@@ -349,15 +347,6 @@ class OutputKinesis(BaseModel):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsKinesis(value)
             except ValueError:
                 return value
         return value
@@ -419,7 +408,6 @@ class OutputKinesis(BaseModel):
                 "awsAuthenticationMethod",
                 "awsSecretKey",
                 "endpoint",
-                "signatureVersion",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "enableAssumeRole",
@@ -449,6 +437,7 @@ class OutputKinesis(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_streamName",
                 "__template_awsSecretKey",
                 "__template_region",

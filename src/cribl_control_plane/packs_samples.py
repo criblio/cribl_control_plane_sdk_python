@@ -25,7 +25,7 @@ class PacksSamples(BaseSDK):
         Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to get sample event data for.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -86,7 +86,7 @@ class PacksSamples(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -122,7 +122,7 @@ class PacksSamples(BaseSDK):
         Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to get sample event data for.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -183,7 +183,7 @@ class PacksSamples(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -220,7 +220,7 @@ class PacksSamples(BaseSDK):
         Send sample event data to the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to send sample event data to.
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param events: Array of event objects to send to the Destination for testing.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -292,7 +292,7 @@ class PacksSamples(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -327,7 +327,7 @@ class PacksSamples(BaseSDK):
         Send sample event data to the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to send sample event data to.
-        :param pack: The <code>id</code> of the Pack to create.
+        :param pack: The <code>id</code> of the Pack.
         :param events: Array of event objects to send to the Destination for testing.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -399,7 +399,7 @@ class PacksSamples(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 

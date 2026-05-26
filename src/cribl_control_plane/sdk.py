@@ -42,49 +42,49 @@ class CriblControlPlane(BaseSDK):
     https://docs.cribl.io - See our complementary product documentation
     """
 
-    database_connections: "DatabaseConnections"
-    r"""Actions related to DatabaseConnections"""
+    auth: "AuthSDK"
     functions: "Functions"
     r"""Actions related to functions"""
-    sources: "Sources"
-    r"""Actions related to Sources"""
-    packs: "Packs"
-    r"""Actions related to Packs"""
-    destinations: "Destinations"
-    r"""Actions related to Destinations"""
-    pipelines: "Pipelines"
-    r"""Actions related to Pipelines"""
-    routes: "RoutesSDK"
-    r"""Actions related to Routes"""
-    collectors: "CollectorsSDK"
-    r"""Actions related to Collectors"""
-    groups: "GroupsSDK"
-    r"""Actions related to Groups"""
-    lakes: "Lakes"
-    auth: "AuthSDK"
-    system: "SystemSDK"
-    nodes: "Nodes"
     health: "Health"
     r"""Actions related to REST server health"""
+    database_connections: "DatabaseConnections"
+    r"""Actions related to DatabaseConnections"""
+    collectors: "CollectorsSDK"
+    r"""Actions related to Collectors"""
+    packs: "Packs"
+    r"""Actions related to Packs"""
+    pipelines: "Pipelines"
+    r"""Actions related to Pipelines"""
+    groups: "GroupsSDK"
+    r"""Actions related to Groups"""
+    nodes: "Nodes"
+    lakes: "Lakes"
+    routes: "RoutesSDK"
+    r"""Actions related to Routes"""
+    system: "SystemSDK"
+    sources: "Sources"
+    r"""Actions related to Sources"""
+    destinations: "Destinations"
+    r"""Actions related to Destinations"""
     versions: "Versions"
     _sub_sdk_map = {
+        "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
+        "functions": ("cribl_control_plane.functions", "Functions"),
+        "health": ("cribl_control_plane.health", "Health"),
         "database_connections": (
             "cribl_control_plane.databaseconnections",
             "DatabaseConnections",
         ),
-        "functions": ("cribl_control_plane.functions", "Functions"),
-        "sources": ("cribl_control_plane.sources", "Sources"),
-        "packs": ("cribl_control_plane.packs", "Packs"),
-        "destinations": ("cribl_control_plane.destinations", "Destinations"),
-        "pipelines": ("cribl_control_plane.pipelines", "Pipelines"),
-        "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
         "collectors": ("cribl_control_plane.collectors_sdk", "CollectorsSDK"),
+        "packs": ("cribl_control_plane.packs", "Packs"),
+        "pipelines": ("cribl_control_plane.pipelines", "Pipelines"),
         "groups": ("cribl_control_plane.groups_sdk", "GroupsSDK"),
-        "lakes": ("cribl_control_plane.lakes", "Lakes"),
-        "auth": ("cribl_control_plane.auth_sdk", "AuthSDK"),
-        "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
         "nodes": ("cribl_control_plane.nodes", "Nodes"),
-        "health": ("cribl_control_plane.health", "Health"),
+        "lakes": ("cribl_control_plane.lakes", "Lakes"),
+        "routes": ("cribl_control_plane.routes_sdk", "RoutesSDK"),
+        "system": ("cribl_control_plane.system_sdk", "SystemSDK"),
+        "sources": ("cribl_control_plane.sources", "Sources"),
+        "destinations": ("cribl_control_plane.destinations", "Destinations"),
         "versions": ("cribl_control_plane.versions", "Versions"),
     }
 

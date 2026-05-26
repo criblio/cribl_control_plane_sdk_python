@@ -12,9 +12,9 @@ class CreateRoutesAppendByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Routing table to add the Route to. The supported value is <code>default</code>."""
     pack: str
-    r"""The <code>id</code> of the Pack to append."""
+    r"""The <code>id</code> of the Pack."""
     request_body: List[RouteConfInputTypedDict]
-    r"""RouteDefinitions object"""
+    r"""RouteDefinitions object."""
 
 
 class CreateRoutesAppendByPackAndIDRequest(BaseModel):
@@ -26,10 +26,10 @@ class CreateRoutesAppendByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to append."""
+    r"""The <code>id</code> of the Pack."""
 
     request_body: Annotated[
         List[RouteConfInput],
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""RouteDefinitions object"""
+    r"""RouteDefinitions object."""

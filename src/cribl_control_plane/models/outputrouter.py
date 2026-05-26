@@ -69,6 +69,8 @@ class OutputRouterTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     description: NotRequired[str]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class OutputRouter(BaseModel):
@@ -96,6 +98,11 @@ class OutputRouter(BaseModel):
 
     description: Optional[str] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -106,6 +113,7 @@ class OutputRouter(BaseModel):
                 "environment",
                 "streamtags",
                 "description",
+                "__template_streamtags",
             ]
         )
         serialized = handler(self)

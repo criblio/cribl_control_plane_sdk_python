@@ -10,9 +10,9 @@ from .compressionoptionshttp import CompressionOptionsHTTP
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
-from .itemstypekeyvaluemetadata import (
-    ItemsTypeKeyValueMetadata,
-    ItemsTypeKeyValueMetadataTypedDict,
+from .keyvaluemetadataconfoutputfilesystem import (
+    KeyValueMetadataConfOutputFilesystem,
+    KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .objectacloptions import ObjectACLOptions
 from .orphanfilerecoverytype import (
@@ -23,9 +23,6 @@ from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
-)
-from .signatureversionoptionss3collectorconf import (
-    SignatureVersionOptionsS3CollectorConf,
 )
 from .storageclassoptions import StorageClassOptions
 from cribl_control_plane import models
@@ -69,14 +66,10 @@ class OutputS3TypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
-    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
-    r"""Signature version to use for signing S3 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-    aws_secret_key: NotRequired[str]
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
     region: NotRequired[str]
     r"""Region where the S3 bucket is located"""
     dest_path: NotRequired[str]
@@ -121,6 +114,8 @@ class OutputS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptions]
@@ -152,7 +147,7 @@ class OutputS3TypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -168,14 +163,14 @@ class OutputS3TypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
@@ -192,6 +187,8 @@ class OutputS3TypedDict(TypedDict):
     r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_object_acl: NotRequired[str]
     r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
     template_storage_class: NotRequired[str]
@@ -204,6 +201,8 @@ class OutputS3TypedDict(TypedDict):
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class OutputS3(BaseModel):
@@ -261,12 +260,6 @@ class OutputS3(BaseModel):
     ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsS3CollectorConf],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing S3 requests"""
-
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
     ] = None
@@ -276,11 +269,6 @@ class OutputS3(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
     region: Optional[str] = None
     r"""Region where the S3 bucket is located"""
@@ -389,6 +377,11 @@ class OutputS3(BaseModel):
 
     orphans: Optional[OrphanFileRecoveryType] = None
 
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = None
@@ -460,7 +453,7 @@ class OutputS3(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -500,6 +493,11 @@ class OutputS3(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
@@ -514,11 +512,6 @@ class OutputS3(BaseModel):
         Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
 
     template_bucket: Annotated[
         Optional[str], pydantic.Field(alias="__template_bucket")
@@ -560,6 +553,11 @@ class OutputS3(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
     template_object_acl: Annotated[
         Optional[str], pydantic.Field(alias="__template_objectACL")
     ] = None
@@ -590,20 +588,16 @@ class OutputS3(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -713,10 +707,8 @@ class OutputS3(BaseModel):
                 "assumeRoleExternalId",
                 "durationSeconds",
                 "awsAuthenticationMethod",
-                "signatureVersion",
                 "reuseConnections",
                 "rejectUnauthorized",
-                "awsSecretKey",
                 "region",
                 "destPath",
                 "maxConcurrentFileParts",
@@ -740,6 +732,7 @@ class OutputS3(BaseModel):
                 "forceCloseOnShutdown",
                 "retrySettings",
                 "orphans",
+                "awsSecretKey",
                 "objectACL",
                 "storageClass",
                 "serverSideEncryption",
@@ -764,10 +757,10 @@ class OutputS3(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
+                "__template_streamtags",
                 "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
-                "__template_awsSecretKey",
                 "__template_bucket",
                 "__template_region",
                 "__template_destPath",
@@ -776,12 +769,14 @@ class OutputS3(BaseModel):
                 "__template_baseFileName",
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
+                "__template_awsSecretKey",
                 "__template_objectACL",
                 "__template_storageClass",
                 "__template_serverSideEncryption",
                 "__template_kmsKeyId",
                 "__template_awsApiKey",
                 "__template_compress",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)

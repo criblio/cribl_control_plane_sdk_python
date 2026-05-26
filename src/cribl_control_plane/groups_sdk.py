@@ -15,8 +15,8 @@ from typing import Any, List, Mapping, Optional, Union
 class GroupsSDK(BaseSDK):
     r"""Actions related to Groups"""
 
-    configs: GroupsConfigs
     acl: ACL
+    configs: GroupsConfigs
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -26,8 +26,8 @@ class GroupsSDK(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.configs = GroupsConfigs(self.sdk_configuration, parent_ref=self.parent_ref)
         self.acl = ACL(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.configs = GroupsConfigs(self.sdk_configuration, parent_ref=self.parent_ref)
 
     def list(
         self,
@@ -105,7 +105,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -200,7 +200,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -358,7 +358,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -516,7 +516,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -614,7 +614,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -712,7 +712,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -891,7 +891,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -1070,7 +1070,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -1165,7 +1165,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -1260,7 +1260,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -1373,7 +1373,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -1486,7 +1486,7 @@ class GroupsSDK(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 

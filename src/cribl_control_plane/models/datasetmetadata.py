@@ -15,26 +15,36 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class ScanMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Acceleration scan mode. <code>quick</code> collects object-level metadata; <code>detailed</code> also collects field-level statistics."""
+
     DETAILED = "detailed"
     QUICK = "quick"
 
 
 class DatasetMetadataTypedDict(TypedDict):
     earliest: str
+    r"""Rolling time window that defines how far back acceleration scans."""
     enable_acceleration: bool
+    r"""If <code>true</code>, the system automatically backfills and refreshes Dataset metadata."""
     field_list: List[str]
+    r"""Fields for which acceleration gathers statistics. Required when scan mode is <code>detailed</code>."""
     scan_mode: ScanMode
+    r"""Acceleration scan mode. <code>quick</code> collects object-level metadata; <code>detailed</code> also collects field-level statistics."""
     latest_run_info: NotRequired[DatasetMetadataRunInfoTypedDict]
 
 
 class DatasetMetadata(BaseModel):
     earliest: str
+    r"""Rolling time window that defines how far back acceleration scans."""
 
     enable_acceleration: Annotated[bool, pydantic.Field(alias="enableAcceleration")]
+    r"""If <code>true</code>, the system automatically backfills and refreshes Dataset metadata."""
 
     field_list: Annotated[List[str], pydantic.Field(alias="fieldList")]
+    r"""Fields for which acceleration gathers statistics. Required when scan mode is <code>detailed</code>."""
 
     scan_mode: Annotated[ScanMode, pydantic.Field(alias="scanMode")]
+    r"""Acceleration scan mode. <code>quick</code> collects object-level metadata; <code>detailed</code> also collects field-level statistics."""
 
     latest_run_info: Annotated[
         Optional[DatasetMetadataRunInfo], pydantic.Field(alias="latestRunInfo")

@@ -51,6 +51,8 @@ class OutputRingTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
@@ -104,6 +106,11 @@ class OutputRing(BaseModel):
 
     description: Optional[str] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
@@ -153,6 +160,7 @@ class OutputRing(BaseModel):
                 "destPath",
                 "onBackpressure",
                 "description",
+                "__template_streamtags",
                 "__template_onBackpressure",
             ]
         )

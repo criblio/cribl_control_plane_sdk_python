@@ -10,7 +10,7 @@ class GetOutputSystemSamplesByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Destination to get sample event data for."""
     pack: str
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""
 
 
 class GetOutputSystemSamplesByPackAndIDRequest(BaseModel):
@@ -22,4 +22,4 @@ class GetOutputSystemSamplesByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to get."""
+    r"""The <code>id</code> of the Pack."""

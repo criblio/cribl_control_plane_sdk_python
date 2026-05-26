@@ -4,18 +4,18 @@ from __future__ import annotations
 from .authenticationmethodoptionsapi import AuthenticationMethodOptionsAPI
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .regionoptions import RegionOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -33,21 +33,21 @@ class OutputNewrelicType(str, Enum):
     NEWRELIC = "newrelic"
 
 
-class FieldName(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputNewrelicFieldName(str, Enum, metaclass=utils.OpenEnumMeta):
     SERVICE = "service"
     HOSTNAME = "hostname"
     TIMESTAMP = "timestamp"
     AUDIT_ID = "auditId"
 
 
-class MetadatumTypedDict(TypedDict):
-    name: FieldName
+class OutputNewrelicMetadatumTypedDict(TypedDict):
+    name: OutputNewrelicFieldName
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class Metadatum(BaseModel):
-    name: FieldName
+class OutputNewrelicMetadatum(BaseModel):
+    name: OutputNewrelicFieldName
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
@@ -56,7 +56,7 @@ class Metadatum(BaseModel):
     def serialize_name(self, value):
         if isinstance(value, str):
             try:
-                return models.FieldName(value)
+                return models.OutputNewrelicFieldName(value)
             except ValueError:
                 return value
         return value
@@ -88,7 +88,7 @@ class OutputNewrelicTypedDict(TypedDict):
     r"""Name of the logtype to send with events, e.g.: observability, access_log. The event's 'sourcetype' field (if set) will override this value."""
     message_field: NotRequired[str]
     r"""Name of field to send as log message value. If not present, event will be serialized and sent as JSON."""
-    metadata: NotRequired[List[MetadatumTypedDict]]
+    metadata: NotRequired[List[OutputNewrelicMetadatumTypedDict]]
     r"""Fields to add to events from this input"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -107,7 +107,7 @@ class OutputNewrelicTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -115,7 +115,9 @@ class OutputNewrelicTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -155,6 +157,8 @@ class OutputNewrelicTypedDict(TypedDict):
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
     template_log_type: NotRequired[str]
@@ -196,7 +200,7 @@ class OutputNewrelic(BaseModel):
     message_field: Annotated[Optional[str], pydantic.Field(alias="messageField")] = None
     r"""Name of field to send as log message value. If not present, event will be serialized and sent as JSON."""
 
-    metadata: Optional[List[Metadatum]] = None
+    metadata: Optional[List[OutputNewrelicMetadatum]] = None
     r"""Fields to add to events from this input"""
 
     concurrency: Optional[float] = None
@@ -232,7 +236,7 @@ class OutputNewrelic(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -254,7 +258,7 @@ class OutputNewrelic(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -345,6 +349,11 @@ class OutputNewrelic(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_region: Annotated[
         Optional[str], pydantic.Field(alias="__template_region")
@@ -480,6 +489,7 @@ class OutputNewrelic(BaseModel):
                 "pqControls",
                 "apiKey",
                 "textSecret",
+                "__template_streamtags",
                 "__template_region",
                 "__template_logType",
                 "__template_messageField",

@@ -8,14 +8,13 @@ from .authenticationmethodoptionss3collectorconf import (
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
 from .compressionoptionspq import CompressionOptionsPq
-from .kafkaschemaregistryauthenticationtypeauthconnectiontimeout import (
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout,
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict,
+from .kafkaschemaregistryauthenticationtypetemplateschemaregistryurlauth import (
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth,
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict,
 )
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptionsjsonprotobuf import RecordDataFormatOptionsJSONProtobuf
-from .signatureversionoptions import SignatureVersionOptions
 from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
@@ -74,7 +73,7 @@ class OutputMskTypedDict(TypedDict):
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
     kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+        KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -95,8 +94,6 @@ class OutputMskTypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions]
-    r"""Signature version to use for signing MSK cluster requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -143,6 +140,8 @@ class OutputMskTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputMskPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
     template_format: NotRequired[str]
@@ -227,7 +226,7 @@ class OutputMsk(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -271,11 +270,6 @@ class OutputMsk(BaseModel):
 
     endpoint: Optional[str] = None
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptions], pydantic.Field(alias="signatureVersion")
-    ] = None
-    r"""Signature version to use for signing MSK cluster requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
@@ -384,6 +378,11 @@ class OutputMsk(BaseModel):
         Optional[OutputMskPqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_topic: Annotated[
         Optional[str], pydantic.Field(alias="__template_topic")
     ] = None
@@ -470,15 +469,6 @@ class OutputMsk(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptions(value)
-            except ValueError:
-                return value
-        return value
-
     @field_serializer("on_backpressure")
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
@@ -541,7 +531,6 @@ class OutputMsk(BaseModel):
                 "reauthenticationThreshold",
                 "awsSecretKey",
                 "endpoint",
-                "signatureVersion",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "enableAssumeRole",
@@ -567,6 +556,7 @@ class OutputMsk(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_topic",
                 "__template_format",
                 "__template_compression",

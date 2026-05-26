@@ -79,6 +79,8 @@ class OutputNetflowTypedDict(TypedDict):
     description: NotRequired[str]
     max_record_size: NotRequired[float]
     r"""MTU in bytes. The actual maximum NetFlow payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). For example, with the default MTU of 1500, the max payload is 1472 bytes for IPv4. Payloads exceeding this limit will be dropped."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class OutputNetflow(BaseModel):
@@ -121,6 +123,11 @@ class OutputNetflow(BaseModel):
     ] = None
     r"""MTU in bytes. The actual maximum NetFlow payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). For example, with the default MTU of 1500, the max payload is 1472 bytes for IPv4. Payloads exceeding this limit will be dropped."""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -134,6 +141,7 @@ class OutputNetflow(BaseModel):
                 "enableIpSpoofing",
                 "description",
                 "maxRecordSize",
+                "__template_streamtags",
             ]
         )
         serialized = handler(self)

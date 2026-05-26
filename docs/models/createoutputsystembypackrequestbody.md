@@ -1,6 +1,6 @@
 # CreateOutputSystemByPackRequestBody
 
-Output object
+Output object.
 
 
 ## Supported Types
@@ -435,5 +435,41 @@ value: models.CreateOutputSystemByPackOutputCloudflareR2 = /* values here */
 
 ```python
 value: models.CreateOutputSystemByPackOutputNutanixObjects = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputStorjS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputStorjS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputAlphasocS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputAlphasocS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputDellS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputDellS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputCloudianS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputCloudianS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputScalityS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputScalityS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputAlibabaCloudS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputAlibabaCloudS3 = /* values here */
 ```
 

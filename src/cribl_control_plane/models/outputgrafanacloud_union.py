@@ -3,23 +3,23 @@
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypecontentconfigitemsrequestparams import (
-    ItemsTypeContentConfigItemsRequestParams,
-    ItemsTypeContentConfigItemsRequestParamsTypedDict,
-)
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .messageformatoptions import MessageFormatOptions
 from .modeoptions import ModeOptions
 from .prometheusauthtype import PrometheusAuthType, PrometheusAuthTypeTypedDict
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .requestparamconfinputopenai import (
+    RequestParamConfInputOpenai,
+    RequestParamConfInputOpenaiTypedDict,
+)
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -65,7 +65,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
+    labels: NotRequired[List[RequestParamConfInputOpenaiTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -86,7 +86,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Maximum time between requests. Small values can reduce the payload size below the configured 'Max record size' and 'Max events per request'. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -94,7 +94,9 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -127,6 +129,8 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputGrafanaCloudPqControls2TypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_loki_url: NotRequired[str]
     r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
     template_prometheus_url: NotRequired[str]
@@ -171,7 +175,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[ItemsTypeContentConfigItemsRequestParams]] = None
+    labels: Optional[List[RequestParamConfInputOpenai]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[
@@ -217,7 +221,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Maximum time between requests. Small values can reduce the payload size below the configured 'Max record size' and 'Max events per request'. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -239,7 +243,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -315,6 +319,11 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGrafanaCloudPqControls2], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_loki_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_lokiUrl")
@@ -434,6 +443,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_lokiUrl",
                 "__template_prometheusUrl",
                 "__template_failedRequestLoggingMode",
@@ -486,7 +496,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[ItemsTypeContentConfigItemsRequestParamsTypedDict]]
+    labels: NotRequired[List[RequestParamConfInputOpenaiTypedDict]]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -507,7 +517,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Maximum time between requests. Small values can reduce the payload size below the configured 'Max record size' and 'Max events per request'. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -515,7 +525,9 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -548,6 +560,8 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputGrafanaCloudPqControls1TypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_loki_url: NotRequired[str]
     r"""Binds 'lokiUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'lokiUrl' at runtime."""
     template_prometheus_url: NotRequired[str]
@@ -594,7 +608,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[ItemsTypeContentConfigItemsRequestParams]] = None
+    labels: Optional[List[RequestParamConfInputOpenai]] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[
@@ -640,7 +654,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Maximum time between requests. Small values can reduce the payload size below the configured 'Max record size' and 'Max events per request'. Warning: Setting this too low can increase the number of ongoing requests (depending on the value of 'Request concurrency'); this can cause Loki and Prometheus to complain about entries being delivered out of order."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -662,7 +676,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -738,6 +752,11 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGrafanaCloudPqControls1], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_loki_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_lokiUrl")
@@ -857,6 +876,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_lokiUrl",
                 "__template_prometheusUrl",
                 "__template_failedRequestLoggingMode",

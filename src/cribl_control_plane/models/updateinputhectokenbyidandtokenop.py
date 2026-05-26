@@ -13,7 +13,7 @@ class UpdateInputHecTokenByIDAndTokenRequestTypedDict(TypedDict):
     token: str
     r"""The HEC token value to update."""
     update_hec_token_request: UpdateHecTokenRequestTypedDict
-    r"""UpdateHecTokenRequest object"""
+    r"""UpdateHecTokenRequest object."""
 
 
 class UpdateInputHecTokenByIDAndTokenRequest(BaseModel):
@@ -31,4 +31,4 @@ class UpdateInputHecTokenByIDAndTokenRequest(BaseModel):
         UpdateHecTokenRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""UpdateHecTokenRequest object"""
+    r"""UpdateHecTokenRequest object."""

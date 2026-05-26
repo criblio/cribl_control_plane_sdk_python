@@ -10,314 +10,6 @@ from typing import Any, List, Mapping, Optional, Union
 
 
 class Datasets(BaseSDK):
-    def create(
-        self,
-        *,
-        lake_id: str,
-        id: str,
-        accelerated_fields: Optional[List[str]] = None,
-        bucket_name: Optional[str] = None,
-        cache_connection: Optional[
-            Union[models.CacheConnection, models.CacheConnectionTypedDict]
-        ] = None,
-        deletion_started_at: Optional[float] = None,
-        description: Optional[str] = None,
-        format_: Optional[models.FormatOptions] = None,
-        http_da_used: Optional[bool] = None,
-        metrics: Optional[
-            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
-        ] = None,
-        retention_period_in_days: Optional[float] = None,
-        search_config: Optional[
-            Union[
-                models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
-            ]
-        ] = None,
-        storage_location_id: Optional[str] = None,
-        view_name: Optional[str] = None,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedCriblLakeDataset:
-        r"""Create a Lake Dataset (Cribl.Cloud only)
-
-        Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
-
-        :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
-        :param id:
-        :param accelerated_fields:
-        :param bucket_name:
-        :param cache_connection:
-        :param deletion_started_at:
-        :param description:
-        :param format_:
-        :param http_da_used:
-        :param metrics:
-        :param retention_period_in_days:
-        :param search_config:
-        :param storage_location_id:
-        :param view_name:
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.CreateCriblLakeDatasetByLakeIDRequest(
-            lake_id=lake_id,
-            cribl_lake_dataset=models.CriblLakeDataset(
-                accelerated_fields=accelerated_fields,
-                bucket_name=bucket_name,
-                cache_connection=utils.get_pydantic_model(
-                    cache_connection, Optional[models.CacheConnection]
-                ),
-                deletion_started_at=deletion_started_at,
-                description=description,
-                format_=format_,
-                http_da_used=http_da_used,
-                id=id,
-                metrics=utils.get_pydantic_model(
-                    metrics, Optional[models.LakeDatasetMetrics]
-                ),
-                retention_period_in_days=retention_period_in_days,
-                search_config=utils.get_pydantic_model(
-                    search_config, Optional[models.LakeDatasetSearchConfig]
-                ),
-                storage_location_id=storage_location_id,
-                view_name=view_name,
-            ),
-        )
-
-        req = self._build_request(
-            method="POST",
-            path="/products/lake/lakes/{lakeId}/datasets",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=True,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            get_serialized_body=lambda: utils.serialize_request_body(
-                request.cribl_lake_dataset,
-                False,
-                False,
-                "json",
-                models.CriblLakeDataset,
-            ),
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="createCriblLakeDatasetByLakeId",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorData, http_res)
-            raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def create_async(
-        self,
-        *,
-        lake_id: str,
-        id: str,
-        accelerated_fields: Optional[List[str]] = None,
-        bucket_name: Optional[str] = None,
-        cache_connection: Optional[
-            Union[models.CacheConnection, models.CacheConnectionTypedDict]
-        ] = None,
-        deletion_started_at: Optional[float] = None,
-        description: Optional[str] = None,
-        format_: Optional[models.FormatOptions] = None,
-        http_da_used: Optional[bool] = None,
-        metrics: Optional[
-            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
-        ] = None,
-        retention_period_in_days: Optional[float] = None,
-        search_config: Optional[
-            Union[
-                models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
-            ]
-        ] = None,
-        storage_location_id: Optional[str] = None,
-        view_name: Optional[str] = None,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedCriblLakeDataset:
-        r"""Create a Lake Dataset (Cribl.Cloud only)
-
-        Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
-
-        :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
-        :param id:
-        :param accelerated_fields:
-        :param bucket_name:
-        :param cache_connection:
-        :param deletion_started_at:
-        :param description:
-        :param format_:
-        :param http_da_used:
-        :param metrics:
-        :param retention_period_in_days:
-        :param search_config:
-        :param storage_location_id:
-        :param view_name:
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.CreateCriblLakeDatasetByLakeIDRequest(
-            lake_id=lake_id,
-            cribl_lake_dataset=models.CriblLakeDataset(
-                accelerated_fields=accelerated_fields,
-                bucket_name=bucket_name,
-                cache_connection=utils.get_pydantic_model(
-                    cache_connection, Optional[models.CacheConnection]
-                ),
-                deletion_started_at=deletion_started_at,
-                description=description,
-                format_=format_,
-                http_da_used=http_da_used,
-                id=id,
-                metrics=utils.get_pydantic_model(
-                    metrics, Optional[models.LakeDatasetMetrics]
-                ),
-                retention_period_in_days=retention_period_in_days,
-                search_config=utils.get_pydantic_model(
-                    search_config, Optional[models.LakeDatasetSearchConfig]
-                ),
-                storage_location_id=storage_location_id,
-                view_name=view_name,
-            ),
-        )
-
-        req = self._build_request_async(
-            method="POST",
-            path="/products/lake/lakes/{lakeId}/datasets",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=True,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            get_serialized_body=lambda: utils.serialize_request_body(
-                request.cribl_lake_dataset,
-                False,
-                False,
-                "json",
-                models.CriblLakeDataset,
-            ),
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="createCriblLakeDatasetByLakeId",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorData, http_res)
-            raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
     def list(
         self,
         *,
@@ -409,7 +101,7 @@ class Datasets(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -519,7 +211,7 @@ class Datasets(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -538,22 +230,56 @@ class Datasets(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def delete(
+    def create(
         self,
         *,
         lake_id: str,
         id: str,
+        accelerated_fields: Optional[List[str]] = None,
+        bucket_name: Optional[str] = None,
+        cache_connection: Optional[
+            Union[models.CacheConnection, models.CacheConnectionTypedDict]
+        ] = None,
+        deletion_started_at: Optional[float] = None,
+        description: Optional[str] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
+        http_da_used: Optional[bool] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
+        retention_period_in_days: Optional[int] = None,
+        search_config: Optional[
+            Union[
+                models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
+            ]
+        ] = None,
+        storage_class: Optional[models.StorageClassOptionsCriblLakeDataset] = None,
+        storage_location_id: Optional[str] = None,
+        view_name: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Delete a Lake Dataset (Cribl.Cloud only)
+        r"""Create a Lake Dataset (Cribl.Cloud only)
 
-        Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
+        Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
 
-        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to delete.
-        :param id: The <code>id</code> of the Lake Dataset to delete.
+        :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
+        :param id: Unique identifier for the Dataset.
+        :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
+        :param cache_connection:
+        :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
+        :param description: Brief description of the Dataset.
+        :param format_: Storage format used for data persisted in the Dataset.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param metrics:
+        :param retention_period_in_days: Dataset retention period, in days.
+        :param search_config:
+        :param storage_class: Storage class used for objects written to the Dataset.
+        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -569,24 +295,52 @@ class Datasets(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.DeleteCriblLakeDatasetByLakeIDAndIDRequest(
+        request = models.CreateCriblLakeDatasetByLakeIDRequest(
             lake_id=lake_id,
-            id=id,
+            cribl_lake_dataset=models.CriblLakeDataset(
+                accelerated_fields=accelerated_fields,
+                bucket_name=bucket_name,
+                cache_connection=utils.get_pydantic_model(
+                    cache_connection, Optional[models.CacheConnection]
+                ),
+                deletion_started_at=deletion_started_at,
+                description=description,
+                format_=format_,
+                http_da_used=http_da_used,
+                id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
+                retention_period_in_days=retention_period_in_days,
+                search_config=utils.get_pydantic_model(
+                    search_config, Optional[models.LakeDatasetSearchConfig]
+                ),
+                storage_class=storage_class,
+                storage_location_id=storage_location_id,
+                view_name=view_name,
+            ),
         )
 
         req = self._build_request(
-            method="DELETE",
-            path="/products/lake/lakes/{lakeId}/datasets/{id}",
+            method="POST",
+            path="/products/lake/lakes/{lakeId}/datasets",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
-            request_body_required=False,
+            request_body_required=True,
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.cribl_lake_dataset,
+                False,
+                False,
+                "json",
+                models.CriblLakeDataset,
+            ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
@@ -607,14 +361,14 @@ class Datasets(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="deleteCriblLakeDatasetByLakeIdAndId",
+                operation_id="createCriblLakeDatasetByLakeId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -633,22 +387,56 @@ class Datasets(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    async def delete_async(
+    async def create_async(
         self,
         *,
         lake_id: str,
         id: str,
+        accelerated_fields: Optional[List[str]] = None,
+        bucket_name: Optional[str] = None,
+        cache_connection: Optional[
+            Union[models.CacheConnection, models.CacheConnectionTypedDict]
+        ] = None,
+        deletion_started_at: Optional[float] = None,
+        description: Optional[str] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
+        http_da_used: Optional[bool] = None,
+        metrics: Optional[
+            Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
+        ] = None,
+        retention_period_in_days: Optional[int] = None,
+        search_config: Optional[
+            Union[
+                models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
+            ]
+        ] = None,
+        storage_class: Optional[models.StorageClassOptionsCriblLakeDataset] = None,
+        storage_location_id: Optional[str] = None,
+        view_name: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedCriblLakeDataset:
-        r"""Delete a Lake Dataset (Cribl.Cloud only)
+        r"""Create a Lake Dataset (Cribl.Cloud only)
 
-        Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
+        Create a new Lake Dataset in the specified Lake (Cribl.Cloud only).
 
-        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to delete.
-        :param id: The <code>id</code> of the Lake Dataset to delete.
+        :param lake_id: The <code>id</code> of the Lake to create the Lake Dataset in.
+        :param id: Unique identifier for the Dataset.
+        :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
+        :param cache_connection:
+        :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
+        :param description: Brief description of the Dataset.
+        :param format_: Storage format used for data persisted in the Dataset.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param metrics:
+        :param retention_period_in_days: Dataset retention period, in days.
+        :param search_config:
+        :param storage_class: Storage class used for objects written to the Dataset.
+        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -664,24 +452,52 @@ class Datasets(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.DeleteCriblLakeDatasetByLakeIDAndIDRequest(
+        request = models.CreateCriblLakeDatasetByLakeIDRequest(
             lake_id=lake_id,
-            id=id,
+            cribl_lake_dataset=models.CriblLakeDataset(
+                accelerated_fields=accelerated_fields,
+                bucket_name=bucket_name,
+                cache_connection=utils.get_pydantic_model(
+                    cache_connection, Optional[models.CacheConnection]
+                ),
+                deletion_started_at=deletion_started_at,
+                description=description,
+                format_=format_,
+                http_da_used=http_da_used,
+                id=id,
+                metrics=utils.get_pydantic_model(
+                    metrics, Optional[models.LakeDatasetMetrics]
+                ),
+                retention_period_in_days=retention_period_in_days,
+                search_config=utils.get_pydantic_model(
+                    search_config, Optional[models.LakeDatasetSearchConfig]
+                ),
+                storage_class=storage_class,
+                storage_location_id=storage_location_id,
+                view_name=view_name,
+            ),
         )
 
         req = self._build_request_async(
-            method="DELETE",
-            path="/products/lake/lakes/{lakeId}/datasets/{id}",
+            method="POST",
+            path="/products/lake/lakes/{lakeId}/datasets",
             base_url=base_url,
             url_variables=url_variables,
             request=request,
-            request_body_required=False,
+            request_body_required=True,
             request_has_path_params=True,
             request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
             security=self.sdk_configuration.security,
+            get_serialized_body=lambda: utils.serialize_request_body(
+                request.cribl_lake_dataset,
+                False,
+                False,
+                "json",
+                models.CriblLakeDataset,
+            ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
@@ -702,14 +518,14 @@ class Datasets(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="deleteCriblLakeDatasetByLakeIdAndId",
+                operation_id="createCriblLakeDatasetByLakeId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -804,7 +620,7 @@ class Datasets(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -899,7 +715,7 @@ class Datasets(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -930,18 +746,19 @@ class Datasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.FormatOptions] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
-        retention_period_in_days: Optional[float] = None,
+        retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
             ]
         ] = None,
+        storage_class: Optional[models.StorageClassOptionsCriblLakeDataset] = None,
         storage_location_id: Optional[str] = None,
         view_name: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -955,19 +772,20 @@ class Datasets(BaseSDK):
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
-        :param accelerated_fields:
-        :param bucket_name:
+        :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
-        :param deletion_started_at:
-        :param description:
-        :param format_:
-        :param http_da_used:
-        :param id:
+        :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
+        :param description: Brief description of the Dataset.
+        :param format_: Storage format used for data persisted in the Dataset.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param id: Dataset identifier. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
-        :param retention_period_in_days:
+        :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
-        :param storage_location_id:
-        :param view_name:
+        :param storage_class: Storage class used for objects written to the Dataset.
+        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1004,6 +822,7 @@ class Datasets(BaseSDK):
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
                 ),
+                storage_class=storage_class,
                 storage_location_id=storage_location_id,
                 view_name=view_name,
             ),
@@ -1056,7 +875,7 @@ class Datasets(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -1087,18 +906,19 @@ class Datasets(BaseSDK):
         ] = None,
         deletion_started_at: Optional[float] = None,
         description: Optional[str] = None,
-        format_: Optional[models.FormatOptions] = None,
+        format_: Optional[models.FormatOptionsCriblLakeDataset] = None,
         http_da_used: Optional[bool] = None,
         id: Optional[str] = None,
         metrics: Optional[
             Union[models.LakeDatasetMetrics, models.LakeDatasetMetricsTypedDict]
         ] = None,
-        retention_period_in_days: Optional[float] = None,
+        retention_period_in_days: Optional[int] = None,
         search_config: Optional[
             Union[
                 models.LakeDatasetSearchConfig, models.LakeDatasetSearchConfigTypedDict
             ]
         ] = None,
+        storage_class: Optional[models.StorageClassOptionsCriblLakeDataset] = None,
         storage_location_id: Optional[str] = None,
         view_name: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1112,19 +932,20 @@ class Datasets(BaseSDK):
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to update.
         :param id_param: The <code>id</code> of the Lake Dataset to update.
-        :param accelerated_fields:
-        :param bucket_name:
+        :param accelerated_fields: Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance.
+        :param bucket_name: Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>.
         :param cache_connection:
-        :param deletion_started_at:
-        :param description:
-        :param format_:
-        :param http_da_used:
-        :param id:
+        :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
+        :param description: Brief description of the Dataset.
+        :param format_: Storage format used for data persisted in the Dataset.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param id: Dataset identifier. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
-        :param retention_period_in_days:
+        :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
-        :param storage_location_id:
-        :param view_name:
+        :param storage_class: Storage class used for objects written to the Dataset.
+        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1161,6 +982,7 @@ class Datasets(BaseSDK):
                 search_config=utils.get_pydantic_model(
                     search_config, Optional[models.LakeDatasetSearchConfig]
                 ),
+                storage_class=storage_class,
                 storage_location_id=storage_location_id,
                 view_name=view_name,
             ),
@@ -1213,7 +1035,197 @@ class Datasets(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["401", "4XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    def delete(
+        self,
+        *,
+        lake_id: str,
+        id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.CountedCriblLakeDataset:
+        r"""Delete a Lake Dataset (Cribl.Cloud only)
+
+        Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
+
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to delete.
+        :param id: The <code>id</code> of the Lake Dataset to delete.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.DeleteCriblLakeDatasetByLakeIDAndIDRequest(
+            lake_id=lake_id,
+            id=id,
+        )
+
+        req = self._build_request(
+            method="DELETE",
+            path="/products/lake/lakes/{lakeId}/datasets/{id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            allow_empty_value=None,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="deleteCriblLakeDatasetByLakeIdAndId",
+                oauth2_scopes=[],
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["401", "4XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    async def delete_async(
+        self,
+        *,
+        lake_id: str,
+        id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.CountedCriblLakeDataset:
+        r"""Delete a Lake Dataset (Cribl.Cloud only)
+
+        Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
+
+        :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to delete.
+        :param id: The <code>id</code> of the Lake Dataset to delete.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.DeleteCriblLakeDatasetByLakeIDAndIDRequest(
+            lake_id=lake_id,
+            id=id,
+        )
+
+        req = self._build_request_async(
+            method="DELETE",
+            path="/products/lake/lakes/{lakeId}/datasets/{id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            allow_empty_value=None,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="deleteCriblLakeDatasetByLakeIdAndId",
+                oauth2_scopes=[],
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 

@@ -3,17 +3,17 @@
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -36,14 +36,14 @@ class OutputChronicleAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMet
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
-class CustomLabelTypedDict(TypedDict):
+class OutputChronicleCustomLabelTypedDict(TypedDict):
     key: str
     value: str
     rbac_enabled: NotRequired[bool]
     r"""Designate this label for role-based access control and filtering"""
 
 
-class CustomLabel(BaseModel):
+class OutputChronicleCustomLabel(BaseModel):
     key: str
 
     value: str
@@ -98,7 +98,9 @@ class OutputChronicleTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     api_version: NotRequired[str]
     authentication_method: NotRequired[OutputChronicleAuthenticationMethod]
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -120,7 +122,7 @@ class OutputChronicleTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -137,7 +139,7 @@ class OutputChronicleTypedDict(TypedDict):
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     log_text_field: NotRequired[str]
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
-    custom_labels: NotRequired[List[CustomLabelTypedDict]]
+    custom_labels: NotRequired[List[OutputChronicleCustomLabelTypedDict]]
     r"""Custom labels to be added to every event"""
     endpoint: NotRequired[str]
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
@@ -169,12 +171,24 @@ class OutputChronicleTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputChroniclePqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_namespace: NotRequired[str]
+    r"""Binds 'namespace' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'namespace' at runtime."""
+    template_log_type: NotRequired[str]
+    r"""Binds 'logType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logType' at runtime."""
+    template_log_text_field: NotRequired[str]
+    r"""Binds 'logTextField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logTextField' at runtime."""
+    template_gcp_project_id: NotRequired[str]
+    r"""Binds 'gcpProjectId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpProjectId' at runtime."""
+    template_gcp_instance: NotRequired[str]
+    r"""Binds 'gcpInstance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpInstance' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
@@ -219,7 +233,7 @@ class OutputChronicle(BaseModel):
     ] = None
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -266,7 +280,7 @@ class OutputChronicle(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -310,7 +324,7 @@ class OutputChronicle(BaseModel):
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     custom_labels: Annotated[
-        Optional[List[CustomLabel]], pydantic.Field(alias="customLabels")
+        Optional[List[OutputChronicleCustomLabel]], pydantic.Field(alias="customLabels")
     ] = None
     r"""Custom labels to be added to every event"""
 
@@ -382,6 +396,11 @@ class OutputChronicle(BaseModel):
         Optional[OutputChroniclePqControls], pydantic.Field(alias="pqControls")
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_region: Annotated[
         Optional[str], pydantic.Field(alias="__template_region")
     ] = None
@@ -396,6 +415,31 @@ class OutputChronicle(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_namespace: Annotated[
+        Optional[str], pydantic.Field(alias="__template_namespace")
+    ] = None
+    r"""Binds 'namespace' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'namespace' at runtime."""
+
+    template_log_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logType")
+    ] = None
+    r"""Binds 'logType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logType' at runtime."""
+
+    template_log_text_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logTextField")
+    ] = None
+    r"""Binds 'logTextField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logTextField' at runtime."""
+
+    template_gcp_project_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_gcpProjectId")
+    ] = None
+    r"""Binds 'gcpProjectId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpProjectId' at runtime."""
+
+    template_gcp_instance: Annotated[
+        Optional[str], pydantic.Field(alias="__template_gcpInstance")
+    ] = None
+    r"""Binds 'gcpInstance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpInstance' at runtime."""
 
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
@@ -503,9 +547,15 @@ class OutputChronicle(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_region",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
+                "__template_namespace",
+                "__template_logType",
+                "__template_logTextField",
+                "__template_gcpProjectId",
+                "__template_gcpInstance",
                 "__template_endpoint",
             ]
         )
@@ -524,7 +574,7 @@ class OutputChronicle(BaseModel):
 
 
 try:
-    CustomLabel.model_rebuild()
+    OutputChronicleCustomLabel.model_rebuild()
 except NameError:
     pass
 try:

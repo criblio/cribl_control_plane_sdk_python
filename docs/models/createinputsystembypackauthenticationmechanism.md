@@ -16,3 +16,4 @@ value = CreateInputSystemByPackAuthenticationMechanism.CONNECTION_STRING
 | Name                | Value               |
 | ------------------- | ------------------- |
 | `CONNECTION_STRING` | connection-string   |
+| `OAUTH_BEARER`      | oauth-bearer        |

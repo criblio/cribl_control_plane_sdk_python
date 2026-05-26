@@ -10,7 +10,7 @@ class DeleteOutputSystemPqByPackAndIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Destination to clear the PQ for."""
     pack: str
-    r"""The <code>id</code> of the Pack to clear."""
+    r"""The <code>id</code> of the Pack."""
 
 
 class DeleteOutputSystemPqByPackAndIDRequest(BaseModel):
@@ -22,4 +22,4 @@ class DeleteOutputSystemPqByPackAndIDRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to clear."""
+    r"""The <code>id</code> of the Pack."""

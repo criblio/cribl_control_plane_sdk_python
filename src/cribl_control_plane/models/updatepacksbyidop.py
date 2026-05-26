@@ -11,7 +11,7 @@ class UpdatePacksByIDRequestTypedDict(TypedDict):
     id: str
     r"""The <code>id</code> of the Pack to upgrade."""
     pack_upgrade_request: PackUpgradeRequestTypedDict
-    r"""PackUpgradeRequest object"""
+    r"""PackUpgradeRequest object."""
 
 
 class UpdatePacksByIDRequest(BaseModel):
@@ -24,4 +24,4 @@ class UpdatePacksByIDRequest(BaseModel):
         PackUpgradeRequest,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""PackUpgradeRequest object"""
+    r"""PackUpgradeRequest object."""

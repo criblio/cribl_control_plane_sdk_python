@@ -5,23 +5,23 @@ from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionsdeflategzip import CompressionOptionsDeflateGzip
 from .compressionoptionsmessages import CompressionOptionsMessages
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstypekeyvaluemetadata import (
-    ItemsTypeKeyValueMetadata,
-    ItemsTypeKeyValueMetadataTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
+from .keyvaluemetadataconfoutputfilesystem import (
+    KeyValueMetadataConfOutputFilesystem,
+    KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .modeoptions import ModeOptions
 from .otlpversionoptions131 import OtlpVersionOptions131
 from .protocoloptions import ProtocolOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -84,8 +84,12 @@ class OutputServiceNowTypedDict(TypedDict):
     r"""If you want to send metrics to the default `{endpoint}/v1/metrics` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
     http_logs_endpoint_override: NotRequired[str]
     r"""If you want to send logs to the default `{endpoint}/v1/logs` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
-    metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
+    dynamic_headers_enabled: NotRequired[bool]
+    r"""Batch event data upon dynamic metadata (whether presented or not)"""
+    dynamic_headers_field: NotRequired[str]
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     timeout_sec: NotRequired[float]
@@ -110,11 +114,13 @@ class OutputServiceNowTypedDict(TypedDict):
     """
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -143,6 +149,8 @@ class OutputServiceNowTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[OutputServiceNowPqControlsTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -213,8 +221,18 @@ class OutputServiceNow(BaseModel):
     ] = None
     r"""If you want to send logs to the default `{endpoint}/v1/logs` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
 
-    metadata: Optional[List[ItemsTypeKeyValueMetadata]] = None
+    metadata: Optional[List[KeyValueMetadataConfOutputFilesystem]] = None
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
+
+    dynamic_headers_enabled: Annotated[
+        Optional[bool], pydantic.Field(alias="dynamicHeadersEnabled")
+    ] = None
+    r"""Batch event data upon dynamic metadata (whether presented or not)"""
+
+    dynamic_headers_field: Annotated[
+        Optional[str], pydantic.Field(alias="dynamicHeadersField")
+    ] = None
+    r"""When presented, this field which contains metadata, will be injected into the Destination metadata and used to batch events."""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -267,7 +285,7 @@ class OutputServiceNow(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -278,7 +296,7 @@ class OutputServiceNow(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -346,6 +364,11 @@ class OutputServiceNow(BaseModel):
     pq_controls: Annotated[
         Optional[OutputServiceNowPqControls], pydantic.Field(alias="pqControls")
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -455,6 +478,8 @@ class OutputServiceNow(BaseModel):
                 "httpMetricsEndpointOverride",
                 "httpLogsEndpointOverride",
                 "metadata",
+                "dynamicHeadersEnabled",
+                "dynamicHeadersField",
                 "concurrency",
                 "timeoutSec",
                 "flushPeriodSec",
@@ -484,6 +509,7 @@ class OutputServiceNow(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
             ]

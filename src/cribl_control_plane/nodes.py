@@ -28,18 +28,18 @@ class Nodes(BaseSDK):
     def count(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         filter_exp: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedNumber:
-        r"""Get a count of Worker or Edge Nodes
+        r"""Get a count of Worker, Edge, or Outpost Nodes
 
-        Get a count of all Worker or Edge Nodes for the specified Cribl product.
+        Get a count of all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get the count of Worker or Edge Nodes for.
+        :param product: Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for.
         :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -101,7 +101,7 @@ class Nodes(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "403", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -123,18 +123,18 @@ class Nodes(BaseSDK):
     async def count_async(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         filter_exp: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedNumber:
-        r"""Get a count of Worker or Edge Nodes
+        r"""Get a count of Worker, Edge, or Outpost Nodes
 
-        Get a count of all Worker or Edge Nodes for the specified Cribl product.
+        Get a count of all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get the count of Worker or Edge Nodes for.
+        :param product: Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for.
         :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -196,7 +196,7 @@ class Nodes(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "403", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -215,200 +215,10 @@ class Nodes(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
-    def get(
-        self,
-        *,
-        product: models.ProductsBase,
-        id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedMasterWorkerEntry:
-        r"""Get detailed metadata for a Worker or Edge Node
-
-        Get detailed metadata for the specified Worker or Edge Node for the specified Cribl product.
-
-        :param product: Name of the Cribl product that contains the Node.
-        :param id: The <code>id</code> of the Node to get the metadata for.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetProductsWorkersByProductAndIDRequest(
-            product=product,
-            id=id,
-        )
-
-        req = self._build_request(
-            method="GET",
-            path="/products/{product}/workers/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429"])
-
-        http_res = self.do_request(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getProductsWorkersByProductAndId",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["401", "403", "4XX", "500", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedMasterWorkerEntry, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorData, http_res)
-            raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "403", "4XX"], "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = utils.stream_to_text(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
-    async def get_async(
-        self,
-        *,
-        product: models.ProductsBase,
-        id: str,
-        retries: OptionalNullable[utils.RetryConfig] = UNSET,
-        server_url: Optional[str] = None,
-        timeout_ms: Optional[int] = None,
-        http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedMasterWorkerEntry:
-        r"""Get detailed metadata for a Worker or Edge Node
-
-        Get detailed metadata for the specified Worker or Edge Node for the specified Cribl product.
-
-        :param product: Name of the Cribl product that contains the Node.
-        :param id: The <code>id</code> of the Node to get the metadata for.
-        :param retries: Override the default retry configuration for this method
-        :param server_url: Override the default server URL for this method
-        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
-        :param http_headers: Additional headers to set or replace on requests.
-        """
-        base_url = None
-        url_variables = None
-        if timeout_ms is None:
-            timeout_ms = self.sdk_configuration.timeout_ms
-
-        if server_url is not None:
-            base_url = server_url
-        else:
-            base_url = self._get_url(base_url, url_variables)
-
-        request = models.GetProductsWorkersByProductAndIDRequest(
-            product=product,
-            id=id,
-        )
-
-        req = self._build_request_async(
-            method="GET",
-            path="/products/{product}/workers/{id}",
-            base_url=base_url,
-            url_variables=url_variables,
-            request=request,
-            request_body_required=False,
-            request_has_path_params=True,
-            request_has_query_params=True,
-            user_agent_header="user-agent",
-            accept_header_value="application/json",
-            http_headers=http_headers,
-            security=self.sdk_configuration.security,
-            allow_empty_value=None,
-            timeout_ms=timeout_ms,
-        )
-
-        if retries == UNSET:
-            if self.sdk_configuration.retry_config is not UNSET:
-                retries = self.sdk_configuration.retry_config
-            else:
-                retries = utils.RetryConfig(
-                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
-                )
-
-        retry_config = None
-        if isinstance(retries, utils.RetryConfig):
-            retry_config = (retries, ["429"])
-
-        http_res = await self.do_request_async(
-            hook_ctx=HookContext(
-                config=self.sdk_configuration,
-                base_url=base_url or "",
-                operation_id="getProductsWorkersByProductAndId",
-                oauth2_scopes=[],
-                security_source=get_security_from_env(
-                    self.sdk_configuration.security, models.Security
-                ),
-            ),
-            request=req,
-            error_status_codes=["401", "403", "4XX", "500", "5XX"],
-            retry_config=retry_config,
-        )
-
-        response_data: Any = None
-        if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedMasterWorkerEntry, http_res)
-        if utils.match_response(http_res, "500", "application/json"):
-            response_data = unmarshal_json_response(errors.ErrorData, http_res)
-            raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "403", "4XX"], "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-        if utils.match_response(http_res, "5XX", "*"):
-            http_res_text = await utils.stream_to_text_async(http_res)
-            raise errors.APIError("API error occurred", http_res, http_res_text)
-
-        raise errors.APIError("Unexpected response received", http_res)
-
     def list(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         filter_exp: Optional[str] = None,
         sort_exp: Optional[str] = None,
         filter_: Optional[str] = None,
@@ -420,11 +230,11 @@ class Nodes(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> Optional[models.GetProductsWorkersByProductResponse]:
-        r"""Get detailed metadata for Worker or Edge Nodes
+        r"""Get detailed metadata for Worker, Edge, or Outpost Nodes
 
-        Get detailed metadata for Worker or Edge Nodes for the specified Cribl product.
+        Get detailed metadata for Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get Worker or Edge Nodes for.
+        :param product: Name of the Cribl product to get Worker, Edge, or Outpost Nodes for.
         :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
         :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
@@ -496,7 +306,7 @@ class Nodes(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "403", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -510,8 +320,8 @@ class Nodes(BaseSDK):
             results = JSONPath("$.items").parse(body)
             if len(results) == 0 or len(results[0]) == 0:
                 return None
-            limit = request.limit if isinstance(request.limit, int) else 0
-            if len(results[0]) < limit:
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
                 return None
             next_offset = offset + len(results[0])
 
@@ -552,7 +362,7 @@ class Nodes(BaseSDK):
     async def list_async(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         filter_exp: Optional[str] = None,
         sort_exp: Optional[str] = None,
         filter_: Optional[str] = None,
@@ -564,11 +374,11 @@ class Nodes(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> Optional[models.GetProductsWorkersByProductResponse]:
-        r"""Get detailed metadata for Worker or Edge Nodes
+        r"""Get detailed metadata for Worker, Edge, or Outpost Nodes
 
-        Get detailed metadata for Worker or Edge Nodes for the specified Cribl product.
+        Get detailed metadata for Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product to get Worker or Edge Nodes for.
+        :param product: Name of the Cribl product to get Worker, Edge, or Outpost Nodes for.
         :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
         :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
@@ -640,7 +450,7 @@ class Nodes(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "403", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -659,8 +469,8 @@ class Nodes(BaseSDK):
             results = JSONPath("$.items").parse(body)
             if len(results) == 0 or len(results[0]) == 0:
                 return empty_result()
-            limit = request.limit if isinstance(request.limit, int) else 0
-            if len(results[0]) < limit:
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
                 return empty_result()
             next_offset = offset + len(results[0])
 
@@ -698,21 +508,211 @@ class Nodes(BaseSDK):
 
         raise errors.APIError("Unexpected response received", http_res)
 
+    def get(
+        self,
+        *,
+        product: models.ProductsCore,
+        id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.CountedMasterWorkerEntry:
+        r"""Get detailed metadata for a Worker, Edge, or Outpost Node
+
+        Get detailed metadata for the specified Worker, Edge, or Outpost Node for the specified Cribl product.
+
+        :param product: Name of the Cribl product that contains the Node.
+        :param id: The <code>id</code> of the Node to get the metadata for.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetProductsWorkersByProductAndIDRequest(
+            product=product,
+            id=id,
+        )
+
+        req = self._build_request(
+            method="GET",
+            path="/products/{product}/workers/{id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            allow_empty_value=None,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429"])
+
+        http_res = self.do_request(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="getProductsWorkersByProductAndId",
+                oauth2_scopes=[],
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return unmarshal_json_response(models.CountedMasterWorkerEntry, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["401", "403", "4XX"], "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = utils.stream_to_text(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
+    async def get_async(
+        self,
+        *,
+        product: models.ProductsCore,
+        id: str,
+        retries: OptionalNullable[utils.RetryConfig] = UNSET,
+        server_url: Optional[str] = None,
+        timeout_ms: Optional[int] = None,
+        http_headers: Optional[Mapping[str, str]] = None,
+    ) -> models.CountedMasterWorkerEntry:
+        r"""Get detailed metadata for a Worker, Edge, or Outpost Node
+
+        Get detailed metadata for the specified Worker, Edge, or Outpost Node for the specified Cribl product.
+
+        :param product: Name of the Cribl product that contains the Node.
+        :param id: The <code>id</code> of the Node to get the metadata for.
+        :param retries: Override the default retry configuration for this method
+        :param server_url: Override the default server URL for this method
+        :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
+        :param http_headers: Additional headers to set or replace on requests.
+        """
+        base_url = None
+        url_variables = None
+        if timeout_ms is None:
+            timeout_ms = self.sdk_configuration.timeout_ms
+
+        if server_url is not None:
+            base_url = server_url
+        else:
+            base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetProductsWorkersByProductAndIDRequest(
+            product=product,
+            id=id,
+        )
+
+        req = self._build_request_async(
+            method="GET",
+            path="/products/{product}/workers/{id}",
+            base_url=base_url,
+            url_variables=url_variables,
+            request=request,
+            request_body_required=False,
+            request_has_path_params=True,
+            request_has_query_params=True,
+            user_agent_header="user-agent",
+            accept_header_value="application/json",
+            http_headers=http_headers,
+            security=self.sdk_configuration.security,
+            allow_empty_value=None,
+            timeout_ms=timeout_ms,
+        )
+
+        if retries == UNSET:
+            if self.sdk_configuration.retry_config is not UNSET:
+                retries = self.sdk_configuration.retry_config
+            else:
+                retries = utils.RetryConfig(
+                    "backoff", utils.BackoffStrategy(500, 60000, 1.5, 3600000), True
+                )
+
+        retry_config = None
+        if isinstance(retries, utils.RetryConfig):
+            retry_config = (retries, ["429"])
+
+        http_res = await self.do_request_async(
+            hook_ctx=HookContext(
+                config=self.sdk_configuration,
+                base_url=base_url or "",
+                operation_id="getProductsWorkersByProductAndId",
+                oauth2_scopes=[],
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
+            ),
+            request=req,
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
+            retry_config=retry_config,
+        )
+
+        response_data: Any = None
+        if utils.match_response(http_res, "200", "application/json"):
+            return unmarshal_json_response(models.CountedMasterWorkerEntry, http_res)
+        if utils.match_response(http_res, "500", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["401", "403", "4XX"], "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+        if utils.match_response(http_res, "5XX", "*"):
+            http_res_text = await utils.stream_to_text_async(http_res)
+            raise errors.APIError("API error occurred", http_res, http_res_text)
+
+        raise errors.APIError("Unexpected response received", http_res)
+
     def restart(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         guids: List[str],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedRestartResponse:
-        r"""Restart Worker or Edge Nodes
+        r"""Restart Worker, Edge, or Outpost Nodes
 
-        Restart all Worker or Edge Nodes for the specified Cribl product.
+        Restart all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product whose Worker or Edge Nodes you want to restart.
+        :param product: Name of the Cribl product whose Worker, Edge, or Outpost Nodes you want to restart.
         :param guids: GUIDs of the Worker or Edge Nodes to restart.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -779,7 +779,7 @@ class Nodes(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "403", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -801,18 +801,18 @@ class Nodes(BaseSDK):
     async def restart_async(
         self,
         *,
-        product: models.ProductsBase,
+        product: models.ProductsCore,
         guids: List[str],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedRestartResponse:
-        r"""Restart Worker or Edge Nodes
+        r"""Restart Worker, Edge, or Outpost Nodes
 
-        Restart all Worker or Edge Nodes for the specified Cribl product.
+        Restart all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-        :param product: Name of the Cribl product whose Worker or Edge Nodes you want to restart.
+        :param product: Name of the Cribl product whose Worker, Edge, or Outpost Nodes you want to restart.
         :param guids: GUIDs of the Worker or Edge Nodes to restart.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -879,7 +879,7 @@ class Nodes(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["400", "401", "403", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 

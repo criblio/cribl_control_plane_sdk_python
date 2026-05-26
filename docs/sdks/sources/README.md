@@ -47,7 +47,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 
@@ -58,8 +58,76 @@ with CriblControlPlane(
 
 ## create
 
-Create a new Source.
+Create a new Source. The system-managed provenance field (JSON <code>criblSourceProvenance</code>) must be omitted from the request body.
 
+### Example Usage: InputCreateExamplesAnthropicCompliance
+
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesAnthropicCompliance" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.create(request={
+        "id": "anthropic-compliance-source",
+        "type": models.CreateInputTypeAnthropicCompliance.ANTHROPIC_COMPLIANCE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "anthropic-api-key-secret",
+        "content_config": [
+            {
+                "content_type": "activities",
+                "content_description": "Compliance Activities",
+                "enabled": True,
+                "state_tracking": True,
+                "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
+                "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-7d@d",
+                "latest": "now",
+                "job_timeout": "300",
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesAppleUnifiedLogs
+
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesAppleUnifiedLogs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.create(request={
+        "id": "apple-unified-logs-source",
+        "type": models.CreateInputTypeAppleUnifiedLogs.APPLE_UNIFIED_LOGS,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "predicate": "subsystem == \"com.apple.security\"",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesAppscope
 
 <!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesAppscope" -->
@@ -483,14 +551,19 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.create(request={
-        "id": "eventhub-amqp-source",
-        "type": models.CreateInputTypeEventhubAmqp.EVENTHUB_AMQP,
-        "send_to_routes": True,
-        "pq_enabled": False,
-        "event_hub_name": "my-event-hub",
-        "consumer_group": "$Default",
-    })
+    res = ccp_client.sources.create(request=models.CreateInputInputEventhubAmqp(
+        id="eventhub-amqp-source",
+        type=models.CreateInputTypeEventhubAmqp.EVENTHUB_AMQP,
+        send_to_routes=True,
+        pq_enabled=False,
+        event_hub_name="my-event-hub",
+        consumer_group="$Default",
+        checkpointing=models.CreateInputCheckpointing(
+            blob_store=models.CreateInputAzureBlobStorage(
+                container_name="my-container",
+            ),
+        ),
+    ))
 
     # Handle response
     print(res)
@@ -1120,6 +1193,37 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOkta
+
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesOkta" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.create(request={
+        "id": "okta-source",
+        "type": models.CreateInputTypeOkta.OKTA,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "okta_domain": "your-org",
+        "text_secret": "okta-api-token-secret",
+        "cron_schedule": "*/5 * * * *",
+        "earliest": "-7d@d",
+        "latest": "now",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenAI
 
 <!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="InputCreateExamplesOpenAI" -->
@@ -1434,7 +1538,6 @@ with CriblControlPlane(
             "number",
             "short_description",
         ],
-        "use_raw_values": True,
         "page_size": 10000,
         "cron_schedule": "0 * * * *",
         "earliest": "-1d",
@@ -1552,9 +1655,10 @@ with CriblControlPlane(
         "pq_enabled": False,
         "search_head": "https://localhost:8089",
         "search": "index=main",
-        "cron_schedule": "0 * * * *",
-        "endpoint": "/services/search/jobs/export",
+        "cron_schedule": "*/15 * * * *",
+        "endpoint": "/services/search/v2/jobs/export",
         "output_mode": models.OutputModeOptionsSplunkCollectorConf.JSON,
+        "auth_type": models.CreateInputAuthenticationTypeSplunkSearch.BASIC,
     })
 
     # Handle response
@@ -1916,7 +2020,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 
@@ -1960,7 +2064,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 
@@ -1971,8 +2075,76 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
+Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes omitted fields when updating the Source, except for <code>criblSourceProvenance</code> (its value is preserved when omitted and cannot be overwritten).<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected.
 
+### Example Usage: InputCreateExamplesAnthropicCompliance
+
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesAnthropicCompliance" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.update(id="<id>", input_={
+        "id": "anthropic-compliance-source",
+        "type": models.InputAnthropicComplianceType.ANTHROPIC_COMPLIANCE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "anthropic-api-key-secret",
+        "content_config": [
+            {
+                "content_type": "activities",
+                "content_description": "Compliance Activities",
+                "enabled": True,
+                "state_tracking": True,
+                "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
+                "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-7d@d",
+                "latest": "now",
+                "job_timeout": "300",
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesAppleUnifiedLogs
+
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesAppleUnifiedLogs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.update(id="<id>", input_={
+        "id": "apple-unified-logs-source",
+        "type": models.InputAppleUnifiedLogsType.APPLE_UNIFIED_LOGS,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "predicate": "subsystem == \"com.apple.security\"",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesAppscope
 
 <!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesAppscope" -->
@@ -2098,7 +2270,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.update(id="<id>", input_=models.InputConfluentCloud(
+    res = ccp_client.sources.update(id="<id>", input_=models.InputConfluentCloudInput(
         id="confluent-cloud-source",
         type=models.InputConfluentCloudType.CONFLUENT_CLOUD,
         send_to_routes=True,
@@ -2396,14 +2568,19 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.update(id="<id>", input_={
-        "id": "eventhub-amqp-source",
-        "type": models.InputEventhubAmqpType.EVENTHUB_AMQP,
-        "send_to_routes": True,
-        "pq_enabled": False,
-        "event_hub_name": "my-event-hub",
-        "consumer_group": "$Default",
-    })
+    res = ccp_client.sources.update(id="<id>", input_=models.InputEventhubAmqpInput(
+        id="eventhub-amqp-source",
+        type=models.InputEventhubAmqpType.EVENTHUB_AMQP,
+        send_to_routes=True,
+        pq_enabled=False,
+        event_hub_name="my-event-hub",
+        consumer_group="$Default",
+        checkpointing=models.InputEventhubAmqpCheckpointing(
+            blob_store=models.InputEventhubAmqpAzureBlobStorage(
+                container_name="my-container",
+            ),
+        ),
+    ))
 
     # Handle response
     print(res)
@@ -2650,7 +2827,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.update(id="<id>", input_=models.InputKafka(
+    res = ccp_client.sources.update(id="<id>", input_=models.InputKafkaInput(
         id="kafka-source",
         type=models.InputKafkaType.KAFKA,
         send_to_routes=True,
@@ -2901,7 +3078,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.update(id="<id>", input_=models.InputMsk(
+    res = ccp_client.sources.update(id="<id>", input_=models.InputMskInput(
         id="msk-source",
         type=models.InputMskType.MSK,
         send_to_routes=True,
@@ -3033,6 +3210,37 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOkta
+
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesOkta" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.update(id="<id>", input_={
+        "id": "okta-source",
+        "type": models.InputOktaType.OKTA,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "okta_domain": "your-org",
+        "text_secret": "okta-api-token-secret",
+        "cron_schedule": "*/5 * * * *",
+        "earliest": "-7d@d",
+        "latest": "now",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenAI
 
 <!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="InputCreateExamplesOpenAI" -->
@@ -3066,7 +3274,7 @@ with CriblControlPlane(
                         "value": "100",
                     },
                 ],
-                "pagination_type": models.PaginationType.RESPONSE_BODY,
+                "pagination_type": models.InputOpenaiPaginationType.RESPONSE_BODY,
                 "pagination_attribute": [
                     "last_id",
                 ],
@@ -3104,7 +3312,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "openai-api-key-secret",
-        "account_type": models.AccountType.WORKSPACE,
+        "account_type": models.InputOpenaiComplianceLogsAccountType.WORKSPACE,
         "cron_schedule": "*/15 * * * *",
         "earliest": "-1h",
         "latest": "now",
@@ -3347,7 +3555,6 @@ with CriblControlPlane(
             "number",
             "short_description",
         ],
-        "use_raw_values": True,
         "page_size": 10000,
         "cron_schedule": "0 * * * *",
         "earliest": "-1d",
@@ -3465,9 +3672,10 @@ with CriblControlPlane(
         "pq_enabled": False,
         "search_head": "https://localhost:8089",
         "search": "index=main",
-        "cron_schedule": "0 * * * *",
-        "endpoint": "/services/search/jobs/export",
+        "cron_schedule": "*/15 * * * *",
+        "endpoint": "/services/search/v2/jobs/export",
         "output_mode": models.OutputModeOptionsSplunkCollectorConf.JSON,
+        "auth_type": models.InputSplunkSearchAuthenticationType.BASIC,
     })
 
     # Handle response
@@ -3877,12 +4085,12 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Source to update.                        |
-| `input`                                                             | [models.Input2](../../models/input2.md)                             | :heavy_check_mark:                                                  | Input object                                                        |
+| `input`                                                             | [models.Input](../../models/input.md)                               | :heavy_check_mark:                                                  | Input object.                                                       |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 
@@ -3926,7 +4134,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 

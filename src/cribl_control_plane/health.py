@@ -4,6 +4,7 @@ from .basesdk import BaseSDK
 from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
+from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
 from typing import Any, Mapping, Optional
 
@@ -21,7 +22,7 @@ class Health(BaseSDK):
     ) -> models.HealthServerStatus:
         r"""Get the health status of the server
 
-        Get the current health status of the server (Leader or Worker Node).
+        Get the current health status of the server (Leader or Worker Node).  In Distributed deployments, requests routed to a Worker or Edge node using the [host context](https://docs.cribl.io/cribl-as-code/api#base-url-group-fleet-host) require a Bearer token for [authentication](https://docs.cribl.io/cribl-as-code/api-auth/).
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -45,10 +46,11 @@ class Health(BaseSDK):
             request=None,
             request_body_required=False,
             request_has_path_params=False,
-            request_has_query_params=False,
+            request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
+            security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
@@ -70,11 +72,13 @@ class Health(BaseSDK):
                 config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="getHealth",
-                oauth2_scopes=None,
-                security_source=None,
+                oauth2_scopes=[],
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
             ),
             request=req,
-            error_status_codes=["420", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -108,7 +112,7 @@ class Health(BaseSDK):
     ) -> models.HealthServerStatus:
         r"""Get the health status of the server
 
-        Get the current health status of the server (Leader or Worker Node).
+        Get the current health status of the server (Leader or Worker Node).  In Distributed deployments, requests routed to a Worker or Edge node using the [host context](https://docs.cribl.io/cribl-as-code/api#base-url-group-fleet-host) require a Bearer token for [authentication](https://docs.cribl.io/cribl-as-code/api-auth/).
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -132,10 +136,11 @@ class Health(BaseSDK):
             request=None,
             request_body_required=False,
             request_has_path_params=False,
-            request_has_query_params=False,
+            request_has_query_params=True,
             user_agent_header="user-agent",
             accept_header_value="application/json",
             http_headers=http_headers,
+            security=self.sdk_configuration.security,
             allow_empty_value=None,
             timeout_ms=timeout_ms,
         )
@@ -157,11 +162,13 @@ class Health(BaseSDK):
                 config=self.sdk_configuration,
                 base_url=base_url or "",
                 operation_id="getHealth",
-                oauth2_scopes=None,
-                security_source=None,
+                oauth2_scopes=[],
+                security_source=get_security_from_env(
+                    self.sdk_configuration.security, models.Security
+                ),
             ),
             request=req,
-            error_status_codes=["420", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 

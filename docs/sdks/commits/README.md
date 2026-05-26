@@ -4,13 +4,57 @@
 
 ### Available Operations
 
+* [list](#list) - List the commit history
 * [create](#create) - Create a new commit for pending changes to the Cribl configuration
 * [diff](#diff) - Get the diff for a commit
-* [list](#list) - List the commit history
 * [push](#push) - Push local commits to the remote repository
 * [revert](#revert) - Revert a commit in the local repository
 * [get](#get) - Get the diff and log message for a commit
 * [undo](#undo) - Discard uncommitted (staged) changes
+
+## list
+
+List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="getVersion" method="get" path="/version" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.versions.commits.list(count=893.58)
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                             | Type                                                                  | Required                                                              | Description                                                           |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
+| `count`                                                               | *Optional[int]*                                                       | :heavy_minus_sign:                                                    | Maximum number of commits to return in the response for this request. |
+| `retries`                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)      | :heavy_minus_sign:                                                    | Configuration to override the default retry behavior of the client.   |
+
+### Response
+
+**[models.CountedGitLogResult](../../models/countedgitlogresult.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
 
 ## create
 
@@ -120,50 +164,6 @@ with CriblControlPlane(
 ### Response
 
 **[models.CountedGitDiffResult](../../models/countedgitdiffresult.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
-## list
-
-List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="getVersion" method="get" path="/version" -->
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    "https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.versions.commits.list(count=893.58)
-
-    # Handle response
-    print(res)
-
-```
-
-### Parameters
-
-| Parameter                                                             | Type                                                                  | Required                                                              | Description                                                           |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `count`                                                               | *Optional[int]*                                                       | :heavy_minus_sign:                                                    | Maximum number of commits to return in the response for this request. |
-| `retries`                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)      | :heavy_minus_sign:                                                    | Configuration to override the default retry behavior of the client.   |
-
-### Response
-
-**[models.CountedGitLogResult](../../models/countedgitlogresult.md)**
 
 ### Errors
 

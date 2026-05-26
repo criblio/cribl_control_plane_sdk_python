@@ -1,6 +1,6 @@
 # DistMode
 
-Distributed deployment mode for this instance.
+Distributed deployment mode for the instance.
 
 ## Example Usage
 

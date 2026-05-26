@@ -1,6 +1,6 @@
 # HBLeaderInfo
 
-Connection parameters for the Leader node, as reported in a Worker heartbeat.
+Connection parameters for the Leader Node, as reported in a Worker heartbeat.
 
 
 ## Fields

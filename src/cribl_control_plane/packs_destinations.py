@@ -43,12 +43,12 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""List all Destinations within a Pack
 
         Get a list of all Destinations within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param type: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -110,13 +110,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -138,12 +138,12 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""List all Destinations within a Pack
 
         Get a list of all Destinations within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to list.
+        :param pack: The <code>id</code> of the Pack.
         :param type: Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -205,13 +205,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -236,13 +236,13 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Create a Destination within a Pack
 
         Create a new Destination within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
-        :param request_body: Output object
+        :param pack: The <code>id</code> of the Pack.
+        :param request_body: Output object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -312,13 +312,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -343,13 +343,13 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Create a Destination within a Pack
 
         Create a new Destination within the specified Pack.
 
-        :param pack: The <code>id</code> of the Pack to create.
-        :param request_body: Output object
+        :param pack: The <code>id</code> of the Pack.
+        :param request_body: Output object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -419,13 +419,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -447,13 +447,13 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Get a Destination within a Pack
 
         Get the specified Destination within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -514,13 +514,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -542,13 +542,13 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Get a Destination within a Pack
 
         Get the specified Destination within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to get.
-        :param pack: The <code>id</code> of the Pack to get.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -609,13 +609,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -638,14 +638,14 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Update a Destination within a Pack
 
         Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to update.
-        :param pack: The <code>id</code> of the Pack to update.
-        :param output: Output object
+        :param pack: The <code>id</code> of the Pack.
+        :param output: Output object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -710,13 +710,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -739,14 +739,14 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Update a Destination within a Pack
 
         Update the specified Destination.<br/><br/>Provide a complete representation of the Destination that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Destination.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Destination might not function as expected within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to update.
-        :param pack: The <code>id</code> of the Pack to update.
-        :param output: Output object
+        :param pack: The <code>id</code> of the Pack.
+        :param output: Output object.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -811,13 +811,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -839,13 +839,13 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Delete a Destination within a Pack
 
         Delete the specified Destination within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -906,13 +906,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -934,13 +934,13 @@ class PacksDestinations(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedOutput:
+    ) -> models.CountedOutputResponse:
         r"""Delete a Destination within a Pack
 
         Delete the specified Destination within the specified Pack.
 
         :param id: The <code>id</code> of the Destination to delete.
-        :param pack: The <code>id</code> of the Pack to delete.
+        :param pack: The <code>id</code> of the Pack.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1001,13 +1001,13 @@ class PacksDestinations(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedOutput, http_res)
+            return unmarshal_json_response(models.CountedOutputResponse, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

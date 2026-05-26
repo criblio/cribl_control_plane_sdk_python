@@ -76,7 +76,7 @@ class Cribl(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -161,7 +161,7 @@ class Cribl(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -208,7 +208,7 @@ class Cribl(BaseSDK):
         ],
         tls: Union[models.TLSSettingsUnion, models.TLSSettingsUnionTypedDict],
         upgrade_group_settings: Union[
-            models.UpgradeGroupSettingsUnion, models.UpgradeGroupSettingsUnionTypedDict
+            models.UpgradeGroupSettings, models.UpgradeGroupSettingsTypedDict
         ],
         upgrade_settings: Union[
             models.UpgradeSettings, models.UpgradeSettingsTypedDict
@@ -217,6 +217,12 @@ class Cribl(BaseSDK):
             models.WorkersTypeSystemSettingsConf,
             models.WorkersTypeSystemSettingsConfTypedDict,
         ],
+        apps: Optional[
+            Union[
+                models.AppsTypeSystemSettingsConf,
+                models.AppsTypeSystemSettingsConfTypedDict,
+            ]
+        ] = None,
         custom_logo: Optional[
             Union[
                 models.CustomLogoTypeSystemSettingsConf,
@@ -256,6 +262,7 @@ class Cribl(BaseSDK):
         :param upgrade_group_settings:
         :param upgrade_settings:
         :param workers:
+        :param apps:
         :param custom_logo:
         :param sockets:
         :param support:
@@ -276,6 +283,9 @@ class Cribl(BaseSDK):
 
         request = models.SystemSettingsConf(
             api=utils.get_pydantic_model(api, models.APITypeSystemSettingsConf),
+            apps=utils.get_pydantic_model(
+                apps, Optional[models.AppsTypeSystemSettingsConf]
+            ),
             backups=utils.get_pydantic_model(backups, models.BackupsSettingsUnion),
             custom_logo=utils.get_pydantic_model(
                 custom_logo, Optional[models.CustomLogoTypeSystemSettingsConf]
@@ -298,7 +308,7 @@ class Cribl(BaseSDK):
             ),
             tls=utils.get_pydantic_model(tls, models.TLSSettingsUnion),
             upgrade_group_settings=utils.get_pydantic_model(
-                upgrade_group_settings, models.UpgradeGroupSettingsUnion
+                upgrade_group_settings, models.UpgradeGroupSettings
             ),
             upgrade_settings=utils.get_pydantic_model(
                 upgrade_settings, models.UpgradeSettings
@@ -351,7 +361,7 @@ class Cribl(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
@@ -398,7 +408,7 @@ class Cribl(BaseSDK):
         ],
         tls: Union[models.TLSSettingsUnion, models.TLSSettingsUnionTypedDict],
         upgrade_group_settings: Union[
-            models.UpgradeGroupSettingsUnion, models.UpgradeGroupSettingsUnionTypedDict
+            models.UpgradeGroupSettings, models.UpgradeGroupSettingsTypedDict
         ],
         upgrade_settings: Union[
             models.UpgradeSettings, models.UpgradeSettingsTypedDict
@@ -407,6 +417,12 @@ class Cribl(BaseSDK):
             models.WorkersTypeSystemSettingsConf,
             models.WorkersTypeSystemSettingsConfTypedDict,
         ],
+        apps: Optional[
+            Union[
+                models.AppsTypeSystemSettingsConf,
+                models.AppsTypeSystemSettingsConfTypedDict,
+            ]
+        ] = None,
         custom_logo: Optional[
             Union[
                 models.CustomLogoTypeSystemSettingsConf,
@@ -446,6 +462,7 @@ class Cribl(BaseSDK):
         :param upgrade_group_settings:
         :param upgrade_settings:
         :param workers:
+        :param apps:
         :param custom_logo:
         :param sockets:
         :param support:
@@ -466,6 +483,9 @@ class Cribl(BaseSDK):
 
         request = models.SystemSettingsConf(
             api=utils.get_pydantic_model(api, models.APITypeSystemSettingsConf),
+            apps=utils.get_pydantic_model(
+                apps, Optional[models.AppsTypeSystemSettingsConf]
+            ),
             backups=utils.get_pydantic_model(backups, models.BackupsSettingsUnion),
             custom_logo=utils.get_pydantic_model(
                 custom_logo, Optional[models.CustomLogoTypeSystemSettingsConf]
@@ -488,7 +508,7 @@ class Cribl(BaseSDK):
             ),
             tls=utils.get_pydantic_model(tls, models.TLSSettingsUnion),
             upgrade_group_settings=utils.get_pydantic_model(
-                upgrade_group_settings, models.UpgradeGroupSettingsUnion
+                upgrade_group_settings, models.UpgradeGroupSettings
             ),
             upgrade_settings=utils.get_pydantic_model(
                 upgrade_settings, models.UpgradeSettings
@@ -541,7 +561,7 @@ class Cribl(BaseSDK):
                 ),
             ),
             request=req,
-            error_status_codes=["401", "4XX", "500", "5XX"],
+            is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 

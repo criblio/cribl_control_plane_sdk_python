@@ -9,9 +9,9 @@ Actions related to Packs
 * [install](#install) - Install a Pack
 * [list](#list) - List all Packs
 * [upload](#upload) - Upload a Pack file
-* [delete](#delete) - Uninstall a Pack
 * [get](#get) - Get a Pack
 * [update](#update) - Upgrade a Pack
+* [delete](#delete) - Uninstall a Pack
 
 ## install
 
@@ -230,7 +230,7 @@ with CriblControlPlane(
 
 ## upload
 
-Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs source</code>, which you must call separately.
+Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</code>, which you must call separately.
 
 ### Example Usage
 
@@ -265,50 +265,6 @@ with CriblControlPlane(
 ### Response
 
 **[models.UploadPackResponse](../../models/uploadpackresponse.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
-## delete
-
-Uninstall the specified Pack.
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="deletePacksById" method="delete" path="/packs/{id}" -->
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    "https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.packs.delete(id="<id>")
-
-    # Handle response
-    print(res)
-
-```
-
-### Parameters
-
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to uninstall.                       |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
-
-### Response
-
-**[models.CountedPackUninstallInfo](../../models/countedpackuninstallinfo.md)**
 
 ### Errors
 
@@ -401,6 +357,50 @@ with CriblControlPlane(
 ### Response
 
 **[models.CountedPackInfo](../../models/countedpackinfo.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
+
+## delete
+
+Uninstall the specified Pack.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="deletePacksById" method="delete" path="/packs/{id}" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.delete(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to uninstall.                       |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
+
+### Response
+
+**[models.CountedPackUninstallInfo](../../models/countedpackuninstallinfo.md)**
 
 ### Errors
 

@@ -40,13 +40,13 @@ with CriblControlPlane(
 
 | Parameter                                                                                                                                                   | Type                                                                                                                                                        | Required                                                                                                                                                    | Description                                                                                                                                                 |
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `pack`                                                                                                                                                      | *str*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                          | The <code>id</code> of the Pack to list.                                                                                                                    |
+| `pack`                                                                                                                                                      | *str*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                          | The <code>id</code> of the Pack.                                                                                                                            |
 | `type`                                                                                                                                                      | List[*str*]                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                          | Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
 | `retries`                                                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                            | :heavy_minus_sign:                                                                                                                                          | Configuration to override the default retry behavior of the client.                                                                                         |
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 
@@ -57,8 +57,76 @@ with CriblControlPlane(
 
 ## create
 
-Create a new Source within the specified Pack.
+Create a new Source. The system-managed provenance field (JSON <code>criblSourceProvenance</code>) must be omitted from the request body within the specified Pack.
 
+### Example Usage: InputCreateExamplesAnthropicCompliance
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAnthropicCompliance" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "anthropic-compliance-source",
+        "type": models.CreateInputSystemByPackTypeAnthropicCompliance.ANTHROPIC_COMPLIANCE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "anthropic-api-key-secret",
+        "content_config": [
+            {
+                "content_type": "activities",
+                "content_description": "Compliance Activities",
+                "enabled": True,
+                "state_tracking": True,
+                "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
+                "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-7d@d",
+                "latest": "now",
+                "job_timeout": "300",
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesAppleUnifiedLogs
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAppleUnifiedLogs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "apple-unified-logs-source",
+        "type": models.CreateInputSystemByPackTypeAppleUnifiedLogs.APPLE_UNIFIED_LOGS,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "predicate": "subsystem == \"com.apple.security\"",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesAppscope
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAppscope" -->
@@ -482,14 +550,19 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.create(pack="<value>", request_body={
-        "id": "eventhub-amqp-source",
-        "type": models.CreateInputSystemByPackTypeEventhubAmqp.EVENTHUB_AMQP,
-        "send_to_routes": True,
-        "pq_enabled": False,
-        "event_hub_name": "my-event-hub",
-        "consumer_group": "$Default",
-    })
+    res = ccp_client.packs.sources.create(pack="<value>", request_body=models.CreateInputSystemByPackInputEventhubAmqp(
+        id="eventhub-amqp-source",
+        type=models.CreateInputSystemByPackTypeEventhubAmqp.EVENTHUB_AMQP,
+        send_to_routes=True,
+        pq_enabled=False,
+        event_hub_name="my-event-hub",
+        consumer_group="$Default",
+        checkpointing=models.CreateInputSystemByPackCheckpointing(
+            blob_store=models.CreateInputSystemByPackAzureBlobStorage(
+                container_name="my-container",
+            ),
+        ),
+    ))
 
     # Handle response
     print(res)
@@ -1119,6 +1192,37 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOkta
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesOkta" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "okta-source",
+        "type": models.CreateInputSystemByPackTypeOkta.OKTA,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "okta_domain": "your-org",
+        "text_secret": "okta-api-token-secret",
+        "cron_schedule": "*/5 * * * *",
+        "earliest": "-7d@d",
+        "latest": "now",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenAI
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesOpenAI" -->
@@ -1433,7 +1537,6 @@ with CriblControlPlane(
             "number",
             "short_description",
         ],
-        "use_raw_values": True,
         "page_size": 10000,
         "cron_schedule": "0 * * * *",
         "earliest": "-1d",
@@ -1551,9 +1654,10 @@ with CriblControlPlane(
         "pq_enabled": False,
         "search_head": "https://localhost:8089",
         "search": "index=main",
-        "cron_schedule": "0 * * * *",
-        "endpoint": "/services/search/jobs/export",
+        "cron_schedule": "*/15 * * * *",
+        "endpoint": "/services/search/v2/jobs/export",
         "output_mode": models.OutputModeOptionsSplunkCollectorConf.JSON,
+        "auth_type": models.CreateInputSystemByPackAuthenticationTypeSplunkSearch.BASIC,
     })
 
     # Handle response
@@ -1910,13 +2014,13 @@ with CriblControlPlane(
 
 | Parameter                                                                                       | Type                                                                                            | Required                                                                                        | Description                                                                                     |
 | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `pack`                                                                                          | *str*                                                                                           | :heavy_check_mark:                                                                              | The <code>id</code> of the Pack to create.                                                      |
-| `request_body`                                                                                  | [models.CreateInputSystemByPackRequestBody](../../models/createinputsystembypackrequestbody.md) | :heavy_check_mark:                                                                              | Input object                                                                                    |
+| `pack`                                                                                          | *str*                                                                                           | :heavy_check_mark:                                                                              | The <code>id</code> of the Pack.                                                                |
+| `request_body`                                                                                  | [models.CreateInputSystemByPackRequestBody](../../models/createinputsystembypackrequestbody.md) | :heavy_check_mark:                                                                              | Input object.                                                                                   |
 | `retries`                                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                | :heavy_minus_sign:                                                                              | Configuration to override the default retry behavior of the client.                             |
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 
@@ -1956,12 +2060,12 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Source to get.                           |
-| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to get.                             |
+| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 
@@ -1972,8 +2076,76 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Source.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
+Update the specified Source.<br/><br/>Provide a complete representation of the Source that you want to update in the request body. This endpoint does not support partial updates. Cribl removes omitted fields when updating the Source, except for <code>criblSourceProvenance</code> (its value is preserved when omitted and cannot be overwritten).<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Source might not function as expected within the specified Pack.
 
+### Example Usage: InputCreateExamplesAnthropicCompliance
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesAnthropicCompliance" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "anthropic-compliance-source",
+        "type": models.InputAnthropicComplianceType.ANTHROPIC_COMPLIANCE,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "text_secret": "anthropic-api-key-secret",
+        "content_config": [
+            {
+                "content_type": "activities",
+                "content_description": "Compliance Activities",
+                "enabled": True,
+                "state_tracking": True,
+                "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
+                "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
+                "cron_schedule": "*/5 * * * *",
+                "earliest": "-7d@d",
+                "latest": "now",
+                "job_timeout": "300",
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesAppleUnifiedLogs
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesAppleUnifiedLogs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "apple-unified-logs-source",
+        "type": models.InputAppleUnifiedLogsType.APPLE_UNIFIED_LOGS,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "predicate": "subsystem == \"com.apple.security\"",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesAppscope
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesAppscope" -->
@@ -2099,7 +2271,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputConfluentCloud(
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputConfluentCloudInput(
         id="confluent-cloud-source",
         type=models.InputConfluentCloudType.CONFLUENT_CLOUD,
         send_to_routes=True,
@@ -2397,14 +2569,19 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
-        "id": "eventhub-amqp-source",
-        "type": models.InputEventhubAmqpType.EVENTHUB_AMQP,
-        "send_to_routes": True,
-        "pq_enabled": False,
-        "event_hub_name": "my-event-hub",
-        "consumer_group": "$Default",
-    })
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputEventhubAmqpInput(
+        id="eventhub-amqp-source",
+        type=models.InputEventhubAmqpType.EVENTHUB_AMQP,
+        send_to_routes=True,
+        pq_enabled=False,
+        event_hub_name="my-event-hub",
+        consumer_group="$Default",
+        checkpointing=models.InputEventhubAmqpCheckpointing(
+            blob_store=models.InputEventhubAmqpAzureBlobStorage(
+                container_name="my-container",
+            ),
+        ),
+    ))
 
     # Handle response
     print(res)
@@ -2651,7 +2828,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputKafka(
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputKafkaInput(
         id="kafka-source",
         type=models.InputKafkaType.KAFKA,
         send_to_routes=True,
@@ -2902,7 +3079,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputMsk(
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_=models.InputMskInput(
         id="msk-source",
         type=models.InputMskType.MSK,
         send_to_routes=True,
@@ -3034,6 +3211,37 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesOkta
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesOkta" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "okta-source",
+        "type": models.InputOktaType.OKTA,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "okta_domain": "your-org",
+        "text_secret": "okta-api-token-secret",
+        "cron_schedule": "*/5 * * * *",
+        "earliest": "-7d@d",
+        "latest": "now",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesOpenAI
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="InputCreateExamplesOpenAI" -->
@@ -3067,7 +3275,7 @@ with CriblControlPlane(
                         "value": "100",
                     },
                 ],
-                "pagination_type": models.PaginationType.RESPONSE_BODY,
+                "pagination_type": models.InputOpenaiPaginationType.RESPONSE_BODY,
                 "pagination_attribute": [
                     "last_id",
                 ],
@@ -3105,7 +3313,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "openai-api-key-secret",
-        "account_type": models.AccountType.WORKSPACE,
+        "account_type": models.InputOpenaiComplianceLogsAccountType.WORKSPACE,
         "cron_schedule": "*/15 * * * *",
         "earliest": "-1h",
         "latest": "now",
@@ -3348,7 +3556,6 @@ with CriblControlPlane(
             "number",
             "short_description",
         ],
-        "use_raw_values": True,
         "page_size": 10000,
         "cron_schedule": "0 * * * *",
         "earliest": "-1d",
@@ -3466,9 +3673,10 @@ with CriblControlPlane(
         "pq_enabled": False,
         "search_head": "https://localhost:8089",
         "search": "index=main",
-        "cron_schedule": "0 * * * *",
-        "endpoint": "/services/search/jobs/export",
+        "cron_schedule": "*/15 * * * *",
+        "endpoint": "/services/search/v2/jobs/export",
         "output_mode": models.OutputModeOptionsSplunkCollectorConf.JSON,
+        "auth_type": models.InputSplunkSearchAuthenticationType.BASIC,
     })
 
     # Handle response
@@ -3878,13 +4086,13 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Source to update.                        |
-| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to update.                          |
-| `input`                                                             | [models.Input2](../../models/input2.md)                             | :heavy_check_mark:                                                  | Input object                                                        |
+| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
+| `input`                                                             | [models.Input](../../models/input.md)                               | :heavy_check_mark:                                                  | Input object.                                                       |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 
@@ -3924,12 +4132,12 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Source to delete.                        |
-| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack to delete.                          |
+| `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedInput](../../models/countedinput.md)**
+**[models.CountedInputResponse](../../models/countedinputresponse.md)**
 
 ### Errors
 

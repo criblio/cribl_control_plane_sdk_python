@@ -13,9 +13,9 @@ from .authenticationmethodoptionss3collectorconf import (
 )
 from .authenticationtype import AuthenticationType, AuthenticationTypeTypedDict
 from .authenticationtypeuse import AuthenticationTypeUse, AuthenticationTypeUseTypedDict
-from .authtypeauthtypecredentialssecret import (
-    AuthTypeAuthTypeCredentialsSecret,
-    AuthTypeAuthTypeCredentialsSecretTypedDict,
+from .authtypetemplatemanualapikeyauthtype import (
+    AuthTypeTemplatemanualAPIKeyAuthType,
+    AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict,
 )
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
@@ -29,15 +29,19 @@ from .compressionoptionsgziplz4 import CompressionOptionsGzipLz4
 from .compressionoptionsgzipnone import CompressionOptionsGzipNone
 from .compressionoptionshttp import CompressionOptionsHTTP
 from .compressionoptionspq import CompressionOptionsPq
-from .createoutputsystembypack_timestamp_precision import (
+from .createoutputsystembypack_type_statsd import (
+    CreateOutputSystemByPackOutputAlibabaCloudS3,
+    CreateOutputSystemByPackOutputAlibabaCloudS3TypedDict,
+    CreateOutputSystemByPackOutputAlphasocS3,
+    CreateOutputSystemByPackOutputAlphasocS3TypedDict,
     CreateOutputSystemByPackOutputChronicle,
     CreateOutputSystemByPackOutputChronicleTypedDict,
     CreateOutputSystemByPackOutputClickHouse,
     CreateOutputSystemByPackOutputClickHouseTypedDict,
     CreateOutputSystemByPackOutputCloudflareR2,
     CreateOutputSystemByPackOutputCloudflareR2TypedDict,
-    CreateOutputSystemByPackOutputCloudwatch,
-    CreateOutputSystemByPackOutputCloudwatchTypedDict,
+    CreateOutputSystemByPackOutputCloudianS3,
+    CreateOutputSystemByPackOutputCloudianS3TypedDict,
     CreateOutputSystemByPackOutputCriblHTTP,
     CreateOutputSystemByPackOutputCriblHTTPTypedDict,
     CreateOutputSystemByPackOutputCriblLake,
@@ -54,6 +58,8 @@ from .createoutputsystembypack_timestamp_precision import (
     CreateOutputSystemByPackOutputDatadogTypedDict,
     CreateOutputSystemByPackOutputDataset,
     CreateOutputSystemByPackOutputDatasetTypedDict,
+    CreateOutputSystemByPackOutputDellS3,
+    CreateOutputSystemByPackOutputDellS3TypedDict,
     CreateOutputSystemByPackOutputDiskSpool,
     CreateOutputSystemByPackOutputDiskSpoolTypedDict,
     CreateOutputSystemByPackOutputDlS3,
@@ -74,8 +80,6 @@ from .createoutputsystembypack_timestamp_precision import (
     CreateOutputSystemByPackOutputLokiTypedDict,
     CreateOutputSystemByPackOutputMicrosoftFabric,
     CreateOutputSystemByPackOutputMicrosoftFabricTypedDict,
-    CreateOutputSystemByPackOutputMinio,
-    CreateOutputSystemByPackOutputMinioTypedDict,
     CreateOutputSystemByPackOutputNetflow,
     CreateOutputSystemByPackOutputNetflowTypedDict,
     CreateOutputSystemByPackOutputNutanixObjects,
@@ -88,6 +92,8 @@ from .createoutputsystembypack_timestamp_precision import (
     CreateOutputSystemByPackOutputRingTypedDict,
     CreateOutputSystemByPackOutputRouter,
     CreateOutputSystemByPackOutputRouterTypedDict,
+    CreateOutputSystemByPackOutputScalityS3,
+    CreateOutputSystemByPackOutputScalityS3TypedDict,
     CreateOutputSystemByPackOutputSecurityLake,
     CreateOutputSystemByPackOutputSecurityLakeTypedDict,
     CreateOutputSystemByPackOutputSentinelOneAiSiem,
@@ -100,45 +106,38 @@ from .createoutputsystembypack_timestamp_precision import (
     CreateOutputSystemByPackOutputSnsTypedDict,
     CreateOutputSystemByPackOutputSqs,
     CreateOutputSystemByPackOutputSqsTypedDict,
-    CreateOutputSystemByPackOutputStatsd,
     CreateOutputSystemByPackOutputStatsdExt,
     CreateOutputSystemByPackOutputStatsdExtTypedDict,
-    CreateOutputSystemByPackOutputStatsdTypedDict,
+    CreateOutputSystemByPackOutputStorjS3,
+    CreateOutputSystemByPackOutputStorjS3TypedDict,
     CreateOutputSystemByPackOutputSumoLogic,
     CreateOutputSystemByPackOutputSumoLogicTypedDict,
     CreateOutputSystemByPackOutputXsiam,
     CreateOutputSystemByPackOutputXsiamTypedDict,
-    CreateOutputSystemByPackTimestampPrecision,
-    CreateOutputSystemByPackTypeInfluxdb,
+    CreateOutputSystemByPackTypeStatsd,
 )
 from .dataformatoptions import DataFormatOptions
 from .datapageversionoptions import DataPageVersionOptions
+from .destinationprotocoloptions import DestinationProtocolOptions
 from .diskspaceprotectionoptions import DiskSpaceProtectionOptions
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
+from .hostconfoutputsyslog import HostConfOutputSyslog, HostConfOutputSyslogTypedDict
+from .kafkaschemaregistryauthenticationtypetemplateschemaregistryurlauth import (
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth,
+    KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict,
 )
-from .itemstypehosts import ItemsTypeHosts, ItemsTypeHostsTypedDict
-from .itemstypekeyvaluemetadata import (
-    ItemsTypeKeyValueMetadata,
-    ItemsTypeKeyValueMetadataTypedDict,
+from .keyvaluemetadataconfoutputfilesystem import (
+    KeyValueMetadataConfOutputFilesystem,
+    KeyValueMetadataConfOutputFilesystemTypedDict,
 )
-from .itemstypeloglabels import ItemsTypeLogLabels, ItemsTypeLogLabelsTypedDict
-from .itemstypeoauthheaders import ItemsTypeOauthHeaders, ItemsTypeOauthHeadersTypedDict
-from .itemstypeoauthparams import ItemsTypeOauthParams, ItemsTypeOauthParamsTypedDict
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
-from .itemstypesaslsaslextensions import (
-    ItemsTypeSaslSaslExtensions,
-    ItemsTypeSaslSaslExtensionsTypedDict,
-)
-from .kafkaschemaregistryauthenticationtypeauthconnectiontimeout import (
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout,
-    KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict,
+from .loglabelconfoutputgooglecloudlogging import (
+    LogLabelConfOutputGoogleCloudLogging,
+    LogLabelConfOutputGoogleCloudLoggingTypedDict,
 )
 from .maxs2sversionoptions import MaxS2SVersionOptions
 from .methodoptions import MethodOptions
@@ -147,6 +146,14 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
 )
 from .modeoptions import ModeOptions
 from .nestedfieldserializationoptions import NestedFieldSerializationOptions
+from .oauthheaderconfinputservicenowtable import (
+    OauthHeaderConfInputServicenowTable,
+    OauthHeaderConfInputServicenowTableTypedDict,
+)
+from .oauthparamconfinputservicenowtable import (
+    OauthParamConfInputServicenowTable,
+    OauthParamConfInputServicenowTableTypedDict,
+)
 from .objectacloptions import ObjectACLOptions
 from .objectacloptionsauthenticatedreadbucketownerfullcontrol import (
     ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol,
@@ -160,18 +167,26 @@ from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .recorddataformatoptions import RecordDataFormatOptions
 from .recorddataformatoptionsjsonprotobuf import RecordDataFormatOptionsJSONProtobuf
 from .regionoptions import RegionOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .saslextensionconfinputkafka import (
+    SaslExtensionConfInputKafka,
+    SaslExtensionConfInputKafkaTypedDict,
+)
 from .serversideencryptionforuploadedobjectsoptions import (
     ServerSideEncryptionForUploadedObjectsOptions,
 )
-from .signatureversionoptions import SignatureVersionOptions
-from .signatureversionoptionsgoogle import SignatureVersionOptionsGoogle
-from .signatureversionoptionskinesis import SignatureVersionOptionsKinesis
-from .signatureversionoptionss3collectorconf import (
-    SignatureVersionOptionsS3CollectorConf,
+from .serversideencryptionforuploadedobjectsoptionsaes256 import (
+    ServerSideEncryptionForUploadedObjectsOptionsAes256,
 )
 from .storageclassoptions import StorageClassOptions
 from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
+from .storageclassoptionsreducedredundancystandard import (
+    StorageClassOptionsReducedredundancyStandard,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -201,6 +216,1422 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateOutputSystemByPackPqControlsStatsdTypedDict(TypedDict):
+    pass
+
+
+class CreateOutputSystemByPackPqControlsStatsd(BaseModel):
+    pass
+
+
+class CreateOutputSystemByPackOutputStatsdTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeStatsd
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
+    host: str
+    r"""The hostname of the destination."""
+    port: float
+    r"""Destination port."""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    mtu: NotRequired[float]
+    r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
+    flush_period_sec: NotRequired[float]
+    r"""When protocol is TCP, specifies how often buffers should be flushed, resulting in records sent to the destination."""
+    dns_resolve_period_sec: NotRequired[float]
+    r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
+    description: NotRequired[str]
+    throttle_rate_per_sec: NotRequired[str]
+    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+    connection_timeout: NotRequired[float]
+    r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
+    write_timeout: NotRequired[float]
+    r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
+    on_backpressure: NotRequired[BackpressureBehaviorOptions]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[ModeOptions]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+    pq_max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+    pq_max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    pq_path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    pq_compress: NotRequired[CompressionOptionsPq]
+    r"""Codec to use to compress the persisted data"""
+    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsStatsdTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+
+class CreateOutputSystemByPackOutputStatsd(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeStatsd
+
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
+
+    host: str
+    r"""The hostname of the destination."""
+
+    port: float
+    r"""Destination port."""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    mtu: Optional[float] = None
+    r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
+
+    flush_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="flushPeriodSec")
+    ] = None
+    r"""When protocol is TCP, specifies how often buffers should be flushed, resulting in records sent to the destination."""
+
+    dns_resolve_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
+    ] = None
+    r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
+
+    description: Optional[str] = None
+
+    throttle_rate_per_sec: Annotated[
+        Optional[str], pydantic.Field(alias="throttleRatePerSec")
+    ] = None
+    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = None
+    r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
+
+    write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
+        None
+    )
+    r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = None
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = None
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = None
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = None
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
+    pq_max_file_size: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxFileSize")
+    ] = None
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+
+    pq_compress: Annotated[
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
+    ] = None
+    r"""Codec to use to compress the persisted data"""
+
+    pq_on_backpressure: Annotated[
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
+    ] = None
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
+    pq_controls: Annotated[
+        Optional[CreateOutputSystemByPackPqControlsStatsd],
+        pydantic.Field(alias="pqControls"),
+    ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    @field_serializer("protocol")
+    def serialize_protocol(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DestinationProtocolOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_mode")
+    def serialize_pq_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_compress")
+    def serialize_pq_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsPq(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_on_backpressure")
+    def serialize_pq_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.QueueFullBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "mtu",
+                "flushPeriodSec",
+                "dnsResolvePeriodSec",
+                "description",
+                "throttleRatePerSec",
+                "connectionTimeout",
+                "writeTimeout",
+                "onBackpressure",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
+                "pqControls",
+                "__template_streamtags",
+                "__template_onBackpressure",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateOutputSystemByPackTypeMinio(str, Enum):
+    MINIO = "minio"
+
+
+class CreateOutputSystemByPackOutputMinioTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeMinio
+    bucket: str
+    r"""Name of the destination MinIO bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+    endpoint: str
+    r"""MinIO service url (e.g. http://minioHost:9000)"""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    region: NotRequired[str]
+    r"""Region where the MinIO bucket is located"""
+    dest_path: NotRequired[str]
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+    max_concurrent_file_parts: NotRequired[float]
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    verify_permissions: NotRequired[bool]
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+    max_closing_files_to_backpressure: NotRequired[float]
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    add_id_to_stage_path: NotRequired[bool]
+    r"""Add the Output ID value to staging location"""
+    remove_empty_dirs: NotRequired[bool]
+    r"""Remove empty staging directories after moving files"""
+    partition_expr: NotRequired[str]
+    r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
+    format_: NotRequired[DataFormatOptions]
+    r"""Format of the output data"""
+    base_file_name: NotRequired[str]
+    r"""JavaScript expression to define the output filename prefix (can be constant)"""
+    file_name_suffix: NotRequired[str]
+    r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
+    max_file_size_mb: NotRequired[float]
+    r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+    max_file_open_time_sec: NotRequired[float]
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    max_file_idle_time_sec: NotRequired[float]
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+    max_open_files: NotRequired[float]
+    r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
+    header_line: NotRequired[str]
+    r"""If set, this line will be written to the beginning of each output file"""
+    write_high_water_mark: NotRequired[float]
+    r"""Buffer size used to write to a file"""
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    deadletter_enabled: NotRequired[bool]
+    r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
+    on_disk_full_backpressure: NotRequired[DiskSpaceProtectionOptions]
+    r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    force_close_on_shutdown: NotRequired[bool]
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+    object_acl: NotRequired[ObjectACLOptions]
+    r"""Object ACL to assign to uploaded objects"""
+    storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
+    r"""Storage class to select for uploaded objects"""
+    server_side_encryption: NotRequired[
+        ServerSideEncryptionForUploadedObjectsOptionsAes256
+    ]
+    r"""Server-side encryption to use for uploaded objects"""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    compress: NotRequired[CompressionOptionsHTTP]
+    r"""Data compression format to apply to HTTP content before it is delivered"""
+    compression_level: NotRequired[CompressionLevelOptions]
+    r"""Compression level to apply before moving files to final destination"""
+    automatic_schema: NotRequired[bool]
+    r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+    parquet_schema: NotRequired[str]
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
+    parquet_version: NotRequired[ParquetVersionOptions]
+    r"""Determines which data types are supported and how they are represented"""
+    parquet_data_page_version: NotRequired[DataPageVersionOptions]
+    r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
+    parquet_row_group_length: NotRequired[float]
+    r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
+    parquet_page_size: NotRequired[str]
+    r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
+    should_log_invalid_rows: NotRequired[bool]
+    r"""Log up to 3 rows that @{product} skips due to data mismatch"""
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
+    r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
+    enable_statistics: NotRequired[bool]
+    r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
+    enable_write_page_index: NotRequired[bool]
+    r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
+    enable_page_checksum: NotRequired[bool]
+    r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
+    empty_dir_cleanup_sec: NotRequired[float]
+    r"""How frequently, in seconds, to clean up empty directories"""
+    directory_batch_size: NotRequired[float]
+    r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
+    deadletter_path: NotRequired[str]
+    r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
+    max_retry_num: NotRequired[float]
+    r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_dest_path: NotRequired[str]
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+    template_partition_expr: NotRequired[str]
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_base_file_name: NotRequired[str]
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+    template_file_name_suffix: NotRequired[str]
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_storage_class: NotRequired[str]
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+    template_server_side_encryption: NotRequired[str]
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
+    template_aws_api_key: NotRequired[str]
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
+
+class CreateOutputSystemByPackOutputMinio(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeMinio
+
+    bucket: str
+    r"""Name of the destination MinIO bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
+    endpoint: str
+    r"""MinIO service url (e.g. http://minioHost:9000)"""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = None
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = None
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    region: Optional[str] = None
+    r"""Region where the MinIO bucket is located"""
+
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+
+    max_concurrent_file_parts: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    ] = None
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+
+    verify_permissions: Annotated[
+        Optional[bool], pydantic.Field(alias="verifyPermissions")
+    ] = None
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+
+    max_closing_files_to_backpressure: Annotated[
+        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
+    ] = None
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+
+    add_id_to_stage_path: Annotated[
+        Optional[bool], pydantic.Field(alias="addIdToStagePath")
+    ] = None
+    r"""Add the Output ID value to staging location"""
+
+    remove_empty_dirs: Annotated[
+        Optional[bool], pydantic.Field(alias="removeEmptyDirs")
+    ] = None
+    r"""Remove empty staging directories after moving files"""
+
+    partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
+        None
+    )
+    r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
+
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        None
+    )
+    r"""Format of the output data"""
+
+    base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
+        None
+    )
+    r"""JavaScript expression to define the output filename prefix (can be constant)"""
+
+    file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="fileNameSuffix")
+    ] = None
+    r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
+
+    max_file_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileSizeMB")
+    ] = None
+    r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+
+    max_file_open_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
+    ] = None
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+
+    max_file_idle_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    ] = None
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+
+    max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
+        None
+    )
+    r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
+
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
+    r"""If set, this line will be written to the beginning of each output file"""
+
+    write_high_water_mark: Annotated[
+        Optional[float], pydantic.Field(alias="writeHighWaterMark")
+    ] = None
+    r"""Buffer size used to write to a file"""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    deadletter_enabled: Annotated[
+        Optional[bool], pydantic.Field(alias="deadletterEnabled")
+    ] = None
+    r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
+
+    on_disk_full_backpressure: Annotated[
+        Optional[DiskSpaceProtectionOptions],
+        pydantic.Field(alias="onDiskFullBackpressure"),
+    ] = None
+    r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+
+    force_close_on_shutdown: Annotated[
+        Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
+    ] = None
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+
+    object_acl: Annotated[
+        Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
+    ] = None
+    r"""Object ACL to assign to uploaded objects"""
+
+    storage_class: Annotated[
+        Optional[StorageClassOptionsReducedredundancyStandard],
+        pydantic.Field(alias="storageClass"),
+    ] = None
+    r"""Storage class to select for uploaded objects"""
+
+    server_side_encryption: Annotated[
+        Optional[ServerSideEncryptionForUploadedObjectsOptionsAes256],
+        pydantic.Field(alias="serverSideEncryption"),
+    ] = None
+    r"""Server-side encryption to use for uploaded objects"""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    compress: Optional[CompressionOptionsHTTP] = None
+    r"""Data compression format to apply to HTTP content before it is delivered"""
+
+    compression_level: Annotated[
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
+    ] = None
+    r"""Compression level to apply before moving files to final destination"""
+
+    automatic_schema: Annotated[
+        Optional[bool], pydantic.Field(alias="automaticSchema")
+    ] = None
+    r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+
+    parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
+        None
+    )
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
+
+    parquet_version: Annotated[
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
+    ] = None
+    r"""Determines which data types are supported and how they are represented"""
+
+    parquet_data_page_version: Annotated[
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
+    ] = None
+    r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
+
+    parquet_row_group_length: Annotated[
+        Optional[float], pydantic.Field(alias="parquetRowGroupLength")
+    ] = None
+    r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
+
+    parquet_page_size: Annotated[
+        Optional[str], pydantic.Field(alias="parquetPageSize")
+    ] = None
+    r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
+
+    should_log_invalid_rows: Annotated[
+        Optional[bool], pydantic.Field(alias="shouldLogInvalidRows")
+    ] = None
+    r"""Log up to 3 rows that @{product} skips due to data mismatch"""
+
+    key_value_metadata: Annotated[
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
+        pydantic.Field(alias="keyValueMetadata"),
+    ] = None
+    r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
+
+    enable_statistics: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStatistics")
+    ] = None
+    r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
+
+    enable_write_page_index: Annotated[
+        Optional[bool], pydantic.Field(alias="enableWritePageIndex")
+    ] = None
+    r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
+
+    enable_page_checksum: Annotated[
+        Optional[bool], pydantic.Field(alias="enablePageChecksum")
+    ] = None
+    r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
+
+    empty_dir_cleanup_sec: Annotated[
+        Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
+    ] = None
+    r"""How frequently, in seconds, to clean up empty directories"""
+
+    directory_batch_size: Annotated[
+        Optional[float], pydantic.Field(alias="directoryBatchSize")
+    ] = None
+    r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
+
+    deadletter_path: Annotated[
+        Optional[str], pydantic.Field(alias="deadletterPath")
+    ] = None
+    r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
+
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
+    r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_dest_path: Annotated[
+        Optional[str], pydantic.Field(alias="__template_destPath")
+    ] = None
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+
+    template_partition_expr: Annotated[
+        Optional[str], pydantic.Field(alias="__template_partitionExpr")
+    ] = None
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
+
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+
+    template_base_file_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_baseFileName")
+    ] = None
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+
+    template_file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_fileNameSuffix")
+    ] = None
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_object_acl: Annotated[
+        Optional[str], pydantic.Field(alias="__template_objectACL")
+    ] = None
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+
+    template_storage_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageClass")
+    ] = None
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+
+    template_server_side_encryption: Annotated[
+        Optional[str], pydantic.Field(alias="__template_serverSideEncryption")
+    ] = None
+    r"""Binds 'serverSideEncryption' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serverSideEncryption' at runtime."""
+
+    template_aws_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsApiKey")
+    ] = None
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("format_")
+    def serialize_format_(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataFormatOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_disk_full_backpressure")
+    def serialize_on_disk_full_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DiskSpaceProtectionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("object_acl")
+    def serialize_object_acl(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ObjectACLOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("storage_class")
+    def serialize_storage_class(self, value):
+        if isinstance(value, str):
+            try:
+                return models.StorageClassOptionsReducedredundancyStandard(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("server_side_encryption")
+    def serialize_server_side_encryption(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ServerSideEncryptionForUploadedObjectsOptionsAes256(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("compress")
+    def serialize_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsHTTP(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("compression_level")
+    def serialize_compression_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionLevelOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("parquet_version")
+    def serialize_parquet_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ParquetVersionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("parquet_data_page_version")
+    def serialize_parquet_data_page_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataPageVersionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAuthenticationMethod",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "region",
+                "destPath",
+                "maxConcurrentFileParts",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "addIdToStagePath",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "orphans",
+                "awsSecretKey",
+                "objectACL",
+                "storageClass",
+                "serverSideEncryption",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+                "__template_streamtags",
+                "__template_bucket",
+                "__template_region",
+                "__template_destPath",
+                "__template_partitionExpr",
+                "__template_format",
+                "__template_baseFileName",
+                "__template_fileNameSuffix",
+                "__template_onBackpressure",
+                "__template_awsSecretKey",
+                "__template_objectACL",
+                "__template_storageClass",
+                "__template_serverSideEncryption",
+                "__template_awsApiKey",
+                "__template_compress",
+                "__template_parquetSchema",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateOutputSystemByPackTypeCloudwatch(str, Enum):
+    CLOUDWATCH = "cloudwatch"
+
+
+class CreateOutputSystemByPackPqControlsCloudwatchTypedDict(TypedDict):
+    pass
+
+
+class CreateOutputSystemByPackPqControlsCloudwatch(BaseModel):
+    pass
+
+
+class CreateOutputSystemByPackOutputCloudwatchTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCloudwatch
+    log_group_name: str
+    r"""CloudWatch log group to associate events with"""
+    log_stream_name: str
+    r"""Prefix for CloudWatch log stream name. This prefix will be used to generate a unique log stream name per cribl instance, for example: myStream_myHost_myOutputId"""
+    region: str
+    r"""Region where the CloudWatchLogs is located"""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+    aws_secret_key: NotRequired[str]
+    endpoint: NotRequired[str]
+    r"""CloudWatchLogs service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint."""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access CloudWatchLogs"""
+    assume_role_arn: NotRequired[str]
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID to use when assuming role"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    max_queue_size: NotRequired[float]
+    r"""Maximum number of queued batches before blocking"""
+    max_record_size_kb: NotRequired[float]
+    r"""Maximum size (KB) of each individual record before compression. For non compressible data 1MB is the max recommended size"""
+    flush_period_sec: NotRequired[float]
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
+    on_backpressure: NotRequired[BackpressureBehaviorOptions]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    description: NotRequired[str]
+    aws_api_key: NotRequired[str]
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[ModeOptions]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+    pq_max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+    pq_max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    pq_path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    pq_compress: NotRequired[CompressionOptionsPq]
+    r"""Codec to use to compress the persisted data"""
+    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsCloudwatchTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_log_group_name: NotRequired[str]
+    r"""Binds 'logGroupName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logGroupName' at runtime."""
+    template_log_stream_name: NotRequired[str]
+    r"""Binds 'logStreamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logStreamName' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+    template_region: NotRequired[str]
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_assume_role_arn: NotRequired[str]
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+    template_assume_role_external_id: NotRequired[str]
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_aws_api_key: NotRequired[str]
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+
+class CreateOutputSystemByPackOutputCloudwatch(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCloudwatch
+
+    log_group_name: Annotated[str, pydantic.Field(alias="logGroupName")]
+    r"""CloudWatch log group to associate events with"""
+
+    log_stream_name: Annotated[str, pydantic.Field(alias="logStreamName")]
+    r"""Prefix for CloudWatch log stream name. This prefix will be used to generate a unique log stream name per cribl instance, for example: myStream_myHost_myOutputId"""
+
+    region: str
+    r"""Region where the CloudWatchLogs is located"""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    aws_authentication_method: Annotated[
+        Optional[AuthenticationMethodOptionsS3CollectorConf],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = None
+    r"""AWS authentication method. Choose Auto to use IAM roles."""
+
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+
+    endpoint: Optional[str] = None
+    r"""CloudWatchLogs service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint."""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = None
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = None
+    r"""Use Assume Role credentials to access CloudWatchLogs"""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""Amazon Resource Name (ARN) of the role to assume"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID to use when assuming role"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = None
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    max_queue_size: Annotated[Optional[float], pydantic.Field(alias="maxQueueSize")] = (
+        None
+    )
+    r"""Maximum number of queued batches before blocking"""
+
+    max_record_size_kb: Annotated[
+        Optional[float], pydantic.Field(alias="maxRecordSizeKB")
+    ] = None
+    r"""Maximum size (KB) of each individual record before compression. For non compressible data 1MB is the max recommended size"""
+
+    flush_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="flushPeriodSec")
+    ] = None
+    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Max record size."""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    description: Optional[str] = None
+
+    aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = None
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = None
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = None
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = None
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
+    pq_max_file_size: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxFileSize")
+    ] = None
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+
+    pq_compress: Annotated[
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
+    ] = None
+    r"""Codec to use to compress the persisted data"""
+
+    pq_on_backpressure: Annotated[
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
+    ] = None
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+
+    pq_controls: Annotated[
+        Optional[CreateOutputSystemByPackPqControlsCloudwatch],
+        pydantic.Field(alias="pqControls"),
+    ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_log_group_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logGroupName")
+    ] = None
+    r"""Binds 'logGroupName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logGroupName' at runtime."""
+
+    template_log_stream_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logStreamName")
+    ] = None
+    r"""Binds 'logStreamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logStreamName' at runtime."""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
+    template_region: Annotated[
+        Optional[str], pydantic.Field(alias="__template_region")
+    ] = None
+    r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
+    ] = None
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+
+    template_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
+    ] = None
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_aws_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsApiKey")
+    ] = None
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsS3CollectorConf(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_mode")
+    def serialize_pq_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_compress")
+    def serialize_pq_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsPq(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_on_backpressure")
+    def serialize_pq_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.QueueFullBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAuthenticationMethod",
+                "awsSecretKey",
+                "endpoint",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "enableAssumeRole",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
+                "durationSeconds",
+                "maxQueueSize",
+                "maxRecordSizeKB",
+                "flushPeriodSec",
+                "onBackpressure",
+                "description",
+                "awsApiKey",
+                "awsSecret",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
+                "pqControls",
+                "__template_streamtags",
+                "__template_logGroupName",
+                "__template_logStreamName",
+                "__template_awsSecretKey",
+                "__template_region",
+                "__template_endpoint",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
+                "__template_onBackpressure",
+                "__template_awsApiKey",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateOutputSystemByPackTypeInfluxdb(str, Enum):
+    INFLUXDB = "influxdb"
+
+
+class CreateOutputSystemByPackTimestampPrecision(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Sets the precision for the supplied Unix time values. Defaults to milliseconds."""
+
+    # Nanoseconds
+    NS = "ns"
+    # Microseconds
+    U = "u"
+    # Milliseconds
+    MS = "ms"
+    # Seconds
+    S = "s"
+    # Minutes
+    M = "m"
+    # Hours
+    H = "h"
 
 
 class CreateOutputSystemByPackAuthenticationTypeInfluxdb(
@@ -267,7 +1698,7 @@ class CreateOutputSystemByPackOutputInfluxdbTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -275,7 +1706,9 @@ class CreateOutputSystemByPackOutputInfluxdbTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -322,6 +1755,8 @@ class CreateOutputSystemByPackOutputInfluxdbTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -409,7 +1844,7 @@ class CreateOutputSystemByPackOutputInfluxdb(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -431,7 +1866,7 @@ class CreateOutputSystemByPackOutputInfluxdb(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -535,6 +1970,11 @@ class CreateOutputSystemByPackOutputInfluxdb(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
@@ -673,6 +2113,7 @@ class CreateOutputSystemByPackOutputInfluxdb(BaseModel):
                 "token",
                 "credentialsSecret",
                 "textSecret",
+                "__template_streamtags",
                 "__template_url",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
@@ -741,7 +2182,7 @@ class CreateOutputSystemByPackOutputNewrelicEventsTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -749,7 +2190,9 @@ class CreateOutputSystemByPackOutputNewrelicEventsTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -787,6 +2230,8 @@ class CreateOutputSystemByPackOutputNewrelicEventsTypedDict(TypedDict):
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
     template_account_id: NotRequired[str]
@@ -863,7 +2308,7 @@ class CreateOutputSystemByPackOutputNewrelicEvents(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -885,7 +2330,7 @@ class CreateOutputSystemByPackOutputNewrelicEvents(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -972,6 +2417,11 @@ class CreateOutputSystemByPackOutputNewrelicEvents(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_region: Annotated[
         Optional[str], pydantic.Field(alias="__template_region")
@@ -1107,6 +2557,7 @@ class CreateOutputSystemByPackOutputNewrelicEvents(BaseModel):
                 "pqControls",
                 "apiKey",
                 "textSecret",
+                "__template_streamtags",
                 "__template_region",
                 "__template_accountId",
                 "__template_eventType",
@@ -1207,7 +2658,7 @@ class CreateOutputSystemByPackOutputNewrelicTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -1215,7 +2666,9 @@ class CreateOutputSystemByPackOutputNewrelicTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -1255,6 +2708,8 @@ class CreateOutputSystemByPackOutputNewrelicTypedDict(TypedDict):
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
     template_log_type: NotRequired[str]
@@ -1332,7 +2787,7 @@ class CreateOutputSystemByPackOutputNewrelic(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -1354,7 +2809,7 @@ class CreateOutputSystemByPackOutputNewrelic(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -1446,6 +2901,11 @@ class CreateOutputSystemByPackOutputNewrelic(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_region: Annotated[
         Optional[str], pydantic.Field(alias="__template_region")
@@ -1580,6 +3040,7 @@ class CreateOutputSystemByPackOutputNewrelic(BaseModel):
                 "pqControls",
                 "apiKey",
                 "textSecret",
+                "__template_streamtags",
                 "__template_region",
                 "__template_logType",
                 "__template_messageField",
@@ -1646,20 +3107,22 @@ class CreateOutputSystemByPackOutputElasticCloudTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
+    extra_params: NotRequired[List[SaslExtensionConfInputKafkaTypedDict]]
     r"""Extra parameters to use in HTTP requests"""
-    auth: NotRequired[AuthTypeAuthTypeCredentialsSecretTypedDict]
+    auth: NotRequired[AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict]
     elastic_pipeline: NotRequired[str]
     r"""Optional Elastic Cloud Destination pipeline"""
     include_doc_id: NotRequired[bool]
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -1690,8 +3153,16 @@ class CreateOutputSystemByPackOutputElasticCloudTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsElasticCloudTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+    template_index: NotRequired[str]
+    r"""Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_elastic_pipeline: NotRequired[str]
+    r"""Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
@@ -1755,7 +3226,7 @@ class CreateOutputSystemByPackOutputElasticCloud(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -1772,11 +3243,11 @@ class CreateOutputSystemByPackOutputElasticCloud(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     extra_params: Annotated[
-        Optional[List[ItemsTypeSaslSaslExtensions]], pydantic.Field(alias="extraParams")
+        Optional[List[SaslExtensionConfInputKafka]], pydantic.Field(alias="extraParams")
     ] = None
     r"""Extra parameters to use in HTTP requests"""
 
-    auth: Optional[AuthTypeAuthTypeCredentialsSecret] = None
+    auth: Optional[AuthTypeTemplatemanualAPIKeyAuthType] = None
 
     elastic_pipeline: Annotated[
         Optional[str], pydantic.Field(alias="elasticPipeline")
@@ -1789,7 +3260,7 @@ class CreateOutputSystemByPackOutputElasticCloud(BaseModel):
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -1864,10 +3335,30 @@ class CreateOutputSystemByPackOutputElasticCloud(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
+    template_index: Annotated[
+        Optional[str], pydantic.Field(alias="__template_index")
+    ] = None
+    r"""Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime."""
+
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_elastic_pipeline: Annotated[
+        Optional[str], pydantic.Field(alias="__template_elasticPipeline")
+    ] = None
+    r"""Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime."""
 
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
@@ -1958,7 +3449,11 @@ class CreateOutputSystemByPackOutputElasticCloud(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
+                "__template_url",
+                "__template_index",
                 "__template_failedRequestLoggingMode",
+                "__template_elasticPipeline",
                 "__template_onBackpressure",
             ]
         )
@@ -2081,19 +3576,21 @@ class CreateOutputSystemByPackOutputElasticTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    extra_params: NotRequired[List[ItemsTypeSaslSaslExtensionsTypedDict]]
-    auth: NotRequired[AuthTypeAuthTypeCredentialsSecretTypedDict]
+    extra_params: NotRequired[List[SaslExtensionConfInputKafkaTypedDict]]
+    auth: NotRequired[AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict]
     elastic_version: NotRequired[CreateOutputSystemByPackElasticVersion]
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
     elastic_pipeline: NotRequired[str]
@@ -2141,8 +3638,16 @@ class CreateOutputSystemByPackOutputElasticTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsElasticTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_index: NotRequired[str]
+    r"""Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime."""
+    template_doc_type: NotRequired[str]
+    r"""Binds 'docType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'docType' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+    template_elastic_pipeline: NotRequired[str]
+    r"""Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_url: NotRequired[str]
@@ -2213,7 +3718,7 @@ class CreateOutputSystemByPackOutputElastic(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -2230,7 +3735,7 @@ class CreateOutputSystemByPackOutputElastic(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -2245,10 +3750,10 @@ class CreateOutputSystemByPackOutputElastic(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     extra_params: Annotated[
-        Optional[List[ItemsTypeSaslSaslExtensions]], pydantic.Field(alias="extraParams")
+        Optional[List[SaslExtensionConfInputKafka]], pydantic.Field(alias="extraParams")
     ] = None
 
-    auth: Optional[AuthTypeAuthTypeCredentialsSecret] = None
+    auth: Optional[AuthTypeTemplatemanualAPIKeyAuthType] = None
 
     elastic_version: Annotated[
         Optional[CreateOutputSystemByPackElasticVersion],
@@ -2361,10 +3866,30 @@ class CreateOutputSystemByPackOutputElastic(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_index: Annotated[
+        Optional[str], pydantic.Field(alias="__template_index")
+    ] = None
+    r"""Binds 'index' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'index' at runtime."""
+
+    template_doc_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_docType")
+    ] = None
+    r"""Binds 'docType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'docType' at runtime."""
+
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
+
+    template_elastic_pipeline: Annotated[
+        Optional[str], pydantic.Field(alias="__template_elasticPipeline")
+    ] = None
+    r"""Binds 'elasticPipeline' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'elasticPipeline' at runtime."""
 
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
@@ -2489,7 +4014,11 @@ class CreateOutputSystemByPackOutputElastic(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
+                "__template_index",
+                "__template_docType",
                 "__template_failedRequestLoggingMode",
+                "__template_elasticPipeline",
                 "__template_onBackpressure",
                 "__template_url",
             ]
@@ -2553,7 +4082,7 @@ class CreateOutputSystemByPackOutputMskTypedDict(TypedDict):
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
     kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+        KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -2574,8 +4103,6 @@ class CreateOutputSystemByPackOutputMskTypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptions]
-    r"""Signature version to use for signing MSK cluster requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -2622,6 +4149,8 @@ class CreateOutputSystemByPackOutputMskTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsMskTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
     template_format: NotRequired[str]
@@ -2706,7 +4235,7 @@ class CreateOutputSystemByPackOutputMsk(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -2750,11 +4279,6 @@ class CreateOutputSystemByPackOutputMsk(BaseModel):
 
     endpoint: Optional[str] = None
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptions], pydantic.Field(alias="signatureVersion")
-    ] = None
-    r"""Signature version to use for signing MSK cluster requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
@@ -2864,6 +4388,11 @@ class CreateOutputSystemByPackOutputMsk(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_topic: Annotated[
         Optional[str], pydantic.Field(alias="__template_topic")
     ] = None
@@ -2950,15 +4479,6 @@ class CreateOutputSystemByPackOutputMsk(BaseModel):
                 return value
         return value
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptions(value)
-            except ValueError:
-                return value
-        return value
-
     @field_serializer("on_backpressure")
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
@@ -3020,7 +4540,6 @@ class CreateOutputSystemByPackOutputMsk(BaseModel):
                 "reauthenticationThreshold",
                 "awsSecretKey",
                 "endpoint",
-                "signatureVersion",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "enableAssumeRole",
@@ -3046,6 +4565,7 @@ class CreateOutputSystemByPackOutputMsk(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_topic",
                 "__template_format",
                 "__template_compression",
@@ -3114,7 +4634,7 @@ class CreateOutputSystemByPackOutputConfluentCloudTypedDict(TypedDict):
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
     kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+        KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -3164,6 +4684,10 @@ class CreateOutputSystemByPackOutputConfluentCloudTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsConfluentCloudTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_brokers: NotRequired[str]
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
     template_format: NotRequired[str]
@@ -3229,7 +4753,7 @@ class CreateOutputSystemByPackOutputConfluentCloud(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -3340,6 +4864,16 @@ class CreateOutputSystemByPackOutputConfluentCloud(BaseModel):
         Optional[CreateOutputSystemByPackPqControlsConfluentCloud],
         pydantic.Field(alias="pqControls"),
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_brokers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_brokers")
+    ] = None
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
 
     template_topic: Annotated[
         Optional[str], pydantic.Field(alias="__template_topic")
@@ -3465,6 +4999,8 @@ class CreateOutputSystemByPackOutputConfluentCloud(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
+                "__template_brokers",
                 "__template_topic",
                 "__template_format",
                 "__template_compression",
@@ -3526,7 +5062,7 @@ class CreateOutputSystemByPackOutputKafkaTypedDict(TypedDict):
     flush_period_sec: NotRequired[float]
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
     kafka_schema_registry: NotRequired[
-        KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeoutTypedDict
+        KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
@@ -3577,6 +5113,8 @@ class CreateOutputSystemByPackOutputKafkaTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsKafkaTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
     template_format: NotRequired[str]
@@ -3640,7 +5178,7 @@ class CreateOutputSystemByPackOutputKafka(BaseModel):
     r"""The maximum amount of time you want the Destination to wait before forcing a flush. Shorter intervals tend to result in smaller batches being sent."""
 
     kafka_schema_registry: Annotated[
-        Optional[KafkaSchemaRegistryAuthenticationTypeAuthConnectionTimeout],
+        Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
 
@@ -3754,6 +5292,11 @@ class CreateOutputSystemByPackOutputKafka(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_topic: Annotated[
         Optional[str], pydantic.Field(alias="__template_topic")
     ] = None
@@ -3878,6 +5421,7 @@ class CreateOutputSystemByPackOutputKafka(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_topic",
                 "__template_format",
                 "__template_compression",
@@ -3926,8 +5470,6 @@ class CreateOutputSystemByPackOutputExabeamTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    signature_version: NotRequired[SignatureVersionOptionsGoogle]
-    r"""Signature version to use for signing Google Cloud Storage requests"""
     object_acl: NotRequired[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptionsArchiveColdline]
@@ -3976,8 +5518,16 @@ class CreateOutputSystemByPackOutputExabeamTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_storage_class: NotRequired[str]
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
@@ -4018,12 +5568,6 @@ class CreateOutputSystemByPackOutputExabeam(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsGoogle],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing Google Cloud Storage requests"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol],
@@ -4145,24 +5689,35 @@ class CreateOutputSystemByPackOutputExabeam(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_region: Annotated[
         Optional[str], pydantic.Field(alias="__template_region")
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_object_acl: Annotated[
+        Optional[str], pydantic.Field(alias="__template_objectACL")
+    ] = None
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+
+    template_storage_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageClass")
+    ] = None
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
+
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsGoogle(value)
-            except ValueError:
-                return value
-        return value
 
     @field_serializer("object_acl")
     def serialize_object_acl(self, value):
@@ -4210,7 +5765,6 @@ class CreateOutputSystemByPackOutputExabeam(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
-                "signatureVersion",
                 "objectACL",
                 "storageClass",
                 "reuseConnections",
@@ -4237,7 +5791,11 @@ class CreateOutputSystemByPackOutputExabeam(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
+                "__template_streamtags",
                 "__template_region",
+                "__template_endpoint",
+                "__template_objectACL",
+                "__template_storageClass",
                 "__template_onBackpressure",
             ]
         )
@@ -4331,6 +5889,8 @@ class CreateOutputSystemByPackOutputGooglePubsubTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsGooglePubsubTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic_name: NotRequired[str]
     r"""Binds 'topicName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topicName' at runtime."""
     template_region: NotRequired[str]
@@ -4474,6 +6034,11 @@ class CreateOutputSystemByPackOutputGooglePubsub(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_topic_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_topicName")
     ] = None
@@ -4568,6 +6133,7 @@ class CreateOutputSystemByPackOutputGooglePubsub(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_topicName",
                 "__template_region",
                 "__template_onBackpressure",
@@ -4639,11 +6205,13 @@ class CreateOutputSystemByPackOutputGoogleCloudLoggingTypedDict(TypedDict):
     sanitize_log_names: NotRequired[bool]
     payload_format: NotRequired[CreateOutputSystemByPackPayloadFormat]
     r"""Format to use when sending payload. Defaults to Text."""
-    log_labels: NotRequired[List[ItemsTypeLogLabelsTypedDict]]
+    log_labels: NotRequired[List[LogLabelConfOutputGoogleCloudLoggingTypedDict]]
     r"""Labels to apply to the log entry"""
     resource_type_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the managed resource type field. Must evaluate to one of the valid values [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types). Defaults to \"global\"."""
-    resource_type_labels: NotRequired[List[ItemsTypeLogLabelsTypedDict]]
+    resource_type_labels: NotRequired[
+        List[LogLabelConfOutputGoogleCloudLoggingTypedDict]
+    ]
     r"""Labels to apply to the managed resource. These must correspond to the valid labels for the specified resource type (see [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types)). Otherwise, they will be dropped by Google Cloud Logging."""
     severity_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the severity field. Must evaluate to one of the severity values supported by Google Cloud Logging [here](https://cloud.google.com/logging/docs/reference/v2/rest/v2/LogEntry#logseverity) (case insensitive). Defaults to \"DEFAULT\"."""
@@ -4757,8 +6325,32 @@ class CreateOutputSystemByPackOutputGoogleCloudLoggingTypedDict(TypedDict):
     pq_controls: NotRequired[
         CreateOutputSystemByPackPqControlsGoogleCloudLoggingTypedDict
     ]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_log_location_type: NotRequired[str]
+    r"""Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime."""
+    template_log_name_expression: NotRequired[str]
+    r"""Binds 'logNameExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logNameExpression' at runtime."""
+    template_payload_format: NotRequired[str]
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
+    template_resource_type_expression: NotRequired[str]
+    r"""Binds 'resourceTypeExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resourceTypeExpression' at runtime."""
+    template_severity_expression: NotRequired[str]
+    r"""Binds 'severityExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'severityExpression' at runtime."""
+    template_insert_id_expression: NotRequired[str]
+    r"""Binds 'insertIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'insertIdExpression' at runtime."""
+    template_trace_expression: NotRequired[str]
+    r"""Binds 'traceExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceExpression' at runtime."""
+    template_span_id_expression: NotRequired[str]
+    r"""Binds 'spanIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'spanIdExpression' at runtime."""
+    template_trace_sampled_expression: NotRequired[str]
+    r"""Binds 'traceSampledExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceSampledExpression' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_log_location_expression: NotRequired[str]
+    r"""Binds 'logLocationExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationExpression' at runtime."""
+    template_payload_expression: NotRequired[str]
+    r"""Binds 'payloadExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadExpression' at runtime."""
 
 
 class CreateOutputSystemByPackOutputGoogleCloudLogging(BaseModel):
@@ -4804,7 +6396,8 @@ class CreateOutputSystemByPackOutputGoogleCloudLogging(BaseModel):
     r"""Format to use when sending payload. Defaults to Text."""
 
     log_labels: Annotated[
-        Optional[List[ItemsTypeLogLabels]], pydantic.Field(alias="logLabels")
+        Optional[List[LogLabelConfOutputGoogleCloudLogging]],
+        pydantic.Field(alias="logLabels"),
     ] = None
     r"""Labels to apply to the log entry"""
 
@@ -4814,7 +6407,8 @@ class CreateOutputSystemByPackOutputGoogleCloudLogging(BaseModel):
     r"""JavaScript expression to compute the value of the managed resource type field. Must evaluate to one of the valid values [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types). Defaults to \"global\"."""
 
     resource_type_labels: Annotated[
-        Optional[List[ItemsTypeLogLabels]], pydantic.Field(alias="resourceTypeLabels")
+        Optional[List[LogLabelConfOutputGoogleCloudLogging]],
+        pydantic.Field(alias="resourceTypeLabels"),
     ] = None
     r"""Labels to apply to the managed resource. These must correspond to the valid labels for the specified resource type (see [here](https://cloud.google.com/logging/docs/api/v2/resource-list#resource-types)). Otherwise, they will be dropped by Google Cloud Logging."""
 
@@ -5082,10 +6676,70 @@ class CreateOutputSystemByPackOutputGoogleCloudLogging(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_log_location_type: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLocationType")
+    ] = None
+    r"""Binds 'logLocationType' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationType' at runtime."""
+
+    template_log_name_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logNameExpression")
+    ] = None
+    r"""Binds 'logNameExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logNameExpression' at runtime."""
+
+    template_payload_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_payloadFormat")
+    ] = None
+    r"""Binds 'payloadFormat' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadFormat' at runtime."""
+
+    template_resource_type_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_resourceTypeExpression")
+    ] = None
+    r"""Binds 'resourceTypeExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'resourceTypeExpression' at runtime."""
+
+    template_severity_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_severityExpression")
+    ] = None
+    r"""Binds 'severityExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'severityExpression' at runtime."""
+
+    template_insert_id_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_insertIdExpression")
+    ] = None
+    r"""Binds 'insertIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'insertIdExpression' at runtime."""
+
+    template_trace_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_traceExpression")
+    ] = None
+    r"""Binds 'traceExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceExpression' at runtime."""
+
+    template_span_id_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_spanIdExpression")
+    ] = None
+    r"""Binds 'spanIdExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'spanIdExpression' at runtime."""
+
+    template_trace_sampled_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_traceSampledExpression")
+    ] = None
+    r"""Binds 'traceSampledExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'traceSampledExpression' at runtime."""
+
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_log_location_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_logLocationExpression")
+    ] = None
+    r"""Binds 'logLocationExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'logLocationExpression' at runtime."""
+
+    template_payload_expression: Annotated[
+        Optional[str], pydantic.Field(alias="__template_payloadExpression")
+    ] = None
+    r"""Binds 'payloadExpression' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'payloadExpression' at runtime."""
 
     @field_serializer("log_location_type")
     def serialize_log_location_type(self, value):
@@ -5219,7 +6873,19 @@ class CreateOutputSystemByPackOutputGoogleCloudLogging(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
+                "__template_logLocationType",
+                "__template_logNameExpression",
+                "__template_payloadFormat",
+                "__template_resourceTypeExpression",
+                "__template_severityExpression",
+                "__template_insertIdExpression",
+                "__template_traceExpression",
+                "__template_spanIdExpression",
+                "__template_traceSampledExpression",
                 "__template_onBackpressure",
+                "__template_logLocationExpression",
+                "__template_payloadExpression",
             ]
         )
         serialized = handler(self)
@@ -5271,8 +6937,6 @@ class CreateOutputSystemByPackOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    signature_version: NotRequired[SignatureVersionOptionsGoogle]
-    r"""Signature version to use for signing Google Cloud Storage requests"""
     aws_authentication_method: NotRequired[
         CreateOutputSystemByPackAuthenticationMethodGoogleCloudStorage
     ]
@@ -5341,7 +7005,7 @@ class CreateOutputSystemByPackOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -5363,12 +7027,20 @@ class CreateOutputSystemByPackOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""HMAC secret. This value can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_dest_path: NotRequired[str]
     r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_storage_class: NotRequired[str]
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
     template_partition_expr: NotRequired[str]
     r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
     template_format: NotRequired[str]
@@ -5381,6 +7053,12 @@ class CreateOutputSystemByPackOutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+    template_aws_api_key: NotRequired[str]
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
 
 
 class CreateOutputSystemByPackOutputGoogleCloudStorage(BaseModel):
@@ -5414,12 +7092,6 @@ class CreateOutputSystemByPackOutputGoogleCloudStorage(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsGoogle],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing Google Cloud Storage requests"""
 
     aws_authentication_method: Annotated[
         Optional[CreateOutputSystemByPackAuthenticationMethodGoogleCloudStorage],
@@ -5588,7 +7260,7 @@ class CreateOutputSystemByPackOutputGoogleCloudStorage(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -5639,6 +7311,11 @@ class CreateOutputSystemByPackOutputGoogleCloudStorage(BaseModel):
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_bucket: Annotated[
         Optional[str], pydantic.Field(alias="__template_bucket")
     ] = None
@@ -5649,10 +7326,25 @@ class CreateOutputSystemByPackOutputGoogleCloudStorage(BaseModel):
     ] = None
     r"""Binds 'region' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'region' at runtime."""
 
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
     template_dest_path: Annotated[
         Optional[str], pydantic.Field(alias="__template_destPath")
     ] = None
     r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+
+    template_object_acl: Annotated[
+        Optional[str], pydantic.Field(alias="__template_objectACL")
+    ] = None
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+
+    template_storage_class: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageClass")
+    ] = None
+    r"""Binds 'storageClass' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageClass' at runtime."""
 
     template_partition_expr: Annotated[
         Optional[str], pydantic.Field(alias="__template_partitionExpr")
@@ -5684,14 +7376,20 @@ class CreateOutputSystemByPackOutputGoogleCloudStorage(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsGoogle(value)
-            except ValueError:
-                return value
-        return value
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
+    template_aws_api_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsApiKey")
+    ] = None
+    r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
+
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
 
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
@@ -5795,7 +7493,6 @@ class CreateOutputSystemByPackOutputGoogleCloudStorage(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
-                "signatureVersion",
                 "awsAuthenticationMethod",
                 "destPath",
                 "verifyPermissions",
@@ -5842,15 +7539,22 @@ class CreateOutputSystemByPackOutputGoogleCloudStorage(BaseModel):
                 "awsApiKey",
                 "awsSecretKey",
                 "awsSecret",
+                "__template_streamtags",
                 "__template_bucket",
                 "__template_region",
+                "__template_endpoint",
                 "__template_destPath",
+                "__template_objectACL",
+                "__template_storageClass",
                 "__template_partitionExpr",
                 "__template_format",
                 "__template_baseFileName",
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
                 "__template_compress",
+                "__template_parquetSchema",
+                "__template_awsApiKey",
+                "__template_awsSecretKey",
             ]
         )
         serialized = handler(self)
@@ -5957,7 +7661,9 @@ class CreateOutputSystemByPackOutputGoogleChronicleTypedDict(TypedDict):
     authentication_method: NotRequired[
         CreateOutputSystemByPackAuthenticationMethodGoogleChronicle
     ]
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -5981,7 +7687,7 @@ class CreateOutputSystemByPackOutputGoogleChronicleTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -6004,7 +7710,7 @@ class CreateOutputSystemByPackOutputGoogleChronicleTypedDict(TypedDict):
     r"""A unique identifier (UUID) for your Google SecOps instance. This is provided by your Google representative and is required for API V2 authentication."""
     namespace: NotRequired[str]
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
-    custom_labels: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    custom_labels: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""Custom labels to be added to every batch"""
     udm_type: NotRequired[CreateOutputSystemByPackUDMType]
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
@@ -6039,6 +7745,8 @@ class CreateOutputSystemByPackOutputGoogleChronicleTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsGoogleChronicleTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_api_version: NotRequired[str]
     r"""Binds 'apiVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'apiVersion' at runtime."""
     template_region: NotRequired[str]
@@ -6085,7 +7793,7 @@ class CreateOutputSystemByPackOutputGoogleChronicle(BaseModel):
     ] = None
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -6135,7 +7843,7 @@ class CreateOutputSystemByPackOutputGoogleChronicle(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -6189,7 +7897,8 @@ class CreateOutputSystemByPackOutputGoogleChronicle(BaseModel):
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
 
     custom_labels: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]], pydantic.Field(alias="customLabels")
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
+        pydantic.Field(alias="customLabels"),
     ] = None
     r"""Custom labels to be added to every batch"""
 
@@ -6269,6 +7978,11 @@ class CreateOutputSystemByPackOutputGoogleChronicle(BaseModel):
         Optional[CreateOutputSystemByPackPqControlsGoogleChronicle],
         pydantic.Field(alias="pqControls"),
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_api_version: Annotated[
         Optional[str], pydantic.Field(alias="__template_apiVersion")
@@ -6431,6 +8145,7 @@ class CreateOutputSystemByPackOutputGoogleChronicle(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_apiVersion",
                 "__template_region",
                 "__template_failedRequestLoggingMode",
@@ -6535,8 +8250,14 @@ class CreateOutputSystemByPackOutputAzureEventhubTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsAzureEventhubTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_brokers: NotRequired[str]
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
     template_topic: NotRequired[str]
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
@@ -6690,10 +8411,25 @@ class CreateOutputSystemByPackOutputAzureEventhub(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_brokers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_brokers")
+    ] = None
+    r"""Binds 'brokers' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'brokers' at runtime."""
+
     template_topic: Annotated[
         Optional[str], pydantic.Field(alias="__template_topic")
     ] = None
     r"""Binds 'topic' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'topic' at runtime."""
+
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
 
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
@@ -6791,7 +8527,10 @@ class CreateOutputSystemByPackOutputAzureEventhub(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
+                "__template_brokers",
                 "__template_topic",
+                "__template_format",
                 "__template_onBackpressure",
             ]
         )
@@ -6852,7 +8591,7 @@ class CreateOutputSystemByPackOutputHoneycombTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -6860,7 +8599,9 @@ class CreateOutputSystemByPackOutputHoneycombTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -6897,6 +8638,8 @@ class CreateOutputSystemByPackOutputHoneycombTypedDict(TypedDict):
     r"""Team API key where the dataset belongs"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -6959,7 +8702,7 @@ class CreateOutputSystemByPackOutputHoneycomb(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -6981,7 +8724,7 @@ class CreateOutputSystemByPackOutputHoneycomb(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -7066,6 +8809,11 @@ class CreateOutputSystemByPackOutputHoneycomb(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -7170,6 +8918,7 @@ class CreateOutputSystemByPackOutputHoneycomb(BaseModel):
                 "pqControls",
                 "team",
                 "textSecret",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
             ]
@@ -7230,8 +8979,6 @@ class CreateOutputSystemByPackOutputKinesisTypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     endpoint: NotRequired[str]
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-    signature_version: NotRequired[SignatureVersionOptionsKinesis]
-    r"""Signature version to use for signing Kinesis stream requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
@@ -7287,6 +9034,8 @@ class CreateOutputSystemByPackOutputKinesisTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsKinesisTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_stream_name: NotRequired[str]
     r"""Binds 'streamName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamName' at runtime."""
     template_aws_secret_key: NotRequired[str]
@@ -7343,12 +9092,6 @@ class CreateOutputSystemByPackOutputKinesis(BaseModel):
 
     endpoint: Optional[str] = None
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
-
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsKinesis],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing Kinesis stream requests"""
 
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
@@ -7475,6 +9218,11 @@ class CreateOutputSystemByPackOutputKinesis(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_stream_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamName")
     ] = None
@@ -7520,15 +9268,6 @@ class CreateOutputSystemByPackOutputKinesis(BaseModel):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsKinesis(value)
             except ValueError:
                 return value
         return value
@@ -7589,7 +9328,6 @@ class CreateOutputSystemByPackOutputKinesis(BaseModel):
                 "awsAuthenticationMethod",
                 "awsSecretKey",
                 "endpoint",
-                "signatureVersion",
                 "reuseConnections",
                 "rejectUnauthorized",
                 "enableAssumeRole",
@@ -7619,6 +9357,7 @@ class CreateOutputSystemByPackOutputKinesis(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_streamName",
                 "__template_awsSecretKey",
                 "__template_region",
@@ -7696,7 +9435,7 @@ class CreateOutputSystemByPackOutputAzureLogsTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -7706,7 +9445,9 @@ class CreateOutputSystemByPackOutputAzureLogsTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     api_url: NotRequired[str]
     r"""The DNS name of the Log API endpoint that sends log data to a Log Analytics workspace in Azure Monitor. Defaults to .ods.opinsights.azure.com. @{product} will add a prefix and suffix to construct a URI in this format: <https://<Workspace_ID><your_DNS_name>/api/logs?api-version=<API version>."""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -7745,6 +9486,8 @@ class CreateOutputSystemByPackOutputAzureLogsTypedDict(TypedDict):
     r"""Azure Log Analytics Workspace Primary or Secondary Shared Key. See Azure Dashboard Workspace > Advanced settings."""
     keypair_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -7813,7 +9556,7 @@ class CreateOutputSystemByPackOutputAzureLogs(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -7838,7 +9581,7 @@ class CreateOutputSystemByPackOutputAzureLogs(BaseModel):
     r"""The DNS name of the Log API endpoint that sends log data to a Log Analytics workspace in Azure Monitor. Defaults to .ods.opinsights.azure.com. @{product} will add a prefix and suffix to construct a URI in this format: <https://<Workspace_ID><your_DNS_name>/api/logs?api-version=<API version>."""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -7929,6 +9672,11 @@ class CreateOutputSystemByPackOutputAzureLogs(BaseModel):
         None
     )
     r"""Select or create a stored secret that references your access key and secret key"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -8048,6 +9796,7 @@ class CreateOutputSystemByPackOutputAzureLogs(BaseModel):
                 "workspaceId",
                 "workspaceKey",
                 "keypairSecret",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_workspaceId",
@@ -8269,7 +10018,7 @@ class CreateOutputSystemByPackOutputAzureDataExplorerTypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -8339,7 +10088,9 @@ class CreateOutputSystemByPackOutputAzureDataExplorerTypedDict(TypedDict):
         List[CreateOutputSystemByPackAdditionalPropertyTypedDict]
     ]
     r"""Optionally, enter additional configuration properties to send to the ingestion service"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -8386,6 +10137,8 @@ class CreateOutputSystemByPackOutputAzureDataExplorerTypedDict(TypedDict):
     pq_controls: NotRequired[
         CreateOutputSystemByPackPqControlsAzureDataExplorerTypedDict
     ]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_cluster_url: NotRequired[str]
     r"""Binds 'clusterUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clusterUrl' at runtime."""
     template_database: NotRequired[str]
@@ -8406,6 +10159,8 @@ class CreateOutputSystemByPackOutputAzureDataExplorerTypedDict(TypedDict):
     r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
     template_mapping_ref: NotRequired[str]
     r"""Binds 'mappingRef' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'mappingRef' at runtime."""
     template_ingest_url: NotRequired[str]
@@ -8535,7 +10290,7 @@ class CreateOutputSystemByPackOutputAzureDataExplorer(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -8698,7 +10453,7 @@ class CreateOutputSystemByPackOutputAzureDataExplorer(BaseModel):
     r"""Optionally, enter additional configuration properties to send to the ingestion service"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -8800,6 +10555,11 @@ class CreateOutputSystemByPackOutputAzureDataExplorer(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_cluster_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_clusterUrl")
     ] = None
@@ -8849,6 +10609,11 @@ class CreateOutputSystemByPackOutputAzureDataExplorer(BaseModel):
         Optional[str], pydantic.Field(alias="__template_compress")
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
     template_mapping_ref: Annotated[
         Optional[str], pydantic.Field(alias="__template_mappingRef")
@@ -9086,6 +10851,7 @@ class CreateOutputSystemByPackOutputAzureDataExplorer(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_clusterUrl",
                 "__template_database",
                 "__template_table",
@@ -9096,6 +10862,7 @@ class CreateOutputSystemByPackOutputAzureDataExplorer(BaseModel):
                 "__template_clientSecret",
                 "__template_format",
                 "__template_compress",
+                "__template_parquetSchema",
                 "__template_mappingRef",
                 "__template_ingestUrl",
                 "__template_onBackpressure",
@@ -9210,7 +10977,7 @@ class CreateOutputSystemByPackOutputAzureBlobTypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -9243,6 +11010,8 @@ class CreateOutputSystemByPackOutputAzureBlobTypedDict(TypedDict):
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_dest_path: NotRequired[str]
@@ -9259,6 +11028,8 @@ class CreateOutputSystemByPackOutputAzureBlobTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
     template_connection_string: NotRequired[str]
     r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
     template_storage_account_name: NotRequired[str]
@@ -9451,7 +11222,7 @@ class CreateOutputSystemByPackOutputAzureBlob(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -9525,6 +11296,11 @@ class CreateOutputSystemByPackOutputAzureBlob(BaseModel):
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
     ] = None
@@ -9564,6 +11340,11 @@ class CreateOutputSystemByPackOutputAzureBlob(BaseModel):
         Optional[str], pydantic.Field(alias="__template_compress")
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
     template_connection_string: Annotated[
         Optional[str], pydantic.Field(alias="__template_connectionString")
@@ -9729,6 +11510,7 @@ class CreateOutputSystemByPackOutputAzureBlob(BaseModel):
                 "endpointSuffix",
                 "clientTextSecret",
                 "certificate",
+                "__template_streamtags",
                 "__template_containerName",
                 "__template_destPath",
                 "__template_partitionExpr",
@@ -9737,6 +11519,7 @@ class CreateOutputSystemByPackOutputAzureBlob(BaseModel):
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
                 "__template_compress",
+                "__template_parquetSchema",
                 "__template_connectionString",
                 "__template_storageAccountName",
                 "__template_tenantId",
@@ -9790,14 +11573,10 @@ class CreateOutputSystemByPackOutputS3TypedDict(TypedDict):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
-    signature_version: NotRequired[SignatureVersionOptionsS3CollectorConf]
-    r"""Signature version to use for signing S3 requests"""
     reuse_connections: NotRequired[bool]
     r"""Reuse connections between requests, which can improve performance"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-    aws_secret_key: NotRequired[str]
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
     region: NotRequired[str]
     r"""Region where the S3 bucket is located"""
     dest_path: NotRequired[str]
@@ -9842,6 +11621,8 @@ class CreateOutputSystemByPackOutputS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    aws_secret_key: NotRequired[str]
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptions]
@@ -9873,7 +11654,7 @@ class CreateOutputSystemByPackOutputS3TypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -9889,14 +11670,14 @@ class CreateOutputSystemByPackOutputS3TypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_assume_role_arn: NotRequired[str]
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    template_aws_secret_key: NotRequired[str]
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_region: NotRequired[str]
@@ -9913,6 +11694,8 @@ class CreateOutputSystemByPackOutputS3TypedDict(TypedDict):
     r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_aws_secret_key: NotRequired[str]
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
     template_object_acl: NotRequired[str]
     r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
     template_storage_class: NotRequired[str]
@@ -9925,6 +11708,8 @@ class CreateOutputSystemByPackOutputS3TypedDict(TypedDict):
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class CreateOutputSystemByPackOutputS3(BaseModel):
@@ -9982,12 +11767,6 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
     ] = None
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
-    signature_version: Annotated[
-        Optional[SignatureVersionOptionsS3CollectorConf],
-        pydantic.Field(alias="signatureVersion"),
-    ] = None
-    r"""Signature version to use for signing S3 requests"""
-
     reuse_connections: Annotated[
         Optional[bool], pydantic.Field(alias="reuseConnections")
     ] = None
@@ -9997,11 +11776,6 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
-
-    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
-        None
-    )
-    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
 
     region: Optional[str] = None
     r"""Region where the S3 bucket is located"""
@@ -10110,6 +11884,11 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
 
     orphans: Optional[OrphanFileRecoveryType] = None
 
+    aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
+        None
+    )
+    r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
+
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = None
@@ -10181,7 +11960,7 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -10221,6 +12000,11 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_endpoint: Annotated[
         Optional[str], pydantic.Field(alias="__template_endpoint")
     ] = None
@@ -10235,11 +12019,6 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
         Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-
-    template_aws_secret_key: Annotated[
-        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
-    ] = None
-    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
 
     template_bucket: Annotated[
         Optional[str], pydantic.Field(alias="__template_bucket")
@@ -10281,6 +12060,11 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
+    template_aws_secret_key: Annotated[
+        Optional[str], pydantic.Field(alias="__template_awsSecretKey")
+    ] = None
+    r"""Binds 'awsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsSecretKey' at runtime."""
+
     template_object_acl: Annotated[
         Optional[str], pydantic.Field(alias="__template_objectACL")
     ] = None
@@ -10311,20 +12095,16 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
 
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsS3CollectorConf(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("signature_version")
-    def serialize_signature_version(self, value):
-        if isinstance(value, str):
-            try:
-                return models.SignatureVersionOptionsS3CollectorConf(value)
             except ValueError:
                 return value
         return value
@@ -10433,10 +12213,8 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
                 "assumeRoleExternalId",
                 "durationSeconds",
                 "awsAuthenticationMethod",
-                "signatureVersion",
                 "reuseConnections",
                 "rejectUnauthorized",
-                "awsSecretKey",
                 "region",
                 "destPath",
                 "maxConcurrentFileParts",
@@ -10460,6 +12238,7 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
                 "forceCloseOnShutdown",
                 "retrySettings",
                 "orphans",
+                "awsSecretKey",
                 "objectACL",
                 "storageClass",
                 "serverSideEncryption",
@@ -10484,10 +12263,10 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
+                "__template_streamtags",
                 "__template_endpoint",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
-                "__template_awsSecretKey",
                 "__template_bucket",
                 "__template_region",
                 "__template_destPath",
@@ -10496,12 +12275,14 @@ class CreateOutputSystemByPackOutputS3(BaseModel):
                 "__template_baseFileName",
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
+                "__template_awsSecretKey",
                 "__template_objectACL",
                 "__template_storageClass",
                 "__template_serverSideEncryption",
                 "__template_kmsKeyId",
                 "__template_awsApiKey",
                 "__template_compress",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)
@@ -10591,7 +12372,7 @@ class CreateOutputSystemByPackOutputFilesystemTypedDict(TypedDict):
     r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
     should_log_invalid_rows: NotRequired[bool]
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
-    key_value_metadata: NotRequired[List[ItemsTypeKeyValueMetadataTypedDict]]
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
     enable_statistics: NotRequired[bool]
     r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
@@ -10607,6 +12388,8 @@ class CreateOutputSystemByPackOutputFilesystemTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_partition_expr: NotRequired[str]
     r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
     template_format: NotRequired[str]
@@ -10619,6 +12402,8 @@ class CreateOutputSystemByPackOutputFilesystemTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
 
 class CreateOutputSystemByPackOutputFilesystem(BaseModel):
@@ -10779,7 +12564,7 @@ class CreateOutputSystemByPackOutputFilesystem(BaseModel):
     r"""Log up to 3 rows that @{product} skips due to data mismatch"""
 
     key_value_metadata: Annotated[
-        Optional[List[ItemsTypeKeyValueMetadata]],
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
         pydantic.Field(alias="keyValueMetadata"),
     ] = None
     r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
@@ -10819,6 +12604,11 @@ class CreateOutputSystemByPackOutputFilesystem(BaseModel):
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_partition_expr: Annotated[
         Optional[str], pydantic.Field(alias="__template_partitionExpr")
     ] = None
@@ -10848,6 +12638,11 @@ class CreateOutputSystemByPackOutputFilesystem(BaseModel):
         Optional[str], pydantic.Field(alias="__template_compress")
     ] = None
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
     @field_serializer("format_")
     def serialize_format_(self, value):
@@ -10957,12 +12752,14 @@ class CreateOutputSystemByPackOutputFilesystem(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
+                "__template_streamtags",
                 "__template_partitionExpr",
                 "__template_format",
                 "__template_baseFileName",
                 "__template_fileNameSuffix",
                 "__template_onBackpressure",
                 "__template_compress",
+                "__template_parquetSchema",
             ]
         )
         serialized = handler(self)
@@ -11024,7 +12821,7 @@ class CreateOutputSystemByPackOutputSignalfxTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -11032,7 +12829,9 @@ class CreateOutputSystemByPackOutputSignalfxTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -11067,6 +12866,8 @@ class CreateOutputSystemByPackOutputSignalfxTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsSignalfxTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -11135,7 +12936,7 @@ class CreateOutputSystemByPackOutputSignalfx(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -11157,7 +12958,7 @@ class CreateOutputSystemByPackOutputSignalfx(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -11238,6 +13039,11 @@ class CreateOutputSystemByPackOutputSignalfx(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
@@ -11341,6 +13147,7 @@ class CreateOutputSystemByPackOutputSignalfx(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
             ]
@@ -11404,7 +13211,7 @@ class CreateOutputSystemByPackOutputWavefrontTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -11412,7 +13219,9 @@ class CreateOutputSystemByPackOutputWavefrontTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -11447,6 +13256,8 @@ class CreateOutputSystemByPackOutputWavefrontTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsWavefrontTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -11515,7 +13326,7 @@ class CreateOutputSystemByPackOutputWavefront(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -11537,7 +13348,7 @@ class CreateOutputSystemByPackOutputWavefront(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -11618,6 +13429,11 @@ class CreateOutputSystemByPackOutputWavefront(BaseModel):
         pydantic.Field(alias="pqControls"),
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
@@ -11721,6 +13537,7 @@ class CreateOutputSystemByPackOutputWavefront(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
             ]
@@ -11791,7 +13608,7 @@ class CreateOutputSystemByPackOutputTcpjsonTypedDict(TypedDict):
     r"""The port to connect to on the provided host"""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    hosts: NotRequired[List[ItemsTypeHostsTypedDict]]
+    hosts: NotRequired[List[HostConfOutputSyslogTypedDict]]
     r"""Set of hosts to load-balance data to"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
@@ -11826,6 +13643,8 @@ class CreateOutputSystemByPackOutputTcpjsonTypedDict(TypedDict):
     r"""Optional authentication token to include as part of the connection header"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_host: NotRequired[str]
@@ -11914,7 +13733,7 @@ class CreateOutputSystemByPackOutputTcpjson(BaseModel):
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
-    hosts: Optional[List[ItemsTypeHosts]] = None
+    hosts: Optional[List[HostConfOutputSyslog]] = None
     r"""Set of hosts to load-balance data to"""
 
     dns_resolve_period_sec: Annotated[
@@ -11991,6 +13810,11 @@ class CreateOutputSystemByPackOutputTcpjson(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_on_backpressure: Annotated[
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
@@ -12102,6 +13926,7 @@ class CreateOutputSystemByPackOutputTcpjson(BaseModel):
                 "pqControls",
                 "authToken",
                 "textSecret",
+                "__template_streamtags",
                 "__template_onBackpressure",
                 "__template_host",
                 "__template_port",
@@ -12174,7 +13999,7 @@ class CreateOutputSystemByPackOutputWizHecTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -12182,7 +14007,9 @@ class CreateOutputSystemByPackOutputWizHecTypedDict(TypedDict):
     r"""List of headers that are safe to log in plain text"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -12217,6 +14044,8 @@ class CreateOutputSystemByPackOutputWizHecTypedDict(TypedDict):
     r"""Wiz Defend Auth token"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -12301,7 +14130,7 @@ class CreateOutputSystemByPackOutputWizHec(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -12324,7 +14153,7 @@ class CreateOutputSystemByPackOutputWizHec(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -12404,6 +14233,11 @@ class CreateOutputSystemByPackOutputWizHec(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -12525,6 +14359,7 @@ class CreateOutputSystemByPackOutputWizHec(BaseModel):
                 "pqControls",
                 "token",
                 "textSecret",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_wiz_environment",
@@ -12632,7 +14467,7 @@ class CreateOutputSystemByPackOutputSplunkHecTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
@@ -12642,7 +14477,9 @@ class CreateOutputSystemByPackOutputSplunkHecTypedDict(TypedDict):
     r"""Output metrics in multiple-metric format, supported in Splunk 8.0 and above to allow multiple metrics in a single event."""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -12688,6 +14525,8 @@ class CreateOutputSystemByPackOutputSplunkHecTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsSplunkHecTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -12762,7 +14601,7 @@ class CreateOutputSystemByPackOutputSplunkHec(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -12790,7 +14629,7 @@ class CreateOutputSystemByPackOutputSplunkHec(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -12893,6 +14732,11 @@ class CreateOutputSystemByPackOutputSplunkHec(BaseModel):
         Optional[CreateOutputSystemByPackPqControlsSplunkHec],
         pydantic.Field(alias="pqControls"),
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -13012,6 +14856,7 @@ class CreateOutputSystemByPackOutputSplunkHec(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_url",
@@ -13179,7 +15024,7 @@ class CreateOutputSystemByPackOutputSplunkLbTypedDict(TypedDict):
     id: str
     r"""Unique ID for this output"""
     type: CreateOutputSystemByPackTypeSplunkLb
-    hosts: List[ItemsTypeHostsTypedDict]
+    hosts: List[HostConfOutputSyslogTypedDict]
     r"""Set of Splunk indexers to load-balance data to."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -13258,6 +15103,8 @@ class CreateOutputSystemByPackOutputSplunkLbTypedDict(TypedDict):
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_nested_fields: NotRequired[str]
     r"""Binds 'nestedFields' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'nestedFields' at runtime."""
     template_max_s2_sversion: NotRequired[str]
@@ -13274,7 +15121,7 @@ class CreateOutputSystemByPackOutputSplunkLb(BaseModel):
 
     type: CreateOutputSystemByPackTypeSplunkLb
 
-    hosts: List[ItemsTypeHosts]
+    hosts: List[HostConfOutputSyslog]
     r"""Set of Splunk indexers to load-balance data to."""
 
     pipeline: Optional[str] = None
@@ -13446,6 +15293,11 @@ class CreateOutputSystemByPackOutputSplunkLb(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_nested_fields: Annotated[
         Optional[str], pydantic.Field(alias="__template_nestedFields")
     ] = None
@@ -13581,6 +15433,7 @@ class CreateOutputSystemByPackOutputSplunkLb(BaseModel):
                 "pqControls",
                 "authToken",
                 "textSecret",
+                "__template_streamtags",
                 "__template_nestedFields",
                 "__template_maxS2Sversion",
                 "__template_onBackpressure",
@@ -13682,6 +15535,8 @@ class CreateOutputSystemByPackOutputSplunkTypedDict(TypedDict):
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -13843,6 +15698,11 @@ class CreateOutputSystemByPackOutputSplunk(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
     )
@@ -13981,6 +15841,7 @@ class CreateOutputSystemByPackOutputSplunk(BaseModel):
                 "pqControls",
                 "authToken",
                 "textSecret",
+                "__template_streamtags",
                 "__template_host",
                 "__template_port",
                 "__template_nestedFields",
@@ -14019,28 +15880,50 @@ class CreateOutputSystemByPackProtocolSyslog(str, Enum, metaclass=utils.OpenEnum
 class CreateOutputSystemByPackFacility(int, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message facility. Will be overwritten by value of __facility if set. Defaults to user."""
 
-    ZERO = 0
-    ONE = 1
-    TWO = 2
-    THREE = 3
-    FOUR = 4
-    FIVE = 5
-    SIX = 6
-    SEVEN = 7
-    EIGHT = 8
-    NINE = 9
-    TEN = 10
-    ELEVEN = 11
-    TWELVE = 12
-    THIRTEEN = 13
-    FOURTEEN = 14
-    FIFTEEN = 15
-    SIXTEEN = 16
-    SEVENTEEN = 17
-    EIGHTEEN = 18
-    NINETEEN = 19
-    TWENTY = 20
-    TWENTY_ONE = 21
+    # kern
+    KERN = 0
+    # user
+    USER = 1
+    # mail
+    MAIL = 2
+    # daemon
+    DAEMON = 3
+    # auth
+    AUTH = 4
+    # syslog
+    SYSLOG = 5
+    # lpr
+    LPR = 6
+    # news
+    NEWS = 7
+    # uucp
+    UUCP = 8
+    # cron
+    CRON = 9
+    # authpriv
+    AUTHPRIV = 10
+    # ftp
+    FTP = 11
+    # ntp
+    NTP = 12
+    # security
+    SECURITY = 13
+    # console
+    CONSOLE = 14
+    # solaris-cron
+    SOLARIS_CRON = 15
+    # local0
+    LOCAL0 = 16
+    # local1
+    LOCAL1 = 17
+    # local2
+    LOCAL2 = 18
+    # local3
+    LOCAL3 = 19
+    # local4
+    LOCAL4 = 20
+    # local5
+    LOCAL5 = 21
 
 
 class CreateOutputSystemByPackSeveritySyslog(int, Enum, metaclass=utils.OpenEnumMeta):
@@ -14129,7 +16012,7 @@ class CreateOutputSystemByPackOutputSyslogTypedDict(TypedDict):
     r"""The port to connect to on the provided host"""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    hosts: NotRequired[List[ItemsTypeHostsTypedDict]]
+    hosts: NotRequired[List[HostConfOutputSyslogTypedDict]]
     r"""Set of hosts to load-balance data to"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
@@ -14173,6 +16056,8 @@ class CreateOutputSystemByPackOutputSyslogTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
     pq_controls: NotRequired[CreateOutputSystemByPackPqControlsSyslogTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_host: NotRequired[str]
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
@@ -14256,7 +16141,7 @@ class CreateOutputSystemByPackOutputSyslog(BaseModel):
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
-    hosts: Optional[List[ItemsTypeHosts]] = None
+    hosts: Optional[List[HostConfOutputSyslog]] = None
     r"""Set of hosts to load-balance data to"""
 
     dns_resolve_period_sec: Annotated[
@@ -14359,6 +16244,11 @@ class CreateOutputSystemByPackOutputSyslog(BaseModel):
         Optional[CreateOutputSystemByPackPqControlsSyslog],
         pydantic.Field(alias="pqControls"),
     ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
         None
@@ -14501,6 +16391,7 @@ class CreateOutputSystemByPackOutputSyslog(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
+                "__template_streamtags",
                 "__template_host",
                 "__template_port",
                 "__template_onBackpressure",
@@ -14536,6 +16427,8 @@ class CreateOutputSystemByPackOutputDevnullTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class CreateOutputSystemByPackOutputDevnull(BaseModel):
@@ -14558,9 +16451,22 @@ class CreateOutputSystemByPackOutputDevnull(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["pipeline", "systemFields", "environment", "streamtags"])
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "__template_streamtags",
+            ]
+        )
         serialized = handler(self)
         m = {}
 
@@ -14648,7 +16554,7 @@ class CreateOutputSystemByPackOutputSentinelTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -14656,7 +16562,9 @@ class CreateOutputSystemByPackOutputSentinelTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -14717,6 +16625,8 @@ class CreateOutputSystemByPackOutputSentinelTypedDict(TypedDict):
     r"""Data collection endpoint (DCE) URL. In the format: `https://<Endpoint-Name>-<Identifier>.<Region>.ingest.monitor.azure.com`"""
     stream_name: NotRequired[str]
     r"""The name of the stream (Sentinel table) in which to store the events"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -14810,7 +16720,7 @@ class CreateOutputSystemByPackOutputSentinel(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
@@ -14832,7 +16742,7 @@ class CreateOutputSystemByPackOutputSentinel(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -14974,6 +16884,11 @@ class CreateOutputSystemByPackOutputSentinel(BaseModel):
 
     stream_name: Annotated[Optional[str], pydantic.Field(alias="streamName")] = None
     r"""The name of the stream (Sentinel table) in which to store the events"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -15150,6 +17065,7 @@ class CreateOutputSystemByPackOutputSentinel(BaseModel):
                 "dcrID",
                 "dceEndpoint",
                 "streamName",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_loginUrl",
@@ -15296,7 +17212,7 @@ class CreateOutputSystemByPackOutputWebhookWebhook2TypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -15304,7 +17220,9 @@ class CreateOutputSystemByPackOutputWebhookWebhook2TypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -15378,9 +17296,9 @@ class CreateOutputSystemByPackOutputWebhookWebhook2TypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    oauth_params: NotRequired[List[OauthParamConfInputServicenowTableTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     url: NotRequired[str]
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
@@ -15390,6 +17308,8 @@ class CreateOutputSystemByPackOutputWebhookWebhook2TypedDict(TypedDict):
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -15469,7 +17389,7 @@ class CreateOutputSystemByPackOutputWebhookWebhook2(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
@@ -15491,7 +17411,7 @@ class CreateOutputSystemByPackOutputWebhookWebhook2(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -15666,12 +17586,14 @@ class CreateOutputSystemByPackOutputWebhookWebhook2(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+        Optional[List[OauthParamConfInputServicenowTable]],
+        pydantic.Field(alias="oauthParams"),
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+        Optional[List[OauthHeaderConfInputServicenowTable]],
+        pydantic.Field(alias="oauthHeaders"),
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
@@ -15690,6 +17612,11 @@ class CreateOutputSystemByPackOutputWebhookWebhook2(BaseModel):
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
     ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -15858,6 +17785,7 @@ class CreateOutputSystemByPackOutputWebhookWebhook2(BaseModel):
                 "excludeSelf",
                 "dnsResolvePeriodSec",
                 "loadBalanceStatsPeriodSec",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_loginUrl",
@@ -16000,7 +17928,7 @@ class CreateOutputSystemByPackOutputWebhookWebhook1TypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -16008,7 +17936,9 @@ class CreateOutputSystemByPackOutputWebhookWebhook1TypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -16082,9 +18012,9 @@ class CreateOutputSystemByPackOutputWebhookWebhook1TypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    oauth_params: NotRequired[List[OauthParamConfInputServicenowTableTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
@@ -16093,6 +18023,8 @@ class CreateOutputSystemByPackOutputWebhookWebhook1TypedDict(TypedDict):
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -16173,7 +18105,7 @@ class CreateOutputSystemByPackOutputWebhookWebhook1(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
@@ -16195,7 +18127,7 @@ class CreateOutputSystemByPackOutputWebhookWebhook1(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -16370,12 +18302,14 @@ class CreateOutputSystemByPackOutputWebhookWebhook1(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+        Optional[List[OauthParamConfInputServicenowTable]],
+        pydantic.Field(alias="oauthParams"),
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+        Optional[List[OauthHeaderConfInputServicenowTable]],
+        pydantic.Field(alias="oauthHeaders"),
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
@@ -16393,6 +18327,11 @@ class CreateOutputSystemByPackOutputWebhookWebhook1(BaseModel):
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
     ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -16561,6 +18500,7 @@ class CreateOutputSystemByPackOutputWebhookWebhook1(BaseModel):
                 "urls",
                 "dnsResolvePeriodSec",
                 "loadBalanceStatsPeriodSec",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_loginUrl",
@@ -16618,6 +18558,8 @@ class CreateOutputSystemByPackOutputDefaultTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class CreateOutputSystemByPackOutputDefault(BaseModel):
@@ -16643,9 +18585,22 @@ class CreateOutputSystemByPackOutputDefault(BaseModel):
     streamtags: Optional[List[str]] = None
     r"""Tags for filtering and grouping in @{product}"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["pipeline", "systemFields", "environment", "streamtags"])
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "__template_streamtags",
+            ]
+        )
         nullable_fields = set(["defaultId"])
         serialized = handler(self)
         m = {}
@@ -16683,70 +18638,76 @@ CreateOutputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateOutputSystemByPackOutputStatsdExtTypedDict,
         CreateOutputSystemByPackOutputStatsdTypedDict,
         CreateOutputSystemByPackOutputGooglePubsubTypedDict,
-        CreateOutputSystemByPackOutputAzureEventhubTypedDict,
-        CreateOutputSystemByPackOutputHoneycombTypedDict,
-        CreateOutputSystemByPackOutputSignalfxTypedDict,
-        CreateOutputSystemByPackOutputMicrosoftFabricTypedDict,
         CreateOutputSystemByPackOutputCriblTCPTypedDict,
-        CreateOutputSystemByPackOutputExabeamTypedDict,
+        CreateOutputSystemByPackOutputHoneycombTypedDict,
         CreateOutputSystemByPackOutputWavefrontTypedDict,
-        CreateOutputSystemByPackOutputElasticCloudTypedDict,
+        CreateOutputSystemByPackOutputSignalfxTypedDict,
+        CreateOutputSystemByPackOutputAzureEventhubTypedDict,
+        CreateOutputSystemByPackOutputMicrosoftFabricTypedDict,
+        CreateOutputSystemByPackOutputSumoLogicTypedDict,
         CreateOutputSystemByPackOutputCrowdstrikeNextGenSiemTypedDict,
-        CreateOutputSystemByPackOutputSplunkTypedDict,
         CreateOutputSystemByPackOutputHumioHecTypedDict,
         CreateOutputSystemByPackOutputTcpjsonTypedDict,
-        CreateOutputSystemByPackOutputSumoLogicTypedDict,
-        CreateOutputSystemByPackOutputConfluentCloudTypedDict,
-        CreateOutputSystemByPackOutputKafkaTypedDict,
+        CreateOutputSystemByPackOutputSplunkTypedDict,
+        CreateOutputSystemByPackOutputExabeamTypedDict,
         CreateOutputSystemByPackOutputSnsTypedDict,
+        CreateOutputSystemByPackOutputElasticCloudTypedDict,
+        CreateOutputSystemByPackOutputKafkaTypedDict,
         CreateOutputSystemByPackOutputAzureLogsTypedDict,
+        CreateOutputSystemByPackOutputConfluentCloudTypedDict,
+        CreateOutputSystemByPackOutputSplunkLbTypedDict,
         CreateOutputSystemByPackOutputCloudwatchTypedDict,
         CreateOutputSystemByPackOutputSyslogTypedDict,
-        CreateOutputSystemByPackOutputSplunkLbTypedDict,
-        CreateOutputSystemByPackOutputNewrelicEventsTypedDict,
         CreateOutputSystemByPackOutputPrometheusTypedDict,
-        CreateOutputSystemByPackOutputXsiamTypedDict,
-        CreateOutputSystemByPackOutputCriblHTTPTypedDict,
-        CreateOutputSystemByPackOutputCriblSearchEngineTypedDict,
-        CreateOutputSystemByPackOutputWizHecTypedDict,
-        CreateOutputSystemByPackOutputDatasetTypedDict,
+        CreateOutputSystemByPackOutputNewrelicEventsTypedDict,
         CreateOutputSystemByPackOutputNewrelicTypedDict,
         CreateOutputSystemByPackOutputLokiTypedDict,
-        CreateOutputSystemByPackOutputServiceNowTypedDict,
-        CreateOutputSystemByPackOutputDynatraceOtlpTypedDict,
+        CreateOutputSystemByPackOutputCriblHTTPTypedDict,
+        CreateOutputSystemByPackOutputDatasetTypedDict,
+        CreateOutputSystemByPackOutputWizHecTypedDict,
+        CreateOutputSystemByPackOutputCriblSearchEngineTypedDict,
+        CreateOutputSystemByPackOutputXsiamTypedDict,
         CreateOutputSystemByPackOutputKinesisTypedDict,
         CreateOutputSystemByPackOutputDynatraceHTTPTypedDict,
-        CreateOutputSystemByPackOutputFilesystemTypedDict,
         CreateOutputSystemByPackOutputSplunkHecTypedDict,
-        CreateOutputSystemByPackOutputDatadogTypedDict,
-        CreateOutputSystemByPackOutputChronicleTypedDict,
-        CreateOutputSystemByPackOutputElasticTypedDict,
+        CreateOutputSystemByPackOutputDynatraceOtlpTypedDict,
+        CreateOutputSystemByPackOutputServiceNowTypedDict,
+        CreateOutputSystemByPackOutputFilesystemTypedDict,
         CreateOutputSystemByPackOutputSqsTypedDict,
-        CreateOutputSystemByPackOutputOpenTelemetryTypedDict,
+        CreateOutputSystemByPackOutputDatadogTypedDict,
         CreateOutputSystemByPackOutputInfluxdbTypedDict,
-        CreateOutputSystemByPackOutputGoogleChronicleTypedDict,
         CreateOutputSystemByPackOutputSentinelOneAiSiemTypedDict,
+        CreateOutputSystemByPackOutputElasticTypedDict,
+        CreateOutputSystemByPackOutputGoogleChronicleTypedDict,
         CreateOutputSystemByPackOutputClickHouseTypedDict,
+        CreateOutputSystemByPackOutputChronicleTypedDict,
         CreateOutputSystemByPackOutputLocalSearchStorageTypedDict,
         CreateOutputSystemByPackOutputDatabricksTypedDict,
+        CreateOutputSystemByPackOutputAlphasocS3TypedDict,
         CreateOutputSystemByPackOutputMskTypedDict,
         CreateOutputSystemByPackOutputCriblLakeTypedDict,
+        CreateOutputSystemByPackOutputStorjS3TypedDict,
+        CreateOutputSystemByPackOutputOpenTelemetryTypedDict,
+        CreateOutputSystemByPackOutputAlibabaCloudS3TypedDict,
+        CreateOutputSystemByPackOutputScalityS3TypedDict,
         CreateOutputSystemByPackOutputSentinelTypedDict,
-        CreateOutputSystemByPackOutputGoogleCloudStorageTypedDict,
-        CreateOutputSystemByPackOutputCloudflareR2TypedDict,
         CreateOutputSystemByPackOutputNutanixObjectsTypedDict,
-        CreateOutputSystemByPackOutputGoogleCloudLoggingTypedDict,
+        CreateOutputSystemByPackOutputDellS3TypedDict,
+        CreateOutputSystemByPackOutputCloudflareR2TypedDict,
+        CreateOutputSystemByPackOutputGoogleCloudStorageTypedDict,
         CreateOutputSystemByPackOutputAzureBlobTypedDict,
+        CreateOutputSystemByPackOutputCloudianS3TypedDict,
         CreateOutputSystemByPackOutputMinioTypedDict,
         CreateOutputSystemByPackOutputSecurityLakeTypedDict,
+        CreateOutputSystemByPackOutputGoogleCloudLoggingTypedDict,
         CreateOutputSystemByPackOutputDlS3TypedDict,
         CreateOutputSystemByPackOutputS3TypedDict,
         CreateOutputSystemByPackOutputAzureDataExplorerTypedDict,
-        CreateOutputSystemByPackOutputWebhookUnionTypedDict,
         CreateOutputSystemByPackOutputGrafanaCloudUnionTypedDict,
+        CreateOutputSystemByPackOutputWebhookUnionTypedDict,
     ],
 )
-r"""Output object"""
+r"""Output object."""
 
 
 CreateOutputSystemByPackRequestBody = Annotated[
@@ -16847,32 +18808,52 @@ CreateOutputSystemByPackRequestBody = Annotated[
         ],
         Annotated[CreateOutputSystemByPackOutputCloudflareR2, Tag("cloudflare_r2")],
         Annotated[CreateOutputSystemByPackOutputNutanixObjects, Tag("nutanix_objects")],
+        Annotated[CreateOutputSystemByPackOutputStorjS3, Tag("storj_s3")],
+        Annotated[CreateOutputSystemByPackOutputAlphasocS3, Tag("alphasoc_s3")],
+        Annotated[CreateOutputSystemByPackOutputDellS3, Tag("dell_s3")],
+        Annotated[CreateOutputSystemByPackOutputCloudianS3, Tag("cloudian_s3")],
+        Annotated[CreateOutputSystemByPackOutputScalityS3, Tag("scality_s3")],
+        Annotated[
+            CreateOutputSystemByPackOutputAlibabaCloudS3, Tag("alibaba_cloud_s3")
+        ],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
-r"""Output object"""
+r"""Output object."""
 
 
 class CreateOutputSystemByPackRequestTypedDict(TypedDict):
     pack: str
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
     request_body: CreateOutputSystemByPackRequestBodyTypedDict
-    r"""Output object"""
+    r"""Output object."""
 
 
 class CreateOutputSystemByPackRequest(BaseModel):
     pack: Annotated[
         str, FieldMetadata(path=PathParamMetadata(style="simple", explode=False))
     ]
-    r"""The <code>id</code> of the Pack to create."""
+    r"""The <code>id</code> of the Pack."""
 
     request_body: Annotated[
         CreateOutputSystemByPackRequestBody,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
-    r"""Output object"""
+    r"""Output object."""
 
 
+try:
+    CreateOutputSystemByPackOutputStatsd.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputMinio.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateOutputSystemByPackOutputCloudwatch.model_rebuild()
+except NameError:
+    pass
 try:
     CreateOutputSystemByPackOutputInfluxdb.model_rebuild()
 except NameError:

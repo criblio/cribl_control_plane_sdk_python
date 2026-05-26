@@ -7,7 +7,7 @@ from .authenticationmethodoptionsauthtokensitems import (
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptions import CompressionOptions
 from .compressionoptionspq import CompressionOptionsPq
-from .itemstypehosts import ItemsTypeHosts, ItemsTypeHostsTypedDict
+from .hostconfoutputsyslog import HostConfOutputSyslog, HostConfOutputSyslogTypedDict
 from .maxs2sversionoptions import MaxS2SVersionOptions
 from .modeoptions import ModeOptions
 from .nestedfieldserializationoptions import NestedFieldSerializationOptions
@@ -77,7 +77,7 @@ class OutputSplunkLbAuthToken(BaseModel):
         return m
 
 
-class IndexerDiscoveryConfigsTypedDict(TypedDict):
+class OutputSplunkLbIndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
     site: str
@@ -98,7 +98,7 @@ class IndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class IndexerDiscoveryConfigs(BaseModel):
+class OutputSplunkLbIndexerDiscoveryConfigs(BaseModel):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
     site: str
@@ -170,7 +170,7 @@ class OutputSplunkLbPqControls(BaseModel):
 
 class OutputSplunkLbTypedDict(TypedDict):
     type: OutputSplunkLbType
-    hosts: List[ItemsTypeHostsTypedDict]
+    hosts: List[HostConfOutputSyslogTypedDict]
     r"""Set of Splunk indexers to load-balance data to."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -218,7 +218,9 @@ class OutputSplunkLbTypedDict(TypedDict):
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
     compress: NotRequired[CompressionOptions]
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
-    indexer_discovery_configs: NotRequired[IndexerDiscoveryConfigsTypedDict]
+    indexer_discovery_configs: NotRequired[
+        OutputSplunkLbIndexerDiscoveryConfigsTypedDict
+    ]
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
@@ -249,6 +251,8 @@ class OutputSplunkLbTypedDict(TypedDict):
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_nested_fields: NotRequired[str]
     r"""Binds 'nestedFields' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'nestedFields' at runtime."""
     template_max_s2_sversion: NotRequired[str]
@@ -262,7 +266,7 @@ class OutputSplunkLbTypedDict(TypedDict):
 class OutputSplunkLb(BaseModel):
     type: OutputSplunkLbType
 
-    hosts: List[ItemsTypeHosts]
+    hosts: List[HostConfOutputSyslog]
     r"""Set of Splunk indexers to load-balance data to."""
 
     id: Optional[str] = None
@@ -369,7 +373,7 @@ class OutputSplunkLb(BaseModel):
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     indexer_discovery_configs: Annotated[
-        Optional[IndexerDiscoveryConfigs],
+        Optional[OutputSplunkLbIndexerDiscoveryConfigs],
         pydantic.Field(alias="indexerDiscoveryConfigs"),
     ] = None
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
@@ -435,6 +439,11 @@ class OutputSplunkLb(BaseModel):
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_nested_fields: Annotated[
         Optional[str], pydantic.Field(alias="__template_nestedFields")
@@ -572,6 +581,7 @@ class OutputSplunkLb(BaseModel):
                 "pqControls",
                 "authToken",
                 "textSecret",
+                "__template_streamtags",
                 "__template_nestedFields",
                 "__template_maxS2Sversion",
                 "__template_onBackpressure",
@@ -597,7 +607,7 @@ try:
 except NameError:
     pass
 try:
-    IndexerDiscoveryConfigs.model_rebuild()
+    OutputSplunkLbIndexerDiscoveryConfigs.model_rebuild()
 except NameError:
     pass
 try:

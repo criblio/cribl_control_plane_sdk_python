@@ -4,17 +4,17 @@ from __future__ import annotations
 from .authenticationmethodoptionsapi import AuthenticationMethodOptionsAPI
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -51,7 +51,7 @@ class OutputDatasetSeverity(str, Enum, metaclass=utils.OpenEnumMeta):
     FATAL = "fatal"
 
 
-class DataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputDatasetDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""DataSet site to which events should be sent"""
 
     # US
@@ -92,12 +92,14 @@ class OutputDatasetTypedDict(TypedDict):
     r"""Name of the event field that contains the timestamp. If not specified, defaults to `ts`, `_time`, or `Date.now()`, in that order."""
     default_severity: NotRequired[OutputDatasetSeverity]
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    site: NotRequired[DataSetSite]
+    site: NotRequired[OutputDatasetDataSetSite]
     r"""DataSet site to which events should be sent"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -116,7 +118,7 @@ class OutputDatasetTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -159,6 +161,8 @@ class OutputDatasetTypedDict(TypedDict):
     r"""A 'Log Write Access' API key for the DataSet account"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -211,7 +215,7 @@ class OutputDataset(BaseModel):
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -225,7 +229,7 @@ class OutputDataset(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    site: Optional[DataSetSite] = None
+    site: Optional[OutputDatasetDataSetSite] = None
     r"""DataSet site to which events should be sent"""
 
     concurrency: Optional[float] = None
@@ -261,7 +265,7 @@ class OutputDataset(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -360,6 +364,11 @@ class OutputDataset(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
@@ -388,7 +397,7 @@ class OutputDataset(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.DataSetSite(value)
+                return models.OutputDatasetDataSetSite(value)
             except ValueError:
                 return value
         return value
@@ -495,6 +504,7 @@ class OutputDataset(BaseModel):
                 "pqControls",
                 "apiKey",
                 "textSecret",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_customUrl",

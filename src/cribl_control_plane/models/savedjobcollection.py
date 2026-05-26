@@ -45,6 +45,8 @@ class SavedJobCollectionTypedDict(TypedDict):
     input: NotRequired[
         RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
     ]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class SavedJobCollection(BaseModel):
@@ -94,6 +96,11 @@ class SavedJobCollection(BaseModel):
         RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
     ] = None
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
@@ -118,6 +125,7 @@ class SavedJobCollection(BaseModel):
                 "streamtags",
                 "workerAffinity",
                 "input",
+                "__template_streamtags",
             ]
         )
         serialized = handler(self)

@@ -3,20 +3,26 @@
 from __future__ import annotations
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstypeoauthheaders import ItemsTypeOauthHeaders, ItemsTypeOauthHeadersTypedDict
-from .itemstypeoauthparams import ItemsTypeOauthParams, ItemsTypeOauthParamsTypedDict
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .methodoptions import MethodOptions
 from .modeoptions import ModeOptions
+from .oauthheaderconfinputservicenowtable import (
+    OauthHeaderConfInputServicenowTable,
+    OauthHeaderConfInputServicenowTableTypedDict,
+)
+from .oauthparamconfinputservicenowtable import (
+    OauthParamConfInputServicenowTable,
+    OauthParamConfInputServicenowTableTypedDict,
+)
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -150,7 +156,7 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -158,7 +164,9 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -232,9 +240,9 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    oauth_params: NotRequired[List[OauthParamConfInputServicenowTableTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     url: NotRequired[str]
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
@@ -244,6 +252,8 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -322,7 +332,7 @@ class OutputWebhookWebhook2(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
@@ -344,7 +354,7 @@ class OutputWebhookWebhook2(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -517,12 +527,14 @@ class OutputWebhookWebhook2(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+        Optional[List[OauthParamConfInputServicenowTable]],
+        pydantic.Field(alias="oauthParams"),
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+        Optional[List[OauthHeaderConfInputServicenowTable]],
+        pydantic.Field(alias="oauthHeaders"),
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
@@ -541,6 +553,11 @@ class OutputWebhookWebhook2(BaseModel):
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
     ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -708,6 +725,7 @@ class OutputWebhookWebhook2(BaseModel):
                 "excludeSelf",
                 "dnsResolvePeriodSec",
                 "loadBalanceStatsPeriodSec",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_loginUrl",
@@ -846,7 +864,7 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -854,7 +872,9 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -928,9 +948,9 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
     token_timeout_secs: NotRequired[float]
     r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[ItemsTypeOauthParamsTypedDict]]
+    oauth_params: NotRequired[List[OauthParamConfInputServicenowTableTypedDict]]
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[ItemsTypeOauthHeadersTypedDict]]
+    oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
@@ -939,6 +959,8 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -1018,7 +1040,7 @@ class OutputWebhookWebhook1(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
@@ -1040,7 +1062,7 @@ class OutputWebhookWebhook1(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -1213,12 +1235,14 @@ class OutputWebhookWebhook1(BaseModel):
     r"""How often the OAuth token should be refreshed."""
 
     oauth_params: Annotated[
-        Optional[List[ItemsTypeOauthParams]], pydantic.Field(alias="oauthParams")
+        Optional[List[OauthParamConfInputServicenowTable]],
+        pydantic.Field(alias="oauthParams"),
     ] = None
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     oauth_headers: Annotated[
-        Optional[List[ItemsTypeOauthHeaders]], pydantic.Field(alias="oauthHeaders")
+        Optional[List[OauthHeaderConfInputServicenowTable]],
+        pydantic.Field(alias="oauthHeaders"),
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
@@ -1236,6 +1260,11 @@ class OutputWebhookWebhook1(BaseModel):
         Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
     ] = None
     r"""How far back in time to keep traffic stats for load balancing purposes"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
@@ -1403,6 +1432,7 @@ class OutputWebhookWebhook1(BaseModel):
                 "urls",
                 "dnsResolvePeriodSec",
                 "loadBalanceStatsPeriodSec",
+                "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_loginUrl",

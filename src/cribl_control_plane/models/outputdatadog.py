@@ -4,17 +4,17 @@ from __future__ import annotations
 from .authenticationmethodoptionsapi import AuthenticationMethodOptionsAPI
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
+from .extrahttpheaderconfinputelastic import (
+    ExtraHTTPHeaderConfInputElastic,
+    ExtraHTTPHeaderConfInputElasticTypedDict,
+)
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .itemstypeextrahttpheaders import (
-    ItemsTypeExtraHTTPHeaders,
-    ItemsTypeExtraHTTPHeadersTypedDict,
-)
-from .itemstyperesponseretrysettings import (
-    ItemsTypeResponseRetrySettings,
-    ItemsTypeResponseRetrySettingsTypedDict,
-)
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .responseretrysettingconfoutputwebhook import (
+    ResponseRetrySettingConfOutputWebhook,
+    ResponseRetrySettingConfOutputWebhookTypedDict,
+)
 from .timeoutretrysettingstype import (
     TimeoutRetrySettingsType,
     TimeoutRetrySettingsTypeTypedDict,
@@ -32,7 +32,7 @@ class OutputDatadogType(str, Enum):
     DATADOG = "datadog"
 
 
-class SendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputDatadogSendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The content type to use when sending logs"""
 
     # text/plain
@@ -62,7 +62,7 @@ class OutputDatadogSeverity(str, Enum, metaclass=utils.OpenEnumMeta):
     DEBUG = "debug"
 
 
-class DatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class OutputDatadogDatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Datadog site to which events should be sent"""
 
     # US
@@ -101,7 +101,7 @@ class OutputDatadogTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    content_type: NotRequired[SendLogsAs]
+    content_type: NotRequired[OutputDatadogSendLogsAs]
     r"""The content type to use when sending logs"""
     message: NotRequired[str]
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
@@ -119,7 +119,7 @@ class OutputDatadogTypedDict(TypedDict):
     r"""Allow API key to be set from the event's '__agent_api_key' field"""
     severity: NotRequired[OutputDatadogSeverity]
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
-    site: NotRequired[DatadogSite]
+    site: NotRequired[OutputDatadogDatadogSite]
     r"""Datadog site to which events should be sent"""
     send_counters_as_count: NotRequired[bool]
     r"""If not enabled, Datadog will transform 'counter' metrics to 'gauge'. [Learn more about Datadog metrics types.](https://docs.datadoghq.com/metrics/types/?tab=count)"""
@@ -140,7 +140,7 @@ class OutputDatadogTypedDict(TypedDict):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ItemsTypeExtraHTTPHeadersTypedDict]]
+    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
@@ -148,7 +148,9 @@ class OutputDatadogTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[List[ItemsTypeResponseRetrySettingsTypedDict]]
+    response_retry_settings: NotRequired[
+        List[ResponseRetrySettingConfOutputWebhookTypedDict]
+    ]
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
@@ -188,6 +190,10 @@ class OutputDatadogTypedDict(TypedDict):
     r"""Organization's API key in Datadog"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_tags: NotRequired[str]
+    r"""Binds 'tags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -215,7 +221,7 @@ class OutputDatadog(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     content_type: Annotated[
-        Optional[SendLogsAs], pydantic.Field(alias="contentType")
+        Optional[OutputDatadogSendLogsAs], pydantic.Field(alias="contentType")
     ] = None
     r"""The content type to use when sending logs"""
 
@@ -245,7 +251,7 @@ class OutputDatadog(BaseModel):
     severity: Optional[OutputDatadogSeverity] = None
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
-    site: Optional[DatadogSite] = None
+    site: Optional[OutputDatadogDatadogSite] = None
     r"""Datadog site to which events should be sent"""
 
     send_counters_as_count: Annotated[
@@ -286,7 +292,7 @@ class OutputDatadog(BaseModel):
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
 
     extra_http_headers: Annotated[
-        Optional[List[ItemsTypeExtraHTTPHeaders]],
+        Optional[List[ExtraHTTPHeaderConfInputElastic]],
         pydantic.Field(alias="extraHttpHeaders"),
     ] = None
     r"""Headers to add to all events"""
@@ -308,7 +314,7 @@ class OutputDatadog(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     response_retry_settings: Annotated[
-        Optional[List[ItemsTypeResponseRetrySettings]],
+        Optional[List[ResponseRetrySettingConfOutputWebhook]],
         pydantic.Field(alias="responseRetrySettings"),
     ] = None
     r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
@@ -400,6 +406,16 @@ class OutputDatadog(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_tags: Annotated[Optional[str], pydantic.Field(alias="__template_tags")] = (
+        None
+    )
+    r"""Binds 'tags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tags' at runtime."""
+
     template_failed_request_logging_mode: Annotated[
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
@@ -414,7 +430,7 @@ class OutputDatadog(BaseModel):
     def serialize_content_type(self, value):
         if isinstance(value, str):
             try:
-                return models.SendLogsAs(value)
+                return models.OutputDatadogSendLogsAs(value)
             except ValueError:
                 return value
         return value
@@ -432,7 +448,7 @@ class OutputDatadog(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.DatadogSite(value)
+                return models.OutputDatadogDatadogSite(value)
             except ValueError:
                 return value
         return value
@@ -544,6 +560,8 @@ class OutputDatadog(BaseModel):
                 "pqControls",
                 "apiKey",
                 "textSecret",
+                "__template_streamtags",
+                "__template_tags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
             ]

@@ -1,5 +1,7 @@
 # ScanMode
 
+Acceleration scan mode. <code>quick</code> collects object-level metadata; <code>detailed</code> also collects field-level statistics.
+
 ## Example Usage
 
 ```python

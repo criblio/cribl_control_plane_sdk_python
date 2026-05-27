@@ -10195,6 +10195,7 @@ class CreateOutputSystemByPackFormatCriblLake(str, Enum, metaclass=utils.OpenEnu
     JSON = "json"
     PARQUET = "parquet"
     DDSS = "ddss"
+    NETSKOPE = "netskope"
 
 
 class CreateOutputSystemByPackOutputCriblLakeTypedDict(TypedDict):

@@ -58,6 +58,10 @@ class RestAuthenticationBasicRestPaginationTypeResponseHeaderLinkTypedDict(Typed
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -103,6 +107,14 @@ class RestAuthenticationBasicRestPaginationTypeResponseHeaderLink(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -141,6 +153,8 @@ class RestAuthenticationBasicRestPaginationTypeResponseHeaderLink(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -198,6 +212,10 @@ class RestAuthenticationBasicRestPaginationTypeResponseHeaderTypedDict(TypedDict
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -246,6 +264,14 @@ class RestAuthenticationBasicRestPaginationTypeResponseHeader(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -285,6 +311,8 @@ class RestAuthenticationBasicRestPaginationTypeResponseHeader(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -342,6 +370,10 @@ class RestAuthenticationBasicRestPaginationTypeResponseBodyTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -390,6 +422,14 @@ class RestAuthenticationBasicRestPaginationTypeResponseBody(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -429,6 +469,8 @@ class RestAuthenticationBasicRestPaginationTypeResponseBody(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -452,6 +494,8 @@ class RestAuthenticationBasicRestPaginationTypeResponseBody(BaseModel):
 
 class RestAuthenticationBasicRestPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    max_pages: NotRequired[float]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
     r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
     next_relation_attribute: NotRequired[str]
@@ -466,6 +510,10 @@ class RestAuthenticationBasicRestPaginationTypeNoneTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -480,6 +528,9 @@ class RestAuthenticationBasicRestPaginationTypeNoneTypedDict(TypedDict):
 
 class RestAuthenticationBasicRestPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
 
     last_page_expr: Annotated[Optional[str], pydantic.Field(alias="lastPageExpr")] = (
         None
@@ -508,6 +559,14 @@ class RestAuthenticationBasicRestPaginationTypeNone(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -540,6 +599,7 @@ class RestAuthenticationBasicRestPaginationTypeNone(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "maxPages",
                 "lastPageExpr",
                 "nextRelationAttribute",
                 "curRelationAttribute",
@@ -547,6 +607,8 @@ class RestAuthenticationBasicRestPaginationTypeNone(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -573,10 +635,10 @@ RestAuthenticationBasicPaginationTypedDict = TypeAliasType(
     Union[
         RestAuthenticationBasicRestPaginationTypeNoneTypedDict,
         RestAuthenticationBasicRestPaginationTypeResponseHeaderLinkTypedDict,
-        RestAuthenticationBasicRestPaginationTypeResponseBodyTypedDict,
-        RestAuthenticationBasicRestPaginationTypeResponseHeaderTypedDict,
         RestAuthenticationBasicRestPaginationTypeRequestOffsetTypedDict,
         RestAuthenticationBasicRestPaginationTypeRequestPageTypedDict,
+        RestAuthenticationBasicRestPaginationTypeResponseBodyTypedDict,
+        RestAuthenticationBasicRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
 
@@ -994,10 +1056,39 @@ class RestAuthenticationBasicTypedDict(TypedDict):
     ]
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestAuthenticationBasicSchedulingTypedDict]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
+    get_auth_token_from_header: NotRequired[bool]
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+    auth_header_key: NotRequired[str]
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[CollectRequestParamConfRestCollectMethodGetTypedDict]
+    ]
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    client_secret_param_name: NotRequired[str]
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+    auth_request_params: NotRequired[
+        List[CollectRequestParamConfRestCollectMethodGetTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value"""
+    scopes: NotRequired[List[str]]
+    r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
     service_account_credentials: NotRequired[str]
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+    subject: NotRequired[str]
+    r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
     hmac_function_id: NotRequired[str]
     r"""Select or create an HMAC Function to use with authentication"""
     template_collect_url: NotRequired[str]
@@ -1084,15 +1175,71 @@ class RestAuthenticationBasic(BaseModel):
         pydantic.Field(alias="__scheduling"),
     ] = None
 
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
+
+    get_auth_token_from_header: Annotated[
+        Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
+    ] = None
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+
+    auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
+        None
+    )
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[CollectRequestParamConfRestCollectMethodGet]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
 
+    auth_request_params: Annotated[
+        Optional[List[CollectRequestParamConfRestCollectMethodGet]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value"""
+
+    scopes: Optional[List[str]] = None
+    r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
+
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")
     ] = None
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+
+    subject: Optional[str] = None
+    r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
 
     hmac_function_id: Annotated[
         Optional[str], pydantic.Field(alias="hmacFunctionId")
@@ -1141,8 +1288,21 @@ class RestAuthenticationBasic(BaseModel):
                 "retryRules",
                 "microsoftGraphDelta",
                 "__scheduling",
+                "credentialsSecret",
+                "loginUrl",
+                "loginBody",
+                "getAuthTokenFromHeader",
+                "authHeaderKey",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "tokenRespAttribute",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
+                "textSecret",
+                "scopes",
                 "serviceAccountCredentials",
+                "subject",
                 "hmacFunctionId",
                 "__template_collectUrl",
             ]
@@ -1197,6 +1357,8 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -1227,6 +1389,11 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeNone(BaseModel):
     ] = None
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -1273,6 +1440,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeNone(BaseModel):
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
+                "discoverDataField",
                 "enableStrictDiscoverParsing",
                 "enableDiscoverCode",
                 "manualDiscoverResult",
@@ -1316,6 +1484,8 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -1347,6 +1517,11 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeList(BaseModel):
     ] = None
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -1390,6 +1565,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeList(BaseModel):
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
+                "discoverDataField",
                 "enableStrictDiscoverParsing",
                 "enableDiscoverCode",
                 "manualDiscoverResult",
@@ -1426,7 +1602,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
@@ -1454,7 +1630,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeJSON(BaseModel):
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -2194,9 +2370,9 @@ RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTP = Annotated[
 RestAuthenticationNoneDiscoveryTypedDict = TypeAliasType(
     "RestAuthenticationNoneDiscoveryTypedDict",
     Union[
+        RestAuthenticationNoneRestDiscoveryDiscoverTypeJSONTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeListTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeNoneTypedDict,
-        RestAuthenticationNoneRestDiscoveryDiscoverTypeJSONTypedDict,
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -2535,6 +2711,10 @@ class RestAuthenticationNoneRestPaginationTypeResponseHeaderLinkTypedDict(TypedD
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -2580,6 +2760,14 @@ class RestAuthenticationNoneRestPaginationTypeResponseHeaderLink(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -2618,6 +2806,8 @@ class RestAuthenticationNoneRestPaginationTypeResponseHeaderLink(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -2675,6 +2865,10 @@ class RestAuthenticationNoneRestPaginationTypeResponseHeaderTypedDict(TypedDict)
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -2723,6 +2917,14 @@ class RestAuthenticationNoneRestPaginationTypeResponseHeader(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -2762,6 +2964,8 @@ class RestAuthenticationNoneRestPaginationTypeResponseHeader(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -2819,6 +3023,10 @@ class RestAuthenticationNoneRestPaginationTypeResponseBodyTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -2867,6 +3075,14 @@ class RestAuthenticationNoneRestPaginationTypeResponseBody(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -2906,6 +3122,8 @@ class RestAuthenticationNoneRestPaginationTypeResponseBody(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -2929,6 +3147,8 @@ class RestAuthenticationNoneRestPaginationTypeResponseBody(BaseModel):
 
 class RestAuthenticationNoneRestPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    max_pages: NotRequired[float]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
     r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
     next_relation_attribute: NotRequired[str]
@@ -2943,6 +3163,10 @@ class RestAuthenticationNoneRestPaginationTypeNoneTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -2957,6 +3181,9 @@ class RestAuthenticationNoneRestPaginationTypeNoneTypedDict(TypedDict):
 
 class RestAuthenticationNoneRestPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
 
     last_page_expr: Annotated[Optional[str], pydantic.Field(alias="lastPageExpr")] = (
         None
@@ -2985,6 +3212,14 @@ class RestAuthenticationNoneRestPaginationTypeNone(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -3017,6 +3252,7 @@ class RestAuthenticationNoneRestPaginationTypeNone(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "maxPages",
                 "lastPageExpr",
                 "nextRelationAttribute",
                 "curRelationAttribute",
@@ -3024,6 +3260,8 @@ class RestAuthenticationNoneRestPaginationTypeNone(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -3050,10 +3288,10 @@ RestAuthenticationNonePaginationTypedDict = TypeAliasType(
     Union[
         RestAuthenticationNoneRestPaginationTypeNoneTypedDict,
         RestAuthenticationNoneRestPaginationTypeResponseHeaderLinkTypedDict,
-        RestAuthenticationNoneRestPaginationTypeResponseBodyTypedDict,
-        RestAuthenticationNoneRestPaginationTypeResponseHeaderTypedDict,
         RestAuthenticationNoneRestPaginationTypeRequestOffsetTypedDict,
         RestAuthenticationNoneRestPaginationTypeRequestPageTypedDict,
+        RestAuthenticationNoneRestPaginationTypeResponseBodyTypedDict,
+        RestAuthenticationNoneRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
 
@@ -3469,10 +3707,41 @@ class RestAuthenticationNoneTypedDict(TypedDict):
     ]
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestAuthenticationNoneSchedulingTypedDict]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
+    get_auth_token_from_header: NotRequired[bool]
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+    auth_header_key: NotRequired[str]
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[CollectRequestParamConfRestCollectMethodGetTypedDict]
+    ]
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    client_secret_param_name: NotRequired[str]
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+    auth_request_params: NotRequired[
+        List[CollectRequestParamConfRestCollectMethodGetTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value"""
+    scopes: NotRequired[List[str]]
+    r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
     service_account_credentials: NotRequired[str]
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+    subject: NotRequired[str]
+    r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
     hmac_function_id: NotRequired[str]
     r"""Select or create an HMAC Function to use with authentication"""
     template_collect_url: NotRequired[str]
@@ -3554,15 +3823,75 @@ class RestAuthenticationNone(BaseModel):
         Optional[RestAuthenticationNoneScheduling], pydantic.Field(alias="__scheduling")
     ] = None
 
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
+
+    get_auth_token_from_header: Annotated[
+        Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
+    ] = None
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+
+    auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
+        None
+    )
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[CollectRequestParamConfRestCollectMethodGet]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
 
+    auth_request_params: Annotated[
+        Optional[List[CollectRequestParamConfRestCollectMethodGet]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value"""
+
+    scopes: Optional[List[str]] = None
+    r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
+
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")
     ] = None
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+
+    subject: Optional[str] = None
+    r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
 
     hmac_function_id: Annotated[
         Optional[str], pydantic.Field(alias="hmacFunctionId")
@@ -3611,8 +3940,23 @@ class RestAuthenticationNone(BaseModel):
                 "retryRules",
                 "microsoftGraphDelta",
                 "__scheduling",
+                "username",
+                "password",
+                "credentialsSecret",
+                "loginUrl",
+                "loginBody",
+                "getAuthTokenFromHeader",
+                "authHeaderKey",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "tokenRespAttribute",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
+                "textSecret",
+                "scopes",
                 "serviceAccountCredentials",
+                "subject",
                 "hmacFunctionId",
                 "__template_collectUrl",
             ]
@@ -3663,6 +4007,8 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -3693,6 +4039,11 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeNone(BaseModel):
     ] = None
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -3739,6 +4090,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeNone(BaseModel):
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
+                "discoverDataField",
                 "enableStrictDiscoverParsing",
                 "enableDiscoverCode",
                 "manualDiscoverResult",
@@ -3782,6 +4134,8 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -3813,6 +4167,11 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeList(BaseModel):
     ] = None
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -3856,6 +4215,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeList(BaseModel):
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
+                "discoverDataField",
                 "enableStrictDiscoverParsing",
                 "enableDiscoverCode",
                 "manualDiscoverResult",
@@ -3892,7 +4252,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
@@ -3920,7 +4280,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeJSON(BaseModel):
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -4662,9 +5022,9 @@ RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTP = Annotated[
 RestCollectMethodOtherDiscoveryTypedDict = TypeAliasType(
     "RestCollectMethodOtherDiscoveryTypedDict",
     Union[
+        RestCollectMethodOtherRestDiscoveryDiscoverTypeJSONTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeListTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeNoneTypedDict,
-        RestCollectMethodOtherRestDiscoveryDiscoverTypeJSONTypedDict,
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -4992,6 +5352,10 @@ class RestCollectMethodOtherRestPaginationTypeResponseHeaderLinkTypedDict(TypedD
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -5037,6 +5401,14 @@ class RestCollectMethodOtherRestPaginationTypeResponseHeaderLink(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -5075,6 +5447,8 @@ class RestCollectMethodOtherRestPaginationTypeResponseHeaderLink(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -5132,6 +5506,10 @@ class RestCollectMethodOtherRestPaginationTypeResponseHeaderTypedDict(TypedDict)
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -5180,6 +5558,14 @@ class RestCollectMethodOtherRestPaginationTypeResponseHeader(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -5219,6 +5605,8 @@ class RestCollectMethodOtherRestPaginationTypeResponseHeader(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -5276,6 +5664,10 @@ class RestCollectMethodOtherRestPaginationTypeResponseBodyTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -5324,6 +5716,14 @@ class RestCollectMethodOtherRestPaginationTypeResponseBody(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -5363,6 +5763,8 @@ class RestCollectMethodOtherRestPaginationTypeResponseBody(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -5386,6 +5788,8 @@ class RestCollectMethodOtherRestPaginationTypeResponseBody(BaseModel):
 
 class RestCollectMethodOtherRestPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    max_pages: NotRequired[float]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
     r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
     next_relation_attribute: NotRequired[str]
@@ -5400,6 +5804,10 @@ class RestCollectMethodOtherRestPaginationTypeNoneTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -5414,6 +5822,9 @@ class RestCollectMethodOtherRestPaginationTypeNoneTypedDict(TypedDict):
 
 class RestCollectMethodOtherRestPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
 
     last_page_expr: Annotated[Optional[str], pydantic.Field(alias="lastPageExpr")] = (
         None
@@ -5442,6 +5853,14 @@ class RestCollectMethodOtherRestPaginationTypeNone(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -5474,6 +5893,7 @@ class RestCollectMethodOtherRestPaginationTypeNone(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "maxPages",
                 "lastPageExpr",
                 "nextRelationAttribute",
                 "curRelationAttribute",
@@ -5481,6 +5901,8 @@ class RestCollectMethodOtherRestPaginationTypeNone(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -5507,10 +5929,10 @@ RestCollectMethodOtherPaginationTypedDict = TypeAliasType(
     Union[
         RestCollectMethodOtherRestPaginationTypeNoneTypedDict,
         RestCollectMethodOtherRestPaginationTypeResponseHeaderLinkTypedDict,
-        RestCollectMethodOtherRestPaginationTypeResponseBodyTypedDict,
-        RestCollectMethodOtherRestPaginationTypeResponseHeaderTypedDict,
         RestCollectMethodOtherRestPaginationTypeRequestOffsetTypedDict,
         RestCollectMethodOtherRestPaginationTypeRequestPageTypedDict,
+        RestCollectMethodOtherRestPaginationTypeResponseBodyTypedDict,
+        RestCollectMethodOtherRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
 
@@ -5948,10 +6370,41 @@ class RestCollectMethodOtherTypedDict(TypedDict):
     ]
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestCollectMethodOtherSchedulingTypedDict]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
+    get_auth_token_from_header: NotRequired[bool]
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+    auth_header_key: NotRequired[str]
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[CollectRequestParamConfRestCollectMethodGetTypedDict]
+    ]
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    client_secret_param_name: NotRequired[str]
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+    auth_request_params: NotRequired[
+        List[CollectRequestParamConfRestCollectMethodGetTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value"""
+    scopes: NotRequired[List[str]]
+    r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
     service_account_credentials: NotRequired[str]
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+    subject: NotRequired[str]
+    r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
     hmac_function_id: NotRequired[str]
     r"""Select or create an HMAC Function to use with authentication"""
     template_collect_url: NotRequired[str]
@@ -6044,15 +6497,75 @@ class RestCollectMethodOther(BaseModel):
         Optional[RestCollectMethodOtherScheduling], pydantic.Field(alias="__scheduling")
     ] = None
 
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
+
+    get_auth_token_from_header: Annotated[
+        Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
+    ] = None
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+
+    auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
+        None
+    )
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[CollectRequestParamConfRestCollectMethodGet]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
 
+    auth_request_params: Annotated[
+        Optional[List[CollectRequestParamConfRestCollectMethodGet]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value"""
+
+    scopes: Optional[List[str]] = None
+    r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
+
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")
     ] = None
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+
+    subject: Optional[str] = None
+    r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
 
     hmac_function_id: Annotated[
         Optional[str], pydantic.Field(alias="hmacFunctionId")
@@ -6103,8 +6616,23 @@ class RestCollectMethodOther(BaseModel):
                 "retryRules",
                 "microsoftGraphDelta",
                 "__scheduling",
+                "username",
+                "password",
+                "credentialsSecret",
+                "loginUrl",
+                "loginBody",
+                "getAuthTokenFromHeader",
+                "authHeaderKey",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "tokenRespAttribute",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
+                "textSecret",
+                "scopes",
                 "serviceAccountCredentials",
+                "subject",
                 "hmacFunctionId",
                 "__template_collectUrl",
             ]
@@ -6159,6 +6687,8 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeNoneTypedDict(TypedD
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -6189,6 +6719,11 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeNone(BaseModel):
     ] = None
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -6235,6 +6770,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeNone(BaseModel):
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
+                "discoverDataField",
                 "enableStrictDiscoverParsing",
                 "enableDiscoverCode",
                 "manualDiscoverResult",
@@ -6280,6 +6816,8 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeListTypedDict(TypedD
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -6311,6 +6849,11 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeList(BaseModel):
     ] = None
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -6354,6 +6897,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeList(BaseModel):
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
+                "discoverDataField",
                 "enableStrictDiscoverParsing",
                 "enableDiscoverCode",
                 "manualDiscoverResult",
@@ -6392,7 +6936,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeJSONTypedDict(TypedD
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
@@ -6420,7 +6964,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeJSON(BaseModel):
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -7166,9 +7710,9 @@ RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTP = Annotated[
 RestCollectMethodPostWithBodyDiscoveryTypedDict = TypeAliasType(
     "RestCollectMethodPostWithBodyDiscoveryTypedDict",
     Union[
+        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeJSONTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeListTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeNoneTypedDict,
-        RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeJSONTypedDict,
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -7498,6 +8042,10 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseHeaderLinkTypedDict
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -7543,6 +8091,14 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseHeaderLink(BaseMode
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -7581,6 +8137,8 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseHeaderLink(BaseMode
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -7636,6 +8194,10 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseHeaderTypedDict(Typ
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -7686,6 +8248,14 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseHeader(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -7725,6 +8295,8 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseHeader(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -7782,6 +8354,10 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseBodyTypedDict(Typed
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -7832,6 +8408,14 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseBody(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -7871,6 +8455,8 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseBody(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -7894,6 +8480,8 @@ class RestCollectMethodPostWithBodyRestPaginationTypeResponseBody(BaseModel):
 
 class RestCollectMethodPostWithBodyRestPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    max_pages: NotRequired[float]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
     r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
     next_relation_attribute: NotRequired[str]
@@ -7908,6 +8496,10 @@ class RestCollectMethodPostWithBodyRestPaginationTypeNoneTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -7922,6 +8514,9 @@ class RestCollectMethodPostWithBodyRestPaginationTypeNoneTypedDict(TypedDict):
 
 class RestCollectMethodPostWithBodyRestPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
 
     last_page_expr: Annotated[Optional[str], pydantic.Field(alias="lastPageExpr")] = (
         None
@@ -7950,6 +8545,14 @@ class RestCollectMethodPostWithBodyRestPaginationTypeNone(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -7982,6 +8585,7 @@ class RestCollectMethodPostWithBodyRestPaginationTypeNone(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "maxPages",
                 "lastPageExpr",
                 "nextRelationAttribute",
                 "curRelationAttribute",
@@ -7989,6 +8593,8 @@ class RestCollectMethodPostWithBodyRestPaginationTypeNone(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -8015,10 +8621,10 @@ RestCollectMethodPostWithBodyPaginationTypedDict = TypeAliasType(
     Union[
         RestCollectMethodPostWithBodyRestPaginationTypeNoneTypedDict,
         RestCollectMethodPostWithBodyRestPaginationTypeResponseHeaderLinkTypedDict,
-        RestCollectMethodPostWithBodyRestPaginationTypeResponseBodyTypedDict,
-        RestCollectMethodPostWithBodyRestPaginationTypeResponseHeaderTypedDict,
         RestCollectMethodPostWithBodyRestPaginationTypeRequestOffsetTypedDict,
         RestCollectMethodPostWithBodyRestPaginationTypeRequestPageTypedDict,
+        RestCollectMethodPostWithBodyRestPaginationTypeResponseBodyTypedDict,
+        RestCollectMethodPostWithBodyRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
 
@@ -8453,10 +9059,41 @@ class RestCollectMethodPostWithBodyTypedDict(TypedDict):
     ]
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestCollectMethodPostWithBodySchedulingTypedDict]
+    username: NotRequired[str]
+    password: NotRequired[str]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
+    get_auth_token_from_header: NotRequired[bool]
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+    auth_header_key: NotRequired[str]
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[CollectRequestParamConfRestCollectMethodGetTypedDict]
+    ]
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    client_secret_param_name: NotRequired[str]
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+    auth_request_params: NotRequired[
+        List[CollectRequestParamConfRestCollectMethodGetTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    text_secret: NotRequired[str]
+    r"""Select or create a text secret that contains the client secret's value"""
+    scopes: NotRequired[List[str]]
+    r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
     service_account_credentials: NotRequired[str]
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+    subject: NotRequired[str]
+    r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
     hmac_function_id: NotRequired[str]
     r"""Select or create an HMAC Function to use with authentication"""
     template_collect_url: NotRequired[str]
@@ -8544,15 +9181,75 @@ class RestCollectMethodPostWithBody(BaseModel):
         pydantic.Field(alias="__scheduling"),
     ] = None
 
+    username: Optional[str] = None
+
+    password: Optional[str] = None
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
+
+    get_auth_token_from_header: Annotated[
+        Optional[bool], pydantic.Field(alias="getAuthTokenFromHeader")
+    ] = None
+    r"""Extract the auth token from the HTTP 'Authorization' response header instead of the standard JSON body of the login response"""
+
+    auth_header_key: Annotated[Optional[str], pydantic.Field(alias="authHeaderKey")] = (
+        None
+    )
+    r"""Authorization header key to pass in Discover and Collect calls. Defaults to the literal name 'Authorization'."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression used to compute the Authorization header to pass in Discover and Collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[CollectRequestParamConfRestCollectMethodGet]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
 
+    auth_request_params: Annotated[
+        Optional[List[CollectRequestParamConfRestCollectMethodGet]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a text secret that contains the client secret's value"""
+
+    scopes: Optional[List[str]] = None
+    r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
+
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")
     ] = None
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+
+    subject: Optional[str] = None
+    r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
 
     hmac_function_id: Annotated[
         Optional[str], pydantic.Field(alias="hmacFunctionId")
@@ -8601,8 +9298,23 @@ class RestCollectMethodPostWithBody(BaseModel):
                 "retryRules",
                 "microsoftGraphDelta",
                 "__scheduling",
+                "username",
+                "password",
+                "credentialsSecret",
+                "loginUrl",
+                "loginBody",
+                "getAuthTokenFromHeader",
+                "authHeaderKey",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "tokenRespAttribute",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
+                "textSecret",
+                "scopes",
                 "serviceAccountCredentials",
+                "subject",
                 "hmacFunctionId",
                 "__template_collectUrl",
             ]
@@ -8653,6 +9365,8 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -8683,6 +9397,11 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeNone(BaseModel):
     ] = None
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -8729,6 +9448,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeNone(BaseModel):
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
+                "discoverDataField",
                 "enableStrictDiscoverParsing",
                 "enableDiscoverCode",
                 "manualDiscoverResult",
@@ -8772,6 +9492,8 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -8803,6 +9525,11 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeList(BaseModel):
     ] = None
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -8846,6 +9573,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeList(BaseModel):
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
+                "discoverDataField",
                 "enableStrictDiscoverParsing",
                 "enableDiscoverCode",
                 "manualDiscoverResult",
@@ -8882,7 +9610,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
@@ -8910,7 +9638,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeJSON(BaseModel):
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, the name of the field to pull results from, typically a JSON array. Leave blank if the result itself is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
@@ -9652,9 +10380,9 @@ RestCollectMethodPostRestDiscoveryDiscoverTypeHTTP = Annotated[
 RestCollectMethodPostDiscoveryTypedDict = TypeAliasType(
     "RestCollectMethodPostDiscoveryTypedDict",
     Union[
+        RestCollectMethodPostRestDiscoveryDiscoverTypeJSONTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeListTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeNoneTypedDict,
-        RestCollectMethodPostRestDiscoveryDiscoverTypeJSONTypedDict,
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -9982,6 +10710,10 @@ class RestCollectMethodPostRestPaginationTypeResponseHeaderLinkTypedDict(TypedDi
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -10027,6 +10759,14 @@ class RestCollectMethodPostRestPaginationTypeResponseHeaderLink(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -10065,6 +10805,8 @@ class RestCollectMethodPostRestPaginationTypeResponseHeaderLink(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -10122,6 +10864,10 @@ class RestCollectMethodPostRestPaginationTypeResponseHeaderTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -10170,6 +10916,14 @@ class RestCollectMethodPostRestPaginationTypeResponseHeader(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -10209,6 +10963,8 @@ class RestCollectMethodPostRestPaginationTypeResponseHeader(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -10266,6 +11022,10 @@ class RestCollectMethodPostRestPaginationTypeResponseBodyTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -10314,6 +11074,14 @@ class RestCollectMethodPostRestPaginationTypeResponseBody(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -10353,6 +11121,8 @@ class RestCollectMethodPostRestPaginationTypeResponseBody(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -10376,6 +11146,8 @@ class RestCollectMethodPostRestPaginationTypeResponseBody(BaseModel):
 
 class RestCollectMethodPostRestPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    max_pages: NotRequired[float]
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
     r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
     next_relation_attribute: NotRequired[str]
@@ -10390,6 +11162,10 @@ class RestCollectMethodPostRestPaginationTypeNoneTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to collect per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -10404,6 +11180,9 @@ class RestCollectMethodPostRestPaginationTypeNoneTypedDict(TypedDict):
 
 class RestCollectMethodPostRestPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
+    r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
 
     last_page_expr: Annotated[Optional[str], pydantic.Field(alias="lastPageExpr")] = (
         None
@@ -10432,6 +11211,14 @@ class RestCollectMethodPostRestPaginationTypeNone(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to collect per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -10464,6 +11251,7 @@ class RestCollectMethodPostRestPaginationTypeNone(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "maxPages",
                 "lastPageExpr",
                 "nextRelationAttribute",
                 "curRelationAttribute",
@@ -10471,6 +11259,8 @@ class RestCollectMethodPostRestPaginationTypeNone(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -10497,10 +11287,10 @@ RestCollectMethodPostPaginationTypedDict = TypeAliasType(
     Union[
         RestCollectMethodPostRestPaginationTypeNoneTypedDict,
         RestCollectMethodPostRestPaginationTypeResponseHeaderLinkTypedDict,
-        RestCollectMethodPostRestPaginationTypeResponseBodyTypedDict,
-        RestCollectMethodPostRestPaginationTypeResponseHeaderTypedDict,
         RestCollectMethodPostRestPaginationTypeRequestOffsetTypedDict,
         RestCollectMethodPostRestPaginationTypeRequestPageTypedDict,
+        RestCollectMethodPostRestPaginationTypeResponseBodyTypedDict,
+        RestCollectMethodPostRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
 

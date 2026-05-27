@@ -4,7 +4,7 @@
 
 ### Available Operations
 
-* [create](#create) - Capture live incoming data
+* [create](#create) - Capture live data
 
 ## create
 

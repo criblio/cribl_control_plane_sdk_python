@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.2-alpha.1779750186818-8741fe63
+  version: 4.18.2-alpha.1779818678336-89c93980
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -395,22 +395,7 @@ components:
           type: array
           minItems: 1
           items:
-            type: object
-            required:
-              - host
-              - port
-            properties:
-              host:
-                type: string
-                title: Hostname
-                description: "Hostname of cluster node. Must be a JavaScript expression (which
-                  can evaluate to a constant value), enclosed in quotes or
-                  backticks. Can be evaluated only at init time. Example
-                  referencing a Global Variable: `myBucket-${C.vars.myVar}`."
-              port:
-                type: number
-                title: Port
-                description: Port of cluster node
+            $ref: "#/components/schemas/RootNodeConfRedisDeploymentTypeCluster"
         tls:
           title: TLS
           type: boolean
@@ -4724,6 +4709,17 @@ components:
           type: string
         tlsOptions:
           $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeStandalone"
+        rootNodes:
+          title: Root nodes
+          description: Root nodes to which the cluster connection should be initiated
+          type: array
+          minItems: 1
+          items:
+            $ref: "#/components/schemas/RootNodeConfRedisDeploymentTypeCluster"
+        tls:
+          title: TLS
+          type: boolean
+          description: Use TLS for connections to this cluster
         scaleReads:
           $ref: "#/components/schemas/ScaleReadsOptionsRedisDeploymentTypeCluster"
         masterName:
@@ -5491,6 +5487,25 @@ components:
           title: Destination field
           description: Name of the field to add fields to. Extract mode only.
           type: string
+        keep:
+          title: Fields to keep
+          description: List of fields to keep. Supports wildcards (*). Takes precedence
+            over 'Fields to remove'.
+          type: array
+          items:
+            type: string
+        remove:
+          title: Fields to remove
+          description: List of fields to remove. Supports wildcards (*). Cannot remove
+            fields that match 'Fields to keep'.
+          type: array
+          items:
+            type: string
+        fieldFilterExpr:
+          title: Fields filter expression
+          description: Expression evaluated against {index, name, value} context. Return
+            truthy to keep a field, or falsy to remove it.
+          type: string
         allowedKeyChars:
           type: array
           items:
@@ -5505,6 +5520,13 @@ components:
           title: Allowed value characters
           description: A list of characters that may be present in a value, even though
             they are normally separator or control characters
+        fields:
+          title: List of fields
+          description: The fields to be extracted, listed in order. Will auto-generate if
+            empty.
+          type: array
+          items:
+            type: string
         regex:
           type: string
           title: Regex
@@ -9671,10 +9693,31 @@ components:
           type: string
           title: Connection string (text secret)
           description: Text secret
+        storageAccountName:
+          type: string
+          title: Storage account name
+          description: The name of your Azure storage account
+        tenantId:
+          type: string
+          title: Tenant ID
+          description: The service principal's tenant ID
+        clientId:
+          type: string
+          title: Client ID
+          description: The service principal's client ID
         clientTextSecret:
           type: string
           title: Client secret (text secret)
           description: Text secret containing the client secret
+        endpointSuffix:
+          type: string
+          title: Endpoint suffix
+          description: The endpoint suffix for the service URL. Takes precedence over the
+            Azure Cloud setting. Defaults to core.windows.net.
+        azureCloud:
+          type: string
+          title: Azure Cloud
+          description: The Azure cloud to use. Defaults to Azure Public Cloud.
         certificate:
           $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
         __template_containerName:
@@ -10616,6 +10659,12 @@ components:
               type: array
               items:
                 $ref: "#/components/schemas/AuthRequestHeaderConfHealthCheckAuthenticationLogin"
+            discoverDataField:
+              type: string
+              title: Discover Data Field
+              description: "Path to field in the response object which contains discover
+                results (e.g.: level1.name), leave blank if the result is an
+                array."
             manualDiscoverResult:
               type: string
               title: Discover result
@@ -10739,12 +10788,66 @@ components:
                   none: "#/components/schemas/HealthCheckRetryRulesTypeNone"
                   static: "#/components/schemas/HealthCheckRetryRulesTypeStatic"
                   backoff: "#/components/schemas/HealthCheckRetryRulesTypeBackoff"
+        username:
+          type: string
+          title: Username
+          description: Basic authentication username
+        password:
+          type: string
+          title: Password
+          description: Basic authentication password
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a stored secret that references your credentials
+        loginUrl:
+          type: string
+          title: Login URL
+          description: URL to use for login API call. This call is expected to be a POST.
+        loginBody:
+          type: string
+          title: POST body
+          description: Template for POST body to send with login request, ${username} and
+            ${password} are used to specify location of these attributes in the
+            message
+        tokenRespAttribute:
+          type: string
+          title: Token attribute
+          description: Path to token attribute in login response body. Nested attributes
+            are OK. Leave blank if the response content type is text/plain; the
+            entire response body will be used to derive the authorization
+            header.
+        authHeaderExpr:
+          type: string
+          title: Authorize Expression
+          description: JavaScript expression to compute the Authorization header to pass
+            in discover and collect calls. The value ${token} is used to
+            reference the token obtained from login.
+        authRequestHeaders:
+          title: Authentication Headers
+          description: Optional authentication request headers.
+          type: array
+          items:
+            $ref: "#/components/schemas/AuthRequestHeaderConfHealthCheckAuthenticationLogin"
+        clientSecretParamName:
+          type: string
+          title: Client secret parameter
+          description: Parameter name that contains client secret. Defaults to
+            'client_secret', and is automatically added to request parameters.
         clientSecretParamValue:
           type: string
           title: Client secret value
           description: Secret value to add to HTTP requests as the 'client secret'
             parameter. Stored on disk encrypted, and is automatically added to
             request parameters
+        authRequestParams:
+          title: Extra authentication parameters
+          description: OAuth request parameters added to the POST body. The Content-Type
+            header will automatically be set to
+            application/x-www-form-urlencoded.
+          type: array
+          items:
+            $ref: "#/components/schemas/AuthRequestParamConfHealthCheckAuthenticationOauth"
         textSecret:
           type: string
           title: Client secret value (text secret)
@@ -11933,6 +12036,12 @@ components:
                 $ref: "#/components/schemas/CollectRequestParamConfRestCollectMethodGet"
             pagination:
               $ref: "#/components/schemas/PaginationTypeRestDiscoveryDiscoverTypeHttp"
+            discoverDataField:
+              type: string
+              title: Discover data field
+              description: "Path to field in the response object that contains discovery
+                results (ex: level1.name). Leave blank if the result is an
+                array."
             enableStrictDiscoverParsing:
               type: boolean
               title: Strict discover response parsing
@@ -12003,6 +12112,12 @@ components:
             type:
               $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagin\
                 ation"
+            maxPages:
+              type: number
+              title: Page limit
+              description: Maximum number of pages to retrieve per collection task. Defaults
+                to 50 pages. Set to 0 to retrieve all pages.
+              minimum: 0
             lastPageExpr:
               type: string
               title: Last-page expression
@@ -12043,6 +12158,16 @@ components:
               title: Record limit
               description: Maximum number of records to collect per request
               minimum: 1
+            totalRecordField:
+              type: string
+              title: Total record count field name
+              description: Name of the attribute in the response that contains the total
+                number of records for the query
+            zeroIndexed:
+              type: boolean
+              title: Zero-based index
+              description: Enable to indicate that the first page in the requested data is at
+                index 0. Disabled by default, which indicates index 1.
             pageField:
               type: string
               title: Page number field name
@@ -12188,12 +12313,90 @@ components:
                   type: boolean
                   title: Enabled
                   description: Track collection progress between consecutive scheduled executions
+        username:
+          type: string
+          title: Username
+        password:
+          type: string
+          title: Password
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a stored secret that references your credentials
+        loginUrl:
+          type: string
+          title: Login URL
+          description: URL to use for login API call. This call is expected to be a POST.
+        loginBody:
+          type: string
+          title: POST body
+          description: Template for POST body to send with login request. ${username} and
+            ${password} are used to specify location of these attributes in the
+            message. For x-www-form-urlencoded bodies, wrap values with
+            ${C.Encode.uri(password)} to preserve special characters like +, &,
+            and =.
+        getAuthTokenFromHeader:
+          type: boolean
+          title: Get auth token from header
+          description: Extract the auth token from the HTTP 'Authorization' response
+            header instead of the standard JSON body of the login response
+        authHeaderKey:
+          type: string
+          title: Authorization header
+          description: Authorization header key to pass in Discover and Collect calls.
+            Defaults to the literal name 'Authorization'.
+        authHeaderExpr:
+          type: string
+          title: Authorize expression
+          description: JavaScript expression used to compute the Authorization header to
+            pass in Discover and Collect calls. The value ${token} is used to
+            reference the token obtained from login.
+        authRequestHeaders:
+          title: Authentication headers
+          type: array
+          items:
+            $ref: "#/components/schemas/CollectRequestParamConfRestCollectMethodGet"
+        tokenRespAttribute:
+          type: string
+          title: Token attribute
+          description: Path to token attribute in login response body. Nested attributes
+            are OK. Leave blank if the response content type is text/plain; the
+            entire response body will be used to derive the authorization
+            header.
+        clientSecretParamName:
+          type: string
+          title: Client secret parameter
+          description: Defaults to 'client_secret'. Automatically added to request
+            parameters using the value specified.
         clientSecretParamValue:
           type: string
           title: Client secret value
           description: Secret value to add to HTTP requests as the 'client secret'
             parameter. Value is stored encrypted on disk and automatically added
             to request parameters.
+        authRequestParams:
+          title: Extra authentication parameters
+          description: OAuth request parameters added to the POST body. The Content-Type
+            header will automatically be set to
+            application/x-www-form-urlencoded.
+          type: array
+          items:
+            $ref: "#/components/schemas/CollectRequestParamConfRestCollectMethodGet"
+        textSecret:
+          type: string
+          title: Client secret value (text secret)
+          description: Select or create a text secret that contains the client secret's
+            value
+        scopes:
+          type: array
+          title: Scopes
+          description: Scopes to use during authentication. See [Google's
+            docs](https://developers.google.com/identity/protocols/oauth2/scopes)
+            for more information.
+          minItems: 1
+          items:
+            type: string
+            minLength: 1
         serviceAccountCredentials:
           type: string
           title: Service account credentials
@@ -12201,6 +12404,11 @@ components:
             file. To upload a file, click the upload icon in this field's upper
             right.
           minLength: 1
+        subject:
+          type: string
+          title: Impersonated account's email address
+          description: Email address of a user account with Super Admin permissions to the
+            resources the collector will retrieve
         hmacFunctionId:
           type: string
           title: HMAC Function
@@ -12889,6 +13097,18 @@ components:
                   none: "#/components/schemas/SplunkRetryRulesTypeNone"
                   static: "#/components/schemas/SplunkRetryRulesTypeStatic"
                   backoff: "#/components/schemas/SplunkRetryRulesTypeBackoff"
+        username:
+          type: string
+          title: Username
+          description: Basic authentication username
+        password:
+          type: string
+          title: Password
+          description: Basic authentication password
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a stored secret that references your credentials
         token:
           type: string
           title: Bearer token
@@ -12896,6 +13116,27 @@ components:
           type: string
           title: Bearer token secret
           description: Select or create a stored secret that references your Bearer token
+        loginUrl:
+          type: string
+          title: Login URL
+          description: URL to use for login API call. This call is expected to be a POST.
+        loginBody:
+          type: string
+          title: POST body
+          description: Template for POST body to send with login request. ${username} and
+            ${password} are used to specify location of these attributes in the
+            message.
+        tokenRespAttribute:
+          type: string
+          title: Token attribute
+          description: Path to token attribute in login response body. Nested attributes
+            are allowed.
+        authHeaderExpr:
+          type: string
+          title: Authorize Expression
+          description: JavaScript expression to compute the Authorization header to pass
+            in discover and collect calls. The value ${token} is used to
+            reference the token obtained from login.
         __template_searchHead:
           type: string
           description: Binds 'searchHead' to a variable for dynamic value resolution. Set
@@ -53385,6 +53626,23 @@ components:
         - TLSv1.2
         - TLSv1.3
       x-speakeasy-unknown-values: allow
+    RootNodeConfRedisDeploymentTypeCluster:
+      type: object
+      required:
+        - host
+        - port
+      properties:
+        host:
+          type: string
+          title: Hostname
+          description: "Hostname of cluster node. Must be a JavaScript expression (which
+            can evaluate to a constant value), enclosed in quotes or backticks.
+            Can be evaluated only at init time. Example referencing a Global
+            Variable: `myBucket-${C.vars.myVar}`."
+        port:
+          type: number
+          title: Port
+          description: Port of cluster node
     ScaleReadsOptionsRedisDeploymentTypeCluster:
       title: Scale reads
       type: string
@@ -55559,6 +55817,12 @@ components:
         type:
           $ref: "#/components/schemas/PaginationOptionsRestDiscoveryDiscoverTypeHttpPagin\
             ation"
+        maxPages:
+          type: number
+          title: Page limit
+          description: Maximum number of pages to retrieve for the discover task. Defaults
+            to 50 pages. Set to 0 to retrieve all pages.
+          minimum: 0
         lastPageExpr:
           type: string
           title: Last-page expression
@@ -55598,6 +55862,16 @@ components:
           title: Record limit
           description: Maximum number of records to retrieve per request
           minimum: 1
+        totalRecordField:
+          type: string
+          title: Total record count field name
+          description: Name of the attribute in the response that contains the total
+            number of records for the query
+        zeroIndexed:
+          type: boolean
+          title: Zero-based index
+          description: Enable to indicate that the first page in the requested data is at
+            index 0. Disabled by default, which indicates index 1.
         pageField:
           type: string
           title: Page number field name
@@ -64456,7 +64730,7 @@ paths:
       x-speakeasy-name-override: create
       x-cribl-internal: false
       x-cribl-availability: both
-      summary: Capture live incoming data
+      summary: Capture live data
       description: Initiate a live data capture from Cribl Workers.Returns a stream of
         captured events in NDJSON format that match the parameters specified in
         the request body.
@@ -65783,7 +66057,7 @@ paths:
       x-speakeasy-name-override: list
       x-cribl-internal: false
       x-cribl-availability: both
-      summary: Get Cribl system settings
+      summary: Get system settings
       description: Get Cribl system settings.
       responses:
         "200":

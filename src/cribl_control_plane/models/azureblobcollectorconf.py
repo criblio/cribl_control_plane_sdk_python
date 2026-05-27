@@ -478,8 +478,18 @@ class AzureBlobAuthTypeSecretTypedDict(TypedDict):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
     connection_string: NotRequired[str]
     r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    storage_account_name: NotRequired[str]
+    r"""The name of your Azure storage account"""
+    tenant_id: NotRequired[str]
+    r"""The service principal's tenant ID"""
+    client_id: NotRequired[str]
+    r"""The service principal's client ID"""
     client_text_secret: NotRequired[str]
     r"""Text secret containing the client secret"""
+    endpoint_suffix: NotRequired[str]
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
@@ -540,10 +550,29 @@ class AzureBlobAuthTypeSecret(BaseModel):
     ] = None
     r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
 
+    storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="storageAccountName")
+    ] = None
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""The service principal's client ID"""
+
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
     ] = None
     r"""Text secret containing the client secret"""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
@@ -581,7 +610,12 @@ class AzureBlobAuthTypeSecret(BaseModel):
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "connectionString",
+                "storageAccountName",
+                "tenantId",
+                "clientId",
                 "clientTextSecret",
+                "endpointSuffix",
+                "azureCloud",
                 "certificate",
                 "__template_containerName",
                 "__template_path",
@@ -654,8 +688,18 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
     text_secret: NotRequired[str]
     r"""Text secret"""
+    storage_account_name: NotRequired[str]
+    r"""The name of your Azure storage account"""
+    tenant_id: NotRequired[str]
+    r"""The service principal's tenant ID"""
+    client_id: NotRequired[str]
+    r"""The service principal's client ID"""
     client_text_secret: NotRequired[str]
     r"""Text secret containing the client secret"""
+    endpoint_suffix: NotRequired[str]
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    azure_cloud: NotRequired[str]
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
@@ -714,10 +758,29 @@ class AzureBlobAuthTypeManual(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Text secret"""
 
+    storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="storageAccountName")
+    ] = None
+    r"""The name of your Azure storage account"""
+
+    tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
+    r"""The service principal's tenant ID"""
+
+    client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""The service principal's client ID"""
+
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
     ] = None
     r"""Text secret containing the client secret"""
+
+    endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="endpointSuffix")
+    ] = None
+    r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+
+    azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
+    r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
@@ -755,7 +818,12 @@ class AzureBlobAuthTypeManual(BaseModel):
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "textSecret",
+                "storageAccountName",
+                "tenantId",
+                "clientId",
                 "clientTextSecret",
+                "endpointSuffix",
+                "azureCloud",
                 "certificate",
                 "__template_containerName",
                 "__template_path",

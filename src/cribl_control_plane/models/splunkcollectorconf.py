@@ -327,7 +327,21 @@ class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenSecretRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -409,7 +423,34 @@ class SplunkAuthenticationTokenSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
     token: Optional[str] = None
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
 
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
@@ -473,7 +514,14 @@ class SplunkAuthenticationTokenSecret(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "username",
+                "password",
+                "credentialsSecret",
                 "token",
+                "loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "authHeaderExpr",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -803,8 +851,22 @@ class SplunkAuthenticationTokenTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -885,8 +947,35 @@ class SplunkAuthenticationToken(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
 
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
@@ -950,7 +1039,14 @@ class SplunkAuthenticationToken(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "username",
+                "password",
+                "credentialsSecret",
                 "tokenSecret",
+                "loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "authHeaderExpr",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -1283,9 +1379,21 @@ class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicSecretRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
     token: NotRequired[str]
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -1367,10 +1475,32 @@ class SplunkAuthenticationBasicSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
     token: Optional[str] = None
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
 
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
@@ -1434,8 +1564,14 @@ class SplunkAuthenticationBasicSecret(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "username",
+                "password",
                 "token",
                 "tokenSecret",
+                "loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "authHeaderExpr",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -1768,9 +1904,19 @@ class SplunkAuthenticationBasicTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicRetryRulesTypedDict]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -1855,10 +2001,31 @@ class SplunkAuthenticationBasic(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
     token: Optional[str] = None
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
 
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
@@ -1922,8 +2089,13 @@ class SplunkAuthenticationBasic(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "credentialsSecret",
                 "token",
                 "tokenSecret",
+                "loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "authHeaderExpr",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -2252,9 +2424,23 @@ class SplunkAuthenticationNoneTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationNoneRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
     template_search_head: NotRequired[str]
     r"""Binds 'searchHead' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'searchHead' at runtime."""
     template_search: NotRequired[str]
@@ -2332,10 +2518,37 @@ class SplunkAuthenticationNone(BaseModel):
         Optional[SplunkAuthenticationNoneRetryRules], pydantic.Field(alias="retryRules")
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
     token: Optional[str] = None
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message."""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are allowed."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
 
     template_search_head: Annotated[
         Optional[str], pydantic.Field(alias="__template_searchHead")
@@ -2399,8 +2612,15 @@ class SplunkAuthenticationNone(BaseModel):
                 "rejectUnauthorized",
                 "handleEscapedChars",
                 "retryRules",
+                "username",
+                "password",
+                "credentialsSecret",
                 "token",
                 "tokenSecret",
+                "loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "authHeaderExpr",
                 "__template_searchHead",
                 "__template_search",
                 "__template_earliest",
@@ -2427,10 +2647,10 @@ SplunkCollectorConfTypedDict = TypeAliasType(
     "SplunkCollectorConfTypedDict",
     Union[
         SplunkAuthenticationNoneTypedDict,
+        SplunkAuthenticationBasicTypedDict,
+        SplunkAuthenticationBasicSecretTypedDict,
         SplunkAuthenticationTokenTypedDict,
         SplunkAuthenticationTokenSecretTypedDict,
-        SplunkAuthenticationBasicSecretTypedDict,
-        SplunkAuthenticationBasicTypedDict,
     ],
 )
 

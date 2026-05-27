@@ -10153,6 +10153,7 @@ class CreateOutputFormatCriblLake(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
     PARQUET = "parquet"
     DDSS = "ddss"
+    NETSKOPE = "netskope"
 
 
 class CreateOutputOutputCriblLakeTypedDict(TypedDict):

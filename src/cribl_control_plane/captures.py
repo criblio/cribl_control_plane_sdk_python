@@ -25,7 +25,7 @@ class Captures(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> jsonl.JsonLStream[Dict[str, Any]]:
-        r"""Capture live incoming data
+        r"""Capture live data
 
         Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
 
@@ -147,7 +147,7 @@ class Captures(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> jsonl.JsonLStreamAsync[Dict[str, Any]]:
-        r"""Capture live incoming data
+        r"""Capture live data
 
         Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
 

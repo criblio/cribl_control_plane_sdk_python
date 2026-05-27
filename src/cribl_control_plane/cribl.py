@@ -18,7 +18,7 @@ class Cribl(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedSystemSettingsConf:
-        r"""Get Cribl system settings
+        r"""Get system settings
 
         Get Cribl system settings.
 
@@ -103,7 +103,7 @@ class Cribl(BaseSDK):
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
     ) -> models.CountedSystemSettingsConf:
-        r"""Get Cribl system settings
+        r"""Get system settings
 
         Get Cribl system settings.
 

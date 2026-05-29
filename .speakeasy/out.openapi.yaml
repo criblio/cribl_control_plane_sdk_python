@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.2-alpha.1779923016647-1034ea67
+  version: 4.18.2-alpha.1780009418242-cb429af5
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -54065,20 +54065,18 @@ components:
           title: Value
           description: JavaScript expression to compute field's value, enclosed in quotes
             or backticks. (Can evaluate to a constant.)
-    AuthType:
+    OauthParamConfInputKafka:
       type: object
-      description: Credentials to use when authenticating with the schema registry
-        using basic HTTP authentication
       required:
-        - disabled
+        - name
+        - value
       properties:
-        disabled:
-          type: boolean
-          title: Disabled
-        credentialsSecret:
+        name:
           type: string
-          title: Credentials secret
-          description: Select or create a secret that references your credentials
+          title: Parameter Name
+        value:
+          type: string
+          title: Parameter Value
     MinimumTlsVersionOptionsTls:
       type: string
       title: Minimum TLS version
@@ -54119,18 +54117,6 @@ components:
         - GSSAPI/Kerberos
       title: SASL mechanism
       x-speakeasy-unknown-values: allow
-    OauthParamConfInputKafka:
-      type: object
-      required:
-        - name
-        - value
-      properties:
-        name:
-          type: string
-          title: Parameter Name
-        value:
-          type: string
-          title: Parameter Value
     SaslExtensionConfInputKafka:
       type: object
       required:
@@ -55950,6 +55936,78 @@ components:
         pqControls:
           type: object
           title: ""
+    AuthType:
+      type: object
+      description: Credentials to use when authenticating with the schema registry
+      required:
+        - disabled
+      properties:
+        disabled:
+          type: boolean
+          title: Disabled
+        oauthEnabled:
+          type: boolean
+          title: Enable OAuth
+          description: Authenticate with the schema registry using OAuth instead of basic
+            HTTP authentication
+        tokenUrl:
+          type: string
+          title: Token URL
+          description: URL of the token endpoint to use for OAuth authentication
+        clientId:
+          type: string
+          title: Client ID
+          description: Client ID to use for OAuth authentication
+        oauthSecretType:
+          type: string
+        clientTextSecret:
+          type: string
+          title: Client secret (text secret)
+          description: Select or create a stored text secret
+        oauthParams:
+          type: array
+          title: Add OAuth Parameters
+          description: Additional fields to send to the token endpoint, such as scope or
+            audience
+          items:
+            $ref: "#/components/schemas/OauthParamConfInputKafka"
+        identityPoolId:
+          type: string
+          title: Identity pool ID
+          description: Confluent Cloud identity pool ID. Sent as the
+            `Confluent-Identity-Pool-Id` header on requests to the schema
+            registry.
+        logicalCluster:
+          type: string
+          title: Logical cluster
+          description: Confluent Cloud Schema Registry logical cluster ID. Sent as the
+            `target-sr-cluster` header on requests to the schema registry.
+        credentialsSecret:
+          type: string
+          title: Credentials secret
+          description: Select or create a secret that references your credentials
+        __template_tokenUrl:
+          type: string
+          description: Binds 'tokenUrl' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'tokenUrl' at runtime.
+        __template_clientId:
+          type: string
+          description: Binds 'clientId' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'clientId' at runtime.
+        __template_identityPoolId:
+          type: string
+          description: Binds 'identityPoolId' to a variable for dynamic value resolution.
+            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'identityPoolId' at
+            runtime.
+        __template_logicalCluster:
+          type: string
+          description: Binds 'logicalCluster' to a variable for dynamic value resolution.
+            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'logicalCluster' at
+            runtime.
     TlsSettingsClientSideTypeCaPathCertPath:
       type: object
       title: TLS settings (client side)
@@ -60162,7 +60220,7 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Log in and fetch an authentication token
-      description: This endpoint is unavailable on Cribl.Cloud.Instead, follow the
+      description: This endpoint is unavailable on Cribl.Cloud. Instead, follow the
         instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud
         to get an Auth token for Cribl.Cloud.
       security: []
@@ -60269,7 +60327,7 @@ paths:
       x-cribl-availability: both
       summary: Get the health status of the server
       description: Get the current health status of the server (Leader or Worker
-        Node).  In Distributed deployments, requests routed to a Worker or Edge
+        Node). In Distributed deployments, requests routed to a Worker or Edge
         node using the [host
         context](https://docs.cribl.io/cribl-as-code/api#base-url-group-fleet-host)
         require a Bearer token for
@@ -60444,11 +60502,11 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Update a Database Connection
-      description: Update the specified Database Connection.</br></br>Provide a
+      description: Update the specified Database Connection.<br/><br/>Provide a
         complete representation of the Database Connection that you want to
         update in the request body. This endpoint does not support partial
         updates. Cribl removes any omitted fields when updating the Database
-        Connection.</br></br>Confirm that the configuration in your request body
+        Connection.<br/><br/>Confirm that the configuration in your request body
         is correct before sending the request. If the configuration is
         incorrect, the updated Database Connection might not function as
         expected.
@@ -60671,10 +60729,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Update a Collector
-      description: Update the specified Collector.<br><br>Provide a complete
+      description: Update the specified Collector.<br/><br/>Provide a complete
         representation of the Collector that you want to update in the request
         body. This endpoint does not support partial updates. Cribl removes any
-        omitted fields when updating the Collector.<br><br>Confirm that the
+        omitted fields when updating the Collector.<br/><br/>Confirm that the
         configuration in your request body is correct before sending the
         request. If the configuration is incorrect, the updated Collector might
         not function as expected.
@@ -60965,10 +61023,10 @@ paths:
       x-cribl-availability: both
       summary: Update a Pipeline within a Pack
       description: Update the specified Pipeline within the specified
-        Pack.</br></br>Provide a complete representation of the Pipeline that
+        Pack.<br/><br/>Provide a complete representation of the Pipeline that
         you want to update in the request body. This endpoint does not support
         partial updates. Cribl removes any omitted fields when updating the
-        Pipeline.</br></br>Confirm that the configuration in your request body
+        Pipeline.<br/><br/>Confirm that the configuration in your request body
         is correct before sending the request. If the configuration is
         incorrect, the updated Pipeline might not function as expected.
       responses:
@@ -61212,13 +61270,14 @@ paths:
       x-cribl-availability: both
       summary: Update a Route within a Pack
       description: Update the specified Route within the specified
-        Pack.</br></br>Provide a complete representation of the Routing table,
-        including the Route that you want to update, in the request body. This
-        endpoint does not support partial updates. Cribl removes any omitted
-        Routes and fields when updating.</br></br>Confirm that the configuration
-        in your request body is correct before sending the request. If the
-        configuration is incorrect, the Routing table might not function as
-        expected.
+        Pack.<br/><br/>Provide a complete representation of the Routing table,
+        including the Route that you want to update, in the request
+        body.<br/><br/>This endpoint does not support partial updates. Cribl
+        removes any omitted fields when updating the Routing
+        table.<br/><br/>Confirm that the configuration in your request body is
+        correct before sending the request. If the configuration is incorrect,
+        the updated Routing table might not function as expected.<br/><br/>Cribl
+        also removes any omitted Routes when updating the Routing table.
       responses:
         "200":
           description: a list of Routes objects
@@ -61595,13 +61654,14 @@ paths:
       summary: Update a Source within a Pack
       description: Update the specified Source.<br/><br/>Provide a complete
         representation of the Source that you want to update in the request
-        body. This endpoint does not support partial updates. Cribl removes
-        omitted fields when updating the Source, except for
-        <code>criblSourceProvenance</code> (its value is preserved when omitted
-        and cannot be overwritten).<br/><br/>Confirm that the configuration in
-        your request body is correct before sending the request. If the
-        configuration is incorrect, the updated Source might not function as
-        expected within the specified Pack.
+        body. This endpoint does not support partial updates. Cribl removes any
+        omitted fields when updating the Source.<br/><br/>Confirm that the
+        configuration in your request body is correct before sending the
+        request. If the configuration is incorrect, the updated Source might not
+        function as expected.<br/><br/>Cribl preserves
+        <code>criblSourceProvenance</code> when you omit it from the request
+        body, and you cannot overwrite it through this endpoint within the
+        specified Pack.
       parameters:
         - name: id
           in: path
@@ -62993,14 +63053,14 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Install a Pack
-      description: Install a Pack.<br><br>To install an uploaded Pack, provide the
+      description: Install a Pack.<br><br> To install an uploaded Pack, provide the
         <code>source</code> value from the <code>PUT /packs</code> response as
-        the <code>source</code> parameter in the request body.<br><br>To install
-        a Pack by importing from a URL, provide the direct URL location of the
-        <code>.crbl</code> file for the Pack as the <code>source</code>
-        parameter in the request body.<br><br>To install a Pack by importing
+        the <code>source</code> parameter in the request body.<br><br> To
+        install a Pack by importing from a URL, provide the direct URL location
+        of the <code>.crbl</code> file for the Pack as the <code>source</code>
+        parameter in the request body.<br><br> To install a Pack by importing
         from a Git repository, provide <code>git+<repo-url></code> as the
-        <code>source</code> parameter in the request body.<br><br>If you do not
+        <code>source</code> parameter in the request body.<br><br> If you do not
         include the <code>source</code> parameter in the request body, an empty
         Pack is created.
       responses:
@@ -63159,12 +63219,12 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Upgrade a Pack
-      description: Upgrade the specified Pack.</br></br>If the Pack includes any
+      description: Upgrade the specified Pack.<br/><br/>If the Pack includes any
         user-modified versions of default Cribl Knowledge resources such as
         lookups, copy the modified files locally for safekeeping before
-        upgrading the Pack.Copy the modified files back to the upgraded Pack
+        upgrading the Pack. Copy the modified files back to the upgraded Pack
         after you install it with <code>POST /packs</code> to overwrite the
-        default versions in the Pack.</br></br>After you upgrade the Pack,
+        default versions in the Pack.<br/><br/>After you upgrade the Pack,
         update any Routes, Pipelines, Sources, and Destinations that use the
         previous Pack version so that they reference the upgraded Pack.
       responses:
@@ -63450,10 +63510,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Update a Pipeline
-      description: Update the specified Pipeline.</br></br>Provide a complete
+      description: Update the specified Pipeline.<br/><br/>Provide a complete
         representation of the Pipeline that you want to update in the request
         body. This endpoint does not support partial updates. Cribl removes any
-        omitted fields when updating the Pipeline.</br></br>Confirm that the
+        omitted fields when updating the Pipeline.<br/><br/>Confirm that the
         configuration in your request body is correct before sending the
         request. If the configuration is incorrect, the updated Pipeline might
         not function as expected.
@@ -63731,13 +63791,13 @@ paths:
         the Group or Fleet.<br/><br/>Confirm that the configuration in your
         request body is correct before sending the request. If the configuration
         is incorrect, the updated Group or Fleet might not function as
-        expected.**Warning**: Do not change the values for the following
-        parameters in the body of PATCH requests. The request body must include
-        the values as they appear in the <code>GET
-        /products/{product}/groups/{id}</code> response.<br/>-
-        <code>configVersion</code><br/>- <code>deployingWorkerCount</code><br/>-
-        <code>incompatibleWorkerCount</code><br/>-
-        <code>workerCount</code><br/>- <code>lookupDeployments</code>."
+        expected.<br/><br/>**Warning**: Do not change the values for the
+        following parameters in the body of PATCH requests. The request body
+        must include the values as they appear in the <code>GET
+        /products/{product}/groups/{id}</code> response.<br/> -
+        <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/>
+        - <code>incompatibleWorkerCount</code><br/> -
+        <code>workerCount</code><br/> - <code>lookupDeployments</code>."
       parameters:
         - name: product
           in: path
@@ -64034,8 +64094,8 @@ paths:
       summary: Get a summary of the deployment for a specific product.
       description: Get a summary of the deployment for the specified Cribl product
         (Stream or Edge).<br/><br/>The summary includes a count of Worker Groups
-        or Edge Fleets and resources such as Pipelines, Routes, Sources, and
-        Destinations. For Distributed deployments, it also includes a count and
+        or Edge Fleets and resources  such as Pipelines, Routes, Sources, and
+        Destinations. For Distributed deployments,  it also includes a count and
         statistics for Worker or Edge Nodes.
       responses:
         "200":
@@ -64625,13 +64685,13 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Update a Route
-      description: Update a Route in the specified Routing table.</br></br>Provide a
-        complete representation of the Routing table, including the Route that
-        you want to update, in the request body. This endpoint does not support
-        partial updates. Cribl removes any omitted Routes and fields when
-        updating.</br></br>Confirm that the configuration in your request body
-        is correct before sending the request. If the configuration is
-        incorrect, the Routing table might not function as expected.
+      description: Update a Route in the specified Routing table.<br/><br/>\1 This
+        endpoint does not support partial updates. Cribl removes any omitted
+        fields when updating the Routing table.<br/><br/>Confirm that the
+        configuration in your request body is correct before sending the
+        request. If the configuration is incorrect, the updated Routing table
+        might not function as expected.<br/><br/>Cribl also removes any omitted
+        Routes when updating the Routing table.
       responses:
         "200":
           description: a list of Routes objects
@@ -64733,9 +64793,9 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Capture live data
-      description: Initiate a live data capture from Cribl Workers.Returns a stream of
-        captured events in NDJSON format that match the parameters specified in
-        the request body.
+      description: Initiate a live data capture from Cribl Workers. Returns a stream
+        of captured events in NDJSON format that match the parameters specified
+        in the request body.
       responses:
         "200":
           description: Stream of captured events.
@@ -65023,13 +65083,13 @@ paths:
       summary: Update a Source
       description: Update the specified Source.<br/><br/>Provide a complete
         representation of the Source that you want to update in the request
-        body. This endpoint does not support partial updates. Cribl removes
-        omitted fields when updating the Source, except for
-        <code>criblSourceProvenance</code> (its value is preserved when omitted
-        and cannot be overwritten).<br/><br/>Confirm that the configuration in
-        your request body is correct before sending the request. If the
-        configuration is incorrect, the updated Source might not function as
-        expected.
+        body. This endpoint does not support partial updates. Cribl removes any
+        omitted fields when updating the Source.<br/><br/>Confirm that the
+        configuration in your request body is correct before sending the
+        request. If the configuration is incorrect, the updated Source might not
+        function as expected.<br/><br/>Cribl preserves
+        <code>criblSourceProvenance</code> when you omit it from the request
+        body, and you cannot overwrite it through this endpoint.
       parameters:
         - name: id
           in: path
@@ -66123,7 +66183,7 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Restart the Cribl server
-      description: Restart the Cribl server.Useful for applying configuration changes
+      description: Restart the Cribl server. Useful for applying configuration changes
         that require a full process restart, such as changes to system-level
         settings that cannot be applied by reloading.
       responses:
@@ -66392,9 +66452,9 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the commit history
-      description: List the commit history.</br></br>Analogous to <code>git log</code>
-        for the Cribl configuration, allowing you to audit and review changes
-        over time.
+      description: List the commit history.</br></br> Analogous to <code>git
+        log</code> for the Cribl configuration, allowing you to audit and review
+        changes over time.
       responses:
         "200":
           description: List of GitLogResult objects.
@@ -66458,7 +66518,7 @@ paths:
       summary: Create a new commit for pending changes to the Cribl configuration
       description: Create a new commit for pending changes to the Cribl configuration.
         Any merge conflicts indicated in the response must be resolved using
-        Git.</br></br>To commit only a subset of configuration changes, specify
+        Git.</br></br> To commit only a subset of configuration changes, specify
         the files to include in the commit in the <code>files</code> array.
       responses:
         "200":

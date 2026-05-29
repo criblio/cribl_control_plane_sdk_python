@@ -35,7 +35,7 @@ class Commits(BaseSDK):
     ) -> models.CountedGitLogResult:
         r"""List the commit history
 
-        List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
+        List the commit history.</br></br> Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
         :param count: Maximum number of commits to return in the response for this request.
         :param retries: Override the default retry configuration for this method
@@ -127,7 +127,7 @@ class Commits(BaseSDK):
     ) -> models.CountedGitLogResult:
         r"""List the commit history
 
-        List the commit history.</br></br>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
+        List the commit history.</br></br> Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
         :param count: Maximum number of commits to return in the response for this request.
         :param retries: Override the default retry configuration for this method
@@ -221,7 +221,7 @@ class Commits(BaseSDK):
     ) -> models.CountedGitCommitSummary:
         r"""Create a new commit for pending changes to the Cribl configuration
 
-        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
+        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br> To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
         :param message:
         :param effective:
@@ -322,7 +322,7 @@ class Commits(BaseSDK):
     ) -> models.CountedGitCommitSummary:
         r"""Create a new commit for pending changes to the Cribl configuration
 
-        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
+        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br> To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
         :param message:
         :param effective:

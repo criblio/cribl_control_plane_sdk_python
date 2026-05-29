@@ -27,7 +27,7 @@ class Captures(BaseSDK):
     ) -> jsonl.JsonLStream[Dict[str, Any]]:
         r"""Capture live data
 
-        Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
+        Initiate a live data capture from Cribl Workers. Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
 
         :param duration: Amount of time to keep capture open, in seconds. If not provided, the default is 5 seconds.
         :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators. If not provided, all events are captured.
@@ -149,7 +149,7 @@ class Captures(BaseSDK):
     ) -> jsonl.JsonLStreamAsync[Dict[str, Any]]:
         r"""Capture live data
 
-        Initiate a live data capture from Cribl Workers.Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
+        Initiate a live data capture from Cribl Workers. Returns a stream of captured events in NDJSON format that match the parameters specified in the request body.
 
         :param duration: Amount of time to keep capture open, in seconds. If not provided, the default is 5 seconds.
         :param filter_: JavaScript expression evaluated against each event to determine whether an event is included in the capture output. Expressions can reference any event field and use logical operators. If not provided, all events are captured.

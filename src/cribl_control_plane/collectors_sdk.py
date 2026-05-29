@@ -582,7 +582,7 @@ class CollectorsSDK(BaseSDK):
     ) -> models.CountedSavedJobResponse:
         r"""Update a Collector
 
-        Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
+        Update the specified Collector.<br/><br/>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
 
         :param id: The <code>id</code> of the Collector to update.
         :param saved_job: SavedJob object.
@@ -680,7 +680,7 @@ class CollectorsSDK(BaseSDK):
     ) -> models.CountedSavedJobResponse:
         r"""Update a Collector
 
-        Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
+        Update the specified Collector.<br/><br/>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
 
         :param id: The <code>id</code> of the Collector to update.
         :param saved_job: SavedJob object.

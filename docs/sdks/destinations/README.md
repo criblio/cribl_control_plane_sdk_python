@@ -4410,6 +4410,2160 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateOutputExamplesAlphasocS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesAlphasocS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "alphasoc-s3-output",
+        "type": models.OutputAlphasocS3Type.ALPHASOC_S3,
+        "bucket": "events",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.alphasoc.net",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesAzureBlob
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesAzureBlob" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "azure-blob-output",
+        "type": models.OutputAzureBlobType.AZURE_BLOB,
+        "container_name": "my-container",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesAzureDataExplorer
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesAzureDataExplorer" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "azure-data-explorer-output",
+        "type": models.OutputAzureDataExplorerType.AZURE_DATA_EXPLORER,
+        "cluster_url": "https://mycluster.kusto.windows.net",
+        "database": "mydatabase",
+        "table": "mytable",
+        "ingest_mode": models.OutputAzureDataExplorerIngestionMode.STREAMING,
+        "oauth_endpoint": models.MicrosoftEntraIDAuthenticationEndpointOptionsSasl.HTTPS_LOGIN_MICROSOFTONLINE_COM,
+        "tenant_id": "tenant-id",
+        "client_id": "client-id",
+        "scope": "https://mycluster.kusto.windows.net/.default",
+        "oauth_type": models.OutputAzureDataExplorerAuthenticationMethod.CLIENT_SECRET,
+        "client_secret": "client-secret",
+        "format_": models.DataFormatOptions.JSON,
+        "compress": models.CompressionOptionsHTTP.GZIP,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesAzureEventhub
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesAzureEventhub" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "azure-eventhub-output",
+        "type": models.OutputAzureEventhubType.AZURE_EVENTHUB,
+        "brokers": [
+            "myeventhub.servicebus.windows.net:9093",
+        ],
+        "topic": "logs",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesAzureLogs
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesAzureLogs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "azure-logs-output",
+        "type": models.OutputAzureLogsType.AZURE_LOGS,
+        "log_type": "Cribl",
+        "auth_type": models.OutputAzureLogsAuthenticationMethod.MANUAL,
+        "workspace_id": "workspace-id",
+        "workspace_key": "workspace-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesChronicle
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesChronicle" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "chronicle-output",
+        "type": models.OutputChronicleType.CHRONICLE,
+        "region": "us",
+        "log_type": "UNKNOWN",
+        "gcp_project_id": "my-project",
+        "gcp_instance": "customer-id",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesClickHouse
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesClickHouse" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "clickhouse-output",
+        "type": models.OutputClickHouseType.CLICK_HOUSE,
+        "url": "http://localhost:8123/",
+        "database": "mydb",
+        "table_name": "mytable",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesCloudflareR2
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesCloudflareR2" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "cloudflare-r2-output",
+        "type": models.OutputCloudflareR2Type.CLOUDFLARE_R2,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://account-id.r2.cloudflarestorage.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesCloudwatch
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesCloudwatch" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "cloudwatch-output",
+        "type": models.OutputCloudwatchType.CLOUDWATCH,
+        "log_group_name": "my-log-group",
+        "log_stream_name": "my-log-stream",
+        "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesConfluentCloud
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesConfluentCloud" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output=models.OutputConfluentCloud(
+        id="confluent-cloud-output",
+        type=models.OutputConfluentCloudType.CONFLUENT_CLOUD,
+        brokers=[
+            "pkc-xxxxx.us-east-1.aws.confluent.cloud:9092",
+        ],
+        topic="logs",
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesCriblHttp
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesCriblHttp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "cribl-http-output",
+        "type": models.OutputCriblHTTPType.CRIBL_HTTP,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesCriblLake
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesCriblLake" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "cribl-lake-output",
+        "type": models.OutputCriblLakeType.CRIBL_LAKE,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesCriblSearchEngine
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesCriblSearchEngine" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "cribl-search-engine-output",
+        "type": models.OutputCriblSearchEngineType.CRIBL_SEARCH_ENGINE,
+        "system_fields": [
+            "cribl_pipe",
+        ],
+        "streamtags": [],
+        "load_balanced": False,
+        "tls": {
+            "disabled": True,
+        },
+        "token_ttl_minutes": 60,
+        "exclude_fields": [
+            "__kube_*",
+            "__metadata",
+            "__winEvent",
+        ],
+        "compression": models.CompressionOptionsGzipNone.GZIP,
+        "concurrency": 5,
+        "max_payload_size_kb": 4096,
+        "max_payload_events": 0,
+        "reject_unauthorized": True,
+        "timeout_sec": 30,
+        "flush_period_sec": 1,
+        "failed_request_logging_mode": models.FailedRequestLoggingModeOptions.NONE,
+        "safe_headers": [],
+        "throttle_rate_per_sec": "0",
+        "response_retry_settings": [
+            {
+                "http_status": 401,
+                "initial_backoff": 1000,
+                "backoff_rate": 2,
+                "max_backoff": 20000,
+            },
+            {
+                "http_status": 403,
+                "initial_backoff": 1000,
+                "backoff_rate": 2,
+                "max_backoff": 20000,
+            },
+            {
+                "http_status": 408,
+                "initial_backoff": 250,
+                "backoff_rate": 2,
+                "max_backoff": 10000,
+            },
+            {
+                "http_status": 429,
+                "initial_backoff": 1000,
+                "backoff_rate": 2,
+                "max_backoff": 10000,
+            },
+            {
+                "http_status": 500,
+                "initial_backoff": 250,
+                "backoff_rate": 2,
+                "max_backoff": 10000,
+            },
+            {
+                "http_status": 502,
+                "initial_backoff": 250,
+                "backoff_rate": 2,
+                "max_backoff": 10000,
+            },
+            {
+                "http_status": 503,
+                "initial_backoff": 250,
+                "backoff_rate": 2,
+                "max_backoff": 10000,
+            },
+            {
+                "http_status": 504,
+                "initial_backoff": 250,
+                "backoff_rate": 2,
+                "max_backoff": 10000,
+            },
+            {
+                "http_status": 509,
+                "initial_backoff": 250,
+                "backoff_rate": 2,
+                "max_backoff": 10000,
+            },
+        ],
+        "timeout_retry_settings": {
+            "timeout_retry": False,
+        },
+        "response_honor_retry_after_header": True,
+        "on_backpressure": models.BackpressureBehaviorOptions.BLOCK,
+        "use_round_robin_dns": True,
+        "url": "https://0.0.0.0:10200",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesCriblTcp
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesCriblTcp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "cribl-tcp-output",
+        "type": models.OutputCriblTCPType.CRIBL_TCP,
+        "host": "localhost",
+        "port": 10090,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesCrowdstrikeNextGenSiem
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesCrowdstrikeNextGenSiem" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "crowdstrike-next-gen-siem-output",
+        "type": models.OutputCrowdstrikeNextGenSiemType.CROWDSTRIKE_NEXT_GEN_SIEM,
+        "url": "https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector",
+        "format_": models.RequestFormatOptions.JSON,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "token": "your-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDatabricks
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesDatabricks" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "databricks-output",
+        "type": models.OutputDatabricksType.DATABRICKS,
+        "workspace_id": "your-workspace-id",
+        "scope": "all-apis",
+        "client_id": "your-client-id",
+        "catalog": "main",
+        "schema_": "external",
+        "events_volume_name": "events",
+        "client_text_secret": "your-client-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDatadog
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesDatadog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "datadog-output",
+        "type": models.OutputDatadogType.DATADOG,
+        "api_key": "your-api-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDataset
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesDataset" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "dataset-output",
+        "type": models.OutputDatasetType.DATASET,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDefault
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesDefault" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "default-output",
+        "type": models.OutputDefaultType.DEFAULT,
+        "default_id": "my-default-output",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDiskSpool
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesDiskSpool" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "disk-spool-output",
+        "type": models.OutputDiskSpoolType.DISK_SPOOL,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDlS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesDlS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "dl-s3-output",
+        "type": models.OutputDlS3Type.DL_S3,
+        "bucket": "my-bucket",
+        "region": "us-east-1",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDynatraceHttp
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesDynatraceHttp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "dynatrace-http-output",
+        "type": models.OutputDynatraceHTTPType.DYNATRACE_HTTP,
+        "auth_type": models.OutputDynatraceHTTPAuthenticationType.TOKEN,
+        "format_": models.OutputDynatraceHTTPFormat.JSON_ARRAY,
+        "endpoint": models.OutputDynatraceHTTPEndpoint.CLOUD,
+        "telemetry_type": models.OutputDynatraceHTTPTelemetryType.LOGS,
+        "token": "your-api-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesDynatraceOtlp
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesDynatraceOtlp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "dynatrace-otlp-output",
+        "type": models.OutputDynatraceOtlpType.DYNATRACE_OTLP,
+        "protocol": models.OutputDynatraceOtlpProtocol.HTTP,
+        "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp",
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
+        "endpoint_type": models.OutputDynatraceOtlpEndpointType.SAAS,
+        "token_secret": "your-token-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesElastic
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesElastic" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "elastic-output",
+        "type": models.OutputElasticType.ELASTIC,
+        "index": "logs",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesElasticCloud
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesElasticCloud" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "elastic-cloud-output",
+        "type": models.OutputElasticCloudType.ELASTIC_CLOUD,
+        "url": "my-cloud-id",
+        "index": "logs",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesExabeam
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesExabeam" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "exabeam-output",
+        "type": models.OutputExabeamType.EXABEAM,
+        "bucket": "my-bucket",
+        "region": "us-east1",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://storage.googleapis.com",
+        "collector_instance_id": "11112222-3333-4444-5555-666677778888",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesFilesystem
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesFilesystem" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "filesystem-output",
+        "type": models.OutputFilesystemType.FILESYSTEM,
+        "dest_path": "/var/log/output",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesGoogleChronicle
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesGoogleChronicle" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "google-chronicle-output",
+        "type": models.OutputGoogleChronicleType.GOOGLE_CHRONICLE,
+        "log_format_type": models.OutputGoogleChronicleSendEventsAs.UNSTRUCTURED,
+        "region": "us",
+        "customer_id": "customer-id",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesGoogleCloudLogging
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesGoogleCloudLogging" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "google-cloud-logging-output",
+        "type": models.OutputGoogleCloudLoggingType.GOOGLE_CLOUD_LOGGING,
+        "log_location_type": models.OutputGoogleCloudLoggingLogLocationType.PROJECT,
+        "log_name_expression": "my-log",
+        "log_location_expression": "my-project",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesGoogleCloudStorage
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesGoogleCloudStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "google-cloud-storage-output",
+        "type": models.OutputGoogleCloudStorageType.GOOGLE_CLOUD_STORAGE,
+        "bucket": "my-bucket",
+        "region": "us-east1",
+        "endpoint": "https://storage.googleapis.com",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesGooglePubsub
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesGooglePubsub" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "google-pubsub-output",
+        "type": models.OutputGooglePubsubType.GOOGLE_PUBSUB,
+        "topic_name": "my-topic",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesGrafanaCloud
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesGrafanaCloud" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output=models.OutputGrafanaCloudGrafanaCloud1(
+        id="grafana-cloud-output",
+        type=models.OutputGrafanaCloudType1.GRAFANA_CLOUD,
+        loki_url="https://logs-prod-us-central1.grafana.net",
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesGraphite
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesGraphite" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "graphite-output",
+        "type": models.OutputGraphiteType.GRAPHITE,
+        "protocol": models.DestinationProtocolOptions.TCP,
+        "host": "localhost",
+        "port": 2003,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesHoneycomb
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesHoneycomb" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "honeycomb-output",
+        "type": models.OutputHoneycombType.HONEYCOMB,
+        "dataset": "my-dataset",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesHumioHec
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesHumioHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "humio-hec-output",
+        "type": models.OutputHumioHecType.HUMIO_HEC,
+        "url": "https://cloud.us.humio.com/api/v1/ingest/hec",
+        "format_": models.RequestFormatOptions.JSON,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "token": "your-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesInfluxdb
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesInfluxdb" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "influxdb-output",
+        "type": models.OutputInfluxdbType.INFLUXDB,
+        "url": "http://localhost:8086",
+        "database": "mydb",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesKafka
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesKafka" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output=models.OutputKafka(
+        id="kafka-output",
+        type=models.OutputKafkaType.KAFKA,
+        brokers=[
+            "localhost:9092",
+        ],
+        topic="logs",
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesKinesis
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesKinesis" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "kinesis-output",
+        "type": models.OutputKinesisType.KINESIS,
+        "stream_name": "my-stream",
+        "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesLocalSearchStorage
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesLocalSearchStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "local-search-storage-output",
+        "type": models.OutputLocalSearchStorageType.LOCAL_SEARCH_STORAGE,
+        "url": "http://localhost:8123/",
+        "database": "default",
+        "table_name": "mytable",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesLoki
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesLoki" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "loki-output",
+        "type": models.OutputLokiType.LOKI,
+        "url": "http://localhost:3100/loki/api/v1/push",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesMicrosoftFabric
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesMicrosoftFabric" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "microsoft-fabric-output",
+        "type": models.OutputMicrosoftFabricType.MICROSOFT_FABRIC,
+        "topic": "logs",
+        "bootstrap_server": "myeventstream.servicebus.windows.net:9093",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesMinio
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesMinio" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "minio-output",
+        "type": models.OutputMinioType.MINIO,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "http://localhost:9000",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesMsk
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesMsk" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output=models.OutputMsk(
+        id="msk-output",
+        type=models.OutputMskType.MSK,
+        brokers=[
+            "b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092",
+        ],
+        topic="logs",
+        aws_authentication_method=models.AuthenticationMethodOptionsS3CollectorConf.AUTO,
+        region="us-east-1",
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesNetflow
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesNetflow" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "netflow-output",
+        "type": models.OutputNetflowType.NETFLOW,
+        "hosts": [
+            {
+                "host": "localhost",
+                "port": 2055,
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesNewrelic
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesNewrelic" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "newrelic-output",
+        "type": models.OutputNewrelicType.NEWRELIC,
+        "api_key": "your-api-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesNewrelicEvents
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesNewrelicEvents" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "newrelic-events-output",
+        "type": models.OutputNewrelicEventsType.NEWRELIC_EVENTS,
+        "account_id": "123456",
+        "event_type": "CriblEvent",
+        "api_key": "your-api-key",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesNutanixObjects
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesNutanixObjects" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "nutanix-objects-output",
+        "type": models.OutputNutanixObjectsType.NUTANIX_OBJECTS,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://nutanix-objects.example.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesOpenTelemetry
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesOpenTelemetry" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "opentelemetry-output",
+        "type": models.OutputOpenTelemetryType.OPEN_TELEMETRY,
+        "endpoint": "http://localhost:4317",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesPrometheus
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesPrometheus" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "prometheus-output",
+        "type": models.OutputPrometheusType.PROMETHEUS,
+        "url": "http://localhost:9091/api/v1/write",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesRing
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesRing" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "ring-output",
+        "type": models.OutputRingType.RING,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesRouter
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesRouter" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "router-output",
+        "type": models.OutputRouterType.ROUTER,
+        "rules": [
+            {
+                "filter_": "true",
+                "output": "my-output",
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "s3-output",
+        "type": models.OutputS3Type.S3,
+        "bucket": "my-bucket",
+        "region": "us-east-1",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSecurityLake
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSecurityLake" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "security-lake-output",
+        "type": models.OutputSecurityLakeType.SECURITY_LAKE,
+        "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
+        "bucket": "my-bucket",
+        "region": "us-east-1",
+        "stage_path": "/tmp/staging",
+        "account_id": "123456789012",
+        "custom_source": "my-custom-source",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSentinel
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSentinel" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "sentinel-output",
+        "type": models.OutputSentinelType.SENTINEL,
+        "login_url": "https://login.microsoftonline.com",
+        "secret": "client-secret",
+        "client_id": "client-id",
+        "endpoint_url_configuration": models.OutputSentinelEndpointConfiguration.URL,
+        "url": "https://your-workspace.ingest.monitor.azure.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSentinelOneAiSiem
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSentinelOneAiSiem" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "sentinel-one-ai-siem-output",
+        "type": models.OutputSentinelOneAiSiemType.SENTINEL_ONE_AI_SIEM,
+        "region": models.OutputSentinelOneAiSiemRegion.US,
+        "endpoint": models.OutputSentinelOneAISIEMAISIEMEndpointPath.ROOT_SERVICES_COLLECTOR_EVENT,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesServiceNow
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesServiceNow" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "servicenow-output",
+        "type": models.OutputServiceNowType.SERVICE_NOW,
+        "endpoint": "ingest.lightstep.com:443",
+        "token_secret": "your-token-secret",
+        "otlp_version": models.OtlpVersionOptions131.ONE_DOT_3_DOT_1,
+        "protocol": models.ProtocolOptions.HTTP,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSignalfx
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSignalfx" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "signalfx-output",
+        "type": models.OutputSignalfxType.SIGNALFX,
+        "realm": "us0",
+        "token": "your-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSnmp
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSnmp" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "snmp-output",
+        "type": models.OutputSnmpType.SNMP,
+        "hosts": [
+            {
+                "host": "192.168.1.1",
+                "port": 161,
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSns
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSns" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "sns-output",
+        "type": models.OutputSnsType.SNS,
+        "topic_arn": "arn:aws:sns:us-east-1:123456789012:my-topic",
+        "message_group_id": "my-message-group",
+        "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSplunk
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSplunk" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "splunk-output",
+        "type": models.OutputSplunkType.SPLUNK,
+        "host": "localhost",
+        "port": 9997,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSplunkHec
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSplunkHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "splunk-hec-output",
+        "type": models.OutputSplunkHecType.SPLUNK_HEC,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSplunkLb
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSplunkLb" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output=models.OutputSplunkLb(
+        id="splunk-lb-output",
+        type=models.OutputSplunkLbType.SPLUNK_LB,
+        hosts=[
+            models.HostConfOutputSyslog(
+                host="localhost",
+                port=9997,
+            ),
+        ],
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSqs
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSqs" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "sqs-output",
+        "type": models.OutputSqsType.SQS,
+        "queue_name": "my-queue",
+        "queue_type": models.OutputSqsQueueType.STANDARD,
+        "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesStatsd
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesStatsd" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "statsd-output",
+        "type": models.OutputStatsdType.STATSD,
+        "protocol": models.DestinationProtocolOptions.UDP,
+        "host": "localhost",
+        "port": 8125,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesStatsdExt
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesStatsdExt" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "statsd-ext-output",
+        "type": models.OutputStatsdExtType.STATSD_EXT,
+        "protocol": models.DestinationProtocolOptions.UDP,
+        "host": "localhost",
+        "port": 8125,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesStorjS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesStorjS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "storj-s3-output",
+        "type": models.OutputStorjS3Type.STORJ_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://gateway.storjshare.io",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSumoLogic
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSumoLogic" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "sumo-logic-output",
+        "type": models.OutputSumoLogicType.SUMO_LOGIC,
+        "url": "https://endpoint1.collection.us2.sumologic.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSyslog
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSyslog" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "syslog-output",
+        "type": models.OutputSyslogType.SYSLOG,
+        "host": "localhost",
+        "port": 514,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesTcpjson
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesTcpjson" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "tcpjson-output",
+        "type": models.OutputTcpjsonType.TCPJSON,
+        "host": "localhost",
+        "port": 10090,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesWavefront
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesWavefront" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "wavefront-output",
+        "type": models.OutputWavefrontType.WAVEFRONT,
+        "domain": "longboard",
+        "token": "your-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesWebhook
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesWebhook" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "webhook-output",
+        "type": models.OutputWebhookType1.WEBHOOK,
+        "url": "https://example.com/webhook",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesWizHec
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesWizHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "wiz-hec-output",
+        "type": models.OutputWizHecType.WIZ_HEC,
+        "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
+        "wiz_connector_id": "00000000-0000-0000-0000-000000000000",
+        "wiz_environment": "test",
+        "data_center": "us1",
+        "wiz_sourcetype": "placeholder",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesXsiam
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesXsiam" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "xsiam-output",
+        "type": models.OutputXsiamType.XSIAM,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesalibabaCloudS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesalibabaCloudS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "alibaba-oss-output",
+        "type": models.OutputAlibabaCloudS3Type.ALIBABA_CLOUD_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.oss-cn-hangzhou.aliyuncs.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplescloudianS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplescloudianS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "cloudian-s3-output",
+        "type": models.OutputCloudianS3Type.CLOUDIAN_S3,
+        "endpoint": "https://s3.hyperstore.example.com",
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesdellS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesdellS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "dell-s3-output",
+        "type": models.OutputDellS3Type.DELL_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://powerscale.example.com:9021",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesscalityS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesscalityS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "scality-s3-output",
+        "type": models.OutputScalityS3Type.SCALITY_S3,
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+        "endpoint": "https://s3.scality.example.com",
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 

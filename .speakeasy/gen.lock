@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 806be19e39cd844281ce159304785aad
-  docVersion: 4.18.2-alpha.1780009418242-cb429af5
+  docChecksum: 633e66bde7e37b5f28c3674cc1838488
+  docVersion: 4.18.2-alpha.1780095999124-8db030e0
   speakeasyVersion: 1.768.2
   generationVersion: 2.889.1
-  releaseVersion: 0.9.0a5
-  configChecksum: 25b2f1aa5de399d7cae92c2f0ec8ea28
+  releaseVersion: 0.9.0a6
+  configChecksum: 8e51cccc58cf718399c7ae43954463da
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: ed33a248-e6b7-458f-be85-dfb558c29351
-  pristine_commit_hash: 2d93d7841a91afce6b004c72fef90e2c66cad5c9
-  pristine_tree_hash: d67fb727d8ca877ce032c58eff35130aba04dd0c
+  generation_id: 762ea669-0334-4127-9022-bcdcd196196d
+  pristine_commit_hash: 7874e94869712a615de8e1b87ea18b271c722159
+  pristine_tree_hash: 089b576299d9713738b88eaeac1a5e998c72f3df
 features:
   python:
     additionalDependencies: 1.0.0
@@ -16460,16 +16460,16 @@ trackedFiles:
     pristine_git_object: c3b23522dabfafe04a8e6760580fae139f1afe0b
   docs/sdks/databaseconnections/README.md:
     id: ef33daf326f1
-    last_write_checksum: sha1:0d84afd5cca95b369e249c862a53bef7f6bc5ff4
-    pristine_git_object: 979d363429a21c6014022162cd7a6ea1b3f2f9a5
+    last_write_checksum: sha1:59272e71e60df83e36fdb465b20c5897ec304a4a
+    pristine_git_object: b8786c04e2728aca09ef316c2927ed1046ab7fbc
   docs/sdks/datasets/README.md:
     id: deb5d90f4faf
     last_write_checksum: sha1:b83c198a6eac9241bf0a360e1137e2abcaadc1c9
     pristine_git_object: 32bb70ce7c7cf6d0b8516ab352325f4355142c03
   docs/sdks/destinations/README.md:
     id: e83d288899aa
-    last_write_checksum: sha1:761876c83be59737fe86c8c3d561217c215c77c4
-    pristine_git_object: 1ed414dec4770be73a793cf28c3d1d986936eee1
+    last_write_checksum: sha1:076e836beea7be5cb2deb321c58bd958a1571187
+    pristine_git_object: b2dfeb76d603a89ba29ce75f40d90033b3755964
   docs/sdks/destinationspq/README.md:
     id: 4e89748a1821
     last_write_checksum: sha1:cf9b0caeb13183aa9c37c51af858d7933f63fe07
@@ -16508,8 +16508,8 @@ trackedFiles:
     pristine_git_object: e5dd88df06f4ad208284f715c7b05cd767a81232
   docs/sdks/packsdestinations/README.md:
     id: 895ef2236167
-    last_write_checksum: sha1:922b6a7599b99b8b52ca993f8833a4f0075fbb5c
-    pristine_git_object: 1a3ce8ed2e215c49e56ab5f79de878b17dd653d8
+    last_write_checksum: sha1:42b3bf94ce3da1cd979d7b5778d13e88653bc90f
+    pristine_git_object: 8737771a6c7f18394a0c27629a17a844c9651cb9
   docs/sdks/packsdestinationspq/README.md:
     id: 12a1d2d7f4c4
     last_write_checksum: sha1:59f774129e343c5d5e9ee5de52e29c88586cc6e3
@@ -16524,8 +16524,8 @@ trackedFiles:
     pristine_git_object: e95294c24d3a36379494a29fd0e3b820fb40e363
   docs/sdks/packspipelines/README.md:
     id: b0262a36d64a
-    last_write_checksum: sha1:3e6b7c057999d69a03b5456c7beed43472ba564c
-    pristine_git_object: fb38ad3c07772a9ec0f0cae12bcb2f695870fdfe
+    last_write_checksum: sha1:571856fbe1ec31573aae6310b56be53b6b610ce1
+    pristine_git_object: d7c3ed86bf9a1bf44b24b7d9bc10bdab4edc71c0
   docs/sdks/packsroutes/README.md:
     id: a1fb73e27b09
     last_write_checksum: sha1:915b8b32280584469eca447c0412adfb9112fce3
@@ -16536,8 +16536,8 @@ trackedFiles:
     pristine_git_object: bd6b29a4254b0bdc7095089ae8e52a3d67ca21cf
   docs/sdks/packssources/README.md:
     id: 91cf5c639969
-    last_write_checksum: sha1:fe1ee05e427bf4b726183455d2f8ecd3bec24538
-    pristine_git_object: e27c3037b3b2ca8e1d6e6efb03277c9f930d7a6d
+    last_write_checksum: sha1:7c3a84ef28796684a30a416083add70e04ab4e13
+    pristine_git_object: 4ee7768421badfa96d40d1dbf556836289abebbc
   docs/sdks/packssourcespq/README.md:
     id: cbbc4cefed4b
     last_write_checksum: sha1:2b679517ba7ac17426b0aa11fa43a73540672d3b
@@ -16548,8 +16548,8 @@ trackedFiles:
     pristine_git_object: fb60b1242dfaf2f851172089e7679317de918076
   docs/sdks/pipelines/README.md:
     id: 96306a4a5f5a
-    last_write_checksum: sha1:018f26fa0044de8be680a7626e60aa283eff4aeb
-    pristine_git_object: 5e10c81a67696691d186f5e7662fc9fbf022e28e
+    last_write_checksum: sha1:cffe518b7d9692494265b19242e467c3f988ca15
+    pristine_git_object: ada74d7b5c4c7e32bcdd597b4f9c3143f3ae9881
   docs/sdks/routessdk/README.md:
     id: 7c151891b0a4
     last_write_checksum: sha1:23453ee0fb6407b94fa7b2aed2c92208563ea026
@@ -16564,8 +16564,8 @@ trackedFiles:
     pristine_git_object: e1c4fdb92fbc75d35d68934e2bff954d45cfdd66
   docs/sdks/sources/README.md:
     id: c1396b2a57d9
-    last_write_checksum: sha1:e991f49d229b8479ccd09b37381a9f672c455fce
-    pristine_git_object: 3c116d180ecc73ffcdaa7b395162ce430c2546bc
+    last_write_checksum: sha1:480e3e3a4aaae30b0ca94d5d00642c5bc456cb21
+    pristine_git_object: 69c9497bdc675888dc8cc2eec1d61fbf87529ddd
   docs/sdks/sourcespq/README.md:
     id: 08e24f4817a2
     last_write_checksum: sha1:377faaa55698bba01bcd187ef7a0eb161fde6795
@@ -16608,8 +16608,8 @@ trackedFiles:
     pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:857413f4215fe9cc54097062526a073eeef14a15
-    pristine_git_object: 416c05c8f50bd2ef09111495d30d390da1919464
+    last_write_checksum: sha1:559baec1de0958f91400217160355634af216c3d
+    pristine_git_object: e419749c5b4050e6df35fba98c9d61941cc4cec4
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -16640,8 +16640,8 @@ trackedFiles:
     pristine_git_object: b4fad0525f29a586b91348c6d7c51c642d1e9790
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:3f1ffd7a138fe6e339b8a418357a6a53fbe53f17
-    pristine_git_object: 00f91bd5fc4cb816339898bc848eb5f73c74d429
+    last_write_checksum: sha1:c4bf4dda813d16e6f5155181802d82694068040d
+    pristine_git_object: 69b659dcd9afd179ba2898f579f1e1f39e1cc95d
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:946b9e00ff4cd9f5c57d0b198caa87ccbeb13bea
@@ -21485,6 +21485,754 @@ examples:
           application/json: {}
         "500":
           application/json: {}
+    UpdateInputExamplesAnthropicCompliance:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "anthropic-compliance-source", "type": "anthropic_compliance", "sendToRoutes": true, "pqEnabled": false, "textSecret": "anthropic-api-key-secret", "contentConfig": [{"contentType": "activities", "contentDescription": "Compliance Activities", "enabled": true, "stateTracking": true, "stateUpdateExpression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}", "stateMergeExpression": "prevState.latestTime > newState.latestTime ? prevState : newState", "cronSchedule": "*/5 * * * *", "earliest": "-7d@d", "latest": "now", "jobTimeout": "300"}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesAppleUnifiedLogs:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "apple-unified-logs-source", "type": "apple_unified_logs", "sendToRoutes": true, "pqEnabled": false, "predicate": "subsystem == \"com.apple.security\""}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesAppscope:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "appscope-source", "type": "appscope", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 9109}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesAzureBlob:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "azure-blob-source", "type": "azure_blob", "sendToRoutes": true, "pqEnabled": false, "queueName": "azure-blob-queue"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCloudflareHec:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cloudflare-hec-source", "type": "cloudflare_hec", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 8088, "hecAPI": "/services/collector"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesConfluentCloud:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "confluent-cloud-source", "type": "confluent_cloud", "sendToRoutes": true, "pqEnabled": false, "brokers": ["pkc-xxxxx.us-east-1.aws.confluent.cloud:9092"], "topics": ["logs"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCollection:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "collection-source", "type": "collection", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCribl:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cribl-source", "type": "cribl", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCriblHttp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cribl-http-source", "type": "cribl_http", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCriblLakeHttp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cribl-lake-http-source", "type": "cribl_lake_http", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCriblMetrics:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cribl-metrics-source", "type": "criblmetrics", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCriblTcp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cribl-tcp-source", "type": "cribl_tcp", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCrowdstrike:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "crowdstrike-source", "type": "crowdstrike", "sendToRoutes": true, "pqEnabled": false, "queueName": "crowdstrike-queue", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesDatadogAgent:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "datadog-agent-source", "type": "datadog_agent", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 8126}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesDatagen:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "datagen-source", "type": "datagen", "sendToRoutes": true, "pqEnabled": false, "samples": [{"sample": "sample.json", "eventsPerSec": 10}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesEdgePrometheus:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "edge-prometheus-source", "type": "edge_prometheus", "sendToRoutes": true, "pqEnabled": false, "discoveryType": "static", "interval": 60, "targets": [{"host": "localhost"}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesElastic:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "elastic-source", "type": "elastic", "sendToRoutes": true, "pqEnabled": false, "host": "localhost", "port": 9200, "elasticAPI": "/"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesEventhub:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "eventhub-source", "type": "eventhub", "sendToRoutes": true, "pqEnabled": false, "brokers": ["myeventhub.servicebus.windows.net:9093"], "topics": ["logs"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesEventhubAmqp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "eventhub-amqp-source", "type": "eventhub_amqp", "sendToRoutes": true, "pqEnabled": false, "eventHubName": "my-event-hub", "consumerGroup": "$Default", "checkpointing": {"blobStore": {"containerName": "my-container"}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesExec:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "exec-source", "type": "exec", "sendToRoutes": true, "pqEnabled": false, "command": "echo \"Hello World\"", "interval": 60}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesFile:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "file-source", "type": "file", "sendToRoutes": true, "pqEnabled": false, "mode": "manual"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesFirehose:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "firehose-source", "type": "firehose", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesGrafana:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "grafana-source", "type": "grafana", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080, "prometheusAPI": "/api/prom/push"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesGooglePubsub:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "google-pubsub-source", "type": "google_pubsub", "sendToRoutes": true, "pqEnabled": false, "topicName": "my-topic", "subscriptionName": "my-subscription"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesHttp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "http-source", "type": "http", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesHttpRaw:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "http-raw-source", "type": "http_raw", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesJournalFiles:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "journal-files-source", "type": "journal_files", "sendToRoutes": true, "pqEnabled": false, "path": "/var/log/journal", "journals": ["system"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKafka:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "kafka-source", "type": "kafka", "sendToRoutes": true, "pqEnabled": false, "brokers": ["localhost:9092"], "topics": ["logs"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKinesis:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "kinesis-source", "type": "kinesis", "sendToRoutes": true, "pqEnabled": false, "streamName": "my-stream", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKubeEvents:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "kube-events-source", "type": "kube_events", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKubeLogs:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "kube-logs-source", "type": "kube_logs", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKubeMetrics:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "kube-metrics-source", "type": "kube_metrics", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesLoki:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "loki-source", "type": "loki", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080, "lokiAPI": "/loki/api/v1/push"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesMetrics:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "metrics-source", "type": "metrics", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "udpPort": 8125}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesModelDrivenTelemetry:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "mdt-source", "type": "model_driven_telemetry", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 57000}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesMsk:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "msk-source", "type": "msk", "sendToRoutes": true, "pqEnabled": false, "brokers": ["b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092"], "topics": ["logs"], "awsAuthenticationMethod": "auto", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesNetflow:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "netflow-source", "type": "netflow", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 2055}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOffice365Mgmt:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "office365-mgmt-source", "type": "office365_mgmt", "sendToRoutes": true, "pqEnabled": false, "planType": "enterprise_gcc", "tenantId": "tenant-id", "appId": "app-id"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesMicrosoftGraph:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "microsoft-graph-source", "type": "microsoft_graph", "sendToRoutes": true, "pqEnabled": false, "url": "https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces", "interval": 15}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOffice365MsgTrace:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "office365-msg-trace-source", "type": "office365_msg_trace", "sendToRoutes": true, "pqEnabled": false, "url": "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace", "interval": 15}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOffice365Service:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "office365-service-source", "type": "office365_service", "sendToRoutes": true, "pqEnabled": false, "tenantId": "tenant-id", "appId": "app-id"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOkta:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "okta-source", "type": "okta", "sendToRoutes": true, "pqEnabled": false, "oktaDomain": "your-org", "textSecret": "okta-api-token-secret", "cronSchedule": "*/5 * * * *", "earliest": "-7d@d", "latest": "now"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOpenAI:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "openai-source", "type": "openai", "sendToRoutes": true, "pqEnabled": false, "contentConfig": [{"disabled": false, "requestParams": [{"name": "effective_at[gt]", "value": "`${Math.round(Date.now()/1000 - 3600)}`"}, {"name": "limit", "value": "100"}], "paginationType": "response_body", "paginationAttribute": ["last_id"], "paginationLastPageExpr": "has_more === false", "cronSchedule": "0 * * * *", "earliest": "-1h", "latest": "now"}], "textSecret": "openai-api-key-secret"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOpenAIComplianceLogs:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "openai-compliance-logs-source", "type": "openai_compliance_logs", "sendToRoutes": true, "pqEnabled": false, "textSecret": "openai-api-key-secret", "accountType": "workspace", "cronSchedule": "*/15 * * * *", "earliest": "-1h", "latest": "now", "workspaceId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "workspaceEventTypes": ["AUDIT_LOG", "AUTH_LOG"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOpenTelemetry:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "otel-source", "type": "open_telemetry", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 4317}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesPrometheus:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "prometheus-source", "type": "prometheus", "sendToRoutes": true, "pqEnabled": false, "discoveryType": "static", "interval": 60, "logLevel": "info", "targetList": ["http://localhost:9090/metrics"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesPrometheusRw:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "prometheus-rw-source", "type": "prometheus_rw", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080, "prometheusAPI": "/write"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesRawUdp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "raw-udp-source", "type": "raw_udp", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 514}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesS3:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "s3-source", "type": "s3", "sendToRoutes": true, "pqEnabled": false, "queueName": "s3-notifications-queue", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesS3Inventory:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "s3-inventory-source", "type": "s3_inventory", "sendToRoutes": true, "pqEnabled": false, "queueName": "s3-inventory-queue", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSecurityLake:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "security-lake-source", "type": "security_lake", "sendToRoutes": true, "pqEnabled": false, "queueName": "security-lake-queue", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesServiceNowTable:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "servicenow-table-source", "type": "servicenow_table", "sendToRoutes": true, "pqEnabled": false, "instance": "https://example.service-now.com", "tableName": "incident", "fields": ["sys_id", "number", "short_description"], "pageSize": 10000, "cronSchedule": "0 * * * *", "earliest": "-1d", "latest": "now"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSnmp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "snmp-source", "type": "snmp", "sendToRoutes": true, "pqEnabled": false, "host": "192.168.1.1", "port": 161}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSplunk:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "splunk-source", "type": "splunk", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 9997}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSplunkHec:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "splunk-hec-source", "type": "splunk_hec", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 8088, "splunkHecAPI": "/services/collector"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSplunkSearch:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "splunk-search-source", "type": "splunk_search", "sendToRoutes": true, "pqEnabled": false, "searchHead": "https://localhost:8089", "search": "index=main", "cronSchedule": "*/15 * * * *", "endpoint": "/services/search/v2/jobs/export", "outputMode": "json", "authType": "basic"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSqs:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "sqs-source", "type": "sqs", "sendToRoutes": true, "pqEnabled": false, "queueName": "my-queue", "queueType": "standard", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSyslog:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "syslog-source", "type": "syslog", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "udpPort": 514}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSystemMetrics:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "system-metrics-source", "type": "system_metrics", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSystemState:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "system-state-source", "type": "system_state", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesTcp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "tcp-source", "type": "tcp", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesTcpjson:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "tcpjson-source", "type": "tcpjson", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWef:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "wef-source", "type": "wef", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 5985, "subscriptions": [{"subscriptionName": "subscription-1", "contentFormat": "RenderedText", "heartbeatInterval": 60, "batchTimeout": 5, "targets": []}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWinEventLogs:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "win-event-logs-source", "type": "win_event_logs", "sendToRoutes": true, "pqEnabled": false, "logNames": ["Application", "System"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWindowsMetrics:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "windows-metrics-source", "type": "windows_metrics", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWiz:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "wiz-source", "type": "wiz", "sendToRoutes": true, "pqEnabled": false, "endpoint": "https://api.wiz.io", "authUrl": "https://auth.wiz.io/oauth/token", "clientId": "client-id", "contentConfig": []}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWizWebhook:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "wiz-webhook-source", "type": "wiz_webhook", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesZscalerHec:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "zscaler-hec-source", "type": "zscaler_hec", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 8088, "hecAPI": "/services/collector"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
   deleteInputById:
     speakeasy-default-delete-input-by-id:
       parameters:
@@ -23054,6 +23802,853 @@ examples:
           id: "<id>"
       requestBody:
         application/json: {"id": "alibaba-oss-output", "type": "alibaba_cloud_s3", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://s3.oss-cn-hangzhou.aliyuncs.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDefault:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "default-output", "type": "default", "defaultId": "my-default-output"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesTcpjson:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "tcpjson-output", "type": "tcpjson", "host": "localhost", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSplunk:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "splunk-output", "type": "splunk", "host": "localhost", "port": 9997}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSplunkLb:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "splunk-lb-output", "type": "splunk_lb", "hosts": [{"host": "localhost", "port": 9997}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSplunkHec:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "splunk-hec-output", "type": "splunk_hec"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSyslog:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "syslog-output", "type": "syslog", "host": "localhost", "port": 514}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesFilesystem:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "filesystem-output", "type": "filesystem", "destPath": "/var/log/output"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesS3:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "s3-output", "type": "s3", "bucket": "my-bucket", "region": "us-east-1", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesNutanixObjects:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "nutanix-objects-output", "type": "nutanix_objects", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://nutanix-objects.example.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesStorjS3:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "storj-s3-output", "type": "storj_s3", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://gateway.storjshare.io"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAlphasocS3:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "alphasoc-s3-output", "type": "alphasoc_s3", "bucket": "events", "stagePath": "/tmp/staging", "endpoint": "https://s3.alphasoc.net"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesdellS3:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "dell-s3-output", "type": "dell_s3", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://powerscale.example.com:9021"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplescloudianS3:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cloudian-s3-output", "type": "cloudian_s3", "endpoint": "https://s3.hyperstore.example.com", "bucket": "my-bucket", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesscalityS3:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "scality-s3-output", "type": "scality_s3", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://s3.scality.example.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesalibabaCloudS3:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "alibaba-oss-output", "type": "alibaba_cloud_s3", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://s3.oss-cn-hangzhou.aliyuncs.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAzureBlob:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "azure-blob-output", "type": "azure_blob", "containerName": "my-container", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAzureDataExplorer:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "azure-data-explorer-output", "type": "azure_data_explorer", "clusterUrl": "https://mycluster.kusto.windows.net", "database": "mydatabase", "table": "mytable", "ingestMode": "streaming", "oauthEndpoint": "https://login.microsoftonline.com", "tenantId": "tenant-id", "clientId": "client-id", "scope": "https://mycluster.kusto.windows.net/.default", "oauthType": "clientSecret", "clientSecret": "client-secret", "format": "json", "compress": "gzip"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSentinel:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "secret": "client-secret", "client_id": "client-id", "endpointURLConfiguration": "url", "url": "https://your-workspace.ingest.monitor.azure.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAzureLogs:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "azure-logs-output", "type": "azure_logs", "logType": "Cribl", "authType": "manual", "workspaceId": "workspace-id", "workspaceKey": "workspace-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesKafka:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "kafka-output", "type": "kafka", "brokers": ["localhost:9092"], "topic": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesConfluentCloud:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "confluent-cloud-output", "type": "confluent_cloud", "brokers": ["pkc-xxxxx.us-east-1.aws.confluent.cloud:9092"], "topic": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesMsk:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "msk-output", "type": "msk", "brokers": ["b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092"], "topic": "logs", "awsAuthenticationMethod": "auto", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesKinesis:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "kinesis-output", "type": "kinesis", "streamName": "my-stream", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesElastic:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "elastic-output", "type": "elastic", "index": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesElasticCloud:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "elastic-cloud-output", "type": "elastic_cloud", "url": "my-cloud-id", "index": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesMicrosoftFabric:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "microsoft-fabric-output", "type": "microsoft_fabric", "topic": "logs", "bootstrap_server": "myeventstream.servicebus.windows.net:9093"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCloudflareR2:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cloudflare-r2-output", "type": "cloudflare_r2", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://account-id.r2.cloudflarestorage.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesHoneycomb:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "honeycomb-output", "type": "honeycomb", "dataset": "my-dataset"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesNewrelic:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "newrelic-output", "type": "newrelic", "apiKey": "your-api-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesNewrelicEvents:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "newrelic-events-output", "type": "newrelic_events", "accountId": "123456", "eventType": "CriblEvent", "apiKey": "your-api-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSnmp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "snmp-output", "type": "snmp", "hosts": [{"host": "192.168.1.1", "port": 161}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesInfluxdb:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "influxdb-output", "type": "influxdb", "url": "http://localhost:8086", "database": "mydb"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesMinio:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "minio-output", "type": "minio", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "http://localhost:9000"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCloudwatch:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cloudwatch-output", "type": "cloudwatch", "logGroupName": "my-log-group", "logStreamName": "my-log-stream", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAzureEventhub:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "azure-eventhub-output", "type": "azure_eventhub", "brokers": ["myeventhub.servicebus.windows.net:9093"], "topic": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesStatsd:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "statsd-output", "type": "statsd", "protocol": "udp", "host": "localhost", "port": 8125}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesStatsdExt:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "statsd-ext-output", "type": "statsd_ext", "protocol": "udp", "host": "localhost", "port": 8125}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGraphite:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "graphite-output", "type": "graphite", "protocol": "tcp", "host": "localhost", "port": 2003}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesWavefront:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "wavefront-output", "type": "wavefront", "domain": "longboard", "token": "your-token"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSignalfx:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "signalfx-output", "type": "signalfx", "realm": "us0", "token": "your-token"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSqs:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "sqs-output", "type": "sqs", "queueName": "my-queue", "queueType": "standard", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGoogleCloudStorage:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "google-cloud-storage-output", "type": "google_cloud_storage", "bucket": "my-bucket", "region": "us-east1", "endpoint": "https://storage.googleapis.com", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSumoLogic:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "sumo-logic-output", "type": "sumo_logic", "url": "https://endpoint1.collection.us2.sumologic.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDatadog:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "datadog-output", "type": "datadog", "apiKey": "your-api-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesWebhook:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "webhook-output", "type": "webhook", "url": "https://example.com/webhook"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesPrometheus:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "prometheus-output", "type": "prometheus", "url": "http://localhost:9091/api/v1/write"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGooglePubsub:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "google-pubsub-output", "type": "google_pubsub", "topicName": "my-topic"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGoogleChronicle:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "google-chronicle-output", "type": "google_chronicle", "logFormatType": "unstructured", "region": "us", "customerId": "customer-id"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesChronicle:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "chronicle-output", "type": "chronicle", "region": "us", "logType": "UNKNOWN", "gcpProjectId": "my-project", "gcpInstance": "customer-id"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGrafanaCloud:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "grafana-cloud-output", "type": "grafana_cloud", "lokiUrl": "https://logs-prod-us-central1.grafana.net"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesLoki:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "loki-output", "type": "loki", "url": "http://localhost:3100/loki/api/v1/push"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesOpenTelemetry:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "opentelemetry-output", "type": "open_telemetry", "endpoint": "http://localhost:4317"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesServiceNow:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "servicenow-output", "type": "service_now", "endpoint": "ingest.lightstep.com:443", "tokenSecret": "your-token-secret", "otlpVersion": "1.3.1", "protocol": "http"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDynatraceOtlp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "dynatrace-otlp-output", "type": "dynatrace_otlp", "protocol": "http", "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp", "otlpVersion": "1.3.1", "endpointType": "saas", "tokenSecret": "your-token-secret"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSentinelOneAiSiem:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "sentinel-one-ai-siem-output", "type": "sentinel_one_ai_siem", "region": "US", "endpoint": "/services/collector/event"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDataset:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "dataset-output", "type": "dataset"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesRing:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "ring-output", "type": "ring"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesRouter:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "router-output", "type": "router", "rules": [{"filter": "true", "output": "my-output"}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesWizHec:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "authType": "manual", "wiz_connector_id": "00000000-0000-0000-0000-000000000000", "wiz_environment": "test", "data_center": "us1", "wiz_sourcetype": "placeholder"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesHumioHec:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "humio-hec-output", "type": "humio_hec", "url": "https://cloud.us.humio.com/api/v1/ingest/hec", "format": "JSON", "authType": "manual", "token": "your-token"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCrowdstrikeNextGenSiem:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "crowdstrike-next-gen-siem-output", "type": "crowdstrike_next_gen_siem", "url": "https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector", "format": "JSON", "authType": "manual", "token": "your-token"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCriblHttp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cribl-http-output", "type": "cribl_http"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCriblTcp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cribl-tcp-output", "type": "cribl_tcp", "host": "localhost", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCriblSearchEngine:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cribl-search-engine-output", "type": "cribl_search_engine", "systemFields": ["cribl_pipe"], "streamtags": [], "loadBalanced": false, "tls": {"disabled": true}, "tokenTTLMinutes": 60, "excludeFields": ["__kube_*", "__metadata", "__winEvent"], "compression": "gzip", "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "failedRequestLoggingMode": "none", "safeHeaders": [], "throttleRatePerSec": "0", "responseRetrySettings": [{"httpStatus": 401, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 20000}, {"httpStatus": 403, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 20000}, {"httpStatus": 408, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 429, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 500, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 502, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 503, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 504, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 509, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "useRoundRobinDns": true, "url": "https://0.0.0.0:10200"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGoogleCloudLogging:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "google-cloud-logging-output", "type": "google_cloud_logging", "logLocationType": "project", "logNameExpression": "my-log", "logLocationExpression": "my-project"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSns:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "sns-output", "type": "sns", "topicArn": "arn:aws:sns:us-east-1:123456789012:my-topic", "messageGroupId": "my-message-group", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDlS3:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "dl-s3-output", "type": "dl_s3", "bucket": "my-bucket", "region": "us-east-1", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSecurityLake:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "security-lake-output", "type": "security_lake", "assumeRoleArn": "arn:aws:iam::123456789012:role/my-role", "bucket": "my-bucket", "region": "us-east-1", "stagePath": "/tmp/staging", "accountId": "123456789012", "customSource": "my-custom-source"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCriblLake:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "cribl-lake-output", "type": "cribl_lake"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesExabeam:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "exabeam-output", "type": "exabeam", "bucket": "my-bucket", "region": "us-east1", "stagePath": "/tmp/staging", "endpoint": "https://storage.googleapis.com", "collectorInstanceId": "11112222-3333-4444-5555-666677778888"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDiskSpool:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "disk-spool-output", "type": "disk_spool"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesClickHouse:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "clickhouse-output", "type": "click_house", "url": "http://localhost:8123/", "database": "mydb", "tableName": "mytable"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesLocalSearchStorage:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "local-search-storage-output", "type": "local_search_storage", "url": "http://localhost:8123/", "database": "default", "tableName": "mytable"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesXsiam:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "xsiam-output", "type": "xsiam"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesNetflow:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "netflow-output", "type": "netflow", "hosts": [{"host": "localhost", "port": 2055}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDynatraceHttp:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "dynatrace-http-output", "type": "dynatrace_http", "authType": "token", "format": "json_array", "endpoint": "cloud", "telemetryType": "logs", "token": "your-api-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDatabricks:
+      parameters:
+        path:
+          id: "<id>"
+      requestBody:
+        application/json: {"id": "databricks-output", "type": "databricks", "workspaceId": "your-workspace-id", "scope": "all-apis", "clientId": "your-client-id", "catalog": "main", "schema": "external", "eventsVolumeName": "events", "clientTextSecret": "your-client-secret"}
       responses:
         "200":
           application/json: {}
@@ -25445,6 +27040,116 @@ examples:
           application/json: {}
         "500":
           application/json: {}
+    UpdateDatabaseConnectionExamplesMySQLWithConnectionString:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "connectionString", "connectionString": "mysql://admin:password123@mysql.example.com:3306/production?ssl=true", "connectionTimeout": 10000, "databaseType": "mysql", "description": "Production MySQL database for customer data", "id": "mysql-prod-db", "tags": "production,mysql,customer-data"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateDatabaseConnectionExamplesMySQLWithSecret:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secret", "connectionTimeout": 15000, "databaseType": "mysql", "description": "Analytics MySQL database", "id": "mysql-analytics-db", "tags": "analytics,mysql", "textSecret": "mysql-analytics-connection"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateDatabaseConnectionExamplesPostgreSQLWithConnectionString:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "connectionString", "connectionString": "postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", "connectionTimeout": 15000, "databaseType": "postgres", "description": "Data warehouse PostgreSQL database", "id": "postgres-warehouse", "tags": "warehouse,postgres,reporting"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateDatabaseConnectionExamplesPostgreSQLWithSecret:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secret", "connectionTimeout": 10000, "databaseType": "postgres", "description": "Logs PostgreSQL database", "id": "postgres-logs", "tags": "logs,postgres", "textSecret": "postgres-logs-connection"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateDatabaseConnectionExamplesSQLServerWithConnectionString:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "connectionString", "connectionString": "Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", "connectionTimeout": 15000, "databaseType": "sqlserver", "description": "ERP SQL Server database", "id": "sqlserver-erp", "requestTimeout": 30000, "tags": "erp,sqlserver,finance"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateDatabaseConnectionExamplesSQLServerWithSecret:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secret", "connectionTimeout": 15000, "databaseType": "sqlserver", "description": "CRM SQL Server database", "id": "sqlserver-crm", "requestTimeout": 15000, "tags": "crm,sqlserver,sales", "textSecret": "sqlserver-crm-connection"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateDatabaseConnectionExamplesSQLServerWithConfigObject:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "configObj", "configObj": "{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", "databaseType": "sqlserver", "description": "Reporting SQL Server database with custom config", "id": "sqlserver-reporting", "requestTimeout": 60000, "tags": "reporting,sqlserver,analytics"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateDatabaseConnectionExamplesOracleWithConnectionString:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "connectionString", "connectionString": "oracle.example.com:1521/ORCL", "connectionTimeout": 15000, "databaseType": "oracle", "description": "Oracle ERP database", "id": "oracle-erp", "password": "Oracle_Pass456!", "tags": "erp,oracle,finance", "user": "erp_user"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateDatabaseConnectionExamplesOracleWithSecret:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secret", "connectionTimeout": 20000, "databaseType": "oracle", "description": "Oracle data warehouse", "id": "oracle-warehouse", "password": "Warehouse_Pass789!", "tags": "warehouse,oracle,reporting", "textSecret": "oracle-warehouse-connection", "user": "warehouse_user"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateDatabaseConnectionExamplesOracleWithCredentialsSecrets:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"authType": "secrets", "connectionTimeout": 15000, "credsSecrets": "oracle-secure-credentials", "databaseType": "oracle", "description": "High-security Oracle database with credential secrets", "id": "oracle-secure-db", "tags": "secure,oracle,sensitive-data", "textSecret": "oracle-secure-connection"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
   deleteInputPqById:
     speakeasy-default-delete-input-pq-by-id:
       parameters:
@@ -27065,6 +28770,822 @@ examples:
           pack: "<value>"
       requestBody:
         application/json: {"id": "servicenow-table-source", "type": "servicenow_table", "sendToRoutes": true, "pqEnabled": false, "instance": "https://example.service-now.com", "tableName": "incident", "fields": ["sys_id", "number", "short_description"], "pageSize": 10000, "cronSchedule": "0 * * * *", "earliest": "-1d", "latest": "now"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesAnthropicCompliance:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "anthropic-compliance-source", "type": "anthropic_compliance", "sendToRoutes": true, "pqEnabled": false, "textSecret": "anthropic-api-key-secret", "contentConfig": [{"contentType": "activities", "contentDescription": "Compliance Activities", "enabled": true, "stateTracking": true, "stateUpdateExpression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}", "stateMergeExpression": "prevState.latestTime > newState.latestTime ? prevState : newState", "cronSchedule": "*/5 * * * *", "earliest": "-7d@d", "latest": "now", "jobTimeout": "300"}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesAppleUnifiedLogs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "apple-unified-logs-source", "type": "apple_unified_logs", "sendToRoutes": true, "pqEnabled": false, "predicate": "subsystem == \"com.apple.security\""}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesAppscope:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "appscope-source", "type": "appscope", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 9109}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesAzureBlob:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "azure-blob-source", "type": "azure_blob", "sendToRoutes": true, "pqEnabled": false, "queueName": "azure-blob-queue"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCloudflareHec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cloudflare-hec-source", "type": "cloudflare_hec", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 8088, "hecAPI": "/services/collector"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesConfluentCloud:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "confluent-cloud-source", "type": "confluent_cloud", "sendToRoutes": true, "pqEnabled": false, "brokers": ["pkc-xxxxx.us-east-1.aws.confluent.cloud:9092"], "topics": ["logs"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCollection:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "collection-source", "type": "collection", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCribl:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-source", "type": "cribl", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCriblHttp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-http-source", "type": "cribl_http", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCriblLakeHttp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-lake-http-source", "type": "cribl_lake_http", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCriblMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-metrics-source", "type": "criblmetrics", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCriblTcp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-tcp-source", "type": "cribl_tcp", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesCrowdstrike:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "crowdstrike-source", "type": "crowdstrike", "sendToRoutes": true, "pqEnabled": false, "queueName": "crowdstrike-queue", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesDatadogAgent:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "datadog-agent-source", "type": "datadog_agent", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 8126}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesDatagen:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "datagen-source", "type": "datagen", "sendToRoutes": true, "pqEnabled": false, "samples": [{"sample": "sample.json", "eventsPerSec": 10}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesEdgePrometheus:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "edge-prometheus-source", "type": "edge_prometheus", "sendToRoutes": true, "pqEnabled": false, "discoveryType": "static", "interval": 60, "targets": [{"host": "localhost"}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesElastic:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "elastic-source", "type": "elastic", "sendToRoutes": true, "pqEnabled": false, "host": "localhost", "port": 9200, "elasticAPI": "/"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesEventhub:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "eventhub-source", "type": "eventhub", "sendToRoutes": true, "pqEnabled": false, "brokers": ["myeventhub.servicebus.windows.net:9093"], "topics": ["logs"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesEventhubAmqp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "eventhub-amqp-source", "type": "eventhub_amqp", "sendToRoutes": true, "pqEnabled": false, "eventHubName": "my-event-hub", "consumerGroup": "$Default", "checkpointing": {"blobStore": {"containerName": "my-container"}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesExec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "exec-source", "type": "exec", "sendToRoutes": true, "pqEnabled": false, "command": "echo \"Hello World\"", "interval": 60}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesFile:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "file-source", "type": "file", "sendToRoutes": true, "pqEnabled": false, "mode": "manual"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesFirehose:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "firehose-source", "type": "firehose", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesGrafana:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "grafana-source", "type": "grafana", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080, "prometheusAPI": "/api/prom/push"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesGooglePubsub:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "google-pubsub-source", "type": "google_pubsub", "sendToRoutes": true, "pqEnabled": false, "topicName": "my-topic", "subscriptionName": "my-subscription"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesHttp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "http-source", "type": "http", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesHttpRaw:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "http-raw-source", "type": "http_raw", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesJournalFiles:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "journal-files-source", "type": "journal_files", "sendToRoutes": true, "pqEnabled": false, "path": "/var/log/journal", "journals": ["system"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKafka:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kafka-source", "type": "kafka", "sendToRoutes": true, "pqEnabled": false, "brokers": ["localhost:9092"], "topics": ["logs"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKinesis:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kinesis-source", "type": "kinesis", "sendToRoutes": true, "pqEnabled": false, "streamName": "my-stream", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKubeEvents:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kube-events-source", "type": "kube_events", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKubeLogs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kube-logs-source", "type": "kube_logs", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesKubeMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kube-metrics-source", "type": "kube_metrics", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesLoki:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "loki-source", "type": "loki", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080, "lokiAPI": "/loki/api/v1/push"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "metrics-source", "type": "metrics", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "udpPort": 8125}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesModelDrivenTelemetry:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "mdt-source", "type": "model_driven_telemetry", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 57000}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesMsk:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "msk-source", "type": "msk", "sendToRoutes": true, "pqEnabled": false, "brokers": ["b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092"], "topics": ["logs"], "awsAuthenticationMethod": "auto", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesNetflow:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "netflow-source", "type": "netflow", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 2055}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOffice365Mgmt:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "office365-mgmt-source", "type": "office365_mgmt", "sendToRoutes": true, "pqEnabled": false, "planType": "enterprise_gcc", "tenantId": "tenant-id", "appId": "app-id"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesMicrosoftGraph:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "microsoft-graph-source", "type": "microsoft_graph", "sendToRoutes": true, "pqEnabled": false, "url": "https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces", "interval": 15}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOffice365MsgTrace:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "office365-msg-trace-source", "type": "office365_msg_trace", "sendToRoutes": true, "pqEnabled": false, "url": "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace", "interval": 15}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOffice365Service:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "office365-service-source", "type": "office365_service", "sendToRoutes": true, "pqEnabled": false, "tenantId": "tenant-id", "appId": "app-id"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOkta:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "okta-source", "type": "okta", "sendToRoutes": true, "pqEnabled": false, "oktaDomain": "your-org", "textSecret": "okta-api-token-secret", "cronSchedule": "*/5 * * * *", "earliest": "-7d@d", "latest": "now"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOpenAI:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "openai-source", "type": "openai", "sendToRoutes": true, "pqEnabled": false, "contentConfig": [{"disabled": false, "requestParams": [{"name": "effective_at[gt]", "value": "`${Math.round(Date.now()/1000 - 3600)}`"}, {"name": "limit", "value": "100"}], "paginationType": "response_body", "paginationAttribute": ["last_id"], "paginationLastPageExpr": "has_more === false", "cronSchedule": "0 * * * *", "earliest": "-1h", "latest": "now"}], "textSecret": "openai-api-key-secret"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOpenAIComplianceLogs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "openai-compliance-logs-source", "type": "openai_compliance_logs", "sendToRoutes": true, "pqEnabled": false, "textSecret": "openai-api-key-secret", "accountType": "workspace", "cronSchedule": "*/15 * * * *", "earliest": "-1h", "latest": "now", "workspaceId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee", "workspaceEventTypes": ["AUDIT_LOG", "AUTH_LOG"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesOpenTelemetry:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "otel-source", "type": "open_telemetry", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 4317}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesPrometheus:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "prometheus-source", "type": "prometheus", "sendToRoutes": true, "pqEnabled": false, "discoveryType": "static", "interval": 60, "logLevel": "info", "targetList": ["http://localhost:9090/metrics"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesPrometheusRw:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "prometheus-rw-source", "type": "prometheus_rw", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080, "prometheusAPI": "/write"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesRawUdp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "raw-udp-source", "type": "raw_udp", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 514}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "s3-source", "type": "s3", "sendToRoutes": true, "pqEnabled": false, "queueName": "s3-notifications-queue", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesS3Inventory:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "s3-inventory-source", "type": "s3_inventory", "sendToRoutes": true, "pqEnabled": false, "queueName": "s3-inventory-queue", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSecurityLake:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "security-lake-source", "type": "security_lake", "sendToRoutes": true, "pqEnabled": false, "queueName": "security-lake-queue", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesServiceNowTable:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "servicenow-table-source", "type": "servicenow_table", "sendToRoutes": true, "pqEnabled": false, "instance": "https://example.service-now.com", "tableName": "incident", "fields": ["sys_id", "number", "short_description"], "pageSize": 10000, "cronSchedule": "0 * * * *", "earliest": "-1d", "latest": "now"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSnmp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "snmp-source", "type": "snmp", "sendToRoutes": true, "pqEnabled": false, "host": "192.168.1.1", "port": 161}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSplunk:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "splunk-source", "type": "splunk", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 9997}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSplunkHec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "splunk-hec-source", "type": "splunk_hec", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 8088, "splunkHecAPI": "/services/collector"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSplunkSearch:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "splunk-search-source", "type": "splunk_search", "sendToRoutes": true, "pqEnabled": false, "searchHead": "https://localhost:8089", "search": "index=main", "cronSchedule": "*/15 * * * *", "endpoint": "/services/search/v2/jobs/export", "outputMode": "json", "authType": "basic"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSqs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "sqs-source", "type": "sqs", "sendToRoutes": true, "pqEnabled": false, "queueName": "my-queue", "queueType": "standard", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSyslog:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "syslog-source", "type": "syslog", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "udpPort": 514}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSystemMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "system-metrics-source", "type": "system_metrics", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesSystemState:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "system-state-source", "type": "system_state", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesTcp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "tcp-source", "type": "tcp", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesTcpjson:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "tcpjson-source", "type": "tcpjson", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWef:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "wef-source", "type": "wef", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 5985, "subscriptions": [{"subscriptionName": "subscription-1", "contentFormat": "RenderedText", "heartbeatInterval": 60, "batchTimeout": 5, "targets": []}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWinEventLogs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "win-event-logs-source", "type": "win_event_logs", "sendToRoutes": true, "pqEnabled": false, "logNames": ["Application", "System"]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWindowsMetrics:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "windows-metrics-source", "type": "windows_metrics", "sendToRoutes": true, "pqEnabled": false}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWiz:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "wiz-source", "type": "wiz", "sendToRoutes": true, "pqEnabled": false, "endpoint": "https://api.wiz.io", "authUrl": "https://auth.wiz.io/oauth/token", "clientId": "client-id", "contentConfig": []}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesWizWebhook:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "wiz-webhook-source", "type": "wiz_webhook", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 10080}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateInputExamplesZscalerHec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "zscaler-hec-source", "type": "zscaler_hec", "sendToRoutes": true, "pqEnabled": false, "host": "0.0.0.0", "port": 8088, "hecAPI": "/services/collector"}
       responses:
         "200":
           application/json: {}
@@ -29007,6 +31528,930 @@ examples:
           application/json: {}
         "500":
           application/json: {}
+    UpdateOutputExamplesDefault:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "default-output", "type": "default", "defaultId": "my-default-output"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesTcpjson:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "tcpjson-output", "type": "tcpjson", "host": "localhost", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSplunk:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "splunk-output", "type": "splunk", "host": "localhost", "port": 9997}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSplunkLb:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "splunk-lb-output", "type": "splunk_lb", "hosts": [{"host": "localhost", "port": 9997}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSplunkHec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "splunk-hec-output", "type": "splunk_hec"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSyslog:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "syslog-output", "type": "syslog", "host": "localhost", "port": 514}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesFilesystem:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "filesystem-output", "type": "filesystem", "destPath": "/var/log/output"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "s3-output", "type": "s3", "bucket": "my-bucket", "region": "us-east-1", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesNutanixObjects:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "nutanix-objects-output", "type": "nutanix_objects", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://nutanix-objects.example.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesStorjS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "storj-s3-output", "type": "storj_s3", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://gateway.storjshare.io"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAlphasocS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "alphasoc-s3-output", "type": "alphasoc_s3", "bucket": "events", "stagePath": "/tmp/staging", "endpoint": "https://s3.alphasoc.net"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesdellS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "dell-s3-output", "type": "dell_s3", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://powerscale.example.com:9021"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplescloudianS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cloudian-s3-output", "type": "cloudian_s3", "endpoint": "https://s3.hyperstore.example.com", "bucket": "my-bucket", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesscalityS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "scality-s3-output", "type": "scality_s3", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://s3.scality.example.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesalibabaCloudS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "alibaba-oss-output", "type": "alibaba_cloud_s3", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://s3.oss-cn-hangzhou.aliyuncs.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAzureBlob:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "azure-blob-output", "type": "azure_blob", "containerName": "my-container", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAzureDataExplorer:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "azure-data-explorer-output", "type": "azure_data_explorer", "clusterUrl": "https://mycluster.kusto.windows.net", "database": "mydatabase", "table": "mytable", "ingestMode": "streaming", "oauthEndpoint": "https://login.microsoftonline.com", "tenantId": "tenant-id", "clientId": "client-id", "scope": "https://mycluster.kusto.windows.net/.default", "oauthType": "clientSecret", "clientSecret": "client-secret", "format": "json", "compress": "gzip"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSentinel:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "sentinel-output", "type": "sentinel", "loginUrl": "https://login.microsoftonline.com", "secret": "client-secret", "client_id": "client-id", "endpointURLConfiguration": "url", "url": "https://your-workspace.ingest.monitor.azure.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAzureLogs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "azure-logs-output", "type": "azure_logs", "logType": "Cribl", "authType": "manual", "workspaceId": "workspace-id", "workspaceKey": "workspace-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesKafka:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kafka-output", "type": "kafka", "brokers": ["localhost:9092"], "topic": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesConfluentCloud:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "confluent-cloud-output", "type": "confluent_cloud", "brokers": ["pkc-xxxxx.us-east-1.aws.confluent.cloud:9092"], "topic": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesMsk:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "msk-output", "type": "msk", "brokers": ["b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092"], "topic": "logs", "awsAuthenticationMethod": "auto", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesKinesis:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "kinesis-output", "type": "kinesis", "streamName": "my-stream", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesElastic:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "elastic-output", "type": "elastic", "index": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesElasticCloud:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "elastic-cloud-output", "type": "elastic_cloud", "url": "my-cloud-id", "index": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesMicrosoftFabric:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "microsoft-fabric-output", "type": "microsoft_fabric", "topic": "logs", "bootstrap_server": "myeventstream.servicebus.windows.net:9093"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCloudflareR2:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cloudflare-r2-output", "type": "cloudflare_r2", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "https://account-id.r2.cloudflarestorage.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesHoneycomb:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "honeycomb-output", "type": "honeycomb", "dataset": "my-dataset"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesNewrelic:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "newrelic-output", "type": "newrelic", "apiKey": "your-api-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesNewrelicEvents:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "newrelic-events-output", "type": "newrelic_events", "accountId": "123456", "eventType": "CriblEvent", "apiKey": "your-api-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSnmp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "snmp-output", "type": "snmp", "hosts": [{"host": "192.168.1.1", "port": 161}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesInfluxdb:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "influxdb-output", "type": "influxdb", "url": "http://localhost:8086", "database": "mydb"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesMinio:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "minio-output", "type": "minio", "bucket": "my-bucket", "stagePath": "/tmp/staging", "endpoint": "http://localhost:9000"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCloudwatch:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cloudwatch-output", "type": "cloudwatch", "logGroupName": "my-log-group", "logStreamName": "my-log-stream", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesAzureEventhub:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "azure-eventhub-output", "type": "azure_eventhub", "brokers": ["myeventhub.servicebus.windows.net:9093"], "topic": "logs"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesStatsd:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "statsd-output", "type": "statsd", "protocol": "udp", "host": "localhost", "port": 8125}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesStatsdExt:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "statsd-ext-output", "type": "statsd_ext", "protocol": "udp", "host": "localhost", "port": 8125}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGraphite:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "graphite-output", "type": "graphite", "protocol": "tcp", "host": "localhost", "port": 2003}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesWavefront:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "wavefront-output", "type": "wavefront", "domain": "longboard", "token": "your-token"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSignalfx:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "signalfx-output", "type": "signalfx", "realm": "us0", "token": "your-token"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSqs:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "sqs-output", "type": "sqs", "queueName": "my-queue", "queueType": "standard", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGoogleCloudStorage:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "google-cloud-storage-output", "type": "google_cloud_storage", "bucket": "my-bucket", "region": "us-east1", "endpoint": "https://storage.googleapis.com", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSumoLogic:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "sumo-logic-output", "type": "sumo_logic", "url": "https://endpoint1.collection.us2.sumologic.com"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDatadog:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "datadog-output", "type": "datadog", "apiKey": "your-api-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesWebhook:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "webhook-output", "type": "webhook", "url": "https://example.com/webhook"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesPrometheus:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "prometheus-output", "type": "prometheus", "url": "http://localhost:9091/api/v1/write"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGooglePubsub:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "google-pubsub-output", "type": "google_pubsub", "topicName": "my-topic"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGoogleChronicle:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "google-chronicle-output", "type": "google_chronicle", "logFormatType": "unstructured", "region": "us", "customerId": "customer-id"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesChronicle:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "chronicle-output", "type": "chronicle", "region": "us", "logType": "UNKNOWN", "gcpProjectId": "my-project", "gcpInstance": "customer-id"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGrafanaCloud:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "grafana-cloud-output", "type": "grafana_cloud", "lokiUrl": "https://logs-prod-us-central1.grafana.net"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesLoki:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "loki-output", "type": "loki", "url": "http://localhost:3100/loki/api/v1/push"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesOpenTelemetry:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "opentelemetry-output", "type": "open_telemetry", "endpoint": "http://localhost:4317"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesServiceNow:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "servicenow-output", "type": "service_now", "endpoint": "ingest.lightstep.com:443", "tokenSecret": "your-token-secret", "otlpVersion": "1.3.1", "protocol": "http"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDynatraceOtlp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "dynatrace-otlp-output", "type": "dynatrace_otlp", "protocol": "http", "endpoint": "https://your-environment.live.dynatrace.com/api/v2/otlp", "otlpVersion": "1.3.1", "endpointType": "saas", "tokenSecret": "your-token-secret"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSentinelOneAiSiem:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "sentinel-one-ai-siem-output", "type": "sentinel_one_ai_siem", "region": "US", "endpoint": "/services/collector/event"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDataset:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "dataset-output", "type": "dataset"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesRing:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "ring-output", "type": "ring"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesRouter:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "router-output", "type": "router", "rules": [{"filter": "true", "output": "my-output"}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesWizHec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "wiz-hec-output", "type": "wiz_hec", "authType": "manual", "wiz_connector_id": "00000000-0000-0000-0000-000000000000", "wiz_environment": "test", "data_center": "us1", "wiz_sourcetype": "placeholder"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesHumioHec:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "humio-hec-output", "type": "humio_hec", "url": "https://cloud.us.humio.com/api/v1/ingest/hec", "format": "JSON", "authType": "manual", "token": "your-token"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCrowdstrikeNextGenSiem:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "crowdstrike-next-gen-siem-output", "type": "crowdstrike_next_gen_siem", "url": "https://ingest.us.crowdstrike.com/api/ingest/hec/connection-id/v1/services/collector", "format": "JSON", "authType": "manual", "token": "your-token"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCriblHttp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-http-output", "type": "cribl_http"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCriblTcp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-tcp-output", "type": "cribl_tcp", "host": "localhost", "port": 10090}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCriblSearchEngine:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-search-engine-output", "type": "cribl_search_engine", "systemFields": ["cribl_pipe"], "streamtags": [], "loadBalanced": false, "tls": {"disabled": true}, "tokenTTLMinutes": 60, "excludeFields": ["__kube_*", "__metadata", "__winEvent"], "compression": "gzip", "concurrency": 5, "maxPayloadSizeKB": 4096, "maxPayloadEvents": 0, "rejectUnauthorized": true, "timeoutSec": 30, "flushPeriodSec": 1, "failedRequestLoggingMode": "none", "safeHeaders": [], "throttleRatePerSec": "0", "responseRetrySettings": [{"httpStatus": 401, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 20000}, {"httpStatus": 403, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 20000}, {"httpStatus": 408, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 429, "initialBackoff": 1000, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 500, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 502, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 503, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 504, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}, {"httpStatus": 509, "initialBackoff": 250, "backoffRate": 2, "maxBackoff": 10000}], "timeoutRetrySettings": {"timeoutRetry": false}, "responseHonorRetryAfterHeader": true, "onBackpressure": "block", "useRoundRobinDns": true, "url": "https://0.0.0.0:10200"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesGoogleCloudLogging:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "google-cloud-logging-output", "type": "google_cloud_logging", "logLocationType": "project", "logNameExpression": "my-log", "logLocationExpression": "my-project"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSns:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "sns-output", "type": "sns", "topicArn": "arn:aws:sns:us-east-1:123456789012:my-topic", "messageGroupId": "my-message-group", "region": "us-east-1"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDlS3:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "dl-s3-output", "type": "dl_s3", "bucket": "my-bucket", "region": "us-east-1", "stagePath": "/tmp/staging"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesSecurityLake:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "security-lake-output", "type": "security_lake", "assumeRoleArn": "arn:aws:iam::123456789012:role/my-role", "bucket": "my-bucket", "region": "us-east-1", "stagePath": "/tmp/staging", "accountId": "123456789012", "customSource": "my-custom-source"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesCriblLake:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cribl-lake-output", "type": "cribl_lake"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesExabeam:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "exabeam-output", "type": "exabeam", "bucket": "my-bucket", "region": "us-east1", "stagePath": "/tmp/staging", "endpoint": "https://storage.googleapis.com", "collectorInstanceId": "11112222-3333-4444-5555-666677778888"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDiskSpool:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "disk-spool-output", "type": "disk_spool"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesClickHouse:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "clickhouse-output", "type": "click_house", "url": "http://localhost:8123/", "database": "mydb", "tableName": "mytable"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesLocalSearchStorage:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "local-search-storage-output", "type": "local_search_storage", "url": "http://localhost:8123/", "database": "default", "tableName": "mytable"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesXsiam:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "xsiam-output", "type": "xsiam"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesNetflow:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "netflow-output", "type": "netflow", "hosts": [{"host": "localhost", "port": 2055}]}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDynatraceHttp:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "dynatrace-http-output", "type": "dynatrace_http", "authType": "token", "format": "json_array", "endpoint": "cloud", "telemetryType": "logs", "token": "your-api-key"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdateOutputExamplesDatabricks:
+      parameters:
+        path:
+          id: "<id>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "databricks-output", "type": "databricks", "workspaceId": "your-workspace-id", "scope": "all-apis", "clientId": "your-client-id", "catalog": "main", "schema": "external", "eventsVolumeName": "events", "clientTextSecret": "your-client-secret"}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
   deleteOutputSystemByPackAndId:
     speakeasy-default-delete-output-system-by-pack-and-id:
       parameters:
@@ -30086,6 +33531,486 @@ examples:
           application/json: {}
         "500":
           application/json: {}
+    UpdatePipelineExamplesEmpty:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "empty-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "", "streamtags": [], "functions": [], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesAggregations:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "aggregation-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that aggregates rejected bytes grouped by source address every 10 seconds", "streamtags": [], "functions": [{"filter": "true", "id": "aggregation", "conf": {"passthrough": false, "preserveGroupBys": false, "sufficientStatsOnly": false, "metricsMode": false, "timeWindow": "10s", "aggregations": ["sum(bytes).where(action==\"REJECT\").as(TotalBytes)"], "groupbys": ["srcaddr"], "cumulative": false, "shouldTreatDotsAsLiterals": false, "flushOnInputClose": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesAggregateMetrics:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "aggregate-metrics-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that aggregates process metrics: CPU, memory, and bytes over time windows", "streamtags": [], "functions": [{"filter": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.mem_perc'\")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes(\"'proc.bytes_in'\"))", "id": "aggregate_metrics", "conf": {"passthrough": false, "preserveGroupBys": false, "sufficientStatsOnly": false, "timeWindow": "10s", "aggregations": [{"metricType": "gauge", "agg": "avg(_value || proc.cpu_perc).as(proc.cpu_perc_avg)"}, {"metricType": "gauge", "agg": "sum(_value || proc.mem_perc).as(proc.mem_perc_sum)"}, {"metricType": "counter", "agg": "count(_value || proc.bytes_in).as(proc.bytes_in_count)"}], "groupbys": ["proc"], "cumulative": false, "shouldTreatDotsAsLiterals": true, "flushOnInputClose": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesAutoTimestamp:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "auto-timestamp-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts timestamps from event data using auto timestamp function", "streamtags": [], "functions": [{"filter": "true", "id": "auto_timestamp", "conf": {"srcField": "_raw", "dstField": "_time", "defaultTimezone": "local", "timeExpression": "time.getTime() / 1000", "offset": 0, "maxLen": 150, "defaultTime": "now", "latestDateAllowed": "+1week", "earliestDateAllowed": "-420weeks", "timestamps": [{"regex": "/(\\d{1,2}\\/\\d{2}\\/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\w{2})/", "strptime": "%Y-%m-%d %H:%M:%S"}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesCEFSerializer:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "cef-serializer-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that formats events in CEF format with custom header and extension fields", "streamtags": [], "functions": [{"filter": "true", "id": "cef", "conf": {"outputField": "_raw", "header": [{"value": "'CEF:0'"}, {"value": "'Cribl'"}, {"value": "'Cribl'"}, {"value": "C.version"}, {"value": "420"}, {"value": "'Cribl Event'"}, {"value": "6"}], "extension": [{"name": "c6a1Label", "value": "'Colorado_Ext_Bldg7'"}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesChain:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "chain-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that chains to another pipeline for sequential data processing", "streamtags": [], "functions": [{"filter": "true", "id": "chain", "conf": {"processor": "prometheus_metrics"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesClone:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "clone-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that creates cloned events with additional fields for comparison or routing", "streamtags": [], "functions": [{"filter": "true", "id": "clone", "conf": {"clones": [{"env": "staging"}, {"index": "clones"}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesComment:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "comment-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline with comment function for documentation", "streamtags": [], "functions": [{"filter": "true", "id": "comment", "conf": {"comment": "This function processes security events and enriches them with DNS lookups"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesDNSLookup:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "dns-lookup-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that performs DNS lookups to resolve hostnames and IP addresses", "streamtags": [], "functions": [{"filter": "true", "id": "dns_lookup", "conf": {"dnsLookupFields": [{"inFieldName": "hostname", "resourceRecordType": "A", "outFieldName": "hostname_ip"}], "reverseLookupFields": [{"inFieldName": "src_ip", "outFieldName": "src_hostname"}], "cacheTTL": 30, "maxCacheSize": 5000, "useResolvConf": false, "lookupFallback": false, "lookupFailLogLevel": "error"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesDrop:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "drop-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that drops events containing success messages", "streamtags": [], "functions": [{"filter": "_raw.search(/success/i)>=0", "id": "drop", "conf": {}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesDropDimensions:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "drop-dimensions-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that drops specified dimensions from metrics to reduce cardinality", "streamtags": [], "functions": [{"filter": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) && (__criblMetrics[0].dims.includes(\"proc\"))", "id": "drop_dimensions", "conf": {"timeWindow": "10s", "dropDimensions": ["proc", "pie", "unit"], "flushOnInputClose": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesDynamicSampling:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "dynamic-sampling-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that dynamically samples events based on volume using square root mode", "streamtags": [], "functions": [{"filter": "true", "id": "dynamic_sampling", "conf": {"mode": "sqrt", "keyExpr": "`${domain}:${httpCode}`", "samplePeriod": 20, "minEvents": 3, "maxSampleRate": 3}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesEval:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "eval-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that evaluates JavaScript expressions to add, modify, and remove fields", "streamtags": [], "functions": [{"filter": "true", "id": "eval", "conf": {"add": [{"name": "action", "value": "login == 'error' ? 'blocked' : action"}, {"name": "myTags", "value": "login == 'error' ? [...myTags, 'error'] : myTags"}], "keep": ["host", "source", "action", "myTags"], "remove": ["identification"]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesEventBreaker:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "event-breaker-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that breaks large event streams into discrete events using regex", "streamtags": [], "functions": [{"filter": "true", "id": "event_breaker", "conf": {"ruleType": "regex", "eventBreakerRegex": "/[\\n\\r]+(?!\\s)/", "existingOrNew": "new", "maxEventBytes": 51200, "timestampAnchorRegex": "/^/", "timestamp": {"type": "auto", "length": 150}, "timestampTimezone": "local", "timestampEarliest": "-420weeks", "timestampLatest": "+1week", "shouldMarkCriblBreaker": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesFlatten:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "flatten-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that flattens nested JSON structures into top-level fields", "streamtags": [], "functions": [{"filter": "true", "id": "flatten", "conf": {"fields": [], "prefix": "", "depth": 5, "delimiter": "_"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesFoldKeys:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "fold-keys-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that transforms flat field names with separators into nested structures", "streamtags": [], "functions": [{"filter": "true", "id": "foldkeys", "conf": {"deleteOriginal": true, "separator": "_", "selectionRegExp": "^data"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesGeoIP:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "geoip-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that enriches events with geolocation data from IP addresses", "streamtags": [], "functions": [{"filter": "true", "id": "geoip", "conf": {"file": "GeoLite2-City.mmdb", "inField": "ip", "outField": "geoip", "additionalFields": [{"extraInField": "src_ip", "extraOutField": "src_geoip"}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesGrok:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "grok-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts structured fields from log data using Grok patterns", "streamtags": [], "functions": [{"filter": "true", "id": "grok", "conf": {"pattern": "%{TIMESTAMP_ISO8601:event_time} %{LOGLEVEL:log_level} %{GREEDYDATA:log_message}", "patternList": [], "source": "_raw"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesGuard:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "guard-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that scans for sensitive data and applies mitigation expressions", "streamtags": [], "functions": [{"filter": "true", "id": "sensitive_data_scanner", "conf": {"rules": [{"rulesetId": "Finance_Global", "replaceExpr": "'REDACTED'", "disabled": false}], "fields": ["_raw"], "excludeFields": [], "flags": [{"name": "_sensitive", "value": "true"}], "includeDetectedRules": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesJSONUnroll:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "json-unroll-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that unrolls JSON arrays into individual events while retaining parent fields", "streamtags": [], "functions": [{"filter": "true", "id": "json_unroll", "conf": {"path": "allCars", "name": "cars"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesLookup:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "lookup-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that enriches events with location data from IP address lookups", "streamtags": [], "functions": [{"filter": "true", "id": "lookup", "conf": {"file": "ip_locations.csv", "dbLookup": false, "matchMode": "exact", "reloadPeriodSec": -1, "inFields": [{"eventField": "destination_ip", "lookupField": "ip"}], "outFields": [{"lookupField": "location", "eventField": "location", "defaultValue": "Unknown"}], "addToEvent": false, "ignoreCase": false}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesMask:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "mask-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that masks Social Security numbers and other sensitive data", "streamtags": [], "functions": [{"filter": "true", "id": "mask", "conf": {"rules": [{"matchRegex": "/(social=)(\\d+)/", "replaceExpr": "`${g1}${C.Mask.md5(g2)}`", "disabled": false}], "fields": ["_raw"], "depth": 5}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesNumerify:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "numerify-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that converts string numbers to numeric type for mathematical operations", "streamtags": [], "functions": [{"filter": "true", "id": "numerify", "conf": {"format": "none", "depth": 5, "ignoreFields": [], "filterExpr": ""}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesOTLPLogs:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "otlp-logs-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that normalizes and batches OTLP log events from OpenTelemetry sources", "streamtags": [], "functions": [{"filter": "__inputId=='open_telemetry:open_telemetry'", "id": "otlp_logs", "conf": {"dropNonLogEvents": false, "batchOTLPLogs": true, "sendBatchSize": 8192, "timeout": 200, "sendBatchMaxSize": 0, "metadataKeys": [], "metadataCardinalityLimit": 1000}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesOTLPMetrics:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "otlp-metrics-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that converts dimensional metrics to OTLP format and batches them by resource attributes", "streamtags": [], "functions": [{"filter": "__inputId=='prometheus_rw:prom_rw_in'", "id": "otlp_metrics", "conf": {"resourceAttributePrefixes": ["service", "system", "telemetry", "k8s", "cloud", "host", "process"], "dropNonMetricEvents": false, "otlpVersion": "0.10.0", "batchOTLPMetrics": true, "sendBatchSize": 8192, "timeout": 200, "sendBatchMaxSize": 0, "metadataKeys": [], "metadataCardinalityLimit": 1000}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesOTLPTraces:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "otlp-traces-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that normalizes and batches OTLP trace events from OpenTelemetry sources", "streamtags": [], "functions": [{"filter": "__inputId=='open_telemetry:open_telemetry'", "id": "otlp_traces", "conf": {"dropNonTraceEvents": false, "otlpVersion": "0.10.0", "batchOTLPTraces": true, "sendBatchSize": 8192, "timeout": 200, "sendBatchMaxSize": 0, "metadataKeys": [], "metadataCardinalityLimit": 1000}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesParser:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "parser-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts fields from key-value pair formatted data", "streamtags": [], "functions": [{"filter": "true", "id": "serde", "conf": {"type": "kvp", "keep": ["a", "b", "c"], "remove": ["*"], "cleanFields": false, "mode": "extract", "srcField": "_raw"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesPublishMetrics:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "publish-metrics-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts metrics from events and formats them for metrics aggregation platforms", "streamtags": [], "functions": [{"filter": "true", "id": "publish_metrics", "conf": {"fields": [{"inFieldName": "bytes", "outFieldExpr": "'metric_name.bytes'", "metricType": "gauge"}, {"inFieldName": "packets", "outFieldExpr": "'metric_name.packets'", "metricType": "gauge"}], "overwrite": false, "dimensions": ["action", "interface_id", "dstaddr"], "removeMetrics": [], "removeDimensions": []}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRedis:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "redis-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that retrieves values from Redis using GET command", "streamtags": [], "functions": [{"filter": "true", "id": "redis", "conf": {"authType": "none", "commands": [{"outField": "cached_value", "command": "get", "keyExpr": "'user_session'", "argsExpr": ""}], "deploymentType": "standalone", "maxBlockSecs": 60, "url": "'redis://localhost:6379/0'"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRegexExtract:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "regex-extract-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts structured fields from log data using regex patterns with named capture groups", "streamtags": [], "functions": [{"filter": "true", "id": "regex_extract", "conf": {"regex": "/metric1=(?<metric1>\\d+)/", "source": "_raw", "iterations": 100, "overwrite": false}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRegexFilter:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "regex-filter-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that filters out events matching specific regex patterns", "streamtags": [], "functions": [{"filter": "true", "id": "regex_filter", "conf": {"regex": "/Opera/", "field": "_raw"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRename:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "rename-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that renames fields using key-value pairs and expressions", "streamtags": [], "functions": [{"filter": "true", "id": "rename", "conf": {"baseFields": [], "rename": [{"currentName": "level", "newName": "LEVEL"}], "renameExpr": "name.startsWith('out') ? name.toUpperCase() : name", "wildcardDepth": 5}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRollupMetrics:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "rollup-metrics-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that consolidates high-frequency metrics into manageable time windows", "streamtags": [], "functions": [{"filter": "true", "id": "rollup_metrics", "conf": {"dimensions": ["*"], "timeWindow": "30s", "gaugeRollup": "last"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesSampling:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "sampling-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that samples events at specified rates based on filter criteria", "streamtags": [], "functions": [{"filter": "true", "id": "sampling", "conf": {"rules": [{"filter": "__status == 200", "rate": 5}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesSerialize:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "serialize-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that serializes event fields into JSON format", "streamtags": [], "functions": [{"filter": "true", "id": "serialize", "conf": {"type": "csv"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesSNMPTrapSerialize:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "snmp-trap-serialize-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations", "streamtags": [], "functions": [{"filter": "true", "id": "snmp_trap_serialize", "conf": {"strict": true, "dropFailedEvents": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesSuppress:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "suppress-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that suppresses duplicate events based on a key expression", "streamtags": [], "functions": [{"filter": "true", "id": "suppress", "conf": {"keyExpr": "`${ip}:${port}`", "allow": 1, "suppressPeriodSec": 30, "dropEventsMode": true, "maxCacheSize": 50000, "cacheIdleTimeoutPeriods": 2, "numEventsIdleTimeoutTrigger": 10000}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesTee:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "tee-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that sends events to a command via stdin for debugging purposes", "streamtags": [], "functions": [{"filter": "true", "id": "tee", "conf": {"command": "tee", "args": ["/opt/cribl/foo.log"], "restartOnExit": true, "env": {}}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesUnroll:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "unroll-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that unrolls array fields into separate events", "streamtags": [], "functions": [{"filter": "true", "id": "unroll", "conf": {"srcExpr": "_raw.split(/\\n/)", "dstField": "_raw"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesXMLUnroll:
+      parameters:
+        path:
+          id: "<value>"
+          pack: "<value>"
+      requestBody:
+        application/json: {"id": "xml-unroll-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that unrolls XML elements into separate events", "streamtags": [], "functions": [{"filter": "true", "id": "xml_unroll", "conf": {"unroll": "^Parent\\.Child$", "inherit": "^Parent\\.(myID|branchLocation)$", "unrollIdxField": "unroll_idx", "pretty": false}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
   getRoutesByPackAndId:
     speakeasy-default-get-routes-by-pack-and-id:
       parameters:
@@ -31054,6 +34979,446 @@ examples:
           application/json: {}
         "500":
           application/json: {}
+    UpdatePipelineExamplesEmpty:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "empty-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "", "streamtags": [], "functions": [], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesAggregations:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "aggregation-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that aggregates rejected bytes grouped by source address every 10 seconds", "streamtags": [], "functions": [{"filter": "true", "id": "aggregation", "conf": {"passthrough": false, "preserveGroupBys": false, "sufficientStatsOnly": false, "metricsMode": false, "timeWindow": "10s", "aggregations": ["sum(bytes).where(action==\"REJECT\").as(TotalBytes)"], "groupbys": ["srcaddr"], "cumulative": false, "shouldTreatDotsAsLiterals": false, "flushOnInputClose": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesAggregateMetrics:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "aggregate-metrics-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that aggregates process metrics: CPU, memory, and bytes over time windows", "streamtags": [], "functions": [{"filter": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) || (_metric == 'proc.mem_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.mem_perc'\")) || (_metric == 'proc.bytes_in' || __criblMetrics[0].nameExpr.includes(\"'proc.bytes_in'\"))", "id": "aggregate_metrics", "conf": {"passthrough": false, "preserveGroupBys": false, "sufficientStatsOnly": false, "timeWindow": "10s", "aggregations": [{"metricType": "gauge", "agg": "avg(_value || proc.cpu_perc).as(proc.cpu_perc_avg)"}, {"metricType": "gauge", "agg": "sum(_value || proc.mem_perc).as(proc.mem_perc_sum)"}, {"metricType": "counter", "agg": "count(_value || proc.bytes_in).as(proc.bytes_in_count)"}], "groupbys": ["proc"], "cumulative": false, "shouldTreatDotsAsLiterals": true, "flushOnInputClose": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesAutoTimestamp:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "auto-timestamp-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts timestamps from event data using auto timestamp function", "streamtags": [], "functions": [{"filter": "true", "id": "auto_timestamp", "conf": {"srcField": "_raw", "dstField": "_time", "defaultTimezone": "local", "timeExpression": "time.getTime() / 1000", "offset": 0, "maxLen": 150, "defaultTime": "now", "latestDateAllowed": "+1week", "earliestDateAllowed": "-420weeks", "timestamps": [{"regex": "/(\\d{1,2}\\/\\d{2}\\/\\d{4}\\s\\d{1,2}:\\d{2}:\\d{2}\\s\\w{2})/", "strptime": "%Y-%m-%d %H:%M:%S"}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesCEFSerializer:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "cef-serializer-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that formats events in CEF format with custom header and extension fields", "streamtags": [], "functions": [{"filter": "true", "id": "cef", "conf": {"outputField": "_raw", "header": [{"value": "'CEF:0'"}, {"value": "'Cribl'"}, {"value": "'Cribl'"}, {"value": "C.version"}, {"value": "420"}, {"value": "'Cribl Event'"}, {"value": "6"}], "extension": [{"name": "c6a1Label", "value": "'Colorado_Ext_Bldg7'"}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesChain:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "chain-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that chains to another pipeline for sequential data processing", "streamtags": [], "functions": [{"filter": "true", "id": "chain", "conf": {"processor": "prometheus_metrics"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesClone:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "clone-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that creates cloned events with additional fields for comparison or routing", "streamtags": [], "functions": [{"filter": "true", "id": "clone", "conf": {"clones": [{"env": "staging"}, {"index": "clones"}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesComment:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "comment-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline with comment function for documentation", "streamtags": [], "functions": [{"filter": "true", "id": "comment", "conf": {"comment": "This function processes security events and enriches them with DNS lookups"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesDNSLookup:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "dns-lookup-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that performs DNS lookups to resolve hostnames and IP addresses", "streamtags": [], "functions": [{"filter": "true", "id": "dns_lookup", "conf": {"dnsLookupFields": [{"inFieldName": "hostname", "resourceRecordType": "A", "outFieldName": "hostname_ip"}], "reverseLookupFields": [{"inFieldName": "src_ip", "outFieldName": "src_hostname"}], "cacheTTL": 30, "maxCacheSize": 5000, "useResolvConf": false, "lookupFallback": false, "lookupFailLogLevel": "error"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesDrop:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "drop-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that drops events containing success messages", "streamtags": [], "functions": [{"filter": "_raw.search(/success/i)>=0", "id": "drop", "conf": {}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesDropDimensions:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "drop-dimensions-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that drops specified dimensions from metrics to reduce cardinality", "streamtags": [], "functions": [{"filter": "(_metric == 'proc.cpu_perc' || __criblMetrics[0].nameExpr.includes(\"'proc.cpu_perc'\")) && (__criblMetrics[0].dims.includes(\"proc\"))", "id": "drop_dimensions", "conf": {"timeWindow": "10s", "dropDimensions": ["proc", "pie", "unit"], "flushOnInputClose": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesDynamicSampling:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "dynamic-sampling-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that dynamically samples events based on volume using square root mode", "streamtags": [], "functions": [{"filter": "true", "id": "dynamic_sampling", "conf": {"mode": "sqrt", "keyExpr": "`${domain}:${httpCode}`", "samplePeriod": 20, "minEvents": 3, "maxSampleRate": 3}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesEval:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "eval-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that evaluates JavaScript expressions to add, modify, and remove fields", "streamtags": [], "functions": [{"filter": "true", "id": "eval", "conf": {"add": [{"name": "action", "value": "login == 'error' ? 'blocked' : action"}, {"name": "myTags", "value": "login == 'error' ? [...myTags, 'error'] : myTags"}], "keep": ["host", "source", "action", "myTags"], "remove": ["identification"]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesEventBreaker:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "event-breaker-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that breaks large event streams into discrete events using regex", "streamtags": [], "functions": [{"filter": "true", "id": "event_breaker", "conf": {"ruleType": "regex", "eventBreakerRegex": "/[\\n\\r]+(?!\\s)/", "existingOrNew": "new", "maxEventBytes": 51200, "timestampAnchorRegex": "/^/", "timestamp": {"type": "auto", "length": 150}, "timestampTimezone": "local", "timestampEarliest": "-420weeks", "timestampLatest": "+1week", "shouldMarkCriblBreaker": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesFlatten:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "flatten-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that flattens nested JSON structures into top-level fields", "streamtags": [], "functions": [{"filter": "true", "id": "flatten", "conf": {"fields": [], "prefix": "", "depth": 5, "delimiter": "_"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesFoldKeys:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "fold-keys-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that transforms flat field names with separators into nested structures", "streamtags": [], "functions": [{"filter": "true", "id": "foldkeys", "conf": {"deleteOriginal": true, "separator": "_", "selectionRegExp": "^data"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesGeoIP:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "geoip-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that enriches events with geolocation data from IP addresses", "streamtags": [], "functions": [{"filter": "true", "id": "geoip", "conf": {"file": "GeoLite2-City.mmdb", "inField": "ip", "outField": "geoip", "additionalFields": [{"extraInField": "src_ip", "extraOutField": "src_geoip"}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesGrok:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "grok-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts structured fields from log data using Grok patterns", "streamtags": [], "functions": [{"filter": "true", "id": "grok", "conf": {"pattern": "%{TIMESTAMP_ISO8601:event_time} %{LOGLEVEL:log_level} %{GREEDYDATA:log_message}", "patternList": [], "source": "_raw"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesGuard:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "guard-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that scans for sensitive data and applies mitigation expressions", "streamtags": [], "functions": [{"filter": "true", "id": "sensitive_data_scanner", "conf": {"rules": [{"rulesetId": "Finance_Global", "replaceExpr": "'REDACTED'", "disabled": false}], "fields": ["_raw"], "excludeFields": [], "flags": [{"name": "_sensitive", "value": "true"}], "includeDetectedRules": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesJSONUnroll:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "json-unroll-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that unrolls JSON arrays into individual events while retaining parent fields", "streamtags": [], "functions": [{"filter": "true", "id": "json_unroll", "conf": {"path": "allCars", "name": "cars"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesLookup:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "lookup-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that enriches events with location data from IP address lookups", "streamtags": [], "functions": [{"filter": "true", "id": "lookup", "conf": {"file": "ip_locations.csv", "dbLookup": false, "matchMode": "exact", "reloadPeriodSec": -1, "inFields": [{"eventField": "destination_ip", "lookupField": "ip"}], "outFields": [{"lookupField": "location", "eventField": "location", "defaultValue": "Unknown"}], "addToEvent": false, "ignoreCase": false}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesMask:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "mask-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that masks Social Security numbers and other sensitive data", "streamtags": [], "functions": [{"filter": "true", "id": "mask", "conf": {"rules": [{"matchRegex": "/(social=)(\\d+)/", "replaceExpr": "`${g1}${C.Mask.md5(g2)}`", "disabled": false}], "fields": ["_raw"], "depth": 5}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesNumerify:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "numerify-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that converts string numbers to numeric type for mathematical operations", "streamtags": [], "functions": [{"filter": "true", "id": "numerify", "conf": {"format": "none", "depth": 5, "ignoreFields": [], "filterExpr": ""}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesOTLPLogs:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "otlp-logs-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that normalizes and batches OTLP log events from OpenTelemetry sources", "streamtags": [], "functions": [{"filter": "__inputId=='open_telemetry:open_telemetry'", "id": "otlp_logs", "conf": {"dropNonLogEvents": false, "batchOTLPLogs": true, "sendBatchSize": 8192, "timeout": 200, "sendBatchMaxSize": 0, "metadataKeys": [], "metadataCardinalityLimit": 1000}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesOTLPMetrics:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "otlp-metrics-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that converts dimensional metrics to OTLP format and batches them by resource attributes", "streamtags": [], "functions": [{"filter": "__inputId=='prometheus_rw:prom_rw_in'", "id": "otlp_metrics", "conf": {"resourceAttributePrefixes": ["service", "system", "telemetry", "k8s", "cloud", "host", "process"], "dropNonMetricEvents": false, "otlpVersion": "0.10.0", "batchOTLPMetrics": true, "sendBatchSize": 8192, "timeout": 200, "sendBatchMaxSize": 0, "metadataKeys": [], "metadataCardinalityLimit": 1000}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesOTLPTraces:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "otlp-traces-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that normalizes and batches OTLP trace events from OpenTelemetry sources", "streamtags": [], "functions": [{"filter": "__inputId=='open_telemetry:open_telemetry'", "id": "otlp_traces", "conf": {"dropNonTraceEvents": false, "otlpVersion": "0.10.0", "batchOTLPTraces": true, "sendBatchSize": 8192, "timeout": 200, "sendBatchMaxSize": 0, "metadataKeys": [], "metadataCardinalityLimit": 1000}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesParser:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "parser-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts fields from key-value pair formatted data", "streamtags": [], "functions": [{"filter": "true", "id": "serde", "conf": {"type": "kvp", "keep": ["a", "b", "c"], "remove": ["*"], "cleanFields": false, "mode": "extract", "srcField": "_raw"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesPublishMetrics:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "publish-metrics-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts metrics from events and formats them for metrics aggregation platforms", "streamtags": [], "functions": [{"filter": "true", "id": "publish_metrics", "conf": {"fields": [{"inFieldName": "bytes", "outFieldExpr": "'metric_name.bytes'", "metricType": "gauge"}, {"inFieldName": "packets", "outFieldExpr": "'metric_name.packets'", "metricType": "gauge"}], "overwrite": false, "dimensions": ["action", "interface_id", "dstaddr"], "removeMetrics": [], "removeDimensions": []}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRedis:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "redis-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that retrieves values from Redis using GET command", "streamtags": [], "functions": [{"filter": "true", "id": "redis", "conf": {"authType": "none", "commands": [{"outField": "cached_value", "command": "get", "keyExpr": "'user_session'", "argsExpr": ""}], "deploymentType": "standalone", "maxBlockSecs": 60, "url": "'redis://localhost:6379/0'"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRegexExtract:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "regex-extract-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that extracts structured fields from log data using regex patterns with named capture groups", "streamtags": [], "functions": [{"filter": "true", "id": "regex_extract", "conf": {"regex": "/metric1=(?<metric1>\\d+)/", "source": "_raw", "iterations": 100, "overwrite": false}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRegexFilter:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "regex-filter-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that filters out events matching specific regex patterns", "streamtags": [], "functions": [{"filter": "true", "id": "regex_filter", "conf": {"regex": "/Opera/", "field": "_raw"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRename:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "rename-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that renames fields using key-value pairs and expressions", "streamtags": [], "functions": [{"filter": "true", "id": "rename", "conf": {"baseFields": [], "rename": [{"currentName": "level", "newName": "LEVEL"}], "renameExpr": "name.startsWith('out') ? name.toUpperCase() : name", "wildcardDepth": 5}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesRollupMetrics:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "rollup-metrics-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that consolidates high-frequency metrics into manageable time windows", "streamtags": [], "functions": [{"filter": "true", "id": "rollup_metrics", "conf": {"dimensions": ["*"], "timeWindow": "30s", "gaugeRollup": "last"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesSampling:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "sampling-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that samples events at specified rates based on filter criteria", "streamtags": [], "functions": [{"filter": "true", "id": "sampling", "conf": {"rules": [{"filter": "__status == 200", "rate": 5}]}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesSerialize:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "serialize-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that serializes event fields into JSON format", "streamtags": [], "functions": [{"filter": "true", "id": "serialize", "conf": {"type": "kvp"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesSNMPTrapSerialize:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "snmp-trap-serialize-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations", "streamtags": [], "functions": [{"filter": "true", "id": "snmp_trap_serialize", "conf": {"strict": true, "dropFailedEvents": true}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesSuppress:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "suppress-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that suppresses duplicate events based on a key expression", "streamtags": [], "functions": [{"filter": "true", "id": "suppress", "conf": {"keyExpr": "`${ip}:${port}`", "allow": 1, "suppressPeriodSec": 30, "dropEventsMode": true, "maxCacheSize": 50000, "cacheIdleTimeoutPeriods": 2, "numEventsIdleTimeoutTrigger": 10000}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesTee:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "tee-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that sends events to a command via stdin for debugging purposes", "streamtags": [], "functions": [{"filter": "true", "id": "tee", "conf": {"command": "tee", "args": ["/opt/cribl/foo.log"], "restartOnExit": true, "env": {}}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesUnroll:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "unroll-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that unrolls array fields into separate events", "streamtags": [], "functions": [{"filter": "true", "id": "unroll", "conf": {"srcExpr": "_raw.split(/\\n/)", "dstField": "_raw"}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
+    UpdatePipelineExamplesXMLUnroll:
+      parameters:
+        path:
+          id: "<value>"
+      requestBody:
+        application/json: {"id": "xml-unroll-pipeline", "conf": {"asyncFuncTimeout": 1000, "output": "default", "description": "Pipeline that unrolls XML elements into separate events", "streamtags": [], "functions": [{"filter": "true", "id": "xml_unroll", "conf": {"unroll": "^Parent\\.Child$", "inherit": "^Parent\\.(myID|branchLocation)$", "unrollIdxField": "unroll_idx", "pretty": false}}], "groups": {}}}
+      responses:
+        "200":
+          application/json: {}
+        "500":
+          application/json: {}
   getRoutes:
     speakeasy-default-get-routes:
       responses:
@@ -31235,7 +35600,6 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.packs.sources.list()`:  `response.items[].union(confluent_cloud).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.packs.sources.create()`: \n  *  `request_body.union(kafka).kafka_schema_registry.auth` **Changed**\n  *  `response.items[].union(kafka).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.packs.sources.get()`:  `response.items[].union(msk).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.packs.sources.update()`: \n  *  `request.input.union(msk).kafka_schema_registry.auth` **Changed**\n  *  `response.items[].union(msk).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.packs.sources.delete()`:  `response.items[].union(confluent_cloud).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.packs.destinations.list()`:  `response.items[].union(confluent_cloud).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.packs.destinations.create()`: \n  *  `request_body.union(kafka).kafka_schema_registry.auth` **Changed**\n  *  `response.items[].union(msk).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.packs.destinations.get()`:  `response.items[].union(confluent_cloud).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.packs.destinations.update()`: \n  *  `request.output.union(msk).kafka_schema_registry.auth` **Changed**\n  *  `response.items[].union(msk).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.packs.destinations.delete()`:  `response.items[].union(kafka).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.sources.list()`:  `response.items[].union(kafka).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.sources.create()`: \n  *  `request.union(msk).kafka_schema_registry.auth` **Changed**\n  *  `response.items[].union(msk).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.sources.get()`:  `response.items[].union(confluent_cloud).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.sources.update()`: \n  *  `request.input.union(msk).kafka_schema_registry.auth` **Changed**\n  *  `response.items[].union(confluent_cloud).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.sources.delete()`:  `response.items[].union(msk).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.destinations.list()`:  `response.items[].union(msk).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.destinations.create()`: \n  *  `request.union(confluent_cloud).kafka_schema_registry.auth` **Changed**\n  *  `response.items[].union(kafka).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.destinations.get()`:  `response.items[].union(confluent_cloud).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output.union(kafka).kafka_schema_registry.auth` **Changed**\n  *  `response.items[].union(msk).kafka_schema_registry.auth` **Changed**\n* `cribl_control_plane.destinations.delete()`:  `response.items[].union(kafka).kafka_schema_registry.auth` **Changed**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

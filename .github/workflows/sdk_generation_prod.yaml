@@ -1,10 +1,4 @@
 name: Generate Prod SDK
-permissions:
-  checks: write
-  contents: write
-  pull-requests: write
-  statuses: write
-  actions: write
 "on":
   workflow_dispatch:
     inputs:
@@ -24,6 +18,8 @@ permissions:
 jobs:
   check-branch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Ensure workflow is run from main branch
         run: |
@@ -35,6 +31,8 @@ jobs:
   version-check:
     needs: check-branch
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       up_to_date: ${{ steps.compare.outputs.up_to_date }}
       local_version: ${{ steps.compare.outputs.local_version }}
@@ -44,6 +42,7 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
         with:
           ref: main
+          persist-credentials: false
 
       - name: Compare OpenAPI versions
         id: compare
@@ -54,6 +53,11 @@ jobs:
   generate:
     needs: [check-branch, version-check]
     if: needs.version-check.outputs.up_to_date != 'true'
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
     uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@b823adc6be7d30b25198529f99f46303bc083534
     with:
       force: ${{ github.event.inputs.force }}
@@ -68,21 +72,27 @@ jobs:
     needs: [check-branch, version-check, generate]
     if: github.event_name == 'schedule' && needs.generate.result == 'skipped'
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Summary
+        env:
+          LOCAL_VERSION: ${{ needs.version-check.outputs.local_version }}
+          REMOTE_VERSION: ${{ needs.version-check.outputs.remote_version }}
         run: |
           {
             echo "## ⏭️ SDK Generation Skipped (Cron)"
             echo ""
             echo "OpenAPI spec versions match - no generation needed:"
-            echo "- **Local** (out.openapi.yaml): \`${{ needs.version-check.outputs.local_version }}\`"
-            echo "- **Remote** (cribl-openapi-spec): \`${{ needs.version-check.outputs.remote_version }}\`"
+            echo "- **Local** (out.openapi.yaml): \`${LOCAL_VERSION}\`"
+            echo "- **Remote** (cribl-openapi-spec): \`${REMOTE_VERSION}\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
   dispatch-dev-stage:
     needs: generate
     if: always() && github.event_name == 'schedule'
     runs-on: ubuntu-latest
+    permissions:
+      actions: write
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
@@ -118,9 +128,10 @@ jobs:
     needs: [check-branch, version-check, generate, dispatch-dev-stage]
     if: failure()
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Send Slack notification on failure
-        uses: slackapi/slack-github-action@v1.27.0
+        uses: slackapi/slack-github-action@37ebaef184d7626c5f204ab8d3baff4262dd30f0
         with:
           payload: |
             {

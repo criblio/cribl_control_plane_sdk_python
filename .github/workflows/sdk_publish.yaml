@@ -1,9 +1,4 @@
 name: Publish SDK
-permissions:
-  checks: write
-  contents: write
-  pull-requests: write
-  statuses: write
 
 on:
   push:
@@ -18,6 +13,8 @@ on:
 jobs:
   check-branch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       branch: ${{ steps.branch-info.outputs.branch }}
       is-production: ${{ steps.branch-info.outputs.is-production }}
@@ -25,6 +22,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
 
       - name: Get branch information
         id: branch-info
@@ -63,6 +62,11 @@ jobs:
 
   publish:
     needs: check-branch
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
     uses: speakeasy-api/sdk-generation-action/.github/workflows/sdk-publish.yaml@b823adc6be7d30b25198529f99f46303bc083534
     with:
       target: cribl-control-plane
@@ -74,9 +78,11 @@ jobs:
   restore-workflow-lock:
     needs: [check-branch, publish]
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # zizmor: ignore[artipacked]
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -94,32 +100,15 @@ jobs:
 
       - name: Restore workflow.lock from GA tag
         if: needs.check-branch.outputs.branch == 'main' && needs.check-branch.outputs.is-prerelease == 'true'
+        env:
+          GH_REPOSITORY: ${{ github.repository }}
+          CURRENT_BRANCH: ${{ needs.check-branch.outputs.branch }}
         run: |
           set -euo pipefail
           
-          # Fetch latest GA release from GitHub (with retry)
-          MAX_ATTEMPTS=5
-          attempt=1
-          LAST_GA_TAG=""
-          
-          while [ $attempt -le $MAX_ATTEMPTS ]; do
-            echo "Fetching latest GA release from GitHub (attempt $attempt/$MAX_ATTEMPTS)..."
-            LAST_GA_TAG=$(curl -s https://api.github.com/repos/${{ github.repository }}/releases/latest | jq -r '.tag_name')
-            
-            if [[ "$LAST_GA_TAG" != "null" && -n "$LAST_GA_TAG" ]]; then
-              break
-            fi
-            
-            if [ $attempt -lt $MAX_ATTEMPTS ]; then
-              echo "⚠️  No release found (attempt $attempt/$MAX_ATTEMPTS), retrying in 2s..."
-              sleep 2
-              attempt=$((attempt + 1))
-            else
-              echo "❌ Error: No releases found on GitHub after $MAX_ATTEMPTS attempts"
-              exit 1
-            fi
-          done
-          
+          # Example: curl -s https://api.github.com/repos/criblio/cribl-control-plane-sdk-python/releases/latest | jq -r '.tag_name'
+          echo "Fetching latest GA release from GitHub..."
+          LAST_GA_TAG=$(curl -s "https://api.github.com/repos/${GH_REPOSITORY}/releases/latest" | jq -r '.tag_name')
           echo "✅ Latest GA tag: ${LAST_GA_TAG}"
           
           echo "Fetching tags from repository..."
@@ -147,18 +136,18 @@ jobs:
           echo "Committing workflow.lock restoration..."
           git commit -m "Revert workflow.lock to ${LAST_GA_TAG} for GA release" || echo "No changes to commit, workflow.lock already in sync"
           
-          CURRENT_BRANCH="${{ needs.check-branch.outputs.branch }}"
           echo "Pushing changes to ${CURRENT_BRANCH} branch..."
-          git push origin ${CURRENT_BRANCH}
+          git push origin "${CURRENT_BRANCH}"
           echo "✅ Successfully restored workflow.lock from ${LAST_GA_TAG}"
 
   notify-slack-on-failure:
     needs: [check-branch, publish, restore-workflow-lock]
     if: failure()
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Send Slack notification on failure
-        uses: slackapi/slack-github-action@v1.27.0
+        uses: slackapi/slack-github-action@37ebaef184d7626c5f204ab8d3baff4262dd30f0
         with:
           payload: |
             {

@@ -1,9 +1,4 @@
 name: Generate RC SDK (Prerelease)
-permissions:
-  checks: write
-  contents: write
-  pull-requests: write
-  statuses: write
 
 on:
   workflow_dispatch: {}
@@ -13,6 +8,8 @@ on:
 jobs:
   check-branch:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Ensure workflow is run from openapi-prerelease branch
         run: |
@@ -24,6 +21,8 @@ jobs:
   compute-version:
     needs: check-branch
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     outputs:
       version: ${{ steps.ver.outputs.version }}
     steps:
@@ -32,6 +31,7 @@ jobs:
         with:
           ref: openapi-prerelease
           fetch-depth: 0
+          persist-credentials: false
 
 
       - name: Compute prerelease version (X.Y.Zrc<n>)
@@ -139,6 +139,11 @@ jobs:
 
   generate:
     needs: [check-branch, compute-version]
+    permissions:
+      checks: write
+      contents: write
+      pull-requests: write
+      statuses: write
     uses: speakeasy-api/sdk-generation-action/.github/workflows/workflow-executor.yaml@b823adc6be7d30b25198529f99f46303bc083534
     with:
       force: true
@@ -153,9 +158,10 @@ jobs:
     needs: [check-branch, compute-version, generate]
     if: failure()
     runs-on: ubuntu-latest
+    permissions: {}
     steps:
       - name: Send Slack notification on failure
-        uses: slackapi/slack-github-action@v1.27.0
+        uses: slackapi/slack-github-action@37ebaef184d7626c5f204ab8d3baff4262dd30f0
         with:
           payload: |
             {

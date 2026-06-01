@@ -8,9 +8,11 @@ on:
 jobs:
   merge-main-to-dev:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout full repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # zizmor: ignore[artipacked]
         with:
           fetch-depth: 0
 
@@ -29,9 +31,11 @@ jobs:
 
   sync-speakeasy-version:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout full repository
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # zizmor: ignore[artipacked]
         with:
           fetch-depth: 0
 

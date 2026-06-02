@@ -8881,6 +8881,8 @@ class CreateOutputSystemByPackStatsDestinationTypedDict(TypedDict):
     username: NotRequired[str]
     sql_username: NotRequired[str]
     password: NotRequired[str]
+    wait_for_async_inserts: NotRequired[bool]
+    concurrency: NotRequired[float]
 
 
 class CreateOutputSystemByPackStatsDestination(BaseModel):
@@ -8898,6 +8900,12 @@ class CreateOutputSystemByPackStatsDestination(BaseModel):
 
     password: Optional[str] = None
 
+    wait_for_async_inserts: Annotated[
+        Optional[bool], pydantic.Field(alias="waitForAsyncInserts")
+    ] = None
+
+    concurrency: Optional[float] = None
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -8909,6 +8917,8 @@ class CreateOutputSystemByPackStatsDestination(BaseModel):
                 "username",
                 "sqlUsername",
                 "password",
+                "waitForAsyncInserts",
+                "concurrency",
             ]
         )
         serialized = handler(self)

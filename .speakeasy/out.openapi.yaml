@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.2-alpha.1780095999124-8db030e0
+  version: 4.18.2-alpha.1780354960019-ae472fcb
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -45229,6 +45229,10 @@ components:
               type: string
             password:
               type: string
+            waitForAsyncInserts:
+              type: boolean
+            concurrency:
+              type: number
         description:
           type: string
           title: Description
@@ -51484,6 +51488,20 @@ components:
         - $ref: "#/components/schemas/SavedJobCollection"
         - $ref: "#/components/schemas/SavedJobExecutor"
         - $ref: "#/components/schemas/SavedJobScheduledSearch"
+    CollectorType:
+      type: string
+      enum:
+        - azure_blob
+        - cribl_lake
+        - database
+        - filesystem
+        - google_cloud_storage
+        - health_check
+        - rest
+        - s3
+        - script
+        - splunk
+      x-speakeasy-unknown-values: allow
     CloudProvider:
       type:
         - string
@@ -63698,7 +63716,7 @@ paths:
           in: query
           required: false
           schema:
-            type: string
+            $ref: "#/components/schemas/CollectorType"
           description: Filter by collector type
     post:
       operationId: createSavedJob
@@ -67471,6 +67489,9 @@ paths:
           required: false
           schema:
             type: string
+            enum:
+              - ddss
+            x-speakeasy-unknown-values: allow
           description: Filter datasets by format. Set to <code>ddss</code> to return only
             DDSS datasets.
         - name: excludeDDSS

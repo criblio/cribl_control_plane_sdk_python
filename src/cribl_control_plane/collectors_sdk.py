@@ -15,7 +15,7 @@ class CollectorsSDK(BaseSDK):
     def list(
         self,
         *,
-        collector_type: Optional[str] = None,
+        collector_type: Optional[models.CollectorType] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -107,7 +107,7 @@ class CollectorsSDK(BaseSDK):
     async def list_async(
         self,
         *,
-        collector_type: Optional[str] = None,
+        collector_type: Optional[models.CollectorType] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,

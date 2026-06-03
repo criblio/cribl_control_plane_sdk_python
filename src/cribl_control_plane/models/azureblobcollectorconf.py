@@ -79,10 +79,22 @@ class AzureBlobAuthTypeClientCertTypedDict(TypedDict):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
     connection_string: NotRequired[str]
     r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    template_connection_string: NotRequired[str]
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
     text_secret: NotRequired[str]
     r"""Text secret"""
+    template_storage_account_name: NotRequired[str]
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
     client_text_secret: NotRequired[str]
     r"""Text secret containing the client secret"""
+    template_endpoint_suffix: NotRequired[str]
+    r"""Binds 'endpointSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpointSuffix' at runtime."""
+    template_azure_cloud: NotRequired[str]
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
     template_path: NotRequired[str]
@@ -158,13 +170,43 @@ class AzureBlobAuthTypeClientCert(BaseModel):
     ] = None
     r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
 
+    template_connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="__template_connectionString")
+    ] = None
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Text secret"""
+
+    template_storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageAccountName")
+    ] = None
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
     ] = None
     r"""Text secret containing the client secret"""
+
+    template_endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpointSuffix")
+    ] = None
+    r"""Binds 'endpointSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpointSuffix' at runtime."""
+
+    template_azure_cloud: Annotated[
+        Optional[str], pydantic.Field(alias="__template_azureCloud")
+    ] = None
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     template_container_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_containerName")
@@ -202,8 +244,14 @@ class AzureBlobAuthTypeClientCert(BaseModel):
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "connectionString",
+                "__template_connectionString",
                 "textSecret",
+                "__template_storageAccountName",
+                "__template_tenantId",
+                "__template_clientId",
                 "clientTextSecret",
+                "__template_endpointSuffix",
+                "__template_azureCloud",
                 "__template_containerName",
                 "__template_path",
             ]
@@ -265,6 +313,16 @@ class AzureBlobAuthTypeClientSecretTypedDict(TypedDict):
     r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     azure_cloud: NotRequired[str]
     r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    template_storage_account_name: NotRequired[str]
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+    template_endpoint_suffix: NotRequired[str]
+    r"""Binds 'endpointSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpointSuffix' at runtime."""
+    template_azure_cloud: NotRequired[str]
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
     output_name: NotRequired[str]
     r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
     path: NotRequired[str]
@@ -285,6 +343,8 @@ class AzureBlobAuthTypeClientSecretTypedDict(TypedDict):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
     connection_string: NotRequired[str]
     r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    template_connection_string: NotRequired[str]
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
     text_secret: NotRequired[str]
     r"""Text secret"""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
@@ -323,6 +383,31 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
 
     azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
     r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    template_storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageAccountName")
+    ] = None
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
+
+    template_endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpointSuffix")
+    ] = None
+    r"""Binds 'endpointSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpointSuffix' at runtime."""
+
+    template_azure_cloud: Annotated[
+        Optional[str], pydantic.Field(alias="__template_azureCloud")
+    ] = None
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
     r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
@@ -364,6 +449,11 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     ] = None
     r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
 
+    template_connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="__template_connectionString")
+    ] = None
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Text secret"""
 
@@ -395,6 +485,11 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
                 "authType",
                 "endpointSuffix",
                 "azureCloud",
+                "__template_storageAccountName",
+                "__template_tenantId",
+                "__template_clientId",
+                "__template_endpointSuffix",
+                "__template_azureCloud",
                 "outputName",
                 "path",
                 "extractors",
@@ -405,6 +500,7 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "connectionString",
+                "__template_connectionString",
                 "textSecret",
                 "certificate",
                 "__template_containerName",
@@ -478,18 +574,30 @@ class AzureBlobAuthTypeSecretTypedDict(TypedDict):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will abort if a chunk cannot be downloaded within the time specified."""
     connection_string: NotRequired[str]
     r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
+    template_connection_string: NotRequired[str]
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
     storage_account_name: NotRequired[str]
     r"""The name of your Azure storage account"""
+    template_storage_account_name: NotRequired[str]
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     tenant_id: NotRequired[str]
     r"""The service principal's tenant ID"""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     client_id: NotRequired[str]
     r"""The service principal's client ID"""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
     client_text_secret: NotRequired[str]
     r"""Text secret containing the client secret"""
     endpoint_suffix: NotRequired[str]
     r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    template_endpoint_suffix: NotRequired[str]
+    r"""Binds 'endpointSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpointSuffix' at runtime."""
     azure_cloud: NotRequired[str]
     r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    template_azure_cloud: NotRequired[str]
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
@@ -550,16 +658,36 @@ class AzureBlobAuthTypeSecret(BaseModel):
     ] = None
     r"""Enter your Azure storage account Connection String. If left blank, Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
 
+    template_connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="__template_connectionString")
+    ] = None
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
+
     storage_account_name: Annotated[
         Optional[str], pydantic.Field(alias="storageAccountName")
     ] = None
     r"""The name of your Azure storage account"""
 
+    template_storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageAccountName")
+    ] = None
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+
     tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
     r"""The service principal's tenant ID"""
 
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
     client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
     r"""The service principal's client ID"""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
@@ -571,8 +699,18 @@ class AzureBlobAuthTypeSecret(BaseModel):
     ] = None
     r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
 
+    template_endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpointSuffix")
+    ] = None
+    r"""Binds 'endpointSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpointSuffix' at runtime."""
+
     azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
     r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    template_azure_cloud: Annotated[
+        Optional[str], pydantic.Field(alias="__template_azureCloud")
+    ] = None
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
@@ -610,12 +748,18 @@ class AzureBlobAuthTypeSecret(BaseModel):
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "connectionString",
+                "__template_connectionString",
                 "storageAccountName",
+                "__template_storageAccountName",
                 "tenantId",
+                "__template_tenantId",
                 "clientId",
+                "__template_clientId",
                 "clientTextSecret",
                 "endpointSuffix",
+                "__template_endpointSuffix",
                 "azureCloud",
+                "__template_azureCloud",
                 "certificate",
                 "__template_containerName",
                 "__template_path",
@@ -668,6 +812,8 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     r"""Container to collect from. This value can be a constant, or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: myBucket-${C.vars.myVar}"""
     auth_type: NotRequired[AzureBlobAuthTypeManualAuthenticationMethod]
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
+    template_connection_string: NotRequired[str]
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
     output_name: NotRequired[str]
     r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
     path: NotRequired[str]
@@ -690,16 +836,26 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     r"""Text secret"""
     storage_account_name: NotRequired[str]
     r"""The name of your Azure storage account"""
+    template_storage_account_name: NotRequired[str]
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     tenant_id: NotRequired[str]
     r"""The service principal's tenant ID"""
+    template_tenant_id: NotRequired[str]
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
     client_id: NotRequired[str]
     r"""The service principal's client ID"""
+    template_client_id: NotRequired[str]
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
     client_text_secret: NotRequired[str]
     r"""Text secret containing the client secret"""
     endpoint_suffix: NotRequired[str]
     r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
+    template_endpoint_suffix: NotRequired[str]
+    r"""Binds 'endpointSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpointSuffix' at runtime."""
     azure_cloud: NotRequired[str]
     r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+    template_azure_cloud: NotRequired[str]
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
     certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
     template_container_name: NotRequired[str]
     r"""Binds 'containerName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'containerName' at runtime."""
@@ -719,6 +875,11 @@ class AzureBlobAuthTypeManual(BaseModel):
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter authentication data directly, or select a secret referencing your auth data"""
+
+    template_connection_string: Annotated[
+        Optional[str], pydantic.Field(alias="__template_connectionString")
+    ] = None
+    r"""Binds 'connectionString' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'connectionString' at runtime."""
 
     output_name: Annotated[Optional[str], pydantic.Field(alias="outputName")] = None
     r"""An optional predefined Destination that will be used to auto-populate Collector settings"""
@@ -763,11 +924,26 @@ class AzureBlobAuthTypeManual(BaseModel):
     ] = None
     r"""The name of your Azure storage account"""
 
+    template_storage_account_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_storageAccountName")
+    ] = None
+    r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
+
     tenant_id: Annotated[Optional[str], pydantic.Field(alias="tenantId")] = None
     r"""The service principal's tenant ID"""
 
+    template_tenant_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tenantId")
+    ] = None
+    r"""Binds 'tenantId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tenantId' at runtime."""
+
     client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
     r"""The service principal's client ID"""
+
+    template_client_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientId")
+    ] = None
+    r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
@@ -779,8 +955,18 @@ class AzureBlobAuthTypeManual(BaseModel):
     ] = None
     r"""The endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
 
+    template_endpoint_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpointSuffix")
+    ] = None
+    r"""Binds 'endpointSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpointSuffix' at runtime."""
+
     azure_cloud: Annotated[Optional[str], pydantic.Field(alias="azureCloud")] = None
     r"""The Azure cloud to use. Defaults to Azure Public Cloud."""
+
+    template_azure_cloud: Annotated[
+        Optional[str], pydantic.Field(alias="__template_azureCloud")
+    ] = None
+    r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
     certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
 
@@ -808,6 +994,7 @@ class AzureBlobAuthTypeManual(BaseModel):
         optional_fields = set(
             [
                 "authType",
+                "__template_connectionString",
                 "outputName",
                 "path",
                 "extractors",
@@ -819,11 +1006,16 @@ class AzureBlobAuthTypeManual(BaseModel):
                 "parquetChunkDownloadTimeout",
                 "textSecret",
                 "storageAccountName",
+                "__template_storageAccountName",
                 "tenantId",
+                "__template_tenantId",
                 "clientId",
+                "__template_clientId",
                 "clientTextSecret",
                 "endpointSuffix",
+                "__template_endpointSuffix",
                 "azureCloud",
+                "__template_azureCloud",
                 "certificate",
                 "__template_containerName",
                 "__template_path",

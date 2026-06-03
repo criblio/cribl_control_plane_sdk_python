@@ -254,7 +254,7 @@ class GroupsSDK(BaseSDK):
         Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
-        :param id:
+        :param id: Unique identifier.
         :param cloud:
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
@@ -412,7 +412,7 @@ class GroupsSDK(BaseSDK):
         Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
-        :param id:
+        :param id: Unique identifier.
         :param cloud:
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
@@ -774,11 +774,11 @@ class GroupsSDK(BaseSDK):
     ) -> models.CountedConfigGroup:
         r"""Update a Worker Group, Outpost Group, or Edge Fleet
 
-        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/>- <code>configVersion</code><br/>- <code>deployingWorkerCount</code><br/>- <code>incompatibleWorkerCount</code><br/>- <code>workerCount</code><br/>- <code>lookupDeployments</code>.
+        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
-        :param id:
+        :param id: Unique identifier.
         :param cloud:
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
@@ -953,11 +953,11 @@ class GroupsSDK(BaseSDK):
     ) -> models.CountedConfigGroup:
         r"""Update a Worker Group, Outpost Group, or Edge Fleet
 
-        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/>- <code>configVersion</code><br/>- <code>deployingWorkerCount</code><br/>- <code>incompatibleWorkerCount</code><br/>- <code>workerCount</code><br/>- <code>lookupDeployments</code>.
+        Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
-        :param id:
+        :param id: Unique identifier.
         :param cloud:
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.

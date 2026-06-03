@@ -203,6 +203,7 @@ if TYPE_CHECKING:
         CollectorSplunkType,
         CollectorSplunkTypedDict,
     )
+    from .collectortype import CollectorType
     from .collectrequestparamconfhealthcheckcollectmethodpost import (
         CollectRequestParamConfHealthCheckCollectMethodPost,
         CollectRequestParamConfHealthCheckCollectMethodPostTypedDict,
@@ -2814,6 +2815,7 @@ if TYPE_CHECKING:
         GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict,
     )
     from .getcribllakedatasetbylakeidop import (
+        GetCriblLakeDatasetByLakeIDFormat,
         GetCriblLakeDatasetByLakeIDRequest,
         GetCriblLakeDatasetByLakeIDRequestTypedDict,
     )
@@ -7812,6 +7814,7 @@ __all__ = [
     "CollectorSplunk",
     "CollectorSplunkType",
     "CollectorSplunkTypedDict",
+    "CollectorType",
     "CollectorTypedDict",
     "Commit",
     "CommitTypedDict",
@@ -10155,6 +10158,7 @@ __all__ = [
     "GetConfigGroupConfigVersionByProductAndIDRequestTypedDict",
     "GetCriblLakeDatasetByLakeIDAndIDRequest",
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
+    "GetCriblLakeDatasetByLakeIDFormat",
     "GetCriblLakeDatasetByLakeIDRequest",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict",
     "GetDatabaseConnectionConfigByIDRequest",
@@ -14501,6 +14505,7 @@ _dynamic_imports: dict[str, str] = {
     "CollectorSplunk": ".collectorsplunk",
     "CollectorSplunkType": ".collectorsplunk",
     "CollectorSplunkTypedDict": ".collectorsplunk",
+    "CollectorType": ".collectortype",
     "CollectRequestParamConfHealthCheckCollectMethodPost": ".collectrequestparamconfhealthcheckcollectmethodpost",
     "CollectRequestParamConfHealthCheckCollectMethodPostTypedDict": ".collectrequestparamconfhealthcheckcollectmethodpost",
     "CollectRequestParamConfRestCollectMethodGet": ".collectrequestparamconfrestcollectmethodget",
@@ -16837,6 +16842,7 @@ _dynamic_imports: dict[str, str] = {
     "GetConfigGroupConfigVersionByProductAndIDRequestTypedDict": ".getconfiggroupconfigversionbyproductandidop",
     "GetCriblLakeDatasetByLakeIDAndIDRequest": ".getcribllakedatasetbylakeidandidop",
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".getcribllakedatasetbylakeidandidop",
+    "GetCriblLakeDatasetByLakeIDFormat": ".getcribllakedatasetbylakeidop",
     "GetCriblLakeDatasetByLakeIDRequest": ".getcribllakedatasetbylakeidop",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict": ".getcribllakedatasetbylakeidop",
     "GetDatabaseConnectionConfigByIDRequest": ".getdatabaseconnectionconfigbyidop",

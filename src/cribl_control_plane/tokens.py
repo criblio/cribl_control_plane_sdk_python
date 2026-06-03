@@ -21,7 +21,7 @@ class Tokens(BaseSDK):
     ) -> models.CreateAuthLoginResponse:
         r"""Log in and fetch an authentication token
 
-        This endpoint is unavailable on Cribl.Cloud.Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
+        This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 
         :param password:
         :param username:
@@ -121,7 +121,7 @@ class Tokens(BaseSDK):
     ) -> models.CreateAuthLoginResponse:
         r"""Log in and fetch an authentication token
 
-        This endpoint is unavailable on Cribl.Cloud.Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
+        This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 
         :param password:
         :param username:

@@ -11,6 +11,7 @@ class CountedBooleanTypedDict(TypedDict):
     count: NotRequired[int]
     r"""number of items present in the items array"""
     items: NotRequired[List[bool]]
+    r"""List of items in this response."""
 
 
 class CountedBoolean(BaseModel):
@@ -18,6 +19,7 @@ class CountedBoolean(BaseModel):
     r"""number of items present in the items array"""
 
     items: Optional[List[bool]] = None
+    r"""List of items in this response."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

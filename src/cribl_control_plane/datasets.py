@@ -15,11 +15,12 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         storage_location_id: Optional[str] = None,
-        format_: Optional[str] = None,
+        format_: Optional[models.GetCriblLakeDatasetByLakeIDFormat] = None,
         exclude_ddss: Optional[bool] = None,
         exclude_deleted: Optional[bool] = None,
         exclude_internal: Optional[bool] = None,
         exclude_byos: Optional[bool] = None,
+        include_metrics: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -36,6 +37,7 @@ class Datasets(BaseSDK):
         :param exclude_deleted: Exclude deleted datasets from the response.
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
+        :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -59,6 +61,7 @@ class Datasets(BaseSDK):
             exclude_deleted=exclude_deleted,
             exclude_internal=exclude_internal,
             exclude_byos=exclude_byos,
+            include_metrics=include_metrics,
         )
 
         req = self._build_request(
@@ -125,11 +128,12 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         storage_location_id: Optional[str] = None,
-        format_: Optional[str] = None,
+        format_: Optional[models.GetCriblLakeDatasetByLakeIDFormat] = None,
         exclude_ddss: Optional[bool] = None,
         exclude_deleted: Optional[bool] = None,
         exclude_internal: Optional[bool] = None,
         exclude_byos: Optional[bool] = None,
+        include_metrics: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -146,6 +150,7 @@ class Datasets(BaseSDK):
         :param exclude_deleted: Exclude deleted datasets from the response.
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
+        :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -169,6 +174,7 @@ class Datasets(BaseSDK):
             exclude_deleted=exclude_deleted,
             exclude_internal=exclude_internal,
             exclude_byos=exclude_byos,
+            include_metrics=include_metrics,
         )
 
         req = self._build_request_async(
@@ -549,6 +555,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id: str,
+        include_metrics: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -560,6 +567,7 @@ class Datasets(BaseSDK):
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to get.
         :param id: The <code>id</code> of the Lake Dataset to get.
+        :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -578,6 +586,7 @@ class Datasets(BaseSDK):
         request = models.GetCriblLakeDatasetByLakeIDAndIDRequest(
             lake_id=lake_id,
             id=id,
+            include_metrics=include_metrics,
         )
 
         req = self._build_request(
@@ -644,6 +653,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id: str,
+        include_metrics: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -655,6 +665,7 @@ class Datasets(BaseSDK):
 
         :param lake_id: The <code>id</code> of the Lake that contains the Lake Dataset to get.
         :param id: The <code>id</code> of the Lake Dataset to get.
+        :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -673,6 +684,7 @@ class Datasets(BaseSDK):
         request = models.GetCriblLakeDatasetByLakeIDAndIDRequest(
             lake_id=lake_id,
             id=id,
+            include_metrics=include_metrics,
         )
 
         req = self._build_request_async(

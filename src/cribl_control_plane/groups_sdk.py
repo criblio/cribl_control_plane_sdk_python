@@ -254,7 +254,7 @@ class GroupsSDK(BaseSDK):
         Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
-        :param id:
+        :param id: Unique identifier.
         :param cloud:
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
@@ -412,7 +412,7 @@ class GroupsSDK(BaseSDK):
         Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
 
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
-        :param id:
+        :param id: Unique identifier.
         :param cloud:
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
@@ -778,7 +778,7 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
-        :param id:
+        :param id: Unique identifier.
         :param cloud:
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
@@ -957,7 +957,7 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
-        :param id:
+        :param id: Unique identifier.
         :param cloud:
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.

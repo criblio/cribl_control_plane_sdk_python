@@ -36,6 +36,8 @@ class GetCriblLakeDatasetByLakeIDRequestTypedDict(TypedDict):
     r"""Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response."""
     exclude_byos: NotRequired[bool]
     r"""Exclude BYOS (Bring Your Own Storage) datasets from the response."""
+    include_metrics: NotRequired[bool]
+    r"""Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license."""
 
 
 class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
@@ -88,6 +90,13 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
     ] = None
     r"""Exclude BYOS (Bring Your Own Storage) datasets from the response."""
 
+    include_metrics: Annotated[
+        Optional[bool],
+        pydantic.Field(alias="includeMetrics"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license."""
+
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
@@ -107,6 +116,7 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
                 "excludeDeleted",
                 "excludeInternal",
                 "excludeBYOS",
+                "includeMetrics",
             ]
         )
         serialized = handler(self)

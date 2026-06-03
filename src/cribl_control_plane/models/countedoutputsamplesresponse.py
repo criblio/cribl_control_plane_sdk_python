@@ -12,6 +12,7 @@ class CountedOutputSamplesResponseTypedDict(TypedDict):
     count: NotRequired[int]
     r"""number of items present in the items array"""
     items: NotRequired[List[OutputSamplesResponseTypedDict]]
+    r"""List of items in this response."""
 
 
 class CountedOutputSamplesResponse(BaseModel):
@@ -19,6 +20,7 @@ class CountedOutputSamplesResponse(BaseModel):
     r"""number of items present in the items array"""
 
     items: Optional[List[OutputSamplesResponse]] = None
+    r"""List of items in this response."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

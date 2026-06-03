@@ -14,6 +14,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class PackInstallInfoTypedDict(TypedDict):
     id: str
+    r"""Unique identifier."""
     source: str
     author: NotRequired[str]
     collectors: NotRequired[float]
@@ -34,6 +35,7 @@ class PackInstallInfoTypedDict(TypedDict):
 
 class PackInstallInfo(BaseModel):
     id: str
+    r"""Unique identifier."""
 
     source: str
 

@@ -10,4 +10,5 @@ class FormatOptionsCriblLakeDataset(str, Enum, metaclass=utils.OpenEnumMeta):
 
     DDSS = "ddss"
     JSON = "json"
+    NETSKOPE = "netskope"
     PARQUET = "parquet"

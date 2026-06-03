@@ -31,7 +31,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.collectors.list(collector_type="<value>")
+    res = ccp_client.collectors.list()
 
     # Handle response
     print(res)
@@ -42,7 +42,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `collector_type`                                                    | *Optional[str]*                                                     | :heavy_minus_sign:                                                  | Filter by collector type                                            |
+| `collector_type`                                                    | [Optional[models.CollectorType]](../../models/collectortype.md)     | :heavy_minus_sign:                                                  | Filter by collector type                                            |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -371,7 +371,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Collector.<br><br>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br><br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
+Update the specified Collector.<br/><br/>Provide a complete representation of the Collector that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Collector.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Collector might not function as expected.
 
 ### Example Usage: CollectorExamplesAzureBlob
 

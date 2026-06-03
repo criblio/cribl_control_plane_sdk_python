@@ -428,7 +428,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [System.Captures](docs/sdks/captures/README.md)
 
-* [create](docs/sdks/captures/README.md#create) - Capture live incoming data
+* [create](docs/sdks/captures/README.md#create) - Capture live data
 
 ### [System.Settings](docs/sdks/settings/README.md)
 
@@ -436,7 +436,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [System.Settings.Cribl](docs/sdks/cribl/README.md)
 
-* [list](docs/sdks/cribl/README.md#list) - Get Cribl system settings
+* [list](docs/sdks/cribl/README.md#list) - Get system settings
 * [update](docs/sdks/cribl/README.md#update) - Update system settings
 
 ### [Versions.Branches](docs/sdks/branches/README.md)

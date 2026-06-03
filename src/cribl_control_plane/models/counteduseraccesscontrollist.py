@@ -12,6 +12,7 @@ class CountedUserAccessControlListTypedDict(TypedDict):
     count: NotRequired[int]
     r"""number of items present in the items array"""
     items: NotRequired[List[UserAccessControlListTypedDict]]
+    r"""List of items in this response."""
 
 
 class CountedUserAccessControlList(BaseModel):
@@ -19,6 +20,7 @@ class CountedUserAccessControlList(BaseModel):
     r"""number of items present in the items array"""
 
     items: Optional[List[UserAccessControlList]] = None
+    r"""List of items in this response."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

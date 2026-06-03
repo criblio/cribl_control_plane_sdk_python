@@ -428,7 +428,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [System.Captures](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md)
 
-* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md#create) - Capture live incoming data
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/captures/README.md#create) - Capture live data
 
 ### [System.Settings](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/settings/README.md)
 
@@ -436,7 +436,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [System.Settings.Cribl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md)
 
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#list) - Get Cribl system settings
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#list) - Get system settings
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/cribl/README.md#update) - Update system settings
 
 ### [Versions.Branches](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/branches/README.md)

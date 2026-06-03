@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.2-alpha.1780354960019-ae472fcb
+  version: 4.18.2-alpha.1780441376518-5b44f9d7
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -13232,6 +13232,7 @@ components:
         - macros
         - notebooks
         - notebook-templates
+        - apps
       x-speakeasy-unknown-values: allow
     ResourcePolicy:
       type: object
@@ -13274,6 +13275,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/UserAccessControlList"
     CountedDatabaseConnectionConfig:
@@ -13284,6 +13286,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/DatabaseConnectionConfig"
     DatabaseConnectionType:
@@ -13336,6 +13339,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/FunctionResponse"
     InputCollection:
@@ -28091,6 +28095,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/InputSplunkHec"
     AddHecTokenRequest:
@@ -28129,6 +28134,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             type: string
     CountedJobInfo:
@@ -28139,6 +28145,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/JobInfo"
     RunnableJobCollection:
@@ -28603,6 +28610,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/InputResponse"
     Notification:
@@ -50517,6 +50525,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/OutputResponse"
     OutputResponse:
@@ -50622,6 +50631,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/OutputSamplesResponse"
     OutputSamplesResponse:
@@ -50644,6 +50654,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/OutputTestResponse"
     OutputTestResponse:
@@ -50690,6 +50701,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/Pipeline"
     Pipeline:
@@ -50762,6 +50774,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/Routes"
     RouteComment:
@@ -50928,6 +50941,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/InputStatus"
     HealthCountType:
@@ -51026,6 +51040,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/OutputStatus"
     OutputStatus:
@@ -51053,6 +51068,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/SavedJobResponse"
     SavedJobResponseEnrichedFields:
@@ -51622,6 +51638,7 @@ components:
             configuration. Automatically populated and returned in responses.
         id:
           type: string
+          description: Unique identifier.
         incompatibleWorkerCount:
           type: integer
           description: "Number of Workers or Nodes running a Cribl version that is
@@ -51716,6 +51733,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/ConfigGroup"
     GroupCreateRequest:
@@ -51732,6 +51750,7 @@ components:
           $ref: "#/components/schemas/EstimatedIngestRateOptionsConfigGroup"
         id:
           type: string
+          description: Unique identifier.
         inherits:
           type: string
           description: The <code>id</code> of the parent Edge Fleet. If provided, this
@@ -51842,6 +51861,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/TeamAccessControlList"
     TeamAccessControlList:
@@ -51870,6 +51890,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/CriblLakeDataset"
     CacheConnectionBackfillStatus:
@@ -52256,6 +52277,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             type: number
     CountedMasterWorkerEntry:
@@ -52266,6 +52288,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/MasterWorkerEntry"
     ConnectionProtocol:
@@ -52622,6 +52645,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/RestartResponse"
     RestartResponse:
@@ -52658,6 +52682,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/DistributedSummary"
     DistributedSummary:
@@ -52770,6 +52795,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/PackInstallInfo"
     InstallWarnings:
@@ -52797,6 +52823,7 @@ components:
             type: string
         id:
           type: string
+          description: Unique identifier.
         inputs:
           type: number
         isDisabled:
@@ -52860,6 +52887,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/PackUninstallInfo"
     PackUninstallInfo:
@@ -52880,6 +52908,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/PackInfo"
     PackInfo:
@@ -52903,6 +52932,7 @@ components:
             type: string
         id:
           type: string
+          description: Unique identifier.
         inputs:
           type: number
         isDisabled:
@@ -52953,6 +52983,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitCommitSummary"
     GitFileRename:
@@ -53011,6 +53042,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitCountResult"
     GitCountResult:
@@ -53028,6 +53060,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitDiffResult"
     DiffFiles:
@@ -53123,6 +53156,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitFilesResponse"
     GitFile:
@@ -53161,6 +53195,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitRevertResult"
     GitRevertResult:
@@ -53201,6 +53236,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitShowResult"
     GitShowResult:
@@ -53221,6 +53257,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/SystemSettingsConf"
     EmptyObject:
@@ -53383,6 +53420,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/SystemRestartResponse"
     SystemRestartResponse:
@@ -53402,6 +53440,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/BranchInfo"
     BranchInfo:
@@ -53409,6 +53448,7 @@ components:
       properties:
         id:
           type: string
+          description: Unique identifier.
       required:
         - id
     GitCommitBody:
@@ -53439,6 +53479,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitInfo"
     GitInfo:
@@ -53463,6 +53504,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitLogResult"
     GitLogResult:
@@ -53490,6 +53532,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitStatusResult"
     GitStatusResult:
@@ -53572,6 +53615,7 @@ components:
           description: number of items present in the items array
         items:
           type: array
+          description: List of items in this response.
           items:
             type: boolean
     AdditionalPropertiesTypeEnrichedFieldsSavedState:
@@ -67519,6 +67563,14 @@ paths:
           schema:
             type: boolean
           description: Exclude BYOS (Bring Your Own Storage) datasets from the response.
+        - name: includeMetrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to include storage metrics for each Lake
+            Dataset. Otherwise, <code>false</code> (default). Requires a Cribl
+            Lake metrics license.
     post:
       operationId: createCriblLakeDatasetByLakeId
       tags:
@@ -67607,6 +67659,14 @@ paths:
           schema:
             type: string
           description: The <code>id</code> of the Lake Dataset to get.
+        - name: includeMetrics
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Set to <code>true</code> to include storage metrics for each Lake
+            Dataset. Otherwise, <code>false</code> (default). Requires a Cribl
+            Lake metrics license.
     patch:
       operationId: updateCriblLakeDatasetByLakeIdAndId
       tags:

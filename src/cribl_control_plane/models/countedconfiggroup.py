@@ -12,6 +12,7 @@ class CountedConfigGroupTypedDict(TypedDict):
     count: NotRequired[int]
     r"""number of items present in the items array"""
     items: NotRequired[List[ConfigGroupTypedDict]]
+    r"""List of items in this response."""
 
 
 class CountedConfigGroup(BaseModel):
@@ -19,6 +20,7 @@ class CountedConfigGroup(BaseModel):
     r"""number of items present in the items array"""
 
     items: Optional[List[ConfigGroup]] = None
+    r"""List of items in this response."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

@@ -12,6 +12,7 @@ class CountedSavedJobResponseTypedDict(TypedDict):
     count: NotRequired[int]
     r"""number of items present in the items array"""
     items: NotRequired[List[SavedJobResponseTypedDict]]
+    r"""List of items in this response."""
 
 
 class CountedSavedJobResponse(BaseModel):
@@ -19,6 +20,7 @@ class CountedSavedJobResponse(BaseModel):
     r"""number of items present in the items array"""
 
     items: Optional[List[SavedJobResponse]] = None
+    r"""List of items in this response."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

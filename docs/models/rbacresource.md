@@ -23,3 +23,4 @@ value = RbacResource.GROUPS
 | `MACROS`             | macros               |
 | `NOTEBOOKS`          | notebooks            |
 | `NOTEBOOK_TEMPLATES` | notebook-templates   |
+| `APPS`               | apps                 |

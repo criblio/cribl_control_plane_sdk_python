@@ -12,6 +12,7 @@ class CountedDistributedSummaryTypedDict(TypedDict):
     count: NotRequired[int]
     r"""number of items present in the items array"""
     items: NotRequired[List[DistributedSummaryTypedDict]]
+    r"""List of items in this response."""
 
 
 class CountedDistributedSummary(BaseModel):
@@ -19,6 +20,7 @@ class CountedDistributedSummary(BaseModel):
     r"""number of items present in the items array"""
 
     items: Optional[List[DistributedSummary]] = None
+    r"""List of items in this response."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

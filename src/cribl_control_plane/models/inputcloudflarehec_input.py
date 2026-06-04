@@ -36,6 +36,8 @@ class InputCloudflareHecAuthTokenTypedDict(TypedDict):
     r"""Select Secret to use a text secret to authenticate"""
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    token: NotRequired[str]
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
     enabled: NotRequired[bool]
     description: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
@@ -53,6 +55,9 @@ class InputCloudflareHecAuthToken(BaseModel):
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored text secret"""
+
+    token: Optional[str] = None
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     enabled: Optional[bool] = None
 
@@ -81,6 +86,7 @@ class InputCloudflareHecAuthToken(BaseModel):
             [
                 "authType",
                 "tokenSecret",
+                "token",
                 "enabled",
                 "description",
                 "allowedIndexesAtToken",

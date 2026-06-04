@@ -14,9 +14,12 @@ class WorkersTypeSystemSettingsConfTypedDict(TypedDict):
     minimum: float
     enable_heap_snapshots: NotRequired[bool]
     load_throttle_perc: NotRequired[float]
+    restart_unresponsive_processes: NotRequired[bool]
     startup_max_conns: NotRequired[float]
     startup_throttle_timeout: NotRequired[float]
     v8_single_thread: NotRequired[bool]
+    worker_process_config_update_concurrency: NotRequired[float]
+    worker_process_reload_timeout: NotRequired[float]
 
 
 class WorkersTypeSystemSettingsConf(BaseModel):
@@ -34,6 +37,10 @@ class WorkersTypeSystemSettingsConf(BaseModel):
         Optional[float], pydantic.Field(alias="loadThrottlePerc")
     ] = None
 
+    restart_unresponsive_processes: Annotated[
+        Optional[bool], pydantic.Field(alias="restartUnresponsiveProcesses")
+    ] = None
+
     startup_max_conns: Annotated[
         Optional[float], pydantic.Field(alias="startupMaxConns")
     ] = None
@@ -46,15 +53,26 @@ class WorkersTypeSystemSettingsConf(BaseModel):
         Optional[bool], pydantic.Field(alias="v8SingleThread")
     ] = None
 
+    worker_process_config_update_concurrency: Annotated[
+        Optional[float], pydantic.Field(alias="workerProcessConfigUpdateConcurrency")
+    ] = None
+
+    worker_process_reload_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="workerProcessReloadTimeout")
+    ] = None
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
             [
                 "enableHeapSnapshots",
                 "loadThrottlePerc",
+                "restartUnresponsiveProcesses",
                 "startupMaxConns",
                 "startupThrottleTimeout",
                 "v8SingleThread",
+                "workerProcessConfigUpdateConcurrency",
+                "workerProcessReloadTimeout",
             ]
         )
         serialized = handler(self)

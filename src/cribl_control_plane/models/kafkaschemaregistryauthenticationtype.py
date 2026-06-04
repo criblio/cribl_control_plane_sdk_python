@@ -24,7 +24,7 @@ class KafkaSchemaRegistryAuthenticationTypeTypedDict(TypedDict):
     max_retries: NotRequired[float]
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
     auth: NotRequired[AuthTypeTypedDict]
-    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+    r"""Credentials to use when authenticating with the schema registry"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     template_schema_registry_url: NotRequired[str]
     r"""Binds 'schemaRegistryURL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'schemaRegistryURL' at runtime."""
@@ -52,7 +52,7 @@ class KafkaSchemaRegistryAuthenticationType(BaseModel):
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
 
     auth: Optional[AuthType] = None
-    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+    r"""Credentials to use when authenticating with the schema registry"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 

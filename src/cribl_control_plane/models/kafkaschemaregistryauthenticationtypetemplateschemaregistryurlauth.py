@@ -26,7 +26,7 @@ class KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDic
     max_retries: NotRequired[float]
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
     auth: NotRequired[AuthTypeTypedDict]
-    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+    r"""Credentials to use when authenticating with the schema registry"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
     default_key_schema_id: NotRequired[float]
     r"""Used when __keySchemaIdOut is not present, to transform key values, leave blank if key transformation is not required by default."""
@@ -58,7 +58,7 @@ class KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth(BaseMod
     r"""Maximum number of times to try fetching schemas from the Schema Registry"""
 
     auth: Optional[AuthType] = None
-    r"""Credentials to use when authenticating with the schema registry using basic HTTP authentication"""
+    r"""Credentials to use when authenticating with the schema registry"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
 

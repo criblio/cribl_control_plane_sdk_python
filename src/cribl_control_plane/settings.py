@@ -34,7 +34,7 @@ class Settings(BaseSDK):
     ) -> models.CountedSystemRestartResponse:
         r"""Restart the Cribl server
 
-        Restart the Cribl server.Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
+        Restart the Cribl server. Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -121,7 +121,7 @@ class Settings(BaseSDK):
     ) -> models.CountedSystemRestartResponse:
         r"""Restart the Cribl server
 
-        Restart the Cribl server.Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
+        Restart the Cribl server. Useful for applying configuration changes that require a full process restart, such as changes to system-level settings that cannot be applied by reloading.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

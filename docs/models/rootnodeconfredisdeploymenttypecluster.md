@@ -1,4 +1,4 @@
-# RedisDeploymentTypeClusterRootNode
+# RootNodeConfRedisDeploymentTypeCluster
 
 
 ## Fields

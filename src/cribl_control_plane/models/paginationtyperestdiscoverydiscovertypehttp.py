@@ -299,6 +299,10 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderLinkTypedDict(Typ
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to retrieve per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -344,6 +348,14 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderLink(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to retrieve per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -382,6 +394,8 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderLink(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -439,6 +453,10 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderTypedDict(TypedDi
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to retrieve per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -489,6 +507,14 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeader(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to retrieve per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -528,6 +554,8 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeader(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -585,6 +613,10 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyTypedDict(TypedDict
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to retrieve per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -633,6 +665,14 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBody(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to retrieve per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -672,6 +712,8 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBody(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -695,6 +737,8 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBody(BaseModel):
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    max_pages: NotRequired[float]
+    r"""Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
     r"""JavaScript expression used to determine when the last page has been reached. The values tested by this expression must be in the Response attributes section."""
     next_relation_attribute: NotRequired[str]
@@ -709,6 +753,10 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeNoneTypedDict(TypedDict):
     r"""Query string parameter that sets the number of records retrieved per request. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit: NotRequired[float]
     r"""Maximum number of records to retrieve per request"""
+    total_record_field: NotRequired[str]
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+    zero_indexed: NotRequired[bool]
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
     page_field: NotRequired[str]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     page: NotRequired[float]
@@ -723,6 +771,9 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeNoneTypedDict(TypedDict):
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+
+    max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
+    r"""Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
 
     last_page_expr: Annotated[Optional[str], pydantic.Field(alias="lastPageExpr")] = (
         None
@@ -751,6 +802,14 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeNone(BaseModel):
     limit: Optional[float] = None
     r"""Maximum number of records to retrieve per request"""
 
+    total_record_field: Annotated[
+        Optional[str], pydantic.Field(alias="totalRecordField")
+    ] = None
+    r"""Name of the attribute in the response that contains the total number of records for the query"""
+
+    zero_indexed: Annotated[Optional[bool], pydantic.Field(alias="zeroIndexed")] = None
+    r"""Enable to indicate that the first page in the requested data is at index 0. Disabled by default, which indicates index 1."""
+
     page_field: Annotated[Optional[str], pydantic.Field(alias="pageField")] = None
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
 
@@ -783,6 +842,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeNone(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "maxPages",
                 "lastPageExpr",
                 "nextRelationAttribute",
                 "curRelationAttribute",
@@ -790,6 +850,8 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeNone(BaseModel):
                 "offset",
                 "limitField",
                 "limit",
+                "totalRecordField",
+                "zeroIndexed",
                 "pageField",
                 "page",
                 "sizeField",
@@ -816,10 +878,10 @@ PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
     Union[
         RestDiscoveryDiscoverTypeHTTPPaginationTypeNoneTypedDict,
         RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderLinkTypedDict,
-        RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyTypedDict,
-        RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderTypedDict,
         RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestOffsetTypedDict,
         RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestPageTypedDict,
+        RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyTypedDict,
+        RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderTypedDict,
     ],
 )
 

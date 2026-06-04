@@ -5,6 +5,10 @@ from .authrequestheaderconfhealthcheckauthenticationlogin import (
     AuthRequestHeaderConfHealthCheckAuthenticationLogin,
     AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict,
 )
+from .authrequestparamconfhealthcheckauthenticationoauth import (
+    AuthRequestParamConfHealthCheckAuthenticationOauth,
+    AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict,
+)
 from .collectrequestparamconfhealthcheckcollectmethodpost import (
     CollectRequestParamConfHealthCheckCollectMethodPost,
     CollectRequestParamConfHealthCheckCollectMethodPostTypedDict,
@@ -196,8 +200,32 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationNoneRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
+    ]
+    r"""Optional authentication request headers."""
+    client_secret_param_name: NotRequired[str]
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    auth_request_params: NotRequired[
+        List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -253,10 +281,54 @@ class HealthCheckAuthenticationNone(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationLogin]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+    r"""Optional authentication request headers."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    auth_request_params: Annotated[
+        Optional[List[AuthRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
@@ -305,7 +377,17 @@ class HealthCheckAuthenticationNone(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "username",
+                "password",
+                "credentialsSecret",
+                "loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -367,6 +449,8 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNoneTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -396,6 +480,11 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNone(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -434,6 +523,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNone(
                 "discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -484,6 +574,8 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeListTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -514,6 +606,11 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeList(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -549,6 +646,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeList(
                 "discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -589,7 +687,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSONTy
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
     discover_method: NotRequired[
@@ -619,7 +717,7 @@ class HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSON(
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
@@ -1124,9 +1222,9 @@ HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTP = Annot
 HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict = TypeAliasType(
     "HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict",
     Union[
+        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -1415,8 +1513,32 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
+    ]
+    r"""Optional authentication request headers."""
+    client_secret_param_name: NotRequired[str]
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    auth_request_params: NotRequired[
+        List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -1475,10 +1597,54 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationLogin]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+    r"""Optional authentication request headers."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    auth_request_params: Annotated[
+        Optional[List[AuthRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
@@ -1530,7 +1696,17 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "username",
+                "password",
+                "credentialsSecret",
+                "loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -1594,6 +1770,8 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -1621,6 +1799,11 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNone(BaseModel
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -1659,6 +1842,7 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNone(BaseModel
                 "discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -1711,6 +1895,8 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeListTypedDict(
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -1739,6 +1925,11 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeList(BaseModel
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -1774,6 +1965,7 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeList(BaseModel
                 "discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -1816,7 +2008,7 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
     discover_method: NotRequired[
@@ -1844,7 +2036,7 @@ class HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSON(BaseModel
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
@@ -2349,9 +2541,9 @@ HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
 HealthCheckCollectMethodPostDiscoveryTypedDict = TypeAliasType(
     "HealthCheckCollectMethodPostDiscoveryTypedDict",
     Union[
+        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -2636,8 +2828,32 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
+    ]
+    r"""Optional authentication request headers."""
+    client_secret_param_name: NotRequired[str]
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    auth_request_params: NotRequired[
+        List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -2699,10 +2915,54 @@ class HealthCheckCollectMethodPost(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationLogin]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+    r"""Optional authentication request headers."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    auth_request_params: Annotated[
+        Optional[List[AuthRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
@@ -2752,7 +3012,17 @@ class HealthCheckCollectMethodPost(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "username",
+                "password",
+                "credentialsSecret",
+                "loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -2831,6 +3101,8 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNoneTypedDict(
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -2858,6 +3130,11 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNone(BaseModel)
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -2896,6 +3173,7 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNone(BaseModel)
                 "discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -2948,6 +3226,8 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeListTypedDict(
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -2976,6 +3256,11 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeList(BaseModel)
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -3011,6 +3296,7 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeList(BaseModel)
                 "discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -3053,7 +3339,7 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSONTypedDict(
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
     discover_method: NotRequired[
@@ -3081,7 +3367,7 @@ class HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSON(BaseModel)
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
@@ -3584,9 +3870,9 @@ HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
 HealthCheckCollectMethodGetDiscoveryTypedDict = TypeAliasType(
     "HealthCheckCollectMethodGetDiscoveryTypedDict",
     Union[
+        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -3871,8 +4157,32 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodGetRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
+    ]
+    r"""Optional authentication request headers."""
+    client_secret_param_name: NotRequired[str]
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    auth_request_params: NotRequired[
+        List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -3934,10 +4244,54 @@ class HealthCheckCollectMethodGet(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationLogin]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+    r"""Optional authentication request headers."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    auth_request_params: Annotated[
+        Optional[List[AuthRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
@@ -3987,7 +4341,17 @@ class HealthCheckCollectMethodGet(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "username",
+                "password",
+                "credentialsSecret",
+                "loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -4010,15 +4374,15 @@ HealthCheckCollectorConfTypedDict = TypeAliasType(
     "HealthCheckCollectorConfTypedDict",
     Union[
         HealthCheckAuthenticationNoneTypedDict,
-        HealthCheckCollectMethodGetTypedDict,
-        HealthCheckCollectMethodPostTypedDict,
-        HealthCheckCollectMethodPostWithBodyTypedDict,
-        HealthCheckAuthenticationBasicSecretTypedDict,
         HealthCheckAuthenticationBasicTypedDict,
+        HealthCheckAuthenticationBasicSecretTypedDict,
+        HealthCheckAuthenticationLoginTypedDict,
         HealthCheckAuthenticationLoginSecretTypedDict,
         HealthCheckAuthenticationOauthTypedDict,
         HealthCheckAuthenticationOauthSecretTypedDict,
-        HealthCheckAuthenticationLoginTypedDict,
+        HealthCheckCollectMethodGetTypedDict,
+        HealthCheckCollectMethodPostTypedDict,
+        HealthCheckCollectMethodPostWithBodyTypedDict,
     ],
 )
 

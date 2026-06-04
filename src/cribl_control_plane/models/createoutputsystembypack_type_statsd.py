@@ -8885,6 +8885,8 @@ class CreateOutputSystemByPackStatsDestinationTypedDict(TypedDict):
     username: NotRequired[str]
     sql_username: NotRequired[str]
     password: NotRequired[str]
+    wait_for_async_inserts: NotRequired[bool]
+    concurrency: NotRequired[float]
 
 
 class CreateOutputSystemByPackStatsDestination(BaseModel):
@@ -8902,6 +8904,12 @@ class CreateOutputSystemByPackStatsDestination(BaseModel):
 
     password: Optional[str] = None
 
+    wait_for_async_inserts: Annotated[
+        Optional[bool], pydantic.Field(alias="waitForAsyncInserts")
+    ] = None
+
+    concurrency: Optional[float] = None
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -8913,6 +8921,8 @@ class CreateOutputSystemByPackStatsDestination(BaseModel):
                 "username",
                 "sqlUsername",
                 "password",
+                "waitForAsyncInserts",
+                "concurrency",
             ]
         )
         serialized = handler(self)
@@ -10645,6 +10655,7 @@ class CreateOutputSystemByPackFormatCriblLake(str, Enum, metaclass=utils.OpenEnu
     JSON = "json"
     PARQUET = "parquet"
     DDSS = "ddss"
+    NETSKOPE = "netskope"
 
 
 class CreateOutputSystemByPackOutputCriblLakeTypedDict(TypedDict):
@@ -19320,7 +19331,11 @@ class CreateOutputSystemByPackOutputSnmpTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every trap sent will incur a DNS lookup."""
+    enable_ip_spoofing: NotRequired[bool]
+    r"""Send SNMP Trap traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
     description: NotRequired[str]
+    max_record_size: NotRequired[float]
+    r"""MTU in bytes. The actual maximum SNMP Trap payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). Payloads exceeding this limit will be dropped."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
@@ -19353,7 +19368,17 @@ class CreateOutputSystemByPackOutputSnmp(BaseModel):
     ] = None
     r"""How often to resolve the destination hostname to an IP address. Ignored if all destinations are IP addresses. A value of 0 means every trap sent will incur a DNS lookup."""
 
+    enable_ip_spoofing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableIpSpoofing")
+    ] = None
+    r"""Send SNMP Trap traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
+
     description: Optional[str] = None
+
+    max_record_size: Annotated[
+        Optional[float], pydantic.Field(alias="maxRecordSize")
+    ] = None
+    r"""MTU in bytes. The actual maximum SNMP Trap payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). Payloads exceeding this limit will be dropped."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -19369,7 +19394,9 @@ class CreateOutputSystemByPackOutputSnmp(BaseModel):
                 "environment",
                 "streamtags",
                 "dnsResolvePeriodSec",
+                "enableIpSpoofing",
                 "description",
+                "maxRecordSize",
                 "__template_streamtags",
             ]
         )

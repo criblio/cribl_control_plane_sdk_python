@@ -21,7 +21,7 @@ class Summaries(BaseSDK):
     ) -> models.CountedDistributedSummary:
         r"""Get a summary of the deployment for a specific product.
 
-        Get a summary of the deployment for the specified Cribl product (Stream or Edge).<br/><br/>The summary includes a count of Worker Groups or Edge Fleets and resources such as Pipelines, Routes, Sources, and Destinations. For Distributed deployments, it also includes a count and statistics for Worker or Edge Nodes.
+        Get a summary of the deployment for the specified Cribl product (Stream or Edge).<br/><br/>The summary includes a count of Worker Groups or Edge Fleets and resources  such as Pipelines, Routes, Sources, and Destinations. For Distributed deployments,  it also includes a count and statistics for Worker or Edge Nodes.
 
         :param product: Name of the Cribl product to get the summary for.
         :param retries: Override the default retry configuration for this method
@@ -113,7 +113,7 @@ class Summaries(BaseSDK):
     ) -> models.CountedDistributedSummary:
         r"""Get a summary of the deployment for a specific product.
 
-        Get a summary of the deployment for the specified Cribl product (Stream or Edge).<br/><br/>The summary includes a count of Worker Groups or Edge Fleets and resources such as Pipelines, Routes, Sources, and Destinations. For Distributed deployments, it also includes a count and statistics for Worker or Edge Nodes.
+        Get a summary of the deployment for the specified Cribl product (Stream or Edge).<br/><br/>The summary includes a count of Worker Groups or Edge Fleets and resources  such as Pipelines, Routes, Sources, and Destinations. For Distributed deployments,  it also includes a count and statistics for Worker or Edge Nodes.
 
         :param product: Name of the Cribl product to get the summary for.
         :param retries: Override the default retry configuration for this method

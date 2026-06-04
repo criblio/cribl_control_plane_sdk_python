@@ -4,11 +4,62 @@
 
 ### Available Operations
 
-* [create](#create) - Create a Lake Dataset (Cribl.Cloud only)
 * [list](#list) - List all Lake Datasets (Cribl.Cloud only)
-* [delete](#delete) - Delete a Lake Dataset (Cribl.Cloud only)
+* [create](#create) - Create a Lake Dataset (Cribl.Cloud only)
 * [get](#get) - Get a Lake Dataset (Cribl.Cloud only)
 * [update](#update) - Update a Lake Dataset (Cribl.Cloud only)
+* [delete](#delete) - Delete a Lake Dataset (Cribl.Cloud only)
+
+## list
+
+Get a list of all Lake Datasets in the specified Lake (Cribl.Cloud only).
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="getCriblLakeDatasetByLakeId" method="get" path="/products/lake/lakes/{lakeId}/datasets" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.lakes.datasets.list(lake_id="<id>", storage_location_id="<id>", exclude_ddss=True, exclude_deleted=True, exclude_internal=False, exclude_byos=False)
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                                                                                                                  | Type                                                                                                                                                       | Required                                                                                                                                                   | Description                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lake_id`                                                                                                                                                  | *str*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                         | The <code>id</code> of the Lake that contains the Lake Datasets to list.                                                                                   |
+| `storage_location_id`                                                                                                                                      | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Filter datasets by storage location ID. Use <code>default</code> for default storage location.                                                             |
+| `format_`                                                                                                                                                  | [Optional[models.GetCriblLakeDatasetByLakeIDFormat]](../../models/getcribllakedatasetbylakeidformat.md)                                                    | :heavy_minus_sign:                                                                                                                                         | Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.                                                                          |
+| `exclude_ddss`                                                                                                                                             | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude DDSS format datasets from the response.                                                                                                            |
+| `exclude_deleted`                                                                                                                                          | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude deleted datasets from the response.                                                                                                                |
+| `exclude_internal`                                                                                                                                         | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.                                                            |
+| `exclude_byos`                                                                                                                                             | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude BYOS (Bring Your Own Storage) datasets from the response.                                                                                          |
+| `include_metrics`                                                                                                                                          | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license. |
+| `retries`                                                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                           | :heavy_minus_sign:                                                                                                                                         | Configuration to override the default retry behavior of the client.                                                                                        |
+
+### Response
+
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
 
 ## create
 
@@ -138,101 +189,6 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## list
-
-Get a list of all Lake Datasets in the specified Lake (Cribl.Cloud only).
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="getCriblLakeDatasetByLakeId" method="get" path="/products/lake/lakes/{lakeId}/datasets" -->
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    "https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.lakes.datasets.list(lake_id="<id>", storage_location_id="<id>", format_="<value>", exclude_ddss=True, exclude_deleted=True, exclude_internal=False, exclude_byos=False)
-
-    # Handle response
-    print(res)
-
-```
-
-### Parameters
-
-| Parameter                                                                                       | Type                                                                                            | Required                                                                                        | Description                                                                                     |
-| ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
-| `lake_id`                                                                                       | *str*                                                                                           | :heavy_check_mark:                                                                              | The <code>id</code> of the Lake that contains the Lake Datasets to list.                        |
-| `storage_location_id`                                                                           | *Optional[str]*                                                                                 | :heavy_minus_sign:                                                                              | Filter datasets by storage location ID. Use <code>default</code> for default storage location.  |
-| `format_`                                                                                       | *Optional[str]*                                                                                 | :heavy_minus_sign:                                                                              | Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.               |
-| `exclude_ddss`                                                                                  | *Optional[bool]*                                                                                | :heavy_minus_sign:                                                                              | Exclude DDSS format datasets from the response.                                                 |
-| `exclude_deleted`                                                                               | *Optional[bool]*                                                                                | :heavy_minus_sign:                                                                              | Exclude deleted datasets from the response.                                                     |
-| `exclude_internal`                                                                              | *Optional[bool]*                                                                                | :heavy_minus_sign:                                                                              | Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response. |
-| `exclude_byos`                                                                                  | *Optional[bool]*                                                                                | :heavy_minus_sign:                                                                              | Exclude BYOS (Bring Your Own Storage) datasets from the response.                               |
-| `retries`                                                                                       | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                | :heavy_minus_sign:                                                                              | Configuration to override the default retry behavior of the client.                             |
-
-### Response
-
-**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
-## delete
-
-Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="deleteCriblLakeDatasetByLakeIdAndId" method="delete" path="/products/lake/lakes/{lakeId}/datasets/{id}" -->
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    "https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.lakes.datasets.delete(lake_id="<id>", id="<id>")
-
-    # Handle response
-    print(res)
-
-```
-
-### Parameters
-
-| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
-| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
-| `lake_id`                                                                 | *str*                                                                     | :heavy_check_mark:                                                        | The <code>id</code> of the Lake that contains the Lake Dataset to delete. |
-| `id`                                                                      | *str*                                                                     | :heavy_check_mark:                                                        | The <code>id</code> of the Lake Dataset to delete.                        |
-| `retries`                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)          | :heavy_minus_sign:                                                        | Configuration to override the default retry behavior of the client.       |
-
-### Response
-
-**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
 ## get
 
 Get the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
@@ -261,11 +217,12 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                              | Type                                                                   | Required                                                               | Description                                                            |
-| ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `lake_id`                                                              | *str*                                                                  | :heavy_check_mark:                                                     | The <code>id</code> of the Lake that contains the Lake Dataset to get. |
-| `id`                                                                   | *str*                                                                  | :heavy_check_mark:                                                     | The <code>id</code> of the Lake Dataset to get.                        |
-| `retries`                                                              | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)       | :heavy_minus_sign:                                                     | Configuration to override the default retry behavior of the client.    |
+| Parameter                                                                                                                                                  | Type                                                                                                                                                       | Required                                                                                                                                                   | Description                                                                                                                                                |
+| ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `lake_id`                                                                                                                                                  | *str*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                         | The <code>id</code> of the Lake that contains the Lake Dataset to get.                                                                                     |
+| `id`                                                                                                                                                       | *str*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                         | The <code>id</code> of the Lake Dataset to get.                                                                                                            |
+| `include_metrics`                                                                                                                                          | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license. |
+| `retries`                                                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                           | :heavy_minus_sign:                                                                                                                                         | Configuration to override the default retry behavior of the client.                                                                                        |
 
 ### Response
 
@@ -370,6 +327,51 @@ with CriblControlPlane(
 | `storage_location_id`                                                                                                | *Optional[str]*                                                                                                      | :heavy_minus_sign:                                                                                                   | Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.         |
 | `view_name`                                                                                                          | *Optional[str]*                                                                                                      | :heavy_minus_sign:                                                                                                   | Name of the ClickHouse view for the Dataset on the Lakehouse.                                                        |
 | `retries`                                                                                                            | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                     | :heavy_minus_sign:                                                                                                   | Configuration to override the default retry behavior of the client.                                                  |
+
+### Response
+
+**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
+
+## delete
+
+Delete the specified Lake Dataset in the specified Lake (Cribl.Cloud only).
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="deleteCriblLakeDatasetByLakeIdAndId" method="delete" path="/products/lake/lakes/{lakeId}/datasets/{id}" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.lakes.datasets.delete(lake_id="<id>", id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                                 | Type                                                                      | Required                                                                  | Description                                                               |
+| ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `lake_id`                                                                 | *str*                                                                     | :heavy_check_mark:                                                        | The <code>id</code> of the Lake that contains the Lake Dataset to delete. |
+| `id`                                                                      | *str*                                                                     | :heavy_check_mark:                                                        | The <code>id</code> of the Lake Dataset to delete.                        |
+| `retries`                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)          | :heavy_minus_sign:                                                        | Configuration to override the default retry behavior of the client.       |
 
 ### Response
 

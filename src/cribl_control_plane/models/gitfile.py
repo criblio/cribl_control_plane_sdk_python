@@ -2,13 +2,15 @@
 
 from __future__ import annotations
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
-from typing_extensions import NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GitFileTypedDict(TypedDict):
     name: str
+    auto_included_in_commit: NotRequired[bool]
     children: NotRequired[List[GitFileTypedDict]]
     state: NotRequired[str]
 
@@ -16,13 +18,17 @@ class GitFileTypedDict(TypedDict):
 class GitFile(BaseModel):
     name: str
 
+    auto_included_in_commit: Annotated[
+        Optional[bool], pydantic.Field(alias="autoIncludedInCommit")
+    ] = None
+
     children: Optional[List[GitFile]] = None
 
     state: Optional[str] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["children", "state"])
+        optional_fields = set(["autoIncludedInCommit", "children", "state"])
         serialized = handler(self)
         m = {}
 
@@ -35,3 +41,9 @@ class GitFile(BaseModel):
                     m[k] = val
 
         return m
+
+
+try:
+    GitFile.model_rebuild()
+except NameError:
+    pass

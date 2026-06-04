@@ -139,12 +139,10 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
     min_task_size: NotRequired[str]
     r"""Limits the bundle size for small tasks. For example,
 
-
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
     max_task_size: NotRequired[str]
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
-
 
     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
     """
@@ -201,13 +199,11 @@ class RunnableJobCollectionRun(BaseModel):
     min_task_size: Annotated[Optional[str], pydantic.Field(alias="minTaskSize")] = None
     r"""Limits the bundle size for small tasks. For example,
 
-
     if your lower bundle size is 1MB, you can bundle up to five 200KB files into one task.
     """
 
     max_task_size: Annotated[Optional[str], pydantic.Field(alias="maxTaskSize")] = None
     r"""Limits the bundle size for files above the lower task bundle size. For example, if your upper bundle size is 10MB,
-
 
     you can bundle up to five 2MB files into one task. Files greater than this size will be assigned to individual tasks.
     """

@@ -8,7 +8,7 @@
 
 ## get
 
-This endpoint is unavailable on Cribl.Cloud.Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
+This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at https://docs.cribl.io/stream/api-tutorials/#criblcloud to get an Auth token for Cribl.Cloud.
 
 ### Example Usage
 

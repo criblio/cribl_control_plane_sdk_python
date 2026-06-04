@@ -22,7 +22,7 @@ class Health(BaseSDK):
     ) -> models.HealthServerStatus:
         r"""Get the health status of the server
 
-        Get the current health status of the server (Leader or Worker Node).  In Distributed deployments, requests routed to a Worker or Edge node using the [host context](https://docs.cribl.io/cribl-as-code/api#base-url-group-fleet-host) require a Bearer token for [authentication](https://docs.cribl.io/cribl-as-code/api-auth/).
+        Get the current health status of the server (Leader or Worker Node). In Distributed deployments, requests routed to a Worker or Edge node using the [host context](https://docs.cribl.io/cribl-as-code/api#base-url-group-fleet-host) require a Bearer token for [authentication](https://docs.cribl.io/cribl-as-code/api-auth/).
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -112,7 +112,7 @@ class Health(BaseSDK):
     ) -> models.HealthServerStatus:
         r"""Get the health status of the server
 
-        Get the current health status of the server (Leader or Worker Node).  In Distributed deployments, requests routed to a Worker or Edge node using the [host context](https://docs.cribl.io/cribl-as-code/api#base-url-group-fleet-host) require a Bearer token for [authentication](https://docs.cribl.io/cribl-as-code/api-auth/).
+        Get the current health status of the server (Leader or Worker Node). In Distributed deployments, requests routed to a Worker or Edge node using the [host context](https://docs.cribl.io/cribl-as-code/api#base-url-group-fleet-host) require a Bearer token for [authentication](https://docs.cribl.io/cribl-as-code/api-auth/).
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

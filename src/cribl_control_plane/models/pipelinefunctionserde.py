@@ -49,10 +49,18 @@ class SerdeTypeGrokTypedDict(TypedDict):
     r"""Field containing text to be parsed"""
     dst_field: NotRequired[str]
     r"""Name of the field to add fields to. Extract mode only."""
+    keep: NotRequired[List[str]]
+    r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
+    remove: NotRequired[List[str]]
+    r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
+    field_filter_expr: NotRequired[str]
+    r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
     allowed_key_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
+    fields: NotRequired[List[str]]
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
     regex: NotRequired[str]
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
@@ -85,6 +93,17 @@ class SerdeTypeGrok(BaseModel):
     dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Name of the field to add fields to. Extract mode only."""
 
+    keep: Optional[List[str]] = None
+    r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
+
+    remove: Optional[List[str]] = None
+    r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
+
+    field_filter_expr: Annotated[
+        Optional[str], pydantic.Field(alias="fieldFilterExpr")
+    ] = None
+    r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
+
     allowed_key_chars: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedKeyChars")
     ] = None
@@ -94,6 +113,9 @@ class SerdeTypeGrok(BaseModel):
         Optional[List[str]], pydantic.Field(alias="allowedValueChars")
     ] = None
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
+
+    fields: Optional[List[str]] = None
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
 
     regex: Optional[str] = None
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
@@ -138,8 +160,12 @@ class SerdeTypeGrok(BaseModel):
                 "patternList",
                 "srcField",
                 "dstField",
+                "keep",
+                "remove",
+                "fieldFilterExpr",
                 "allowedKeyChars",
                 "allowedValueChars",
+                "fields",
                 "regex",
                 "regexList",
                 "iterations",
@@ -188,10 +214,18 @@ class SerdeTypeRegexTypedDict(TypedDict):
     r"""Field containing text to be parsed"""
     dst_field: NotRequired[str]
     r"""Name of the field to add fields to. Extract mode only."""
+    keep: NotRequired[List[str]]
+    r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
+    remove: NotRequired[List[str]]
+    r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
+    field_filter_expr: NotRequired[str]
+    r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
     allowed_key_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
+    fields: NotRequired[List[str]]
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
     pattern: NotRequired[str]
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
@@ -228,6 +262,17 @@ class SerdeTypeRegex(BaseModel):
     dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Name of the field to add fields to. Extract mode only."""
 
+    keep: Optional[List[str]] = None
+    r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
+
+    remove: Optional[List[str]] = None
+    r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
+
+    field_filter_expr: Annotated[
+        Optional[str], pydantic.Field(alias="fieldFilterExpr")
+    ] = None
+    r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
+
     allowed_key_chars: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedKeyChars")
     ] = None
@@ -237,6 +282,9 @@ class SerdeTypeRegex(BaseModel):
         Optional[List[str]], pydantic.Field(alias="allowedValueChars")
     ] = None
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
+
+    fields: Optional[List[str]] = None
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
 
     pattern: Optional[str] = None
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
@@ -274,8 +322,12 @@ class SerdeTypeRegex(BaseModel):
                 "overwrite",
                 "srcField",
                 "dstField",
+                "keep",
+                "remove",
+                "fieldFilterExpr",
                 "allowedKeyChars",
                 "allowedValueChars",
+                "fields",
                 "pattern",
                 "patternList",
             ]
@@ -322,6 +374,8 @@ class SerdeTypeJSONTypedDict(TypedDict):
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
+    fields: NotRequired[List[str]]
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
     regex: NotRequired[str]
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
@@ -369,6 +423,9 @@ class SerdeTypeJSON(BaseModel):
         Optional[List[str]], pydantic.Field(alias="allowedValueChars")
     ] = None
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
+
+    fields: Optional[List[str]] = None
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
 
     regex: Optional[str] = None
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
@@ -425,6 +482,7 @@ class SerdeTypeJSON(BaseModel):
                 "dstField",
                 "allowedKeyChars",
                 "allowedValueChars",
+                "fields",
                 "regex",
                 "regexList",
                 "iterations",
@@ -822,6 +880,8 @@ class SerdeTypeKvpTypedDict(TypedDict):
     r"""Field containing text to be parsed"""
     dst_field: NotRequired[str]
     r"""Name of the field to add fields to. Extract mode only."""
+    fields: NotRequired[List[str]]
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
     regex: NotRequired[str]
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
@@ -872,6 +932,9 @@ class SerdeTypeKvp(BaseModel):
 
     dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Name of the field to add fields to. Extract mode only."""
+
+    fields: Optional[List[str]] = None
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
 
     regex: Optional[str] = None
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
@@ -929,6 +992,7 @@ class SerdeTypeKvp(BaseModel):
                 "allowedValueChars",
                 "srcField",
                 "dstField",
+                "fields",
                 "regex",
                 "regexList",
                 "iterations",
@@ -955,11 +1019,11 @@ class SerdeTypeKvp(BaseModel):
 PipelineFunctionSerdeConfTypedDict = TypeAliasType(
     "PipelineFunctionSerdeConfTypedDict",
     Union[
+        SerdeTypeCsvTypedDict,
+        SerdeTypeJSONTypedDict,
         SerdeTypeRegexTypedDict,
         SerdeTypeGrokTypedDict,
-        SerdeTypeJSONTypedDict,
         SerdeTypeKvpTypedDict,
-        SerdeTypeCsvTypedDict,
         SerdeTypeDelimTypedDict,
     ],
 )

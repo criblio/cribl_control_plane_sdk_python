@@ -219,7 +219,8 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     scrape_path_expr: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
     pod_filter: NotRequired[List[InputEdgePrometheusPodFilterTypedDict]]
-    r"""Add rules to decide which pods to discover for metrics.
+    r"""
+    Add rules to decide which pods to discover for metrics.
     Pods are searched if no rules are given or of all the rules'
     expressions evaluate to true.
 
@@ -420,7 +421,8 @@ class InputEdgePrometheusInput(BaseModel):
     pod_filter: Annotated[
         Optional[List[InputEdgePrometheusPodFilter]], pydantic.Field(alias="podFilter")
     ] = None
-    r"""Add rules to decide which pods to discover for metrics.
+    r"""
+    Add rules to decide which pods to discover for metrics.
     Pods are searched if no rules are given or of all the rules'
     expressions evaluate to true.
 

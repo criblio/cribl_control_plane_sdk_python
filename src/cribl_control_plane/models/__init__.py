@@ -79,10 +79,6 @@ if TYPE_CHECKING:
         AuthRequestHeaderConfHealthCheckAuthenticationLogin,
         AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict,
     )
-    from .authrequestheaderconfhealthcheckauthenticationoauth import (
-        AuthRequestHeaderConfHealthCheckAuthenticationOauth,
-        AuthRequestHeaderConfHealthCheckAuthenticationOauthTypedDict,
-    )
     from .authrequestparamconfhealthcheckauthenticationoauth import (
         AuthRequestParamConfHealthCheckAuthenticationOauth,
         AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict,
@@ -207,6 +203,7 @@ if TYPE_CHECKING:
         CollectorSplunkType,
         CollectorSplunkTypedDict,
     )
+    from .collectortype import CollectorType
     from .collectrequestparamconfhealthcheckcollectmethodpost import (
         CollectRequestParamConfHealthCheckCollectMethodPost,
         CollectRequestParamConfHealthCheckCollectMethodPostTypedDict,
@@ -2825,12 +2822,17 @@ if TYPE_CHECKING:
         GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict,
     )
     from .getcribllakedatasetbylakeidop import (
+        GetCriblLakeDatasetByLakeIDFormat,
         GetCriblLakeDatasetByLakeIDRequest,
         GetCriblLakeDatasetByLakeIDRequestTypedDict,
     )
     from .getdatabaseconnectionconfigbyidop import (
         GetDatabaseConnectionConfigByIDRequest,
         GetDatabaseConnectionConfigByIDRequestTypedDict,
+    )
+    from .getdatabaseconnectionconfigop import (
+        GetDatabaseConnectionConfigRequest,
+        GetDatabaseConnectionConfigRequestTypedDict,
     )
     from .getfunctionsbyidop import (
         GetFunctionsByIDRequest,
@@ -6057,16 +6059,12 @@ if TYPE_CHECKING:
         RedisDeploymentTypeClusterCommand,
         RedisDeploymentTypeClusterCommandTypedDict,
         RedisDeploymentTypeClusterDeploymentType,
-        RedisDeploymentTypeClusterRootNode,
-        RedisDeploymentTypeClusterRootNodeTypedDict,
         RedisDeploymentTypeClusterTypedDict,
         RedisDeploymentTypeSentinel,
         RedisDeploymentTypeSentinelAuthenticationMethod,
         RedisDeploymentTypeSentinelCommand,
         RedisDeploymentTypeSentinelCommandTypedDict,
         RedisDeploymentTypeSentinelDeploymentType,
-        RedisDeploymentTypeSentinelRootNode,
-        RedisDeploymentTypeSentinelRootNodeTypedDict,
         RedisDeploymentTypeSentinelTypedDict,
         RedisDeploymentTypeStandalone,
         RedisDeploymentTypeStandaloneAuthenticationMethod,
@@ -7232,6 +7230,10 @@ if TYPE_CHECKING:
         RollbackSettingsUnion,
         RollbackSettingsUnionTypedDict,
     )
+    from .rootnodeconfredisdeploymenttypecluster import (
+        RootNodeConfRedisDeploymentTypeCluster,
+        RootNodeConfRedisDeploymentTypeClusterTypedDict,
+    )
     from .routecomment import RouteComment, RouteCommentTypedDict
     from .routeconf import RouteConf, RouteConfTypedDict
     from .routeconfinput import RouteConfInput, RouteConfInputTypedDict
@@ -7699,8 +7701,6 @@ __all__ = [
     "AuditTypedDict",
     "AuthRequestHeaderConfHealthCheckAuthenticationLogin",
     "AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict",
-    "AuthRequestHeaderConfHealthCheckAuthenticationOauth",
-    "AuthRequestHeaderConfHealthCheckAuthenticationOauthTypedDict",
     "AuthRequestParamConfHealthCheckAuthenticationOauth",
     "AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict",
     "AuthToken",
@@ -7826,6 +7826,7 @@ __all__ = [
     "CollectorSplunk",
     "CollectorSplunkType",
     "CollectorSplunkTypedDict",
+    "CollectorType",
     "CollectorTypedDict",
     "ColumnMappingConfOutputClickHouse",
     "ColumnMappingConfOutputClickHouseTypedDict",
@@ -10174,10 +10175,13 @@ __all__ = [
     "GetConfigGroupConfigVersionByProductAndIDRequestTypedDict",
     "GetCriblLakeDatasetByLakeIDAndIDRequest",
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict",
+    "GetCriblLakeDatasetByLakeIDFormat",
     "GetCriblLakeDatasetByLakeIDRequest",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict",
     "GetDatabaseConnectionConfigByIDRequest",
     "GetDatabaseConnectionConfigByIDRequestTypedDict",
+    "GetDatabaseConnectionConfigRequest",
+    "GetDatabaseConnectionConfigRequestTypedDict",
     "GetFunctionsByIDRequest",
     "GetFunctionsByIDRequestTypedDict",
     "GetInputByIDRequest",
@@ -12954,16 +12958,12 @@ __all__ = [
     "RedisDeploymentTypeClusterCommand",
     "RedisDeploymentTypeClusterCommandTypedDict",
     "RedisDeploymentTypeClusterDeploymentType",
-    "RedisDeploymentTypeClusterRootNode",
-    "RedisDeploymentTypeClusterRootNodeTypedDict",
     "RedisDeploymentTypeClusterTypedDict",
     "RedisDeploymentTypeSentinel",
     "RedisDeploymentTypeSentinelAuthenticationMethod",
     "RedisDeploymentTypeSentinelCommand",
     "RedisDeploymentTypeSentinelCommandTypedDict",
     "RedisDeploymentTypeSentinelDeploymentType",
-    "RedisDeploymentTypeSentinelRootNode",
-    "RedisDeploymentTypeSentinelRootNodeTypedDict",
     "RedisDeploymentTypeSentinelTypedDict",
     "RedisDeploymentTypeStandalone",
     "RedisDeploymentTypeStandaloneAuthenticationMethod",
@@ -13882,6 +13882,8 @@ __all__ = [
     "RollbackSettingsTypedDict",
     "RollbackSettingsUnion",
     "RollbackSettingsUnionTypedDict",
+    "RootNodeConfRedisDeploymentTypeCluster",
+    "RootNodeConfRedisDeploymentTypeClusterTypedDict",
     "RouteComment",
     "RouteCommentTypedDict",
     "RouteConf",
@@ -14426,8 +14428,6 @@ _dynamic_imports: dict[str, str] = {
     "AuthenticationTypeUseTypedDict": ".authenticationtypeuse",
     "AuthRequestHeaderConfHealthCheckAuthenticationLogin": ".authrequestheaderconfhealthcheckauthenticationlogin",
     "AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict": ".authrequestheaderconfhealthcheckauthenticationlogin",
-    "AuthRequestHeaderConfHealthCheckAuthenticationOauth": ".authrequestheaderconfhealthcheckauthenticationoauth",
-    "AuthRequestHeaderConfHealthCheckAuthenticationOauthTypedDict": ".authrequestheaderconfhealthcheckauthenticationoauth",
     "AuthRequestParamConfHealthCheckAuthenticationOauth": ".authrequestparamconfhealthcheckauthenticationoauth",
     "AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict": ".authrequestparamconfhealthcheckauthenticationoauth",
     "AuthToken": ".authtoken",
@@ -14525,6 +14525,7 @@ _dynamic_imports: dict[str, str] = {
     "CollectorSplunk": ".collectorsplunk",
     "CollectorSplunkType": ".collectorsplunk",
     "CollectorSplunkTypedDict": ".collectorsplunk",
+    "CollectorType": ".collectortype",
     "CollectRequestParamConfHealthCheckCollectMethodPost": ".collectrequestparamconfhealthcheckcollectmethodpost",
     "CollectRequestParamConfHealthCheckCollectMethodPostTypedDict": ".collectrequestparamconfhealthcheckcollectmethodpost",
     "CollectRequestParamConfRestCollectMethodGet": ".collectrequestparamconfrestcollectmethodget",
@@ -16866,10 +16867,13 @@ _dynamic_imports: dict[str, str] = {
     "GetConfigGroupConfigVersionByProductAndIDRequestTypedDict": ".getconfiggroupconfigversionbyproductandidop",
     "GetCriblLakeDatasetByLakeIDAndIDRequest": ".getcribllakedatasetbylakeidandidop",
     "GetCriblLakeDatasetByLakeIDAndIDRequestTypedDict": ".getcribllakedatasetbylakeidandidop",
+    "GetCriblLakeDatasetByLakeIDFormat": ".getcribllakedatasetbylakeidop",
     "GetCriblLakeDatasetByLakeIDRequest": ".getcribllakedatasetbylakeidop",
     "GetCriblLakeDatasetByLakeIDRequestTypedDict": ".getcribllakedatasetbylakeidop",
     "GetDatabaseConnectionConfigByIDRequest": ".getdatabaseconnectionconfigbyidop",
     "GetDatabaseConnectionConfigByIDRequestTypedDict": ".getdatabaseconnectionconfigbyidop",
+    "GetDatabaseConnectionConfigRequest": ".getdatabaseconnectionconfigop",
+    "GetDatabaseConnectionConfigRequestTypedDict": ".getdatabaseconnectionconfigop",
     "GetFunctionsByIDRequest": ".getfunctionsbyidop",
     "GetFunctionsByIDRequestTypedDict": ".getfunctionsbyidop",
     "GetInputByIDRequest": ".getinputbyidop",
@@ -19656,16 +19660,12 @@ _dynamic_imports: dict[str, str] = {
     "RedisDeploymentTypeClusterCommand": ".pipelinefunctionredis",
     "RedisDeploymentTypeClusterCommandTypedDict": ".pipelinefunctionredis",
     "RedisDeploymentTypeClusterDeploymentType": ".pipelinefunctionredis",
-    "RedisDeploymentTypeClusterRootNode": ".pipelinefunctionredis",
-    "RedisDeploymentTypeClusterRootNodeTypedDict": ".pipelinefunctionredis",
     "RedisDeploymentTypeClusterTypedDict": ".pipelinefunctionredis",
     "RedisDeploymentTypeSentinel": ".pipelinefunctionredis",
     "RedisDeploymentTypeSentinelAuthenticationMethod": ".pipelinefunctionredis",
     "RedisDeploymentTypeSentinelCommand": ".pipelinefunctionredis",
     "RedisDeploymentTypeSentinelCommandTypedDict": ".pipelinefunctionredis",
     "RedisDeploymentTypeSentinelDeploymentType": ".pipelinefunctionredis",
-    "RedisDeploymentTypeSentinelRootNode": ".pipelinefunctionredis",
-    "RedisDeploymentTypeSentinelRootNodeTypedDict": ".pipelinefunctionredis",
     "RedisDeploymentTypeSentinelTypedDict": ".pipelinefunctionredis",
     "RedisDeploymentTypeStandalone": ".pipelinefunctionredis",
     "RedisDeploymentTypeStandaloneAuthenticationMethod": ".pipelinefunctionredis",
@@ -20765,6 +20765,8 @@ _dynamic_imports: dict[str, str] = {
     "RollbackSettingsTypedDict": ".rollbacksettings_union",
     "RollbackSettingsUnion": ".rollbacksettings_union",
     "RollbackSettingsUnionTypedDict": ".rollbacksettings_union",
+    "RootNodeConfRedisDeploymentTypeCluster": ".rootnodeconfredisdeploymenttypecluster",
+    "RootNodeConfRedisDeploymentTypeClusterTypedDict": ".rootnodeconfredisdeploymenttypecluster",
     "RouteComment": ".routecomment",
     "RouteCommentTypedDict": ".routecomment",
     "RouteConf": ".routeconf",

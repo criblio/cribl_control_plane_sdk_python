@@ -706,7 +706,7 @@ with CriblControlPlane(
         "type": models.CreateOutputTypeDynatraceHTTP.DYNATRACE_HTTP,
         "auth_type": models.CreateOutputAuthenticationTypeDynatraceHTTP.TOKEN,
         "format_": models.CreateOutputFormatDynatraceHTTP.JSON_ARRAY,
-        "endpoint": models.CreateOutputEndpoint.CLOUD,
+        "endpoint": models.CreateOutputEndpointDynatraceHTTP.CLOUD,
         "telemetry_type": models.CreateOutputTelemetryType.LOGS,
         "token": "your-api-key",
     })
@@ -897,6 +897,31 @@ with CriblControlPlane(
         "log_location_type": models.CreateOutputLogLocationType.PROJECT,
         "log_name_expression": "my-log",
         "log_location_expression": "my-project",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesGoogleCloudObservability
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesGoogleCloudObservability" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "google-cloud-observability-output",
+        "type": models.CreateOutputTypeGoogleCloudObservability.GOOGLE_CLOUD_OBSERVABILITY,
+        "google_auth_method": models.CreateOutputGoogleAuthenticationMethod.AUTO,
     })
 
     # Handle response
@@ -5272,6 +5297,31 @@ with CriblControlPlane(
         "log_location_type": models.OutputGoogleCloudLoggingLogLocationType.PROJECT,
         "log_name_expression": "my-log",
         "log_location_expression": "my-project",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesGoogleCloudObservability
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesGoogleCloudObservability" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "google-cloud-observability-output",
+        "type": models.OutputGoogleCloudObservabilityType.GOOGLE_CLOUD_OBSERVABILITY,
+        "google_auth_method": models.OutputGoogleCloudObservabilityGoogleAuthenticationMethod.AUTO,
     })
 
     # Handle response

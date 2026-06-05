@@ -7717,7 +7717,9 @@ class CreateOutputSystemByPackFormatDynatraceHTTP(
     PLAINTEXT = "plaintext"
 
 
-class CreateOutputSystemByPackEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackEndpointDynatraceHTTP(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     # Cloud
     CLOUD = "cloud"
     # ActiveGate
@@ -7747,7 +7749,7 @@ class CreateOutputSystemByPackOutputDynatraceHTTPTypedDict(TypedDict):
     type: CreateOutputSystemByPackTypeDynatraceHTTP
     format_: CreateOutputSystemByPackFormatDynatraceHTTP
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
-    endpoint: CreateOutputSystemByPackEndpoint
+    endpoint: CreateOutputSystemByPackEndpointDynatraceHTTP
     telemetry_type: CreateOutputSystemByPackTelemetryType
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
@@ -7853,7 +7855,7 @@ class CreateOutputSystemByPackOutputDynatraceHTTP(BaseModel):
     ]
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
-    endpoint: CreateOutputSystemByPackEndpoint
+    endpoint: CreateOutputSystemByPackEndpointDynatraceHTTP
 
     telemetry_type: Annotated[
         CreateOutputSystemByPackTelemetryType, pydantic.Field(alias="telemetryType")
@@ -8109,7 +8111,7 @@ class CreateOutputSystemByPackOutputDynatraceHTTP(BaseModel):
     def serialize_endpoint(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputSystemByPackEndpoint(value)
+                return models.CreateOutputSystemByPackEndpointDynatraceHTTP(value)
             except ValueError:
                 return value
         return value
@@ -15275,7 +15277,9 @@ class CreateOutputSystemByPackTypeOpenTelemetry(str, Enum):
     OPEN_TELEMETRY = "open_telemetry"
 
 
-class CreateOutputSystemByPackOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackOTLPVersionOpenTelemetry(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     # 0.10.0
@@ -15325,7 +15329,7 @@ class CreateOutputSystemByPackOutputOpenTelemetryTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     protocol: NotRequired[ProtocolOptions]
     r"""Select a transport option for OpenTelemetry"""
-    otlp_version: NotRequired[CreateOutputSystemByPackOTLPVersion]
+    otlp_version: NotRequired[CreateOutputSystemByPackOTLPVersionOpenTelemetry]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
@@ -15466,7 +15470,7 @@ class CreateOutputSystemByPackOutputOpenTelemetry(BaseModel):
     r"""Select a transport option for OpenTelemetry"""
 
     otlp_version: Annotated[
-        Optional[CreateOutputSystemByPackOTLPVersion],
+        Optional[CreateOutputSystemByPackOTLPVersionOpenTelemetry],
         pydantic.Field(alias="otlpVersion"),
     ] = None
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
@@ -15737,7 +15741,7 @@ class CreateOutputSystemByPackOutputOpenTelemetry(BaseModel):
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateOutputSystemByPackOTLPVersion(value)
+                return models.CreateOutputSystemByPackOTLPVersionOpenTelemetry(value)
             except ValueError:
                 return value
         return value

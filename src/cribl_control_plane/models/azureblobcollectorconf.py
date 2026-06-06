@@ -73,6 +73,8 @@ class AzureBlobAuthTypeClientCertTypedDict(TypedDict):
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
+    disable_time_filter: NotRequired[bool]
+    r"""Disable Collector event time filtering when a date range is specified"""
     parquet_chunk_size_mb: NotRequired[float]
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
@@ -154,6 +156,11 @@ class AzureBlobAuthTypeClientCert(BaseModel):
         None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
+
+    disable_time_filter: Annotated[
+        Optional[bool], pydantic.Field(alias="disableTimeFilter")
+    ] = None
+    r"""Disable Collector event time filtering when a date range is specified"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
@@ -241,6 +248,7 @@ class AzureBlobAuthTypeClientCert(BaseModel):
                 "includeMetadata",
                 "includeTags",
                 "maxBatchSize",
+                "disableTimeFilter",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "connectionString",
@@ -337,6 +345,8 @@ class AzureBlobAuthTypeClientSecretTypedDict(TypedDict):
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
+    disable_time_filter: NotRequired[bool]
+    r"""Disable Collector event time filtering when a date range is specified"""
     parquet_chunk_size_mb: NotRequired[float]
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
@@ -434,6 +444,11 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
 
+    disable_time_filter: Annotated[
+        Optional[bool], pydantic.Field(alias="disableTimeFilter")
+    ] = None
+    r"""Disable Collector event time filtering when a date range is specified"""
+
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
     ] = None
@@ -497,6 +512,7 @@ class AzureBlobAuthTypeClientSecret(BaseModel):
                 "includeMetadata",
                 "includeTags",
                 "maxBatchSize",
+                "disableTimeFilter",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "connectionString",
@@ -568,6 +584,8 @@ class AzureBlobAuthTypeSecretTypedDict(TypedDict):
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
+    disable_time_filter: NotRequired[bool]
+    r"""Disable Collector event time filtering when a date range is specified"""
     parquet_chunk_size_mb: NotRequired[float]
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
@@ -642,6 +660,11 @@ class AzureBlobAuthTypeSecret(BaseModel):
         None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
+
+    disable_time_filter: Annotated[
+        Optional[bool], pydantic.Field(alias="disableTimeFilter")
+    ] = None
+    r"""Disable Collector event time filtering when a date range is specified"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
@@ -745,6 +768,7 @@ class AzureBlobAuthTypeSecret(BaseModel):
                 "includeMetadata",
                 "includeTags",
                 "maxBatchSize",
+                "disableTimeFilter",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "connectionString",
@@ -828,6 +852,8 @@ class AzureBlobAuthTypeManualTypedDict(TypedDict):
     r"""Include Azure Blob tags in collected events. In each event, tags will be located at: __collectible.tags. Disable this feature when using a Shared Access Signature Connection String, to prevent errors."""
     max_batch_size: NotRequired[float]
     r"""Maximum number of metadata objects to batch before recording as results"""
+    disable_time_filter: NotRequired[bool]
+    r"""Disable Collector event time filtering when a date range is specified"""
     parquet_chunk_size_mb: NotRequired[float]
     r"""Maximum file size for each Parquet chunk"""
     parquet_chunk_download_timeout: NotRequired[float]
@@ -905,6 +931,11 @@ class AzureBlobAuthTypeManual(BaseModel):
         None
     )
     r"""Maximum number of metadata objects to batch before recording as results"""
+
+    disable_time_filter: Annotated[
+        Optional[bool], pydantic.Field(alias="disableTimeFilter")
+    ] = None
+    r"""Disable Collector event time filtering when a date range is specified"""
 
     parquet_chunk_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="parquetChunkSizeMB")
@@ -1002,6 +1033,7 @@ class AzureBlobAuthTypeManual(BaseModel):
                 "includeMetadata",
                 "includeTags",
                 "maxBatchSize",
+                "disableTimeFilter",
                 "parquetChunkSizeMB",
                 "parquetChunkDownloadTimeout",
                 "textSecret",

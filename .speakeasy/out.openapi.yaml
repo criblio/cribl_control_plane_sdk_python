@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.2-alpha.1780614244227-9d36f4da
+  version: 4.18.2-alpha.1780700647849-20fcce49
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -9733,6 +9733,10 @@ components:
           description: Maximum number of metadata objects to batch before recording as
             results
           minimum: 1
+        disableTimeFilter:
+          type: boolean
+          title: Disable time filter
+          description: Disable Collector event time filtering when a date range is specified
         parquetChunkSizeMB:
           type: number
           title: Parquet chunk size limit
@@ -45398,6 +45402,11 @@ components:
             the delay to 180 seconds, even if the Retry-After header specifies a
             longer delay. When enabled, takes precedence over user-configured
             retry options. When disabled, all Retry-After headers are ignored.
+        workload:
+          type: string
+          title: Workload
+          description: Optional ClickHouse workload name to append as a SETTINGS clause on
+            INSERT queries. Used for workload scheduling classification.
         dumpFormatErrorsToDisk:
           type: boolean
           title: Log last schema mismatch
@@ -45719,6 +45728,11 @@ components:
             the delay to 180 seconds, even if the Retry-After header specifies a
             longer delay. When enabled, takes precedence over user-configured
             retry options. When disabled, all Retry-After headers are ignored.
+        workload:
+          type: string
+          title: Workload
+          description: Optional ClickHouse workload name to append as a SETTINGS clause on
+            INSERT queries. Used for workload scheduling classification.
         dumpFormatErrorsToDisk:
           type: boolean
           title: Log last schema mismatch
@@ -52916,6 +52930,8 @@ components:
           $ref: "#/components/schemas/HBLeaderInfo"
           description: Leader connection details when the node is a Worker or Edge
             reporting upstream.
+        overlayId:
+          type: string
         pid:
           type: integer
           description: The process ID.

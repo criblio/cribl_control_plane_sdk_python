@@ -92,7 +92,7 @@ group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 # user-supplied parameters block. This configuration is passed to the API 
 # in the Create Source block.
 syslog_source = CreateInputInputSyslogSyslog2(
-    id="in-syslog-9021",  # Port number in name should match the SYSLOG_PORT value
+    id="in-syslog-9021",
     type=CreateInputInputSyslogType2.SYSLOG,
     host="0.0.0.0",
     tcp_port=SYSLOG_PORT,

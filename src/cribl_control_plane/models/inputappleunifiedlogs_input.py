@@ -35,7 +35,7 @@ class InputAppleUnifiedLogsReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
 class InputAppleUnifiedLogsInputTypedDict(TypedDict):
     type: InputAppleUnifiedLogsType
     predicate: str
-    r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Predicate format reference](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html) for more information."""
+    r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -67,7 +67,7 @@ class InputAppleUnifiedLogsInput(BaseModel):
     type: InputAppleUnifiedLogsType
 
     predicate: str
-    r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Predicate format reference](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html) for more information."""
+    r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""

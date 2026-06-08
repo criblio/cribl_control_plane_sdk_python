@@ -122,6 +122,7 @@ class HBCriblInfoTypedDict(TypedDict):
     r"""Objects that map Lookup files to deployment versions."""
     master: NotRequired[HBLeaderInfoTypedDict]
     r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
+    overlay_id: NotRequired[str]
     pid: NotRequired[int]
     r"""The process ID."""
     socks_enabled: NotRequired[bool]
@@ -170,6 +171,8 @@ class HBCriblInfo(BaseModel):
     master: Optional[HBLeaderInfo] = None
     r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
 
+    overlay_id: Annotated[Optional[str], pydantic.Field(alias="overlayId")] = None
+
     pid: Optional[int] = None
     r"""The process ID."""
 
@@ -203,6 +206,7 @@ class HBCriblInfo(BaseModel):
                 "installType",
                 "lookupVersions",
                 "master",
+                "overlayId",
                 "pid",
                 "socksEnabled",
                 "tags",

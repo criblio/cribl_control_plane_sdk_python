@@ -279,12 +279,12 @@ class Datasets(BaseSDK):
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
         :param description: Brief description of the Dataset.
         :param format_: Storage format used for data persisted in the Dataset.
-        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
         :param metrics:
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
-        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param storage_location_id: Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
         :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -436,12 +436,12 @@ class Datasets(BaseSDK):
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
         :param description: Brief description of the Dataset.
         :param format_: Storage format used for data persisted in the Dataset.
-        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
         :param metrics:
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
-        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param storage_location_id: Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
         :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -790,13 +790,13 @@ class Datasets(BaseSDK):
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
         :param description: Brief description of the Dataset.
         :param format_: Storage format used for data persisted in the Dataset.
-        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
-        :param id: Dataset identifier. Optional; the path parameter <code>id</code> is authoritative.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
+        :param id: Unique identifier for the Dataset. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
-        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param storage_location_id: Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
         :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -950,13 +950,13 @@ class Datasets(BaseSDK):
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
         :param description: Brief description of the Dataset.
         :param format_: Storage format used for data persisted in the Dataset.
-        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
-        :param id: Dataset identifier. Optional; the path parameter <code>id</code> is authoritative.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
+        :param id: Unique identifier for the Dataset. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
-        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param storage_location_id: Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
         :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

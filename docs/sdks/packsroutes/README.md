@@ -13,9 +13,30 @@
 
 Get a list of all Routes within the specified Pack.
 
-### Example Usage
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
 
-<!-- UsageSnippet language="python" operationID="getRoutesByPack" method="get" path="/p/{pack}/routes" -->
+<!-- UsageSnippet language="python" operationID="getRoutesByPack" method="get" path="/p/{pack}/routes" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.routes.list(pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="getRoutesByPack" method="get" path="/p/{pack}/routes" example="RoutesResponseExamplesMultiRouteTable" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -57,9 +78,30 @@ with CriblControlPlane(
 
 Get the specified Routing table within the specified Pack.
 
-### Example Usage
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
 
-<!-- UsageSnippet language="python" operationID="getRoutesByPackAndId" method="get" path="/p/{pack}/routes/{id}" -->
+<!-- UsageSnippet language="python" operationID="getRoutesByPackAndId" method="get" path="/p/{pack}/routes/{id}" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.routes.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="getRoutesByPackAndId" method="get" path="/p/{pack}/routes/{id}" example="RoutesResponseExamplesMultiRouteTable" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -102,6 +144,48 @@ with CriblControlPlane(
 
 Update the specified Route within the specified Pack.<br/><br/>Provide a complete representation of the Routing table, including the Route that you want to update, in the request body.<br/><br/>This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Routing table.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Routing table might not function as expected.<br/><br/>Cribl also removes any omitted Routes when updating the Routing table.
 
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
+
+<!-- UsageSnippet language="python" operationID="updateRoutesByPackAndId" method="patch" path="/p/{pack}/routes/{id}" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="<id>", routes=[])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="updateRoutesByPackAndId" method="patch" path="/p/{pack}/routes/{id}" example="RoutesResponseExamplesMultiRouteTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="<id>", routes=[])
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: RoutesUpdateExamplesBasicRoute
 
 <!-- UsageSnippet language="python" operationID="updateRoutesByPackAndId" method="patch" path="/p/{pack}/routes/{id}" example="RoutesUpdateExamplesBasicRoute" -->
@@ -403,6 +487,53 @@ with CriblControlPlane(
             "id": "route-new",
         },
     ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
+
+<!-- UsageSnippet language="python" operationID="createRoutesAppendByPackAndId" method="post" path="/p/{pack}/routes/{id}/append" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
+        {
+            "name": "<value>",
+            "pipeline": "<value>",
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="createRoutesAppendByPackAndId" method="post" path="/p/{pack}/routes/{id}/append" example="RoutesResponseExamplesMultiRouteTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[])
 
     # Handle response
     print(res)

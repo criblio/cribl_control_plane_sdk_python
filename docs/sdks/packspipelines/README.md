@@ -14,9 +14,30 @@
 
 Get a list of all Pipelines within the specified Pack.
 
-### Example Usage
+### Example Usage: PipelineResponseExamplesEmptyPipeline
 
-<!-- UsageSnippet language="python" operationID="getPipelinesByPack" method="get" path="/p/{pack}/pipelines" -->
+<!-- UsageSnippet language="python" operationID="getPipelinesByPack" method="get" path="/p/{pack}/pipelines" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.pipelines.list(pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="getPipelinesByPack" method="get" path="/p/{pack}/pipelines" example="PipelineResponseExamplesEvalPipeline" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -1884,14 +1905,56 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: PipelineResponseExamplesEmptyPipeline
+
+<!-- UsageSnippet language="python" operationID="createPipelinesByPack" method="post" path="/p/{pack}/pipelines" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.pipelines.create(pack="<value>", id="<id>", conf={})
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="createPipelinesByPack" method="post" path="/p/{pack}/pipelines" example="PipelineResponseExamplesEvalPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.pipelines.create(pack="<value>", id="<id>", conf={})
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | N/A                                                                 |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique identifier for the Pipeline.                                 |
+| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | Configuration for the Pipeline, including functions and settings.   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -1909,9 +1972,30 @@ with CriblControlPlane(
 
 Get the specified Pipeline within the specified Pack.
 
-### Example Usage
+### Example Usage: PipelineResponseExamplesEmptyPipeline
 
-<!-- UsageSnippet language="python" operationID="getPipelinesByPackAndId" method="get" path="/p/{pack}/pipelines/{id}" -->
+<!-- UsageSnippet language="python" operationID="getPipelinesByPackAndId" method="get" path="/p/{pack}/pipelines/{id}" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.pipelines.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="getPipelinesByPackAndId" method="get" path="/p/{pack}/pipelines/{id}" example="PipelineResponseExamplesEvalPipeline" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -3780,6 +3864,48 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: PipelineResponseExamplesEmptyPipeline
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesByPackAndId" method="patch" path="/p/{pack}/pipelines/{id}" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.pipelines.update(id_param="<value>", pack="<value>", id="<id>", conf={})
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesByPackAndId" method="patch" path="/p/{pack}/pipelines/{id}" example="PipelineResponseExamplesEvalPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.pipelines.update(id_param="<value>", pack="<value>", id="<id>", conf={})
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdatePipelineExamplesAggregateMetrics
 
 <!-- UsageSnippet language="python" operationID="updatePipelinesByPackAndId" method="patch" path="/p/{pack}/pipelines/{id}" example="UpdatePipelineExamplesAggregateMetrics" -->
@@ -5613,8 +5739,8 @@ with CriblControlPlane(
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id_param`                                                          | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pipeline to update.                      |
 | `pack`                                                              | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pack.                                    |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | N/A                                                                 |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique identifier for the Pipeline.                                 |
+| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | Configuration for the Pipeline, including functions and settings.   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -5632,9 +5758,30 @@ with CriblControlPlane(
 
 Delete the specified Pipeline within the specified Pack.
 
-### Example Usage
+### Example Usage: PipelineResponseExamplesEmptyPipeline
 
-<!-- UsageSnippet language="python" operationID="deletePipelinesByPackAndId" method="delete" path="/p/{pack}/pipelines/{id}" -->
+<!-- UsageSnippet language="python" operationID="deletePipelinesByPackAndId" method="delete" path="/p/{pack}/pipelines/{id}" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.pipelines.delete(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="deletePipelinesByPackAndId" method="delete" path="/p/{pack}/pipelines/{id}" example="PipelineResponseExamplesEvalPipeline" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

@@ -15,9 +15,30 @@ Actions related to Routes
 
 Get a list of all Routes.
 
-### Example Usage
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
 
-<!-- UsageSnippet language="python" operationID="getRoutes" method="get" path="/routes" -->
+<!-- UsageSnippet language="python" operationID="getRoutes" method="get" path="/routes" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.list()
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="getRoutes" method="get" path="/routes" example="RoutesResponseExamplesMultiRouteTable" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -58,9 +79,30 @@ with CriblControlPlane(
 
 Get the specified Routing table.
 
-### Example Usage
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
 
-<!-- UsageSnippet language="python" operationID="getRoutesById" method="get" path="/routes/{id}" -->
+<!-- UsageSnippet language="python" operationID="getRoutesById" method="get" path="/routes/{id}" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="getRoutesById" method="get" path="/routes/{id}" example="RoutesResponseExamplesMultiRouteTable" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -102,6 +144,48 @@ with CriblControlPlane(
 
 Update a Route in the specified Routing table.<br/><br/>\1 This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Routing table.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Routing table might not function as expected.<br/><br/>Cribl also removes any omitted Routes when updating the Routing table.
 
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
+
+<!-- UsageSnippet language="python" operationID="updateRoutesById" method="patch" path="/routes/{id}" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.update(id_param="<value>", id="<id>", routes=[])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="updateRoutesById" method="patch" path="/routes/{id}" example="RoutesResponseExamplesMultiRouteTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.update(id_param="<value>", id="<id>", routes=[])
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: RoutesUpdateExamplesBasicRoute
 
 <!-- UsageSnippet language="python" operationID="updateRoutesById" method="patch" path="/routes/{id}" example="RoutesUpdateExamplesBasicRoute" -->
@@ -402,6 +486,48 @@ with CriblControlPlane(
             "id": "route-new",
         },
     ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesDefaultRoutingTable
+
+<!-- UsageSnippet language="python" operationID="createRoutesAppendById" method="post" path="/routes/{id}/append" example="RoutesResponseExamplesDefaultRoutingTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.append(id="<id>", request_body=[])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RoutesResponseExamplesMultiRouteTable
+
+<!-- UsageSnippet language="python" operationID="createRoutesAppendById" method="post" path="/routes/{id}/append" example="RoutesResponseExamplesMultiRouteTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.routes.append(id="<id>", request_body=[])
 
     # Handle response
     print(res)

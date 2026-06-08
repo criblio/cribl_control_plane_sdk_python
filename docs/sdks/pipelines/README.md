@@ -16,9 +16,30 @@ Actions related to Pipelines
 
 Get a list of all Pipelines.
 
-### Example Usage
+### Example Usage: PipelineResponseExamplesEmptyPipeline
 
-<!-- UsageSnippet language="python" operationID="getPipelines" method="get" path="/pipelines" -->
+<!-- UsageSnippet language="python" operationID="getPipelines" method="get" path="/pipelines" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.list()
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="getPipelines" method="get" path="/pipelines" example="PipelineResponseExamplesEvalPipeline" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -1885,13 +1906,55 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: PipelineResponseExamplesEmptyPipeline
+
+<!-- UsageSnippet language="python" operationID="createPipelines" method="post" path="/pipelines" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.create(id="<id>", conf={})
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="createPipelines" method="post" path="/pipelines" example="PipelineResponseExamplesEvalPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.create(id="<id>", conf={})
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | N/A                                                                 |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique identifier for the Pipeline.                                 |
+| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | Configuration for the Pipeline, including functions and settings.   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -1909,9 +1972,30 @@ with CriblControlPlane(
 
 Delete the specified Pipeline.
 
-### Example Usage
+### Example Usage: PipelineResponseExamplesEmptyPipeline
 
-<!-- UsageSnippet language="python" operationID="deletePipelinesById" method="delete" path="/pipelines/{id}" -->
+<!-- UsageSnippet language="python" operationID="deletePipelinesById" method="delete" path="/pipelines/{id}" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.delete(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="deletePipelinesById" method="delete" path="/pipelines/{id}" example="PipelineResponseExamplesEvalPipeline" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -1953,9 +2037,30 @@ with CriblControlPlane(
 
 Get the specified Pipeline.
 
-### Example Usage
+### Example Usage: PipelineResponseExamplesEmptyPipeline
 
-<!-- UsageSnippet language="python" operationID="getPipelinesById" method="get" path="/pipelines/{id}" -->
+<!-- UsageSnippet language="python" operationID="getPipelinesById" method="get" path="/pipelines/{id}" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="getPipelinesById" method="get" path="/pipelines/{id}" example="PipelineResponseExamplesEvalPipeline" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -3823,6 +3928,48 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: PipelineResponseExamplesEmptyPipeline
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesById" method="patch" path="/pipelines/{id}" example="PipelineResponseExamplesEmptyPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={})
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PipelineResponseExamplesEvalPipeline
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesById" method="patch" path="/pipelines/{id}" example="PipelineResponseExamplesEvalPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={})
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdatePipelineExamplesAggregateMetrics
 
 <!-- UsageSnippet language="python" operationID="updatePipelinesById" method="patch" path="/pipelines/{id}" example="UpdatePipelineExamplesAggregateMetrics" -->
@@ -5655,8 +5802,8 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `id_param`                                                          | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Pipeline to update.                      |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | N/A                                                                 |
-| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | N/A                                                                 |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | Unique identifier for the Pipeline.                                 |
+| `conf`                                                              | [models.ConfInput](../../models/confinput.md)                       | :heavy_check_mark:                                                  | Configuration for the Pipeline, including functions and settings.   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response

@@ -196,8 +196,8 @@ class Pipelines(BaseSDK):
 
         Create a new Pipeline.
 
-        :param id:
-        :param conf:
+        :param id: Unique identifier for the Pipeline.
+        :param conf: Configuration for the Pipeline, including functions and settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -294,8 +294,8 @@ class Pipelines(BaseSDK):
 
         Create a new Pipeline.
 
-        :param id:
-        :param conf:
+        :param id: Unique identifier for the Pipeline.
+        :param conf: Configuration for the Pipeline, including functions and settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -762,8 +762,8 @@ class Pipelines(BaseSDK):
         Update the specified Pipeline.<br/><br/>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
 
         :param id_param: The <code>id</code> of the Pipeline to update.
-        :param id:
-        :param conf:
+        :param id: Unique identifier for the Pipeline.
+        :param conf: Configuration for the Pipeline, including functions and settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -865,8 +865,8 @@ class Pipelines(BaseSDK):
         Update the specified Pipeline.<br/><br/>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
 
         :param id_param: The <code>id</code> of the Pipeline to update.
-        :param id:
-        :param conf:
+        :param id: Unique identifier for the Pipeline.
+        :param conf: Configuration for the Pipeline, including functions and settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

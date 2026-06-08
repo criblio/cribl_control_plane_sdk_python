@@ -240,11 +240,17 @@ class RestCollectMethodPostTypedDict(TypedDict):
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestCollectMethodPostSchedulingTypedDict]
     username: NotRequired[str]
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     login_url: NotRequired[str]
     r"""URL to use for login API call. This call is expected to be a POST."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
     login_body: NotRequired[str]
     r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
     get_auth_token_from_header: NotRequired[bool]
@@ -262,6 +268,8 @@ class RestCollectMethodPostTypedDict(TypedDict):
     r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+    template_client_secret_param_value: NotRequired[str]
+    r"""Binds 'clientSecretParamValue' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecretParamValue' at runtime."""
     auth_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
@@ -272,8 +280,12 @@ class RestCollectMethodPostTypedDict(TypedDict):
     r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
     service_account_credentials: NotRequired[str]
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+    template_service_account_credentials: NotRequired[str]
+    r"""Binds 'serviceAccountCredentials' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serviceAccountCredentials' at runtime."""
     subject: NotRequired[str]
     r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
+    template_subject: NotRequired[str]
+    r"""Binds 'subject' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subject' at runtime."""
     hmac_function_id: NotRequired[str]
     r"""Select or create an HMAC Function to use with authentication"""
     template_collect_url: NotRequired[str]
@@ -362,7 +374,17 @@ class RestCollectMethodPost(BaseModel):
 
     username: Optional[str] = None
 
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
     password: Optional[str] = None
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -371,6 +393,11 @@ class RestCollectMethodPost(BaseModel):
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
     r"""URL to use for login API call. This call is expected to be a POST."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
 
     login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
     r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
@@ -410,6 +437,11 @@ class RestCollectMethodPost(BaseModel):
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
 
+    template_client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientSecretParamValue")
+    ] = None
+    r"""Binds 'clientSecretParamValue' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecretParamValue' at runtime."""
+
     auth_request_params: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="authRequestParams"),
@@ -427,8 +459,18 @@ class RestCollectMethodPost(BaseModel):
     ] = None
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
 
+    template_service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="__template_serviceAccountCredentials")
+    ] = None
+    r"""Binds 'serviceAccountCredentials' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serviceAccountCredentials' at runtime."""
+
     subject: Optional[str] = None
     r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
+
+    template_subject: Annotated[
+        Optional[str], pydantic.Field(alias="__template_subject")
+    ] = None
+    r"""Binds 'subject' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subject' at runtime."""
 
     hmac_function_id: Annotated[
         Optional[str], pydantic.Field(alias="hmacFunctionId")
@@ -479,9 +521,12 @@ class RestCollectMethodPost(BaseModel):
                 "microsoftGraphDelta",
                 "__scheduling",
                 "username",
+                "__template_username",
                 "password",
+                "__template_password",
                 "credentialsSecret",
                 "loginUrl",
+                "__template_loginUrl",
                 "loginBody",
                 "getAuthTokenFromHeader",
                 "authHeaderKey",
@@ -490,11 +535,14 @@ class RestCollectMethodPost(BaseModel):
                 "tokenRespAttribute",
                 "clientSecretParamName",
                 "clientSecretParamValue",
+                "__template_clientSecretParamValue",
                 "authRequestParams",
                 "textSecret",
                 "scopes",
                 "serviceAccountCredentials",
+                "__template_serviceAccountCredentials",
                 "subject",
+                "__template_subject",
                 "hmacFunctionId",
                 "__template_collectUrl",
             ]
@@ -540,6 +588,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: NotRequired[str]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
@@ -565,6 +615,11 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeNone(BaseModel):
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
@@ -625,6 +680,7 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeNone(BaseModel):
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
@@ -667,6 +723,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
     discover_url: NotRequired[str]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
@@ -693,6 +751,11 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeList(BaseModel):
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
@@ -750,6 +813,7 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeList(BaseModel):
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
@@ -793,6 +857,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
@@ -822,6 +888,11 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeJSON(BaseModel):
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""URL to use for the Discover operation. Can be a constant URL, or a JavaScript expression to derive the URL."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
@@ -873,6 +944,7 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeJSON(BaseModel):
             [
                 "discoverDataField",
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
                 "pagination",
@@ -936,6 +1008,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTypedD
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     item_list: NotRequired[List[str]]
@@ -999,6 +1073,11 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(BaseM
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -1040,6 +1119,7 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(BaseM
                 "discoverResponseFormat",
                 "enableDiscoverCode",
                 "formatResultCode",
+                "__template_discoverUrl",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -1092,6 +1172,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBod
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     item_list: NotRequired[List[str]]
@@ -1149,6 +1231,11 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBod
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -1188,6 +1275,7 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBod
                 "discoverResponseFormat",
                 "enableDiscoverCode",
                 "formatResultCode",
+                "__template_discoverUrl",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -1243,6 +1331,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedDi
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     item_list: NotRequired[List[str]]
@@ -1300,6 +1390,11 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseMo
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -1340,6 +1435,7 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseMo
                 "discoverResponseFormat",
                 "enableDiscoverCode",
                 "formatResultCode",
+                "__template_discoverUrl",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -1395,6 +1491,8 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDic
     enable_discover_code: NotRequired[bool]
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     item_list: NotRequired[List[str]]
@@ -1452,6 +1550,11 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMod
     ] = None
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -1492,6 +1595,7 @@ class RestCollectMethodGetRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMod
                 "discoverResponseFormat",
                 "enableDiscoverCode",
                 "formatResultCode",
+                "__template_discoverUrl",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -2907,11 +3011,17 @@ class RestCollectMethodGetTypedDict(TypedDict):
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestCollectMethodGetSchedulingTypedDict]
     username: NotRequired[str]
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     login_url: NotRequired[str]
     r"""URL to use for login API call. This call is expected to be a POST."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
     login_body: NotRequired[str]
     r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
     get_auth_token_from_header: NotRequired[bool]
@@ -2929,6 +3039,8 @@ class RestCollectMethodGetTypedDict(TypedDict):
     r"""Defaults to 'client_secret'. Automatically added to request parameters using the value specified."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
+    template_client_secret_param_value: NotRequired[str]
+    r"""Binds 'clientSecretParamValue' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecretParamValue' at runtime."""
     auth_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
@@ -2939,8 +3051,12 @@ class RestCollectMethodGetTypedDict(TypedDict):
     r"""Scopes to use during authentication. See [Google's docs](https://developers.google.com/identity/protocols/oauth2/scopes) for more information."""
     service_account_credentials: NotRequired[str]
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
+    template_service_account_credentials: NotRequired[str]
+    r"""Binds 'serviceAccountCredentials' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serviceAccountCredentials' at runtime."""
     subject: NotRequired[str]
     r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
+    template_subject: NotRequired[str]
+    r"""Binds 'subject' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subject' at runtime."""
     hmac_function_id: NotRequired[str]
     r"""Select or create an HMAC Function to use with authentication"""
     template_collect_url: NotRequired[str]
@@ -3029,7 +3145,17 @@ class RestCollectMethodGet(BaseModel):
 
     username: Optional[str] = None
 
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
     password: Optional[str] = None
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -3038,6 +3164,11 @@ class RestCollectMethodGet(BaseModel):
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
     r"""URL to use for login API call. This call is expected to be a POST."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
 
     login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
     r"""Template for POST body to send with login request. ${username} and ${password} are used to specify location of these attributes in the message. For x-www-form-urlencoded bodies, wrap values with ${C.Encode.uri(password)} to preserve special characters like +, &, and =."""
@@ -3077,6 +3208,11 @@ class RestCollectMethodGet(BaseModel):
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Value is stored encrypted on disk and automatically added to request parameters."""
 
+    template_client_secret_param_value: Annotated[
+        Optional[str], pydantic.Field(alias="__template_clientSecretParamValue")
+    ] = None
+    r"""Binds 'clientSecretParamValue' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientSecretParamValue' at runtime."""
+
     auth_request_params: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="authRequestParams"),
@@ -3094,8 +3230,18 @@ class RestCollectMethodGet(BaseModel):
     ] = None
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
 
+    template_service_account_credentials: Annotated[
+        Optional[str], pydantic.Field(alias="__template_serviceAccountCredentials")
+    ] = None
+    r"""Binds 'serviceAccountCredentials' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serviceAccountCredentials' at runtime."""
+
     subject: Optional[str] = None
     r"""Email address of a user account with Super Admin permissions to the resources the collector will retrieve"""
+
+    template_subject: Annotated[
+        Optional[str], pydantic.Field(alias="__template_subject")
+    ] = None
+    r"""Binds 'subject' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subject' at runtime."""
 
     hmac_function_id: Annotated[
         Optional[str], pydantic.Field(alias="hmacFunctionId")
@@ -3146,9 +3292,12 @@ class RestCollectMethodGet(BaseModel):
                 "microsoftGraphDelta",
                 "__scheduling",
                 "username",
+                "__template_username",
                 "password",
+                "__template_password",
                 "credentialsSecret",
                 "loginUrl",
+                "__template_loginUrl",
                 "loginBody",
                 "getAuthTokenFromHeader",
                 "authHeaderKey",
@@ -3157,11 +3306,14 @@ class RestCollectMethodGet(BaseModel):
                 "tokenRespAttribute",
                 "clientSecretParamName",
                 "clientSecretParamValue",
+                "__template_clientSecretParamValue",
                 "authRequestParams",
                 "textSecret",
                 "scopes",
                 "serviceAccountCredentials",
+                "__template_serviceAccountCredentials",
                 "subject",
+                "__template_subject",
                 "hmacFunctionId",
                 "__template_collectUrl",
             ]

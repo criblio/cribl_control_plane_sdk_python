@@ -210,8 +210,8 @@ class PacksPipelines(BaseSDK):
         Create a new Pipeline within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack.
-        :param id:
-        :param conf:
+        :param id: Unique identifier for the Pipeline.
+        :param conf: Configuration for the Pipeline, including functions and settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -313,8 +313,8 @@ class PacksPipelines(BaseSDK):
         Create a new Pipeline within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack.
-        :param id:
-        :param conf:
+        :param id: Unique identifier for the Pipeline.
+        :param conf: Configuration for the Pipeline, including functions and settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -608,8 +608,8 @@ class PacksPipelines(BaseSDK):
 
         :param id_param: The <code>id</code> of the Pipeline to update.
         :param pack: The <code>id</code> of the Pack.
-        :param id:
-        :param conf:
+        :param id: Unique identifier for the Pipeline.
+        :param conf: Configuration for the Pipeline, including functions and settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -714,8 +714,8 @@ class PacksPipelines(BaseSDK):
 
         :param id_param: The <code>id</code> of the Pipeline to update.
         :param pack: The <code>id</code> of the Pack.
-        :param id:
-        :param conf:
+        :param id: Unique identifier for the Pipeline.
+        :param conf: Configuration for the Pipeline, including functions and settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

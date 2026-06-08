@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.19.0-alpha.1780496615657-130da476
+  version: 4.19.0-alpha.1780911200974-0f0b6a04
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -380,6 +380,11 @@ components:
           type: string
         tlsOptions:
           $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeStandalone"
+        __template_url:
+          type: string
+          description: Binds 'url' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'url' at runtime.
       required:
         - url
     RedisDeploymentTypeCluster:
@@ -464,6 +469,16 @@ components:
         password:
           title: Password
           type: string
+        __template_username:
+          type: string
+          description: Binds 'username' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'username' at runtime.
+        __template_password:
+          type: string
+          description: Binds 'password' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'password' at runtime.
       required:
         - password
     RedisAuthTypeCredentialsSecret:
@@ -4707,6 +4722,11 @@ components:
             backticks. Can be evaluated only at init time. Example referencing a
             Global Variable: `myBucket-${C.vars.myVar}`"
           type: string
+        __template_url:
+          type: string
+          description: Binds 'url' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'url' at runtime.
         tlsOptions:
           $ref: "#/components/schemas/TlsOptionsTypeRedisDeploymentTypeStandalone"
         rootNodes:
@@ -4728,9 +4748,19 @@ components:
         username:
           title: Username
           type: string
+        __template_username:
+          type: string
+          description: Binds 'username' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'username' at runtime.
         password:
           title: Password
           type: string
+        __template_password:
+          type: string
+          description: Binds 'password' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'password' at runtime.
         credentialsSecret:
           type: string
           title: User secret
@@ -9500,6 +9530,12 @@ components:
           title: Connection string
           description: Enter your Azure storage account Connection String. If left blank,
             Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING.
+        __template_connectionString:
+          type: string
+          description: Binds 'connectionString' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'connectionString' at runtime.
       required:
         - connectionString
     AzureBlobAuthTypeSecret:
@@ -9547,6 +9583,33 @@ components:
           type: string
           title: Azure Cloud
           description: The Azure cloud to use. Defaults to Azure Public Cloud.
+        __template_storageAccountName:
+          type: string
+          description: Binds 'storageAccountName' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'storageAccountName' at runtime.
+        __template_tenantId:
+          type: string
+          description: Binds 'tenantId' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'tenantId' at runtime.
+        __template_clientId:
+          type: string
+          description: Binds 'clientId' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'clientId' at runtime.
+        __template_endpointSuffix:
+          type: string
+          description: Binds 'endpointSuffix' to a variable for dynamic value resolution.
+            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'endpointSuffix' at
+            runtime.
+        __template_azureCloud:
+          type: string
+          description: Binds 'azureCloud' to a variable for dynamic value resolution. Set
+            to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'azureCloud' at runtime.
       required:
         - storageAccountName
         - tenantId
@@ -9670,6 +9733,10 @@ components:
           description: Maximum number of metadata objects to batch before recording as
             results
           minimum: 1
+        disableTimeFilter:
+          type: boolean
+          title: Disable time filter
+          description: Disable Collector event time filtering when a date range is specified
         parquetChunkSizeMB:
           type: number
           title: Parquet chunk size limit
@@ -9689,6 +9756,12 @@ components:
           title: Connection string
           description: Enter your Azure storage account Connection String. If left blank,
             Cribl Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING.
+        __template_connectionString:
+          type: string
+          description: Binds 'connectionString' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'connectionString' at runtime.
         textSecret:
           type: string
           title: Connection string (text secret)
@@ -9697,14 +9770,30 @@ components:
           type: string
           title: Storage account name
           description: The name of your Azure storage account
+        __template_storageAccountName:
+          type: string
+          description: Binds 'storageAccountName' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'storageAccountName' at runtime.
         tenantId:
           type: string
           title: Tenant ID
           description: The service principal's tenant ID
+        __template_tenantId:
+          type: string
+          description: Binds 'tenantId' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'tenantId' at runtime.
         clientId:
           type: string
           title: Client ID
           description: The service principal's client ID
+        __template_clientId:
+          type: string
+          description: Binds 'clientId' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'clientId' at runtime.
         clientTextSecret:
           type: string
           title: Client secret (text secret)
@@ -9714,10 +9803,21 @@ components:
           title: Endpoint suffix
           description: The endpoint suffix for the service URL. Takes precedence over the
             Azure Cloud setting. Defaults to core.windows.net.
+        __template_endpointSuffix:
+          type: string
+          description: Binds 'endpointSuffix' to a variable for dynamic value resolution.
+            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'endpointSuffix' at
+            runtime.
         azureCloud:
           type: string
           title: Azure Cloud
           description: The Azure cloud to use. Defaults to Azure Public Cloud.
+        __template_azureCloud:
+          type: string
+          description: Binds 'azureCloud' to a variable for dynamic value resolution. Set
+            to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'azureCloud' at runtime.
         certificate:
           $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
         __template_containerName:
@@ -10173,6 +10273,16 @@ components:
           type: string
           title: Password
           description: Basic authentication password
+        __template_username:
+          type: string
+          description: Binds 'username' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'username' at runtime.
+        __template_password:
+          type: string
+          description: Binds 'password' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'password' at runtime.
       required:
         - username
         - password
@@ -10235,6 +10345,27 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/AuthRequestHeaderConfHealthCheckAuthenticationLogin"
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'loginUrl' at runtime.
+        __template_username:
+          type: string
+          description: Binds 'username' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'username' at runtime.
+        __template_password:
+          type: string
+          description: Binds 'password' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'password' at runtime.
+        __template_tokenRespAttribute:
+          type: string
+          description: Binds 'tokenRespAttribute' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'tokenRespAttribute' at runtime.
       required:
         - loginUrl
         - username
@@ -10281,6 +10412,17 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/AuthRequestHeaderConfHealthCheckAuthenticationLogin"
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'loginUrl' at runtime.
+        __template_tokenRespAttribute:
+          type: string
+          description: Binds 'tokenRespAttribute' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'tokenRespAttribute' at runtime.
       required:
         - loginUrl
         - credentialsSecret
@@ -10336,6 +10478,17 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/AuthRequestHeaderConfHealthCheckAuthenticationOauth"
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'loginUrl' at runtime.
+        __template_tokenRespAttribute:
+          type: string
+          description: Binds 'tokenRespAttribute' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'tokenRespAttribute' at runtime.
       required:
         - loginUrl
         - clientSecretParamName
@@ -10390,6 +10543,17 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/AuthRequestHeaderConfHealthCheckAuthenticationOauth"
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'loginUrl' at runtime.
+        __template_tokenRespAttribute:
+          type: string
+          description: Binds 'tokenRespAttribute' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'tokenRespAttribute' at runtime.
       required:
         - loginUrl
         - clientSecretParamName
@@ -10458,6 +10622,17 @@ components:
           title: Discover Data Field
           description: "Path to field in the response object which contains discover
             results (e.g.: level1.name), leave blank if the result is an array."
+        __template_discoverUrl:
+          type: string
+          description: Binds 'discoverUrl' to a variable for dynamic value resolution. Set
+            to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'discoverUrl' at runtime.
+        __template_discoverDataField:
+          type: string
+          description: Binds 'discoverDataField' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'discoverDataField' at runtime.
       required:
         - discoverUrl
         - discoverMethod
@@ -10650,6 +10825,12 @@ components:
               title: Discover URL
               description: Expression to derive URL to use for the Discover operation (can be
                 a constant).
+            __template_discoverUrl:
+              type: string
+              description: Binds 'discoverUrl' to a variable for dynamic value resolution. Set
+                to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+                (group-scoped). Variable value overrides 'discoverUrl' at
+                runtime.
             discoverMethod:
               $ref: "#/components/schemas/DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTy\
                 peHttp"
@@ -10665,6 +10846,12 @@ components:
               description: "Path to field in the response object which contains discover
                 results (e.g.: level1.name), leave blank if the result is an
                 array."
+            __template_discoverDataField:
+              type: string
+              description: Binds 'discoverDataField' to a variable for dynamic value
+                resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+                prefixed ID (group-scoped). Variable value overrides
+                'discoverDataField' at runtime.
             manualDiscoverResult:
               type: string
               title: Discover result
@@ -10792,10 +10979,20 @@ components:
           type: string
           title: Username
           description: Basic authentication username
+        __template_username:
+          type: string
+          description: Binds 'username' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'username' at runtime.
         password:
           type: string
           title: Password
           description: Basic authentication password
+        __template_password:
+          type: string
+          description: Binds 'password' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'password' at runtime.
         credentialsSecret:
           type: string
           title: Credentials secret
@@ -10804,6 +11001,11 @@ components:
           type: string
           title: Login URL
           description: URL to use for login API call. This call is expected to be a POST.
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'loginUrl' at runtime.
         loginBody:
           type: string
           title: POST body
@@ -10817,6 +11019,12 @@ components:
             are OK. Leave blank if the response content type is text/plain; the
             entire response body will be used to derive the authorization
             header.
+        __template_tokenRespAttribute:
+          type: string
+          description: Binds 'tokenRespAttribute' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'tokenRespAttribute' at runtime.
         authHeaderExpr:
           type: string
           title: Authorize Expression
@@ -11056,6 +11264,21 @@ components:
             are OK. Leave blank if the response content type is text/plain; the
             entire response body will be used to derive the authorization
             header.
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'loginUrl' at runtime.
+        __template_username:
+          type: string
+          description: Binds 'username' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'username' at runtime.
+        __template_password:
+          type: string
+          description: Binds 'password' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'password' at runtime.
       required:
         - loginUrl
         - username
@@ -11173,6 +11396,17 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/CollectRequestParamConfRestCollectMethodGet"
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'loginUrl' at runtime.
+        __template_clientSecretParamValue:
+          type: string
+          description: Binds 'clientSecretParamValue' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'clientSecretParamValue' at runtime.
       required:
         - loginUrl
         - clientSecretParamName
@@ -11265,6 +11499,17 @@ components:
           title: Impersonated account's email address
           description: Email address of a user account with Super Admin permissions to the
             resources the collector will retrieve
+        __template_serviceAccountCredentials:
+          type: string
+          description: Binds 'serviceAccountCredentials' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'serviceAccountCredentials' at runtime.
+        __template_subject:
+          type: string
+          description: Binds 'subject' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'subject' at runtime.
       required:
         - scopes
         - serviceAccountCredentials
@@ -11296,6 +11541,11 @@ components:
           title: Impersonated account's email address
           description: Email address of a user account with Super Admin permissions to the
             resources the collector will retrieve
+        __template_subject:
+          type: string
+          description: Binds 'subject' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'subject' at runtime.
       required:
         - scopes
         - textSecret
@@ -11621,6 +11871,11 @@ components:
             zip: 22222}] or ['11111','22222']. Caution: This function is
             evaluated in an unprotected context, allowing you to execute almost
             any JavaScript code."
+        __template_discoverUrl:
+          type: string
+          description: Binds 'discoverUrl' to a variable for dynamic value resolution. Set
+            to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'discoverUrl' at runtime.
       required:
         - discoverUrl
         - discoverMethod
@@ -12027,6 +12282,12 @@ components:
               title: Discover URL
               description: URL to use for the Discover operation. Can be a constant URL, or a
                 JavaScript expression to derive the URL.
+            __template_discoverUrl:
+              type: string
+              description: Binds 'discoverUrl' to a variable for dynamic value resolution. Set
+                to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+                (group-scoped). Variable value overrides 'discoverUrl' at
+                runtime.
             discoverMethod:
               $ref: "#/components/schemas/DiscoverMethodOptionsRestDiscoveryDiscoverTypeHttp"
             discoverRequestHeaders:
@@ -12316,9 +12577,19 @@ components:
         username:
           type: string
           title: Username
+        __template_username:
+          type: string
+          description: Binds 'username' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'username' at runtime.
         password:
           type: string
           title: Password
+        __template_password:
+          type: string
+          description: Binds 'password' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'password' at runtime.
         credentialsSecret:
           type: string
           title: Credentials secret
@@ -12327,6 +12598,11 @@ components:
           type: string
           title: Login URL
           description: URL to use for login API call. This call is expected to be a POST.
+        __template_loginUrl:
+          type: string
+          description: Binds 'loginUrl' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'loginUrl' at runtime.
         loginBody:
           type: string
           title: POST body
@@ -12374,6 +12650,12 @@ components:
           description: Secret value to add to HTTP requests as the 'client secret'
             parameter. Value is stored encrypted on disk and automatically added
             to request parameters.
+        __template_clientSecretParamValue:
+          type: string
+          description: Binds 'clientSecretParamValue' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'clientSecretParamValue' at runtime.
         authRequestParams:
           title: Extra authentication parameters
           description: OAuth request parameters added to the POST body. The Content-Type
@@ -12404,11 +12686,22 @@ components:
             file. To upload a file, click the upload icon in this field's upper
             right.
           minLength: 1
+        __template_serviceAccountCredentials:
+          type: string
+          description: Binds 'serviceAccountCredentials' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'serviceAccountCredentials' at runtime.
         subject:
           type: string
           title: Impersonated account's email address
           description: Email address of a user account with Super Admin permissions to the
             resources the collector will retrieve
+        __template_subject:
+          type: string
+          description: Binds 'subject' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'subject' at runtime.
         hmacFunctionId:
           type: string
           title: HMAC Function
@@ -13278,17 +13571,14 @@ components:
           description: List of items in this response.
           items:
             $ref: "#/components/schemas/UserAccessControlList"
-    CountedDatabaseConnectionConfig:
-      type: object
-      properties:
-        count:
-          type: integer
-          description: number of items present in the items array
-        items:
-          type: array
-          description: List of items in this response.
-          items:
-            $ref: "#/components/schemas/DatabaseConnectionConfig"
+    DatabaseConnectionAuthType:
+      type: string
+      enum:
+        - configObj
+        - connectionString
+        - secret
+        - secrets
+      x-speakeasy-unknown-values: allow
     DatabaseConnectionType:
       type: string
       enum:
@@ -13301,36 +13591,112 @@ components:
       type: object
       properties:
         authType:
-          type: string
+          $ref: "#/components/schemas/DatabaseConnectionAuthType"
+          description: Authentication method for the Database Connection. Determines how
+            credentials are provided.
+          example: connectionString
         configObj:
           type: string
+          description: JSON configuration object for advanced SQL Server connection
+            settings.
+          example:
+            server: sqlserver.example.com
+            database: Reporting
+            user: yourUsername
+            password: yourPassword
+            options:
+              trustServerCertificate: false
+              connectTimeout: 20000
         connectionString:
           type: string
+          description: Database connection string with embedded credentials or server
+            information.
+          example: mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true
         connectionTimeout:
-          type: number
+          type: integer
+          description: Maximum time (in milliseconds) to wait when establishing the
+            database connection.
+          minimum: 1000
+          maximum: 60000
+          example: 10000
         credsSecrets:
           type: string
+          description: Name of the stored credentials secret containing username and
+            password. Used with Oracle connections.
+          example: oracle-production-credentials
         databaseType:
           $ref: "#/components/schemas/DatabaseConnectionType"
+          description: Type of database engine for the connection.
+          example: mysql
         description:
           type: string
+          description: Brief description of the Database Connection.
+          example: Production MySQL database for customer data
         id:
           type: string
+          description: Unique identifier for the Database Connection.
+          pattern: ^[a-zA-Z0-9_\\-]+$
+          example: mysql-prod-db
         password:
           type: string
+          description: Database password for authentication. Used with Oracle connections.
+          example: yourPassword
         requestTimeout:
-          type: number
+          type: integer
+          description: Maximum time (in milliseconds) to wait for a database query to
+            complete. Applies to SQL Server connections only.
+          minimum: 1000
+          example: 30000
         tags:
           type: string
+          description: Comma-separated list of tags for categorizing and filtering
+            Database Connections.
+          example: production,mysql,customer-data
         textSecret:
           type: string
+          description: Name of the stored text secret containing the connection string.
+          example: mysql-production-connection
         user:
           type: string
+          description: Database username for authentication. Used with Oracle connections.
+          example: yourUsername
       required:
         - authType
         - databaseType
         - description
         - id
+    DatabaseConnectionResponseEnvelope:
+      type: object
+      properties:
+        count:
+          type: integer
+          description: Number of Database Connections returned in the response envelope.
+          minimum: 0
+          example: 1
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/DatabaseConnectionConfig"
+          description: Database Connections returned in the response envelope.
+      required:
+        - count
+        - items
+    RestApiJsonError:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Human-readable message or serialized validation details for the
+            error.
+        status:
+          type: string
+          const: error
+          description: Always <code>error</code> for API error responses.
+      required:
+        - message
+        - status
+      description: JSON body returned for many REST failures that use
+        RESTEndpoint.sendError (and similar handlers).
     CountedFunctionResponse:
       type: object
       properties:
@@ -25047,8 +25413,8 @@ components:
           title: Predicate
           description: String to filter log entries, in NSPredicate format (e.g.,
             subsystem == "com.apple.security" or process == "kernel"). See
-            [Predicate format
-            reference](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html)
+            [Common Log Types and
+            Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples)
             for more information.
           minLength: 1
         readMode:
@@ -27166,6 +27532,11 @@ components:
                 type: string
                 title: Token secret (text secret)
                 description: Select or create a stored text secret
+              token:
+                type: string
+                title: Token
+                description: "Shared secret to be provided by any client (Authorization:
+                  <token>)"
               enabled:
                 type: boolean
                 title: Enable token
@@ -35600,6 +35971,217 @@ components:
             resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
             prefixed ID (group-scoped). Variable value overrides
             'payloadExpression' at runtime.
+    OutputGoogleCloudObservability:
+      type: object
+      required:
+        - type
+        - googleAuthMethod
+      properties:
+        id:
+          type: string
+          title: Output ID
+          description: Unique ID for this output
+        type:
+          type: string
+          enum:
+            - google_cloud_observability
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data before sending out to this output
+        systemFields:
+          type: array
+          title: System fields
+          description: Fields to automatically add to events, such as cribl_pipe. Supports
+            wildcards.
+          items:
+            type: string
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If
+            empty, will be enabled everywhere.
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        protocol:
+          type: string
+          enum:
+            - grpc
+          x-speakeasy-unknown-values: allow
+        otlpVersion:
+          type: string
+          enum:
+            - 1.3.1
+          x-speakeasy-unknown-values: allow
+        endpoint:
+          type: string
+          title: Endpoint
+          description: Fixed Google Cloud Observability gRPC endpoint. All three signals
+            share this transport; the OTLP service path determines whether the
+            call lands on traces, metrics, or logs.
+          enum:
+            - telemetry.googleapis.com:443
+          x-speakeasy-unknown-values: allow
+        googleAuthMethod:
+          type: string
+          title: Google authentication method
+          description: Choose Auto to use Google Application Default Credentials (ADC).
+            Choose Secret to select or create a stored secret that references
+            Google service account credentials.
+          enum:
+            - auto
+            - secret
+          x-speakeasy-enum-descriptions:
+            - Auto
+            - Secret
+          x-speakeasy-unknown-values: allow
+        metadata:
+          type: array
+          title: Metadata
+          description: List of key-value pairs to send with each gRPC request. Value
+            supports JavaScript expressions that are evaluated just once, when
+            the destination gets started. To pass credentials as metadata, use
+            'C.Secret'.
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/KeyValueMetadataConfOutputFilesystem"
+        dynamicHeadersEnabled:
+          type: boolean
+          title: Use dynamic metadata
+          description: Batch event data upon dynamic metadata (whether presented or not)
+        dynamicHeadersField:
+          type: string
+          title: Dynamic metadata field
+          description: When presented, this field which contains metadata, will be
+            injected into the Destination metadata and used to batch events.
+        concurrency:
+          type: number
+          title: Request concurrency
+          description: Maximum number of ongoing requests before blocking
+          minimum: 1
+          maximum: 32
+        maxPayloadSizeKB:
+          type: number
+          title: Body size limit (KB)
+          description: Maximum size, in KB, of the request body sent to Google Cloud
+            Observability
+          minimum: 1024
+          maximum: 10240
+        timeoutSec:
+          type: number
+          minimum: 1
+          maximum: 9007199254740991
+          title: Request timeout
+          description: Amount of time, in seconds, to wait for a request to complete
+            before canceling it
+        flushPeriodSec:
+          type: number
+          title: Flush period (sec)
+          description: Maximum time between requests. Small values could cause the payload
+            size to be smaller than the configured Body size limit.
+        failedRequestLoggingMode:
+          $ref: "#/components/schemas/FailedRequestLoggingModeOptions"
+        connectionTimeout:
+          type: number
+          title: Connection timeout
+          description: Amount of time (milliseconds) to wait for the connection to
+            establish before retrying
+        keepAliveTime:
+          type: number
+          title: Keep alive time (seconds)
+          description: How often the sender should ping the peer to keep the connection open
+          minimum: 1
+        tls:
+          $ref: "#/components/schemas/TlsSettingsClientSideTypeExtended"
+        onBackpressure:
+          $ref: "#/components/schemas/BackpressureBehaviorOptions"
+        description:
+          type: string
+          title: Description
+        secret:
+          type: string
+          title: Service account credentials (text secret)
+          description: Select or create a stored text secret
+        pqStrictOrdering:
+          title: Strict ordering
+          description: Use FIFO (first in, first out) processing. Disable to forward new
+            events to receivers before queue is flushed.
+          type: boolean
+        pqRatePerSec:
+          type: number
+          title: Drain rate limit (EPS)
+          description: Throttling rate (in events per second) to impose while writing to
+            Destinations from PQ. Defaults to 0, which disables throttling.
+          minimum: 0
+        pqMode:
+          $ref: "#/components/schemas/ModeOptions"
+        pqMaxBufferSize:
+          type: number
+          title: Buffer size limit (events - deprecated)
+          description: Maximum number of events to hold in memory before writing the
+            events to disk. Deprecated and only supported in workers < v4.17.0.
+            Use pqMaxBufferSizeBytes instead.
+          minimum: 42
+          maximum: 1000
+        pqMaxBackpressureSec:
+          type: number
+          title: Backpressure duration limit
+          description: How long (in seconds) to wait for backpressure to resolve before
+            engaging the queue
+          minimum: 0
+        pqMaxFileSize:
+          type: string
+          title: File size limit
+          description: The maximum size to store in each queue file before closing and
+            optionally compressing (KB, MB, etc.)
+          pattern: ^\d+\s*(?:\w{2})?$
+        pqMaxSize:
+          type: string
+          title: Queue size limit
+          description: The maximum disk space that the queue can consume (as an average
+            per Worker Process) before queueing stops. Enter a numeral with
+            units of KB, MB, etc.
+          pattern: ^\d+\s*(?:\w{2})?$
+        pqPath:
+          type: string
+          title: Queue file path
+          description: "The location for the persistent queue files. To this field's
+            value, the system will append: /<worker-id>/<output-id>."
+        pqCompress:
+          $ref: "#/components/schemas/CompressionOptionsPq"
+        pqOnBackpressure:
+          $ref: "#/components/schemas/QueueFullBehaviorOptions"
+        pqMaxBufferSizeBytes:
+          type: string
+          title: Buffer size limit (bytes)
+          description: The maximum size to hold in memory before writing events to disk.
+            Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
+            and the maximum value is 1MB.
+          pattern: ^\d+\s*(?:\w{2})?$
+        pqControls:
+          type: object
+          title: ""
+        __template_streamtags:
+          type: string
+          description: Binds 'streamtags' to a variable for dynamic value resolution. Set
+            to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'streamtags' at runtime.
+        __template_failedRequestLoggingMode:
+          type: string
+          description: Binds 'failedRequestLoggingMode' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'failedRequestLoggingMode' at runtime.
+        __template_onBackpressure:
+          type: string
+          description: Binds 'onBackpressure' to a variable for dynamic value resolution.
+            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'onBackpressure' at
+            runtime.
     OutputGooglePubsub:
       type: object
       required:
@@ -44385,69 +44967,6 @@ components:
           description: Tags for filtering and grouping in @{product}
           items:
             type: string
-        endpoint:
-          type: string
-          title: Endpoint
-          description: S3 service endpoint. If empty, defaults to the AWS Region-specific
-            endpoint. Otherwise, it must point to S3-compatible endpoint.
-        enableAssumeRole:
-          type: boolean
-          title: Enable for S3
-          description: Use Assume Role credentials to access S3
-        assumeRoleArn:
-          type: string
-          title: AssumeRole ARN
-          description: Amazon Resource Name (ARN) of the role to assume
-          pattern: "^arn:"
-          minLength: 20
-        assumeRoleExternalId:
-          type: string
-          title: External ID
-          description: External ID to use when assuming role
-        durationSeconds:
-          type: number
-          title: Duration (seconds)
-          description: Duration of the assumed role's session, in seconds. Minimum is 900
-            (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12
-            hours).
-          minimum: 900
-          maximum: 43200
-        reuseConnections:
-          type: boolean
-          title: Reuse connections
-          description: Reuse connections between requests, which can improve performance
-        rejectUnauthorized:
-          type: boolean
-          title: Reject unauthorized certificates
-          description: Reject certificates that cannot be verified against a valid CA,
-            such as self-signed certificates
-        bucket:
-          type: string
-          title: S3 bucket name
-          description: "Name of the destination S3 bucket. Must be a JavaScript expression
-            (which can evaluate to a constant value), enclosed in quotes or
-            backticks. Can be evaluated only at initialization time. Example
-            referencing a Global Variable: `myBucket-${C.vars.myVar}`"
-        region:
-          type: string
-          title: Region
-          description: Region where the S3 bucket is located
-        destPath:
-          type: string
-          title: Lake dataset
-          description: Lake dataset to send the data to.
-        verifyPermissions:
-          type: boolean
-          title: Verify if bucket exists
-          description: Disable if you can access files within the bucket but not the
-            bucket itself
-        maxClosingFilesToBackpressure:
-          type: number
-          title: Staging file limit
-          description: Maximum number of files that can be waiting for upload before
-            backpressure is applied
-          minimum: 10
-          maximum: 4200
         stagePath:
           type: string
           title: Staging location
@@ -44533,46 +45052,92 @@ components:
           $ref: "#/components/schemas/RetrySettingsType"
         orphans:
           $ref: "#/components/schemas/OrphanFileRecoveryType"
-        awsSecretKey:
+        destPath:
           type: string
-          title: Secret key
-          description: "Secret key. This value can be a constant or a JavaScript
-            expression. Example: `${C.env.SOME_SECRET}`)"
-        objectACL:
-          $ref: "#/components/schemas/ObjectAclOptions"
-        storageClass:
-          $ref: "#/components/schemas/StorageClassOptions"
-        serverSideEncryption:
-          $ref: "#/components/schemas/ServerSideEncryptionForUploadedObjectsOptions"
-        kmsKeyId:
-          type: string
-          title: KMS key ID
-          description: ID or ARN of the KMS customer-managed key to use for encryption
-        awsAuthenticationMethod:
-          type: string
-          enum:
-            - auto
-            - auto_rpc
-            - manual
-          x-speakeasy-unknown-values: allow
+          title: Lake dataset
+          description: Lake dataset to send the data to.
         format:
           type: string
           enum:
             - json
             - parquet
-            - ddss
-            - netskope
+            - raw
           x-speakeasy-unknown-values: allow
+        dynamicDataset:
+          type: boolean
+        maxClosingFilesToBackpressure:
+          type: number
+          minimum: 10
+          maximum: 1000
         maxConcurrentFileParts:
           type: number
-          title: Concurrent file parts limit
-          description: Maximum number of parts to upload in parallel per file. Minimum
-            part size is 5MB.
           minimum: 1
           maximum: 10
         description:
           type: string
           title: Description
+        compress:
+          $ref: "#/components/schemas/CompressionOptionsHttp"
+        compressionLevel:
+          $ref: "#/components/schemas/CompressionLevelOptions"
+        automaticSchema:
+          type: boolean
+          title: Automatic schema
+          description: Automatically calculate the schema based on the events of each
+            Parquet file generated
+        parquetSchema:
+          type: string
+          title: Parquet schema
+          description: To add a new schema, navigate to Processing > Knowledge > Parquet
+            Schemas
+          minLength: 1
+        parquetVersion:
+          $ref: "#/components/schemas/ParquetVersionOptions"
+        parquetDataPageVersion:
+          $ref: "#/components/schemas/DataPageVersionOptions"
+        parquetRowGroupLength:
+          type: number
+          title: Group row limit
+          description: The number of rows that every group will contain. The final group
+            can contain a smaller number of rows.
+          minimum: 1
+          maximum: 67108864
+        parquetPageSize:
+          type: string
+          title: Page size
+          description: Target memory size for page segments, such as 1MB or 128MB.
+            Generally, lower values improve reading speed, while higher values
+            improve compression.
+          pattern: ^\d+\s*(?:[kK][bB]|[mM][bB]|[gG][bB]|[tT][bB])?$
+        shouldLogInvalidRows:
+          type: boolean
+          title: Log invalid rows
+          description: Log up to 3 rows that @{product} skips due to data mismatch
+        keyValueMetadata:
+          type: array
+          title: Metadata (optional)
+          description: 'The metadata of files the Destination writes will include the
+            properties you add here as key-value pairs. Useful for tagging.
+            Examples: "key":"OCSF Event Class", "value":"9001"'
+          minItems: 0
+          items:
+            $ref: "#/components/schemas/KeyValueMetadataConfOutputFilesystem"
+        enableStatistics:
+          type: boolean
+          title: Write statistics
+          description: Statistics profile an entire file in terms of minimum/maximum
+            values within data, numbers of nulls, etc. You can use Parquet tools
+            to view statistics.
+        enableWritePageIndex:
+          type: boolean
+          title: Write page indexes
+          description: One page index contains statistics for one data page. Parquet
+            readers use statistics to enable page skipping.
+        enablePageChecksum:
+          type: boolean
+          title: Write page checksum
+          description: Parquet tools can use the checksum of a Parquet page to verify data
+            integrity
         emptyDirCleanupSec:
           type: number
           title: Staging cleanup period
@@ -44601,37 +45166,6 @@ components:
           description: Binds 'streamtags' to a variable for dynamic value resolution. Set
             to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
             (group-scoped). Variable value overrides 'streamtags' at runtime.
-        __template_endpoint:
-          type: string
-          description: Binds 'endpoint' to a variable for dynamic value resolution. Set to
-            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'endpoint' at runtime.
-        __template_assumeRoleArn:
-          type: string
-          description: Binds 'assumeRoleArn' to a variable for dynamic value resolution.
-            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'assumeRoleArn' at runtime.
-        __template_assumeRoleExternalId:
-          type: string
-          description: Binds 'assumeRoleExternalId' to a variable for dynamic value
-            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
-            prefixed ID (group-scoped). Variable value overrides
-            'assumeRoleExternalId' at runtime.
-        __template_bucket:
-          type: string
-          description: Binds 'bucket' to a variable for dynamic value resolution. Set to
-            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'bucket' at runtime.
-        __template_region:
-          type: string
-          description: Binds 'region' to a variable for dynamic value resolution. Set to
-            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'region' at runtime.
-        __template_destPath:
-          type: string
-          description: Binds 'destPath' to a variable for dynamic value resolution. Set to
-            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'destPath' at runtime.
         __template_baseFileName:
           type: string
           description: Binds 'baseFileName' to a variable for dynamic value resolution.
@@ -44649,32 +45183,21 @@ components:
             Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
             (group-scoped). Variable value overrides 'onBackpressure' at
             runtime.
-        __template_awsSecretKey:
+        __template_destPath:
           type: string
-          description: Binds 'awsSecretKey' to a variable for dynamic value resolution.
-            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'awsSecretKey' at runtime.
-        __template_objectACL:
-          type: string
-          description: Binds 'objectACL' to a variable for dynamic value resolution. Set
-            to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'objectACL' at runtime.
-        __template_storageClass:
-          type: string
-          description: Binds 'storageClass' to a variable for dynamic value resolution.
-            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'storageClass' at runtime.
-        __template_serverSideEncryption:
-          type: string
-          description: Binds 'serverSideEncryption' to a variable for dynamic value
-            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
-            prefixed ID (group-scoped). Variable value overrides
-            'serverSideEncryption' at runtime.
-        __template_kmsKeyId:
-          type: string
-          description: Binds 'kmsKeyId' to a variable for dynamic value resolution. Set to
+          description: Binds 'destPath' to a variable for dynamic value resolution. Set to
             variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
-            (group-scoped). Variable value overrides 'kmsKeyId' at runtime.
+            (group-scoped). Variable value overrides 'destPath' at runtime.
+        __template_compress:
+          type: string
+          description: Binds 'compress' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'compress' at runtime.
+        __template_parquetSchema:
+          type: string
+          description: Binds 'parquetSchema' to a variable for dynamic value resolution.
+            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'parquetSchema' at runtime.
       required:
         - type
     OutputDiskSpool:
@@ -44896,6 +45419,11 @@ components:
             the delay to 180 seconds, even if the Retry-After header specifies a
             longer delay. When enabled, takes precedence over user-configured
             retry options. When disabled, all Retry-After headers are ignored.
+        workload:
+          type: string
+          title: Workload
+          description: Optional ClickHouse workload name to append as a SETTINGS clause on
+            INSERT queries. Used for workload scheduling classification.
         dumpFormatErrorsToDisk:
           type: boolean
           title: Log last schema mismatch
@@ -45187,6 +45715,11 @@ components:
             the delay to 180 seconds, even if the Retry-After header specifies a
             longer delay. When enabled, takes precedence over user-configured
             retry options. When disabled, all Retry-After headers are ignored.
+        workload:
+          type: string
+          title: Workload
+          description: Optional ClickHouse workload name to append as a SETTINGS clause on
+            INSERT queries. Used for workload scheduling classification.
         dumpFormatErrorsToDisk:
           type: boolean
           title: Log last schema mismatch
@@ -45491,6 +46024,11 @@ components:
             the delay to 180 seconds, even if the Retry-After header specifies a
             longer delay. When enabled, takes precedence over user-configured
             retry options. When disabled, all Retry-After headers are ignored.
+        workload:
+          type: string
+          title: Workload
+          description: Optional ClickHouse workload name to append as a SETTINGS clause on
+            INSERT queries. Used for workload scheduling classification.
         dumpFormatErrorsToDisk:
           type: boolean
           title: Log last schema mismatch
@@ -50658,6 +51196,7 @@ components:
         - $ref: "#/components/schemas/OutputGoogleChronicle"
         - $ref: "#/components/schemas/OutputGoogleCloudStorage"
         - $ref: "#/components/schemas/OutputGoogleCloudLogging"
+        - $ref: "#/components/schemas/OutputGoogleCloudObservability"
         - $ref: "#/components/schemas/OutputGooglePubsub"
         - $ref: "#/components/schemas/OutputExabeam"
         - $ref: "#/components/schemas/OutputKafka"
@@ -50740,6 +51279,7 @@ components:
           google_chronicle: "#/components/schemas/OutputGoogleChronicle"
           google_cloud_storage: "#/components/schemas/OutputGoogleCloudStorage"
           google_cloud_logging: "#/components/schemas/OutputGoogleCloudLogging"
+          google_cloud_observability: "#/components/schemas/OutputGoogleCloudObservability"
           google_pubsub: "#/components/schemas/OutputGooglePubsub"
           exabeam: "#/components/schemas/OutputExabeam"
           kafka: "#/components/schemas/OutputKafka"
@@ -50867,6 +51407,7 @@ components:
         - google_pubsub
         - google_chronicle
         - chronicle
+        - google_cloud_observability
         - grafana_cloud
         - loki
         - open_telemetry
@@ -50993,24 +51534,26 @@ components:
       properties:
         id:
           title: ID
+          description: Unique identifier for the Pipeline.
           type: string
         conf:
           type: object
+          description: Configuration for the Pipeline, including functions and settings.
           additionalProperties: false
           properties:
             asyncFuncTimeout:
               type: integer
               title: Async function timeout (ms)
-              description: Time (in ms) to wait for an async function to complete processing
-                of a data item
+              description: Timeout (in milliseconds) for asynchronous Pipeline functions.
               minimum: 0
               maximum: 10000
             output:
               type: string
               title: Output event destination
-              description: The output destination for events processed by this Pipeline
+              description: The output destination for events processed by this Pipeline.
             description:
               title: Description
+              description: Brief description of the Pipeline.
               type: string
             streamtags:
               type: array
@@ -51026,6 +51569,8 @@ components:
                 $ref: "#/components/schemas/PipelineFunctionConf"
             groups:
               type: object
+              description: Named groups of Pipeline functions for organizational display in
+                the UI.
               additionalProperties:
                 type: object
                 required:
@@ -52201,11 +52746,11 @@ components:
           description: Backfill status for data being loaded into the cache.
         cacheRef:
           type: string
-          description: Identifier of the Lakehouse cache referenced by the Dataset.
+          description: Unique identifier for the Lakehouse cache referenced by the Dataset.
         createdAt:
           type: number
-          description: Timestamp when the continuous data feed to the Lakehouse cache
-            started, in Unix time (milliseconds).
+          description: Timestamp (in Unix time) when the continuous data feed to the
+            Lakehouse cache started, in milliseconds.
         lakehouseConnectionType:
           $ref: "#/components/schemas/LakehouseConnectionType"
           description: If <code>new</code>, the Lakehouse was attached before data existed
@@ -52213,8 +52758,8 @@ components:
             after data existed in the Dataset.
         migrationQueryId:
           type: string
-          description: Query identifier of the active Lakehouse migration. Omitted if no
-            migration is in progress.
+          description: Unique identifier for the active Lakehouse migration query. Omitted
+            if no migration is in progress.
         retentionInDays:
           type: number
           description: Retention period for the Lakehouse cache connection, in days.
@@ -52230,7 +52775,8 @@ components:
           description: Total current logical size of the Dataset, in bytes.
         metricsDate:
           type: string
-          description: Timestamp (ISO 8601) when the metrics snapshot was generated.
+          description: Timestamp (in Unix time) when the metrics snapshot was generated,
+            as a YYYY-MM-DD calendar date.
       required:
         - currentSizeBytes
         - metricsDate
@@ -52263,7 +52809,7 @@ components:
         enableAcceleration:
           type: boolean
           description: If <code>true</code>, the system automatically backfills and
-            refreshes Dataset metadata.
+            refreshes Dataset metadata. Otherwise, <code>false</code>.
         fieldList:
           type: array
           items:
@@ -52306,6 +52852,11 @@ components:
         filter:
           type: string
           description: Glob pattern for selecting files within the storage path.
+        preprocessOuterJson:
+          type: boolean
+          description: When true, instructs the C++ reader to unwrap the outer JSON
+            envelope before applying the user datatype to the nested _raw field.
+            Set for Cribl Lake NDJSON filters only.
       required:
         - dataTypeId
         - filter
@@ -52326,7 +52877,7 @@ components:
             classification.
         description:
           type: string
-          description: Brief description of Dataset search configuration.
+          description: Brief description of the Dataset search configuration.
         metadata:
           $ref: "#/components/schemas/DatasetMetadata"
           description: Key-value metadata for the Dataset search configuration.
@@ -52372,6 +52923,7 @@ components:
         httpDAUsed:
           type: boolean
           description: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+            Otherwise, <code>false</code>.
         id:
           type: string
           description: Unique identifier for the Dataset.
@@ -52388,7 +52940,7 @@ components:
           $ref: "#/components/schemas/StorageClassOptionsCriblLakeDataset"
         storageLocationId:
           type: string
-          description: Identifier for the Storage Location that backs the Dataset.
+          description: Unique identifier for the Storage Location that backs the Dataset.
             Mutually exclusive with <code>bucketName</code>.
         viewName:
           type: string
@@ -52423,10 +52975,11 @@ components:
         httpDAUsed:
           type: boolean
           description: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+            Otherwise, <code>false</code>.
         id:
           type: string
-          description: Dataset identifier. Optional; the path parameter <code>id</code> is
-            authoritative.
+          description: Unique identifier for the Dataset. Optional; the path parameter
+            <code>id</code> is authoritative.
         metrics:
           $ref: "#/components/schemas/LakeDatasetMetrics"
           description: Most recent Dataset metrics snapshot.
@@ -52440,7 +52993,7 @@ components:
           $ref: "#/components/schemas/StorageClassOptionsCriblLakeDataset"
         storageLocationId:
           type: string
-          description: Identifier for the Storage Location that backs the Dataset.
+          description: Unique identifier for the Storage Location that backs the Dataset.
             Mutually exclusive with <code>bucketName</code>.
         viewName:
           type: string
@@ -52684,6 +53237,8 @@ components:
           $ref: "#/components/schemas/HBLeaderInfo"
           description: Leader connection details when the node is a Worker or Edge
             reporting upstream.
+        overlayId:
+          type: string
         pid:
           type: integer
           description: The process ID.
@@ -57078,6 +57633,47 @@ components:
           description: Binds 'port' to a variable for dynamic value resolution. Set to
             variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
             (group-scoped). Variable value overrides 'port' at runtime.
+    TlsSettingsClientSideTypeExtended:
+      type: object
+      title: TLS settings (client side)
+      properties:
+        disabled:
+          type: boolean
+          title: Disabled
+        rejectUnauthorized:
+          type: boolean
+          title: Validate server certs
+          description: >-
+            Reject certificates that are not authorized by a CA in the CA
+            certificate path, or by another 
+                                trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
+        certificateName:
+          type: string
+          title: Certificate
+          description: The name of the predefined certificate
+        caPath:
+          type: string
+          title: CA certificate path
+          description: Path on client in which to find CA certificates to verify the
+            server's cert. PEM format. Can reference $ENV_VARS.
+        privKeyPath:
+          type: string
+          title: Private key path (mutual auth)
+          description: Path on client in which to find the private key to use. PEM format.
+            Can reference $ENV_VARS.
+        certPath:
+          type: string
+          title: Certificate path (mutual auth)
+          description: Path on client in which to find certificates to use. PEM format.
+            Can reference $ENV_VARS.
+        passphrase:
+          type: string
+          title: Passphrase
+          description: Passphrase to use to decrypt private key
+        minVersion:
+          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
+        maxVersion:
+          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
     AuthTypeTemplatemanualApiKeyAuthType:
       type: object
       required:
@@ -57140,47 +57736,6 @@ components:
           type: string
           title: Credentials secret
           description: Select or create a secret that references your credentials
-    TlsSettingsClientSideTypeExtended:
-      type: object
-      title: TLS settings (client side)
-      properties:
-        disabled:
-          type: boolean
-          title: Disabled
-        rejectUnauthorized:
-          type: boolean
-          title: Validate server certs
-          description: >-
-            Reject certificates that are not authorized by a CA in the CA
-            certificate path, or by another 
-                                trusted CA (such as the system's). Defaults to Enabled. Overrides the toggle from Advanced Settings, when also present.
-        certificateName:
-          type: string
-          title: Certificate
-          description: The name of the predefined certificate
-        caPath:
-          type: string
-          title: CA certificate path
-          description: Path on client in which to find CA certificates to verify the
-            server's cert. PEM format. Can reference $ENV_VARS.
-        privKeyPath:
-          type: string
-          title: Private key path (mutual auth)
-          description: Path on client in which to find the private key to use. PEM format.
-            Can reference $ENV_VARS.
-        certPath:
-          type: string
-          title: Certificate path (mutual auth)
-          description: Path on client in which to find certificates to use. PEM format.
-            Can reference $ENV_VARS.
-        passphrase:
-          type: string
-          title: Passphrase
-          description: Passphrase to use to decrypt private key
-        minVersion:
-          $ref: "#/components/schemas/MinimumTlsVersionOptionsTls"
-        maxVersion:
-          $ref: "#/components/schemas/MaximumTlsVersionOptionsTls"
     KubeTypeHeartbeatMetadata:
       type: object
       properties:
@@ -57439,22 +57994,43 @@ components:
         run:
           $ref: "#/components/schemas/RunSettingsTypeSavedJobResponseCollectionSchedule"
   examples:
+    DatabaseConnectionResponseExamplesMySQLDatabaseConnection:
+      summary: Get a Database Connection
+      description: Example response for getting a Database Connection with a censored
+        connection string.
+      value:
+        count: 1
+        items:
+          - id: mysql-prod-db
+            description: Production MySQL database for customer data
+            databaseType: mysql
+            authType: connectionString
+            connectionString: "*****"
+            connectionTimeout: 10000
+            tags: production,mysql,customer-data
+    DatabaseConnectionBadRequestResponseExamplesInvalidDatabaseConnectionRequest:
+      summary: Return a validation error for a Database Connection request
+      description: Example response for returning a validation error for a Database
+        Connection create or update request.
+      value:
+        status: error
+        message: must have required property 'id'
     DatabaseConnectionExamplesMySQLWithConnectionString:
-      summary: MySQL with connection string
-      description: Create a MySQL database connection using a connection string with
-        embedded credentials
+      summary: Create a MySQL Database Connection with a connection string
+      description: Example request body for creating a MySQL Database Connection using
+        a connection string with embedded credentials.
       value:
         id: mysql-prod-db
         description: Production MySQL database for customer data
         databaseType: mysql
         authType: connectionString
-        connectionString: mysql://admin:password123@mysql.example.com:3306/production?ssl=true
+        connectionString: mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true
         connectionTimeout: 10000
         tags: production,mysql,customer-data
     DatabaseConnectionExamplesMySQLWithSecret:
-      summary: MySQL with secret
-      description: Create a MySQL database connection using a stored secret for the
-        connection string
+      summary: Create a MySQL Database Connection with a secret
+      description: Example request body for creating a MySQL Database Connection using
+        a stored text secret for the connection string.
       value:
         id: mysql-analytics-db
         description: Analytics MySQL database
@@ -57464,19 +58040,21 @@ components:
         connectionTimeout: 15000
         tags: analytics,mysql
     DatabaseConnectionExamplesPostgreSQLWithConnectionString:
-      summary: PostgreSQL with connection string
-      description: Create a PostgreSQL database connection using a connection string
+      summary: Create a PostgreSQL Database Connection with a connection string
+      description: Example request body for creating a PostgreSQL Database Connection
+        using a connection string.
       value:
         id: postgres-warehouse
         description: Data warehouse PostgreSQL database
         databaseType: postgres
         authType: connectionString
-        connectionString: postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require
+        connectionString: postgresql://yourUsername:yourPassword@postgres.example.com:5432/warehouse?sslmode=require
         connectionTimeout: 15000
         tags: warehouse,postgres,reporting
     DatabaseConnectionExamplesPostgreSQLWithSecret:
-      summary: PostgreSQL with secret
-      description: Create a PostgreSQL database connection using a stored secret
+      summary: Create a PostgreSQL Database Connection with a secret
+      description: Example request body for creating a PostgreSQL Database Connection
+        using a stored text secret.
       value:
         id: postgres-logs
         description: Logs PostgreSQL database
@@ -57486,21 +58064,23 @@ components:
         connectionTimeout: 10000
         tags: logs,postgres
     DatabaseConnectionExamplesSQLServerWithConnectionString:
-      summary: SQL Server with connection string
-      description: Create a SQL Server database connection using a connection string
+      summary: Create a SQL Server Database Connection with a connection string
+      description: Example request body for creating a SQL Server Database Connection
+        using a connection string.
       value:
         id: sqlserver-erp
         description: ERP SQL Server database
         databaseType: sqlserver
         authType: connectionString
         connectionString: Server=sqlserver.example.com;Database=ERP;User
-          Id=erp_admin;Password=ERP_Pass789!;Encrypt=true
+          Id=yourUsername;Password=yourPassword;Encrypt=true
         connectionTimeout: 15000
         requestTimeout: 30000
         tags: erp,sqlserver,finance
     DatabaseConnectionExamplesSQLServerWithSecret:
-      summary: SQL Server with secret
-      description: Create a SQL Server database connection using a stored secret
+      summary: Create a SQL Server Database Connection with a secret
+      description: Example request body for creating a SQL Server Database Connection
+        using a stored text secret.
       value:
         id: sqlserver-crm
         description: CRM SQL Server database
@@ -57511,49 +58091,49 @@ components:
         requestTimeout: 15000
         tags: crm,sqlserver,sales
     DatabaseConnectionExamplesSQLServerWithConfigObject:
-      summary: SQL Server with config object
-      description: Create a SQL Server database connection using a configuration
-        object for advanced settings
+      summary: Create a SQL Server Database Connection with a config object
+      description: Example request body for creating a SQL Server Database Connection
+        using a JSON configuration object for advanced settings.
       value:
         id: sqlserver-reporting
         description: Reporting SQL Server database with custom config
         databaseType: sqlserver
         authType: configObj
-        configObj: '{"server":"sqlserver.example.com","database":"Reporting","user":"report_user","password":"Report_Pass123!","options":{"encrypt":true,"trustServerCertificate":false,"connectTimeout":20000}}'
+        configObj: '{"server":"sqlserver.example.com","database":"Reporting","user":"yourUsername","password":"yourPassword","options":{"encrypt":true,"trustServerCertificate":false,"connectTimeout":20000}}'
         requestTimeout: 60000
         tags: reporting,sqlserver,analytics
     DatabaseConnectionExamplesOracleWithConnectionString:
-      summary: Oracle with connection string
-      description: Create an Oracle database connection using Easy Connect format with
-        credentials
+      summary: Create an Oracle Database Connection with a connection string
+      description: Example request body for creating an Oracle Database Connection
+        using Easy Connect format with credentials.
       value:
         id: oracle-erp
         description: Oracle ERP database
         databaseType: oracle
         authType: connectionString
         connectionString: oracle.example.com:1521/ORCL
-        user: erp_user
-        password: Oracle_Pass456!
+        user: yourUsername
+        password: yourPassword
         connectionTimeout: 15000
         tags: erp,oracle,finance
     DatabaseConnectionExamplesOracleWithSecret:
-      summary: Oracle with secret
-      description: Create an Oracle database connection using a stored secret for the
-        connection string
+      summary: Create an Oracle Database Connection with a secret
+      description: Example request body for creating an Oracle Database Connection
+        using a stored text secret for the connection string.
       value:
         id: oracle-warehouse
         description: Oracle data warehouse
         databaseType: oracle
         authType: secret
         textSecret: oracle-warehouse-connection
-        user: warehouse_user
-        password: Warehouse_Pass789!
+        user: yourUsername
+        password: yourPassword
         connectionTimeout: 20000
         tags: warehouse,oracle,reporting
     DatabaseConnectionExamplesOracleWithCredentialsSecrets:
-      summary: Oracle with credentials secrets
-      description: Create an Oracle database connection using separate secrets for
-        credentials and connection string
+      summary: Create an Oracle Database Connection with credentials secrets
+      description: Example request body for creating an Oracle Database Connection
+        using separate secrets for credentials and the connection string.
       value:
         id: oracle-secure-db
         description: High-security Oracle database with credential secrets
@@ -57563,26 +58143,54 @@ components:
         textSecret: oracle-secure-connection
         connectionTimeout: 15000
         tags: secure,oracle,sensitive-data
-    UpdateDatabaseConnectionExamplesMySQLWithConnectionString:
-      summary: Update MySQL with connection string
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    DatabaseConnectionNotFoundResponseExamplesDatabaseConnectionNotFound:
+      summary: Return a not found error for a Database Connection
+      description: Example response for returning a not found error when getting a
+        Database Connection by <code>id</code>.
+      value:
+        status: error
+        message: Database Connection not found
+    DatabaseConnectionListResponseExamplesDatabaseConnectionList:
+      summary: List Database Connections
+      description: Example response for listing Database Connections in the
+        <code>items</code> array.
+      value:
+        count: 2
+        items:
+          - id: mysql-prod-db
+            description: Production MySQL database for customer data
+            databaseType: mysql
+            authType: connectionString
+            connectionString: "*****"
+            connectionTimeout: 10000
+            tags: production,mysql,customer-data
+          - id: postgres-warehouse
+            description: Data warehouse PostgreSQL database
+            databaseType: postgres
+            authType: secret
+            textSecret: postgres-warehouse-connection
+            connectionTimeout: 15000
+            tags: warehouse,postgres,reporting
+    UpdateDatabaseConnectionExamplesUpdateMySQLDatabaseConnectionWithConnectionString:
+      summary: Update a MySQL Database Connection with a connection string
+      description: Example request body for updating a MySQL Database Connection using
+        a connection string with embedded credentials.<br/><br/>The request body
+        must include a complete representation of the Database Connection that
+        you want to update. This endpoint does not support partial updates.
       value:
         id: mysql-prod-db
         description: Production MySQL database for customer data
         databaseType: mysql
         authType: connectionString
-        connectionString: mysql://admin:password123@mysql.example.com:3306/production?ssl=true
+        connectionString: mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true
         connectionTimeout: 10000
         tags: production,mysql,customer-data
-    UpdateDatabaseConnectionExamplesMySQLWithSecret:
-      summary: Update MySQL with secret
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    UpdateDatabaseConnectionExamplesUpdateMySQLDatabaseConnectionWithSecret:
+      summary: Update a MySQL Database Connection with a secret
+      description: Example request body for updating a MySQL Database Connection using
+        a stored text secret for the connection string.<br/><br/>The request
+        body must include a complete representation of the Database Connection
+        that you want to update. This endpoint does not support partial updates.
       value:
         id: mysql-analytics-db
         description: Analytics MySQL database
@@ -57591,26 +58199,26 @@ components:
         textSecret: mysql-analytics-connection
         connectionTimeout: 15000
         tags: analytics,mysql
-    UpdateDatabaseConnectionExamplesPostgreSQLWithConnectionString:
-      summary: Update PostgreSQL with connection string
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    UpdateDatabaseConnectionExamplesUpdatePostgreSQLDatabaseConnectionWithConnectionString:
+      summary: Update a PostgreSQL Database Connection with a connection string
+      description: Example request body for updating a PostgreSQL Database Connection
+        using a connection string.<br/><br/>The request body must include a
+        complete representation of the Database Connection that you want to
+        update. This endpoint does not support partial updates.
       value:
         id: postgres-warehouse
         description: Data warehouse PostgreSQL database
         databaseType: postgres
         authType: connectionString
-        connectionString: postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require
+        connectionString: postgresql://yourUsername:yourPassword@postgres.example.com:5432/warehouse?sslmode=require
         connectionTimeout: 15000
         tags: warehouse,postgres,reporting
-    UpdateDatabaseConnectionExamplesPostgreSQLWithSecret:
-      summary: Update PostgreSQL with secret
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    UpdateDatabaseConnectionExamplesUpdatePostgreSQLDatabaseConnectionWithSecret:
+      summary: Update a PostgreSQL Database Connection with a secret
+      description: Example request body for updating a PostgreSQL Database Connection
+        using a stored text secret.<br/><br/>The request body must include a
+        complete representation of the Database Connection that you want to
+        update. This endpoint does not support partial updates.
       value:
         id: postgres-logs
         description: Logs PostgreSQL database
@@ -57619,28 +58227,28 @@ components:
         textSecret: postgres-logs-connection
         connectionTimeout: 10000
         tags: logs,postgres
-    UpdateDatabaseConnectionExamplesSQLServerWithConnectionString:
-      summary: Update SQL Server with connection string
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithConnectionString:
+      summary: Update a SQL Server Database Connection with a connection string
+      description: Example request body for updating a SQL Server Database Connection
+        using a connection string.<br/><br/>The request body must include a
+        complete representation of the Database Connection that you want to
+        update. This endpoint does not support partial updates.
       value:
         id: sqlserver-erp
         description: ERP SQL Server database
         databaseType: sqlserver
         authType: connectionString
         connectionString: Server=sqlserver.example.com;Database=ERP;User
-          Id=erp_admin;Password=ERP_Pass789!;Encrypt=true
+          Id=yourUsername;Password=yourPassword;Encrypt=true
         connectionTimeout: 15000
         requestTimeout: 30000
         tags: erp,sqlserver,finance
-    UpdateDatabaseConnectionExamplesSQLServerWithSecret:
-      summary: Update SQL Server with secret
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithSecret:
+      summary: Update a SQL Server Database Connection with a secret
+      description: Example request body for updating a SQL Server Database Connection
+        using a stored text secret.<br/><br/>The request body must include a
+        complete representation of the Database Connection that you want to
+        update. This endpoint does not support partial updates.
       value:
         id: sqlserver-crm
         description: CRM SQL Server database
@@ -57650,58 +58258,61 @@ components:
         connectionTimeout: 15000
         requestTimeout: 15000
         tags: crm,sqlserver,sales
-    UpdateDatabaseConnectionExamplesSQLServerWithConfigObject:
-      summary: Update SQL Server with config object
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithConfigObject:
+      summary: Update a SQL Server Database Connection with a config object
+      description: Example request body for updating a SQL Server Database Connection
+        using a JSON configuration object for advanced settings.<br/><br/>The
+        request body must include a complete representation of the Database
+        Connection that you want to update. This endpoint does not support
+        partial updates.
       value:
         id: sqlserver-reporting
         description: Reporting SQL Server database with custom config
         databaseType: sqlserver
         authType: configObj
-        configObj: '{"server":"sqlserver.example.com","database":"Reporting","user":"report_user","password":"Report_Pass123!","options":{"encrypt":true,"trustServerCertificate":false,"connectTimeout":20000}}'
+        configObj: '{"server":"sqlserver.example.com","database":"Reporting","user":"yourUsername","password":"yourPassword","options":{"encrypt":true,"trustServerCertificate":false,"connectTimeout":20000}}'
         requestTimeout: 60000
         tags: reporting,sqlserver,analytics
-    UpdateDatabaseConnectionExamplesOracleWithConnectionString:
-      summary: Update Oracle with connection string
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithConnectionString:
+      summary: Update an Oracle Database Connection with a connection string
+      description: Example request body for updating an Oracle Database Connection
+        using Easy Connect format with credentials.<br/><br/>The request body
+        must include a complete representation of the Database Connection that
+        you want to update. This endpoint does not support partial updates.
       value:
         id: oracle-erp
         description: Oracle ERP database
         databaseType: oracle
         authType: connectionString
         connectionString: oracle.example.com:1521/ORCL
-        user: erp_user
-        password: Oracle_Pass456!
+        user: yourUsername
+        password: yourPassword
         connectionTimeout: 15000
         tags: erp,oracle,finance
-    UpdateDatabaseConnectionExamplesOracleWithSecret:
-      summary: Update Oracle with secret
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithSecret:
+      summary: Update an Oracle Database Connection with a secret
+      description: Example request body for updating an Oracle Database Connection
+        using a stored text secret for the connection string.<br/><br/>The
+        request body must include a complete representation of the Database
+        Connection that you want to update. This endpoint does not support
+        partial updates.
       value:
         id: oracle-warehouse
         description: Oracle data warehouse
         databaseType: oracle
         authType: secret
         textSecret: oracle-warehouse-connection
-        user: warehouse_user
-        password: Warehouse_Pass789!
+        user: yourUsername
+        password: yourPassword
         connectionTimeout: 20000
         tags: warehouse,oracle,reporting
-    UpdateDatabaseConnectionExamplesOracleWithCredentialsSecrets:
-      summary: Update Oracle with credentials secrets
-      description: Example request body for updating a Database
-        Connection.<br/><br/>The request body must include a complete
-        representation of the Database Connection that you want to update. This
-        endpoint does not support partial updates.
+    UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithCredentialsSecrets:
+      summary: Update an Oracle Database Connection with credentials secrets
+      description: Example request body for updating an Oracle Database Connection
+        using separate secrets for credentials and the connection
+        string.<br/><br/>The request body must include a complete representation
+        of the Database Connection that you want to update. This endpoint does
+        not support partial updates.
       value:
         id: oracle-secure-db
         description: High-security Oracle database with credential secrets
@@ -59746,6 +60357,12 @@ components:
         protocol: http
         otlpVersion: 1.3.1
         tokenSecret: your-token-secret
+    OutputCreateExamplesGoogleCloudObservability:
+      summary: Google Cloud Observability
+      value:
+        id: google-cloud-observability-output
+        type: google_cloud_observability
+        googleAuthMethod: auto
     OutputCreateExamplesSentinelOneAiSiem:
       summary: SentinelOne AI SIEM
       value:
@@ -60656,6 +61273,16 @@ components:
         Destination.<br/><br/>The request body must include a complete
         representation of the Destination that you want to update. This endpoint
         does not support partial updates.
+    UpdateOutputExamplesGoogleCloudObservability:
+      summary: Google Cloud Observability
+      value:
+        id: google-cloud-observability-output
+        type: google_cloud_observability
+        googleAuthMethod: auto
+      description: Example request body for updating a Google Cloud Observability
+        Destination.<br/><br/>The request body must include a complete
+        representation of the Destination that you want to update. This endpoint
+        does not support partial updates.
     UpdateOutputExamplesSentinelOneAiSiem:
       summary: SentinelOne AI SIEM
       value:
@@ -61007,6 +61634,32 @@ components:
         Destination.<br/><br/>The request body must include a complete
         representation of the Destination that you want to update. This endpoint
         does not support partial updates.
+    PipelineResponseExamplesEmptyPipeline:
+      summary: Empty Pipeline response
+      description: Example response for an empty Pipeline with no functions.
+      value:
+        id: empty-pipeline
+        conf:
+          asyncFuncTimeout: 3000
+          description: ""
+          functions: []
+    PipelineResponseExamplesEvalPipeline:
+      summary: Eval Pipeline response
+      description: Example response for a Pipeline that uses an Eval function to add
+        fields to events.
+      value:
+        id: eval-pipeline
+        conf:
+          asyncFuncTimeout: 3000
+          description: Adds environment metadata to events.
+          functions:
+            - id: eval
+              filter: "true"
+              disabled: false
+              conf:
+                add:
+                  - name: env
+                    value: "'production'"
     PipelineExamplesEmpty:
       summary: New empty Pipeline
       value:
@@ -62927,6 +63580,43 @@ components:
       description: Example request body for updating a Pipeline.<br/><br/>The request
         body must include a complete representation of the Pipeline that you
         want to update. This endpoint does not support partial updates.
+    RoutesResponseExamplesDefaultRoutingTable:
+      summary: Default Routing table response
+      description: Example response for the default Routing table with a single
+        pass-through Route.
+      value:
+        id: default
+        conf:
+          routes:
+            - id: default
+              name: default
+              final: true
+              disabled: false
+              pipeline: main
+              filter: "true"
+              output: default
+    RoutesResponseExamplesMultiRouteTable:
+      summary: Multi-route Routing table response
+      description: Example response for a Routing table with multiple Routes that send
+        events to different Pipelines.
+      value:
+        id: default
+        conf:
+          routes:
+            - id: route-security
+              name: Security events
+              final: false
+              disabled: false
+              pipeline: security-pipeline
+              filter: sourcetype=='syslog'
+              output: splunk-hec
+            - id: default
+              name: default
+              final: true
+              disabled: false
+              pipeline: main
+              filter: "true"
+              output: default
     RoutesUpdateExamplesBasicRoute:
       summary: Update Routes with a basic Route configuration
       description: "Example request body for updating the default Routes table
@@ -63853,15 +64543,20 @@ paths:
       x-speakeasy-name-override: list
       x-cribl-internal: false
       x-cribl-availability: both
-      summary: List Database Connections
+      summary: List all Database Connections
       description: Get a list of all Database Connections.
       responses:
         "200":
-          description: List of DatabaseConnectionConfig objects.
+          description: Database Connections returned in a response envelope with
+            <code>count</code> and <code>items</code>.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedDatabaseConnectionConfig"
+                $ref: "#/components/schemas/DatabaseConnectionResponseEnvelope"
+              examples:
+                DatabaseConnectionListResponseExamplesDatabaseConnectionList:
+                  $ref: "#/components/examples/DatabaseConnectionListResponseExamplesDatabaseConn\
+                    ectionList"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -63877,7 +64572,35 @@ paths:
           required: false
           schema:
             $ref: "#/components/schemas/DatabaseConnectionType"
-          description: Type of Database Connections to include in the results.
+          description: Filter results by database engine type. Use this parameter to
+            return only Database Connections for the specified engine.
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Maximum number of Database Connections to return in the response
+            for this request. Use with <code>offset</code> to paginate the
+            response into manageable batches.
+        - name: offset
+          in: query
+          required: false
+          schema:
+            type: integer
+          description: Starting point from which to retrieve results for this request. Use
+            with <code>limit</code> to paginate the response into manageable
+            batches.
+      x-speakeasy-pagination:
+        type: offsetLimit
+        inputs:
+          - name: offset
+            in: parameters
+            type: offset
+          - name: limit
+            in: parameters
+            type: limit
+        outputs:
+          results: $.items
     post:
       operationId: createDatabaseConnectionConfig
       tags:
@@ -63886,15 +64609,31 @@ paths:
       x-speakeasy-name-override: create
       x-cribl-internal: false
       x-cribl-availability: both
-      summary: Create Database Connection
+      summary: Create a Database Connection
       description: Create a new Database Connection.
       responses:
         "200":
-          description: The created DatabaseConnectionConfig object in a single-item list.
+          description: The created Database Connection in a response envelope with
+            <code>count</code> and <code>items</code>.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedDatabaseConnectionConfig"
+                $ref: "#/components/schemas/DatabaseConnectionResponseEnvelope"
+              examples:
+                DatabaseConnectionResponseExamplesMySQLDatabaseConnection:
+                  $ref: "#/components/examples/DatabaseConnectionResponseExamplesMySQLDatabaseCon\
+                    nection"
+        "400":
+          description: Failed validation or malformed input, such as missing or invalid
+            parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestApiJsonError"
+              examples:
+                DatabaseConnectionBadRequestResponseExamplesInvalidDatabaseConnectionRequest:
+                  $ref: "#/components/examples/DatabaseConnectionBadRequestResponseExamplesInvali\
+                    dDatabaseConnectionRequest"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -63951,16 +64690,30 @@ paths:
       description: Get the specified Database Connection.
       responses:
         "200":
-          description: The requested DatabaseConnectionConfig object in a single-item list.
+          description: The requested Database Connection in a response envelope with
+            <code>count</code> and <code>items</code>.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedDatabaseConnectionConfig"
+                $ref: "#/components/schemas/DatabaseConnectionResponseEnvelope"
+              examples:
+                DatabaseConnectionResponseExamplesMySQLDatabaseConnection:
+                  $ref: "#/components/examples/DatabaseConnectionResponseExamplesMySQLDatabaseCon\
+                    nection"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
         "404":
-          description: The requested resource does not exist — Database Connection not found
+          description: The requested resource does not exist — Database Connection not
+            found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestApiJsonError"
+              examples:
+                DatabaseConnectionNotFoundResponseExamplesDatabaseConnectionNotFound:
+                  $ref: "#/components/examples/DatabaseConnectionNotFoundResponseExamplesDatabase\
+                    ConnectionNotFound"
         "500":
           description: Unexpected server error.
           content:
@@ -63993,14 +64746,40 @@ paths:
         expected.
       responses:
         "200":
-          description: The updated DatabaseConnectionConfig object in a single-item list.
+          description: The updated Database Connection in a response envelope with
+            <code>count</code> and <code>items</code>.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedDatabaseConnectionConfig"
+                $ref: "#/components/schemas/DatabaseConnectionResponseEnvelope"
+              examples:
+                DatabaseConnectionResponseExamplesMySQLDatabaseConnection:
+                  $ref: "#/components/examples/DatabaseConnectionResponseExamplesMySQLDatabaseCon\
+                    nection"
+        "400":
+          description: Failed validation or malformed input, such as missing or invalid
+            parameters.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestApiJsonError"
+              examples:
+                DatabaseConnectionBadRequestResponseExamplesInvalidDatabaseConnectionRequest:
+                  $ref: "#/components/examples/DatabaseConnectionBadRequestResponseExamplesInvali\
+                    dDatabaseConnectionRequest"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+        "404":
+          description: Database Connection not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestApiJsonError"
+              examples:
+                DatabaseConnectionNotFoundResponseExamplesDatabaseConnectionNotFound:
+                  $ref: "#/components/examples/DatabaseConnectionNotFoundResponseExamplesDatabase\
+                    ConnectionNotFound"
         "500":
           description: Unexpected server error.
           content:
@@ -64015,34 +64794,36 @@ paths:
             schema:
               $ref: "#/components/schemas/DatabaseConnectionConfig"
             examples:
-              UpdateDatabaseConnectionExamplesMySQLWithConnectionString:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesMySQLWithConnectio\
-                  nString"
-              UpdateDatabaseConnectionExamplesMySQLWithSecret:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesMySQLWithSecret"
-              UpdateDatabaseConnectionExamplesPostgreSQLWithConnectionString:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesPostgreSQLWithConn\
-                  ectionString"
-              UpdateDatabaseConnectionExamplesPostgreSQLWithSecret:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesPostgreSQLWithSecr\
-                  et"
-              UpdateDatabaseConnectionExamplesSQLServerWithConnectionString:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesSQLServerWithConne\
-                  ctionString"
-              UpdateDatabaseConnectionExamplesSQLServerWithSecret:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesSQLServerWithSecre\
-                  t"
-              UpdateDatabaseConnectionExamplesSQLServerWithConfigObject:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesSQLServerWithConfi\
-                  gObject"
-              UpdateDatabaseConnectionExamplesOracleWithConnectionString:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesOracleWithConnecti\
-                  onString"
-              UpdateDatabaseConnectionExamplesOracleWithSecret:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesOracleWithSecret"
-              UpdateDatabaseConnectionExamplesOracleWithCredentialsSecrets:
-                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesOracleWithCredenti\
-                  alsSecrets"
+              UpdateDatabaseConnectionExamplesUpdateMySQLDatabaseConnectionWithConnectionString:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdateMySQLDatabas\
+                  eConnectionWithConnectionString"
+              UpdateDatabaseConnectionExamplesUpdateMySQLDatabaseConnectionWithSecret:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdateMySQLDatabas\
+                  eConnectionWithSecret"
+              UpdateDatabaseConnectionExamplesUpdatePostgreSQLDatabaseConnectionWithConnectionString:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdatePostgreSQLDa\
+                  tabaseConnectionWithConnectionString"
+              UpdateDatabaseConnectionExamplesUpdatePostgreSQLDatabaseConnectionWithSecret:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdatePostgreSQLDa\
+                  tabaseConnectionWithSecret"
+              UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithConnectionString:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdateSQLServerDat\
+                  abaseConnectionWithConnectionString"
+              UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithSecret:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdateSQLServerDat\
+                  abaseConnectionWithSecret"
+              UpdateDatabaseConnectionExamplesUpdateSQLServerDatabaseConnectionWithConfigObject:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdateSQLServerDat\
+                  abaseConnectionWithConfigObject"
+              UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithConnectionString:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdateOracleDataba\
+                  seConnectionWithConnectionString"
+              UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithSecret:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdateOracleDataba\
+                  seConnectionWithSecret"
+              UpdateDatabaseConnectionExamplesUpdateOracleDatabaseConnectionWithCredentialsSecrets:
+                $ref: "#/components/examples/UpdateDatabaseConnectionExamplesUpdateOracleDataba\
+                  seConnectionWithCredentialsSecrets"
       parameters:
         - name: id
           in: path
@@ -64062,14 +64843,29 @@ paths:
       description: Delete the specified Database Connection.
       responses:
         "200":
-          description: The deleted DatabaseConnectionConfig object in a single-item list.
+          description: The deleted Database Connection in a response envelope with
+            <code>count</code> and <code>items</code>.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CountedDatabaseConnectionConfig"
+                $ref: "#/components/schemas/DatabaseConnectionResponseEnvelope"
+              examples:
+                DatabaseConnectionResponseExamplesMySQLDatabaseConnection:
+                  $ref: "#/components/examples/DatabaseConnectionResponseExamplesMySQLDatabaseCon\
+                    nection"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+        "404":
+          description: Database Connection not found.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RestApiJsonError"
+              examples:
+                DatabaseConnectionNotFoundResponseExamplesDatabaseConnectionNotFound:
+                  $ref: "#/components/examples/DatabaseConnectionNotFoundResponseExamplesDatabase\
+                    ConnectionNotFound"
         "500":
           description: Unexpected server error.
           content:
@@ -64319,6 +65115,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -64352,6 +65153,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
@@ -64477,6 +65283,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -64522,6 +65333,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
@@ -64652,6 +65468,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -64687,11 +65508,16 @@ paths:
       description: Get a list of all Routes within the specified Pack.
       responses:
         "200":
-          description: The requested Routes object in a single-item list.
+          description: List of Routing table objects.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedRoutes"
+              examples:
+                RoutesResponseExamplesDefaultRoutingTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesDefaultRoutingTable"
+                RoutesResponseExamplesMultiRouteTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesMultiRouteTable"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -64721,11 +65547,16 @@ paths:
       description: Get the specified Routing table within the specified Pack.
       responses:
         "200":
-          description: The requested Routes object in a single-item list.
+          description: The requested Routing table object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedRoutes"
+              examples:
+                RoutesResponseExamplesDefaultRoutingTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesDefaultRoutingTable"
+                RoutesResponseExamplesMultiRouteTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesMultiRouteTable"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -64769,11 +65600,16 @@ paths:
         also removes any omitted Routes when updating the Routing table.
       responses:
         "200":
-          description: The updated Routes object in a single-item list.
+          description: The updated Routing table object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedRoutes"
+              examples:
+                RoutesResponseExamplesDefaultRoutingTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesDefaultRoutingTable"
+                RoutesResponseExamplesMultiRouteTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesMultiRouteTable"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
@@ -64830,11 +65666,16 @@ paths:
         specified Pack.
       responses:
         "200":
-          description: The created Routes object in a single-item list.
+          description: The updated Routing table object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedRoutes"
+              examples:
+                RoutesResponseExamplesDefaultRoutingTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesDefaultRoutingTable"
+                RoutesResponseExamplesMultiRouteTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesMultiRouteTable"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -65743,6 +66584,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesServiceNow"
               OutputCreateExamplesDynatraceOtlp:
                 $ref: "#/components/examples/OutputCreateExamplesDynatraceOtlp"
+              OutputCreateExamplesGoogleCloudObservability:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudObservability"
               OutputCreateExamplesSentinelOneAiSiem:
                 $ref: "#/components/examples/OutputCreateExamplesSentinelOneAiSiem"
               OutputCreateExamplesDataset:
@@ -66001,6 +66844,8 @@ paths:
                 $ref: "#/components/examples/UpdateOutputExamplesServiceNow"
               UpdateOutputExamplesDynatraceOtlp:
                 $ref: "#/components/examples/UpdateOutputExamplesDynatraceOtlp"
+              UpdateOutputExamplesGoogleCloudObservability:
+                $ref: "#/components/examples/UpdateOutputExamplesGoogleCloudObservability"
               UpdateOutputExamplesSentinelOneAiSiem:
                 $ref: "#/components/examples/UpdateOutputExamplesSentinelOneAiSiem"
               UpdateOutputExamplesDataset:
@@ -66823,6 +67668,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -66849,6 +67699,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
@@ -66967,6 +67822,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -67000,6 +67860,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -67039,6 +67904,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPipeline"
+              examples:
+                PipelineResponseExamplesEmptyPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEmptyPipeline"
+                PipelineResponseExamplesEvalPipeline:
+                  $ref: "#/components/examples/PipelineResponseExamplesEvalPipeline"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
@@ -68178,11 +69048,16 @@ paths:
       description: Get a list of all Routes.
       responses:
         "200":
-          description: The requested Routes object in a single-item list.
+          description: List of Routing table objects.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedRoutes"
+              examples:
+                RoutesResponseExamplesDefaultRoutingTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesDefaultRoutingTable"
+                RoutesResponseExamplesMultiRouteTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesMultiRouteTable"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -68205,11 +69080,16 @@ paths:
       description: Get the specified Routing table.
       responses:
         "200":
-          description: The requested Routes object in a single-item list.
+          description: The requested Routing table object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedRoutes"
+              examples:
+                RoutesResponseExamplesDefaultRoutingTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesDefaultRoutingTable"
+                RoutesResponseExamplesMultiRouteTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesMultiRouteTable"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -68245,11 +69125,16 @@ paths:
         Routes when updating the Routing table.
       responses:
         "200":
-          description: The updated Routes object in a single-item list.
+          description: The updated Routing table object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedRoutes"
+              examples:
+                RoutesResponseExamplesDefaultRoutingTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesDefaultRoutingTable"
+                RoutesResponseExamplesMultiRouteTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesMultiRouteTable"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
@@ -68299,11 +69184,16 @@ paths:
       description: Add a Route to the end of the specified Routing table.
       responses:
         "200":
-          description: The created Routes object in a single-item list.
+          description: The updated Routing table object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedRoutes"
+              examples:
+                RoutesResponseExamplesDefaultRoutingTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesDefaultRoutingTable"
+                RoutesResponseExamplesMultiRouteTable:
+                  $ref: "#/components/examples/RoutesResponseExamplesMultiRouteTable"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
@@ -69190,6 +70080,8 @@ paths:
                 $ref: "#/components/examples/OutputCreateExamplesServiceNow"
               OutputCreateExamplesDynatraceOtlp:
                 $ref: "#/components/examples/OutputCreateExamplesDynatraceOtlp"
+              OutputCreateExamplesGoogleCloudObservability:
+                $ref: "#/components/examples/OutputCreateExamplesGoogleCloudObservability"
               OutputCreateExamplesSentinelOneAiSiem:
                 $ref: "#/components/examples/OutputCreateExamplesSentinelOneAiSiem"
               OutputCreateExamplesDataset:
@@ -69429,6 +70321,8 @@ paths:
                 $ref: "#/components/examples/UpdateOutputExamplesServiceNow"
               UpdateOutputExamplesDynatraceOtlp:
                 $ref: "#/components/examples/UpdateOutputExamplesDynatraceOtlp"
+              UpdateOutputExamplesGoogleCloudObservability:
+                $ref: "#/components/examples/UpdateOutputExamplesGoogleCloudObservability"
               UpdateOutputExamplesSentinelOneAiSiem:
                 $ref: "#/components/examples/UpdateOutputExamplesSentinelOneAiSiem"
               UpdateOutputExamplesDataset:

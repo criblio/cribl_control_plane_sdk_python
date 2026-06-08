@@ -230,8 +230,8 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [DatabaseConnections](docs/sdks/databaseconnections/README.md)
 
-* [list](docs/sdks/databaseconnections/README.md#list) - List Database Connections
-* [create](docs/sdks/databaseconnections/README.md#create) - Create Database Connection
+* [list](docs/sdks/databaseconnections/README.md#list) - List all Database Connections
+* [create](docs/sdks/databaseconnections/README.md#create) - Create a Database Connection
 * [get](docs/sdks/databaseconnections/README.md#get) - Get a Database Connection
 * [update](docs/sdks/databaseconnections/README.md#update) - Update a Database Connection
 * [delete](docs/sdks/databaseconnections/README.md#delete) - Delete a Database Connection
@@ -518,7 +518,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.statuses.list(pack="<value>")
+    res = ccp_client.database_connections.list()
 
     while res is not None:
         # Handle items

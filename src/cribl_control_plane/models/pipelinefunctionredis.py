@@ -108,6 +108,8 @@ class RedisAuthTypeTextSecretTypedDict(TypedDict):
     r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
     url: NotRequired[str]
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
     r"""Root nodes to which the cluster connection should be initiated"""
@@ -117,7 +119,11 @@ class RedisAuthTypeTextSecretTypedDict(TypedDict):
     r"""Which nodes read commands should be sent to"""
     master_name: NotRequired[str]
     username: NotRequired[str]
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
     r"""Secret that references Redis username and password"""
 
@@ -152,6 +158,11 @@ class RedisAuthTypeTextSecret(BaseModel):
     url: Optional[str] = None
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
     tls_options: Annotated[
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
@@ -176,7 +187,17 @@ class RedisAuthTypeTextSecret(BaseModel):
 
     username: Optional[str] = None
 
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
     password: Optional[str] = None
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -219,13 +240,16 @@ class RedisAuthTypeTextSecret(BaseModel):
                 "maxBlockSecs",
                 "enableClientSideCaching",
                 "url",
+                "__template_url",
                 "tlsOptions",
                 "rootNodes",
                 "tls",
                 "scaleReads",
                 "masterName",
                 "username",
+                "__template_username",
                 "password",
+                "__template_password",
                 "credentialsSecret",
             ]
         )
@@ -323,6 +347,8 @@ class RedisAuthTypeCredentialsSecretTypedDict(TypedDict):
     r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
     url: NotRequired[str]
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
     r"""Root nodes to which the cluster connection should be initiated"""
@@ -332,7 +358,11 @@ class RedisAuthTypeCredentialsSecretTypedDict(TypedDict):
     r"""Which nodes read commands should be sent to"""
     master_name: NotRequired[str]
     username: NotRequired[str]
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     text_secret: NotRequired[str]
     r"""Secret that references Redis admin password"""
 
@@ -367,6 +397,11 @@ class RedisAuthTypeCredentialsSecret(BaseModel):
     url: Optional[str] = None
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
     tls_options: Annotated[
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
@@ -391,7 +426,17 @@ class RedisAuthTypeCredentialsSecret(BaseModel):
 
     username: Optional[str] = None
 
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
     password: Optional[str] = None
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Secret that references Redis admin password"""
@@ -432,13 +477,16 @@ class RedisAuthTypeCredentialsSecret(BaseModel):
                 "maxBlockSecs",
                 "enableClientSideCaching",
                 "url",
+                "__template_url",
                 "tlsOptions",
                 "rootNodes",
                 "tls",
                 "scaleReads",
                 "masterName",
                 "username",
+                "__template_username",
                 "password",
+                "__template_password",
                 "textSecret",
             ]
         )
@@ -524,6 +572,10 @@ class RedisAuthTypeManualTypedDict(TypedDict):
     commands: List[RedisAuthTypeManualCommandTypedDict]
     auth_type: NotRequired[RedisAuthTypeManualAuthenticationMethod]
     username: NotRequired[str]
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     deployment_type: NotRequired[RedisAuthTypeManualDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     max_block_secs: NotRequired[float]
@@ -532,6 +584,8 @@ class RedisAuthTypeManualTypedDict(TypedDict):
     r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
     url: NotRequired[str]
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
     r"""Root nodes to which the cluster connection should be initiated"""
@@ -558,6 +612,16 @@ class RedisAuthTypeManual(BaseModel):
 
     username: Optional[str] = None
 
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+
     deployment_type: Annotated[
         Optional[RedisAuthTypeManualDeploymentType],
         pydantic.Field(alias="deploymentType"),
@@ -576,6 +640,11 @@ class RedisAuthTypeManual(BaseModel):
 
     url: Optional[str] = None
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
     tls_options: Annotated[
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
@@ -640,10 +709,13 @@ class RedisAuthTypeManual(BaseModel):
             [
                 "authType",
                 "username",
+                "__template_username",
+                "__template_password",
                 "deploymentType",
                 "maxBlockSecs",
                 "enableClientSideCaching",
                 "url",
+                "__template_url",
                 "tlsOptions",
                 "rootNodes",
                 "tls",
@@ -741,6 +813,8 @@ class RedisAuthTypeNoneTypedDict(TypedDict):
     r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
     url: NotRequired[str]
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
     r"""Root nodes to which the cluster connection should be initiated"""
@@ -750,7 +824,11 @@ class RedisAuthTypeNoneTypedDict(TypedDict):
     r"""Which nodes read commands should be sent to"""
     master_name: NotRequired[str]
     username: NotRequired[str]
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
     r"""Secret that references Redis username and password"""
     text_secret: NotRequired[str]
@@ -784,6 +862,11 @@ class RedisAuthTypeNone(BaseModel):
     url: Optional[str] = None
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
     tls_options: Annotated[
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
@@ -808,7 +891,17 @@ class RedisAuthTypeNone(BaseModel):
 
     username: Optional[str] = None
 
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
     password: Optional[str] = None
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -854,13 +947,16 @@ class RedisAuthTypeNone(BaseModel):
                 "maxBlockSecs",
                 "enableClientSideCaching",
                 "url",
+                "__template_url",
                 "tlsOptions",
                 "rootNodes",
                 "tls",
                 "scaleReads",
                 "masterName",
                 "username",
+                "__template_username",
                 "password",
+                "__template_password",
                 "credentialsSecret",
                 "textSecret",
             ]
@@ -963,10 +1059,16 @@ class RedisDeploymentTypeSentinelTypedDict(TypedDict):
     r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
     url: NotRequired[str]
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     scale_reads: NotRequired[ScaleReadsOptionsRedisDeploymentTypeCluster]
     r"""Which nodes read commands should be sent to"""
     username: NotRequired[str]
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
     r"""Secret that references Redis username and password"""
     text_secret: NotRequired[str]
@@ -1016,6 +1118,11 @@ class RedisDeploymentTypeSentinel(BaseModel):
     url: Optional[str] = None
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
     scale_reads: Annotated[
         Optional[ScaleReadsOptionsRedisDeploymentTypeCluster],
         pydantic.Field(alias="scaleReads"),
@@ -1024,7 +1131,17 @@ class RedisDeploymentTypeSentinel(BaseModel):
 
     username: Optional[str] = None
 
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
     password: Optional[str] = None
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -1073,9 +1190,12 @@ class RedisDeploymentTypeSentinel(BaseModel):
                 "maxBlockSecs",
                 "enableClientSideCaching",
                 "url",
+                "__template_url",
                 "scaleReads",
                 "username",
+                "__template_username",
                 "password",
+                "__template_password",
                 "credentialsSecret",
                 "textSecret",
             ]
@@ -1177,9 +1297,15 @@ class RedisDeploymentTypeClusterTypedDict(TypedDict):
     r"""Enable client-side cache. Redundant when using Redis write operations. See more options at Settings > General > Limits > Redis Cache."""
     url: NotRequired[str]
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     master_name: NotRequired[str]
     username: NotRequired[str]
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
     r"""Secret that references Redis username and password"""
     text_secret: NotRequired[str]
@@ -1233,11 +1359,26 @@ class RedisDeploymentTypeCluster(BaseModel):
     url: Optional[str] = None
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
+
     master_name: Annotated[Optional[str], pydantic.Field(alias="masterName")] = None
 
     username: Optional[str] = None
 
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
     password: Optional[str] = None
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -1287,9 +1428,12 @@ class RedisDeploymentTypeCluster(BaseModel):
                 "maxBlockSecs",
                 "enableClientSideCaching",
                 "url",
+                "__template_url",
                 "masterName",
                 "username",
+                "__template_username",
                 "password",
+                "__template_password",
                 "credentialsSecret",
                 "textSecret",
             ]
@@ -1382,6 +1526,8 @@ class RedisDeploymentTypeStandaloneTypedDict(TypedDict):
     deployment_type: NotRequired[RedisDeploymentTypeStandaloneDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
+    template_url: NotRequired[str]
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     auth_type: NotRequired[RedisDeploymentTypeStandaloneAuthenticationMethod]
     max_block_secs: NotRequired[float]
     r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
@@ -1395,7 +1541,11 @@ class RedisDeploymentTypeStandaloneTypedDict(TypedDict):
     r"""Which nodes read commands should be sent to"""
     master_name: NotRequired[str]
     username: NotRequired[str]
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
     r"""Secret that references Redis username and password"""
     text_secret: NotRequired[str]
@@ -1418,6 +1568,11 @@ class RedisDeploymentTypeStandalone(BaseModel):
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
     ] = None
+
+    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
+        None
+    )
+    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
     auth_type: Annotated[
         Optional[RedisDeploymentTypeStandaloneAuthenticationMethod],
@@ -1453,7 +1608,17 @@ class RedisDeploymentTypeStandalone(BaseModel):
 
     username: Optional[str] = None
 
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
     password: Optional[str] = None
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -1496,6 +1661,7 @@ class RedisDeploymentTypeStandalone(BaseModel):
             [
                 "deploymentType",
                 "tlsOptions",
+                "__template_url",
                 "authType",
                 "maxBlockSecs",
                 "enableClientSideCaching",
@@ -1504,7 +1670,9 @@ class RedisDeploymentTypeStandalone(BaseModel):
                 "scaleReads",
                 "masterName",
                 "username",
+                "__template_username",
                 "password",
+                "__template_password",
                 "credentialsSecret",
                 "textSecret",
             ]

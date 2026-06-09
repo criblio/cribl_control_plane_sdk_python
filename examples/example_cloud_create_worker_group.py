@@ -2,6 +2,7 @@
 Create a Worker Group
 
 - Creates a new Worker Group in Cribl Stream.
+- Commits and deploys the Worker Group configuration to make it active.
 
 NOTE: This example is for Cribl.Cloud deployments only.
 
@@ -17,7 +18,7 @@ and Secret are sensitive information and should be kept private.
 
 # Import block
 # Imports asyncio so that the file can run an asynchronous control plane 
-# sequence for authentication and creating a Worker Group.
+# sequence for authentication and creating and deploying a Worker Group.
 #
 # Imports CriblControlPlane as the API client from the cribl_control_plane 
 # SDK package.
@@ -51,9 +52,11 @@ CLIENT_ID = "your-client-id"  # Replace with the Client ID for the API Credentia
 CLIENT_SECRET = "your-client-secret"  # Replace with the Client Secret for the API Credential
 
 # URL block
-# Builds the base URL to use for the API requests that this file makes using 
-# the ORG_ID and WORKSPACE_NAME provided in the user-supplied parameters block.
+# Builds the base URL and Worker Group-specific URL to use for the 
+# API requests that this file makes using the ORG_ID, WORKSPACE_NAME, 
+# and WORKER_GROUP_ID provided in the user-supplied parameters block.
 base_url = f"https://{WORKSPACE_NAME}-{ORG_ID}.cribl.cloud/api/v1"
+group_url = f"{base_url}/m/{WORKER_GROUP_ID}"
 
 # Estimated ingest rate block
 # Sets the maximum estimated ingest throughput tier for the new Worker Group
@@ -67,7 +70,7 @@ ESTIMATED_INGEST_RATE = EstimatedIngestRateOptionsConfigGroup.RATE24_MB_PER_SEC
 # The configuration for a new Worker Group that uses the WORKER_GROUP_ID 
 # provided in the user-supplied parameters block. The settings in this
 # configuration are passed to groups.create in the Create Worker Group block, 
-# with ESTIMATED_INGEST_RATE from the Estimated ingest rate block.
+# with ESTIMATED_INGEST_RATE from the estimated ingest rate block.
 group = ConfigGroup(
     id=WORKER_GROUP_ID,
     name="my-worker-group",
@@ -82,8 +85,8 @@ group = ConfigGroup(
 
 # Workflow block
 # The async function that contains the full automation and runs when you 
-# execute this file. Authenticates using your Cribl.Cloud API Credentials and 
-# creates the Worker Group.
+# execute this file. Authenticates using your Cribl.Cloud API Credentials, 
+# creates the Worker Group, and commits and deploys the configuration.
 async def main():
     # Authentication block
     # Creates an OAuth client (SchemeClientOauth) that exchanges CLIENT_ID and 
@@ -127,6 +130,38 @@ async def main():
         provisioned=group.provisioned,
     )
     print(f"✅ Worker Group created: {group.id}")
+
+    # Commit block
+    # Records a new version of the Worker Group configuration, marks that 
+    # version as effective, and captures the commit ID to use in the 
+    # Deploy block. Raises an exception if the API returns no commit. 
+    # Otherwise, prints a confirmation message.
+    commit_response = cribl.versions.commits.create(
+        message="Commit for create Worker Group example",
+        effective=True,
+        files=["."],
+        server_url=group_url,
+    )
+
+    if not commit_response.items or len(commit_response.items) == 0:
+        raise Exception("Failed to commit configuration changes")
+
+    version = commit_response.items[0].commit
+    print(
+        f"✅ Committed configuration changes to the group: {group.id}, "
+        f"commit ID: {version}"
+    )
+
+    # Deploy block
+    # Pushes the committed configuration version (using the commit ID from 
+    # the Commit block) to the Cribl Stream Worker Group so that Workers load 
+    # and run that version, then prints a confirmation message.
+    cribl.groups.deploy(
+        product=ProductsCore.STREAM,
+        id=group.id,
+        version=version,
+    )
+    print(f"✅ Worker Group changes deployed: {group.id}")
 
 # Script entry block
 # Starts the async function main() with the standard library helper 

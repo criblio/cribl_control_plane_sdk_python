@@ -17,6 +17,7 @@ class Datasets(BaseSDK):
         storage_location_id: Optional[str] = None,
         format_: Optional[models.GetCriblLakeDatasetByLakeIDFormat] = None,
         exclude_ddss: Optional[bool] = None,
+        exclude_netskope: Optional[bool] = None,
         exclude_deleted: Optional[bool] = None,
         exclude_internal: Optional[bool] = None,
         exclude_byos: Optional[bool] = None,
@@ -34,6 +35,7 @@ class Datasets(BaseSDK):
         :param storage_location_id: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
         :param format_: Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
         :param exclude_ddss: Exclude DDSS format datasets from the response.
+        :param exclude_netskope: Exclude Netskope format datasets from the response.
         :param exclude_deleted: Exclude deleted datasets from the response.
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
@@ -58,6 +60,7 @@ class Datasets(BaseSDK):
             storage_location_id=storage_location_id,
             format_=format_,
             exclude_ddss=exclude_ddss,
+            exclude_netskope=exclude_netskope,
             exclude_deleted=exclude_deleted,
             exclude_internal=exclude_internal,
             exclude_byos=exclude_byos,
@@ -130,6 +133,7 @@ class Datasets(BaseSDK):
         storage_location_id: Optional[str] = None,
         format_: Optional[models.GetCriblLakeDatasetByLakeIDFormat] = None,
         exclude_ddss: Optional[bool] = None,
+        exclude_netskope: Optional[bool] = None,
         exclude_deleted: Optional[bool] = None,
         exclude_internal: Optional[bool] = None,
         exclude_byos: Optional[bool] = None,
@@ -147,6 +151,7 @@ class Datasets(BaseSDK):
         :param storage_location_id: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
         :param format_: Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
         :param exclude_ddss: Exclude DDSS format datasets from the response.
+        :param exclude_netskope: Exclude Netskope format datasets from the response.
         :param exclude_deleted: Exclude deleted datasets from the response.
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
@@ -171,6 +176,7 @@ class Datasets(BaseSDK):
             storage_location_id=storage_location_id,
             format_=format_,
             exclude_ddss=exclude_ddss,
+            exclude_netskope=exclude_netskope,
             exclude_deleted=exclude_deleted,
             exclude_internal=exclude_internal,
             exclude_byos=exclude_byos,

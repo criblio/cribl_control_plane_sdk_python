@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.2-alpha.1780700647849-20fcce49
+  version: 4.18.2-alpha.1781046554505-ba836f6a
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -68096,6 +68096,12 @@ paths:
           schema:
             type: boolean
           description: Exclude DDSS format datasets from the response.
+        - name: excludeNetskope
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Exclude Netskope format datasets from the response.
         - name: excludeDeleted
           in: query
           required: false

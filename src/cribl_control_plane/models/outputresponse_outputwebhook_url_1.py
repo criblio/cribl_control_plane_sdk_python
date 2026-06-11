@@ -194,7 +194,7 @@ class OutputResponseOutputStatsdTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsStatsdTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -317,7 +317,7 @@ class OutputResponseOutputStatsd(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsStatsd], pydantic.Field(alias="pqControls")
@@ -1216,7 +1216,7 @@ class OutputResponseOutputCloudwatchTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsCloudwatchTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -1390,7 +1390,7 @@ class OutputResponseOutputCloudwatch(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsCloudwatch], pydantic.Field(alias="pqControls")
@@ -1692,7 +1692,7 @@ class OutputResponseOutputInfluxdbTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsInfluxdbTypedDict]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -1900,7 +1900,7 @@ class OutputResponseOutputInfluxdb(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsInfluxdb], pydantic.Field(alias="pqControls")
@@ -2183,7 +2183,7 @@ class OutputResponseOutputNewrelicEventsTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsNewrelicEventsTypedDict]
     api_key: NotRequired[str]
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
@@ -2368,7 +2368,7 @@ class OutputResponseOutputNewrelicEvents(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsNewrelicEvents],
@@ -2674,7 +2674,7 @@ class OutputResponseOutputNewrelicTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsNewrelicTypedDict]
     api_key: NotRequired[str]
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
@@ -2865,7 +2865,7 @@ class OutputResponseOutputNewrelic(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsNewrelic], pydantic.Field(alias="pqControls")
@@ -3135,7 +3135,7 @@ class OutputResponseOutputElasticCloudTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsElasticCloudTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -3316,7 +3316,7 @@ class OutputResponseOutputElasticCloud(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsElasticCloud],
@@ -3633,7 +3633,7 @@ class OutputResponseOutputElasticTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsElasticTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -3858,7 +3858,7 @@ class OutputResponseOutputElastic(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsElastic], pydantic.Field(alias="pqControls")
@@ -4154,7 +4154,7 @@ class OutputResponseOutputMskTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsMskTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -4392,7 +4392,7 @@ class OutputResponseOutputMsk(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsMsk], pydantic.Field(alias="pqControls")
@@ -4701,7 +4701,7 @@ class OutputResponseOutputConfluentCloudTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsConfluentCloudTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -4881,7 +4881,7 @@ class OutputResponseOutputConfluentCloud(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsConfluentCloud],
@@ -5143,7 +5143,7 @@ class OutputResponseOutputKafkaTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsKafkaTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -5321,7 +5321,7 @@ class OutputResponseOutputKafka(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsKafka], pydantic.Field(alias="pqControls")
@@ -5944,7 +5944,7 @@ class OutputResponseOutputGooglePubsubTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsGooglePubsubTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -6088,7 +6088,7 @@ class OutputResponseOutputGooglePubsub(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsGooglePubsub],
@@ -6329,7 +6329,7 @@ class OutputResponseOutputGoogleCloudObservabilityTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsGoogleCloudObservabilityTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -6483,7 +6483,7 @@ class OutputResponseOutputGoogleCloudObservability(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsGoogleCloudObservability],
@@ -6819,7 +6819,7 @@ class OutputResponseOutputGoogleCloudLoggingTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsGoogleCloudLoggingTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -7168,7 +7168,7 @@ class OutputResponseOutputGoogleCloudLogging(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsGoogleCloudLogging],
@@ -8264,7 +8264,7 @@ class OutputResponseOutputGoogleChronicleTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsGoogleChronicleTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -8497,7 +8497,7 @@ class OutputResponseOutputGoogleChronicle(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsGoogleChronicle],
@@ -8778,7 +8778,7 @@ class OutputResponseOutputAzureEventhubTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsAzureEventhubTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -8938,7 +8938,7 @@ class OutputResponseOutputAzureEventhub(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsAzureEventhub],
@@ -9175,7 +9175,7 @@ class OutputResponseOutputHoneycombTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsHoneycombTypedDict]
     team: NotRequired[str]
     r"""Team API key where the dataset belongs"""
@@ -9344,7 +9344,7 @@ class OutputResponseOutputHoneycomb(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsHoneycomb], pydantic.Field(alias="pqControls")
@@ -9587,7 +9587,7 @@ class OutputResponseOutputKinesisTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsKinesisTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -9770,7 +9770,7 @@ class OutputResponseOutputKinesis(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsKinesis], pydantic.Field(alias="pqControls")
@@ -10045,7 +10045,7 @@ class OutputResponseOutputAzureLogsTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsAzureLogsTypedDict]
     workspace_id: NotRequired[str]
     r"""Azure Log Analytics Workspace ID. See Azure Dashboard Workspace > Advanced settings."""
@@ -10226,7 +10226,7 @@ class OutputResponseOutputAzureLogs(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsAzureLogs], pydantic.Field(alias="pqControls")
@@ -10706,7 +10706,7 @@ class OutputResponseOutputAzureDataExplorerTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsAzureDataExplorerTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -11119,7 +11119,7 @@ class OutputResponseOutputAzureDataExplorer(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsAzureDataExplorer],
@@ -13480,7 +13480,7 @@ class OutputResponseOutputSignalfxTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsSignalfxTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -13652,7 +13652,7 @@ class OutputResponseOutputSignalfx(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsSignalfx], pydantic.Field(alias="pqControls")
@@ -13882,7 +13882,7 @@ class OutputResponseOutputWavefrontTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsWavefrontTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -14054,7 +14054,7 @@ class OutputResponseOutputWavefront(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsWavefront], pydantic.Field(alias="pqControls")
@@ -14277,7 +14277,7 @@ class OutputResponseOutputTcpjsonTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsTcpjsonTypedDict]
     auth_token: NotRequired[str]
     r"""Optional authentication token to include as part of the connection header"""
@@ -14442,7 +14442,7 @@ class OutputResponseOutputTcpjson(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsTcpjson], pydantic.Field(alias="pqControls")
@@ -14690,7 +14690,7 @@ class OutputResponseOutputWizHecTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsWizHecTypedDict]
     token: NotRequired[str]
     r"""Wiz Defend Auth token"""
@@ -14877,7 +14877,7 @@ class OutputResponseOutputWizHec(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsWizHec], pydantic.Field(alias="pqControls")
@@ -15187,7 +15187,7 @@ class OutputResponseOutputSplunkHecTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsSplunkHecTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -15394,7 +15394,7 @@ class OutputResponseOutputSplunkHec(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsSplunkHec], pydantic.Field(alias="pqControls")
@@ -15772,7 +15772,7 @@ class OutputResponseOutputSplunkLbTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsSplunkLbTypedDict]
     auth_token: NotRequired[str]
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
@@ -15959,7 +15959,7 @@ class OutputResponseOutputSplunkLb(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsSplunkLb], pydantic.Field(alias="pqControls")
@@ -16216,7 +16216,7 @@ class OutputResponseOutputSplunkTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsSplunkTypedDict]
     auth_token: NotRequired[str]
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
@@ -16376,7 +16376,7 @@ class OutputResponseOutputSplunk(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsSplunk], pydantic.Field(alias="pqControls")
@@ -16753,7 +16753,7 @@ class OutputResponseOutputSyslogTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsSyslogTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -16939,7 +16939,7 @@ class OutputResponseOutputSyslog(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsSyslog], pydantic.Field(alias="pqControls")
@@ -17335,7 +17335,7 @@ class OutputResponseOutputSentinelTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponsePqControlsSentinelTypedDict]
     url: NotRequired[str]
     r"""URL to send events to. Can be overwritten by an event's __url field."""
@@ -17590,7 +17590,7 @@ class OutputResponseOutputSentinel(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponsePqControlsSentinel], pydantic.Field(alias="pqControls")
@@ -18004,7 +18004,7 @@ class OutputResponseOutputWebhookWebhook2TypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputResponseOutputWebhookPqControls2TypedDict]
     username: NotRequired[str]
     password: NotRequired[str]
@@ -18270,7 +18270,7 @@ class OutputResponseOutputWebhookWebhook2(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputResponseOutputWebhookPqControls2],

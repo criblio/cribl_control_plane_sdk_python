@@ -9,7 +9,7 @@ from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
 from jsonpath import JSONPath
-from typing import Any, Awaitable, Dict, List, Mapping, Optional, Union
+from typing import Any, Awaitable, Dict, Iterable, List, Mapping, Optional, Union
 
 
 class Nodes(BaseSDK):
@@ -702,7 +702,7 @@ class Nodes(BaseSDK):
         self,
         *,
         product: models.ProductsCore,
-        guids: List[str],
+        guids: Iterable[str],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -732,7 +732,7 @@ class Nodes(BaseSDK):
         request = models.UpdateProductsWorkersRestartByProductRequest(
             product=product,
             restart_request=models.RestartRequest(
-                guids=guids,
+                guids=utils.unmarshal(guids, List[str]),
             ),
         )
 
@@ -802,7 +802,7 @@ class Nodes(BaseSDK):
         self,
         *,
         product: models.ProductsCore,
-        guids: List[str],
+        guids: Iterable[str],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -832,7 +832,7 @@ class Nodes(BaseSDK):
         request = models.UpdateProductsWorkersRestartByProductRequest(
             product=product,
             restart_request=models.RestartRequest(
-                guids=guids,
+                guids=utils.unmarshal(guids, List[str]),
             ),
         )
 

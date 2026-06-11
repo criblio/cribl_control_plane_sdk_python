@@ -6,7 +6,7 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Dict, List, Mapping, Optional, Union
+from typing import Any, Dict, Iterable, List, Mapping, Optional, Union
 
 
 class PacksRoutes(BaseSDK):
@@ -391,15 +391,15 @@ class PacksRoutes(BaseSDK):
         pack: str,
         id: str,
         routes: Union[
-            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+            Iterable[models.RouteConfInput], Iterable[models.RouteConfInputTypedDict]
         ],
         comments: Optional[
-            Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
+            Union[Iterable[models.RouteComment], Iterable[models.RouteCommentTypedDict]]
         ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.AdditionalPropertiesTypeRoutesGroups],
-                Dict[str, models.AdditionalPropertiesTypeRoutesGroupsTypedDict],
+                Mapping[str, models.AdditionalPropertiesTypeRoutesGroups],
+                Mapping[str, models.AdditionalPropertiesTypeRoutesGroupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -517,15 +517,15 @@ class PacksRoutes(BaseSDK):
         pack: str,
         id: str,
         routes: Union[
-            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+            Iterable[models.RouteConfInput], Iterable[models.RouteConfInputTypedDict]
         ],
         comments: Optional[
-            Union[List[models.RouteComment], List[models.RouteCommentTypedDict]]
+            Union[Iterable[models.RouteComment], Iterable[models.RouteCommentTypedDict]]
         ] = None,
         groups: Optional[
             Union[
-                Dict[str, models.AdditionalPropertiesTypeRoutesGroups],
-                Dict[str, models.AdditionalPropertiesTypeRoutesGroupsTypedDict],
+                Mapping[str, models.AdditionalPropertiesTypeRoutesGroups],
+                Mapping[str, models.AdditionalPropertiesTypeRoutesGroupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -642,7 +642,7 @@ class PacksRoutes(BaseSDK):
         id: str,
         pack: str,
         request_body: Union[
-            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+            Iterable[models.RouteConfInput], Iterable[models.RouteConfInputTypedDict]
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -747,7 +747,7 @@ class PacksRoutes(BaseSDK):
         id: str,
         pack: str,
         request_body: Union[
-            List[models.RouteConfInput], List[models.RouteConfInputTypedDict]
+            Iterable[models.RouteConfInput], Iterable[models.RouteConfInputTypedDict]
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,

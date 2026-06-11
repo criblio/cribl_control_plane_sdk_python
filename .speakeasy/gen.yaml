@@ -33,7 +33,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 python:
-  version: 0.9.0a13
+  version: 0.9.0a14
   additionalDependencies:
     dev: {}
     main: {}
@@ -52,6 +52,9 @@ python:
   enableCustomCodeRegions: false
   enumFormat: enum
   envVarPrefix: CRIBLCONTROLPLANE
+  eventStreamClassNames:
+    async: EventStreamAsync
+    sync: EventStream
   fixFlags:
     asyncPaginationSep2025: true
     conflictResistantModelImportsFeb2026: true
@@ -71,6 +74,7 @@ python:
       webhooks: ""
   inferUnionDiscriminators: true
   inputModelSuffix: input
+  inputTypedDictSuffix: TypedDict
   legacyPyright: true
   license: ""
   maxMethodParams: 999

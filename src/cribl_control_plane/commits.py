@@ -8,7 +8,7 @@ from cribl_control_plane.files import Files
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional
+from typing import Any, Iterable, List, Mapping, Optional
 
 
 class Commits(BaseSDK):
@@ -213,7 +213,7 @@ class Commits(BaseSDK):
         *,
         message: str,
         effective: Optional[bool] = None,
-        files: Optional[List[str]] = None,
+        files: Optional[Iterable[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -243,7 +243,7 @@ class Commits(BaseSDK):
 
         request = models.GitCommitBody(
             effective=effective,
-            files=files,
+            files=utils.unmarshal(files, Optional[List[str]]),
             message=message,
         )
 
@@ -314,7 +314,7 @@ class Commits(BaseSDK):
         *,
         message: str,
         effective: Optional[bool] = None,
-        files: Optional[List[str]] = None,
+        files: Optional[Iterable[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -344,7 +344,7 @@ class Commits(BaseSDK):
 
         request = models.GitCommitBody(
             effective=effective,
-            files=files,
+            files=utils.unmarshal(files, Optional[List[str]]),
             message=message,
         )
 

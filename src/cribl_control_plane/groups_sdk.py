@@ -9,7 +9,7 @@ from cribl_control_plane.groups_configs import GroupsConfigs
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from typing import Any, Iterable, List, Mapping, Optional, Union
 
 
 class GroupsSDK(BaseSDK):
@@ -239,7 +239,7 @@ class GroupsSDK(BaseSDK):
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
         source_group_id: Optional[str] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -303,7 +303,7 @@ class GroupsSDK(BaseSDK):
                 on_prem=on_prem,
                 provisioned=provisioned,
                 source_group_id=source_group_id,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -397,7 +397,7 @@ class GroupsSDK(BaseSDK):
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
         source_group_id: Optional[str] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -461,7 +461,7 @@ class GroupsSDK(BaseSDK):
                 on_prem=on_prem,
                 provisioned=provisioned,
                 source_group_id=source_group_id,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -753,15 +753,15 @@ class GroupsSDK(BaseSDK):
         is_search: Optional[bool] = None,
         lookup_deployments: Optional[
             Union[
-                List[models.ConfigGroupLookups],
-                List[models.ConfigGroupLookupsTypedDict],
+                Iterable[models.ConfigGroupLookups],
+                Iterable[models.ConfigGroupLookupsTypedDict],
             ]
         ] = None,
         max_worker_age: Optional[str] = None,
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -839,7 +839,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -932,15 +932,15 @@ class GroupsSDK(BaseSDK):
         is_search: Optional[bool] = None,
         lookup_deployments: Optional[
             Union[
-                List[models.ConfigGroupLookups],
-                List[models.ConfigGroupLookupsTypedDict],
+                Iterable[models.ConfigGroupLookups],
+                Iterable[models.ConfigGroupLookupsTypedDict],
             ]
         ] = None,
         max_worker_age: Optional[str] = None,
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -1018,7 +1018,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -1287,8 +1287,8 @@ class GroupsSDK(BaseSDK):
         version: str,
         lookups: Optional[
             Union[
-                List[models.DeployRequestLookups],
-                List[models.DeployRequestLookupsTypedDict],
+                Iterable[models.DeployRequestLookups],
+                Iterable[models.DeployRequestLookupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1400,8 +1400,8 @@ class GroupsSDK(BaseSDK):
         version: str,
         lookups: Optional[
             Union[
-                List[models.DeployRequestLookups],
-                List[models.DeployRequestLookupsTypedDict],
+                Iterable[models.DeployRequestLookups],
+                Iterable[models.DeployRequestLookupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,

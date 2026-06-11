@@ -10,7 +10,7 @@ from cribl_control_plane.sources_statuses import SourcesStatuses
 from cribl_control_plane.types import BaseModel, OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union, cast
+from typing import Any, Iterable, List, Mapping, Optional, Union, cast
 
 
 class Sources(BaseSDK):
@@ -37,7 +37,7 @@ class Sources(BaseSDK):
     def list(
         self,
         *,
-        type_: Optional[List[str]] = None,
+        type_: Optional[Iterable[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -64,7 +64,7 @@ class Sources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.ListInputRequest(
-            type=type_,
+            type=utils.unmarshal(type_, Optional[List[str]]),
         )
 
         req = self._build_request(
@@ -129,7 +129,7 @@ class Sources(BaseSDK):
     async def list_async(
         self,
         *,
-        type_: Optional[List[str]] = None,
+        type_: Optional[Iterable[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -156,7 +156,7 @@ class Sources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.ListInputRequest(
-            type=type_,
+            type=utils.unmarshal(type_, Optional[List[str]]),
         )
 
         req = self._build_request_async(

@@ -10,7 +10,7 @@ from cribl_control_plane.packs_sources_statuses import PacksSourcesStatuses
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from typing import Any, Iterable, List, Mapping, Optional, Union
 
 
 class PacksSources(BaseSDK):
@@ -38,7 +38,7 @@ class PacksSources(BaseSDK):
         self,
         *,
         pack: str,
-        type_: Optional[List[str]] = None,
+        type_: Optional[Iterable[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -66,7 +66,7 @@ class PacksSources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetInputSystemByPackRequest(
-            type=type_,
+            type=utils.unmarshal(type_, Optional[List[str]]),
             pack=pack,
         )
 
@@ -133,7 +133,7 @@ class PacksSources(BaseSDK):
         self,
         *,
         pack: str,
-        type_: Optional[List[str]] = None,
+        type_: Optional[Iterable[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -161,7 +161,7 @@ class PacksSources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.GetInputSystemByPackRequest(
-            type=type_,
+            type=utils.unmarshal(type_, Optional[List[str]]),
             pack=pack,
         )
 

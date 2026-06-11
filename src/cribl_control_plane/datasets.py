@@ -6,7 +6,7 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from typing import Any, Iterable, List, Mapping, Optional, Union
 
 
 class Datasets(BaseSDK):
@@ -247,7 +247,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id: str,
-        accelerated_fields: Optional[List[str]] = None,
+        accelerated_fields: Optional[Iterable[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -310,7 +310,9 @@ class Datasets(BaseSDK):
         request = models.CreateCriblLakeDatasetByLakeIDRequest(
             lake_id=lake_id,
             cribl_lake_dataset=models.CriblLakeDataset(
-                accelerated_fields=accelerated_fields,
+                accelerated_fields=utils.unmarshal(
+                    accelerated_fields, Optional[List[str]]
+                ),
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -404,7 +406,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id: str,
-        accelerated_fields: Optional[List[str]] = None,
+        accelerated_fields: Optional[Iterable[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -467,7 +469,9 @@ class Datasets(BaseSDK):
         request = models.CreateCriblLakeDatasetByLakeIDRequest(
             lake_id=lake_id,
             cribl_lake_dataset=models.CriblLakeDataset(
-                accelerated_fields=accelerated_fields,
+                accelerated_fields=utils.unmarshal(
+                    accelerated_fields, Optional[List[str]]
+                ),
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -757,7 +761,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id_param: str,
-        accelerated_fields: Optional[List[str]] = None,
+        accelerated_fields: Optional[Iterable[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -823,7 +827,9 @@ class Datasets(BaseSDK):
             lake_id=lake_id,
             id_param=id_param,
             cribl_lake_dataset_update=models.CriblLakeDatasetUpdate(
-                accelerated_fields=accelerated_fields,
+                accelerated_fields=utils.unmarshal(
+                    accelerated_fields, Optional[List[str]]
+                ),
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -917,7 +923,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id_param: str,
-        accelerated_fields: Optional[List[str]] = None,
+        accelerated_fields: Optional[Iterable[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -983,7 +989,9 @@ class Datasets(BaseSDK):
             lake_id=lake_id,
             id_param=id_param,
             cribl_lake_dataset_update=models.CriblLakeDatasetUpdate(
-                accelerated_fields=accelerated_fields,
+                accelerated_fields=utils.unmarshal(
+                    accelerated_fields, Optional[List[str]]
+                ),
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]

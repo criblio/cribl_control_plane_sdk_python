@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.2-alpha.1781046554505-ba836f6a
+  version: 4.18.2-alpha.1781132822424-ac10fddb
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -29444,7 +29444,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -29891,7 +29891,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -30349,7 +30349,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -30530,7 +30530,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -30832,7 +30832,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -31129,7 +31129,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -31358,7 +31358,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -31588,7 +31588,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -31816,7 +31816,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -32031,7 +32031,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -33632,7 +33632,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -33928,7 +33928,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -34177,7 +34177,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -34411,7 +34411,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -34639,7 +34639,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -34964,7 +34964,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -35809,7 +35809,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -36079,7 +36079,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -36265,7 +36265,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -36720,7 +36720,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -36963,7 +36963,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -37267,7 +37267,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -37619,7 +37619,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -37859,7 +37859,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -38120,7 +38120,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -38357,7 +38357,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -38658,7 +38658,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -38893,7 +38893,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -39474,7 +39474,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -39637,7 +39637,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -39800,7 +39800,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -40062,7 +40062,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -40332,7 +40332,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -40693,7 +40693,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -41007,7 +41007,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -41275,7 +41275,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -41564,7 +41564,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -41788,7 +41788,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -42248,7 +42248,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -42519,7 +42519,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -42787,7 +42787,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -43009,7 +43009,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -43277,7 +43277,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -43546,7 +43546,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -43771,7 +43771,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -43993,7 +43993,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -45527,7 +45527,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -45873,7 +45873,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -46155,7 +46155,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -46520,7 +46520,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -46833,7 +46833,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -47159,7 +47159,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -47446,7 +47446,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -48081,7 +48081,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -56492,7 +56492,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         maxBufferSize:
           type: number

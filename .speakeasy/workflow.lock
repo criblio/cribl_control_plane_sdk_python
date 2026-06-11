@@ -2,19 +2,19 @@ speakeasyVersion: 1.770.0
 sources:
     Cribl API Reference:
         sourceNamespace: cribl-api-reference
-        sourceRevisionDigest: sha256:026c546aa9186e99b5a811ca81be7a1c8f8767a0695d54a54980c98e3df8bbf2
-        sourceBlobDigest: sha256:d20eba00921a8df4ffe16ac726a2d601b5bc05387a432e7f64ee3f44e976b9e3
+        sourceRevisionDigest: sha256:807fe338e23d60813761d15e776df3d65e7d3e1e86e7a3b57fcadda9aa1a79b4
+        sourceBlobDigest: sha256:6f97dfe07c89ea1b25fe6e6aa703af15671196925357c47ad3fd202fdb46726a
         tags:
             - latest
-            - 4.18.2-alpha.1781046554505-ba836f6a
+            - 4.18.2-alpha.1781132822424-ac10fddb
 targets:
     cribl-control-plane:
         source: Cribl API Reference
         sourceNamespace: cribl-api-reference
-        sourceRevisionDigest: sha256:026c546aa9186e99b5a811ca81be7a1c8f8767a0695d54a54980c98e3df8bbf2
-        sourceBlobDigest: sha256:d20eba00921a8df4ffe16ac726a2d601b5bc05387a432e7f64ee3f44e976b9e3
+        sourceRevisionDigest: sha256:807fe338e23d60813761d15e776df3d65e7d3e1e86e7a3b57fcadda9aa1a79b4
+        sourceBlobDigest: sha256:6f97dfe07c89ea1b25fe6e6aa703af15671196925357c47ad3fd202fdb46726a
         codeSamplesNamespace: cribl-api-reference-python-code-samples
-        codeSamplesRevisionDigest: sha256:b26c3c64900c62e14893afeb9f7132353fdb10aad7d7cc6be6eccdc4ba73d54e
+        codeSamplesRevisionDigest: sha256:39b849316229ee6884cc0b7edb22a5e32648cbac3ab1d3bd88bea7bed1511d8f
 workflow:
     workflowVersion: 1.0.0
     speakeasyVersion: 1.770.0

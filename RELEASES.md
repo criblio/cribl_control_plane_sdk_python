@@ -1559,3 +1559,13 @@ Based on:
 - [python v0.9.0a14] .
 ### Releases
 - [PyPI v0.9.0a14] https://pypi.org/project/cribl-control-plane/0.9.0a14 - .
+
+## 2026-06-12 02:36:00
+### Changes
+Based on:
+- OpenAPI Doc  
+- Speakeasy CLI 1.776.0 (2.900.1) https://github.com/speakeasy-api/speakeasy
+### Generated
+- [python v0.9.0a15] .
+### Releases
+- [PyPI v0.9.0a15] https://pypi.org/project/cribl-control-plane/0.9.0a15 - .

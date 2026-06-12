@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.2-alpha.1781132822424-ac10fddb
+  version: 4.18.2-alpha.1781218968754-cab4dd7e
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -20868,6 +20868,16 @@ components:
             the Kubernetes Logs Event Breaker and the kubernetes_logs
             Pre-processing Pipeline to remove them from the events after the
             timestamps are extracted.
+        lineBufferLimit:
+          type: number
+          minimum: 1024
+          title: Line buffer limit
+          description: Maximum bytes to buffer while reassembling a single log line. A
+            line that exceeds this size is flushed as-is, either whole or
+            partially. The default is 1048576 (1 MB).
+        __LBDisableAssembly:
+          type: boolean
+          description: Internal flag to disable LB worker payload reassembly.
         metadata:
           type: array
           title: Fields

@@ -9,6 +9,10 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
+from .httpdiscoveryheaderconfinputprometheus import (
+    HTTPDiscoveryHeaderConfInputPrometheus,
+    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
+)
 from .logleveloptions import LogLevelOptions
 from .metadataconfinputcollection import (
     MetadataConfInputCollection,
@@ -42,6 +46,8 @@ class InputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
     DNS = "dns"
     # AWS EC2
     EC2 = "ec2"
+    # HTTP SD
+    HTTP_SD = "http_sd"
 
 
 class InputPrometheusMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -134,6 +140,16 @@ class InputPrometheusInputTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    http_discovery_url: NotRequired[str]
+    r"""URL to fetch target groups from (must be http or https)"""
+    http_discovery_headers: NotRequired[
+        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+    ]
+    r"""Extra headers to send with the discovery request"""
+    http_discovery_reject_unauthorized: NotRequired[bool]
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
     username: NotRequired[str]
     r"""Username for Prometheus Basic authentication"""
     password: NotRequired[str]
@@ -341,6 +357,27 @@ class InputPrometheusInput(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
+    http_discovery_url: Annotated[
+        Optional[str], pydantic.Field(alias="httpDiscoveryUrl")
+    ] = None
+    r"""URL to fetch target groups from (must be http or https)"""
+
+    http_discovery_headers: Annotated[
+        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        pydantic.Field(alias="httpDiscoveryHeaders"),
+    ] = None
+    r"""Extra headers to send with the discovery request"""
+
+    http_discovery_reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="httpDiscoveryRejectUnauthorized")
+    ] = None
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
+
     username: Optional[str] = None
     r"""Username for Prometheus Basic authentication"""
 
@@ -526,6 +563,10 @@ class InputPrometheusInput(BaseModel):
                 "assumeRoleArn",
                 "assumeRoleExternalId",
                 "durationSeconds",
+                "httpDiscoveryUrl",
+                "httpDiscoveryHeaders",
+                "httpDiscoveryRejectUnauthorized",
+                "maxResponseBodySize",
                 "username",
                 "password",
                 "credentialsSecret",

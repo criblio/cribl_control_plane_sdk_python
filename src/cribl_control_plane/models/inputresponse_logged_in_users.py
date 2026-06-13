@@ -25,6 +25,10 @@ from .datacompressionformatoptionspersistence import (
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
 from .gputype import GpuType, GpuTypeTypedDict
+from .httpdiscoveryheaderconfinputprometheus import (
+    HTTPDiscoveryHeaderConfInputPrometheus,
+    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
+)
 from .inputcollectionorigindatasourcediscoverywithdestinationarnconstraint import (
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint,
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict,
@@ -55,10 +59,6 @@ from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
     PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
 )
 from .processtype import ProcessType, ProcessTypeTypedDict
-from .requestparamconfinputopenai import (
-    RequestParamConfInputOpenai,
-    RequestParamConfInputOpenaiTypedDict,
-)
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from .ruleconfinputkubemetrics import (
     RuleConfInputKubeMetrics,
@@ -3360,7 +3360,7 @@ class InputResponseContentConfigOpenaiTypedDict(TypedDict):
     content_type: str
     collect_path: str
     r"""OpenAI Organization API path"""
-    request_params: List[RequestParamConfInputOpenaiTypedDict]
+    request_params: List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
     r"""Query-string parameters to send with this endpoint"""
     pagination_type: InputResponsePaginationType
     cron_schedule: str
@@ -3402,7 +3402,8 @@ class InputResponseContentConfigOpenai(BaseModel):
     r"""OpenAI Organization API path"""
 
     request_params: Annotated[
-        List[RequestParamConfInputOpenai], pydantic.Field(alias="requestParams")
+        List[HTTPDiscoveryHeaderConfInputPrometheus],
+        pydantic.Field(alias="requestParams"),
     ]
     r"""Query-string parameters to send with this endpoint"""
 

@@ -9,6 +9,10 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollectionTypedDict,
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
+from .httpdiscoveryheaderconfinputprometheus import (
+    HTTPDiscoveryHeaderConfInputPrometheus,
+    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
+)
 from .metadataconfinputcollection import (
     MetadataConfInputCollection,
     MetadataConfInputCollectionTypedDict,
@@ -48,6 +52,8 @@ class InputEdgePrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
     K8S_PODS = "k8s-pods"
     # Kubernetes Service Monitor (v4.18+)
     K8S_SERVICE_MONITOR = "k8s-service-monitor"
+    # HTTP SD
+    HTTP_SD = "http_sd"
 
 
 class InputEdgePrometheusAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -225,6 +231,16 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     expressions evaluate to true.
 
     """
+    http_discovery_url: NotRequired[str]
+    r"""URL to fetch target groups from (must be http or https)"""
+    http_discovery_headers: NotRequired[
+        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+    ]
+    r"""Extra headers to send with the discovery request"""
+    http_discovery_reject_unauthorized: NotRequired[bool]
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
     username: NotRequired[str]
     r"""Username for Prometheus Basic authentication"""
     password: NotRequired[str]
@@ -428,6 +444,27 @@ class InputEdgePrometheusInput(BaseModel):
 
     """
 
+    http_discovery_url: Annotated[
+        Optional[str], pydantic.Field(alias="httpDiscoveryUrl")
+    ] = None
+    r"""URL to fetch target groups from (must be http or https)"""
+
+    http_discovery_headers: Annotated[
+        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        pydantic.Field(alias="httpDiscoveryHeaders"),
+    ] = None
+    r"""Extra headers to send with the discovery request"""
+
+    http_discovery_reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="httpDiscoveryRejectUnauthorized")
+    ] = None
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
+
     username: Optional[str] = None
     r"""Username for Prometheus Basic authentication"""
 
@@ -579,6 +616,10 @@ class InputEdgePrometheusInput(BaseModel):
                 "scrapePortExpr",
                 "scrapePathExpr",
                 "podFilter",
+                "httpDiscoveryUrl",
+                "httpDiscoveryHeaders",
+                "httpDiscoveryRejectUnauthorized",
+                "maxResponseBodySize",
                 "username",
                 "password",
                 "credentialsSecret",

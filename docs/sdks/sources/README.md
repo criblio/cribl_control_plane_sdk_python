@@ -551,19 +551,19 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.create(request=models.CreateInputInputEventhubAmqp(
-        id="eventhub-amqp-source",
-        type=models.CreateInputTypeEventhubAmqp.EVENTHUB_AMQP,
-        send_to_routes=True,
-        pq_enabled=False,
-        event_hub_name="my-event-hub",
-        consumer_group="$Default",
-        checkpointing=models.CreateInputCheckpointing(
-            blob_store=models.CreateInputAzureBlobStorage(
-                container_name="my-container",
-            ),
-        ),
-    ))
+    res = ccp_client.sources.create(request={
+        "id": "eventhub-amqp-source",
+        "type": models.CreateInputTypeEventhubAmqp.EVENTHUB_AMQP,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "event_hub_name": "my-event-hub",
+        "consumer_group": "$Default",
+        "checkpointing": {
+            "blob_store": {
+                "container_name": "my-container",
+            },
+        },
+    })
 
     # Handle response
     print(res)
@@ -2568,19 +2568,19 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.update(id="<id>", input_=models.InputEventhubAmqpInput(
-        id="eventhub-amqp-source",
-        type=models.InputEventhubAmqpType.EVENTHUB_AMQP,
-        send_to_routes=True,
-        pq_enabled=False,
-        event_hub_name="my-event-hub",
-        consumer_group="$Default",
-        checkpointing=models.InputEventhubAmqpCheckpointing(
-            blob_store=models.InputEventhubAmqpAzureBlobStorage(
-                container_name="my-container",
-            ),
-        ),
-    ))
+    res = ccp_client.sources.update(id="<id>", input_={
+        "id": "eventhub-amqp-source",
+        "type": models.InputEventhubAmqpType.EVENTHUB_AMQP,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "event_hub_name": "my-event-hub",
+        "consumer_group": "$Default",
+        "checkpointing": {
+            "blob_store": {
+                "container_name": "my-container",
+            },
+        },
+    })
 
     # Handle response
     print(res)
@@ -4622,19 +4622,19 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.sources.update(id="<id>", input_=models.InputEventhubAmqpInput(
-        id="eventhub-amqp-source",
-        type=models.InputEventhubAmqpType.EVENTHUB_AMQP,
-        send_to_routes=True,
-        pq_enabled=False,
-        event_hub_name="my-event-hub",
-        consumer_group="$Default",
-        checkpointing=models.InputEventhubAmqpCheckpointing(
-            blob_store=models.InputEventhubAmqpAzureBlobStorage(
-                container_name="my-container",
-            ),
-        ),
-    ))
+    res = ccp_client.sources.update(id="<id>", input_={
+        "id": "eventhub-amqp-source",
+        "type": models.InputEventhubAmqpType.EVENTHUB_AMQP,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "event_hub_name": "my-event-hub",
+        "consumer_group": "$Default",
+        "checkpointing": {
+            "blob_store": {
+                "container_name": "my-container",
+            },
+        },
+    })
 
     # Handle response
     print(res)

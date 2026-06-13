@@ -25,6 +25,10 @@ from .datacompressionformatoptionspersistence import (
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
 from .gputype import GpuType, GpuTypeTypedDict
+from .httpdiscoveryheaderconfinputprometheus import (
+    HTTPDiscoveryHeaderConfInputPrometheus,
+    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
+)
 from .logleveloptions import LogLevelOptions
 from .logleveloptionscontentconfigitemsdebugerror import (
     LogLevelOptionsContentConfigItemsDebugError,
@@ -50,10 +54,6 @@ from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
     PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
 )
 from .processtype import ProcessType, ProcessTypeTypedDict
-from .requestparamconfinputopenai import (
-    RequestParamConfInputOpenai,
-    RequestParamConfInputOpenaiTypedDict,
-)
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from .ruleconfinputkubemetrics import (
     RuleConfInputKubeMetrics,
@@ -3133,7 +3133,7 @@ class CreateInputLogLevelOpenai(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class CreateInputContentConfigInputTypedDict(TypedDict):
-    request_params: List[RequestParamConfInputOpenaiTypedDict]
+    request_params: List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
     r"""Query-string parameters to send with this endpoint"""
     pagination_type: CreateInputPaginationType
     cron_schedule: str
@@ -3168,7 +3168,8 @@ class CreateInputContentConfigInputTypedDict(TypedDict):
 
 class CreateInputContentConfigInput(BaseModel):
     request_params: Annotated[
-        List[RequestParamConfInputOpenai], pydantic.Field(alias="requestParams")
+        List[HTTPDiscoveryHeaderConfInputPrometheus],
+        pydantic.Field(alias="requestParams"),
     ]
     r"""Query-string parameters to send with this endpoint"""
 

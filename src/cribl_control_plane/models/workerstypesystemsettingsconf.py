@@ -20,6 +20,7 @@ class WorkersTypeSystemSettingsConfTypedDict(TypedDict):
     v8_single_thread: NotRequired[bool]
     worker_process_config_update_concurrency: NotRequired[float]
     worker_process_reload_timeout: NotRequired[float]
+    worker_thread_pool_size: NotRequired[float]
 
 
 class WorkersTypeSystemSettingsConf(BaseModel):
@@ -61,6 +62,10 @@ class WorkersTypeSystemSettingsConf(BaseModel):
         Optional[float], pydantic.Field(alias="workerProcessReloadTimeout")
     ] = None
 
+    worker_thread_pool_size: Annotated[
+        Optional[float], pydantic.Field(alias="workerThreadPoolSize")
+    ] = None
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -73,6 +78,7 @@ class WorkersTypeSystemSettingsConf(BaseModel):
                 "v8SingleThread",
                 "workerProcessConfigUpdateConcurrency",
                 "workerProcessReloadTimeout",
+                "workerThreadPoolSize",
             ]
         )
         serialized = handler(self)

@@ -1,13 +1,13 @@
-# OutputCloudflareR2AuthenticationMethod
+# AuthenticationMethodOptionsAutoSecret
 
 AWS authentication method. Choose Auto to use IAM roles.
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import OutputCloudflareR2AuthenticationMethod
+from cribl_control_plane.models import AuthenticationMethodOptionsAutoSecret
 
-value = OutputCloudflareR2AuthenticationMethod.AUTO
+value = AuthenticationMethodOptionsAutoSecret.AUTO
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

@@ -73,7 +73,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    max_event_bytes: NotRequired[float]
+    max_event_bytes: NotRequired[int]
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
     description: NotRequired[str]
     disable_json_rendering: NotRequired[bool]
@@ -143,9 +143,9 @@ class InputWinEventLogsInput(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    max_event_bytes: Annotated[
-        Optional[float], pydantic.Field(alias="maxEventBytes")
-    ] = None
+    max_event_bytes: Annotated[Optional[int], pydantic.Field(alias="maxEventBytes")] = (
+        None
+    )
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None

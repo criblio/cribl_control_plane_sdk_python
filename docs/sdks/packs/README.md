@@ -165,6 +165,29 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: PackInstallResponseExamplesInstalledFromURL
+
+<!-- UsageSnippet language="python" operationID="createPacks" method="post" path="/packs" example="PackInstallResponseExamplesInstalledFromURL" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.install(request={
+        "source": "<value>",
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -181,6 +204,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -190,7 +214,7 @@ Get a list of all Packs.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getPacks" method="get" path="/packs" -->
+<!-- UsageSnippet language="python" operationID="getPacks" method="get" path="/packs" example="PackListResponseExamplesPackList" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -203,7 +227,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.list(with_="<value>")
+    res = ccp_client.packs.list()
 
     # Handle response
     print(res)
@@ -225,6 +249,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -234,7 +259,7 @@ Upload a Pack file. Returns the <code>source</code> ID needed to install the Pac
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="updatePacks" method="put" path="/packs" -->
+<!-- UsageSnippet language="python" operationID="updatePacks" method="put" path="/packs" example="PackUploadResponseExamplesUploadedPack" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -259,7 +284,7 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `filename`                                                          | *str*                                                               | :heavy_check_mark:                                                  | Filename of the Pack file to upload.                                |
-| `request_body`                                                      | *Union[bytes, IO[bytes], io.BufferedReader]*                        | :heavy_check_mark:                                                  | N/A                                                                 |
+| `request_body`                                                      | *Union[bytes, IO[bytes], io.IOBase]*                                | :heavy_check_mark:                                                  | N/A                                                                 |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -270,6 +295,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -277,9 +303,30 @@ with CriblControlPlane(
 
 Get the specified Pack.
 
-### Example Usage
+### Example Usage: PackGetResponseExamplesEmptyPack
 
-<!-- UsageSnippet language="python" operationID="getPacksById" method="get" path="/packs/{id}" -->
+<!-- UsageSnippet language="python" operationID="getPacksById" method="get" path="/packs/{id}" example="PackGetResponseExamplesEmptyPack" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PackGetResponseExamplesInstalledPack
+
+<!-- UsageSnippet language="python" operationID="getPacksById" method="get" path="/packs/{id}" example="PackGetResponseExamplesInstalledPack" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -314,6 +361,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -321,7 +369,7 @@ with CriblControlPlane(
 
 Upgrade the specified Pack.<br/><br/>If the Pack includes any user-modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.<br/><br/>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
 
-### Example Usage
+### Example Usage: PackUpgradeExamplesUpgradeFromURL
 
 <!-- UsageSnippet language="python" operationID="updatePacksById" method="patch" path="/packs/{id}" example="PackUpgradeExamplesUpgradeFromURL" -->
 ```python
@@ -337,6 +385,27 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.packs.update(id="<id>", source="https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: PackUpgradeResponseExamplesUpgraded
+
+<!-- UsageSnippet language="python" operationID="updatePacksById" method="patch" path="/packs/{id}" example="PackUpgradeResponseExamplesUpgraded" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.update(id="<id>", source="<value>")
 
     # Handle response
     print(res)
@@ -362,6 +431,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -371,7 +441,7 @@ Uninstall the specified Pack.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="deletePacksById" method="delete" path="/packs/{id}" -->
+<!-- UsageSnippet language="python" operationID="deletePacksById" method="delete" path="/packs/{id}" example="PackDeleteResponseExamplesUninstalled" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -406,5 +476,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

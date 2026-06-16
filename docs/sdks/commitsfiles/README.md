@@ -13,7 +13,7 @@ Get a count of the files that changed since a commit. Default is the latest comm
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getVersionCount" method="get" path="/version/count" -->
+<!-- UsageSnippet language="python" operationID="getVersionCount" method="get" path="/version/count" example="VersionCountResponseExamplesFileCount" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -26,7 +26,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.files.count(commit="<value>")
+    res = ccp_client.versions.commits.files.count()
 
     # Handle response
     print(res)
@@ -48,6 +48,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -57,7 +58,7 @@ Get the names and statuses of files that changed since a commit. Default is the 
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getVersionFiles" method="get" path="/version/files" -->
+<!-- UsageSnippet language="python" operationID="getVersionFiles" method="get" path="/version/files" example="VersionFilesResponseExamplesChangedFiles" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -70,7 +71,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.versions.commits.files.list(commit="<value>")
+    res = ccp_client.versions.commits.files.list()
 
     # Handle response
     print(res)
@@ -92,5 +93,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

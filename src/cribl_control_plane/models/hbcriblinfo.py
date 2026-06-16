@@ -24,6 +24,8 @@ class ConfigTypedDict(TypedDict):
     r"""GitOps or LogStream environment label associated with the bundle."""
     policy_rev: NotRequired[str]
     r"""Current policies revision string."""
+    teams_rev: NotRequired[str]
+    r"""Current teams revision string. Only used in leader <> leader universal subscription."""
     users_rev: NotRequired[str]
     r"""Current users revision string. Only used in leader <> leader universal subscription."""
     version: NotRequired[str]
@@ -54,6 +56,9 @@ class Config(BaseModel):
     policy_rev: Annotated[Optional[str], pydantic.Field(alias="policyRev")] = None
     r"""Current policies revision string."""
 
+    teams_rev: Annotated[Optional[str], pydantic.Field(alias="teamsRev")] = None
+    r"""Current teams revision string. Only used in leader <> leader universal subscription."""
+
     users_rev: Annotated[Optional[str], pydantic.Field(alias="usersRev")] = None
     r"""Current users revision string. Only used in leader <> leader universal subscription."""
 
@@ -69,6 +74,7 @@ class Config(BaseModel):
                 "hbPeriodSeconds",
                 "logStreamEnv",
                 "policyRev",
+                "teamsRev",
                 "usersRev",
                 "version",
             ]

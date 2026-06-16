@@ -16,3 +16,4 @@
 | `v8_single_thread`                         | *Optional[bool]*                           | :heavy_minus_sign:                         | N/A                                        |
 | `worker_process_config_update_concurrency` | *Optional[float]*                          | :heavy_minus_sign:                         | N/A                                        |
 | `worker_process_reload_timeout`            | *Optional[float]*                          | :heavy_minus_sign:                         | N/A                                        |
+| `worker_thread_pool_size`                  | *Optional[float]*                          | :heavy_minus_sign:                         | N/A                                        |

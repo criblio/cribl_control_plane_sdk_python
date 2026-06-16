@@ -26,6 +26,8 @@ class NotificationMode3(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class EmailRecipient3TypedDict(TypedDict):
+    r"""Email recipient settings for the Notification target."""
+
     to: str
     r"""Recipients' email addresses"""
     cc: NotRequired[str]
@@ -35,6 +37,8 @@ class EmailRecipient3TypedDict(TypedDict):
 
 
 class EmailRecipient3(BaseModel):
+    r"""Email recipient settings for the Notification target."""
+
     to: str
     r"""Recipients' email addresses"""
 
@@ -62,14 +66,19 @@ class EmailRecipient3(BaseModel):
 
 
 class NotificationConfigForSMTPTarget3TypedDict(TypedDict):
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
+
     subject: NotRequired[str]
     r"""Email subject"""
     body: NotRequired[str]
     r"""Email body"""
     email_recipient: NotRequired[EmailRecipient3TypedDict]
+    r"""Email recipient settings for the Notification target."""
 
 
 class NotificationConfigForSMTPTarget3(BaseModel):
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
+
     subject: Optional[str] = None
     r"""Email subject"""
 
@@ -79,6 +88,7 @@ class NotificationConfigForSMTPTarget3(BaseModel):
     email_recipient: Annotated[
         Optional[EmailRecipient3], pydantic.Field(alias="emailRecipient")
     ] = None
+    r"""Email recipient settings for the Notification target."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -99,13 +109,17 @@ class NotificationConfigForSMTPTarget3(BaseModel):
 
 class TargetConfig3TypedDict(TypedDict):
     id: str
+    r"""The <code>id</code> of the Notification target."""
     conf: NotRequired[NotificationConfigForSMTPTarget3TypedDict]
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
 
 
 class TargetConfig3(BaseModel):
     id: str
+    r"""The <code>id</code> of the Notification target."""
 
     conf: Optional[NotificationConfigForSMTPTarget3] = None
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -250,6 +264,8 @@ class NotificationMode2(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class EmailRecipient2TypedDict(TypedDict):
+    r"""Email recipient settings for the Notification target."""
+
     to: str
     r"""Recipients' email addresses"""
     cc: NotRequired[str]
@@ -259,6 +275,8 @@ class EmailRecipient2TypedDict(TypedDict):
 
 
 class EmailRecipient2(BaseModel):
+    r"""Email recipient settings for the Notification target."""
+
     to: str
     r"""Recipients' email addresses"""
 
@@ -286,14 +304,19 @@ class EmailRecipient2(BaseModel):
 
 
 class NotificationConfigForSMTPTarget2TypedDict(TypedDict):
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
+
     subject: NotRequired[str]
     r"""Email subject"""
     body: NotRequired[str]
     r"""Email body"""
     email_recipient: NotRequired[EmailRecipient2TypedDict]
+    r"""Email recipient settings for the Notification target."""
 
 
 class NotificationConfigForSMTPTarget2(BaseModel):
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
+
     subject: Optional[str] = None
     r"""Email subject"""
 
@@ -303,6 +326,7 @@ class NotificationConfigForSMTPTarget2(BaseModel):
     email_recipient: Annotated[
         Optional[EmailRecipient2], pydantic.Field(alias="emailRecipient")
     ] = None
+    r"""Email recipient settings for the Notification target."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -323,13 +347,17 @@ class NotificationConfigForSMTPTarget2(BaseModel):
 
 class TargetConfig2TypedDict(TypedDict):
     id: str
+    r"""The <code>id</code> of the Notification target."""
     conf: NotRequired[NotificationConfigForSMTPTarget2TypedDict]
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
 
 
 class TargetConfig2(BaseModel):
     id: str
+    r"""The <code>id</code> of the Notification target."""
 
     conf: Optional[NotificationConfigForSMTPTarget2] = None
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -473,6 +501,8 @@ class NotificationMode1(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class EmailRecipient1TypedDict(TypedDict):
+    r"""Email recipient settings for the Notification target."""
+
     to: str
     r"""Recipients' email addresses"""
     cc: NotRequired[str]
@@ -482,6 +512,8 @@ class EmailRecipient1TypedDict(TypedDict):
 
 
 class EmailRecipient1(BaseModel):
+    r"""Email recipient settings for the Notification target."""
+
     to: str
     r"""Recipients' email addresses"""
 
@@ -509,14 +541,19 @@ class EmailRecipient1(BaseModel):
 
 
 class NotificationConfigForSMTPTarget1TypedDict(TypedDict):
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
+
     subject: NotRequired[str]
     r"""Email subject"""
     body: NotRequired[str]
     r"""Email body"""
     email_recipient: NotRequired[EmailRecipient1TypedDict]
+    r"""Email recipient settings for the Notification target."""
 
 
 class NotificationConfigForSMTPTarget1(BaseModel):
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
+
     subject: Optional[str] = None
     r"""Email subject"""
 
@@ -526,6 +563,7 @@ class NotificationConfigForSMTPTarget1(BaseModel):
     email_recipient: Annotated[
         Optional[EmailRecipient1], pydantic.Field(alias="emailRecipient")
     ] = None
+    r"""Email recipient settings for the Notification target."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -546,13 +584,17 @@ class NotificationConfigForSMTPTarget1(BaseModel):
 
 class TargetConfig1TypedDict(TypedDict):
     id: str
+    r"""The <code>id</code> of the Notification target."""
     conf: NotRequired[NotificationConfigForSMTPTarget1TypedDict]
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
 
 
 class TargetConfig1(BaseModel):
     id: str
+    r"""The <code>id</code> of the Notification target."""
 
     conf: Optional[NotificationConfigForSMTPTarget1] = None
+    r"""Simple Mail Transfer Protocol (SMTP) configuration for the Notification target."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

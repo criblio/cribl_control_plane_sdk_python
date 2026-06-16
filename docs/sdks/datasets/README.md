@@ -44,6 +44,7 @@ with CriblControlPlane(
 | `storage_location_id`                                                                                                                                      | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Filter datasets by storage location ID. Use <code>default</code> for default storage location.                                                             |
 | `format_`                                                                                                                                                  | [Optional[models.GetCriblLakeDatasetByLakeIDFormat]](../../models/getcribllakedatasetbylakeidformat.md)                                                    | :heavy_minus_sign:                                                                                                                                         | Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.                                                                          |
 | `exclude_ddss`                                                                                                                                             | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude DDSS format datasets from the response.                                                                                                            |
+| `exclude_netskope`                                                                                                                                         | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude Netskope format datasets from the response.                                                                                                        |
 | `exclude_deleted`                                                                                                                                          | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude deleted datasets from the response.                                                                                                                |
 | `exclude_internal`                                                                                                                                         | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.                                                            |
 | `exclude_byos`                                                                                                                                             | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude BYOS (Bring Your Own Storage) datasets from the response.                                                                                          |
@@ -58,6 +59,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -186,6 +188,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -232,6 +235,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -336,6 +340,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -381,5 +386,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

@@ -3,6 +3,7 @@
 from __future__ import annotations
 from .databaseconnectionauthtype import DatabaseConnectionAuthType
 from .databaseconnectiontype import DatabaseConnectionType
+from .tlsclientparams import TLSClientParams, TLSClientParamsTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
@@ -34,6 +35,8 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     r"""Comma-separated list of tags for categorizing and filtering Database Connections."""
     text_secret: NotRequired[str]
     r"""Name of the stored text secret containing the connection string."""
+    tls: NotRequired[TLSClientParamsTypedDict]
+    r"""TLS client connection settings."""
     user: NotRequired[str]
     r"""Database username for authentication. Used with Oracle connections."""
 
@@ -81,6 +84,9 @@ class DatabaseConnectionConfig(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Name of the stored text secret containing the connection string."""
 
+    tls: Optional[TLSClientParams] = None
+    r"""TLS client connection settings."""
+
     user: Optional[str] = None
     r"""Database username for authentication. Used with Oracle connections."""
 
@@ -114,6 +120,7 @@ class DatabaseConnectionConfig(BaseModel):
                 "requestTimeout",
                 "tags",
                 "textSecret",
+                "tls",
                 "user",
             ]
         )

@@ -395,6 +395,12 @@ value: models.InputResponseInputZscalerHec = /* values here */
 value: models.InputResponseInputCloudflareHec = /* values here */
 ```
 
+### `models.InputResponseInputSysdigHec`
+
+```python
+value: models.InputResponseInputSysdigHec = /* values here */
+```
+
 ### `models.InputResponseInputOpenaiComplianceLogs`
 
 ```python

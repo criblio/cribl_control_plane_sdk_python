@@ -1,4 +1,6 @@
-# FilesTypeGitCommitSummary
+# GitCommitSummaryFiles
+
+Files affected by the commit, grouped by change type.
 
 
 ## Fields

@@ -11,9 +11,51 @@
 
 Get sample event data for the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
-### Example Usage
+### Example Usage: OutputResponseExamplesS3Destination
 
-<!-- UsageSnippet language="python" operationID="getOutputSystemSamplesByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/samples" -->
+<!-- UsageSnippet language="python" operationID="getOutputSystemSamplesByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/samples" example="OutputResponseExamplesS3Destination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.samples.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSplunkHecDestination
+
+<!-- UsageSnippet language="python" operationID="getOutputSystemSamplesByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/samples" example="OutputResponseExamplesSplunkHecDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.samples.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSyslogDestination
+
+<!-- UsageSnippet language="python" operationID="getOutputSystemSamplesByPackAndId" method="get" path="/p/{pack}/system/outputs/{id}/samples" example="OutputResponseExamplesSyslogDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -49,6 +91,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -56,6 +99,96 @@ with CriblControlPlane(
 
 Send sample event data to the specified Destination to validate the configuration or test connectivity within the specified Pack.
 
+### Example Usage: OutputResponseExamplesS3Destination
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemTestByPackAndId" method="post" path="/p/{pack}/system/outputs/{id}/test" example="OutputResponseExamplesS3Destination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.samples.create(id="<id>", pack="<value>", events=[
+        {
+            "key": "<value>",
+            "key1": "<value>",
+            "key2": "<value>",
+        },
+        {
+
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSplunkHecDestination
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemTestByPackAndId" method="post" path="/p/{pack}/system/outputs/{id}/test" example="OutputResponseExamplesSplunkHecDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.samples.create(id="<id>", pack="<value>", events=[
+        {
+            "key": "<value>",
+            "key1": "<value>",
+            "key2": "<value>",
+        },
+        {
+
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSyslogDestination
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemTestByPackAndId" method="post" path="/p/{pack}/system/outputs/{id}/test" example="OutputResponseExamplesSyslogDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.samples.create(id="<id>", pack="<value>", events=[
+        {
+            "key": "<value>",
+            "key1": "<value>",
+            "key2": "<value>",
+        },
+        {
+
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputTestExamplesMultipleEvents
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemTestByPackAndId" method="post" path="/p/{pack}/system/outputs/{id}/test" example="OutputTestExamplesMultipleEvents" -->
@@ -133,5 +266,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

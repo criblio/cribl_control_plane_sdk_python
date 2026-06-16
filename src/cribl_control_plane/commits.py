@@ -4,15 +4,15 @@ from .basesdk import BaseSDK
 from .sdkconfiguration import SDKConfiguration
 from cribl_control_plane import errors, models, utils
 from cribl_control_plane._hooks import HookContext
-from cribl_control_plane.files import Files
+from cribl_control_plane.commits_files import CommitsFiles
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional
+from typing import Any, Iterable, List, Mapping, Optional
 
 
 class Commits(BaseSDK):
-    files: Files
+    files: CommitsFiles
 
     def __init__(
         self, sdk_config: SDKConfiguration, parent_ref: Optional[object] = None
@@ -22,7 +22,7 @@ class Commits(BaseSDK):
         self._init_sdks()
 
     def _init_sdks(self):
-        self.files = Files(self.sdk_configuration, parent_ref=self.parent_ref)
+        self.files = CommitsFiles(self.sdk_configuration, parent_ref=self.parent_ref)
 
     def list(
         self,
@@ -35,7 +35,7 @@ class Commits(BaseSDK):
     ) -> models.CountedGitLogResult:
         r"""List the commit history
 
-        List the commit history.</br></br> Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
+        List the commit history.<br/><br/>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
         :param count: Maximum number of commits to return in the response for this request.
         :param retries: Override the default retry configuration for this method
@@ -104,10 +104,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitLogResult, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -127,7 +130,7 @@ class Commits(BaseSDK):
     ) -> models.CountedGitLogResult:
         r"""List the commit history
 
-        List the commit history.</br></br> Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
+        List the commit history.<br/><br/>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
         :param count: Maximum number of commits to return in the response for this request.
         :param retries: Override the default retry configuration for this method
@@ -196,10 +199,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitLogResult, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -213,7 +219,7 @@ class Commits(BaseSDK):
         *,
         message: str,
         effective: Optional[bool] = None,
-        files: Optional[List[str]] = None,
+        files: Optional[Iterable[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -221,11 +227,11 @@ class Commits(BaseSDK):
     ) -> models.CountedGitCommitSummary:
         r"""Create a new commit for pending changes to the Cribl configuration
 
-        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br> To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
+        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.<br/><br/>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
-        :param message:
-        :param effective:
-        :param files:
+        :param message: Commit message to use for the new Git commit.
+        :param effective: If <code>true</code>, apply the commit to the group's effective configuration. Otherwise, <code>false</code>.
+        :param files: Array of file paths to include in the commit, relative to the configuration root. If omitted, all pending changes are committed.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -243,7 +249,7 @@ class Commits(BaseSDK):
 
         request = models.GitCommitBody(
             effective=effective,
-            files=files,
+            files=utils.unmarshal(files, Optional[List[str]]),
             message=message,
         )
 
@@ -297,10 +303,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitCommitSummary, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -314,7 +323,7 @@ class Commits(BaseSDK):
         *,
         message: str,
         effective: Optional[bool] = None,
-        files: Optional[List[str]] = None,
+        files: Optional[Iterable[str]] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -322,11 +331,11 @@ class Commits(BaseSDK):
     ) -> models.CountedGitCommitSummary:
         r"""Create a new commit for pending changes to the Cribl configuration
 
-        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.</br></br> To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
+        Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.<br/><br/>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
-        :param message:
-        :param effective:
-        :param files:
+        :param message: Commit message to use for the new Git commit.
+        :param effective: If <code>true</code>, apply the commit to the group's effective configuration. Otherwise, <code>false</code>.
+        :param files: Array of file paths to include in the commit, relative to the configuration root. If omitted, all pending changes are committed.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -344,7 +353,7 @@ class Commits(BaseSDK):
 
         request = models.GitCommitBody(
             effective=effective,
-            files=files,
+            files=utils.unmarshal(files, Optional[List[str]]),
             message=message,
         )
 
@@ -398,10 +407,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitCommitSummary, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -496,10 +508,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitDiffResult, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -594,10 +609,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitDiffResult, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -616,7 +634,7 @@ class Commits(BaseSDK):
     ) -> models.CountedString:
         r"""Push local commits to the remote repository
 
-        Push all local commits from the local repository to the remote repository.
+        Push all local commits from the local repository to the remote repository.<br/><br/>Requires at least one local commit that has not been pushed. Returns an error if the remote repository cannot be reached or the push is rejected.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -679,10 +697,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedString, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -701,7 +722,7 @@ class Commits(BaseSDK):
     ) -> models.CountedString:
         r"""Push local commits to the remote repository
 
-        Push all local commits from the local repository to the remote repository.
+        Push all local commits from the local repository to the remote repository.<br/><br/>Requires at least one local commit that has not been pushed. Returns an error if the remote repository cannot be reached or the push is rejected.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -764,10 +785,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedString, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -789,11 +813,11 @@ class Commits(BaseSDK):
     ) -> models.CountedGitRevertResult:
         r"""Revert a commit in the local repository
 
-        Revert a commit in the local repository.
+        Revert a commit in the local repository by creating a new commit that undoes the changes introduced by the specified commit.<br/><br/>Use the <code>force</code> field to proceed even when the working directory is not clean.
 
-        :param commit:
-        :param force:
-        :param message:
+        :param commit: SHA-1 hash of the commit to revert.
+        :param force: If <code>true</code>, force the revert even when the working directory is not clean. Otherwise, <code>false</code>.
+        :param message: Custom message to use for the revert commit. If omitted, a default message is generated.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -865,10 +889,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitRevertResult, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -890,11 +917,11 @@ class Commits(BaseSDK):
     ) -> models.CountedGitRevertResult:
         r"""Revert a commit in the local repository
 
-        Revert a commit in the local repository.
+        Revert a commit in the local repository by creating a new commit that undoes the changes introduced by the specified commit.<br/><br/>Use the <code>force</code> field to proceed even when the working directory is not clean.
 
-        :param commit:
-        :param force:
-        :param message:
+        :param commit: SHA-1 hash of the commit to revert.
+        :param force: If <code>true</code>, force the revert even when the working directory is not clean. Otherwise, <code>false</code>.
+        :param message: Custom message to use for the revert commit. If omitted, a default message is generated.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -966,10 +993,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitRevertResult, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1064,10 +1094,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitShowResult, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1162,10 +1195,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitShowResult, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1184,7 +1220,7 @@ class Commits(BaseSDK):
     ) -> models.CountedBoolean:
         r"""Discard uncommitted (staged) changes
 
-        Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
+        Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.<br/><br/>When applied globally (no group), triggers a Cribl restart to reload the reverted configuration. Returns <code>false</code> if the working directory is already clean.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1247,10 +1283,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedBoolean, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1269,7 +1308,7 @@ class Commits(BaseSDK):
     ) -> models.CountedBoolean:
         r"""Discard uncommitted (staged) changes
 
-        Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.
+        Discard all uncommitted (staged) configuration changes, resetting the working directory to the last committed state. Use only if you are certain that you do not need to preserve your local changes.<br/><br/>When applied globally (no group), triggers a Cribl restart to reload the reverted configuration. Returns <code>false</code> if the working directory is already clean.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1332,10 +1371,13 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedBoolean, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

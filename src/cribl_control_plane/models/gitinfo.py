@@ -13,17 +13,23 @@ class RemoteEnum(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 RemoteTypedDict = TypeAliasType("RemoteTypedDict", Union[str, RemoteEnum])
+r"""URL of the configured remote Git repository, with credentials redacted. <code>false</code> if no remote is configured."""
 
 
 Remote = TypeAliasType("Remote", Union[str, RemoteEnum])
+r"""URL of the configured remote Git repository, with credentials redacted. <code>false</code> if no remote is configured."""
 
 
 class GitInfoTypedDict(TypedDict):
     remote: RemoteTypedDict
+    r"""URL of the configured remote Git repository, with credentials redacted. <code>false</code> if no remote is configured."""
     versioning: bool
+    r"""If <code>true</code>, Git versioning is enabled for this Cribl instance. Otherwise, <code>false</code>."""
 
 
 class GitInfo(BaseModel):
     remote: Remote
+    r"""URL of the configured remote Git repository, with credentials redacted. <code>false</code> if no remote is configured."""
 
     versioning: bool
+    r"""If <code>true</code>, Git versioning is enabled for this Cribl instance. Otherwise, <code>false</code>."""

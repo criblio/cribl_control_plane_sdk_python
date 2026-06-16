@@ -105,6 +105,8 @@ from .createinput_logged_in_users import (
     CreateInputInputSnmpTypedDict,
     CreateInputInputSqs,
     CreateInputInputSqsTypedDict,
+    CreateInputInputSysdigHec,
+    CreateInputInputSysdigHecTypedDict,
     CreateInputInputSyslogUnion,
     CreateInputInputSyslogUnionTypedDict,
     CreateInputInputTCP,
@@ -145,6 +147,10 @@ from .extrahttpheaderconfinputelastic import (
 )
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
 from .gputype import GpuType, GpuTypeTypedDict
+from .httpdiscoveryheaderconfinputprometheus import (
+    HTTPDiscoveryHeaderConfInputPrometheus,
+    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
+)
 from .kafkaschemaregistryauthenticationtype import (
     KafkaSchemaRegistryAuthenticationType,
     KafkaSchemaRegistryAuthenticationTypeTypedDict,
@@ -3028,6 +3034,47 @@ class CreateInputAuthenticationMechanism(str, Enum, metaclass=utils.OpenEnumMeta
     OAUTH_BEARER = "oauth-bearer"
 
 
+class CreateInputCertificateTypedDict(TypedDict):
+    certificate_name: str
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+    cert_path: str
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    priv_key_path: str
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+
+
+class CreateInputCertificate(BaseModel):
+    certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+    cert_path: Annotated[str, pydantic.Field(alias="certPath")]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["passphrase"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class CreateInputAuthTypedDict(TypedDict):
     mechanism: CreateInputAuthenticationMechanism
     text_secret: NotRequired[str]
@@ -3035,7 +3082,7 @@ class CreateInputAuthTypedDict(TypedDict):
     client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CreateInputCertificateTypedDict]
     oauth_endpoint: NotRequired[MicrosoftEntraIDAuthenticationEndpointOptionsSasl]
     r"""Endpoint used to acquire authentication tokens from Azure"""
     client_id: NotRequired[str]
@@ -3070,7 +3117,7 @@ class CreateInputAuth(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CreateInputCertificate] = None
 
     oauth_endpoint: Annotated[
         Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
@@ -5210,6 +5257,8 @@ class CreateInputDiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEnum
     K8S_PODS = "k8s-pods"
     # Kubernetes Service Monitor (v4.18+)
     K8S_SERVICE_MONITOR = "k8s-service-monitor"
+    # HTTP SD
+    HTTP_SD = "http_sd"
 
 
 class CreateInputAuthenticationMethodEdgePrometheus(
@@ -5389,6 +5438,16 @@ class CreateInputInputEdgePrometheusTypedDict(TypedDict):
     expressions evaluate to true.
 
     """
+    http_discovery_url: NotRequired[str]
+    r"""URL to fetch target groups from (must be http or https)"""
+    http_discovery_headers: NotRequired[
+        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+    ]
+    r"""Extra headers to send with the discovery request"""
+    http_discovery_reject_unauthorized: NotRequired[bool]
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
     username: NotRequired[str]
     r"""Username for Prometheus Basic authentication"""
     password: NotRequired[str]
@@ -5592,6 +5651,27 @@ class CreateInputInputEdgePrometheus(BaseModel):
 
     """
 
+    http_discovery_url: Annotated[
+        Optional[str], pydantic.Field(alias="httpDiscoveryUrl")
+    ] = None
+    r"""URL to fetch target groups from (must be http or https)"""
+
+    http_discovery_headers: Annotated[
+        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        pydantic.Field(alias="httpDiscoveryHeaders"),
+    ] = None
+    r"""Extra headers to send with the discovery request"""
+
+    http_discovery_reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="httpDiscoveryRejectUnauthorized")
+    ] = None
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
+
     username: Optional[str] = None
     r"""Username for Prometheus Basic authentication"""
 
@@ -5742,6 +5822,10 @@ class CreateInputInputEdgePrometheus(BaseModel):
                 "scrapePortExpr",
                 "scrapePathExpr",
                 "podFilter",
+                "httpDiscoveryUrl",
+                "httpDiscoveryHeaders",
+                "httpDiscoveryRejectUnauthorized",
+                "maxResponseBodySize",
                 "username",
                 "password",
                 "credentialsSecret",
@@ -5784,6 +5868,8 @@ class CreateInputDiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta
     DNS = "dns"
     # AWS EC2
     EC2 = "ec2"
+    # HTTP SD
+    HTTP_SD = "http_sd"
 
 
 class CreateInputMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -5876,6 +5962,16 @@ class CreateInputInputPrometheusTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    http_discovery_url: NotRequired[str]
+    r"""URL to fetch target groups from (must be http or https)"""
+    http_discovery_headers: NotRequired[
+        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+    ]
+    r"""Extra headers to send with the discovery request"""
+    http_discovery_reject_unauthorized: NotRequired[bool]
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
     username: NotRequired[str]
     r"""Username for Prometheus Basic authentication"""
     password: NotRequired[str]
@@ -6084,6 +6180,27 @@ class CreateInputInputPrometheus(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
+    http_discovery_url: Annotated[
+        Optional[str], pydantic.Field(alias="httpDiscoveryUrl")
+    ] = None
+    r"""URL to fetch target groups from (must be http or https)"""
+
+    http_discovery_headers: Annotated[
+        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        pydantic.Field(alias="httpDiscoveryHeaders"),
+    ] = None
+    r"""Extra headers to send with the discovery request"""
+
+    http_discovery_reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="httpDiscoveryRejectUnauthorized")
+    ] = None
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
+
     username: Optional[str] = None
     r"""Username for Prometheus Basic authentication"""
 
@@ -6268,6 +6385,10 @@ class CreateInputInputPrometheus(BaseModel):
                 "assumeRoleArn",
                 "assumeRoleExternalId",
                 "durationSeconds",
+                "httpDiscoveryUrl",
+                "httpDiscoveryHeaders",
+                "httpDiscoveryRejectUnauthorized",
+                "maxResponseBodySize",
                 "username",
                 "password",
                 "credentialsSecret",
@@ -11145,12 +11266,12 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputSystemMetricsTypedDict,
         CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputJournalFilesTypedDict,
-        CreateInputInputKubeLogsTypedDict,
         CreateInputInputModelDrivenTelemetryTypedDict,
         CreateInputInputExecTypedDict,
         CreateInputInputRawUDPTypedDict,
         CreateInputInputAnthropicComplianceTypedDict,
         CreateInputInputWinEventLogsTypedDict,
+        CreateInputInputKubeLogsTypedDict,
         CreateInputInputSnmpTypedDict,
         CreateInputInputMetricsTypedDict,
         CreateInputInputNetflowTypedDict,
@@ -11170,22 +11291,23 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputFileTypedDict,
         CreateInputInputSplunkTypedDict,
         CreateInputInputOffice365MgmtTypedDict,
-        CreateInputInputZscalerHecTypedDict,
         CreateInputInputWefTypedDict,
+        CreateInputInputLokiTypedDict,
         CreateInputInputWizWebhookTypedDict,
         CreateInputInputHTTPRawTypedDict,
-        CreateInputInputLokiTypedDict,
+        CreateInputInputSysdigHecTypedDict,
         CreateInputInputPrometheusRwTypedDict,
-        CreateInputInputCriblLakeHTTPTypedDict,
-        CreateInputInputHTTPTypedDict,
-        CreateInputInputConfluentCloudTypedDict,
         CreateInputInputKafkaTypedDict,
+        CreateInputInputCriblLakeHTTPTypedDict,
+        CreateInputInputConfluentCloudTypedDict,
+        CreateInputInputZscalerHecTypedDict,
+        CreateInputInputHTTPTypedDict,
         CreateInputInputEventhubTypedDict,
-        CreateInputInputCloudflareHecTypedDict,
         CreateInputInputOpenaiComplianceLogsTypedDict,
         CreateInputInputAzureBlobTypedDict,
-        CreateInputInputOpenTelemetryTypedDict,
+        CreateInputInputCloudflareHecTypedDict,
         CreateInputInputElasticTypedDict,
+        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputSplunkHecTypedDict,
         CreateInputInputSqsTypedDict,
         CreateInputInputMicrosoftGraphTypedDict,
@@ -11194,11 +11316,11 @@ CreateInputRequestTypedDict = TypeAliasType(
         CreateInputInputSplunkSearchTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
         CreateInputInputServicenowTableTypedDict,
-        CreateInputInputSecurityLakeTypedDict,
         CreateInputInputS3TypedDict,
+        CreateInputInputSecurityLakeTypedDict,
         CreateInputInputS3InventoryTypedDict,
-        CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputMskTypedDict,
+        CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputPrometheusTypedDict,
         CreateInputInputGrafanaUnionTypedDict,
         CreateInputInputSyslogUnionTypedDict,
@@ -11274,6 +11396,7 @@ CreateInputRequest = Annotated[
         Annotated[CreateInputInputServicenowTable, Tag("servicenow_table")],
         Annotated[CreateInputInputZscalerHec, Tag("zscaler_hec")],
         Annotated[CreateInputInputCloudflareHec, Tag("cloudflare_hec")],
+        Annotated[CreateInputInputSysdigHec, Tag("sysdig_hec")],
         Annotated[CreateInputInputOpenaiComplianceLogs, Tag("openai_compliance_logs")],
         Annotated[CreateInputInputAnthropicCompliance, Tag("anthropic_compliance")],
         Annotated[CreateInputInputOkta, Tag("okta")],
@@ -11361,6 +11484,10 @@ except NameError:
     pass
 try:
     CreateInputInputExec.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputCertificate.model_rebuild()
 except NameError:
     pass
 try:

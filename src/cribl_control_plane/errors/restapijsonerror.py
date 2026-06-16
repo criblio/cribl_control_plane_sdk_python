@@ -8,13 +8,15 @@ from dataclasses import dataclass, field
 import httpx
 import pydantic
 from pydantic.functional_validators import AfterValidator
-from typing import Literal, Optional
+from typing import Any, Dict, Literal, Optional
 from typing_extensions import Annotated
 
 
 class RestAPIJSONErrorData(BaseModel):
     message: str
     r"""Human-readable message or serialized validation details for the error."""
+    details: Optional[Dict[str, Any]] = None
+    r"""Optional structured details about the error (e.g. validation failures)."""
     STATUS: Annotated[
         Annotated[Literal["error"], AfterValidator(validate_const("error"))],
         pydantic.Field(alias="status"),

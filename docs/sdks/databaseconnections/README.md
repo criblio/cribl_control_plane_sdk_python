@@ -57,6 +57,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -164,6 +165,30 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.SECRETS, database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"trustServerCertificate\":false,\"connectTimeout\":20000}}", connection_string="mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true", connection_timeout=15000, creds_secrets="oracle-secure-credentials", password="yourPassword", request_timeout=30000, tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection", user="yourUsername")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: DatabaseConnectionExamplesOracleWithMutualTLS
+
+<!-- UsageSnippet language="python" operationID="createDatabaseConnectionConfig" method="post" path="/lib/database-connections" example="DatabaseConnectionExamplesOracleWithMutualTLS" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.create(auth_type=models.DatabaseConnectionAuthType.CONNECTION_STRING, database_type=models.DatabaseConnectionType.ORACLE, description="Oracle database reached over TCPS with mutual TLS", id="oracle-mtls-db", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"yourUsername\",\"password\":\"yourPassword\",\"options\":{\"trustServerCertificate\":false,\"connectTimeout\":20000}}", connection_string="tcps://oracle.example.com:2484/ORCL", connection_timeout=15000, creds_secrets="oracle-production-credentials", password="Oracle_Pass456!", request_timeout=30000, tags="erp,oracle,mtls,production", text_secret="mysql-production-connection", tls=models.TLSClientParams(
+        disabled=False,
+        reject_unauthorized=True,
+    ), user="erp_user")
 
     # Handle response
     print(res)
@@ -333,6 +358,7 @@ with CriblControlPlane(
 | `request_timeout`                                                                                                                                                                           | *Optional[int]*                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                          | Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.                                                                            | 30000                                                                                                                                                                                       |
 | `tags`                                                                                                                                                                                      | *Optional[str]*                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                          | Comma-separated list of tags for categorizing and filtering Database Connections.                                                                                                           | production,mysql,customer-data                                                                                                                                                              |
 | `text_secret`                                                                                                                                                                               | *Optional[str]*                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                          | Name of the stored text secret containing the connection string.                                                                                                                            | mysql-production-connection                                                                                                                                                                 |
+| `tls`                                                                                                                                                                                       | [Optional[models.TLSClientParams]](../../models/tlsclientparams.md)                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                          | TLS client connection settings.                                                                                                                                                             |                                                                                                                                                                                             |
 | `user`                                                                                                                                                                                      | *Optional[str]*                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                          | Database username for authentication. Used with Oracle connections.                                                                                                                         | yourUsername                                                                                                                                                                                |
 | `retries`                                                                                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                          | Configuration to override the default retry behavior of the client.                                                                                                                         |                                                                                                                                                                                             |
 
@@ -345,6 +371,7 @@ with CriblControlPlane(
 | Error Type              | Status Code             | Content Type            |
 | ----------------------- | ----------------------- | ----------------------- |
 | errors.RestAPIJSONError | 400                     | application/json        |
+| errors.Error            | 401                     | application/json        |
 | errors.Error            | 500                     | application/json        |
 | errors.APIError         | 4XX, 5XX                | \*/\*                   |
 
@@ -389,6 +416,7 @@ with CriblControlPlane(
 
 | Error Type              | Status Code             | Content Type            |
 | ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
 | errors.RestAPIJSONError | 404                     | application/json        |
 | errors.Error            | 500                     | application/json        |
 | errors.APIError         | 4XX, 5XX                | \*/\*                   |
@@ -1087,6 +1115,7 @@ with CriblControlPlane(
 | `request_timeout`                                                                                                                                                                           | *Optional[int]*                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                          | Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.                                                                            | 30000                                                                                                                                                                                       |
 | `tags`                                                                                                                                                                                      | *Optional[str]*                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                          | Comma-separated list of tags for categorizing and filtering Database Connections.                                                                                                           | production,mysql,customer-data                                                                                                                                                              |
 | `text_secret`                                                                                                                                                                               | *Optional[str]*                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                          | Name of the stored text secret containing the connection string.                                                                                                                            | mysql-production-connection                                                                                                                                                                 |
+| `tls`                                                                                                                                                                                       | [Optional[models.TLSClientParams]](../../models/tlsclientparams.md)                                                                                                                         | :heavy_minus_sign:                                                                                                                                                                          | TLS client connection settings.                                                                                                                                                             |                                                                                                                                                                                             |
 | `user`                                                                                                                                                                                      | *Optional[str]*                                                                                                                                                                             | :heavy_minus_sign:                                                                                                                                                                          | Database username for authentication. Used with Oracle connections.                                                                                                                         | yourUsername                                                                                                                                                                                |
 | `retries`                                                                                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                            | :heavy_minus_sign:                                                                                                                                                                          | Configuration to override the default retry behavior of the client.                                                                                                                         |                                                                                                                                                                                             |
 
@@ -1098,6 +1127,7 @@ with CriblControlPlane(
 
 | Error Type              | Status Code             | Content Type            |
 | ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
 | errors.RestAPIJSONError | 400, 404                | application/json        |
 | errors.Error            | 500                     | application/json        |
 | errors.APIError         | 4XX, 5XX                | \*/\*                   |
@@ -1143,6 +1173,7 @@ with CriblControlPlane(
 
 | Error Type              | Status Code             | Content Type            |
 | ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
 | errors.RestAPIJSONError | 404                     | application/json        |
 | errors.Error            | 500                     | application/json        |
 | errors.APIError         | 4XX, 5XX                | \*/\*                   |

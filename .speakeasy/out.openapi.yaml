@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.19.0-alpha.1780911200974-0f0b6a04
+  version: 4.19.0-alpha.1781564968784-83d7e3bb
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -47,60 +47,83 @@ components:
   schemas:
     Error:
       type: object
+      required:
+        - status
+        - message
       properties:
+        status:
+          type: string
+          description: Always "error" for API error responses.
+          const: error
         message:
           type: string
-          description: Error message
+          description: Human-readable message describing the error.
+        details:
+          description: Optional structured details about the error (e.g. validation
+            failures).
     DiffLineDelete:
       type: object
+      description: Deleted line in a Git diff hunk.
       properties:
         type:
           type: string
           enum:
             - delete
+          description: Line change type. Always <code>delete</code> for deleted lines.
         oldNumber:
-          type: number
+          type: integer
+          description: Line number in the original file.
         content:
           type: string
+          description: Full content of the line, including the diff prefix character.
       required:
         - type
         - oldNumber
         - content
     DiffLineInsert:
       type: object
+      description: Inserted line in a Git diff hunk.
       properties:
         type:
           type: string
           enum:
             - insert
+          description: Line change type. Always <code>insert</code> for inserted lines.
         newNumber:
-          type: number
+          type: integer
+          description: Line number in the new file.
         content:
           type: string
+          description: Full content of the line, including the diff prefix character.
       required:
         - type
         - newNumber
         - content
     DiffLineContext:
       type: object
+      description: Unchanged context line in a Git diff hunk.
       properties:
         type:
           type: string
           enum:
             - context
+          description: Line change type. Always <code>context</code> for unchanged lines.
         newNumber:
-          type: number
+          type: integer
+          description: Line number in the new file.
         oldNumber:
-          type: number
+          type: integer
+          description: Line number in the original file.
         content:
           type: string
+          description: Full content of the line, including the diff prefix character.
       required:
         - type
         - newNumber
         - oldNumber
         - content
     DiffLine:
-      description: Diff Line
+      description: Array of lines in a Git diff hunk.
       type: array
       items:
         oneOf:
@@ -3743,7 +3766,7 @@ components:
                 title: Disabled
                 description: If true, this policy will be skipped during evaluation
               waitToGroup:
-                type: number
+                type: integer
                 title: Wait to Group (Minutes)
                 description: Time to wait (in minutes) to group similar alerts before sending
                 minimum: 0
@@ -3809,7 +3832,7 @@ components:
                 title: Final
                 description: If true, stop evaluating further policies after this one matches
               order:
-                type: number
+                type: integer
                 title: Order
                 description: Evaluation order of this policy (lower numbers evaluated first)
                 minimum: 0
@@ -13587,6 +13610,49 @@ components:
         - postgres
         - sqlserver
       x-speakeasy-unknown-values: allow
+    SecureVersion:
+      type: string
+      enum:
+        - TLSv1.3
+        - TLSv1.2
+        - TLSv1.1
+        - TLSv1
+      x-speakeasy-unknown-values: allow
+    TLSClientParams:
+      type: object
+      properties:
+        caPath:
+          type: string
+          description: Path to the Certificate Authority (CA) certificate file in PEM
+            format.
+        certPath:
+          type: string
+          description: Path to the client certificate file in PEM format.
+        disabled:
+          type: boolean
+          description: If <code>true</code>, TLS is disabled for the connection.
+        maxVersion:
+          $ref: "#/components/schemas/SecureVersion"
+          description: Maximum TLS version to allow for the connection.
+        minVersion:
+          $ref: "#/components/schemas/SecureVersion"
+          description: Minimum TLS version to allow for the connection.
+        passphrase:
+          type: string
+          description: Passphrase for the private key.
+        privKeyPath:
+          type: string
+          description: Path to the private key file in PEM format.
+        rejectUnauthorized:
+          type: boolean
+          description: If <code>true</code>, reject connections to servers with unverified
+            TLS certificates.
+        servername:
+          type: string
+          description: Server name for TLS Server Name Indication (SNI) extension.
+      required:
+        - disabled
+      description: TLS client connection settings.
     DatabaseConnectionConfig:
       type: object
       properties:
@@ -13656,6 +13722,8 @@ components:
           type: string
           description: Name of the stored text secret containing the connection string.
           example: mysql-production-connection
+        tls:
+          $ref: "#/components/schemas/TLSClientParams"
         user:
           type: string
           description: Database username for authentication. Used with Oracle connections.
@@ -13684,6 +13752,11 @@ components:
     RestApiJsonError:
       type: object
       properties:
+        details:
+          type: object
+          additionalProperties: true
+          description: Optional structured details about the error (e.g. validation
+            failures).
         message:
           type: string
           description: Human-readable message or serialized validation details for the
@@ -16920,10 +16993,12 @@ components:
             - static
             - dns
             - ec2
+            - http_sd
           x-speakeasy-enum-descriptions:
             - Static
             - DNS
             - AWS EC2
+            - HTTP SD
           description: Target discovery mechanism. Use static to manually enter a list of
             targets.
           x-speakeasy-unknown-values: allow
@@ -17089,6 +17164,27 @@ components:
             hours).
           minimum: 900
           maximum: 43200
+        httpDiscoveryUrl:
+          type: string
+          title: Discovery URL
+          description: URL to fetch target groups from (must be http or https)
+          pattern: ^https?://
+        httpDiscoveryHeaders:
+          type: array
+          title: HTTP headers
+          description: Extra headers to send with the discovery request
+          items:
+            $ref: "#/components/schemas/HttpDiscoveryHeaderConfInputPrometheus"
+        httpDiscoveryRejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject TLS certificates that cannot be verified for the discovery
+            endpoint. Falls back to the source-level setting if not specified.
+        maxResponseBodySize:
+          type: string
+          title: Max response body size
+          description: Maximum size of the HTTP SD response body. Responses exceeding this
+            limit will be rejected. Defaults to 20 MB.
         username:
           type: string
           title: Username
@@ -17258,6 +17354,7 @@ components:
             - k8s-node
             - k8s-pods
             - k8s-service-monitor
+            - http_sd
           x-speakeasy-enum-descriptions:
             - Static
             - DNS
@@ -17265,6 +17362,7 @@ components:
             - Kubernetes Node
             - Kubernetes Pods
             - Kubernetes Service Monitor (v4.18+)
+            - HTTP SD
           description: Target discovery mechanism. Use static to manually enter a list of
             targets.
           x-speakeasy-unknown-values: allow
@@ -17456,6 +17554,27 @@ components:
                 type: string
                 title: Description
                 description: Optional description of this rule's purpose
+        httpDiscoveryUrl:
+          type: string
+          title: Discovery URL
+          description: URL to fetch target groups from (must be http or https)
+          pattern: ^https?://
+        httpDiscoveryHeaders:
+          type: array
+          title: HTTP headers
+          description: Extra headers to send with the discovery request
+          items:
+            $ref: "#/components/schemas/HttpDiscoveryHeaderConfInputPrometheus"
+        httpDiscoveryRejectUnauthorized:
+          type: boolean
+          title: Reject unauthorized certificates
+          description: Reject TLS certificates that cannot be verified for the discovery
+            endpoint. Falls back to the source-level setting if not specified.
+        maxResponseBodySize:
+          type: string
+          title: Max response body size
+          description: Maximum size of the HTTP SD response body. Responses exceeding this
+            limit will be rejected. Defaults to 20 MB.
         username:
           type: string
           title: Username
@@ -18721,7 +18840,31 @@ components:
               title: Client Secret (text secret)
               description: Select or create a stored text secret
             certificate:
-              $ref: "#/components/schemas/CertificateTypeAzureBlobAuthTypeClientCert"
+              type: object
+              required:
+                - certificateName
+                - certPath
+                - privKeyPath
+              properties:
+                certificateName:
+                  type: string
+                  title: Certificate
+                  description: The certificate you registered as credentials for your app in the
+                    Azure portal
+                certPath:
+                  type: string
+                  title: Certificate path
+                  description: Path on server containing certificates to use. PEM format. Can
+                    reference $ENV_VARS.
+                privKeyPath:
+                  type: string
+                  title: Private key path
+                  description: Path on server containing the private key to use. PEM format. Can
+                    reference $ENV_VARS.
+                passphrase:
+                  type: string
+                  title: Passphrase
+                  description: Passphrase to use to decrypt private key
             oauthEndpoint:
               $ref: "#/components/schemas/MicrosoftEntraIdAuthenticationEndpointOptionsSasl"
             clientId:
@@ -20941,6 +21084,16 @@ components:
             the Kubernetes Logs Event Breaker and the kubernetes_logs
             Pre-processing Pipeline to remove them from the events after the
             timestamps are extracted.
+        lineBufferLimit:
+          type: number
+          minimum: 1024
+          title: Line buffer limit
+          description: Maximum bytes to buffer while reassembling a single log line. A
+            line that exceeds this size is flushed as-is, either whole or
+            partially. The default is 1048576 (1 MB).
+        __LBDisableAssembly:
+          type: boolean
+          description: Internal flag to disable LB worker payload reassembly.
         metadata:
           type: array
           title: Fields
@@ -25323,7 +25476,7 @@ components:
           items:
             $ref: "#/components/schemas/MetadataConfInputCollection"
         maxEventBytes:
-          type: number
+          type: integer
           title: Event byte limit
           description: The maximum number of bytes in an event before it is flushed to the
             pipelines
@@ -26071,7 +26224,7 @@ components:
                 title: Query parameters
                 description: Query-string parameters to send with this endpoint
                 items:
-                  $ref: "#/components/schemas/RequestParamConfInputOpenai"
+                  $ref: "#/components/schemas/HttpDiscoveryHeaderConfInputPrometheus"
               paginationType:
                 type: string
                 title: Pagination type
@@ -27389,16 +27542,12 @@ components:
           items:
             type: string
             minLength: 1
-        hecAcks:
-          type: boolean
-          title: Zscaler HEC Acks
-          description: Whether to enable Zscaler HEC acknowledgements
         accessControlAllowOrigin:
           title: CORS allowed origins
           type: array
-          description: Optionally, list HTTP origins to which @{product} should send CORS
-            (cross-origin resource sharing) Access-Control-Allow-* headers.
-            Supports wildcards.
+          description: HTTP origins to which @{product} should send CORS (cross-origin
+            resource sharing) Access-Control-Allow-* headers. Supports
+            wildcards.
           minItems: 0
           items:
             type: string
@@ -27406,9 +27555,9 @@ components:
         accessControlAllowHeaders:
           title: CORS allowed headers
           type: array
-          description: Optionally, list HTTP headers that @{product} will send to allowed
-            origins as "Access-Control-Allow-Headers" in a CORS preflight
-            response. Use "*" to allow all headers.
+          description: HTTP headers that @{product} will send to allowed origins as
+            "Access-Control-Allow-Headers" in a CORS preflight response. Use "*"
+            to allow all headers.
           minItems: 0
           items:
             type: string
@@ -27416,8 +27565,12 @@ components:
         emitTokenMetrics:
           type: boolean
           title: Emit per-token request metrics
-          description: Enable to emit per-token (<prefix>.http.perToken) and summary
+          description: Emit per-token (<prefix>.http.perToken) and summary
             (<prefix>.http.summary) request metrics
+        hecAcks:
+          type: boolean
+          title: Zscaler HEC Acks
+          description: Whether to enable Zscaler HEC acknowledgements
         description:
           type: string
           title: Description
@@ -27446,6 +27599,24 @@ components:
           description: Binds 'hecAPI' to a variable for dynamic value resolution. Set to
             variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
             (group-scoped). Variable value overrides 'hecAPI' at runtime.
+        __template_allowedIndexes:
+          type: string
+          description: Binds 'allowedIndexes' to a variable for dynamic value resolution.
+            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'allowedIndexes' at
+            runtime.
+        __template_accessControlAllowOrigin:
+          type: string
+          description: Binds 'accessControlAllowOrigin' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'accessControlAllowOrigin' at runtime.
+        __template_accessControlAllowHeaders:
+          type: string
+          description: Binds 'accessControlAllowHeaders' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'accessControlAllowHeaders' at runtime.
     InputCloudflareHec:
       type: object
       required:
@@ -27519,46 +27690,7 @@ components:
           description: "Shared secrets to be provided by any client (Authorization:
             <token>). If empty, unauthorized access is permitted."
           items:
-            type: object
-            properties:
-              authType:
-                title: Authentication method
-                type: string
-                enum:
-                  - secret
-                description: Select Secret to use a text secret to authenticate
-                x-speakeasy-unknown-values: allow
-              tokenSecret:
-                type: string
-                title: Token secret (text secret)
-                description: Select or create a stored text secret
-              token:
-                type: string
-                title: Token
-                description: "Shared secret to be provided by any client (Authorization:
-                  <token>)"
-              enabled:
-                type: boolean
-                title: Enable token
-              description:
-                type: string
-                title: Description
-              allowedIndexesAtToken:
-                type: array
-                title: Allowed indexes
-                description: Enter the values you want to allow in the HEC event index field at
-                  the token level. Supports wildcards. To skip validation, leave
-                  blank.
-                minItems: 0
-                items:
-                  type: string
-                  minLength: 1
-              metadata:
-                type: array
-                title: Fields
-                description: Fields to add to events referencing this token
-                items:
-                  $ref: "#/components/schemas/MetadataConfInputCollection"
+            $ref: "#/components/schemas/AuthTokenConfInputCloudflareHec"
         tls:
           type: object
           title: TLS settings (server side)
@@ -27694,6 +27826,31 @@ components:
           items:
             type: string
             minLength: 1
+        accessControlAllowOrigin:
+          title: CORS allowed origins
+          type: array
+          description: HTTP origins to which @{product} should send CORS (cross-origin
+            resource sharing) Access-Control-Allow-* headers. Supports
+            wildcards.
+          minItems: 0
+          items:
+            type: string
+            minLength: 1
+        accessControlAllowHeaders:
+          title: CORS allowed headers
+          type: array
+          description: HTTP headers that @{product} will send to allowed origins as
+            "Access-Control-Allow-Headers" in a CORS preflight response. Use "*"
+            to allow all headers.
+          minItems: 0
+          items:
+            type: string
+            minLength: 1
+        emitTokenMetrics:
+          type: boolean
+          title: Emit per-token request metrics
+          description: Emit per-token (<prefix>.http.perToken) and summary
+            (<prefix>.http.summary) request metrics
         breakerRulesets:
           type: array
           title: Event Breaker rulesets
@@ -27709,6 +27866,212 @@ components:
             out, as is, to the Pipelines
           minimum: 10
           maximum: 43200000
+        description:
+          type: string
+          title: Description
+        __template_environment:
+          type: string
+          description: Binds 'environment' to a variable for dynamic value resolution. Set
+            to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'environment' at runtime.
+        __template_streamtags:
+          type: string
+          description: Binds 'streamtags' to a variable for dynamic value resolution. Set
+            to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'streamtags' at runtime.
+        __template_host:
+          type: string
+          description: Binds 'host' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'host' at runtime.
+        __template_port:
+          type: string
+          description: Binds 'port' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'port' at runtime.
+        __template_hecAPI:
+          type: string
+          description: Binds 'hecAPI' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'hecAPI' at runtime.
+        __template_allowedIndexes:
+          type: string
+          description: Binds 'allowedIndexes' to a variable for dynamic value resolution.
+            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'allowedIndexes' at
+            runtime.
+        __template_accessControlAllowOrigin:
+          type: string
+          description: Binds 'accessControlAllowOrigin' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'accessControlAllowOrigin' at runtime.
+        __template_accessControlAllowHeaders:
+          type: string
+          description: Binds 'accessControlAllowHeaders' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'accessControlAllowHeaders' at runtime.
+    InputSysdigHec:
+      type: object
+      required:
+        - type
+        - host
+        - port
+        - hecAPI
+      properties:
+        id:
+          type: string
+          title: Input ID
+          description: Unique ID for this input
+        type:
+          type: string
+          enum:
+            - sysdig_hec
+        disabled:
+          type: boolean
+          title: Disabled
+        pipeline:
+          type: string
+          title: Pipeline
+          description: Pipeline to process data from this Source before sending it through
+            the Routes
+        sendToRoutes:
+          type: boolean
+          description: Select whether to send data to Routes, or directly to Destinations.
+        environment:
+          type: string
+          title: Environment
+          description: Optionally, enable this config only on a specified Git branch. If
+            empty, will be enabled everywhere.
+        pqEnabled:
+          type: boolean
+          title: Enable persistent queue
+          description: Use a disk queue to minimize data loss when connected services
+            block. See [Cribl
+            Docs](https://docs.cribl.io/stream/persistent-queues) for PQ
+            defaults (Cribl-managed Cloud Workers) and configuration options
+            (on-prem and hybrid Workers).
+        streamtags:
+          type: array
+          title: Tags
+          description: Tags for filtering and grouping in @{product}
+          items:
+            type: string
+        criblSourceProvenance:
+          $ref: "#/components/schemas/InputCollectionOriginDataSourceDiscoveryWithDestina\
+            tionArnConstraint"
+        connections:
+          type: array
+          title: Use QuickConnect
+          description: Direct connections to Destinations, and optionally via a Pipeline
+            or a Pack
+          items:
+            $ref: "#/components/schemas/ConnectionConfInputCollection"
+        pq:
+          $ref: "#/components/schemas/PqType"
+        host:
+          type: string
+          title: Address
+          description: Address to bind on. Defaults to 0.0.0.0 (all addresses).
+        port:
+          type: number
+          title: Port
+          maximum: 65535
+          description: Port to listen on
+        authTokens:
+          type: array
+          title: Auth tokens
+          description: "Shared secrets to be provided by any client (Authorization:
+            <token>). If empty, unauthorized access is permitted."
+          items:
+            $ref: "#/components/schemas/AuthTokenConfInputCloudflareHec"
+        tls:
+          $ref: "#/components/schemas/TlsSettingsServerSideType"
+        maxActiveReq:
+          type: number
+          title: Active request limit
+          description: "Maximum number of active requests allowed per Worker Process. Set
+            to 0 for unlimited. Caution: Increasing the limit above the default
+            value, or setting it to unlimited, may degrade performance and
+            reduce throughput."
+          minimum: 0
+        maxRequestsPerSocket:
+          type: integer
+          title: Requests-per-socket limit
+          description: Maximum number of requests per socket before @{product} instructs
+            the client to close the connection. Default is 0 (unlimited).
+          minimum: 0
+        enableProxyHeader:
+          type: boolean
+          title: Show originating IP
+          description: Extract the client IP and port from PROXY protocol v1/v2. When
+            enabled, the X-Forwarded-For header is ignored. Disable to use the
+            X-Forwarded-For header for client IP extraction.
+        captureHeaders:
+          type: boolean
+          title: Capture request headers
+          description: Add request headers to events, in the __headers field
+        activityLogSampleRate:
+          type: number
+          title: Activity log sample rate
+          description: How often request activity is logged at the `info` level. A value
+            of 1 would log every request, 10 every 10th request, etc.
+          minimum: 1
+        requestTimeout:
+          type: number
+          title: Request timeout (seconds)
+          description: How long to wait for an incoming request to complete before
+            aborting it. Use 0 to disable.
+          minimum: 0
+        socketTimeout:
+          type: number
+          title: Socket timeout (seconds)
+          description: How long @{product} should wait before assuming that an inactive
+            socket has timed out. To wait forever, set to 0.
+          minimum: 0
+        keepAliveTimeout:
+          type: number
+          title: Keep-alive timeout (seconds)
+          description: After the last response is sent, @{product} will wait this long for
+            additional data before closing the socket connection. Minimum 1
+            second, maximum 600 seconds (10 minutes).
+          minimum: 1
+          maximum: 600
+        ipAllowlistRegex:
+          type: string
+          title: IP allowlist regex
+          description: Messages from matched IP addresses will be processed, unless also
+            matched by the denylist
+        ipDenylistRegex:
+          type: string
+          title: IP denylist regex
+          description: Messages from matched IP addresses will be ignored. This takes
+            precedence over the allowlist.
+        hecAPI:
+          type: string
+          title: HEC endpoint
+          description: Absolute path on which to listen for the Sysdig HTTP Event
+            Collector API requests. This input supports the /event and /raw
+            endpoints.
+          pattern: ^/
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to every event. May be overridden by fields added at
+            the token or request level.
+          items:
+            $ref: "#/components/schemas/MetadataConfInputCollection"
+        allowedIndexes:
+          type: array
+          title: Allowed indexes
+          description: List values allowed in HEC event index field. Leave blank to skip
+            validation. Supports wildcards. The values here can expand index
+            validation at the token level.
+          minItems: 0
+          items:
+            type: string
+            minLength: 1
         accessControlAllowOrigin:
           title: CORS allowed origins
           type: array
@@ -28384,6 +28747,7 @@ components:
         - $ref: "#/components/schemas/InputServicenowTable"
         - $ref: "#/components/schemas/InputZscalerHec"
         - $ref: "#/components/schemas/InputCloudflareHec"
+        - $ref: "#/components/schemas/InputSysdigHec"
         - $ref: "#/components/schemas/InputOpenaiComplianceLogs"
         - $ref: "#/components/schemas/InputAnthropicCompliance"
         - $ref: "#/components/schemas/InputOkta"
@@ -28455,6 +28819,7 @@ components:
           servicenow_table: "#/components/schemas/InputServicenowTable"
           zscaler_hec: "#/components/schemas/InputZscalerHec"
           cloudflare_hec: "#/components/schemas/InputCloudflareHec"
+          sysdig_hec: "#/components/schemas/InputSysdigHec"
           openai_compliance_logs: "#/components/schemas/InputOpenaiComplianceLogs"
           anthropic_compliance: "#/components/schemas/InputAnthropicCompliance"
           okta: "#/components/schemas/InputOkta"
@@ -29029,6 +29394,7 @@ components:
               id:
                 type: string
                 title: Notification target ID
+                description: The <code>id</code> of the Notification target.
                 pattern: ^[a-zA-Z0-9_-]+$
             anyOf:
               - properties:
@@ -29061,6 +29427,9 @@ components:
                             type: string
                             title: Bcc
                             description: "Bcc: Recipients' email addresses"
+                        description: Email recipient settings for the Notification target.
+                    description: Simple Mail Transfer Protocol (SMTP) configuration for the
+                      Notification target.
         conf:
           type: object
           title: Condition-specific configurations
@@ -29100,18 +29469,22 @@ components:
         - properties:
             mode:
               const: direct
+              description: Delivery mode for Notifications.
             templateTargetPairs:
               type: array
               minItems: 1
+              description: Template and target pairs for direct Notification delivery.
           required:
             - mode
             - templateTargetPairs
         - properties:
             mode:
               const: policy
+              description: Delivery mode for Notifications.
             templateTargetPairs:
               type: array
               maxItems: 0
+              description: Template and target pairs for direct Notification delivery.
           required:
             - mode
         - properties:
@@ -29525,7 +29898,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -29972,7 +30345,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -30430,7 +30803,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -30611,7 +30984,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -30913,7 +31286,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -31210,7 +31583,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -31439,7 +31812,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -31669,7 +32042,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -31897,7 +32270,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -32112,7 +32485,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -33713,7 +34086,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -34009,7 +34382,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -34258,7 +34631,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -34492,7 +34865,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -34720,7 +35093,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -35045,7 +35418,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -35890,7 +36263,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -36097,6 +36470,12 @@ components:
           minimum: 1
         tls:
           $ref: "#/components/schemas/TlsSettingsClientSideTypeExtended"
+        maxPayloadEvents:
+          type: number
+          title: Events-per-request limit
+          description: Max number of events to include in the request body. Default is 0
+            (unlimited).
+          minimum: 0
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         description:
@@ -36160,7 +36539,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -36346,7 +36725,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -36801,7 +37180,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -37044,7 +37423,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -37348,7 +37727,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -37700,7 +38079,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -37940,7 +38319,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -38038,6 +38417,7 @@ components:
               name:
                 type: string
                 title: Field Name
+                description: Name of the metadata field.
                 enum:
                   - service
                   - hostname
@@ -38201,7 +38581,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -38438,7 +38818,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -38739,7 +39119,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -38974,7 +39354,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -39555,7 +39935,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -39718,7 +40098,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -39881,7 +40261,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -40143,7 +40523,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -40413,7 +40793,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -40788,7 +41168,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -41102,7 +41482,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -41201,7 +41581,7 @@ components:
             field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"
           minItems: 0
           items:
-            $ref: "#/components/schemas/RequestParamConfInputOpenai"
+            $ref: "#/components/schemas/HttpDiscoveryHeaderConfInputPrometheus"
         metricRenameExpr:
           type: string
           title: Metrics renaming expression
@@ -41370,7 +41750,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -41466,7 +41846,7 @@ components:
             field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"
           minItems: 0
           items:
-            $ref: "#/components/schemas/RequestParamConfInputOpenai"
+            $ref: "#/components/schemas/HttpDiscoveryHeaderConfInputPrometheus"
         authType:
           $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuthBasicCredent\
             ialsSecret"
@@ -41659,7 +42039,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -41820,7 +42200,24 @@ components:
         onBackpressure:
           $ref: "#/components/schemas/BackpressureBehaviorOptions"
         authType:
-          $ref: "#/components/schemas/AuthenticationTypeOptionsPrometheusAuth"
+          type: string
+          title: Authentication type
+          description: Remote Write authentication type
+          enum:
+            - none
+            - basic
+            - credentialsSecret
+            - token
+            - textSecret
+            - aws_sigv4
+          x-speakeasy-enum-descriptions:
+            - None
+            - Basic
+            - Basic (credentials secret)
+            - Token
+            - Token (text secret)
+            - AWS Signature v4
+          x-speakeasy-unknown-values: allow
         description:
           type: string
           title: Description
@@ -41883,7 +42280,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -41906,6 +42303,45 @@ components:
           type: string
           title: Token (text secret)
           description: Select or create a stored text secret
+        awsAuthenticationMethod:
+          $ref: "#/components/schemas/AuthenticationMethodOptionsAutoSecret"
+        awsSecret:
+          type: string
+          title: Secret key pair
+          description: Select or create a stored secret that references your access key
+            and secret key
+        region:
+          type: string
+          title: Region
+          description: AWS region used to sign Remote Write requests
+        awsService:
+          type: string
+          title: AWS service ID
+          description: ID used to sign Remote Write requests (for example, `aps` for
+            Amazon Managed Service for Prometheus)
+          pattern: ^[a-z][a-z0-9]*(-[a-z0-9]+)*$
+        enableAssumeRole:
+          type: boolean
+          title: Enable for Prometheus
+          description: Use Assume Role credentials to access Prometheus
+        assumeRoleArn:
+          type: string
+          title: AssumeRole ARN
+          description: Amazon Resource Name (ARN) of the role to assume
+          pattern: "^arn:"
+          minLength: 20
+        assumeRoleExternalId:
+          type: string
+          title: External ID
+          description: External ID to use when assuming role
+        durationSeconds:
+          type: number
+          title: Duration (seconds)
+          description: Duration of the assumed role's session, in seconds. Minimum is 900
+            (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12
+            hours).
+          minimum: 900
+          maximum: 43200
         __template_streamtags:
           type: string
           description: Binds 'streamtags' to a variable for dynamic value resolution. Set
@@ -41928,6 +42364,27 @@ components:
             Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
             (group-scoped). Variable value overrides 'onBackpressure' at
             runtime.
+        __template_region:
+          type: string
+          description: Binds 'region' to a variable for dynamic value resolution. Set to
+            variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'region' at runtime.
+        __template_awsService:
+          type: string
+          description: Binds 'awsService' to a variable for dynamic value resolution. Set
+            to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'awsService' at runtime.
+        __template_assumeRoleArn:
+          type: string
+          description: Binds 'assumeRoleArn' to a variable for dynamic value resolution.
+            Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID
+            (group-scoped). Variable value overrides 'assumeRoleArn' at runtime.
+        __template_assumeRoleExternalId:
+          type: string
+          description: Binds 'assumeRoleExternalId' to a variable for dynamic value
+            resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.'
+            prefixed ID (group-scoped). Variable value overrides
+            'assumeRoleExternalId' at runtime.
     OutputRing:
       type: object
       properties:
@@ -42343,7 +42800,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -42614,7 +43071,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -42882,7 +43339,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -43104,7 +43561,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -43372,7 +43829,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -43641,7 +44098,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -43866,7 +44323,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -44088,7 +44545,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -45527,7 +45984,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -45823,7 +46280,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -46169,7 +46626,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -46451,7 +46908,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -46816,7 +47273,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -47129,7 +47586,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -47455,7 +47912,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -47742,7 +48199,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -48377,7 +48834,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         pqControls:
           type: object
@@ -48448,16 +48905,7 @@ components:
           items:
             type: string
         awsAuthenticationMethod:
-          type: string
-          title: Authentication method
-          description: AWS authentication method. Choose Auto to use IAM roles.
-          enum:
-            - auto
-            - secret
-          x-speakeasy-enum-descriptions:
-            - Auto
-            - Secret Key pair
-          x-speakeasy-unknown-values: allow
+          $ref: "#/components/schemas/AuthenticationMethodOptionsAutoSecret"
         reuseConnections:
           type: boolean
           title: Reuse connections
@@ -52423,6 +52871,13 @@ components:
         cloud:
           $ref: "#/components/schemas/ConfigGroupCloud"
           description: Cloud provider and region details for a Cribl.Cloud Worker Group.
+        collectorsHaEnabled:
+          type: boolean
+          description: Keeps Collector jobs running if the Leader Node fails. Applies only
+            to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud
+            groups; defaults to <code>false</code> for on-prem groups. to Stream
+            Worker Groups. Always <code>true</code> for Cribl.Cloud groups;
+            defaults to <code>false</code> for on-prem groups.
         configVersion:
           type: string
           description: "Commit hash of the deployed configuration version for the Worker
@@ -52567,6 +53022,13 @@ components:
         cloud:
           $ref: "#/components/schemas/ConfigGroupCloud"
           description: Cloud provider and region details for a Cribl.Cloud Worker Group.
+        collectorsHaEnabled:
+          type: boolean
+          description: Keeps Collector jobs running if the Leader Node fails. Applies only
+            to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud
+            groups; defaults to <code>false</code> for on-prem groups. to Stream
+            Worker Groups. Always <code>true</code> for Cribl.Cloud groups;
+            defaults to <code>false</code> for on-prem groups.
         description:
           type: string
           description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
@@ -53186,6 +53648,10 @@ components:
             policyRev:
               type: string
               description: Current policies revision string.
+            teamsRev:
+              type: string
+              description: Current teams revision string. Only used in leader <> leader
+                universal subscription.
             usersRev:
               type: string
               description: Current users revision string. Only used in leader <> leader
@@ -53845,30 +54311,62 @@ components:
           properties:
             email:
               type: string
+              description: Email address of the commit author.
             name:
               type: string
+              description: Display name of the commit author.
           required:
             - email
             - name
+          description: Author of the Git commit, including email and display name.
         branch:
           type: string
+          description: Name of the Git branch the commit was made on.
         commit:
           type: string
+          description: Full SHA-1 hash of the new commit.
         files:
-          $ref: "#/components/schemas/FilesTypeGitCommitSummary"
+          type: object
+          properties:
+            created:
+              type: array
+              items:
+                type: string
+              description: Array of file paths that were created in the commit.
+            deleted:
+              type: array
+              items:
+                type: string
+              description: Array of file paths that were deleted in the commit.
+            modified:
+              type: array
+              items:
+                type: string
+              description: Array of file paths that were modified in the commit.
+            renamed:
+              type: array
+              items:
+                $ref: "#/components/schemas/GitFileRename"
+              description: Array of file rename operations, each containing the original path
+                and the new path.
+          description: Files affected by the commit, grouped by change type.
         summary:
           type: object
           properties:
             changes:
-              type: number
+              type: integer
+              description: Total number of lines changed (insertions plus deletions).
             deletions:
-              type: number
+              type: integer
+              description: Number of lines deleted.
             insertions:
-              type: number
+              type: integer
+              description: Number of lines inserted.
           required:
             - changes
             - deletions
             - insertions
+          description: Summary of line changes in the commit.
       required:
         - branch
         - commit
@@ -53888,7 +54386,8 @@ components:
       type: object
       properties:
         count:
-          type: number
+          type: integer
+          description: Number of files that changed since the specified commit.
       required:
         - count
     CountedGitDiffResult:
@@ -53902,13 +54401,16 @@ components:
           description: List of items in this response.
           items:
             $ref: "#/components/schemas/GitDiffResult"
+    GitDiffLines:
+      $ref: "#/components/schemas/DiffLine"
     DiffFiles:
       type: array
       items:
         type: object
         properties:
           addedLines:
-            type: number
+            type: integer
+            description: Number of lines added in this file.
           blocks:
             type: array
             items:
@@ -53916,61 +54418,110 @@ components:
               properties:
                 header:
                   type: string
+                  description: Unified diff hunk header.
+                  example: "@@ -1,5 +1,8 @@"
                 lines:
-                  $ref: "#/components/schemas/DiffLine"
+                  $ref: "#/components/schemas/GitDiffLines"
+                  description: Array of lines in this diff hunk.
                 newStartLine:
-                  type: number
+                  type: integer
+                  description: Starting line number in the new file for this hunk.
                 oldStartLine:
-                  type: number
+                  type: integer
+                  description: Starting line number in the original file for this hunk.
                 oldStartLine2:
-                  type: number
+                  type: integer
+                  description: Starting line number in the original file for the second parent,
+                    present in combined diffs.
               required:
                 - header
                 - lines
                 - newStartLine
                 - oldStartLine
+            description: Array of diff blocks (hunks) showing changed line ranges in this
+              file.
           changedPercentage:
             type: number
+            description: Percentage of lines in the file that changed.
           checksumAfter:
             type: string
+            description: Checksum of the new file.
           checksumBefore:
-            $ref: "#/components/schemas/ScalarOrArray"
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+            description: Checksum of the original file. May be an array for combined diffs.
           deletedFileMode:
             type: string
+            description: File mode of the deleted file, present when the file was deleted.
           deletedLines:
-            type: number
+            type: integer
+            description: Number of lines deleted in this file.
           isBinary:
             type: boolean
+            description: If <code>true</code>, this file is a binary file and the diff
+              content is not shown. Otherwise, <code>false</code>.
           isCombined:
             type: boolean
+            description: If <code>true</code>, this is a combined diff (merge commit).
+              Otherwise, <code>false</code>.
           isCopy:
             type: boolean
+            description: If <code>true</code>, this file was copied from another path.
+              Otherwise, <code>false</code>.
           isDeleted:
             type: boolean
+            description: If <code>true</code>, this file was deleted in the commit.
+              Otherwise, <code>false</code>.
           isGitDiff:
             type: boolean
+            description: If <code>true</code>, this diff was generated by Git. Otherwise,
+              <code>false</code>.
           isNew:
             type: boolean
+            description: If <code>true</code>, this file was added in the commit. Otherwise,
+              <code>false</code>.
           isRename:
             type: boolean
+            description: If <code>true</code>, this file was renamed. Otherwise,
+              <code>false</code>.
           isTooBig:
             type: boolean
+            description: If <code>true</code>, the diff was truncated because it exceeded
+              the line limit. Otherwise, <code>false</code>.
           language:
             type: string
+            description: Programming language or file format detected for syntax
+              highlighting.
           mode:
             type: string
+            description: Combined file mode when both old and new modes are the same.
           newFileMode:
             type: string
+            description: File mode of the new file, present when the file was added.
           newMode:
             type: string
+            description: File mode of the new file.
+            example: "100644"
           newName:
             type: string
+            description: New file path after the change.
           oldMode:
-            $ref: "#/components/schemas/ScalarOrArray"
+            oneOf:
+              - type: string
+              - type: array
+                items:
+                  type: string
+            description: File mode of the original file. May be an array for combined diffs.
+            example: "100644"
           oldName:
             type: string
+            description: Original file path before the change.
           unchangedPercentage:
             type: number
+            description: Percentage of lines in the file that are unchanged.
         required:
           - addedLines
           - blocks
@@ -53985,6 +54536,8 @@ components:
       properties:
         diffJson:
           $ref: "#/components/schemas/DiffFiles"
+          description: Diff of the file changes in the specified commit, parsed into a
+            structured format.
       required:
         - diffJson
     CountedGitFilesResponse:
@@ -54003,28 +54556,39 @@ components:
       properties:
         autoIncludedInCommit:
           type: boolean
+          description: If <code>true</code>, this file is automatically included in
+            commits without being explicitly listed. Otherwise,
+            <code>false</code>.
         children:
           type: array
           items:
             $ref: "#/components/schemas/GitFile"
+          description: When this entry is a directory, nested files and subdirectories.
+            Each array element matches this same object shape (recursive file
+            tree).
         name:
           type: string
+          description: Path of the file relative to the configuration root.
         state:
           type: string
+          description: "Git status code for the file: <code>M</code> for modified,
+            <code>A</code> for added, or <code>D</code> for deleted."
       required:
         - name
     GitFilesResponse:
       type: object
       properties:
         commitMessage:
-          type: object
-          additionalProperties: true
+          type: string
+          description: Commit message of the specified commit.
         count:
-          type: number
+          type: integer
+          description: Number of files returned.
         items:
           type: array
           items:
             $ref: "#/components/schemas/GitFile"
+          description: Array of files that changed since the specified commit.
       required:
         - count
         - items
@@ -54046,15 +54610,44 @@ components:
           type: object
           properties:
             files:
-              $ref: "#/components/schemas/FilesTypeGitCommitSummary"
+              type: object
+              properties:
+                created:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of file paths that were created in the commit.
+                deleted:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of file paths that were deleted in the commit.
+                modified:
+                  type: array
+                  items:
+                    type: string
+                  description: Array of file paths that were modified in the commit.
+                renamed:
+                  type: array
+                  items:
+                    $ref: "#/components/schemas/GitFileRename"
+                  description: Array of file rename operations, each containing the original path
+                    and the new path.
+              description: Files affected by the revert, grouped by change type.
             group:
               type: string
+              description: Worker Group the revert was applied to, if applicable.
             id:
               type: string
+              description: SHA-1 hash of the revert commit that was created.
           required:
             - id
+          description: Audit record for the revert operation, including the commit hash
+            and affected files.
         reverted:
           type: boolean
+          description: If <code>true</code>, the revert was applied successfully.
+            Otherwise, <code>false</code>.
       required:
         - audit
         - reverted
@@ -54063,10 +54656,15 @@ components:
       properties:
         commit:
           type: string
+          description: SHA-1 hash of the commit to revert.
         force:
           type: boolean
+          description: If <code>true</code>, force the revert even when the working
+            directory is not clean. Otherwise, <code>false</code>.
         message:
           type: string
+          description: Custom message to use for the revert commit. If omitted, a default
+            message is generated.
       required:
         - commit
     CountedGitShowResult:
@@ -54085,8 +54683,10 @@ components:
       properties:
         commitMessage:
           type: string
+          description: Full commit message of the specified commit.
         diffJson:
           $ref: "#/components/schemas/DiffFiles"
+          description: Diff of the file changes introduced by the commit.
       required:
         - commitMessage
         - diffJson
@@ -54297,12 +54897,17 @@ components:
       properties:
         effective:
           type: boolean
+          description: If <code>true</code>, apply the commit to the group's effective
+            configuration. Otherwise, <code>false</code>.
         files:
           type: array
           items:
             type: string
+          description: Array of file paths to include in the commit, relative to the
+            configuration root. If omitted, all pending changes are committed.
         message:
           type: string
+          description: Commit message to use for the new Git commit.
       required:
         - message
     CurrentBranchResult:
@@ -54310,6 +54915,8 @@ components:
       properties:
         branch:
           type: string
+          description: Name of the Git branch that the Cribl configuration is currently
+            checked out to.
       required:
         - branch
     CountedGitInfo:
@@ -54332,8 +54939,12 @@ components:
             - enum:
                 - false
               x-speakeasy-unknown-values: allow
+          description: URL of the configured remote Git repository, with credentials
+            redacted. <code>false</code> if no remote is configured.
         versioning:
           type: boolean
+          description: If <code>true</code>, Git versioning is enabled for this Cribl
+            instance. Otherwise, <code>false</code>.
       required:
         - remote
         - versioning
@@ -54353,18 +54964,25 @@ components:
       properties:
         author_email:
           type: string
+          description: Email address of the commit author.
         author_name:
           type: string
+          description: Display name of the commit author.
         body:
           type: string
+          description: Body of the commit message, excluding the subject line.
         date:
           type: string
+          description: Date and time of the commit in ISO 8601 format with timezone offset.
         hash:
           type: string
+          description: Full SHA-1 hash of the commit.
         message:
           type: string
+          description: First line of the commit message (the subject).
         refs:
           type: string
+          description: Git refs (branches, tags) pointing to this commit.
     CountedGitStatusResult:
       type: object
       properties:
@@ -54380,23 +54998,32 @@ components:
       type: object
       properties:
         ahead:
-          type: number
+          type: integer
+          description: Number of local commits that have not been pushed to the remote
+            repository.
         behind:
-          type: number
+          type: integer
+          description: Number of commits in the remote repository that have not been
+            pulled to the local branch.
         conflicted:
           type: array
           items:
             type: string
+          description: Array of file paths that have merge conflicts.
         created:
           type: array
           items:
             type: string
+          description: Array of file paths for newly created files that are staged for
+            commit.
         current:
           type: string
+          description: Name of the current Git branch.
         deleted:
           type: array
           items:
             type: string
+          description: Array of file paths for deleted files that are staged for commit.
         files:
           type: array
           items:
@@ -54404,22 +55031,32 @@ components:
             properties:
               index:
                 type: string
+                description: Status code for the file in the index (staging area), using Git
+                  short-format notation.
               path:
                 type: string
+                description: File path relative to the configuration root.
               working_dir:
                 type: string
+                description: Status code for the file in the working directory, using Git
+                  short-format notation.
             required:
               - index
               - path
               - working_dir
+          description: Array of all changed files with their index and working directory
+            status codes.
         modified:
           type: array
           items:
             type: string
+          description: Array of file paths for modified files that are staged for commit.
         not_added:
           type: array
           items:
             type: string
+          description: Array of file paths that have been modified but are not staged for
+            commit.
         renamed:
           type: array
           items:
@@ -54427,15 +55064,19 @@ components:
             properties:
               from:
                 type: string
+                description: Original file path before the rename.
               to:
                 type: string
+                description: New file path after the rename.
             required:
               - from
               - to
+          description: Array of file rename operations that are staged for commit.
         staged:
           type: array
           items:
             type: string
+          description: Array of file paths that are staged for the next commit.
       required:
         - ahead
         - behind
@@ -54963,6 +55604,7 @@ components:
         name:
           type: string
           title: Field Name
+          description: Name of the metadata field.
         value:
           type: string
           title: Value
@@ -55138,6 +55780,18 @@ components:
           items:
             type: string
             minLength: 1
+    HttpDiscoveryHeaderConfInputPrometheus:
+      type: object
+      required:
+        - name
+        - value
+      properties:
+        name:
+          type: string
+          title: Name
+        value:
+          type: string
+          title: Value
     CompressionOptionsPersistence:
       type: string
       title: Compression
@@ -55407,18 +56061,6 @@ components:
         - silly
       description: Collector runtime log level
       x-speakeasy-unknown-values: allow
-    RequestParamConfInputOpenai:
-      type: object
-      required:
-        - name
-        - value
-      properties:
-        name:
-          type: string
-          title: Name
-        value:
-          type: string
-          title: Value
     OauthParamConfInputServicenowTable:
       type: object
       required:
@@ -55447,6 +56089,13 @@ components:
           type: string
           title: Value
           description: OAuth header value
+    AuthenticationMethodOptionsAuthTokensItemsSecret:
+      title: Authentication method
+      type: string
+      enum:
+        - secret
+      description: Select Secret to use a text secret to authenticate
+      x-speakeasy-unknown-values: allow
     JobTypeOptionsRunnableJobCollection:
       type: string
       title: Job type
@@ -56102,6 +56751,17 @@ components:
         - Basic
         - Basic (credentials secret)
       x-speakeasy-unknown-values: allow
+    AuthenticationMethodOptionsAutoSecret:
+      enum:
+        - auto
+        - secret
+      type: string
+      title: Authentication method
+      description: AWS authentication method. Choose Auto to use IAM roles.
+      x-speakeasy-enum-descriptions:
+        - Auto
+        - Secret Key pair
+      x-speakeasy-unknown-values: allow
     ProtocolOptions:
       type: string
       title: Protocol
@@ -56408,21 +57068,20 @@ components:
     StorageClassOptionsCriblLakeDataset:
       type: string
       enum:
+        - Archive
+        - Cold
+        - Cool
         - DEEP_ARCHIVE
         - GLACIER
         - GLACIER_IR
+        - Hot
+        - Inferred
         - INTELLIGENT_TIERING
         - ONEZONE_IA
         - STANDARD
         - STANDARD_IA
       description: Storage class used for objects written to the Dataset.
       x-speakeasy-unknown-values: allow
-    ScalarOrArray:
-      oneOf:
-        - type: string
-        - type: array
-          items:
-            type: string
     AwsTypeHeartbeatMetadata:
       type: object
       properties:
@@ -56522,30 +57181,6 @@ components:
           type: array
           items:
             type: string
-    FilesTypeGitCommitSummary:
-      type: object
-      properties:
-        created:
-          type: array
-          items:
-            type: string
-          description: Array of file paths that were created in the commit.
-        deleted:
-          type: array
-          items:
-            type: string
-          description: Array of file paths that were deleted in the commit.
-        modified:
-          type: array
-          items:
-            type: string
-          description: Array of file paths that were modified in the commit.
-        renamed:
-          type: array
-          items:
-            $ref: "#/components/schemas/GitFileRename"
-          description: Array of file rename operations, each containing the original path
-            and the new path.
     SslTypeSystemSettingsConfApi:
       type: object
       properties:
@@ -56640,6 +57275,8 @@ components:
         workerProcessConfigUpdateConcurrency:
           type: number
         workerProcessReloadTimeout:
+          type: number
+        workerThreadPoolSize:
           type: number
       required:
         - count
@@ -56849,7 +57486,7 @@ components:
           title: Buffer size limit (bytes)
           description: The maximum size to hold in memory before writing events to disk.
             Enter a numeral with units of KB, MB, etc. The minimum value is 64KB
-            and the maximum value is 1MB.
+            and the maximum value is 10MB.
           pattern: ^\d+\s*(?:\w{2})?$
         maxBufferSize:
           type: number
@@ -57418,6 +58055,41 @@ components:
           type: boolean
           title: Detailed metrics
           description: Generate full GPU metrics
+    AuthTokenConfInputCloudflareHec:
+      type: object
+      properties:
+        authType:
+          $ref: "#/components/schemas/AuthenticationMethodOptionsAuthTokensItemsSecret"
+        tokenSecret:
+          type: string
+          title: Token secret (text secret)
+          description: Select or create a stored text secret
+        token:
+          type: string
+          title: Token
+          description: "Shared secret to be provided by any client (Authorization: <token>)"
+        enabled:
+          type: boolean
+          title: Enable token
+        description:
+          type: string
+          title: Description
+        allowedIndexesAtToken:
+          type: array
+          title: Allowed indexes
+          description: Enter the values you want to allow in the HEC event index field at
+            the token level. Supports wildcards. To skip validation, leave
+            blank.
+          minItems: 0
+          items:
+            type: string
+            minLength: 1
+        metadata:
+          type: array
+          title: Fields
+          description: Fields to add to events referencing this token
+          items:
+            $ref: "#/components/schemas/MetadataConfInputCollection"
     RunnableJobCollectionScheduleRunType:
       type: object
       required:
@@ -58143,6 +58815,27 @@ components:
         textSecret: oracle-secure-connection
         connectionTimeout: 15000
         tags: secure,oracle,sensitive-data
+    DatabaseConnectionExamplesOracleWithMutualTLS:
+      summary: Oracle with mutual TLS (mTLS)
+      description: Create an Oracle database connection that authenticates with a
+        client certificate over TCPS. The certificate referenced by
+        `tls.certificateName` must already exist in the system certificates
+        store and contain the client cert, private key, and (for self-signed
+        server chains) the CA cert pinned by the customer.
+      value:
+        id: oracle-mtls-db
+        description: Oracle database reached over TCPS with mutual TLS
+        databaseType: oracle
+        authType: connectionString
+        connectionString: tcps://oracle.example.com:2484/ORCL
+        user: erp_user
+        password: Oracle_Pass456!
+        connectionTimeout: 15000
+        tls:
+          disabled: false
+          rejectUnauthorized: true
+          certificateName: oracle-client-cert
+        tags: erp,oracle,mtls,production
     DatabaseConnectionNotFoundResponseExamplesDatabaseConnectionNotFound:
       summary: Return a not found error for a Database Connection
       description: Example response for returning a not found error when getting a
@@ -58322,6 +59015,102 @@ components:
         textSecret: oracle-secure-connection
         connectionTimeout: 15000
         tags: secure,oracle,sensitive-data
+    FunctionResponseExamplesEvalFunction:
+      summary: Get the Eval Function
+      description: Example response for getting the Eval Function.
+      value:
+        count: 1
+        items:
+          - id: eval
+            name: Eval
+            version: "0.4"
+            group: Standard
+            __filename: eval/index.js
+            loadTime: 0
+            modTime: 0
+            uischema: {}
+            description: Adds, removes, or updates event fields using JavaScript
+              expressions.
+            category: fields
+            tags: eval,fields
+    FunctionResponseExamplesDropFunction:
+      summary: Get the Drop Function
+      description: Example response for getting the Drop Function, which removes
+        events that match a specified filter expression.
+      value:
+        count: 1
+        items:
+          - id: drop
+            name: Drop
+            version: "0.1"
+            group: Standard
+            __filename: drop/index.js
+            loadTime: 0
+            modTime: 0
+            uischema: {}
+            description: Removes events that match the specified filter expression.
+            category: filtering
+            tags: drop,filter
+    FunctionListResponseExamplesFunctionList:
+      summary: List all Functions
+      description: Example response for listing all Functions.
+      value:
+        count: 2
+        items:
+          - id: eval
+            name: Eval
+            version: "0.4"
+            group: Standard
+            __filename: eval/index.js
+            loadTime: 0
+            modTime: 0
+            uischema: {}
+            description: Adds, removes, or updates event fields using JavaScript
+              expressions.
+            category: fields
+            tags: eval,fields
+          - id: drop
+            name: Drop
+            version: "0.1"
+            group: Standard
+            __filename: drop/index.js
+            loadTime: 0
+            modTime: 0
+            uischema: {}
+            description: Removes events that match the specified filter expression.
+            category: filtering
+            tags: drop,filter
+    InputResponseExamplesSyslogSource:
+      summary: Syslog Source response
+      description: Example response for getting or updating a Syslog Source.
+      value:
+        id: syslog-source
+        type: syslog
+        host: 0.0.0.0
+        udpPort: 514
+        sendToRoutes: true
+        pqEnabled: false
+    InputResponseExamplesSplunkHecSource:
+      summary: Splunk HEC Source response
+      description: Example response for getting or updating a Splunk HEC Source.
+      value:
+        id: splunk-hec-source
+        type: splunk_hec
+        host: 0.0.0.0
+        port: 8088
+        splunkHecAPI: /services/collector
+        sendToRoutes: true
+        pqEnabled: false
+    InputResponseExamplesHttpSource:
+      summary: HTTP Source response
+      description: Example response for getting or updating an HTTP Source.
+      value:
+        id: http-source
+        type: http
+        host: 0.0.0.0
+        port: 10080
+        sendToRoutes: true
+        pqEnabled: false
     HecTokenExamplesHecToken:
       summary: Basic HEC token
       description: Example request body for adding an HEC token with metadata to a
@@ -58903,6 +59692,16 @@ components:
         queueName: my-queue
         queueType: standard
         region: us-east-1
+        sendToRoutes: true
+        pqEnabled: false
+    InputCreateExamplesSysdigHec:
+      summary: Sysdig Cloud NSS
+      value:
+        id: sysdig-hec-source
+        type: sysdig_hec
+        host: 0.0.0.0
+        port: 8088
+        hecAPI: /services/collector
         sendToRoutes: true
         pqEnabled: false
     InputCreateExamplesSyslog:
@@ -59791,6 +60590,20 @@ components:
       description: Example request body for updating a SQS Source.<br/><br/>The
         request body must include a complete representation of the Source that
         you want to update. This endpoint does not support partial updates.
+    UpdateInputExamplesSysdigHec:
+      summary: Sysdig Cloud NSS
+      value:
+        id: sysdig-hec-source
+        type: sysdig_hec
+        host: 0.0.0.0
+        port: 8088
+        hecAPI: /services/collector
+        sendToRoutes: true
+        pqEnabled: false
+      description: Example request body for updating a Sysdig Cloud NSS
+        Source.<br/><br/>The request body must include a complete representation
+        of the Source that you want to update. This endpoint does not support
+        partial updates.
     UpdateInputExamplesSyslog:
       summary: Syslog
       value:
@@ -59937,6 +60750,32 @@ components:
         Source.<br/><br/>The request body must include a complete representation
         of the Source that you want to update. This endpoint does not support
         partial updates.
+    OutputResponseExamplesSplunkHecDestination:
+      summary: Splunk HEC Destination response
+      description: Example response for getting or updating a Splunk HEC Destination.
+      value:
+        id: splunk-hec-output
+        type: splunk_hec
+        host: localhost
+        port: 8088
+        hecToken: 1234abcd5678efgh9101ijklEXAMPLETOKEN
+    OutputResponseExamplesS3Destination:
+      summary: Amazon S3 Destination response
+      description: Example response for getting or updating an Amazon S3 Destination.
+      value:
+        id: s3-output
+        type: s3
+        bucket: my-bucket
+        region: us-east-1
+        stagePath: /tmp/staging
+    OutputResponseExamplesSyslogDestination:
+      summary: Syslog Destination response
+      description: Example response for getting or updating a Syslog Destination.
+      value:
+        id: syslog-output
+        type: syslog
+        host: localhost
+        port: 514
     OutputCreateExamplesTcpjson:
       summary: TCP JSON
       value:
@@ -63761,6 +64600,50 @@ components:
           pipeline: main
           filter: source == "new.log"
           description: Route with server-generated id and default final value
+    InputStatusResponseExamplesGreenSource:
+      summary: Source with Green health status
+      description: Example response for getting the status of a Source that is healthy.
+      value:
+        id: syslog-source
+        type: syslog
+        status:
+          health: Green
+          healthCounts:
+            Green: 2
+    InputStatusResponseExamplesYellowSource:
+      summary: Source with Yellow health status
+      description: Example response for getting the status of a Source that is
+        experiencing issues.
+      value:
+        id: splunk-hec-source
+        type: splunk_hec
+        status:
+          health: Yellow
+          healthCounts:
+            Green: 1
+            Yellow: 1
+    OutputStatusResponseExamplesGreenDestination:
+      summary: Destination with Green health status
+      description: Example response for getting the status of a Destination that is healthy.
+      value:
+        id: splunk-hec-output
+        type: splunk_hec
+        status:
+          health: Green
+          healthCounts:
+            Green: 2
+    OutputStatusResponseExamplesYellowDestination:
+      summary: Destination with Yellow health status
+      description: Example response for getting the status of a Destination that is
+        experiencing issues.
+      value:
+        id: s3-output
+        type: s3
+        status:
+          health: Yellow
+          healthCounts:
+            Green: 1
+            Yellow: 1
     CollectorExamplesRest:
       summary: REST API Collector
       value:
@@ -64208,14 +65091,34 @@ components:
         status: standby
         startTime: 1700000000000
         role: standby
+    PackInstallResponseExamplesInstalledFromURL:
+      summary: Pack installed from URL response
+      description: Example response for a Pack successfully installed from a URL.
+      value:
+        items:
+          - id: cribl-palo-alto-networks
+            displayName: Palo Alto Networks
+            version: 1.1.4
+            author: Cribl
+            description: Packs for processing Palo Alto Networks firewall logs.
+            source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
+            exports:
+              - pipelines
+              - inputs
+            warnings: []
+        count: 1
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
+      description: Example request body for installing a Pack directly from the Cribl
+        Pack Dispensary using a download URL.
       value:
         source: https://packs.cribl.io/dl/cribl-duo-rest-io/latest/cribl-duo-rest-io-latest.crbl
         force: true
         allowCustomFunctions: true
     PackInstallExamplesEmptyPack:
       summary: Create new empty Pack
+      description: Example request body for creating a new empty Pack with no
+        functions or resources.
       value:
         version: 0.0.1
         tags:
@@ -64225,24 +65128,113 @@ components:
         id: testPackFoo
     PackInstallExamplesUploadedFile:
       summary: Install Pack from file upload
+      description: Example request body for installing a Pack from a previously
+        uploaded file. Use the <code>source</code> value returned by <code>PUT
+        /packs</code>.
       value:
         source: cribl-search-missing-logs-1.0.1.Do7DH5I.crbl
         id: cribl-search-missing-logs
         allowCustomFunctions: false
     PackInstallExamplesURL:
       summary: Install Pack from URL
+      description: Example request body for installing a Pack by importing it directly
+        from a URL pointing to a <code>.crbl</code> file.
       value:
         source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
         allowCustomFunctions: false
     PackInstallExamplesGitRepository:
       summary: Install Pack from Git repository
+      description: Example request body for installing a Pack by importing it from a
+        Git repository.
       value:
         source: git+https://github.com/criblio/cribl_ocsf_postprocessing
         allowCustomFunctions: false
+    PackDeleteResponseExamplesUninstalled:
+      summary: Pack uninstalled response
+      description: Example response after successfully uninstalling a Pack.
+      value:
+        items:
+          - id: cribl-palo-alto-networks
+            source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
+        count: 1
+    PackGetResponseExamplesInstalledPack:
+      summary: Installed Pack response
+      description: Example response for getting a Pack installed from a Git repository.
+      value:
+        items:
+          - id: cribl-palo-alto-networks
+            displayName: Palo Alto Networks
+            version: 1.1.4
+            author: Cribl
+            description: Packs for processing Palo Alto Networks firewall logs.
+            source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
+            exports:
+              - pipelines
+              - inputs
+        count: 1
+    PackGetResponseExamplesEmptyPack:
+      summary: Empty Pack response
+      description: Example response for getting an empty Pack.
+      value:
+        items:
+          - id: testPackFoo
+            displayName: testPackFoo
+            version: 0.0.1
+            author: ""
+            description: ""
+            source: ""
+            exports: []
+        count: 1
+    PackListResponseExamplesPackList:
+      summary: List all Packs response
+      description: Example response for listing all installed Packs.
+      value:
+        items:
+          - id: cribl-palo-alto-networks
+            displayName: Palo Alto Networks
+            version: 1.1.4
+            author: Cribl
+            description: Packs for processing Palo Alto Networks firewall logs.
+            source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
+            exports:
+              - pipelines
+              - inputs
+          - id: testPackFoo
+            displayName: testPackFoo
+            version: 0.0.1
+            author: ""
+            description: ""
+            source: ""
+            exports: []
+        count: 2
+    PackUpgradeResponseExamplesUpgraded:
+      summary: Pack upgraded response
+      description: Example response for upgrading a Pack to a newer version.
+      value:
+        items:
+          - id: cribl-palo-alto-networks
+            displayName: Palo Alto Networks
+            version: 1.1.5
+            author: Cribl
+            description: Packs for processing Palo Alto Networks firewall logs.
+            source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.5/cribl-palo-alto-networks-a3e5a19d-1.1.5.crbl
+            exports:
+              - pipelines
+              - inputs
+        count: 1
     PackUpgradeExamplesUpgradeFromURL:
       summary: Upgrade Pack from URL
+      description: Example request body for upgrading an installed Pack to a newer
+        version by providing the URL of the updated <code>.crbl</code> file.
       value:
         source: https://github.com/criblpacks/cribl-palo-alto-networks/releases/download/1.1.4/cribl-palo-alto-networks-a3e5a19d-1.1.4.crbl
+    PackUploadResponseExamplesUploadedPack:
+      summary: Pack file uploaded response
+      description: Example response after successfully uploading a Pack file. Use the
+        returned <code>source</code> value in a subsequent <code>POST
+        /packs</code> request to install the Pack.
+      value:
+        source: cribl-palo-alto-networks-1.1.4.AbCdEfGh.crbl
     UpdateSystemSettingsExamplesUpdateApiSettings:
       summary: Update API server settings
       description: Example request body for updating the Cribl API server network and
@@ -64289,6 +65281,34 @@ components:
           backupPersistence: 24h
         rollback:
           rollbackEnabled: true
+    VersionBranchResponseExamplesListBranches:
+      summary: List all branches
+      description: Example response for listing all branches in the Cribl
+        configuration Git repository.
+      value:
+        count: 2
+        items:
+          - id: main
+          - id: feature/new-pipeline
+    VersionCommitResponseExamplesCommitCreated:
+      summary: Commit created
+      description: Example response for creating a new commit for pending
+        configuration changes.
+      value:
+        count: 1
+        items:
+          - author:
+              email: admin@example.com
+              name: Admin User
+            branch: main
+            commit: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+            files:
+              modified:
+                - groups/default/local/cribl/pipelines/http_input/conf.yml
+            summary:
+              changes: 1
+              insertions: 5
+              deletions: 2
     VersionCommitExamplesCommitAll:
       summary: Commit all pending changes
       description: Example request body for committing all pending changes to the
@@ -64305,6 +65325,99 @@ components:
         files:
           - groups/default/local/cribl/pipelines/http_input/conf.yml
           - groups/default/local/cribl/routes.yml
+    VersionCountResponseExamplesFileCount:
+      summary: Count of changed files
+      description: Example response for getting a count of files that changed since a
+        commit.
+      value:
+        count: 1
+        items:
+          - count: 3
+    VersionCurrentBranchResponseExamplesCurrentBranch:
+      summary: Current branch name
+      description: Example response for getting the current Git branch name.
+      value:
+        branch: main
+    VersionDiffResponseExamplesDiffResult:
+      summary: Diff for a commit
+      description: Example response for getting the diff of changes in a commit.
+      value:
+        count: 1
+        items:
+          - diffJson:
+              - oldName: groups/default/local/cribl/pipelines/http_input/conf.yml
+                newName: groups/default/local/cribl/pipelines/http_input/conf.yml
+                addedLines: 5
+                deletedLines: 2
+                isCombined: false
+                isGitDiff: true
+                language: yml
+                blocks: []
+    VersionFilesResponseExamplesChangedFiles:
+      summary: Files changed since a commit
+      description: Example response for getting the names and statuses of files
+        changed since a commit.
+      value:
+        count: 1
+        items:
+          - count: 2
+            items:
+              - name: groups/default/local/cribl/pipelines/http_input/conf.yml
+                state: M
+              - name: groups/default/local/cribl/routes.yml
+                state: A
+            commitMessage: Updated pipeline configuration
+    VersionInfoResponseExamplesGitInfo:
+      summary: Git integration info
+      description: Example response for getting the configuration and status of the
+        Git integration.
+      value:
+        count: 1
+        items:
+          - versioning: true
+            remote: https://github.com/example/cribl-config.git
+    VersionListResponseExamplesListCommitHistory:
+      summary: List commit history
+      description: Example response for listing the commit history of the Cribl
+        configuration repository.
+      value:
+        count: 2
+        items:
+          - hash: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+            date: 2024-01-15 10:30:00 +0000
+            message: Updated syslog pipeline configuration
+            refs: HEAD -> main
+            body: ""
+            author_name: Admin User
+            author_email: admin@example.com
+          - hash: b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3
+            date: 2024-01-14 09:15:00 +0000
+            message: Added new HTTP Source
+            refs: ""
+            body: ""
+            author_name: Admin User
+            author_email: admin@example.com
+    VersionPushResponseExamplesPushResult:
+      summary: Push result
+      description: Example response for pushing local commits to the remote repository.
+      value:
+        count: 1
+        items:
+          - |-
+            To https://github.com/example/cribl-config.git
+               a1b2c3d..b2c3d4e  main -> main
+    VersionRevertResponseExamplesRevertResult:
+      summary: Revert result
+      description: Example response for reverting a commit in the local repository.
+      value:
+        count: 1
+        items:
+          - audit:
+              id: a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2
+              files:
+                modified:
+                  - groups/default/local/cribl/pipelines/http_input/conf.yml
+            reverted: true
     VersionRevertExamplesRevertCommit:
       summary: Revert a specific commit
       description: Example request body for reverting a specific commit.
@@ -64312,12 +65425,56 @@ components:
         commit: a1b2c3d4e5f6
     VersionRevertExamplesForceRevertWithMessage:
       summary: Force revert a commit with a custom message
-      description: Example request body for force reverting a specific commit that
-        includes a custom message for the revert commit.
+      description: Example request body for force reverting a specific commit with a
+        custom revert message.
       value:
         commit: a1b2c3d4e5f6
         message: Revert commit due to misconfiguration in Pipeline settings
         force: true
+    VersionShowResponseExamplesShowCommit:
+      summary: Diff and log message for a commit
+      description: Example response for getting the diff and log message for a commit.
+      value:
+        count: 1
+        items:
+          - commitMessage: Updated syslog pipeline configuration
+            diffJson:
+              - oldName: groups/default/local/cribl/pipelines/syslog/conf.yml
+                newName: groups/default/local/cribl/pipelines/syslog/conf.yml
+                addedLines: 3
+                deletedLines: 1
+                isCombined: false
+                isGitDiff: true
+                language: yml
+                blocks: []
+    VersionStatusResponseExamplesWorkingTreeStatus:
+      summary: Working tree status
+      description: Example response for getting the status of the current working tree.
+      value:
+        count: 1
+        items:
+          - not_added: []
+            conflicted: []
+            created: []
+            deleted: []
+            modified:
+              - groups/default/local/cribl/pipelines/http_input/conf.yml
+            renamed: []
+            staged: []
+            files:
+              - path: groups/default/local/cribl/pipelines/http_input/conf.yml
+                index: M
+                working_dir: " "
+            ahead: 0
+            behind: 0
+            current: main
+    VersionUndoResponseExamplesUndoResult:
+      summary: Undo result
+      description: Example response for discarding uncommitted changes.
+      value:
+        count: 1
+        items:
+          - true
 security:
   - bearerAuth: []
   - clientOauth: []
@@ -64404,6 +65561,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "429":
           description: Rate limit exceeded (check Retry-After header).
           headers:
@@ -64444,9 +65605,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedFunctionResponse"
+              examples:
+                FunctionListResponseExamplesFunctionList:
+                  $ref: "#/components/examples/FunctionListResponseExamplesFunctionList"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -64471,9 +65639,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedFunctionResponse"
+              examples:
+                FunctionResponseExamplesEvalFunction:
+                  $ref: "#/components/examples/FunctionResponseExamplesEvalFunction"
+                FunctionResponseExamplesDropFunction:
+                  $ref: "#/components/examples/FunctionResponseExamplesDropFunction"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -64560,6 +65737,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -64637,6 +65818,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -64677,6 +65862,8 @@ paths:
               DatabaseConnectionExamplesOracleWithCredentialsSecrets:
                 $ref: "#/components/examples/DatabaseConnectionExamplesOracleWithCredentialsSec\
                   rets"
+              DatabaseConnectionExamplesOracleWithMutualTLS:
+                $ref: "#/components/examples/DatabaseConnectionExamplesOracleWithMutualTLS"
   /lib/database-connections/{id}:
     get:
       operationId: getDatabaseConnectionConfigById
@@ -64703,6 +65890,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: The requested resource does not exist — Database Connection not
             found.
@@ -64770,6 +65961,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: Database Connection not found.
           content:
@@ -64856,6 +66051,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: Database Connection not found.
           content:
@@ -64900,6 +66099,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -64933,6 +66136,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -64986,6 +66193,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65025,6 +66236,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65084,6 +66299,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65123,6 +66342,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65164,6 +66387,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65291,6 +66518,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65344,6 +66575,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65476,6 +66711,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65521,6 +66760,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65560,6 +66803,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65616,6 +66863,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65679,6 +66930,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65733,9 +66988,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -65891,6 +67157,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesSplunkSearch"
               InputCreateExamplesSqs:
                 $ref: "#/components/examples/InputCreateExamplesSqs"
+              InputCreateExamplesSysdigHec:
+                $ref: "#/components/examples/InputCreateExamplesSysdigHec"
               InputCreateExamplesSyslog:
                 $ref: "#/components/examples/InputCreateExamplesSyslog"
               InputCreateExamplesSystemMetrics:
@@ -65920,9 +67188,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "409":
           description: Request conflicts with current resource state — source with the
             same ID already exists.
@@ -65970,9 +67249,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: The requested resource does not exist.
         "500":
@@ -65992,7 +67282,7 @@ paths:
       summary: Update a Source within a Pack
       description: Update the specified Source.<br/><br/>Provide a complete
         representation of the Source that you want to update in the request
-        body.  This endpoint does not support partial updates. Cribl removes any
+        body. This endpoint does not support partial updates. Cribl removes any
         omitted fields when updating the Source.<br/><br/>Confirm that the
         configuration in your request body is correct before sending the
         request. If the configuration is incorrect, the updated Source might not
@@ -66135,6 +67425,8 @@ paths:
                 $ref: "#/components/examples/UpdateInputExamplesSplunkSearch"
               UpdateInputExamplesSqs:
                 $ref: "#/components/examples/UpdateInputExamplesSqs"
+              UpdateInputExamplesSysdigHec:
+                $ref: "#/components/examples/UpdateInputExamplesSysdigHec"
               UpdateInputExamplesSyslog:
                 $ref: "#/components/examples/UpdateInputExamplesSyslog"
               UpdateInputExamplesSystemMetrics:
@@ -66164,9 +67456,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66203,9 +67506,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66232,12 +67546,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputSplunkHec"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "400":
           description: Failed validation or malformed input — Source not found, source
             type is not <code>splunk_hec</code>, or request payload is invalid.
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66288,12 +67613,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputSplunkHec"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "400":
           description: Failed validation or malformed input — Source not found, source
             type is not <code>splunk_hec</code>, or request payload is invalid.
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66351,9 +67687,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedString"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66392,9 +67739,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedJobInfo"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66432,9 +67790,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66641,9 +68010,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66688,9 +68068,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: The requested resource does not exist.
         "500":
@@ -66901,9 +68292,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66940,9 +68342,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -66969,9 +68382,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedString"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67010,9 +68434,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedJobInfo"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67051,12 +68486,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputSamplesResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "400":
           description: Failed validation or malformed input — invalid request or
             Destination error
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67095,11 +68541,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputTestResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "400":
           description: Failed validation or malformed input — missing or invalid events
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67150,12 +68607,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputStatus"
+              examples:
+                InputStatusResponseExamplesGreenSource:
+                  $ref: "#/components/examples/InputStatusResponseExamplesGreenSource"
+                InputStatusResponseExamplesYellowSource:
+                  $ref: "#/components/examples/InputStatusResponseExamplesYellowSource"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67229,9 +68695,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputStatus"
+              examples:
+                InputStatusResponseExamplesGreenSource:
+                  $ref: "#/components/examples/InputStatusResponseExamplesGreenSource"
+                InputStatusResponseExamplesYellowSource:
+                  $ref: "#/components/examples/InputStatusResponseExamplesYellowSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67285,12 +68760,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputStatus"
+              examples:
+                OutputStatusResponseExamplesGreenDestination:
+                  $ref: "#/components/examples/OutputStatusResponseExamplesGreenDestination"
+                OutputStatusResponseExamplesYellowDestination:
+                  $ref: "#/components/examples/OutputStatusResponseExamplesYellowDestination"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67364,9 +68848,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputStatus"
+              examples:
+                OutputStatusResponseExamplesGreenDestination:
+                  $ref: "#/components/examples/OutputStatusResponseExamplesGreenDestination"
+                OutputStatusResponseExamplesYellowDestination:
+                  $ref: "#/components/examples/OutputStatusResponseExamplesYellowDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67422,14 +68915,21 @@ paths:
         Pack is created.
       responses:
         "200":
-          description: The created PackInstallInfo object in a single-item list.
+          description: The installed Pack object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPackInstallInfo"
+              examples:
+                PackInstallResponseExamplesInstalledFromURL:
+                  $ref: "#/components/examples/PackInstallResponseExamplesInstalledFromURL"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67466,14 +68966,21 @@ paths:
       description: Get a list of all Packs.
       responses:
         "200":
-          description: List of PackInfo objects.
+          description: List of Pack objects.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPackInfo"
+              examples:
+                PackListResponseExamplesPackList:
+                  $ref: "#/components/examples/PackListResponseExamplesPackList"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67504,14 +69011,21 @@ paths:
         separately.
       responses:
         "200":
-          description: Pack file uploaded successfully
+          description: Pack file uploaded successfully.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/UploadPackResponse"
+              examples:
+                PackUploadResponseExamplesUploadedPack:
+                  $ref: "#/components/examples/PackUploadResponseExamplesUploadedPack"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67546,14 +69060,23 @@ paths:
       description: Get the specified Pack.
       responses:
         "200":
-          description: The requested PackInfo object in a single-item list.
+          description: The requested Pack object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPackInfo"
+              examples:
+                PackGetResponseExamplesInstalledPack:
+                  $ref: "#/components/examples/PackGetResponseExamplesInstalledPack"
+                PackGetResponseExamplesEmptyPack:
+                  $ref: "#/components/examples/PackGetResponseExamplesEmptyPack"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67586,14 +69109,21 @@ paths:
         previous Pack version so that they reference the upgraded Pack.
       responses:
         "200":
-          description: The updated PackInfo object in a single-item list.
+          description: The upgraded Pack object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPackInfo"
+              examples:
+                PackUpgradeResponseExamplesUpgraded:
+                  $ref: "#/components/examples/PackUpgradeResponseExamplesUpgraded"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67629,14 +69159,21 @@ paths:
       description: Uninstall the specified Pack.
       responses:
         "200":
-          description: The deleted PackUninstallInfo object in a single-item list.
+          description: The uninstalled Pack object in a single-item list.
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedPackUninstallInfo"
+              examples:
+                PackDeleteResponseExamplesUninstalled:
+                  $ref: "#/components/examples/PackDeleteResponseExamplesUninstalled"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67676,6 +69213,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67710,6 +69251,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67830,6 +69375,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67868,6 +69417,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -67915,6 +69468,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68038,6 +69595,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68101,6 +69662,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "409":
           description: Request conflicts with current resource state — duplicate group ID
             or duplicate group name.
@@ -68163,6 +69728,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68234,6 +69803,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68276,6 +69849,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68306,6 +69883,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68358,6 +69939,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68409,6 +69994,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68452,6 +70041,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68508,6 +70101,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -68548,6 +70145,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -68596,6 +70197,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -68688,6 +70293,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -68734,6 +70343,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -68781,6 +70394,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68818,6 +70435,12 @@ paths:
           schema:
             type: boolean
           description: Exclude DDSS format datasets from the response.
+        - name: excludeNetskope
+          in: query
+          required: false
+          schema:
+            type: boolean
+          description: Exclude Netskope format datasets from the response.
         - name: excludeDeleted
           in: query
           required: false
@@ -68865,6 +70488,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68913,6 +70540,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -68962,6 +70593,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69015,6 +70650,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69061,6 +70700,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69093,6 +70736,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69141,6 +70788,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69197,6 +70848,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69253,6 +70908,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69293,9 +70952,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69445,6 +71115,8 @@ paths:
                 $ref: "#/components/examples/InputCreateExamplesSplunkSearch"
               InputCreateExamplesSqs:
                 $ref: "#/components/examples/InputCreateExamplesSqs"
+              InputCreateExamplesSysdigHec:
+                $ref: "#/components/examples/InputCreateExamplesSysdigHec"
               InputCreateExamplesSyslog:
                 $ref: "#/components/examples/InputCreateExamplesSyslog"
               InputCreateExamplesSystemMetrics:
@@ -69474,9 +71146,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "409":
           description: Request conflicts with current resource state — source with the
             same ID already exists.
@@ -69511,9 +71194,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: The requested resource does not exist.
         "500":
@@ -69533,7 +71227,7 @@ paths:
       summary: Update a Source
       description: Update the specified Source.<br/><br/>Provide a complete
         representation of the Source that you want to update in the request
-        body.  This endpoint does not support partial updates. Cribl removes any
+        body. This endpoint does not support partial updates. Cribl removes any
         omitted fields when updating the Source.<br/><br/>Confirm that the
         configuration in your request body is correct before sending the
         request. If the configuration is incorrect, the updated Source might not
@@ -69669,6 +71363,8 @@ paths:
                 $ref: "#/components/examples/UpdateInputExamplesSplunkSearch"
               UpdateInputExamplesSqs:
                 $ref: "#/components/examples/UpdateInputExamplesSqs"
+              UpdateInputExamplesSysdigHec:
+                $ref: "#/components/examples/UpdateInputExamplesSysdigHec"
               UpdateInputExamplesSyslog:
                 $ref: "#/components/examples/UpdateInputExamplesSyslog"
               UpdateInputExamplesSystemMetrics:
@@ -69698,9 +71394,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69731,9 +71438,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputResponse"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69759,12 +71477,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputSplunkHec"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "400":
           description: Failed validation or malformed input — Source not found, source
             type is not <code>splunk_hec</code>, or request payload is invalid.
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69809,12 +71538,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputSplunkHec"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "400":
           description: Failed validation or malformed input — Source not found, source
             type is not <code>splunk_hec</code>, or request payload is invalid.
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69866,9 +71606,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedJobInfo"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69900,9 +71651,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedString"
+              examples:
+                InputResponseExamplesSyslogSource:
+                  $ref: "#/components/examples/InputResponseExamplesSyslogSource"
+                InputResponseExamplesSplunkHecSource:
+                  $ref: "#/components/examples/InputResponseExamplesSplunkHecSource"
+                InputResponseExamplesHttpSource:
+                  $ref: "#/components/examples/InputResponseExamplesHttpSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -69934,9 +71696,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70137,9 +71910,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70171,9 +71955,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "404":
           description: The requested resource does not exist.
         "500":
@@ -70378,9 +72173,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70411,9 +72217,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70439,9 +72256,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedString"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70474,9 +72302,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedJobInfo"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70509,12 +72348,23 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputSamplesResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "400":
           description: Failed validation or malformed input — invalid request or
             Destination error
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70547,11 +72397,22 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputTestResponse"
+              examples:
+                OutputResponseExamplesSplunkHecDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSplunkHecDestination"
+                OutputResponseExamplesS3Destination:
+                  $ref: "#/components/examples/OutputResponseExamplesS3Destination"
+                OutputResponseExamplesSyslogDestination:
+                  $ref: "#/components/examples/OutputResponseExamplesSyslogDestination"
         "400":
           description: Failed validation or malformed input — missing or invalid events
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70598,6 +72459,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70624,6 +72489,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70663,6 +72532,10 @@ paths:
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70688,12 +72561,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputStatus"
+              examples:
+                InputStatusResponseExamplesGreenSource:
+                  $ref: "#/components/examples/InputStatusResponseExamplesGreenSource"
+                InputStatusResponseExamplesYellowSource:
+                  $ref: "#/components/examples/InputStatusResponseExamplesYellowSource"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70760,9 +72642,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedInputStatus"
+              examples:
+                InputStatusResponseExamplesGreenSource:
+                  $ref: "#/components/examples/InputStatusResponseExamplesGreenSource"
+                InputStatusResponseExamplesYellowSource:
+                  $ref: "#/components/examples/InputStatusResponseExamplesYellowSource"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70809,12 +72700,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputStatus"
+              examples:
+                OutputStatusResponseExamplesGreenDestination:
+                  $ref: "#/components/examples/OutputStatusResponseExamplesGreenDestination"
+                OutputStatusResponseExamplesYellowDestination:
+                  $ref: "#/components/examples/OutputStatusResponseExamplesYellowDestination"
         "400":
           description: Failed validation or malformed input, such as missing or invalid
             parameters.
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70881,9 +72781,18 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedOutputStatus"
+              examples:
+                OutputStatusResponseExamplesGreenDestination:
+                  $ref: "#/components/examples/OutputStatusResponseExamplesGreenDestination"
+                OutputStatusResponseExamplesYellowDestination:
+                  $ref: "#/components/examples/OutputStatusResponseExamplesYellowDestination"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70921,9 +72830,9 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: List the commit history
-      description: List the commit history.</br></br> Analogous to <code>git
-        log</code> for the Cribl configuration, allowing you to audit and review
-        changes over time.
+      description: List the commit history.<br/><br/>Analogous to <code>git log</code>
+        for the Cribl configuration, allowing you to audit and review changes
+        over time.
       responses:
         "200":
           description: List of GitLogResult objects.
@@ -70931,9 +72840,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedGitLogResult"
+              examples:
+                VersionListResponseExamplesListCommitHistory:
+                  $ref: "#/components/examples/VersionListResponseExamplesListCommitHistory"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70966,9 +72882,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedBranchInfo"
+              examples:
+                VersionBranchResponseExamplesListBranches:
+                  $ref: "#/components/examples/VersionBranchResponseExamplesListBranches"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -70987,7 +72910,7 @@ paths:
       summary: Create a new commit for pending changes to the Cribl configuration
       description: Create a new commit for pending changes to the Cribl configuration.
         Any merge conflicts indicated in the response must be resolved using
-        Git.</br></br> To commit only a subset of configuration changes, specify
+        Git.<br/><br/>To commit only a subset of configuration changes, specify
         the files to include in the commit in the <code>files</code> array.
       responses:
         "200":
@@ -70996,9 +72919,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedGitCommitSummary"
+              examples:
+                VersionCommitResponseExamplesCommitCreated:
+                  $ref: "#/components/examples/VersionCommitResponseExamplesCommitCreated"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71036,9 +72966,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedGitCountResult"
+              examples:
+                VersionCountResponseExamplesFileCount:
+                  $ref: "#/components/examples/VersionCountResponseExamplesFileCount"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71072,9 +73009,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CurrentBranchResult"
+              examples:
+                VersionCurrentBranchResponseExamplesCurrentBranch:
+                  $ref: "#/components/examples/VersionCurrentBranchResponseExamplesCurrentBranch"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71099,9 +73043,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedGitDiffResult"
+              examples:
+                VersionDiffResponseExamplesDiffResult:
+                  $ref: "#/components/examples/VersionDiffResponseExamplesDiffResult"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71148,9 +73099,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedGitFilesResponse"
+              examples:
+                VersionFilesResponseExamplesChangedFiles:
+                  $ref: "#/components/examples/VersionFilesResponseExamplesChangedFiles"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71183,9 +73141,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedGitInfo"
+              examples:
+                VersionInfoResponseExamplesGitInfo:
+                  $ref: "#/components/examples/VersionInfoResponseExamplesGitInfo"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71203,7 +73168,9 @@ paths:
       x-cribl-availability: both
       summary: Push local commits to the remote repository
       description: Push all local commits from the local repository to the remote
-        repository.
+        repository.<br/><br/>Requires at least one local commit that has not
+        been pushed. Returns an error if the remote repository cannot be reached
+        or the push is rejected.
       responses:
         "200":
           description: The created string object in a single-item list.
@@ -71211,9 +73178,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedString"
+              examples:
+                VersionPushResponseExamplesPushResult:
+                  $ref: "#/components/examples/VersionPushResponseExamplesPushResult"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71230,7 +73204,10 @@ paths:
       x-cribl-internal: false
       x-cribl-availability: both
       summary: Revert a commit in the local repository
-      description: Revert a commit in the local repository.
+      description: Revert a commit in the local repository by creating a new commit
+        that undoes the changes introduced by the specified commit.<br/><br/>Use
+        the <code>force</code> field to proceed even when the working directory
+        is not clean.
       responses:
         "200":
           description: The created GitRevertResult object in a single-item list.
@@ -71238,9 +73215,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedGitRevertResult"
+              examples:
+                VersionRevertResponseExamplesRevertResult:
+                  $ref: "#/components/examples/VersionRevertResponseExamplesRevertResult"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71278,9 +73262,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedGitShowResult"
+              examples:
+                VersionShowResponseExamplesShowCommit:
+                  $ref: "#/components/examples/VersionShowResponseExamplesShowCommit"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71329,9 +73320,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedGitStatusResult"
+              examples:
+                VersionStatusResponseExamplesWorkingTreeStatus:
+                  $ref: "#/components/examples/VersionStatusResponseExamplesWorkingTreeStatus"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:
@@ -71350,7 +73348,10 @@ paths:
       summary: Discard uncommitted (staged) changes
       description: Discard all uncommitted (staged) configuration changes, resetting
         the working directory to the last committed state. Use only if you are
-        certain that you do not need to preserve your local changes.
+        certain that you do not need to preserve your local
+        changes.<br/><br/>When applied globally (no group), triggers a Cribl
+        restart to reload the reverted configuration. Returns <code>false</code>
+        if the working directory is already clean.
       responses:
         "200":
           description: The created boolean object in a single-item list.
@@ -71358,9 +73359,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/CountedBoolean"
+              examples:
+                VersionUndoResponseExamplesUndoResult:
+                  $ref: "#/components/examples/VersionUndoResponseExamplesUndoResult"
         "401":
           description: Authentication failed (missing or invalid credentials or Bearer
             token).
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         "500":
           description: Unexpected server error.
           content:

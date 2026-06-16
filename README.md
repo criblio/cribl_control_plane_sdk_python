@@ -444,10 +444,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](docs/sdks/commits/README.md#get) - Get the diff and log message for a commit
 * [undo](docs/sdks/commits/README.md#undo) - Discard uncommitted (staged) changes
 
-#### [Versions.Commits.Files](docs/sdks/files/README.md)
+#### [Versions.Commits.Files](docs/sdks/commitsfiles/README.md)
 
-* [count](docs/sdks/files/README.md#count) - Get a count of files that changed since a commit
-* [list](docs/sdks/files/README.md#list) - Get the names and statuses of files that changed since a commit
+* [count](docs/sdks/commitsfiles/README.md#count) - Get a count of files that changed since a commit
+* [list](docs/sdks/commitsfiles/README.md#list) - Get the names and statuses of files that changed since a commit
 
 ### [Versions.Configs](docs/sdks/versionsconfigs/README.md)
 

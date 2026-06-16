@@ -1,13 +1,13 @@
-# InputResponseAuthenticationMethodCloudflareHec
+# AuthenticationMethodOptionsAuthTokensItemsSecret
 
 Select Secret to use a text secret to authenticate
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import InputResponseAuthenticationMethodCloudflareHec
+from cribl_control_plane.models import AuthenticationMethodOptionsAuthTokensItemsSecret
 
-value = InputResponseAuthenticationMethodCloudflareHec.SECRET
+value = AuthenticationMethodOptionsAuthTokensItemsSecret.SECRET
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

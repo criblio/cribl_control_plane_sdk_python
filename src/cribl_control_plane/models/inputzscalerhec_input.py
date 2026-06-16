@@ -156,14 +156,14 @@ class InputZscalerHecInputTypedDict(TypedDict):
     r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
     allowed_indexes: NotRequired[List[str]]
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    emit_token_metrics: NotRequired[bool]
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     hec_acks: NotRequired[bool]
     r"""Whether to enable Zscaler HEC acknowledgements"""
-    access_control_allow_origin: NotRequired[List[str]]
-    r"""Optionally, list HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
-    access_control_allow_headers: NotRequired[List[str]]
-    r"""Optionally, list HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
-    emit_token_metrics: NotRequired[bool]
-    r"""Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
@@ -175,6 +175,12 @@ class InputZscalerHecInputTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
     template_hec_api: NotRequired[str]
     r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
+    template_allowed_indexes: NotRequired[str]
+    r"""Binds 'allowedIndexes' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedIndexes' at runtime."""
+    template_access_control_allow_origin: NotRequired[str]
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+    template_access_control_allow_headers: NotRequired[str]
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
 class InputZscalerHecInput(BaseModel):
@@ -281,23 +287,23 @@ class InputZscalerHecInput(BaseModel):
     ] = None
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
 
-    hec_acks: Annotated[Optional[bool], pydantic.Field(alias="hecAcks")] = None
-    r"""Whether to enable Zscaler HEC acknowledgements"""
-
     access_control_allow_origin: Annotated[
         Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
     ] = None
-    r"""Optionally, list HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
 
     access_control_allow_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
     ] = None
-    r"""Optionally, list HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
 
     emit_token_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="emitTokenMetrics")
     ] = None
-    r"""Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+
+    hec_acks: Annotated[Optional[bool], pydantic.Field(alias="hecAcks")] = None
+    r"""Whether to enable Zscaler HEC acknowledgements"""
 
     description: Optional[str] = None
 
@@ -326,6 +332,21 @@ class InputZscalerHecInput(BaseModel):
     ] = None
     r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
 
+    template_allowed_indexes: Annotated[
+        Optional[str], pydantic.Field(alias="__template_allowedIndexes")
+    ] = None
+    r"""Binds 'allowedIndexes' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedIndexes' at runtime."""
+
+    template_access_control_allow_origin: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowOrigin")
+    ] = None
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+
+    template_access_control_allow_headers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowHeaders")
+    ] = None
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -353,16 +374,19 @@ class InputZscalerHecInput(BaseModel):
                 "ipDenylistRegex",
                 "metadata",
                 "allowedIndexes",
-                "hecAcks",
                 "accessControlAllowOrigin",
                 "accessControlAllowHeaders",
                 "emitTokenMetrics",
+                "hecAcks",
                 "description",
                 "__template_environment",
                 "__template_streamtags",
                 "__template_host",
                 "__template_port",
                 "__template_hecAPI",
+                "__template_allowedIndexes",
+                "__template_accessControlAllowOrigin",
+                "__template_accessControlAllowHeaders",
             ]
         )
         serialized = handler(self)

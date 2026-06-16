@@ -129,10 +129,13 @@ class DatabaseConnections(BaseSDK):
                 ),
                 next=next_func,
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -262,10 +265,13 @@ class DatabaseConnections(BaseSDK):
                 ),
                 next=next_func,
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -289,6 +295,9 @@ class DatabaseConnections(BaseSDK):
         request_timeout: Optional[int] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
+        tls: Optional[
+            Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
+        ] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -311,6 +320,7 @@ class DatabaseConnections(BaseSDK):
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
+        :param tls: TLS client connection settings.
         :param user: Database username for authentication. Used with Oracle connections.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -340,6 +350,7 @@ class DatabaseConnections(BaseSDK):
             request_timeout=request_timeout,
             tags=tags,
             text_secret=text_secret,
+            tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
             user=user,
         )
 
@@ -400,10 +411,13 @@ class DatabaseConnections(BaseSDK):
                 errors.RestAPIJSONErrorData, http_res
             )
             raise errors.RestAPIJSONError(response_data, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -427,6 +441,9 @@ class DatabaseConnections(BaseSDK):
         request_timeout: Optional[int] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
+        tls: Optional[
+            Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
+        ] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -449,6 +466,7 @@ class DatabaseConnections(BaseSDK):
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
+        :param tls: TLS client connection settings.
         :param user: Database username for authentication. Used with Oracle connections.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -478,6 +496,7 @@ class DatabaseConnections(BaseSDK):
             request_timeout=request_timeout,
             tags=tags,
             text_secret=text_secret,
+            tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
             user=user,
         )
 
@@ -538,10 +557,13 @@ class DatabaseConnections(BaseSDK):
                 errors.RestAPIJSONErrorData, http_res
             )
             raise errors.RestAPIJSONError(response_data, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -632,6 +654,9 @@ class DatabaseConnections(BaseSDK):
             return unmarshal_json_response(
                 models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "404", "application/json"):
             response_data = unmarshal_json_response(
                 errors.RestAPIJSONErrorData, http_res
@@ -640,7 +665,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -731,6 +756,9 @@ class DatabaseConnections(BaseSDK):
             return unmarshal_json_response(
                 models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "404", "application/json"):
             response_data = unmarshal_json_response(
                 errors.RestAPIJSONErrorData, http_res
@@ -739,7 +767,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -764,6 +792,9 @@ class DatabaseConnections(BaseSDK):
         request_timeout: Optional[int] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
+        tls: Optional[
+            Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
+        ] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -787,6 +818,7 @@ class DatabaseConnections(BaseSDK):
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
+        :param tls: TLS client connection settings.
         :param user: Database username for authentication. Used with Oracle connections.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -818,6 +850,7 @@ class DatabaseConnections(BaseSDK):
                 request_timeout=request_timeout,
                 tags=tags,
                 text_secret=text_secret,
+                tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
                 user=user,
             ),
         )
@@ -878,6 +911,9 @@ class DatabaseConnections(BaseSDK):
             return unmarshal_json_response(
                 models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, ["400", "404"], "application/json"):
             response_data = unmarshal_json_response(
                 errors.RestAPIJSONErrorData, http_res
@@ -886,7 +922,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -911,6 +947,9 @@ class DatabaseConnections(BaseSDK):
         request_timeout: Optional[int] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
+        tls: Optional[
+            Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
+        ] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -934,6 +973,7 @@ class DatabaseConnections(BaseSDK):
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
         :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
         :param text_secret: Name of the stored text secret containing the connection string.
+        :param tls: TLS client connection settings.
         :param user: Database username for authentication. Used with Oracle connections.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -965,6 +1005,7 @@ class DatabaseConnections(BaseSDK):
                 request_timeout=request_timeout,
                 tags=tags,
                 text_secret=text_secret,
+                tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
                 user=user,
             ),
         )
@@ -1025,6 +1066,9 @@ class DatabaseConnections(BaseSDK):
             return unmarshal_json_response(
                 models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, ["400", "404"], "application/json"):
             response_data = unmarshal_json_response(
                 errors.RestAPIJSONErrorData, http_res
@@ -1033,7 +1077,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1124,6 +1168,9 @@ class DatabaseConnections(BaseSDK):
             return unmarshal_json_response(
                 models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "404", "application/json"):
             response_data = unmarshal_json_response(
                 errors.RestAPIJSONErrorData, http_res
@@ -1132,7 +1179,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1223,6 +1270,9 @@ class DatabaseConnections(BaseSDK):
             return unmarshal_json_response(
                 models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "404", "application/json"):
             response_data = unmarshal_json_response(
                 errors.RestAPIJSONErrorData, http_res
@@ -1231,7 +1281,7 @@ class DatabaseConnections(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

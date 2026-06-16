@@ -13,14 +13,14 @@ from typing import Any, Literal, Union
 from typing_extensions import Annotated, TypeAliasType
 
 
-DiffLineTypedDict = TypeAliasType(
-    "DiffLineTypedDict",
+GitDiffLinesTypedDict = TypeAliasType(
+    "GitDiffLinesTypedDict",
     Union[DiffLineDeleteTypedDict, DiffLineInsertTypedDict, DiffLineContextTypedDict],
 )
 
 
-class UnknownDiffLine(BaseModel):
-    r"""A DiffLine variant the SDK doesn't recognize. Preserves the raw payload."""
+class UnknownGitDiffLines(BaseModel):
+    r"""A GitDiffLines variant the SDK doesn't recognize. Preserves the raw payload."""
 
     type: Literal["UNKNOWN"] = "UNKNOWN"
     raw: Any
@@ -29,22 +29,22 @@ class UnknownDiffLine(BaseModel):
     model_config = ConfigDict(frozen=True)
 
 
-_DIFF_LINE_VARIANTS: dict[str, Any] = {
+_GIT_DIFF_LINES_VARIANTS: dict[str, Any] = {
     "delete": DiffLineDelete,
     "insert": DiffLineInsert,
     "context": DiffLineContext,
 }
 
 
-DiffLine = Annotated[
-    Union[DiffLineDelete, DiffLineInsert, DiffLineContext, UnknownDiffLine],
+GitDiffLines = Annotated[
+    Union[DiffLineDelete, DiffLineInsert, DiffLineContext, UnknownGitDiffLines],
     BeforeValidator(
         partial(
             parse_open_union,
             disc_key="type",
-            variants=_DIFF_LINE_VARIANTS,
-            unknown_cls=UnknownDiffLine,
-            union_name="DiffLine",
+            variants=_GIT_DIFF_LINES_VARIANTS,
+            unknown_cls=UnknownGitDiffLines,
+            union_name="GitDiffLines",
         )
     ),
 ]

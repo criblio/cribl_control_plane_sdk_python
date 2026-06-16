@@ -9,7 +9,7 @@ from cribl_control_plane.groups_configs import GroupsConfigs
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from typing import Any, Iterable, List, Mapping, Optional, Union
 
 
 class GroupsSDK(BaseSDK):
@@ -112,10 +112,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -207,10 +210,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -227,6 +233,7 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        collectors_ha_enabled: Optional[bool] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
@@ -239,7 +246,7 @@ class GroupsSDK(BaseSDK):
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
         source_group_id: Optional[str] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -256,6 +263,7 @@ class GroupsSDK(BaseSDK):
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id: Unique identifier.
         :param cloud:
+        :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
         :param inherits: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
@@ -292,6 +300,7 @@ class GroupsSDK(BaseSDK):
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
+                collectors_ha_enabled=collectors_ha_enabled,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
                 id=id,
@@ -303,7 +312,7 @@ class GroupsSDK(BaseSDK):
                 on_prem=on_prem,
                 provisioned=provisioned,
                 source_group_id=source_group_id,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -365,10 +374,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "409", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -385,6 +397,7 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        collectors_ha_enabled: Optional[bool] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
@@ -397,7 +410,7 @@ class GroupsSDK(BaseSDK):
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
         source_group_id: Optional[str] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -414,6 +427,7 @@ class GroupsSDK(BaseSDK):
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id: Unique identifier.
         :param cloud:
+        :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
         :param inherits: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
@@ -450,6 +464,7 @@ class GroupsSDK(BaseSDK):
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
+                collectors_ha_enabled=collectors_ha_enabled,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
                 id=id,
@@ -461,7 +476,7 @@ class GroupsSDK(BaseSDK):
                 on_prem=on_prem,
                 provisioned=provisioned,
                 source_group_id=source_group_id,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -523,10 +538,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "409", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -621,10 +639,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -719,10 +740,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -740,6 +764,7 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        collectors_ha_enabled: Optional[bool] = None,
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[int] = None,
         description: Optional[str] = None,
@@ -753,15 +778,15 @@ class GroupsSDK(BaseSDK):
         is_search: Optional[bool] = None,
         lookup_deployments: Optional[
             Union[
-                List[models.ConfigGroupLookups],
-                List[models.ConfigGroupLookupsTypedDict],
+                Iterable[models.ConfigGroupLookups],
+                Iterable[models.ConfigGroupLookupsTypedDict],
             ]
         ] = None,
         max_worker_age: Optional[str] = None,
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -780,6 +805,7 @@ class GroupsSDK(BaseSDK):
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
         :param cloud:
+        :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
@@ -822,6 +848,7 @@ class GroupsSDK(BaseSDK):
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
+                collectors_ha_enabled=collectors_ha_enabled,
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
@@ -839,7 +866,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -898,10 +925,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -919,6 +949,7 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        collectors_ha_enabled: Optional[bool] = None,
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[int] = None,
         description: Optional[str] = None,
@@ -932,15 +963,15 @@ class GroupsSDK(BaseSDK):
         is_search: Optional[bool] = None,
         lookup_deployments: Optional[
             Union[
-                List[models.ConfigGroupLookups],
-                List[models.ConfigGroupLookupsTypedDict],
+                Iterable[models.ConfigGroupLookups],
+                Iterable[models.ConfigGroupLookupsTypedDict],
             ]
         ] = None,
         max_worker_age: Optional[str] = None,
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -959,6 +990,7 @@ class GroupsSDK(BaseSDK):
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
         :param cloud:
+        :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
@@ -1001,6 +1033,7 @@ class GroupsSDK(BaseSDK):
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
+                collectors_ha_enabled=collectors_ha_enabled,
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
@@ -1018,7 +1051,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -1077,10 +1110,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["400", "401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1172,10 +1208,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1267,10 +1306,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1287,8 +1329,8 @@ class GroupsSDK(BaseSDK):
         version: str,
         lookups: Optional[
             Union[
-                List[models.DeployRequestLookups],
-                List[models.DeployRequestLookupsTypedDict],
+                Iterable[models.DeployRequestLookups],
+                Iterable[models.DeployRequestLookupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1380,10 +1422,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1400,8 +1445,8 @@ class GroupsSDK(BaseSDK):
         version: str,
         lookups: Optional[
             Union[
-                List[models.DeployRequestLookups],
-                List[models.DeployRequestLookupsTypedDict],
+                Iterable[models.DeployRequestLookups],
+                Iterable[models.DeployRequestLookupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1493,10 +1538,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

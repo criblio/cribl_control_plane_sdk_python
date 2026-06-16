@@ -1,4 +1,6 @@
-# ScalarOrArray
+# ChecksumBefore
+
+Checksum of the original file. May be an array for combined diffs.
 
 
 ## Supported Types

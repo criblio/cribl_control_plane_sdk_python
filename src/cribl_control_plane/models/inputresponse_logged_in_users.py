@@ -11,6 +11,10 @@ from .authenticationmethodoptionss3collectorconf import (
     AuthenticationMethodOptionsS3CollectorConf,
 )
 from .authenticationprotocoloptionsv3user import AuthenticationProtocolOptionsV3User
+from .authtokenconfinputcloudflarehec import (
+    AuthTokenConfInputCloudflareHec,
+    AuthTokenConfInputCloudflareHecTypedDict,
+)
 from .authtokensextconfinputhttp import (
     AuthTokensExtConfInputHTTP,
     AuthTokensExtConfInputHTTPTypedDict,
@@ -25,6 +29,10 @@ from .datacompressionformatoptionspersistence import (
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
 from .gputype import GpuType, GpuTypeTypedDict
+from .httpdiscoveryheaderconfinputprometheus import (
+    HTTPDiscoveryHeaderConfInputPrometheus,
+    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
+)
 from .inputcollectionorigindatasourcediscoverywithdestinationarnconstraint import (
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint,
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict,
@@ -55,10 +63,6 @@ from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
     PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
 )
 from .processtype import ProcessType, ProcessTypeTypedDict
-from .requestparamconfinputopenai import (
-    RequestParamConfInputOpenai,
-    RequestParamConfInputOpenaiTypedDict,
-)
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from .ruleconfinputkubemetrics import (
     RuleConfInputKubeMetrics,
@@ -943,78 +947,310 @@ class InputResponseInputOpenaiComplianceLogs(BaseModel):
         return m
 
 
-class InputResponseTypeCloudflareHec(str, Enum):
-    CLOUDFLARE_HEC = "cloudflare_hec"
+class InputResponseTypeSysdigHec(str, Enum):
+    SYSDIG_HEC = "sysdig_hec"
 
 
-class InputResponseAuthenticationMethodCloudflareHec(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
-    r"""Select Secret to use a text secret to authenticate"""
-
-    SECRET = "secret"
-
-
-class InputResponseAuthTokenCloudflareHecTypedDict(TypedDict):
-    auth_type: NotRequired[InputResponseAuthenticationMethodCloudflareHec]
-    r"""Select Secret to use a text secret to authenticate"""
-    token_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    token: NotRequired[str]
-    r"""Shared secret to be provided by any client (Authorization: <token>)"""
-    enabled: NotRequired[bool]
-    description: NotRequired[str]
-    allowed_indexes_at_token: NotRequired[List[str]]
-    r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
+class InputResponseInputSysdigHecTypedDict(TypedDict):
+    type: InputResponseTypeSysdigHec
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+    port: float
+    r"""Port to listen on"""
+    hec_api: str
+    r"""Absolute path on which to listen for the Sysdig HTTP Event Collector API requests. This input supports the /event and /raw endpoints."""
+    id: NotRequired[str]
+    r"""Unique ID for this input"""
+    disabled: NotRequired[bool]
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    cribl_source_provenance: NotRequired[
+        InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
+    ]
+    r"""Read-only metadata that records how the Source was created. Preserved on update when omitted from the request body. Cannot be set on create."""
+    connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    auth_tokens: NotRequired[List[AuthTokenConfInputCloudflareHecTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    max_active_req: NotRequired[float]
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+    max_requests_per_socket: NotRequired[int]
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+    enable_proxy_header: NotRequired[bool]
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+    capture_headers: NotRequired[bool]
+    r"""Add request headers to events, in the __headers field"""
+    activity_log_sample_rate: NotRequired[float]
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+    request_timeout: NotRequired[float]
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+    socket_timeout: NotRequired[float]
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+    keep_alive_timeout: NotRequired[float]
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+    ip_allowlist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+    ip_denylist_regex: NotRequired[str]
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
-    r"""Fields to add to events referencing this token"""
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+    allowed_indexes: NotRequired[List[str]]
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    emit_token_metrics: NotRequired[bool]
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+    description: NotRequired[str]
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_host: NotRequired[str]
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+    template_port: NotRequired[str]
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+    template_hec_api: NotRequired[str]
+    r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
+    template_allowed_indexes: NotRequired[str]
+    r"""Binds 'allowedIndexes' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedIndexes' at runtime."""
+    template_access_control_allow_origin: NotRequired[str]
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+    template_access_control_allow_headers: NotRequired[str]
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
+    notifications: NotRequired[List[NotificationUnionTypedDict]]
+    r"""Notifications attached to the Source."""
+    status: NotRequired[StatusTypeTypedDict]
+    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class InputResponseAuthTokenCloudflareHec(BaseModel):
-    auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodCloudflareHec],
-        pydantic.Field(alias="authType"),
+class InputResponseInputSysdigHec(BaseModel):
+    type: InputResponseTypeSysdigHec
+
+    host: str
+    r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
+
+    port: float
+    r"""Port to listen on"""
+
+    hec_api: Annotated[str, pydantic.Field(alias="hecAPI")]
+    r"""Absolute path on which to listen for the Sysdig HTTP Event Collector API requests. This input supports the /event and /raw endpoints."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this input"""
+
+    disabled: Optional[bool] = None
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    cribl_source_provenance: Annotated[
+        Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
+        pydantic.Field(alias="criblSourceProvenance"),
     ] = None
-    r"""Select Secret to use a text secret to authenticate"""
+    r"""Read-only metadata that records how the Source was created. Preserved on update when omitted from the request body. Cannot be set on create."""
 
-    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
-    r"""Select or create a stored text secret"""
+    connections: Optional[List[ConnectionConfInputCollection]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
-    token: Optional[str] = None
-    r"""Shared secret to be provided by any client (Authorization: <token>)"""
+    pq: Optional[PqType] = None
 
-    enabled: Optional[bool] = None
+    auth_tokens: Annotated[
+        Optional[List[AuthTokenConfInputCloudflareHec]],
+        pydantic.Field(alias="authTokens"),
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
+    tls: Optional[TLSSettingsServerSideType] = None
+
+    max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
+        None
+    )
+    r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
+
+    max_requests_per_socket: Annotated[
+        Optional[int], pydantic.Field(alias="maxRequestsPerSocket")
+    ] = None
+    r"""Maximum number of requests per socket before @{product} instructs the client to close the connection. Default is 0 (unlimited)."""
+
+    enable_proxy_header: Annotated[
+        Optional[bool], pydantic.Field(alias="enableProxyHeader")
+    ] = None
+    r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
+
+    capture_headers: Annotated[
+        Optional[bool], pydantic.Field(alias="captureHeaders")
+    ] = None
+    r"""Add request headers to events, in the __headers field"""
+
+    activity_log_sample_rate: Annotated[
+        Optional[float], pydantic.Field(alias="activityLogSampleRate")
+    ] = None
+    r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
+
+    request_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="requestTimeout")
+    ] = None
+    r"""How long to wait for an incoming request to complete before aborting it. Use 0 to disable."""
+
+    socket_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="socketTimeout")
+    ] = None
+    r"""How long @{product} should wait before assuming that an inactive socket has timed out. To wait forever, set to 0."""
+
+    keep_alive_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="keepAliveTimeout")
+    ] = None
+    r"""After the last response is sent, @{product} will wait this long for additional data before closing the socket connection. Minimum 1 second, maximum 600 seconds (10 minutes)."""
+
+    ip_allowlist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipAllowlistRegex")
+    ] = None
+    r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
+
+    ip_denylist_regex: Annotated[
+        Optional[str], pydantic.Field(alias="ipDenylistRegex")
+    ] = None
+    r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
+
+    metadata: Optional[List[MetadataConfInputCollection]] = None
+    r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
+
+    allowed_indexes: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedIndexes")
+    ] = None
+    r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+
+    emit_token_metrics: Annotated[
+        Optional[bool], pydantic.Field(alias="emitTokenMetrics")
+    ] = None
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None
 
-    allowed_indexes_at_token: Annotated[
-        Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
     ] = None
-    r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
 
-    metadata: Optional[List[MetadataConfInputCollection]] = None
-    r"""Fields to add to events referencing this token"""
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputResponseAuthenticationMethodCloudflareHec(value)
-            except ValueError:
-                return value
-        return value
+    template_host: Annotated[Optional[str], pydantic.Field(alias="__template_host")] = (
+        None
+    )
+    r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
+
+    template_port: Annotated[Optional[str], pydantic.Field(alias="__template_port")] = (
+        None
+    )
+    r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
+
+    template_hec_api: Annotated[
+        Optional[str], pydantic.Field(alias="__template_hecAPI")
+    ] = None
+    r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
+
+    template_allowed_indexes: Annotated[
+        Optional[str], pydantic.Field(alias="__template_allowedIndexes")
+    ] = None
+    r"""Binds 'allowedIndexes' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedIndexes' at runtime."""
+
+    template_access_control_allow_origin: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowOrigin")
+    ] = None
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+
+    template_access_control_allow_headers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowHeaders")
+    ] = None
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
+
+    notifications: Optional[List[NotificationUnion]] = None
+    r"""Notifications attached to the Source."""
+
+    status: Optional[StatusType] = None
+    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "authType",
-                "tokenSecret",
-                "token",
-                "enabled",
-                "description",
-                "allowedIndexesAtToken",
+                "id",
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "criblSourceProvenance",
+                "connections",
+                "pq",
+                "authTokens",
+                "tls",
+                "maxActiveReq",
+                "maxRequestsPerSocket",
+                "enableProxyHeader",
+                "captureHeaders",
+                "activityLogSampleRate",
+                "requestTimeout",
+                "socketTimeout",
+                "keepAliveTimeout",
+                "ipAllowlistRegex",
+                "ipDenylistRegex",
                 "metadata",
+                "allowedIndexes",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "emitTokenMetrics",
+                "description",
+                "__template_environment",
+                "__template_streamtags",
+                "__template_host",
+                "__template_port",
+                "__template_hecAPI",
+                "__template_allowedIndexes",
+                "__template_accessControlAllowOrigin",
+                "__template_accessControlAllowHeaders",
+                "notifications",
+                "status",
             ]
         )
         serialized = handler(self)
@@ -1029,6 +1265,10 @@ class InputResponseAuthTokenCloudflareHec(BaseModel):
                     m[k] = val
 
         return m
+
+
+class InputResponseTypeCloudflareHec(str, Enum):
+    CLOUDFLARE_HEC = "cloudflare_hec"
 
 
 class InputResponseTLSSettingsServerSideTypedDict(TypedDict):
@@ -1173,7 +1413,7 @@ class InputResponseInputCloudflareHecTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[InputResponseAuthTokenCloudflareHecTypedDict]]
+    auth_tokens: NotRequired[List[AuthTokenConfInputCloudflareHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[InputResponseTLSSettingsServerSideTypedDict]
     max_active_req: NotRequired[float]
@@ -1200,16 +1440,16 @@ class InputResponseInputCloudflareHecTypedDict(TypedDict):
     r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
     allowed_indexes: NotRequired[List[str]]
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
-    breaker_rulesets: NotRequired[List[str]]
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-    stale_channel_flush_ms: NotRequired[float]
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     access_control_allow_origin: NotRequired[List[str]]
     r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
     access_control_allow_headers: NotRequired[List[str]]
     r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
@@ -1279,7 +1519,7 @@ class InputResponseInputCloudflareHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[InputResponseAuthTokenCloudflareHec]],
+        Optional[List[AuthTokenConfInputCloudflareHec]],
         pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
@@ -1344,16 +1584,6 @@ class InputResponseInputCloudflareHec(BaseModel):
     ] = None
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
 
-    breaker_rulesets: Annotated[
-        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
-    ] = None
-    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
-
-    stale_channel_flush_ms: Annotated[
-        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
-    ] = None
-    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-
     access_control_allow_origin: Annotated[
         Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
     ] = None
@@ -1368,6 +1598,16 @@ class InputResponseInputCloudflareHec(BaseModel):
         Optional[bool], pydantic.Field(alias="emitTokenMetrics")
     ] = None
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = None
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
 
@@ -1445,11 +1685,11 @@ class InputResponseInputCloudflareHec(BaseModel):
                 "ipDenylistRegex",
                 "metadata",
                 "allowedIndexes",
-                "breakerRulesets",
-                "staleChannelFlushMs",
                 "accessControlAllowOrigin",
                 "accessControlAllowHeaders",
                 "emitTokenMetrics",
+                "breakerRulesets",
+                "staleChannelFlushMs",
                 "description",
                 "__template_environment",
                 "__template_streamtags",
@@ -1611,14 +1851,14 @@ class InputResponseInputZscalerHecTypedDict(TypedDict):
     r"""Fields to add to every event. May be overridden by fields added at the token or request level."""
     allowed_indexes: NotRequired[List[str]]
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    emit_token_metrics: NotRequired[bool]
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     hec_acks: NotRequired[bool]
     r"""Whether to enable Zscaler HEC acknowledgements"""
-    access_control_allow_origin: NotRequired[List[str]]
-    r"""Optionally, list HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
-    access_control_allow_headers: NotRequired[List[str]]
-    r"""Optionally, list HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
-    emit_token_metrics: NotRequired[bool]
-    r"""Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
@@ -1630,6 +1870,12 @@ class InputResponseInputZscalerHecTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
     template_hec_api: NotRequired[str]
     r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
+    template_allowed_indexes: NotRequired[str]
+    r"""Binds 'allowedIndexes' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedIndexes' at runtime."""
+    template_access_control_allow_origin: NotRequired[str]
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+    template_access_control_allow_headers: NotRequired[str]
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
     notifications: NotRequired[List[NotificationUnionTypedDict]]
     r"""Notifications attached to the Source."""
     status: NotRequired[StatusTypeTypedDict]
@@ -1747,23 +1993,23 @@ class InputResponseInputZscalerHec(BaseModel):
     ] = None
     r"""List values allowed in HEC event index field. Leave blank to skip validation. Supports wildcards. The values here can expand index validation at the token level."""
 
-    hec_acks: Annotated[Optional[bool], pydantic.Field(alias="hecAcks")] = None
-    r"""Whether to enable Zscaler HEC acknowledgements"""
-
     access_control_allow_origin: Annotated[
         Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
     ] = None
-    r"""Optionally, list HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
+    r"""HTTP origins to which @{product} should send CORS (cross-origin resource sharing) Access-Control-Allow-* headers. Supports wildcards."""
 
     access_control_allow_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
     ] = None
-    r"""Optionally, list HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
+    r"""HTTP headers that @{product} will send to allowed origins as \"Access-Control-Allow-Headers\" in a CORS preflight response. Use \"*\" to allow all headers."""
 
     emit_token_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="emitTokenMetrics")
     ] = None
-    r"""Enable to emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+    r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
+
+    hec_acks: Annotated[Optional[bool], pydantic.Field(alias="hecAcks")] = None
+    r"""Whether to enable Zscaler HEC acknowledgements"""
 
     description: Optional[str] = None
 
@@ -1791,6 +2037,21 @@ class InputResponseInputZscalerHec(BaseModel):
         Optional[str], pydantic.Field(alias="__template_hecAPI")
     ] = None
     r"""Binds 'hecAPI' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'hecAPI' at runtime."""
+
+    template_allowed_indexes: Annotated[
+        Optional[str], pydantic.Field(alias="__template_allowedIndexes")
+    ] = None
+    r"""Binds 'allowedIndexes' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedIndexes' at runtime."""
+
+    template_access_control_allow_origin: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowOrigin")
+    ] = None
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+
+    template_access_control_allow_headers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowHeaders")
+    ] = None
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
     notifications: Optional[List[NotificationUnion]] = None
     r"""Notifications attached to the Source."""
@@ -1826,16 +2087,19 @@ class InputResponseInputZscalerHec(BaseModel):
                 "ipDenylistRegex",
                 "metadata",
                 "allowedIndexes",
-                "hecAcks",
                 "accessControlAllowOrigin",
                 "accessControlAllowHeaders",
                 "emitTokenMetrics",
+                "hecAcks",
                 "description",
                 "__template_environment",
                 "__template_streamtags",
                 "__template_host",
                 "__template_port",
                 "__template_hecAPI",
+                "__template_allowedIndexes",
+                "__template_accessControlAllowOrigin",
+                "__template_accessControlAllowHeaders",
                 "notifications",
                 "status",
             ]
@@ -3360,7 +3624,7 @@ class InputResponseContentConfigOpenaiTypedDict(TypedDict):
     content_type: str
     collect_path: str
     r"""OpenAI Organization API path"""
-    request_params: List[RequestParamConfInputOpenaiTypedDict]
+    request_params: List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
     r"""Query-string parameters to send with this endpoint"""
     pagination_type: InputResponsePaginationType
     cron_schedule: str
@@ -3402,7 +3666,8 @@ class InputResponseContentConfigOpenai(BaseModel):
     r"""OpenAI Organization API path"""
 
     request_params: Annotated[
-        List[RequestParamConfInputOpenai], pydantic.Field(alias="requestParams")
+        List[HTTPDiscoveryHeaderConfInputPrometheus],
+        pydantic.Field(alias="requestParams"),
     ]
     r"""Query-string parameters to send with this endpoint"""
 
@@ -4776,7 +5041,7 @@ class InputResponseInputWinEventLogsTypedDict(TypedDict):
     r"""The maximum number of events to read in one polling interval. A batch size higher than 500 can cause delays when pulling from multiple event logs. (Applicable for pre-4.8.0 nodes that use Windows Tools)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    max_event_bytes: NotRequired[float]
+    max_event_bytes: NotRequired[int]
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
     description: NotRequired[str]
     disable_json_rendering: NotRequired[bool]
@@ -4856,9 +5121,9 @@ class InputResponseInputWinEventLogs(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    max_event_bytes: Annotated[
-        Optional[float], pydantic.Field(alias="maxEventBytes")
-    ] = None
+    max_event_bytes: Annotated[Optional[int], pydantic.Field(alias="maxEventBytes")] = (
+        None
+    )
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
@@ -12223,6 +12488,10 @@ class InputResponseInputKubeLogsTypedDict(TypedDict):
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
     timestamps: NotRequired[bool]
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
+    line_buffer_limit: NotRequired[float]
+    r"""Maximum bytes to buffer while reassembling a single log line. A line that exceeds this size is flushed as-is, either whole or partially. The default is 1048576 (1 MB)."""
+    lb_disable_assembly: NotRequired[bool]
+    r"""Internal flag to disable LB worker payload reassembly."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
@@ -12288,6 +12557,16 @@ class InputResponseInputKubeLogs(BaseModel):
     timestamps: Optional[bool] = None
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
 
+    line_buffer_limit: Annotated[
+        Optional[float], pydantic.Field(alias="lineBufferLimit")
+    ] = None
+    r"""Maximum bytes to buffer while reassembling a single log line. A line that exceeds this size is flushed as-is, either whole or partially. The default is 1048576 (1 MB)."""
+
+    lb_disable_assembly: Annotated[
+        Optional[bool], pydantic.Field(alias="__LBDisableAssembly")
+    ] = None
+    r"""Internal flag to disable LB worker payload reassembly."""
+
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
@@ -12343,6 +12622,8 @@ class InputResponseInputKubeLogs(BaseModel):
                 "interval",
                 "rules",
                 "timestamps",
+                "lineBufferLimit",
+                "__LBDisableAssembly",
                 "metadata",
                 "persistence",
                 "breakerRulesets",
@@ -12929,7 +13210,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponseAuthTokenCloudflareHec.model_rebuild()
+    InputResponseInputSysdigHec.model_rebuild()
 except NameError:
     pass
 try:

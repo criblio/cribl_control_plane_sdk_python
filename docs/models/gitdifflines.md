@@ -1,4 +1,4 @@
-# DiffLine
+# GitDiffLines
 
 
 ## Supported Types

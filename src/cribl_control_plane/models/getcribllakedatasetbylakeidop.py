@@ -30,6 +30,8 @@ class GetCriblLakeDatasetByLakeIDRequestTypedDict(TypedDict):
     r"""Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets."""
     exclude_ddss: NotRequired[bool]
     r"""Exclude DDSS format datasets from the response."""
+    exclude_netskope: NotRequired[bool]
+    r"""Exclude Netskope format datasets from the response."""
     exclude_deleted: NotRequired[bool]
     r"""Exclude deleted datasets from the response."""
     exclude_internal: NotRequired[bool]
@@ -68,6 +70,13 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""Exclude DDSS format datasets from the response."""
+
+    exclude_netskope: Annotated[
+        Optional[bool],
+        pydantic.Field(alias="excludeNetskope"),
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Exclude Netskope format datasets from the response."""
 
     exclude_deleted: Annotated[
         Optional[bool],
@@ -113,6 +122,7 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
                 "storageLocationId",
                 "format",
                 "excludeDDSS",
+                "excludeNetskope",
                 "excludeDeleted",
                 "excludeInternal",
                 "excludeBYOS",

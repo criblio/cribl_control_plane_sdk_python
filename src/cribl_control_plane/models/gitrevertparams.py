@@ -9,16 +9,22 @@ from typing_extensions import NotRequired, TypedDict
 
 class GitRevertParamsTypedDict(TypedDict):
     commit: str
+    r"""SHA-1 hash of the commit to revert."""
     force: NotRequired[bool]
+    r"""If <code>true</code>, force the revert even when the working directory is not clean. Otherwise, <code>false</code>."""
     message: NotRequired[str]
+    r"""Custom message to use for the revert commit. If omitted, a default message is generated."""
 
 
 class GitRevertParams(BaseModel):
     commit: str
+    r"""SHA-1 hash of the commit to revert."""
 
     force: Optional[bool] = None
+    r"""If <code>true</code>, force the revert even when the working directory is not clean. Otherwise, <code>false</code>."""
 
     message: Optional[str] = None
+    r"""Custom message to use for the revert commit. If omitted, a default message is generated."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

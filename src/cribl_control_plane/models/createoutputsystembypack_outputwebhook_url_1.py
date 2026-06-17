@@ -6150,7 +6150,7 @@ class CreateOutputSystemByPackOutputGoogleCloudObservabilityTypedDict(TypedDict)
     r"""How often the sender should ping the peer to keep the connection open"""
     tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
     max_payload_events: NotRequired[float]
-    r"""Max number of events to include in the request body. Default is 0 (unlimited)."""
+    r"""Max number of events to include in the request body. Default is 0 (unlimited). Use to keep outgoing data points within GCO request limits. For metrics, combine with the OTLP Metrics function batchSize."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -6275,7 +6275,7 @@ class CreateOutputSystemByPackOutputGoogleCloudObservability(BaseModel):
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
     ] = None
-    r"""Max number of events to include in the request body. Default is 0 (unlimited)."""
+    r"""Max number of events to include in the request body. Default is 0 (unlimited). Use to keep outgoing data points within GCO request limits. For metrics, combine with the OTLP Metrics function batchSize."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")

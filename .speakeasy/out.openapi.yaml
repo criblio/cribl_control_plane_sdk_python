@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.18.2-alpha.1781564965234-252f8f24
+  version: 4.18.2-alpha.1781704252212-45e15fbc
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -53381,9 +53381,50 @@ components:
         - groups
       description: Summary of the deployment for the specified Cribl product (Stream
         or Edge).
+    ActiveHealthOverlayStatus:
+      type: object
+      properties:
+        binaryVersion:
+          type: string
+          description: Binary version targeted by the active overlay.
+          example: 4.12.0
+        overlayId:
+          type: string
+          description: Active overlay identifier.
+          examples:
+            - patch.0
+            - sideload.a1b2c3d
+        state:
+          type: string
+          const: active
+          description: Current overlay state.
+          example: active
+      required:
+        - binaryVersion
+        - overlayId
+        - state
+      title: ActiveHealthOverlayStatus
+    NoActiveHealthOverlayStatus:
+      type: object
+      properties:
+        state:
+          type: string
+          const: inactive
+          description: Current overlay state.
+          example: inactive
+      required:
+        - state
+      title: NoActiveHealthOverlayStatus
+    HealthOverlayStatus:
+      oneOf:
+        - $ref: "#/components/schemas/ActiveHealthOverlayStatus"
+        - $ref: "#/components/schemas/NoActiveHealthOverlayStatus"
     HealthServerStatus:
       type: object
       properties:
+        overlay:
+          $ref: "#/components/schemas/HealthOverlayStatus"
+          description: Overlay state for this process.
         role:
           type: string
           enum:
@@ -53404,6 +53445,7 @@ components:
             <code>shutting down</code>."
           x-speakeasy-unknown-values: allow
       required:
+        - overlay
         - startTime
         - status
       description: Health status of the Leader or Worker Node.
@@ -63785,6 +63827,8 @@ components:
         status: healthy
         startTime: 1700000000000
         role: primary
+        overlay:
+          state: inactive
     Health420ExamplesShuttingDown:
       summary: Shutting down (primary)
       description: Example response for a server that is acting as primary and is in
@@ -63793,6 +63837,8 @@ components:
         status: shutting down
         startTime: 1700000000000
         role: primary
+        overlay:
+          state: inactive
     Health420ExamplesStandby:
       summary: Standby
       description: Example response for a server that is in standby mode.
@@ -63800,6 +63846,8 @@ components:
         status: standby
         startTime: 1700000000000
         role: standby
+        overlay:
+          state: inactive
     PackInstallExamplesPackDispensary:
       summary: Install from the Pack Dispensary
       value:

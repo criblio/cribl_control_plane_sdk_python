@@ -33,7 +33,7 @@ generation:
     generateNewTests: false
     skipResponseBodyAssertions: false
 python:
-  version: 0.9.0a17
+  version: 0.9.0a18
   additionalDependencies:
     dev: {}
     main: {}
@@ -52,6 +52,7 @@ python:
   enableCustomCodeRegions: false
   enumFormat: enum
   envVarPrefix: CRIBLCONTROLPLANE
+  errorSchemaValidation: true
   eventStreamClassNames:
     async: EventStreamAsync
     sync: EventStream

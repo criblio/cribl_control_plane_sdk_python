@@ -7,6 +7,10 @@ from cribl_control_plane.utils.dynamic_imports import lazy_getattr, lazy_dir
 if TYPE_CHECKING:
     from .acknowledgmentsoptions import AcknowledgmentsOptions
     from .acknowledgmentsoptionsallleader import AcknowledgmentsOptionsAllLeader
+    from .activehealthoverlaystatus import (
+        ActiveHealthOverlayStatus,
+        ActiveHealthOverlayStatusTypedDict,
+    )
     from .addconffunctionconfschemaaggregation import (
         AddConfFunctionConfSchemaAggregation,
         AddConfFunctionConfSchemaAggregationTypedDict,
@@ -3456,6 +3460,11 @@ if TYPE_CHECKING:
         UnknownHealthCheckCollectorConf,
     )
     from .healthcounttype import HealthCountType, HealthCountTypeTypedDict
+    from .healthoverlaystatus import (
+        HealthOverlayStatus,
+        HealthOverlayStatusTypedDict,
+        UnknownHealthOverlayStatus,
+    )
     from .healthserverstatus import (
         HealthServerStatus,
         HealthServerStatusStatus,
@@ -4518,6 +4527,10 @@ if TYPE_CHECKING:
     from .modeoptionshost import ModeOptionsHost
     from .modeoptionspq import ModeOptionsPq
     from .nestedfieldserializationoptions import NestedFieldSerializationOptions
+    from .noactivehealthoverlaystatus import (
+        NoActiveHealthOverlayStatus,
+        NoActiveHealthOverlayStatusTypedDict,
+    )
     from .nodeactiveupgradestatus import NodeActiveUpgradeStatus
     from .nodefailedupgradestatus import NodeFailedUpgradeStatus
     from .nodeprovidedinfo import (
@@ -7717,6 +7730,8 @@ __all__ = [
     "APITypeSystemSettingsConfTypedDict",
     "AcknowledgmentsOptions",
     "AcknowledgmentsOptionsAllLeader",
+    "ActiveHealthOverlayStatus",
+    "ActiveHealthOverlayStatusTypedDict",
     "AddConfFunctionConfSchemaAggregation",
     "AddConfFunctionConfSchemaAggregationTypedDict",
     "AddHecTokenRequest",
@@ -10755,6 +10770,8 @@ __all__ = [
     "HealthCheckCollectorConfTypedDict",
     "HealthCountType",
     "HealthCountTypeTypedDict",
+    "HealthOverlayStatus",
+    "HealthOverlayStatusTypedDict",
     "HealthServerStatus",
     "HealthServerStatusStatus",
     "HealthServerStatusTypedDict",
@@ -11671,6 +11688,8 @@ __all__ = [
     "ModeOptionsHost",
     "ModeOptionsPq",
     "NestedFieldSerializationOptions",
+    "NoActiveHealthOverlayStatus",
+    "NoActiveHealthOverlayStatusTypedDict",
     "NodeActiveUpgradeStatus",
     "NodeFailedUpgradeStatus",
     "NodeProvidedInfo",
@@ -14325,6 +14344,7 @@ __all__ = [
     "UnknownHealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTP",
     "UnknownHealthCheckCollectMethodPostWithBodyRetryRules",
     "UnknownHealthCheckCollectorConf",
+    "UnknownHealthOverlayStatus",
     "UnknownInputResponse",
     "UnknownOutputResponse",
     "UnknownPaginationTypeRestDiscoveryDiscoverTypeHTTP",
@@ -14463,6 +14483,8 @@ __all__ = [
 _dynamic_imports: dict[str, str] = {
     "AcknowledgmentsOptions": ".acknowledgmentsoptions",
     "AcknowledgmentsOptionsAllLeader": ".acknowledgmentsoptionsallleader",
+    "ActiveHealthOverlayStatus": ".activehealthoverlaystatus",
+    "ActiveHealthOverlayStatusTypedDict": ".activehealthoverlaystatus",
     "AddConfFunctionConfSchemaAggregation": ".addconffunctionconfschemaaggregation",
     "AddConfFunctionConfSchemaAggregationTypedDict": ".addconffunctionconfschemaaggregation",
     "AddHecTokenRequest": ".addhectokenrequest",
@@ -17523,6 +17545,9 @@ _dynamic_imports: dict[str, str] = {
     "UnknownHealthCheckCollectorConf": ".healthcheckcollectorconf",
     "HealthCountType": ".healthcounttype",
     "HealthCountTypeTypedDict": ".healthcounttype",
+    "HealthOverlayStatus": ".healthoverlaystatus",
+    "HealthOverlayStatusTypedDict": ".healthoverlaystatus",
+    "UnknownHealthOverlayStatus": ".healthoverlaystatus",
     "HealthServerStatus": ".healthserverstatus",
     "HealthServerStatusStatus": ".healthserverstatus",
     "HealthServerStatusTypedDict": ".healthserverstatus",
@@ -18439,6 +18464,8 @@ _dynamic_imports: dict[str, str] = {
     "ModeOptionsHost": ".modeoptionshost",
     "ModeOptionsPq": ".modeoptionspq",
     "NestedFieldSerializationOptions": ".nestedfieldserializationoptions",
+    "NoActiveHealthOverlayStatus": ".noactivehealthoverlaystatus",
+    "NoActiveHealthOverlayStatusTypedDict": ".noactivehealthoverlaystatus",
     "NodeActiveUpgradeStatus": ".nodeactiveupgradestatus",
     "NodeFailedUpgradeStatus": ".nodefailedupgradestatus",
     "NodeProvidedInfo": ".nodeprovidedinfo",

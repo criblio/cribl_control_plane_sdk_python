@@ -114,6 +114,7 @@ class OutputClickHouseTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     credentials_secret: NotRequired[str]
@@ -294,6 +295,7 @@ class OutputClickHouse(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 

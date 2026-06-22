@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionLimitID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>limit</code>"""
 
     LIMIT = "limit"
 
 
 class PipelineFunctionLimitTypedDict(TypedDict):
     id: PipelineFunctionLimitID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>limit</code>"""
     conf: FunctionConfSchemaLimitTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionLimitTypedDict(TypedDict):
 
 class PipelineFunctionLimit(BaseModel):
     id: PipelineFunctionLimitID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>limit</code>"""
 
     conf: FunctionConfSchemaLimit
 

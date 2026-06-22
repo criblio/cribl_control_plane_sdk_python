@@ -110,6 +110,7 @@ class OutputCriblSearchEngineTypedDict(TypedDict):
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
     exclude_self: NotRequired[bool]
@@ -274,6 +275,7 @@ class OutputCriblSearchEngine(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""

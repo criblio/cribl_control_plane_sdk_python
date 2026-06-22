@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionGeoipID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>geoip</code>"""
 
     GEOIP = "geoip"
 
@@ -90,7 +90,7 @@ class PipelineFunctionGeoipConf(BaseModel):
 
 class PipelineFunctionGeoipTypedDict(TypedDict):
     id: PipelineFunctionGeoipID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>geoip</code>"""
     conf: PipelineFunctionGeoipConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -106,7 +106,7 @@ class PipelineFunctionGeoipTypedDict(TypedDict):
 
 class PipelineFunctionGeoip(BaseModel):
     id: PipelineFunctionGeoipID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>geoip</code>"""
 
     conf: PipelineFunctionGeoipConf
 

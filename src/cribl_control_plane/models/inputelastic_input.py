@@ -28,6 +28,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputElasticType(str, Enum):
+    r"""Source type identifier."""
+
     ELASTIC = "elastic"
 
 
@@ -161,6 +163,7 @@ class InputElasticProxyMode(BaseModel):
 
 class InputElasticInputTypedDict(TypedDict):
     type: InputElasticType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -170,6 +173,7 @@ class InputElasticInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -215,6 +219,7 @@ class InputElasticInputTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     proxy_mode: NotRequired[InputElasticProxyModeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     credentials_secret: NotRequired[str]
@@ -239,6 +244,7 @@ class InputElasticInputTypedDict(TypedDict):
 
 class InputElasticInput(BaseModel):
     type: InputElasticType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -253,6 +259,7 @@ class InputElasticInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -356,6 +363,7 @@ class InputElasticInput(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 

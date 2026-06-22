@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionLocalSearchDatatypeParserID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>local_search_datatype_parser</code>"""
 
     LOCAL_SEARCH_DATATYPE_PARSER = "local_search_datatype_parser"
 
 
 class PipelineFunctionLocalSearchDatatypeParserTypedDict(TypedDict):
     id: PipelineFunctionLocalSearchDatatypeParserID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>local_search_datatype_parser</code>"""
     conf: FunctionConfSchemaLocalSearchDatatypeParserTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionLocalSearchDatatypeParserTypedDict(TypedDict):
 
 class PipelineFunctionLocalSearchDatatypeParser(BaseModel):
     id: PipelineFunctionLocalSearchDatatypeParserID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>local_search_datatype_parser</code>"""
 
     conf: FunctionConfSchemaLocalSearchDatatypeParser
 

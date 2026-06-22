@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionPivotID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>pivot</code>"""
 
     PIVOT = "pivot"
 
@@ -37,7 +37,7 @@ class SimplePivotConfiguration(BaseModel):
 
 class PipelineFunctionPivotTypedDict(TypedDict):
     id: PipelineFunctionPivotID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>pivot</code>"""
     conf: SimplePivotConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -53,7 +53,7 @@ class PipelineFunctionPivotTypedDict(TypedDict):
 
 class PipelineFunctionPivot(BaseModel):
     id: PipelineFunctionPivotID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>pivot</code>"""
 
     conf: SimplePivotConfiguration
 

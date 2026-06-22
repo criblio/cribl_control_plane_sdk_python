@@ -23,7 +23,7 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionSerdeID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>serde</code>"""
 
     SERDE = "serde"
 
@@ -1073,7 +1073,7 @@ PipelineFunctionSerdeConf = Annotated[
 
 class PipelineFunctionSerdeTypedDict(TypedDict):
     id: PipelineFunctionSerdeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>serde</code>"""
     conf: PipelineFunctionSerdeConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -1089,7 +1089,7 @@ class PipelineFunctionSerdeTypedDict(TypedDict):
 
 class PipelineFunctionSerde(BaseModel):
     id: PipelineFunctionSerdeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>serde</code>"""
 
     conf: PipelineFunctionSerdeConf
 

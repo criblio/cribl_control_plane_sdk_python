@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionAggregateMetricsID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>aggregate_metrics</code>"""
 
     AGGREGATE_METRICS = "aggregate_metrics"
 
@@ -213,7 +213,7 @@ class PipelineFunctionAggregateMetricsConf(BaseModel):
 
 class PipelineFunctionAggregateMetricsTypedDict(TypedDict):
     id: PipelineFunctionAggregateMetricsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>aggregate_metrics</code>"""
     conf: PipelineFunctionAggregateMetricsConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -229,7 +229,7 @@ class PipelineFunctionAggregateMetricsTypedDict(TypedDict):
 
 class PipelineFunctionAggregateMetrics(BaseModel):
     id: PipelineFunctionAggregateMetricsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>aggregate_metrics</code>"""
 
     conf: PipelineFunctionAggregateMetricsConf
 

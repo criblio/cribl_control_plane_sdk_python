@@ -1,5 +1,7 @@
 # FunctionSuppressID
 
+Identifier of the Function. Always <code>suppress</code>
+
 ## Example Usage
 
 ```python

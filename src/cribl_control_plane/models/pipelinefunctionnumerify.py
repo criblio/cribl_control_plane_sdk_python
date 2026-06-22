@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionNumerifyID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>numerify</code>"""
 
     NUMERIFY = "numerify"
 
 
 class PipelineFunctionNumerifyTypedDict(TypedDict):
     id: PipelineFunctionNumerifyID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>numerify</code>"""
     conf: FunctionConfSchemaNumerifyTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionNumerifyTypedDict(TypedDict):
 
 class PipelineFunctionNumerify(BaseModel):
     id: PipelineFunctionNumerifyID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>numerify</code>"""
 
     conf: FunctionConfSchemaNumerify
 

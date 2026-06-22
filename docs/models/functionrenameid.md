@@ -1,5 +1,7 @@
 # FunctionRenameID
 
+Identifier of the Function. Always <code>rename</code>
+
 ## Example Usage
 
 ```python

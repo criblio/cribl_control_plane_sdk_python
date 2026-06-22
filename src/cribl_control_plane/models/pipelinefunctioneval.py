@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionEvalID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>eval</code>"""
 
     EVAL = "eval"
 
 
 class PipelineFunctionEvalTypedDict(TypedDict):
     id: PipelineFunctionEvalID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>eval</code>"""
     conf: FunctionConfSchemaEvalTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionEvalTypedDict(TypedDict):
 
 class PipelineFunctionEval(BaseModel):
     id: PipelineFunctionEvalID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>eval</code>"""
 
     conf: FunctionConfSchemaEval
 

@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionRegexFilterID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>regex_filter</code>"""
 
     REGEX_FILTER = "regex_filter"
 
 
 class PipelineFunctionRegexFilterTypedDict(TypedDict):
     id: PipelineFunctionRegexFilterID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>regex_filter</code>"""
     conf: FunctionConfSchemaRegexFilterTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionRegexFilterTypedDict(TypedDict):
 
 class PipelineFunctionRegexFilter(BaseModel):
     id: PipelineFunctionRegexFilterID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>regex_filter</code>"""
 
     conf: FunctionConfSchemaRegexFilter
 

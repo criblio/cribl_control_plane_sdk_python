@@ -1,5 +1,7 @@
 # FunctionAggregationID
 
+Identifier of the Function. Always <code>aggregation</code>
+
 ## Example Usage
 
 ```python

@@ -13,7 +13,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetSavedJobRequestTypedDict(TypedDict):
     collector_type: NotRequired[CollectorType]
-    r"""Filter by collector type"""
+    r"""Filter by collector type."""
 
 
 class GetSavedJobRequest(BaseModel):
@@ -22,7 +22,7 @@ class GetSavedJobRequest(BaseModel):
         pydantic.Field(alias="collectorType"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Filter by collector type"""
+    r"""Filter by collector type."""
 
     @field_serializer("collector_type")
     def serialize_collector_type(self, value):

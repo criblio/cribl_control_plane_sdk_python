@@ -14,7 +14,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionMaskID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>mask</code>"""
 
     MASK = "mask"
 
@@ -96,7 +96,7 @@ class PipelineFunctionMaskConf(BaseModel):
 
 class PipelineFunctionMaskTypedDict(TypedDict):
     id: PipelineFunctionMaskID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>mask</code>"""
     conf: PipelineFunctionMaskConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -112,7 +112,7 @@ class PipelineFunctionMaskTypedDict(TypedDict):
 
 class PipelineFunctionMask(BaseModel):
     id: PipelineFunctionMaskID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>mask</code>"""
 
     conf: PipelineFunctionMaskConf
 

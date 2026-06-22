@@ -107,6 +107,7 @@ class OutputLokiTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[bool]
     r"""Compress the payload body before sending"""
     token: NotRequired[str]
@@ -271,6 +272,7 @@ class OutputLoki(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[bool] = None
     r"""Compress the payload body before sending"""

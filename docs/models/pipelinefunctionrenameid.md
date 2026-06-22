@@ -1,6 +1,6 @@
 # PipelineFunctionRenameID
 
-Function ID
+Identifier of the Function. Always <code>rename</code>
 
 ## Example Usage
 

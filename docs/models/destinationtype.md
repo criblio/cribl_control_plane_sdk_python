@@ -95,3 +95,4 @@ value = DestinationType.DEFAULT
 | `CLOUDIAN_S3`                | cloudian_s3                  |
 | `SCALITY_S3`                 | scality_s3                   |
 | `ALIBABA_CLOUD_S3`           | alibaba_cloud_s3             |
+| `IBM_CLOUD_S3`               | ibm_cloud_s3                 |

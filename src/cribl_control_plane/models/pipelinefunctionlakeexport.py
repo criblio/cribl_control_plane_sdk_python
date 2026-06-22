@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionLakeExportID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>lake_export</code>"""
 
     LAKE_EXPORT = "lake_export"
 
@@ -70,7 +70,7 @@ class LakeExportConfiguration(BaseModel):
 
 class PipelineFunctionLakeExportTypedDict(TypedDict):
     id: PipelineFunctionLakeExportID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>lake_export</code>"""
     conf: LakeExportConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -86,7 +86,7 @@ class PipelineFunctionLakeExportTypedDict(TypedDict):
 
 class PipelineFunctionLakeExport(BaseModel):
     id: PipelineFunctionLakeExportID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>lake_export</code>"""
 
     conf: LakeExportConfiguration
 

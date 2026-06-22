@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionHandlebarsID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>handlebars</code>"""
 
     HANDLEBARS = "handlebars"
 
@@ -101,7 +101,7 @@ class PipelineFunctionHandlebarsConf(BaseModel):
 
 class PipelineFunctionHandlebarsTypedDict(TypedDict):
     id: PipelineFunctionHandlebarsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>handlebars</code>"""
     conf: PipelineFunctionHandlebarsConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -117,7 +117,7 @@ class PipelineFunctionHandlebarsTypedDict(TypedDict):
 
 class PipelineFunctionHandlebars(BaseModel):
     id: PipelineFunctionHandlebarsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>handlebars</code>"""
 
     conf: PipelineFunctionHandlebarsConf
 

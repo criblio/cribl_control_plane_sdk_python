@@ -113,6 +113,7 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -341,6 +342,7 @@ class OutputGoogleCloudStorage(BaseModel):
     orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""

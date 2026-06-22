@@ -100,6 +100,7 @@ class OutputAzureLogsTypedDict(TypedDict):
     auth_type: NotRequired[OutputAzureLogsAuthenticationMethod]
     r"""Enter workspace ID and workspace key directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -249,6 +250,7 @@ class OutputAzureLogs(BaseModel):
     r"""Enter workspace ID and workspace key directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")

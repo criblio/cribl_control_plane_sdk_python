@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionNotifyID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>notify</code>"""
 
     NOTIFY = "notify"
 
@@ -171,7 +171,7 @@ class NotifyConfiguration(BaseModel):
 
 class PipelineFunctionNotifyTypedDict(TypedDict):
     id: PipelineFunctionNotifyID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>notify</code>"""
     conf: NotifyConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -187,7 +187,7 @@ class PipelineFunctionNotifyTypedDict(TypedDict):
 
 class PipelineFunctionNotify(BaseModel):
     id: PipelineFunctionNotifyID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>notify</code>"""
 
     conf: NotifyConfiguration
 

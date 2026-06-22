@@ -1,5 +1,7 @@
 # FunctionLimitID
 
+Identifier of the Function. Always <code>limit</code>
+
 ## Example Usage
 
 ```python

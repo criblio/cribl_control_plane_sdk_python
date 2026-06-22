@@ -90,6 +90,7 @@ class CreateInputInputOktaTypedDict(TypedDict):
     text_secret: str
     r"""Select or create a stored text secret"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -127,6 +128,7 @@ class CreateInputInputOktaTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -148,6 +150,7 @@ class CreateInputInputOkta(BaseModel):
     r"""Select or create a stored text secret"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -217,6 +220,7 @@ class CreateInputInputOkta(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -386,6 +390,7 @@ class CreateInputInputAnthropicComplianceTypedDict(TypedDict):
     r"""Select or create a stored Anthropic API key"""
     content_config: List[CreateInputContentConfigAnthropicComplianceTypedDict]
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -414,6 +419,7 @@ class CreateInputInputAnthropicComplianceTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -435,6 +441,7 @@ class CreateInputInputAnthropicCompliance(BaseModel):
     ]
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -491,6 +498,7 @@ class CreateInputInputAnthropicCompliance(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -569,6 +577,7 @@ class CreateInputInputOpenaiComplianceLogsTypedDict(TypedDict):
     account_type: CreateInputAccountType
     cron_schedule: str
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -613,6 +622,7 @@ class CreateInputInputOpenaiComplianceLogsTypedDict(TypedDict):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     workspace_id: NotRequired[str]
     r"""The ID of the ChatGPT workspace to collect logs from (UUID format)"""
     workspace_event_types: NotRequired[List[str]]
@@ -650,6 +660,7 @@ class CreateInputInputOpenaiComplianceLogs(BaseModel):
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -739,6 +750,7 @@ class CreateInputInputOpenaiComplianceLogs(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     workspace_id: Annotated[Optional[str], pydantic.Field(alias="workspaceId")] = None
     r"""The ID of the ChatGPT workspace to collect logs from (UUID format)"""
@@ -868,6 +880,8 @@ class CreateInputInputOpenaiComplianceLogs(BaseModel):
 
 
 class CreateInputTypeSysdigHec(str, Enum):
+    r"""Source type identifier."""
+
     SYSDIG_HEC = "sysdig_hec"
 
 
@@ -875,6 +889,7 @@ class CreateInputInputSysdigHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeSysdigHec
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -882,6 +897,7 @@ class CreateInputInputSysdigHecTypedDict(TypedDict):
     hec_api: str
     r"""Absolute path on which to listen for the Sysdig HTTP Event Collector API requests. This input supports the /event and /raw endpoints."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -929,6 +945,7 @@ class CreateInputInputSysdigHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -952,6 +969,7 @@ class CreateInputInputSysdigHec(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputTypeSysdigHec
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -963,6 +981,7 @@ class CreateInputInputSysdigHec(BaseModel):
     r"""Absolute path on which to listen for the Sysdig HTTP Event Collector API requests. This input supports the /event and /raw endpoints."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1068,6 +1087,7 @@ class CreateInputInputSysdigHec(BaseModel):
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1164,6 +1184,8 @@ class CreateInputInputSysdigHec(BaseModel):
 
 
 class CreateInputTypeCloudflareHec(str, Enum):
+    r"""Source type identifier."""
+
     CLOUDFLARE_HEC = "cloudflare_hec"
 
 
@@ -1285,6 +1307,7 @@ class CreateInputInputCloudflareHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeCloudflareHec
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -1292,6 +1315,7 @@ class CreateInputInputCloudflareHecTypedDict(TypedDict):
     hec_api: str
     r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1343,6 +1367,7 @@ class CreateInputInputCloudflareHecTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1366,6 +1391,7 @@ class CreateInputInputCloudflareHec(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputTypeCloudflareHec
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1377,6 +1403,7 @@ class CreateInputInputCloudflareHec(BaseModel):
     r"""Absolute path on which to listen for the Cloudflare HTTP Event Collector API requests. This input supports the /event endpoint."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1492,6 +1519,7 @@ class CreateInputInputCloudflareHec(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1590,6 +1618,8 @@ class CreateInputInputCloudflareHec(BaseModel):
 
 
 class CreateInputTypeZscalerHec(str, Enum):
+    r"""Source type identifier."""
+
     ZSCALER_HEC = "zscaler_hec"
 
 
@@ -1672,6 +1702,7 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeZscalerHec
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -1679,6 +1710,7 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     hec_api: str
     r"""Absolute path on which to listen for the Zscaler HTTP Event Collector API requests. This input supports the /event endpoint."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1728,6 +1760,7 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     hec_acks: NotRequired[bool]
     r"""Whether to enable Zscaler HEC acknowledgements"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1751,6 +1784,7 @@ class CreateInputInputZscalerHec(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputTypeZscalerHec
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1762,6 +1796,7 @@ class CreateInputInputZscalerHec(BaseModel):
     r"""Absolute path on which to listen for the Zscaler HTTP Event Collector API requests. This input supports the /event endpoint."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1870,6 +1905,7 @@ class CreateInputInputZscalerHec(BaseModel):
     r"""Whether to enable Zscaler HEC acknowledgements"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2024,6 +2060,7 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     latest: str
     r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2075,6 +2112,7 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     oauth_grant_type: NotRequired[CreateInputGrantType]
@@ -2135,6 +2173,7 @@ class CreateInputInputServicenowTable(BaseModel):
     r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2240,6 +2279,7 @@ class CreateInputInputServicenowTable(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -2445,6 +2485,7 @@ class CreateInputInputSecurityLakeTypedDict(TypedDict):
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2512,6 +2553,7 @@ class CreateInputInputSecurityLakeTypedDict(TypedDict):
     encoding: NotRequired[str]
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -2552,6 +2594,7 @@ class CreateInputInputSecurityLake(BaseModel):
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2694,6 +2737,7 @@ class CreateInputInputSecurityLake(BaseModel):
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -2867,6 +2911,7 @@ class CreateInputInputNetflowTypedDict(TypedDict):
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2899,6 +2944,7 @@ class CreateInputInputNetflowTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2922,6 +2968,7 @@ class CreateInputInputNetflow(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2985,6 +3032,7 @@ class CreateInputInputNetflow(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -3049,6 +3097,8 @@ class CreateInputInputNetflow(BaseModel):
 
 
 class CreateInputTypeWizWebhook(str, Enum):
+    r"""Source type identifier."""
+
     WIZ_WEBHOOK = "wiz_webhook"
 
 
@@ -3056,11 +3106,13 @@ class CreateInputInputWizWebhookTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeWizWebhook
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3112,6 +3164,7 @@ class CreateInputInputWizWebhookTypedDict(TypedDict):
     auth_tokens_ext: NotRequired[List[AuthTokensExtConfInputHTTPTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -3131,6 +3184,7 @@ class CreateInputInputWizWebhook(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputTypeWizWebhook
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -3139,6 +3193,7 @@ class CreateInputInputWizWebhook(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3254,6 +3309,7 @@ class CreateInputInputWizWebhook(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -3541,6 +3597,7 @@ class CreateInputInputOpenaiTypedDict(TypedDict):
     text_secret: str
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3573,6 +3630,7 @@ class CreateInputInputOpenaiTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -3597,6 +3655,7 @@ class CreateInputInputOpenai(BaseModel):
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3663,6 +3722,7 @@ class CreateInputInputOpenai(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -3870,6 +3930,7 @@ class CreateInputInputWizTypedDict(TypedDict):
     r"""The client ID of the Wiz application"""
     content_config: List[CreateInputContentConfigWizTypedDict]
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3905,6 +3966,7 @@ class CreateInputInputWizTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""The client secret of the Wiz application"""
     text_secret: NotRequired[str]
@@ -3941,6 +4003,7 @@ class CreateInputInputWiz(BaseModel):
     ]
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4016,6 +4079,7 @@ class CreateInputInputWiz(BaseModel):
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""The client secret of the Wiz application"""
@@ -4148,6 +4212,7 @@ class CreateInputInputJournalFilesTypedDict(TypedDict):
     journals: List[str]
     r"""The full path of discovered journals are matched against this wildcard list."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4173,6 +4238,7 @@ class CreateInputInputJournalFilesTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -4192,6 +4258,7 @@ class CreateInputInputJournalFiles(BaseModel):
     r"""The full path of discovered journals are matched against this wildcard list."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4235,6 +4302,7 @@ class CreateInputInputJournalFiles(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -4296,6 +4364,7 @@ class CreateInputInputRawUDPTypedDict(TypedDict):
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4322,6 +4391,7 @@ class CreateInputInputRawUDPTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -4345,6 +4415,7 @@ class CreateInputInputRawUDP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4397,6 +4468,7 @@ class CreateInputInputRawUDP(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -4477,6 +4549,7 @@ class CreateInputInputAppleUnifiedLogsTypedDict(TypedDict):
     predicate: str
     r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4495,6 +4568,7 @@ class CreateInputInputAppleUnifiedLogsTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -4511,6 +4585,7 @@ class CreateInputInputAppleUnifiedLogs(BaseModel):
     r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4543,6 +4618,7 @@ class CreateInputInputAppleUnifiedLogs(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -4625,6 +4701,7 @@ class CreateInputInputWinEventLogsTypedDict(TypedDict):
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4653,6 +4730,7 @@ class CreateInputInputWinEventLogsTypedDict(TypedDict):
     max_event_bytes: NotRequired[int]
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     disable_json_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
     disable_xml_rendering: NotRequired[bool]
@@ -4673,6 +4751,7 @@ class CreateInputInputWinEventLogs(BaseModel):
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4726,6 +4805,7 @@ class CreateInputInputWinEventLogs(BaseModel):
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     disable_json_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableJsonRendering")
@@ -5102,6 +5182,7 @@ class CreateInputInputWefTypedDict(TypedDict):
     subscriptions: List[CreateInputSubscriptionTypedDict]
     r"""Subscriptions to events on forwarding endpoints"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5147,6 +5228,7 @@ class CreateInputInputWefTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     log_fingerprint_mismatch: NotRequired[bool]
     r"""Log a warning if the client certificate authority (CA) fingerprint does not match the expected value. A mismatch prevents Cribl from receiving events from the Windows Event Forwarder."""
     template_environment: NotRequired[str]
@@ -5179,6 +5261,7 @@ class CreateInputInputWef(BaseModel):
     r"""Subscriptions to events on forwarding endpoints"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5274,6 +5357,7 @@ class CreateInputInputWef(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     log_fingerprint_mismatch: Annotated[
         Optional[bool], pydantic.Field(alias="logFingerprintMismatch")
@@ -5526,6 +5610,7 @@ class CreateInputInputAppscopeTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputTypeAppscope
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5564,6 +5649,7 @@ class CreateInputInputAppscopeTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: NotRequired[float]
@@ -5594,6 +5680,7 @@ class CreateInputInputAppscope(BaseModel):
     type: CreateInputTypeAppscope
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5678,6 +5765,7 @@ class CreateInputInputAppscope(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     host: Optional[str] = None
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -5799,6 +5887,7 @@ class CreateInputInputTCPTypedDict(TypedDict):
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5835,6 +5924,7 @@ class CreateInputInputTCPTypedDict(TypedDict):
     r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -5864,6 +5954,7 @@ class CreateInputInputTCP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5940,6 +6031,7 @@ class CreateInputInputTCP(BaseModel):
     preprocess: Optional[PreprocessType] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -6048,6 +6140,7 @@ class CreateInputInputFileTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputInputFileType
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6092,6 +6185,7 @@ class CreateInputInputFileTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     path: NotRequired[str]
     r"""Directory path to search for files. Environment variables will be resolved (example: $CRIBL_HOME/log/)."""
     depth: NotRequired[float]
@@ -6118,6 +6212,7 @@ class CreateInputInputFile(BaseModel):
     type: CreateInputInputFileType
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6197,6 +6292,7 @@ class CreateInputInputFile(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     path: Optional[str] = None
     r"""Directory path to search for files. Environment variables will be resolved (example: $CRIBL_HOME/log/)."""
@@ -6309,6 +6405,7 @@ class CreateInputInputSyslogSyslog2TypedDict(TypedDict):
     tcp_port: float
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6360,6 +6457,7 @@ class CreateInputInputSyslogSyslog2TypedDict(TypedDict):
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
     template_environment: NotRequired[str]
@@ -6389,6 +6487,7 @@ class CreateInputInputSyslogSyslog2(BaseModel):
     r"""Enter TCP port number to listen on. Not required if listening on UDP."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6501,6 +6600,7 @@ class CreateInputInputSyslogSyslog2(BaseModel):
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     enable_enhanced_proxy_header_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableEnhancedProxyHeaderParsing")
@@ -6605,6 +6705,7 @@ class CreateInputInputSyslogSyslog1TypedDict(TypedDict):
     udp_port: float
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6656,6 +6757,7 @@ class CreateInputInputSyslogSyslog1TypedDict(TypedDict):
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
     template_environment: NotRequired[str]
@@ -6685,6 +6787,7 @@ class CreateInputInputSyslogSyslog1(BaseModel):
     r"""Enter UDP port number to listen on. Not required if listening on TCP."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6797,6 +6900,7 @@ class CreateInputInputSyslogSyslog1(BaseModel):
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     enable_enhanced_proxy_header_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableEnhancedProxyHeaderParsing")
@@ -6924,6 +7028,7 @@ class CreateInputInputSqsTypedDict(TypedDict):
     queue_type: CreateInputQueueType
     r"""The queue type used (or created)"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6969,6 +7074,7 @@ class CreateInputInputSqsTypedDict(TypedDict):
     poll_timeout: NotRequired[float]
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -7011,6 +7117,7 @@ class CreateInputInputSqs(BaseModel):
     r"""The queue type used (or created)"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7103,6 +7210,7 @@ class CreateInputInputSqs(BaseModel):
     r"""How long to wait for events before trying polling again. The lower the number the higher the AWS bill. The higher the number the longer it will take for the source to react to configuration changes and system restarts."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -7259,6 +7367,7 @@ class CreateInputInputModelDrivenTelemetryTypedDict(TypedDict):
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7280,6 +7389,7 @@ class CreateInputInputModelDrivenTelemetryTypedDict(TypedDict):
     shutdown_timeout_ms: NotRequired[float]
     r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -7303,6 +7413,7 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7342,6 +7453,7 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
     r"""Time in milliseconds to allow the server to shutdown gracefully before forcing shutdown. Defaults to 5000."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -7401,6 +7513,8 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
 
 
 class CreateInputTypeOpenTelemetry(str, Enum):
+    r"""Source type identifier."""
+
     OPEN_TELEMETRY = "open_telemetry"
 
 
@@ -7536,11 +7650,13 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeOpenTelemetry
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7588,6 +7704,7 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     token: NotRequired[str]
@@ -7617,6 +7734,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputTypeOpenTelemetry
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7625,6 +7743,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7729,6 +7848,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -7982,6 +8102,7 @@ class CreateInputInputSnmpTypedDict(TypedDict):
     port: float
     r"""UDP port to receive SNMP traps on. Defaults to 162."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8010,6 +8131,7 @@ class CreateInputInputSnmpTypedDict(TypedDict):
     best_effort_parsing: NotRequired[bool]
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -8033,6 +8155,7 @@ class CreateInputInputSnmp(BaseModel):
     r"""UDP port to receive SNMP traps on. Defaults to 162."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8090,6 +8213,7 @@ class CreateInputInputSnmp(BaseModel):
     r"""If enabled, the parser will attempt to parse varbind octet strings as UTF-8, first, otherwise will fallback to other methods"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -8162,6 +8286,7 @@ class CreateInputInputS3InventoryTypedDict(TypedDict):
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8233,6 +8358,7 @@ class CreateInputInputS3InventoryTypedDict(TypedDict):
     validate_inventory_files: NotRequired[bool]
     r"""If set to Yes, each inventory file in the manifest will be validated against its checksum. Defaults to false"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -8273,6 +8399,7 @@ class CreateInputInputS3Inventory(BaseModel):
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8427,6 +8554,7 @@ class CreateInputInputS3Inventory(BaseModel):
     r"""If set to Yes, each inventory file in the manifest will be validated against its checksum. Defaults to false"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -8600,6 +8728,7 @@ class CreateInputInputS3TypedDict(TypedDict):
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8669,6 +8798,7 @@ class CreateInputInputS3TypedDict(TypedDict):
     tag_after_processing: NotRequired[bool]
     r"""Add a tag to processed S3 objects. Requires s3:GetObjectTagging and s3:PutObjectTagging AWS permissions."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -8708,6 +8838,7 @@ class CreateInputInputS3(BaseModel):
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8855,6 +8986,7 @@ class CreateInputInputS3(BaseModel):
     r"""Add a tag to processed S3 objects. Requires s3:GetObjectTagging and s3:PutObjectTagging AWS permissions."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -9013,6 +9145,7 @@ class CreateInputInputMetricsTypedDict(TypedDict):
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9042,6 +9175,7 @@ class CreateInputInputMetricsTypedDict(TypedDict):
     udp_socket_rx_buf_size: NotRequired[float]
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -9064,6 +9198,7 @@ class CreateInputInputMetrics(BaseModel):
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9119,6 +9254,7 @@ class CreateInputInputMetrics(BaseModel):
     r"""Optionally, set the SO_RCVBUF socket option for the UDP socket. This value tells the operating system how many bytes can be buffered in the kernel before events are dropped. Leave blank to use the OS default. Caution: Increasing this value will affect OS memory utilization."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -9196,6 +9332,7 @@ class CreateInputInputCriblmetricsTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputTypeCriblmetrics
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9216,6 +9353,7 @@ class CreateInputInputCriblmetricsTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -9229,6 +9367,7 @@ class CreateInputInputCriblmetrics(BaseModel):
     type: CreateInputTypeCriblmetrics
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9264,6 +9403,7 @@ class CreateInputInputCriblmetrics(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -9353,6 +9493,7 @@ class CreateInputInputKinesisTypedDict(TypedDict):
     region: str
     r"""Region where the Kinesis stream is located"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9404,6 +9545,7 @@ class CreateInputInputKinesisTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -9444,6 +9586,7 @@ class CreateInputInputKinesis(BaseModel):
     r"""Region where the Kinesis stream is located"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9559,6 +9702,7 @@ class CreateInputInputKinesis(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -9718,6 +9862,8 @@ class CreateInputInputKinesis(BaseModel):
 
 
 class CreateInputTypeHTTPRaw(str, Enum):
+    r"""Source type identifier."""
+
     HTTP_RAW = "http_raw"
 
 
@@ -9725,11 +9871,13 @@ class CreateInputInputHTTPRawTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeHTTPRaw
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9781,6 +9929,7 @@ class CreateInputInputHTTPRawTypedDict(TypedDict):
     auth_tokens_ext: NotRequired[List[AuthTokensExtConfInputHTTPTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -9800,6 +9949,7 @@ class CreateInputInputHTTPRaw(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputTypeHTTPRaw
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9808,6 +9958,7 @@ class CreateInputInputHTTPRaw(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9923,6 +10074,7 @@ class CreateInputInputHTTPRaw(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -10031,6 +10183,7 @@ class CreateInputInputDatagenTypedDict(TypedDict):
     type: CreateInputTypeDatagen
     samples: List[CreateInputSampleTypedDict]
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10047,6 +10200,7 @@ class CreateInputInputDatagenTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -10062,6 +10216,7 @@ class CreateInputInputDatagen(BaseModel):
     samples: List[CreateInputSample]
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10089,6 +10244,7 @@ class CreateInputInputDatagen(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -10133,6 +10289,8 @@ class CreateInputInputDatagen(BaseModel):
 
 
 class CreateInputTypeDatadogAgent(str, Enum):
+    r"""Source type identifier."""
+
     DATADOG_AGENT = "datadog_agent"
 
 
@@ -10173,11 +10331,13 @@ class CreateInputInputDatadogAgentTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputTypeDatadogAgent
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10220,6 +10380,7 @@ class CreateInputInputDatadogAgentTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     proxy_mode: NotRequired[CreateInputProxyModeDatadogAgentTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -10235,6 +10396,7 @@ class CreateInputInputDatadogAgent(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputTypeDatadogAgent
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -10243,6 +10405,7 @@ class CreateInputInputDatadogAgent(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10336,6 +10499,7 @@ class CreateInputInputDatadogAgent(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -10416,6 +10580,7 @@ class CreateInputInputCrowdstrikeTypedDict(TypedDict):
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10479,6 +10644,7 @@ class CreateInputInputCrowdstrikeTypedDict(TypedDict):
     encoding: NotRequired[str]
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -10519,6 +10685,7 @@ class CreateInputInputCrowdstrike(BaseModel):
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10651,6 +10818,7 @@ class CreateInputInputCrowdstrike(BaseModel):
     r"""Character encoding to use when parsing ingested data. When not set, @{product} will default to UTF-8 but may incorrectly interpret multi-byte characters."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -11263,6 +11431,7 @@ class CreateInputInputWindowsMetricsTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputTypeWindowsMetrics
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -11287,6 +11456,7 @@ class CreateInputInputWindowsMetricsTypedDict(TypedDict):
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -11300,6 +11470,7 @@ class CreateInputInputWindowsMetrics(BaseModel):
     type: CreateInputTypeWindowsMetrics
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11343,6 +11514,7 @@ class CreateInputInputWindowsMetrics(BaseModel):
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -11401,6 +11573,7 @@ class CreateInputInputKubeEventsTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputTypeKubeEvents
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -11419,6 +11592,7 @@ class CreateInputInputKubeEventsTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -11432,6 +11606,7 @@ class CreateInputInputKubeEvents(BaseModel):
     type: CreateInputTypeKubeEvents
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11462,6 +11637,7 @@ class CreateInputInputKubeEvents(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -11546,6 +11722,7 @@ class CreateInputInputKubeLogsTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputTypeKubeLogs
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -11579,6 +11756,7 @@ class CreateInputInputKubeLogsTypedDict(TypedDict):
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -11592,6 +11770,7 @@ class CreateInputInputKubeLogs(BaseModel):
     type: CreateInputTypeKubeLogs
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11655,6 +11834,7 @@ class CreateInputInputKubeLogs(BaseModel):
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -11783,6 +11963,7 @@ class CreateInputInputKubeMetricsTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputTypeKubeMetrics
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -11808,6 +11989,7 @@ class CreateInputInputKubeMetricsTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     persistence: NotRequired[CreateInputPersistenceKubeMetricsTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -11821,6 +12003,7 @@ class CreateInputInputKubeMetrics(BaseModel):
     type: CreateInputTypeKubeMetrics
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11866,6 +12049,7 @@ class CreateInputInputKubeMetrics(BaseModel):
     persistence: Optional[CreateInputPersistenceKubeMetrics] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")

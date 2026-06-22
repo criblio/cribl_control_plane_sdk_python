@@ -158,6 +158,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     extra_log_types: NotRequired[List[OutputGoogleChronicleExtraLogTypeTypedDict]]
     r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
     log_type: NotRequired[str]
@@ -333,6 +334,7 @@ class OutputGoogleChronicle(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     extra_log_types: Annotated[
         Optional[List[OutputGoogleChronicleExtraLogType]],

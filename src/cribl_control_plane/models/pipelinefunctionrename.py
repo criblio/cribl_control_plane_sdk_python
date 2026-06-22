@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionRenameID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>rename</code>"""
 
     RENAME = "rename"
 
 
 class PipelineFunctionRenameTypedDict(TypedDict):
     id: PipelineFunctionRenameID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>rename</code>"""
     conf: FunctionConfSchemaRenameTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionRenameTypedDict(TypedDict):
 
 class PipelineFunctionRename(BaseModel):
     id: PipelineFunctionRenameID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>rename</code>"""
 
     conf: FunctionConfSchemaRename
 

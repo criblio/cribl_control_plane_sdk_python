@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionSearchEngineExportID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>search_engine_export</code>"""
 
     SEARCH_ENGINE_EXPORT = "search_engine_export"
 
@@ -65,7 +65,7 @@ class SearchEngineExportConfiguration(BaseModel):
 
 class PipelineFunctionSearchEngineExportTypedDict(TypedDict):
     id: PipelineFunctionSearchEngineExportID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>search_engine_export</code>"""
     conf: SearchEngineExportConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -81,7 +81,7 @@ class PipelineFunctionSearchEngineExportTypedDict(TypedDict):
 
 class PipelineFunctionSearchEngineExport(BaseModel):
     id: PipelineFunctionSearchEngineExportID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>search_engine_export</code>"""
 
     conf: SearchEngineExportConfiguration
 

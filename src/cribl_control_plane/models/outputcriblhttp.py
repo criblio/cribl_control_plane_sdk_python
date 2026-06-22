@@ -108,6 +108,7 @@ class OutputCriblHTTPTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
     use_round_robin_dns: NotRequired[bool]
@@ -269,6 +270,7 @@ class OutputCriblHTTP(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""

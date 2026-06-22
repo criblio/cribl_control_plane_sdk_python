@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionTrimTimestampID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>trim_timestamp</code>"""
 
     TRIM_TIMESTAMP = "trim_timestamp"
 
 
 class PipelineFunctionTrimTimestampTypedDict(TypedDict):
     id: PipelineFunctionTrimTimestampID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>trim_timestamp</code>"""
     conf: FunctionConfSchemaTrimTimestampTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionTrimTimestampTypedDict(TypedDict):
 
 class PipelineFunctionTrimTimestamp(BaseModel):
     id: PipelineFunctionTrimTimestampID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>trim_timestamp</code>"""
 
     conf: FunctionConfSchemaTrimTimestamp
 

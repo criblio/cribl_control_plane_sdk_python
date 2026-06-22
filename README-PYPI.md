@@ -352,7 +352,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#list) - List all Routes within a Pack
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#update) - Update a Route within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#update) - Update a Routing table within a Pack
 * [append](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#append) - Add a Route to the end of the Routing table within a Pack
 
 #### [Packs.Sources](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md)
@@ -390,7 +390,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#list) - List all Routes
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#get) - Get a Routing table
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#update) - Update a Route
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#update) - Update a Routing table
 * [append](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#append) - Add a Route to the end of the Routing table
 
 ### [Sources](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md)

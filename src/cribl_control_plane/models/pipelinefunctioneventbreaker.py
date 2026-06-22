@@ -21,7 +21,7 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionEventBreakerID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>event_breaker</code>"""
 
     EVENT_BREAKER = "event_breaker"
 
@@ -950,7 +950,7 @@ PipelineFunctionEventBreakerConf = Annotated[
 
 class PipelineFunctionEventBreakerTypedDict(TypedDict):
     id: PipelineFunctionEventBreakerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>event_breaker</code>"""
     conf: PipelineFunctionEventBreakerConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -966,7 +966,7 @@ class PipelineFunctionEventBreakerTypedDict(TypedDict):
 
 class PipelineFunctionEventBreaker(BaseModel):
     id: PipelineFunctionEventBreakerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>event_breaker</code>"""
 
     conf: PipelineFunctionEventBreakerConf
 

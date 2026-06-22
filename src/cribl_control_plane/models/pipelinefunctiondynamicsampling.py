@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionDynamicSamplingID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>dynamic_sampling</code>"""
 
     DYNAMIC_SAMPLING = "dynamic_sampling"
 
@@ -86,7 +86,7 @@ class PipelineFunctionDynamicSamplingConf(BaseModel):
 
 class PipelineFunctionDynamicSamplingTypedDict(TypedDict):
     id: PipelineFunctionDynamicSamplingID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>dynamic_sampling</code>"""
     conf: PipelineFunctionDynamicSamplingConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -102,7 +102,7 @@ class PipelineFunctionDynamicSamplingTypedDict(TypedDict):
 
 class PipelineFunctionDynamicSampling(BaseModel):
     id: PipelineFunctionDynamicSamplingID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>dynamic_sampling</code>"""
 
     conf: PipelineFunctionDynamicSamplingConf
 

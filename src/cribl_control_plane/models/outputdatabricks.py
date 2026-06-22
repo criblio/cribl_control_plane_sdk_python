@@ -99,6 +99,7 @@ class OutputDatabricksTypedDict(TypedDict):
     timeout_sec: NotRequired[int]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -293,6 +294,7 @@ class OutputDatabricks(BaseModel):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""

@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionJSONUnrollID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>json_unroll</code>"""
 
     JSON_UNROLL = "json_unroll"
 
@@ -48,7 +48,7 @@ class PipelineFunctionJSONUnrollConf(BaseModel):
 
 class PipelineFunctionJSONUnrollTypedDict(TypedDict):
     id: PipelineFunctionJSONUnrollID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>json_unroll</code>"""
     conf: PipelineFunctionJSONUnrollConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -64,7 +64,7 @@ class PipelineFunctionJSONUnrollTypedDict(TypedDict):
 
 class PipelineFunctionJSONUnroll(BaseModel):
     id: PipelineFunctionJSONUnrollID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>json_unroll</code>"""
 
     conf: PipelineFunctionJSONUnrollConf
 

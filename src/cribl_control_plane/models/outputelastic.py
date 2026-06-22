@@ -168,6 +168,7 @@ class OutputElasticTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""The Cloud ID or URL to an Elastic cluster to send events to. Example: http://elastic:9200/_bulk"""
     use_round_robin_dns: NotRequired[bool]
@@ -350,6 +351,7 @@ class OutputElastic(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""The Cloud ID or URL to an Elastic cluster to send events to. Example: http://elastic:9200/_bulk"""

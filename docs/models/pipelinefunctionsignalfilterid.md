@@ -1,6 +1,6 @@
 # PipelineFunctionSignalFilterID
 
-Function ID
+Identifier of the Function. Always <code>signal_filter</code>
 
 ## Example Usage
 

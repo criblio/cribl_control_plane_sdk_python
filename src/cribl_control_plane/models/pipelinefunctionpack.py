@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionPackID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>pack</code>"""
 
     PACK = "pack"
 
@@ -48,7 +48,7 @@ class PipelineFunctionPackConf(BaseModel):
 
 class PipelineFunctionPackTypedDict(TypedDict):
     id: PipelineFunctionPackID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>pack</code>"""
     conf: PipelineFunctionPackConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -64,7 +64,7 @@ class PipelineFunctionPackTypedDict(TypedDict):
 
 class PipelineFunctionPack(BaseModel):
     id: PipelineFunctionPackID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>pack</code>"""
 
     conf: PipelineFunctionPackConf
 

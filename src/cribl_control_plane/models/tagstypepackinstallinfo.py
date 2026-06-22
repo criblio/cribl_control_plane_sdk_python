@@ -9,20 +9,32 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TagsTypePackInstallInfoTypedDict(TypedDict):
+    r"""Categorization tags for the Pack."""
+
     data_type: NotRequired[List[str]]
+    r"""List of data type tags for the Pack."""
     domain: NotRequired[List[str]]
+    r"""List of domain tags for the Pack."""
     streamtags: NotRequired[List[str]]
+    r"""List of stream tags for routing and filtering."""
     technology: NotRequired[List[str]]
+    r"""List of technology tags for the Pack."""
 
 
 class TagsTypePackInstallInfo(BaseModel):
+    r"""Categorization tags for the Pack."""
+
     data_type: Annotated[Optional[List[str]], pydantic.Field(alias="dataType")] = None
+    r"""List of data type tags for the Pack."""
 
     domain: Optional[List[str]] = None
+    r"""List of domain tags for the Pack."""
 
     streamtags: Optional[List[str]] = None
+    r"""List of stream tags for routing and filtering."""
 
     technology: Optional[List[str]] = None
+    r"""List of technology tags for the Pack."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

@@ -66,7 +66,6 @@ from .microsoftentraidauthenticationendpointoptionssasl import (
     MicrosoftEntraIDAuthenticationEndpointOptionsSasl,
 )
 from .modeoptions import ModeOptions
-from .notification_union import NotificationUnion, NotificationUnionTypedDict
 from .oauthheaderconfinputservicenowtable import (
     OauthHeaderConfInputServicenowTable,
     OauthHeaderConfInputServicenowTableTypedDict,
@@ -101,7 +100,6 @@ from .serversideencryptionforuploadedobjectsoptions import (
 from .serversideencryptionforuploadedobjectsoptionsaes256 import (
     ServerSideEncryptionForUploadedObjectsOptionsAes256,
 )
-from .statustype import StatusType, StatusTypeTypedDict
 from .storageclassoptions import StorageClassOptions
 from .storageclassoptionsreducedredundancystandard import (
     StorageClassOptionsReducedredundancyStandard,
@@ -139,20 +137,20 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class OutputResponseTypeAlibabaCloudS3(str, Enum):
-    ALIBABA_CLOUD_S3 = "alibaba_cloud_s3"
+class CreateOutputSystemByPackTypeIbmCloudS3(str, Enum):
+    IBM_CLOUD_S3 = "ibm_cloud_s3"
 
 
-class OutputResponseOutputAlibabaCloudS3TypedDict(TypedDict):
-    type: OutputResponseTypeAlibabaCloudS3
+class CreateOutputSystemByPackOutputIbmCloudS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeIbmCloudS3
+    endpoint: str
+    r"""IBM Cloud Object Storage S3-compatible endpoint URL (example: https://s3.us-south.cloud-object-storage.appdomain.cloud)"""
     bucket: str
-    r"""Name of the destination Alibaba OSS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    r"""Name of the destination IBM Cloud Object Storage bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-    endpoint: str
-    r"""Alibaba OSS S3-compatible endpoint URL. Examples: public `https://s3.oss-{region}.aliyuncs.com`, internal `https://s3.oss-{region}-internal.aliyuncs.com`"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -209,9 +207,8 @@ class OutputResponseOutputAlibabaCloudS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
-    object_acl: NotRequired[ObjectACLOptions]
-    r"""Object ACL to assign to uploaded objects"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -250,6 +247,8 @@ class OutputResponseOutputAlibabaCloudS3TypedDict(TypedDict):
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_bucket: NotRequired[str]
     r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
     template_dest_path: NotRequired[str]
@@ -264,34 +263,26 @@ class OutputResponseOutputAlibabaCloudS3TypedDict(TypedDict):
     r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    template_object_acl: NotRequired[str]
-    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
-    template_endpoint: NotRequired[str]
-    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputAlibabaCloudS3(BaseModel):
-    type: OutputResponseTypeAlibabaCloudS3
+class CreateOutputSystemByPackOutputIbmCloudS3(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeIbmCloudS3
+
+    endpoint: str
+    r"""IBM Cloud Object Storage S3-compatible endpoint URL (example: https://s3.us-south.cloud-object-storage.appdomain.cloud)"""
 
     bucket: str
-    r"""Name of the destination Alibaba OSS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    r"""Name of the destination IBM Cloud Object Storage bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
     stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-
-    endpoint: str
-    r"""Alibaba OSS S3-compatible endpoint URL. Examples: public `https://s3.oss-{region}.aliyuncs.com`, internal `https://s3.oss-{region}-internal.aliyuncs.com`"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -427,12 +418,607 @@ class OutputResponseOutputAlibabaCloudS3(BaseModel):
 
     orphans: Optional[OrphanFileRecoveryType] = None
 
+    description: Optional[str] = None
+    r"""Optional description for this configuration."""
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
+
+    compress: Optional[CompressionOptionsHTTP] = None
+    r"""Data compression format to apply to HTTP content before it is delivered"""
+
+    compression_level: Annotated[
+        Optional[CompressionLevelOptions], pydantic.Field(alias="compressionLevel")
+    ] = None
+    r"""Compression level to apply before moving files to final destination"""
+
+    automatic_schema: Annotated[
+        Optional[bool], pydantic.Field(alias="automaticSchema")
+    ] = None
+    r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+
+    parquet_schema: Annotated[Optional[str], pydantic.Field(alias="parquetSchema")] = (
+        None
+    )
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
+
+    parquet_version: Annotated[
+        Optional[ParquetVersionOptions], pydantic.Field(alias="parquetVersion")
+    ] = None
+    r"""Determines which data types are supported and how they are represented"""
+
+    parquet_data_page_version: Annotated[
+        Optional[DataPageVersionOptions], pydantic.Field(alias="parquetDataPageVersion")
+    ] = None
+    r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
+
+    parquet_row_group_length: Annotated[
+        Optional[float], pydantic.Field(alias="parquetRowGroupLength")
+    ] = None
+    r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
+
+    parquet_page_size: Annotated[
+        Optional[str], pydantic.Field(alias="parquetPageSize")
+    ] = None
+    r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
+
+    should_log_invalid_rows: Annotated[
+        Optional[bool], pydantic.Field(alias="shouldLogInvalidRows")
+    ] = None
+    r"""Log up to 3 rows that @{product} skips due to data mismatch"""
+
+    key_value_metadata: Annotated[
+        Optional[List[KeyValueMetadataConfOutputFilesystem]],
+        pydantic.Field(alias="keyValueMetadata"),
+    ] = None
+    r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
+
+    enable_statistics: Annotated[
+        Optional[bool], pydantic.Field(alias="enableStatistics")
+    ] = None
+    r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
+
+    enable_write_page_index: Annotated[
+        Optional[bool], pydantic.Field(alias="enableWritePageIndex")
+    ] = None
+    r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
+
+    enable_page_checksum: Annotated[
+        Optional[bool], pydantic.Field(alias="enablePageChecksum")
+    ] = None
+    r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
+
+    empty_dir_cleanup_sec: Annotated[
+        Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
+    ] = None
+    r"""How frequently, in seconds, to clean up empty directories"""
+
+    directory_batch_size: Annotated[
+        Optional[float], pydantic.Field(alias="directoryBatchSize")
+    ] = None
+    r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
+
+    deadletter_path: Annotated[
+        Optional[str], pydantic.Field(alias="deadletterPath")
+    ] = None
+    r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
+
+    max_retry_num: Annotated[Optional[float], pydantic.Field(alias="maxRetryNum")] = (
+        None
+    )
+    r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_endpoint: Annotated[
+        Optional[str], pydantic.Field(alias="__template_endpoint")
+    ] = None
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+
+    template_bucket: Annotated[
+        Optional[str], pydantic.Field(alias="__template_bucket")
+    ] = None
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+
+    template_dest_path: Annotated[
+        Optional[str], pydantic.Field(alias="__template_destPath")
+    ] = None
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+
+    template_partition_expr: Annotated[
+        Optional[str], pydantic.Field(alias="__template_partitionExpr")
+    ] = None
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
+
+    template_format: Annotated[
+        Optional[str], pydantic.Field(alias="__template_format")
+    ] = None
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+
+    template_base_file_name: Annotated[
+        Optional[str], pydantic.Field(alias="__template_baseFileName")
+    ] = None
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+
+    template_file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="__template_fileNameSuffix")
+    ] = None
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    template_compress: Annotated[
+        Optional[str], pydantic.Field(alias="__template_compress")
+    ] = None
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+
+    template_parquet_schema: Annotated[
+        Optional[str], pydantic.Field(alias="__template_parquetSchema")
+    ] = None
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsSecret(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("format_")
+    def serialize_format_(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataFormatOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptionsBlockDrop(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_disk_full_backpressure")
+    def serialize_on_disk_full_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DiskSpaceProtectionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("compress")
+    def serialize_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsHTTP(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("compression_level")
+    def serialize_compression_level(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionLevelOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("parquet_version")
+    def serialize_parquet_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ParquetVersionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("parquet_data_page_version")
+    def serialize_parquet_data_page_version(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataPageVersionOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "awsAuthenticationMethod",
+                "reuseConnections",
+                "rejectUnauthorized",
+                "destPath",
+                "maxConcurrentFileParts",
+                "verifyPermissions",
+                "maxClosingFilesToBackpressure",
+                "addIdToStagePath",
+                "removeEmptyDirs",
+                "partitionExpr",
+                "format",
+                "baseFileName",
+                "fileNameSuffix",
+                "maxFileSizeMB",
+                "maxFileOpenTimeSec",
+                "maxFileIdleTimeSec",
+                "maxOpenFiles",
+                "headerLine",
+                "writeHighWaterMark",
+                "onBackpressure",
+                "deadletterEnabled",
+                "onDiskFullBackpressure",
+                "forceCloseOnShutdown",
+                "retrySettings",
+                "orphans",
+                "description",
+                "awsSecret",
+                "compress",
+                "compressionLevel",
+                "automaticSchema",
+                "parquetSchema",
+                "parquetVersion",
+                "parquetDataPageVersion",
+                "parquetRowGroupLength",
+                "parquetPageSize",
+                "shouldLogInvalidRows",
+                "keyValueMetadata",
+                "enableStatistics",
+                "enableWritePageIndex",
+                "enablePageChecksum",
+                "emptyDirCleanupSec",
+                "directoryBatchSize",
+                "deadletterPath",
+                "maxRetryNum",
+                "__template_streamtags",
+                "__template_endpoint",
+                "__template_bucket",
+                "__template_destPath",
+                "__template_partitionExpr",
+                "__template_format",
+                "__template_baseFileName",
+                "__template_fileNameSuffix",
+                "__template_onBackpressure",
+                "__template_compress",
+                "__template_parquetSchema",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateOutputSystemByPackTypeAlibabaCloudS3(str, Enum):
+    ALIBABA_CLOUD_S3 = "alibaba_cloud_s3"
+
+
+class CreateOutputSystemByPackAuthenticationMethodAlibabaCloudS3(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Authentication method."""
+
+    # Auto
+    AUTO = "auto"
+    # Secret
+    SECRET = "secret"
+
+
+class CreateOutputSystemByPackOutputAlibabaCloudS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeAlibabaCloudS3
+    bucket: str
+    r"""Name of the destination Alibaba OSS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+    stage_path: str
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+    endpoint: str
+    r"""Alibaba OSS S3-compatible endpoint URL. Examples: public `https://s3.oss-{region}.aliyuncs.com`, internal `https://s3.oss-{region}-internal.aliyuncs.com`"""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    aws_authentication_method: NotRequired[
+        CreateOutputSystemByPackAuthenticationMethodAlibabaCloudS3
+    ]
+    r"""Authentication method."""
+    reuse_connections: NotRequired[bool]
+    r"""Reuse connections between requests, which can improve performance"""
+    reject_unauthorized: NotRequired[bool]
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+    dest_path: NotRequired[str]
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+    max_concurrent_file_parts: NotRequired[float]
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+    verify_permissions: NotRequired[bool]
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+    max_closing_files_to_backpressure: NotRequired[float]
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+    add_id_to_stage_path: NotRequired[bool]
+    r"""Add the Output ID value to staging location"""
+    remove_empty_dirs: NotRequired[bool]
+    r"""Remove empty staging directories after moving files"""
+    partition_expr: NotRequired[str]
+    r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
+    format_: NotRequired[DataFormatOptions]
+    r"""Format of the output data"""
+    base_file_name: NotRequired[str]
+    r"""JavaScript expression to define the output filename prefix (can be constant)"""
+    file_name_suffix: NotRequired[str]
+    r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
+    max_file_size_mb: NotRequired[float]
+    r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+    max_file_open_time_sec: NotRequired[float]
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+    max_file_idle_time_sec: NotRequired[float]
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+    max_open_files: NotRequired[float]
+    r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
+    header_line: NotRequired[str]
+    r"""If set, this line will be written to the beginning of each output file"""
+    write_high_water_mark: NotRequired[float]
+    r"""Buffer size used to write to a file"""
+    on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    deadletter_enabled: NotRequired[bool]
+    r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
+    on_disk_full_backpressure: NotRequired[DiskSpaceProtectionOptions]
+    r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+    force_close_on_shutdown: NotRequired[bool]
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+    retry_settings: NotRequired[RetrySettingsTypeTypedDict]
+    orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    object_acl: NotRequired[ObjectACLOptions]
+    r"""Object ACL to assign to uploaded objects"""
+    description: NotRequired[str]
+    r"""Optional description for this configuration."""
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
+    compress: NotRequired[CompressionOptionsHTTP]
+    r"""Data compression format to apply to HTTP content before it is delivered"""
+    compression_level: NotRequired[CompressionLevelOptions]
+    r"""Compression level to apply before moving files to final destination"""
+    automatic_schema: NotRequired[bool]
+    r"""Automatically calculate the schema based on the events of each Parquet file generated"""
+    parquet_schema: NotRequired[str]
+    r"""To add a new schema, navigate to Processing > Knowledge > Parquet Schemas"""
+    parquet_version: NotRequired[ParquetVersionOptions]
+    r"""Determines which data types are supported and how they are represented"""
+    parquet_data_page_version: NotRequired[DataPageVersionOptions]
+    r"""Serialization format of data pages. Note that some reader implementations use Data page V2's attributes to work more efficiently, while others ignore it."""
+    parquet_row_group_length: NotRequired[float]
+    r"""The number of rows that every group will contain. The final group can contain a smaller number of rows."""
+    parquet_page_size: NotRequired[str]
+    r"""Target memory size for page segments, such as 1MB or 128MB. Generally, lower values improve reading speed, while higher values improve compression."""
+    should_log_invalid_rows: NotRequired[bool]
+    r"""Log up to 3 rows that @{product} skips due to data mismatch"""
+    key_value_metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
+    r"""The metadata of files the Destination writes will include the properties you add here as key-value pairs. Useful for tagging. Examples: \"key\":\"OCSF Event Class\", \"value\":\"9001\" """
+    enable_statistics: NotRequired[bool]
+    r"""Statistics profile an entire file in terms of minimum/maximum values within data, numbers of nulls, etc. You can use Parquet tools to view statistics."""
+    enable_write_page_index: NotRequired[bool]
+    r"""One page index contains statistics for one data page. Parquet readers use statistics to enable page skipping."""
+    enable_page_checksum: NotRequired[bool]
+    r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
+    empty_dir_cleanup_sec: NotRequired[float]
+    r"""How frequently, in seconds, to clean up empty directories"""
+    directory_batch_size: NotRequired[float]
+    r"""Number of directories to process in each batch during cleanup of empty directories. Minimum is 10, maximum is 10000. Higher values may require more memory."""
+    deadletter_path: NotRequired[str]
+    r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
+    max_retry_num: NotRequired[float]
+    r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_bucket: NotRequired[str]
+    r"""Binds 'bucket' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bucket' at runtime."""
+    template_dest_path: NotRequired[str]
+    r"""Binds 'destPath' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'destPath' at runtime."""
+    template_partition_expr: NotRequired[str]
+    r"""Binds 'partitionExpr' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'partitionExpr' at runtime."""
+    template_format: NotRequired[str]
+    r"""Binds 'format' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'format' at runtime."""
+    template_base_file_name: NotRequired[str]
+    r"""Binds 'baseFileName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'baseFileName' at runtime."""
+    template_file_name_suffix: NotRequired[str]
+    r"""Binds 'fileNameSuffix' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fileNameSuffix' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    template_object_acl: NotRequired[str]
+    r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
+    template_endpoint: NotRequired[str]
+    r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_compress: NotRequired[str]
+    r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
+    template_parquet_schema: NotRequired[str]
+    r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
+
+
+class CreateOutputSystemByPackOutputAlibabaCloudS3(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeAlibabaCloudS3
+
+    bucket: str
+    r"""Name of the destination Alibaba OSS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
+
+    stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
+    r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
+
+    endpoint: str
+    r"""Alibaba OSS S3-compatible endpoint URL. Examples: public `https://s3.oss-{region}.aliyuncs.com`, internal `https://s3.oss-{region}-internal.aliyuncs.com`"""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    aws_authentication_method: Annotated[
+        Optional[CreateOutputSystemByPackAuthenticationMethodAlibabaCloudS3],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = None
+    r"""Authentication method."""
+
+    reuse_connections: Annotated[
+        Optional[bool], pydantic.Field(alias="reuseConnections")
+    ] = None
+    r"""Reuse connections between requests, which can improve performance"""
+
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
+
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
+    r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
+
+    max_concurrent_file_parts: Annotated[
+        Optional[float], pydantic.Field(alias="maxConcurrentFileParts")
+    ] = None
+    r"""Maximum number of parts to upload in parallel per file. Minimum part size is 5MB."""
+
+    verify_permissions: Annotated[
+        Optional[bool], pydantic.Field(alias="verifyPermissions")
+    ] = None
+    r"""Disable if you can access files within the bucket but not the bucket itself"""
+
+    max_closing_files_to_backpressure: Annotated[
+        Optional[float], pydantic.Field(alias="maxClosingFilesToBackpressure")
+    ] = None
+    r"""Maximum number of files that can be waiting for upload before backpressure is applied"""
+
+    add_id_to_stage_path: Annotated[
+        Optional[bool], pydantic.Field(alias="addIdToStagePath")
+    ] = None
+    r"""Add the Output ID value to staging location"""
+
+    remove_empty_dirs: Annotated[
+        Optional[bool], pydantic.Field(alias="removeEmptyDirs")
+    ] = None
+    r"""Remove empty staging directories after moving files"""
+
+    partition_expr: Annotated[Optional[str], pydantic.Field(alias="partitionExpr")] = (
+        None
+    )
+    r"""JavaScript expression defining how files are partitioned and organized. Default is date-based. If blank, Stream will fall back to the event's __partition field value – if present – otherwise to each location's root directory."""
+
+    format_: Annotated[Optional[DataFormatOptions], pydantic.Field(alias="format")] = (
+        None
+    )
+    r"""Format of the output data"""
+
+    base_file_name: Annotated[Optional[str], pydantic.Field(alias="baseFileName")] = (
+        None
+    )
+    r"""JavaScript expression to define the output filename prefix (can be constant)"""
+
+    file_name_suffix: Annotated[
+        Optional[str], pydantic.Field(alias="fileNameSuffix")
+    ] = None
+    r"""JavaScript expression to define the output filename suffix (can be constant).  The `__format` variable refers to the value of the `Data format` field (`json` or `raw`).  The `__compression` field refers to the kind of compression being used (`none` or `gzip`)."""
+
+    max_file_size_mb: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileSizeMB")
+    ] = None
+    r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
+
+    max_file_open_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileOpenTimeSec")
+    ] = None
+    r"""Maximum amount of time to write to a file. Files open for longer than this will be closed and moved to final output location."""
+
+    max_file_idle_time_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxFileIdleTimeSec")
+    ] = None
+    r"""Maximum amount of time to keep inactive files open. Files open for longer than this will be closed and moved to final output location."""
+
+    max_open_files: Annotated[Optional[float], pydantic.Field(alias="maxOpenFiles")] = (
+        None
+    )
+    r"""Maximum number of files to keep open concurrently. When exceeded, @{product} will close the oldest open files and move them to the final output location."""
+
+    header_line: Annotated[Optional[str], pydantic.Field(alias="headerLine")] = None
+    r"""If set, this line will be written to the beginning of each output file"""
+
+    write_high_water_mark: Annotated[
+        Optional[float], pydantic.Field(alias="writeHighWaterMark")
+    ] = None
+    r"""Buffer size used to write to a file"""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptionsBlockDrop],
+        pydantic.Field(alias="onBackpressure"),
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    deadletter_enabled: Annotated[
+        Optional[bool], pydantic.Field(alias="deadletterEnabled")
+    ] = None
+    r"""If a file fails to move to its final destination after the maximum number of retries, move it to a designated directory to prevent further errors"""
+
+    on_disk_full_backpressure: Annotated[
+        Optional[DiskSpaceProtectionOptions],
+        pydantic.Field(alias="onDiskFullBackpressure"),
+    ] = None
+    r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
+
+    force_close_on_shutdown: Annotated[
+        Optional[bool], pydantic.Field(alias="forceCloseOnShutdown")
+    ] = None
+    r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
+
+    retry_settings: Annotated[
+        Optional[RetrySettingsType], pydantic.Field(alias="retrySettings")
+    ] = None
+
+    orphans: Optional[OrphanFileRecoveryType] = None
+
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = None
     r"""Object ACL to assign to uploaded objects"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -581,17 +1167,15 @@ class OutputResponseOutputAlibabaCloudS3(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.AuthenticationMethodOptionsSecret(value)
+                return (
+                    models.CreateOutputSystemByPackAuthenticationMethodAlibabaCloudS3(
+                        value
+                    )
+                )
             except ValueError:
                 return value
         return value
@@ -672,7 +1256,6 @@ class OutputResponseOutputAlibabaCloudS3(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -734,8 +1317,6 @@ class OutputResponseOutputAlibabaCloudS3(BaseModel):
                 "__template_endpoint",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -752,20 +1333,20 @@ class OutputResponseOutputAlibabaCloudS3(BaseModel):
         return m
 
 
-class OutputResponseTypeScalityS3(str, Enum):
+class CreateOutputSystemByPackTypeScalityS3(str, Enum):
     SCALITY_S3 = "scality_s3"
 
 
-class OutputResponseOutputScalityS3TypedDict(TypedDict):
-    type: OutputResponseTypeScalityS3
+class CreateOutputSystemByPackOutputScalityS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeScalityS3
     bucket: str
     r"""Name of the destination Scality bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     endpoint: str
     r"""Scality RING S3-compatible endpoint URL (example: https://s3.scality.example.com)"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -825,6 +1406,7 @@ class OutputResponseOutputScalityS3TypedDict(TypedDict):
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -885,14 +1467,13 @@ class OutputResponseOutputScalityS3TypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputScalityS3(BaseModel):
-    type: OutputResponseTypeScalityS3
+class CreateOutputSystemByPackOutputScalityS3(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeScalityS3
 
     bucket: str
     r"""Name of the destination Scality bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -902,9 +1483,6 @@ class OutputResponseOutputScalityS3(BaseModel):
 
     endpoint: str
     r"""Scality RING S3-compatible endpoint URL (example: https://s3.scality.example.com)"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -1044,6 +1622,7 @@ class OutputResponseOutputScalityS3(BaseModel):
     orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -1192,12 +1771,6 @@ class OutputResponseOutputScalityS3(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -1274,7 +1847,6 @@ class OutputResponseOutputScalityS3(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -1336,8 +1908,6 @@ class OutputResponseOutputScalityS3(BaseModel):
                 "__template_endpoint",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -1354,20 +1924,20 @@ class OutputResponseOutputScalityS3(BaseModel):
         return m
 
 
-class OutputResponseTypeCloudianS3(str, Enum):
+class CreateOutputSystemByPackTypeCloudianS3(str, Enum):
     CLOUDIAN_S3 = "cloudian_s3"
 
 
-class OutputResponseOutputCloudianS3TypedDict(TypedDict):
-    type: OutputResponseTypeCloudianS3
+class CreateOutputSystemByPackOutputCloudianS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCloudianS3
     endpoint: str
     r"""Cloudian HyperStore S3-compatible endpoint URL (example: https://s3.hyperstore.example.com)"""
     bucket: str
     r"""Name of the destination Cloudian bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -1435,6 +2005,7 @@ class OutputResponseOutputCloudianS3TypedDict(TypedDict):
     kms_key_id: NotRequired[str]
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -1503,14 +2074,13 @@ class OutputResponseOutputCloudianS3TypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputCloudianS3(BaseModel):
-    type: OutputResponseTypeCloudianS3
+class CreateOutputSystemByPackOutputCloudianS3(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCloudianS3
 
     endpoint: str
     r"""Cloudian HyperStore S3-compatible endpoint URL (example: https://s3.hyperstore.example.com)"""
@@ -1520,9 +2090,6 @@ class OutputResponseOutputCloudianS3(BaseModel):
 
     stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -1681,6 +2248,7 @@ class OutputResponseOutputCloudianS3(BaseModel):
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -1849,12 +2417,6 @@ class OutputResponseOutputCloudianS3(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -1958,7 +2520,6 @@ class OutputResponseOutputCloudianS3(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -2028,8 +2589,6 @@ class OutputResponseOutputCloudianS3(BaseModel):
                 "__template_kmsKeyId",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -2046,20 +2605,20 @@ class OutputResponseOutputCloudianS3(BaseModel):
         return m
 
 
-class OutputResponseTypeDellS3(str, Enum):
+class CreateOutputSystemByPackTypeDellS3(str, Enum):
     DELL_S3 = "dell_s3"
 
 
-class OutputResponseOutputDellS3TypedDict(TypedDict):
-    type: OutputResponseTypeDellS3
+class CreateOutputSystemByPackOutputDellS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeDellS3
     bucket: str
     r"""Name of the destination Dell PowerScale OneFS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     endpoint: str
     r"""Dell PowerScale OneFS S3-compatible endpoint URL (example: https://powerscale.example.com:9021)"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -2121,6 +2680,7 @@ class OutputResponseOutputDellS3TypedDict(TypedDict):
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -2183,14 +2743,13 @@ class OutputResponseOutputDellS3TypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputDellS3(BaseModel):
-    type: OutputResponseTypeDellS3
+class CreateOutputSystemByPackOutputDellS3(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeDellS3
 
     bucket: str
     r"""Name of the destination Dell PowerScale OneFS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -2200,9 +2759,6 @@ class OutputResponseOutputDellS3(BaseModel):
 
     endpoint: str
     r"""Dell PowerScale OneFS S3-compatible endpoint URL (example: https://powerscale.example.com:9021)"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -2347,6 +2903,7 @@ class OutputResponseOutputDellS3(BaseModel):
     r"""Object ACL to assign to uploaded objects"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -2500,12 +3057,6 @@ class OutputResponseOutputDellS3(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -2591,7 +3142,6 @@ class OutputResponseOutputDellS3(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -2655,8 +3205,6 @@ class OutputResponseOutputDellS3(BaseModel):
                 "__template_endpoint",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -2673,18 +3221,18 @@ class OutputResponseOutputDellS3(BaseModel):
         return m
 
 
-class OutputResponseTypeAlphasocS3(str, Enum):
+class CreateOutputSystemByPackTypeAlphasocS3(str, Enum):
     ALPHASOC_S3 = "alphasoc_s3"
 
 
-class OutputResponseOutputAlphasocS3TypedDict(TypedDict):
-    type: OutputResponseTypeAlphasocS3
+class CreateOutputSystemByPackOutputAlphasocS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeAlphasocS3
     bucket: str
     r"""Name of the destination AlphaSOC bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -2744,6 +3292,7 @@ class OutputResponseOutputAlphasocS3TypedDict(TypedDict):
     endpoint: NotRequired[str]
     r"""AlphaSOC S3-compatible endpoint URL (example: https://s3.alphasoc.net)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -2800,23 +3349,19 @@ class OutputResponseOutputAlphasocS3TypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputAlphasocS3(BaseModel):
-    type: OutputResponseTypeAlphasocS3
+class CreateOutputSystemByPackOutputAlphasocS3(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeAlphasocS3
 
     bucket: str
     r"""Name of the destination AlphaSOC bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
     stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -2956,6 +3501,7 @@ class OutputResponseOutputAlphasocS3(BaseModel):
     r"""AlphaSOC S3-compatible endpoint URL (example: https://s3.alphasoc.net)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -3094,12 +3640,6 @@ class OutputResponseOutputAlphasocS3(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -3176,7 +3716,6 @@ class OutputResponseOutputAlphasocS3(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -3236,8 +3775,6 @@ class OutputResponseOutputAlphasocS3(BaseModel):
                 "__template_endpoint",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -3254,20 +3791,20 @@ class OutputResponseOutputAlphasocS3(BaseModel):
         return m
 
 
-class OutputResponseTypeStorjS3(str, Enum):
+class CreateOutputSystemByPackTypeStorjS3(str, Enum):
     STORJ_S3 = "storj_s3"
 
 
-class OutputResponseOutputStorjS3TypedDict(TypedDict):
-    type: OutputResponseTypeStorjS3
+class CreateOutputSystemByPackOutputStorjS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeStorjS3
     bucket: str
     r"""Name of the destination Storj bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     endpoint: str
     r"""Storj S3-compatible gateway endpoint URL (example: https://gateway.storjshare.io)"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -3325,6 +3862,7 @@ class OutputResponseOutputStorjS3TypedDict(TypedDict):
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -3383,14 +3921,13 @@ class OutputResponseOutputStorjS3TypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputStorjS3(BaseModel):
-    type: OutputResponseTypeStorjS3
+class CreateOutputSystemByPackOutputStorjS3(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeStorjS3
 
     bucket: str
     r"""Name of the destination Storj bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -3400,9 +3937,6 @@ class OutputResponseOutputStorjS3(BaseModel):
 
     endpoint: str
     r"""Storj S3-compatible gateway endpoint URL (example: https://gateway.storjshare.io)"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -3539,6 +4073,7 @@ class OutputResponseOutputStorjS3(BaseModel):
     orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -3682,12 +4217,6 @@ class OutputResponseOutputStorjS3(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -3764,7 +4293,6 @@ class OutputResponseOutputStorjS3(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -3824,8 +4352,6 @@ class OutputResponseOutputStorjS3(BaseModel):
                 "__template_endpoint",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -3842,20 +4368,20 @@ class OutputResponseOutputStorjS3(BaseModel):
         return m
 
 
-class OutputResponseTypeNutanixObjects(str, Enum):
+class CreateOutputSystemByPackTypeNutanixObjects(str, Enum):
     NUTANIX_OBJECTS = "nutanix_objects"
 
 
-class OutputResponseOutputNutanixObjectsTypedDict(TypedDict):
-    type: OutputResponseTypeNutanixObjects
+class CreateOutputSystemByPackOutputNutanixObjectsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeNutanixObjects
     bucket: str
     r"""Name of the destination Nutanix Objects bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     endpoint: str
     r"""Nutanix Objects S3-compatible endpoint URL (example: https://objects.nutanix.local)"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -3915,6 +4441,7 @@ class OutputResponseOutputNutanixObjectsTypedDict(TypedDict):
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -3975,14 +4502,13 @@ class OutputResponseOutputNutanixObjectsTypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputNutanixObjects(BaseModel):
-    type: OutputResponseTypeNutanixObjects
+class CreateOutputSystemByPackOutputNutanixObjects(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeNutanixObjects
 
     bucket: str
     r"""Name of the destination Nutanix Objects bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -3992,9 +4518,6 @@ class OutputResponseOutputNutanixObjects(BaseModel):
 
     endpoint: str
     r"""Nutanix Objects S3-compatible endpoint URL (example: https://objects.nutanix.local)"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -4134,6 +4657,7 @@ class OutputResponseOutputNutanixObjects(BaseModel):
     orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -4282,12 +4806,6 @@ class OutputResponseOutputNutanixObjects(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -4364,7 +4882,6 @@ class OutputResponseOutputNutanixObjects(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -4426,8 +4943,6 @@ class OutputResponseOutputNutanixObjects(BaseModel):
                 "__template_endpoint",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -4444,20 +4959,20 @@ class OutputResponseOutputNutanixObjects(BaseModel):
         return m
 
 
-class OutputResponseTypeCloudflareR2(str, Enum):
+class CreateOutputSystemByPackTypeCloudflareR2(str, Enum):
     CLOUDFLARE_R2 = "cloudflare_r2"
 
 
-class OutputResponseOutputCloudflareR2TypedDict(TypedDict):
-    type: OutputResponseTypeCloudflareR2
+class CreateOutputSystemByPackOutputCloudflareR2TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCloudflareR2
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     endpoint: str
     r"""Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -4523,6 +5038,7 @@ class OutputResponseOutputCloudflareR2TypedDict(TypedDict):
     ]
     r"""Server-side encryption to use for uploaded objects"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -4585,14 +5101,13 @@ class OutputResponseOutputCloudflareR2TypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputCloudflareR2(BaseModel):
-    type: OutputResponseTypeCloudflareR2
+class CreateOutputSystemByPackOutputCloudflareR2(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCloudflareR2
 
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -4602,9 +5117,6 @@ class OutputResponseOutputCloudflareR2(BaseModel):
 
     endpoint: str
     r"""Cloudflare R2 service URL (example: https://<ACCOUNT_ID>.r2.cloudflarestorage.com)"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -4758,6 +5270,7 @@ class OutputResponseOutputCloudflareR2(BaseModel):
     r"""Server-side encryption to use for uploaded objects"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -4911,12 +5424,6 @@ class OutputResponseOutputCloudflareR2(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -5011,7 +5518,6 @@ class OutputResponseOutputCloudflareR2(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -5076,8 +5582,6 @@ class OutputResponseOutputCloudflareR2(BaseModel):
                 "__template_serverSideEncryption",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -5094,11 +5598,11 @@ class OutputResponseOutputCloudflareR2(BaseModel):
         return m
 
 
-class OutputResponseTypeMicrosoftFabric(str, Enum):
+class CreateOutputSystemByPackTypeMicrosoftFabric(str, Enum):
     MICROSOFT_FABRIC = "microsoft_fabric"
 
 
-class OutputResponseAuthenticationTypedDict(TypedDict):
+class CreateOutputSystemByPackAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
@@ -5135,7 +5639,7 @@ class OutputResponseAuthenticationTypedDict(TypedDict):
     r"""Binds 'scope' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'scope' at runtime."""
 
 
-class OutputResponseAuthentication(BaseModel):
+class CreateOutputSystemByPackAuthentication(BaseModel):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
@@ -5274,22 +5778,22 @@ class OutputResponseAuthentication(BaseModel):
         return m
 
 
-class OutputResponsePqControlsMicrosoftFabricTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsMicrosoftFabricTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsMicrosoftFabric(BaseModel):
+class CreateOutputSystemByPackPqControlsMicrosoftFabric(BaseModel):
     pass
 
 
-class OutputResponseOutputMicrosoftFabricTypedDict(TypedDict):
-    type: OutputResponseTypeMicrosoftFabric
+class CreateOutputSystemByPackOutputMicrosoftFabricTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeMicrosoftFabric
     topic: str
     r"""Topic name from Fabric Eventstream's endpoint"""
     bootstrap_server: str
     r"""Bootstrap server from Fabric Eventstream's endpoint"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -5324,12 +5828,13 @@ class OutputResponseOutputMicrosoftFabricTypedDict(TypedDict):
     r"""Maximum time to wait for Kafka to respond to an authentication request"""
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
-    sasl: NotRequired[OutputResponseAuthenticationTypedDict]
+    sasl: NotRequired[CreateOutputSystemByPackAuthenticationTypedDict]
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -5352,7 +5857,7 @@ class OutputResponseOutputMicrosoftFabricTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsMicrosoftFabricTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsMicrosoftFabricTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
@@ -5363,23 +5868,19 @@ class OutputResponseOutputMicrosoftFabricTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_bootstrap_server: NotRequired[str]
     r"""Binds 'bootstrap_server' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bootstrap_server' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputMicrosoftFabric(BaseModel):
-    type: OutputResponseTypeMicrosoftFabric
+class CreateOutputSystemByPackOutputMicrosoftFabric(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeMicrosoftFabric
 
     topic: str
     r"""Topic name from Fabric Eventstream's endpoint"""
 
     bootstrap_server: str
     r"""Bootstrap server from Fabric Eventstream's endpoint"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -5452,7 +5953,7 @@ class OutputResponseOutputMicrosoftFabric(BaseModel):
     ] = None
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
 
-    sasl: Optional[OutputResponseAuthentication] = None
+    sasl: Optional[CreateOutputSystemByPackAuthentication] = None
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
@@ -5463,6 +5964,7 @@ class OutputResponseOutputMicrosoftFabric(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -5514,7 +6016,7 @@ class OutputResponseOutputMicrosoftFabric(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsMicrosoftFabric],
+        Optional[CreateOutputSystemByPackPqControlsMicrosoftFabric],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -5542,12 +6044,6 @@ class OutputResponseOutputMicrosoftFabric(BaseModel):
         Optional[str], pydantic.Field(alias="__template_bootstrap_server")
     ] = None
     r"""Binds 'bootstrap_server' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'bootstrap_server' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("ack")
     def serialize_ack(self, value):
@@ -5607,7 +6103,6 @@ class OutputResponseOutputMicrosoftFabric(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -5646,8 +6141,6 @@ class OutputResponseOutputMicrosoftFabric(BaseModel):
                 "__template_format",
                 "__template_onBackpressure",
                 "__template_bootstrap_server",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -5664,12 +6157,14 @@ class OutputResponseOutputMicrosoftFabric(BaseModel):
         return m
 
 
-class OutputResponseTypeDatabricks(str, Enum):
+class CreateOutputSystemByPackTypeDatabricks(str, Enum):
     DATABRICKS = "databricks"
 
 
-class OutputResponseOutputDatabricksTypedDict(TypedDict):
-    type: OutputResponseTypeDatabricks
+class CreateOutputSystemByPackOutputDatabricksTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeDatabricks
     workspace_id: str
     r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
     scope: str
@@ -5684,8 +6179,6 @@ class OutputResponseOutputDatabricksTypedDict(TypedDict):
     r"""Name of the Unity Catalog volume where event data is written."""
     client_text_secret: str
     r"""OAuth client secret for Unity Catalog authentication"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -5737,6 +6230,7 @@ class OutputResponseOutputDatabricksTypedDict(TypedDict):
     timeout_sec: NotRequired[int]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -5787,14 +6281,13 @@ class OutputResponseOutputDatabricksTypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputDatabricks(BaseModel):
-    type: OutputResponseTypeDatabricks
+class CreateOutputSystemByPackOutputDatabricks(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeDatabricks
 
     workspace_id: Annotated[str, pydantic.Field(alias="workspaceId")]
     r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
@@ -5816,9 +6309,6 @@ class OutputResponseOutputDatabricks(BaseModel):
 
     client_text_secret: Annotated[str, pydantic.Field(alias="clientTextSecret")]
     r"""OAuth client secret for Unity Catalog authentication"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -5935,6 +6425,7 @@ class OutputResponseOutputDatabricks(BaseModel):
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -6060,12 +6551,6 @@ class OutputResponseOutputDatabricks(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
@@ -6133,7 +6618,6 @@ class OutputResponseOutputDatabricks(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -6186,8 +6670,6 @@ class OutputResponseOutputDatabricks(BaseModel):
                 "__template_onBackpressure",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -6204,25 +6686,25 @@ class OutputResponseOutputDatabricks(BaseModel):
         return m
 
 
-class OutputResponseTypeChronicle(str, Enum):
+class CreateOutputSystemByPackTypeChronicle(str, Enum):
     CHRONICLE = "chronicle"
 
 
-class OutputResponseAuthenticationMethodChronicle(
+class CreateOutputSystemByPackAuthenticationMethodChronicle(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     SERVICE_ACCOUNT = "serviceAccount"
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
-class OutputResponseCustomLabelTypedDict(TypedDict):
+class CreateOutputSystemByPackCustomLabelTypedDict(TypedDict):
     key: str
     value: str
     rbac_enabled: NotRequired[bool]
     r"""Designate this label for role-based access control and filtering"""
 
 
-class OutputResponseCustomLabel(BaseModel):
+class CreateOutputSystemByPackCustomLabel(BaseModel):
     key: str
 
     value: str
@@ -6247,16 +6729,18 @@ class OutputResponseCustomLabel(BaseModel):
         return m
 
 
-class OutputResponsePqControlsChronicleTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsChronicleTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsChronicle(BaseModel):
+class CreateOutputSystemByPackPqControlsChronicle(BaseModel):
     pass
 
 
-class OutputResponseOutputChronicleTypedDict(TypedDict):
-    type: OutputResponseTypeChronicle
+class CreateOutputSystemByPackOutputChronicleTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeChronicle
     region: str
     r"""Regional endpoint to send events to"""
     log_type: str
@@ -6265,8 +6749,6 @@ class OutputResponseOutputChronicleTypedDict(TypedDict):
     r"""The Google Cloud Platform (GCP) project ID to send events to"""
     gcp_instance: str
     r"""The Google Cloud Platform (GCP) instance to send events to. This is the Chronicle customer uuid."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -6276,7 +6758,9 @@ class OutputResponseOutputChronicleTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     api_version: NotRequired[str]
-    authentication_method: NotRequired[OutputResponseAuthenticationMethodChronicle]
+    authentication_method: NotRequired[
+        CreateOutputSystemByPackAuthenticationMethodChronicle
+    ]
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
@@ -6318,11 +6802,12 @@ class OutputResponseOutputChronicleTypedDict(TypedDict):
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     log_text_field: NotRequired[str]
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
-    custom_labels: NotRequired[List[OutputResponseCustomLabelTypedDict]]
+    custom_labels: NotRequired[List[CreateOutputSystemByPackCustomLabelTypedDict]]
     r"""Custom labels to be added to every event"""
     endpoint: NotRequired[str]
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     service_account_credentials: NotRequired[str]
     r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
     service_account_credentials_secret: NotRequired[str]
@@ -6349,7 +6834,7 @@ class OutputResponseOutputChronicleTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsChronicleTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsChronicleTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
@@ -6370,14 +6855,13 @@ class OutputResponseOutputChronicleTypedDict(TypedDict):
     r"""Binds 'gcpInstance' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'gcpInstance' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputChronicle(BaseModel):
-    type: OutputResponseTypeChronicle
+class CreateOutputSystemByPackOutputChronicle(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeChronicle
 
     region: str
     r"""Regional endpoint to send events to"""
@@ -6390,9 +6874,6 @@ class OutputResponseOutputChronicle(BaseModel):
 
     gcp_instance: Annotated[str, pydantic.Field(alias="gcpInstance")]
     r"""The Google Cloud Platform (GCP) instance to send events to. This is the Chronicle customer uuid."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -6411,7 +6892,7 @@ class OutputResponseOutputChronicle(BaseModel):
     api_version: Annotated[Optional[str], pydantic.Field(alias="apiVersion")] = None
 
     authentication_method: Annotated[
-        Optional[OutputResponseAuthenticationMethodChronicle],
+        Optional[CreateOutputSystemByPackAuthenticationMethodChronicle],
         pydantic.Field(alias="authenticationMethod"),
     ] = None
 
@@ -6507,7 +6988,8 @@ class OutputResponseOutputChronicle(BaseModel):
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     custom_labels: Annotated[
-        Optional[List[OutputResponseCustomLabel]], pydantic.Field(alias="customLabels")
+        Optional[List[CreateOutputSystemByPackCustomLabel]],
+        pydantic.Field(alias="customLabels"),
     ] = None
     r"""Custom labels to be added to every event"""
 
@@ -6515,6 +6997,7 @@ class OutputResponseOutputChronicle(BaseModel):
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")
@@ -6576,7 +7059,8 @@ class OutputResponseOutputChronicle(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsChronicle], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsChronicle],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -6629,17 +7113,13 @@ class OutputResponseOutputChronicle(BaseModel):
     ] = None
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("authentication_method")
     def serialize_authentication_method(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseAuthenticationMethodChronicle(value)
+                return models.CreateOutputSystemByPackAuthenticationMethodChronicle(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -6693,7 +7173,6 @@ class OutputResponseOutputChronicle(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -6746,8 +7225,6 @@ class OutputResponseOutputChronicle(BaseModel):
                 "__template_gcpProjectId",
                 "__template_gcpInstance",
                 "__template_endpoint",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -6764,11 +7241,11 @@ class OutputResponseOutputChronicle(BaseModel):
         return m
 
 
-class OutputResponseTypeSentinelOneAiSiem(str, Enum):
+class CreateOutputSystemByPackTypeSentinelOneAiSiem(str, Enum):
     SENTINEL_ONE_AI_SIEM = "sentinel_one_ai_siem"
 
 
-class OutputResponseRegion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackRegion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
 
     US = "US"
@@ -6780,29 +7257,31 @@ class OutputResponseRegion(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "Custom"
 
 
-class OutputResponseAISIEMEndpointPath(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackAISIEMEndpointPath(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     ROOT_SERVICES_COLLECTOR_EVENT = "/services/collector/event"
     ROOT_SERVICES_COLLECTOR_RAW = "/services/collector/raw"
 
 
-class OutputResponsePqControlsSentinelOneAiSiemTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsSentinelOneAiSiemTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsSentinelOneAiSiem(BaseModel):
+class CreateOutputSystemByPackPqControlsSentinelOneAiSiem(BaseModel):
     pass
 
 
-class OutputResponseOutputSentinelOneAiSiemTypedDict(TypedDict):
-    type: OutputResponseTypeSentinelOneAiSiem
-    region: OutputResponseRegion
-    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
-    endpoint: OutputResponseAISIEMEndpointPath
-    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputSentinelOneAiSiemTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeSentinelOneAiSiem
+    region: CreateOutputSystemByPackRegion
+    r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
+    endpoint: CreateOutputSystemByPackAISIEMEndpointPath
+    r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -6846,6 +7325,7 @@ class OutputResponseOutputSentinelOneAiSiemTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     token: NotRequired[str]
     r"""In the SentinelOne Console select Policy & Settings then select the Singularity AI SIEM section, API Keys will be at the bottom. Under Log Access Keys select a Write token and copy it here"""
     text_secret: NotRequired[str]
@@ -6902,30 +7382,28 @@ class OutputResponseOutputSentinelOneAiSiemTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsSentinelOneAiSiemTypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackPqControlsSentinelOneAiSiemTypedDict
+    ]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputSentinelOneAiSiem(BaseModel):
-    type: OutputResponseTypeSentinelOneAiSiem
+class CreateOutputSystemByPackOutputSentinelOneAiSiem(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
 
-    region: OutputResponseRegion
+    type: CreateOutputSystemByPackTypeSentinelOneAiSiem
+
+    region: CreateOutputSystemByPackRegion
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
 
-    endpoint: OutputResponseAISIEMEndpointPath
+    endpoint: CreateOutputSystemByPackAISIEMEndpointPath
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -7017,6 +7495,7 @@ class OutputResponseOutputSentinelOneAiSiem(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     token: Optional[str] = None
     r"""In the SentinelOne Console select Policy & Settings then select the Singularity AI SIEM section, API Keys will be at the bottom. Under Log Access Keys select a Write token and copy it here"""
@@ -7139,7 +7618,7 @@ class OutputResponseOutputSentinelOneAiSiem(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsSentinelOneAiSiem],
+        Optional[CreateOutputSystemByPackPqControlsSentinelOneAiSiem],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -7158,17 +7637,11 @@ class OutputResponseOutputSentinelOneAiSiem(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("region")
     def serialize_region(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseRegion(value)
+                return models.CreateOutputSystemByPackRegion(value)
             except ValueError:
                 return value
         return value
@@ -7177,7 +7650,7 @@ class OutputResponseOutputSentinelOneAiSiem(BaseModel):
     def serialize_endpoint(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseAISIEMEndpointPath(value)
+                return models.CreateOutputSystemByPackAISIEMEndpointPath(value)
             except ValueError:
                 return value
         return value
@@ -7240,7 +7713,6 @@ class OutputResponseOutputSentinelOneAiSiem(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -7293,8 +7765,6 @@ class OutputResponseOutputSentinelOneAiSiem(BaseModel):
                 "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -7311,18 +7781,20 @@ class OutputResponseOutputSentinelOneAiSiem(BaseModel):
         return m
 
 
-class OutputResponseTypeDynatraceOtlp(str, Enum):
+class CreateOutputSystemByPackTypeDynatraceOtlp(str, Enum):
     DYNATRACE_OTLP = "dynatrace_otlp"
 
 
-class OutputResponseProtocolDynatraceOtlp(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackProtocolDynatraceOtlp(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select a transport option for Dynatrace"""
 
     # HTTP
     HTTP = "http"
 
 
-class OutputResponseEndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackEndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the type of Dynatrace endpoint configured"""
 
     # SaaS
@@ -7331,28 +7803,28 @@ class OutputResponseEndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
     AG = "ag"
 
 
-class OutputResponsePqControlsDynatraceOtlpTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsDynatraceOtlpTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsDynatraceOtlp(BaseModel):
+class CreateOutputSystemByPackPqControlsDynatraceOtlp(BaseModel):
     pass
 
 
-class OutputResponseOutputDynatraceOtlpTypedDict(TypedDict):
-    type: OutputResponseTypeDynatraceOtlp
-    protocol: OutputResponseProtocolDynatraceOtlp
+class CreateOutputSystemByPackOutputDynatraceOtlpTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeDynatraceOtlp
+    protocol: CreateOutputSystemByPackProtocolDynatraceOtlp
     r"""Select a transport option for Dynatrace"""
     endpoint: str
     r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     otlp_version: OtlpVersionOptions131
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
-    endpoint_type: OutputResponseEndpointType
+    endpoint_type: CreateOutputSystemByPackEndpointType
     r"""Select the type of Dynatrace endpoint configured"""
     token_secret: str
     r"""Select or create a stored text secret"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -7397,6 +7869,7 @@ class OutputResponseOutputDynatraceOtlpTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
@@ -7437,23 +7910,22 @@ class OutputResponseOutputDynatraceOtlpTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsDynatraceOtlpTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsDynatraceOtlpTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputDynatraceOtlp(BaseModel):
-    type: OutputResponseTypeDynatraceOtlp
+class CreateOutputSystemByPackOutputDynatraceOtlp(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
 
-    protocol: OutputResponseProtocolDynatraceOtlp
+    type: CreateOutputSystemByPackTypeDynatraceOtlp
+
+    protocol: CreateOutputSystemByPackProtocolDynatraceOtlp
     r"""Select a transport option for Dynatrace"""
 
     endpoint: str
@@ -7463,15 +7935,12 @@ class OutputResponseOutputDynatraceOtlp(BaseModel):
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     endpoint_type: Annotated[
-        OutputResponseEndpointType, pydantic.Field(alias="endpointType")
+        CreateOutputSystemByPackEndpointType, pydantic.Field(alias="endpointType")
     ]
     r"""Select the type of Dynatrace endpoint configured"""
 
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -7568,6 +8037,7 @@ class OutputResponseOutputDynatraceOtlp(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -7658,7 +8128,7 @@ class OutputResponseOutputDynatraceOtlp(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsDynatraceOtlp],
+        Optional[CreateOutputSystemByPackPqControlsDynatraceOtlp],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -7677,17 +8147,11 @@ class OutputResponseOutputDynatraceOtlp(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("protocol")
     def serialize_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseProtocolDynatraceOtlp(value)
+                return models.CreateOutputSystemByPackProtocolDynatraceOtlp(value)
             except ValueError:
                 return value
         return value
@@ -7732,7 +8196,7 @@ class OutputResponseOutputDynatraceOtlp(BaseModel):
     def serialize_endpoint_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseEndpointType(value)
+                return models.CreateOutputSystemByPackEndpointType(value)
             except ValueError:
                 return value
         return value
@@ -7777,7 +8241,6 @@ class OutputResponseOutputDynatraceOtlp(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -7823,8 +8286,6 @@ class OutputResponseOutputDynatraceOtlp(BaseModel):
                 "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -7841,11 +8302,11 @@ class OutputResponseOutputDynatraceOtlp(BaseModel):
         return m
 
 
-class OutputResponseTypeDynatraceHTTP(str, Enum):
+class CreateOutputSystemByPackTypeDynatraceHTTP(str, Enum):
     DYNATRACE_HTTP = "dynatrace_http"
 
 
-class OutputResponseAuthenticationTypeDynatraceHTTP(
+class CreateOutputSystemByPackAuthenticationTypeDynatraceHTTP(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # Auth token
@@ -7854,7 +8315,9 @@ class OutputResponseAuthenticationTypeDynatraceHTTP(
     TEXT_SECRET = "textSecret"
 
 
-class OutputResponseFormatDynatraceHTTP(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackFormatDynatraceHTTP(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
     # JSON
@@ -7863,7 +8326,9 @@ class OutputResponseFormatDynatraceHTTP(str, Enum, metaclass=utils.OpenEnumMeta)
     PLAINTEXT = "plaintext"
 
 
-class OutputResponseEndpointDynatraceHTTP(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackEndpointDynatraceHTTP(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     # Cloud
     CLOUD = "cloud"
     # ActiveGate
@@ -7872,29 +8337,29 @@ class OutputResponseEndpointDynatraceHTTP(str, Enum, metaclass=utils.OpenEnumMet
     MANUAL = "manual"
 
 
-class OutputResponseTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
     # Logs
     LOGS = "logs"
     # Metrics
     METRICS = "metrics"
 
 
-class OutputResponsePqControlsDynatraceHTTPTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsDynatraceHTTPTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsDynatraceHTTP(BaseModel):
+class CreateOutputSystemByPackPqControlsDynatraceHTTP(BaseModel):
     pass
 
 
-class OutputResponseOutputDynatraceHTTPTypedDict(TypedDict):
-    type: OutputResponseTypeDynatraceHTTP
-    format_: OutputResponseFormatDynatraceHTTP
-    r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
-    endpoint: OutputResponseEndpointDynatraceHTTP
-    telemetry_type: OutputResponseTelemetryType
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputDynatraceHTTPTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeDynatraceHTTP
+    format_: CreateOutputSystemByPackFormatDynatraceHTTP
+    r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
+    endpoint: CreateOutputSystemByPackEndpointDynatraceHTTP
+    telemetry_type: CreateOutputSystemByPackTelemetryType
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -7941,10 +8406,11 @@ class OutputResponseOutputDynatraceHTTPTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[OutputResponseAuthenticationTypeDynatraceHTTP]
+    auth_type: NotRequired[CreateOutputSystemByPackAuthenticationTypeDynatraceHTTP]
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -7967,7 +8433,7 @@ class OutputResponseOutputDynatraceHTTPTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsDynatraceHTTPTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsDynatraceHTTPTypedDict]
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     text_secret: NotRequired[str]
@@ -7986,28 +8452,24 @@ class OutputResponseOutputDynatraceHTTPTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputDynatraceHTTP(BaseModel):
-    type: OutputResponseTypeDynatraceHTTP
+class CreateOutputSystemByPackOutputDynatraceHTTP(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeDynatraceHTTP
 
     format_: Annotated[
-        OutputResponseFormatDynatraceHTTP, pydantic.Field(alias="format")
+        CreateOutputSystemByPackFormatDynatraceHTTP, pydantic.Field(alias="format")
     ]
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
-    endpoint: OutputResponseEndpointDynatraceHTTP
+    endpoint: CreateOutputSystemByPackEndpointDynatraceHTTP
 
     telemetry_type: Annotated[
-        OutputResponseTelemetryType, pydantic.Field(alias="telemetryType")
+        CreateOutputSystemByPackTelemetryType, pydantic.Field(alias="telemetryType")
     ]
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -8104,7 +8566,7 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[OutputResponseAuthenticationTypeDynatraceHTTP],
+        Optional[CreateOutputSystemByPackAuthenticationTypeDynatraceHTTP],
         pydantic.Field(alias="authType"),
     ] = None
 
@@ -8114,6 +8576,7 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -8165,7 +8628,7 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsDynatraceHTTP],
+        Optional[CreateOutputSystemByPackPqControlsDynatraceHTTP],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -8208,12 +8671,6 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
     )
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("method")
     def serialize_method(self, value):
         if isinstance(value, str):
@@ -8245,7 +8702,9 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseAuthenticationTypeDynatraceHTTP(value)
+                return models.CreateOutputSystemByPackAuthenticationTypeDynatraceHTTP(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -8254,7 +8713,7 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseFormatDynatraceHTTP(value)
+                return models.CreateOutputSystemByPackFormatDynatraceHTTP(value)
             except ValueError:
                 return value
         return value
@@ -8263,7 +8722,7 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
     def serialize_endpoint(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseEndpointDynatraceHTTP(value)
+                return models.CreateOutputSystemByPackEndpointDynatraceHTTP(value)
             except ValueError:
                 return value
         return value
@@ -8272,7 +8731,7 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
     def serialize_telemetry_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseTelemetryType(value)
+                return models.CreateOutputSystemByPackTelemetryType(value)
             except ValueError:
                 return value
         return value
@@ -8308,7 +8767,6 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -8354,8 +8812,6 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_url",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -8372,11 +8828,11 @@ class OutputResponseOutputDynatraceHTTP(BaseModel):
         return m
 
 
-class OutputResponseTypeNetflow(str, Enum):
+class CreateOutputSystemByPackTypeNetflow(str, Enum):
     NETFLOW = "netflow"
 
 
-class OutputResponseHostNetflowTypedDict(TypedDict):
+class CreateOutputSystemByPackHostNetflowTypedDict(TypedDict):
     host: str
     r"""Destination host"""
     port: float
@@ -8387,7 +8843,7 @@ class OutputResponseHostNetflowTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class OutputResponseHostNetflow(BaseModel):
+class CreateOutputSystemByPackHostNetflow(BaseModel):
     host: str
     r"""Destination host"""
 
@@ -8421,12 +8877,12 @@ class OutputResponseHostNetflow(BaseModel):
         return m
 
 
-class OutputResponseOutputNetflowTypedDict(TypedDict):
-    type: OutputResponseTypeNetflow
-    hosts: List[OutputResponseHostNetflowTypedDict]
-    r"""One or more NetFlow Destinations to forward events to"""
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputNetflowTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeNetflow
+    hosts: List[CreateOutputSystemByPackHostNetflowTypedDict]
+    r"""One or more NetFlow Destinations to forward events to"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -8440,24 +8896,21 @@ class OutputResponseOutputNetflowTypedDict(TypedDict):
     enable_ip_spoofing: NotRequired[bool]
     r"""Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     max_record_size: NotRequired[float]
     r"""MTU in bytes. The actual maximum NetFlow payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). For example, with the default MTU of 1500, the max payload is 1472 bytes for IPv4. Payloads exceeding this limit will be dropped."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputNetflow(BaseModel):
-    type: OutputResponseTypeNetflow
-
-    hosts: List[OutputResponseHostNetflow]
-    r"""One or more NetFlow Destinations to forward events to"""
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputNetflow(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeNetflow
+
+    hosts: List[CreateOutputSystemByPackHostNetflow]
+    r"""One or more NetFlow Destinations to forward events to"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -8484,6 +8937,7 @@ class OutputResponseOutputNetflow(BaseModel):
     r"""Send NetFlow traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     max_record_size: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSize")
@@ -8495,17 +8949,10 @@ class OutputResponseOutputNetflow(BaseModel):
     ] = None
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -8515,8 +8962,6 @@ class OutputResponseOutputNetflow(BaseModel):
                 "description",
                 "maxRecordSize",
                 "__template_streamtags",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -8533,23 +8978,25 @@ class OutputResponseOutputNetflow(BaseModel):
         return m
 
 
-class OutputResponseTypeXsiam(str, Enum):
+class CreateOutputSystemByPackTypeXsiam(str, Enum):
     XSIAM = "xsiam"
 
 
-class OutputResponseAuthenticationMethodXsiam(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackAuthenticationMethodXsiam(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Enter a token directly, or provide a secret referencing a token"""
 
     TOKEN = "token"
     SECRET = "secret"
 
 
-class OutputResponseURLXsiamTypedDict(TypedDict):
+class CreateOutputSystemByPackURLXsiamTypedDict(TypedDict):
     weight: NotRequired[float]
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
 
-class OutputResponseURLXsiam(BaseModel):
+class CreateOutputSystemByPackURLXsiam(BaseModel):
     weight: Optional[float] = None
     r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
 
@@ -8570,18 +9017,18 @@ class OutputResponseURLXsiam(BaseModel):
         return m
 
 
-class OutputResponsePqControlsXsiamTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsXsiamTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsXsiam(BaseModel):
+class CreateOutputSystemByPackPqControlsXsiam(BaseModel):
     pass
 
 
-class OutputResponseOutputXsiamTypedDict(TypedDict):
-    type: OutputResponseTypeXsiam
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputXsiamTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeXsiam
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -8615,7 +9062,7 @@ class OutputResponseOutputXsiamTypedDict(TypedDict):
     r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
-    auth_type: NotRequired[OutputResponseAuthenticationMethodXsiam]
+    auth_type: NotRequired[CreateOutputSystemByPackAuthenticationMethodXsiam]
     r"""Enter a token directly, or provide a secret referencing a token"""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
@@ -8631,13 +9078,14 @@ class OutputResponseOutputXsiamTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""XSIAM endpoint URL to send events to, such as https://api-{tenant external URL}/logs/v1/event"""
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    urls: NotRequired[List[OutputResponseURLXsiamTypedDict]]
+    urls: NotRequired[List[CreateOutputSystemByPackURLXsiamTypedDict]]
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -8668,7 +9116,7 @@ class OutputResponseOutputXsiamTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsXsiamTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsXsiamTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -8677,17 +9125,13 @@ class OutputResponseOutputXsiamTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputXsiam(BaseModel):
-    type: OutputResponseTypeXsiam
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputXsiam(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeXsiam
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -8758,7 +9202,7 @@ class OutputResponseOutputXsiam(BaseModel):
     r"""List of headers that are safe to log in plain text"""
 
     auth_type: Annotated[
-        Optional[OutputResponseAuthenticationMethodXsiam],
+        Optional[CreateOutputSystemByPackAuthenticationMethodXsiam],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter a token directly, or provide a secret referencing a token"""
@@ -8794,6 +9238,7 @@ class OutputResponseOutputXsiam(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""XSIAM endpoint URL to send events to, such as https://api-{tenant external URL}/logs/v1/event"""
@@ -8806,7 +9251,7 @@ class OutputResponseOutputXsiam(BaseModel):
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
-    urls: Optional[List[OutputResponseURLXsiam]] = None
+    urls: Optional[List[CreateOutputSystemByPackURLXsiam]] = None
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -8874,7 +9319,8 @@ class OutputResponseOutputXsiam(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsXsiam], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsXsiam],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -8897,12 +9343,6 @@ class OutputResponseOutputXsiam(BaseModel):
     )
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):
         if isinstance(value, str):
@@ -8916,7 +9356,7 @@ class OutputResponseOutputXsiam(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseAuthenticationMethodXsiam(value)
+                return models.CreateOutputSystemByPackAuthenticationMethodXsiam(value)
             except ValueError:
                 return value
         return value
@@ -8961,7 +9401,6 @@ class OutputResponseOutputXsiam(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -9009,8 +9448,6 @@ class OutputResponseOutputXsiam(BaseModel):
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_url",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -9027,11 +9464,13 @@ class OutputResponseOutputXsiam(BaseModel):
         return m
 
 
-class OutputResponseTypeLocalSearchStorage(str, Enum):
+class CreateOutputSystemByPackTypeLocalSearchStorage(str, Enum):
     LOCAL_SEARCH_STORAGE = "local_search_storage"
 
 
-class OutputResponseFormatLocalSearchStorage(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackFormatLocalSearchStorage(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Data format to use when sending data. Defaults to JSON Compact."""
 
     # JSONCompactEachRowWithNames
@@ -9040,7 +9479,7 @@ class OutputResponseFormatLocalSearchStorage(str, Enum, metaclass=utils.OpenEnum
     JSON_EACH_ROW = "json-each-row"
 
 
-class OutputResponseMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How event fields are mapped to columns."""
 
     # Automatic
@@ -9049,7 +9488,7 @@ class OutputResponseMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class OutputResponseStatsDestinationTypedDict(TypedDict):
+class CreateOutputSystemByPackStatsDestinationTypedDict(TypedDict):
     url: NotRequired[str]
     database: NotRequired[str]
     table_name: NotRequired[str]
@@ -9061,7 +9500,7 @@ class OutputResponseStatsDestinationTypedDict(TypedDict):
     concurrency: NotRequired[float]
 
 
-class OutputResponseStatsDestination(BaseModel):
+class CreateOutputSystemByPackStatsDestination(BaseModel):
     url: Optional[str] = None
 
     database: Optional[str] = None
@@ -9111,7 +9550,7 @@ class OutputResponseStatsDestination(BaseModel):
         return m
 
 
-class OutputResponseColumnMappingTypedDict(TypedDict):
+class CreateOutputSystemByPackColumnMappingTypedDict(TypedDict):
     column_name: str
     r"""Name of the column that will store field value"""
     column_value_expression: str
@@ -9120,7 +9559,7 @@ class OutputResponseColumnMappingTypedDict(TypedDict):
     r"""Type of the column in the database"""
 
 
-class OutputResponseColumnMapping(BaseModel):
+class CreateOutputSystemByPackColumnMapping(BaseModel):
     column_name: Annotated[str, pydantic.Field(alias="columnName")]
     r"""Name of the column that will store field value"""
 
@@ -9149,23 +9588,23 @@ class OutputResponseColumnMapping(BaseModel):
         return m
 
 
-class OutputResponsePqControlsLocalSearchStorageTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsLocalSearchStorageTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsLocalSearchStorage(BaseModel):
+class CreateOutputSystemByPackPqControlsLocalSearchStorage(BaseModel):
     pass
 
 
-class OutputResponseOutputLocalSearchStorageTypedDict(TypedDict):
-    type: OutputResponseTypeLocalSearchStorage
+class CreateOutputSystemByPackOutputLocalSearchStorageTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeLocalSearchStorage
     url: str
     r"""URL of the database instance. Example: http://localhost:8123/"""
     database: str
     table_name: str
     r"""Name of the table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -9175,9 +9614,9 @@ class OutputResponseOutputLocalSearchStorageTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     auth_type: NotRequired[AuthenticationTypeOptions]
-    format_: NotRequired[OutputResponseFormatLocalSearchStorage]
+    format_: NotRequired[CreateOutputSystemByPackFormatLocalSearchStorage]
     r"""Data format to use when sending data. Defaults to JSON Compact."""
-    mapping_type: NotRequired[OutputResponseMappingType]
+    mapping_type: NotRequired[CreateOutputSystemByPackMappingType]
     r"""How event fields are mapped to columns."""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a table immediately."""
@@ -9220,8 +9659,9 @@ class OutputResponseOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Log the most recent event that fails to match the table schema"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    stats_destination: NotRequired[OutputResponseStatsDestinationTypedDict]
+    stats_destination: NotRequired[CreateOutputSystemByPackStatsDestinationTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     credentials_secret: NotRequired[str]
@@ -9234,7 +9674,7 @@ class OutputResponseOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Fields to exclude from sending"""
     describe_table: NotRequired[str]
     r"""Retrieves the table schema and populates the Column Mapping table"""
-    column_mappings: NotRequired[List[OutputResponseColumnMappingTypedDict]]
+    column_mappings: NotRequired[List[CreateOutputSystemByPackColumnMappingTypedDict]]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -9257,7 +9697,9 @@ class OutputResponseOutputLocalSearchStorageTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsLocalSearchStorageTypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackPqControlsLocalSearchStorageTypedDict
+    ]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -9270,14 +9712,13 @@ class OutputResponseOutputLocalSearchStorageTypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputLocalSearchStorage(BaseModel):
-    type: OutputResponseTypeLocalSearchStorage
+class CreateOutputSystemByPackOutputLocalSearchStorage(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeLocalSearchStorage
 
     url: str
     r"""URL of the database instance. Example: http://localhost:8123/"""
@@ -9286,9 +9727,6 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
 
     table_name: Annotated[str, pydantic.Field(alias="tableName")]
     r"""Name of the table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -9309,12 +9747,14 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     ] = None
 
     format_: Annotated[
-        Optional[OutputResponseFormatLocalSearchStorage], pydantic.Field(alias="format")
+        Optional[CreateOutputSystemByPackFormatLocalSearchStorage],
+        pydantic.Field(alias="format"),
     ] = None
     r"""Data format to use when sending data. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Optional[OutputResponseMappingType], pydantic.Field(alias="mappingType")
+        Optional[CreateOutputSystemByPackMappingType],
+        pydantic.Field(alias="mappingType"),
     ] = None
     r"""How event fields are mapped to columns."""
 
@@ -9408,11 +9848,12 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     stats_destination: Annotated[
-        Optional[OutputResponseStatsDestination],
+        Optional[CreateOutputSystemByPackStatsDestination],
         pydantic.Field(alias="statsDestination"),
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -9442,7 +9883,7 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     r"""Retrieves the table schema and populates the Column Mapping table"""
 
     column_mappings: Annotated[
-        Optional[List[OutputResponseColumnMapping]],
+        Optional[List[CreateOutputSystemByPackColumnMapping]],
         pydantic.Field(alias="columnMappings"),
     ] = None
 
@@ -9496,7 +9937,7 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsLocalSearchStorage],
+        Optional[CreateOutputSystemByPackPqControlsLocalSearchStorage],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -9530,12 +9971,6 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -9549,7 +9984,7 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseFormatLocalSearchStorage(value)
+                return models.CreateOutputSystemByPackFormatLocalSearchStorage(value)
             except ValueError:
                 return value
         return value
@@ -9558,7 +9993,7 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     def serialize_mapping_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseMappingType(value)
+                return models.CreateOutputSystemByPackMappingType(value)
             except ValueError:
                 return value
         return value
@@ -9612,7 +10047,6 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -9667,8 +10101,6 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
                 "__template_tableName",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -9685,27 +10117,27 @@ class OutputResponseOutputLocalSearchStorage(BaseModel):
         return m
 
 
-class OutputResponseTypeCustomerMetricsStorage(str, Enum):
+class CreateOutputSystemByPackTypeCustomerMetricsStorage(str, Enum):
     CUSTOMER_METRICS_STORAGE = "customer_metrics_storage"
 
 
-class OutputResponsePqControlsCustomerMetricsStorageTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCustomerMetricsStorageTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsCustomerMetricsStorage(BaseModel):
+class CreateOutputSystemByPackPqControlsCustomerMetricsStorage(BaseModel):
     pass
 
 
-class OutputResponseOutputCustomerMetricsStorageTypedDict(TypedDict):
-    type: OutputResponseTypeCustomerMetricsStorage
+class CreateOutputSystemByPackOutputCustomerMetricsStorageTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCustomerMetricsStorage
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
     database: str
     table_name: str
     r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -9761,6 +10193,7 @@ class OutputResponseOutputCustomerMetricsStorageTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     credentials_secret: NotRequired[str]
@@ -9796,7 +10229,9 @@ class OutputResponseOutputCustomerMetricsStorageTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsCustomerMetricsStorageTypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackPqControlsCustomerMetricsStorageTypedDict
+    ]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -9809,14 +10244,13 @@ class OutputResponseOutputCustomerMetricsStorageTypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputCustomerMetricsStorage(BaseModel):
-    type: OutputResponseTypeCustomerMetricsStorage
+class CreateOutputSystemByPackOutputCustomerMetricsStorage(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCustomerMetricsStorage
 
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
@@ -9825,9 +10259,6 @@ class OutputResponseOutputCustomerMetricsStorage(BaseModel):
 
     table_name: Annotated[str, pydantic.Field(alias="tableName")]
     r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -9945,6 +10376,7 @@ class OutputResponseOutputCustomerMetricsStorage(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -10028,7 +10460,7 @@ class OutputResponseOutputCustomerMetricsStorage(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsCustomerMetricsStorage],
+        Optional[CreateOutputSystemByPackPqControlsCustomerMetricsStorage],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -10062,12 +10494,6 @@ class OutputResponseOutputCustomerMetricsStorage(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
         if isinstance(value, str):
@@ -10144,7 +10570,6 @@ class OutputResponseOutputCustomerMetricsStorage(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -10198,8 +10623,6 @@ class OutputResponseOutputCustomerMetricsStorage(BaseModel):
                 "__template_tableName",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -10216,27 +10639,27 @@ class OutputResponseOutputCustomerMetricsStorage(BaseModel):
         return m
 
 
-class OutputResponseTypeClickHouse(str, Enum):
+class CreateOutputSystemByPackTypeClickHouse(str, Enum):
     CLICK_HOUSE = "click_house"
 
 
-class OutputResponsePqControlsClickHouseTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsClickHouseTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsClickHouse(BaseModel):
+class CreateOutputSystemByPackPqControlsClickHouse(BaseModel):
     pass
 
 
-class OutputResponseOutputClickHouseTypedDict(TypedDict):
-    type: OutputResponseTypeClickHouse
+class CreateOutputSystemByPackOutputClickHouseTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeClickHouse
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
     database: str
     table_name: str
     r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -10292,6 +10715,7 @@ class OutputResponseOutputClickHouseTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     credentials_secret: NotRequired[str]
@@ -10327,7 +10751,7 @@ class OutputResponseOutputClickHouseTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsClickHouseTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsClickHouseTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -10340,14 +10764,13 @@ class OutputResponseOutputClickHouseTypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputClickHouse(BaseModel):
-    type: OutputResponseTypeClickHouse
+class CreateOutputSystemByPackOutputClickHouse(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeClickHouse
 
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
@@ -10356,9 +10779,6 @@ class OutputResponseOutputClickHouse(BaseModel):
 
     table_name: Annotated[str, pydantic.Field(alias="tableName")]
     r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -10476,6 +10896,7 @@ class OutputResponseOutputClickHouse(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -10559,7 +10980,8 @@ class OutputResponseOutputClickHouse(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsClickHouse], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsClickHouse],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -10591,12 +11013,6 @@ class OutputResponseOutputClickHouse(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("auth_type")
     def serialize_auth_type(self, value):
@@ -10674,7 +11090,6 @@ class OutputResponseOutputClickHouse(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -10728,8 +11143,6 @@ class OutputResponseOutputClickHouse(BaseModel):
                 "__template_tableName",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -10746,14 +11159,14 @@ class OutputResponseOutputClickHouse(BaseModel):
         return m
 
 
-class OutputResponseTypeDiskSpool(str, Enum):
+class CreateOutputSystemByPackTypeDiskSpool(str, Enum):
     DISK_SPOOL = "disk_spool"
 
 
-class OutputResponseOutputDiskSpoolTypedDict(TypedDict):
-    type: OutputResponseTypeDiskSpool
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputDiskSpoolTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeDiskSpool
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -10773,19 +11186,16 @@ class OutputResponseOutputDiskSpoolTypedDict(TypedDict):
     partition_expr: NotRequired[str]
     r"""JavaScript expression defining how files are partitioned and organized within the time-buckets. If blank, the event's __partition property is used and otherwise, events go directly into the time-bucket directory."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputDiskSpool(BaseModel):
-    type: OutputResponseTypeDiskSpool
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputDiskSpool(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeDiskSpool
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -10819,17 +11229,12 @@ class OutputResponseOutputDiskSpool(BaseModel):
     r"""JavaScript expression defining how files are partitioned and organized within the time-buckets. If blank, the event's __partition property is used and otherwise, events go directly into the time-bucket directory."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
     ] = None
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("compress")
     def serialize_compress(self, value):
@@ -10844,7 +11249,6 @@ class OutputResponseOutputDiskSpool(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -10856,8 +11260,6 @@ class OutputResponseOutputDiskSpool(BaseModel):
                 "partitionExpr",
                 "description",
                 "__template_streamtags",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -10874,20 +11276,20 @@ class OutputResponseOutputDiskSpool(BaseModel):
         return m
 
 
-class OutputResponseTypeCriblLake(str, Enum):
+class CreateOutputSystemByPackTypeCriblLake(str, Enum):
     CRIBL_LAKE = "cribl_lake"
 
 
-class OutputResponseFormatCriblLake(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackFormatCriblLake(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
     PARQUET = "parquet"
     RAW = "raw"
 
 
-class OutputResponseOutputCriblLakeTypedDict(TypedDict):
-    type: OutputResponseTypeCriblLake
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputCriblLakeTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCriblLake
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -10930,11 +11332,12 @@ class OutputResponseOutputCriblLakeTypedDict(TypedDict):
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     dest_path: NotRequired[str]
     r"""Lake dataset to send the data to."""
-    format_: NotRequired[OutputResponseFormatCriblLake]
+    format_: NotRequired[CreateOutputSystemByPackFormatCriblLake]
     dynamic_dataset: NotRequired[bool]
     max_closing_files_to_backpressure: NotRequired[float]
     max_concurrent_file_parts: NotRequired[float]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -10983,17 +11386,13 @@ class OutputResponseOutputCriblLakeTypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputCriblLake(BaseModel):
-    type: OutputResponseTypeCriblLake
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputCriblLake(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCriblLake
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -11092,7 +11491,8 @@ class OutputResponseOutputCriblLake(BaseModel):
     r"""Lake dataset to send the data to."""
 
     format_: Annotated[
-        Optional[OutputResponseFormatCriblLake], pydantic.Field(alias="format")
+        Optional[CreateOutputSystemByPackFormatCriblLake],
+        pydantic.Field(alias="format"),
     ] = None
 
     dynamic_dataset: Annotated[
@@ -11108,6 +11508,7 @@ class OutputResponseOutputCriblLake(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -11228,12 +11629,6 @@ class OutputResponseOutputCriblLake(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("on_backpressure")
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
@@ -11256,7 +11651,7 @@ class OutputResponseOutputCriblLake(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseFormatCriblLake(value)
+                return models.CreateOutputSystemByPackFormatCriblLake(value)
             except ValueError:
                 return value
         return value
@@ -11301,7 +11696,6 @@ class OutputResponseOutputCriblLake(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -11353,8 +11747,6 @@ class OutputResponseOutputCriblLake(BaseModel):
                 "__template_destPath",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -11371,12 +11763,14 @@ class OutputResponseOutputCriblLake(BaseModel):
         return m
 
 
-class OutputResponseTypeSecurityLake(str, Enum):
+class CreateOutputSystemByPackTypeSecurityLake(str, Enum):
     SECURITY_LAKE = "security_lake"
 
 
-class OutputResponseOutputSecurityLakeTypedDict(TypedDict):
-    type: OutputResponseTypeSecurityLake
+class CreateOutputSystemByPackOutputSecurityLakeTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeSecurityLake
     assume_role_arn: str
     r"""Amazon Resource Name (ARN) of the role to assume"""
     bucket: str
@@ -11389,8 +11783,6 @@ class OutputResponseOutputSecurityLakeTypedDict(TypedDict):
     r"""ID of the AWS account whose data the Destination will write to Security Lake. This should have been configured when creating the Amazon Security Lake custom source."""
     custom_source: str
     r"""Name of the custom source configured in Amazon Security Lake"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -11477,6 +11869,7 @@ class OutputResponseOutputSecurityLakeTypedDict(TypedDict):
     enable_page_checksum: NotRequired[bool]
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
@@ -11525,14 +11918,13 @@ class OutputResponseOutputSecurityLakeTypedDict(TypedDict):
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputSecurityLake(BaseModel):
-    type: OutputResponseTypeSecurityLake
+class CreateOutputSystemByPackOutputSecurityLake(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeSecurityLake
 
     assume_role_arn: Annotated[str, pydantic.Field(alias="assumeRoleArn")]
     r"""Amazon Resource Name (ARN) of the role to assume"""
@@ -11551,9 +11943,6 @@ class OutputResponseOutputSecurityLake(BaseModel):
 
     custom_source: Annotated[str, pydantic.Field(alias="customSource")]
     r"""Name of the custom source configured in Amazon Security Lake"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -11764,6 +12153,7 @@ class OutputResponseOutputSecurityLake(BaseModel):
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
@@ -11881,12 +12271,6 @@ class OutputResponseOutputSecurityLake(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -11963,7 +12347,6 @@ class OutputResponseOutputSecurityLake(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -12033,8 +12416,6 @@ class OutputResponseOutputSecurityLake(BaseModel):
                 "__template_customSource",
                 "__template_awsApiKey",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -12051,18 +12432,18 @@ class OutputResponseOutputSecurityLake(BaseModel):
         return m
 
 
-class OutputResponseTypeDlS3(str, Enum):
+class CreateOutputSystemByPackTypeDlS3(str, Enum):
     DL_S3 = "dl_s3"
 
 
-class OutputResponseOutputDlS3TypedDict(TypedDict):
-    type: OutputResponseTypeDlS3
+class CreateOutputSystemByPackOutputDlS3TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeDlS3
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -12142,6 +12523,7 @@ class OutputResponseOutputDlS3TypedDict(TypedDict):
     partitioning_fields: NotRequired[List[str]]
     r"""List of fields to partition the path by, in addition to time, which is included automatically. The effective partition will be YYYY/MM/DD/HH/<list/of/fields>."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
@@ -12220,23 +12602,19 @@ class OutputResponseOutputDlS3TypedDict(TypedDict):
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputDlS3(BaseModel):
-    type: OutputResponseTypeDlS3
+class CreateOutputSystemByPackOutputDlS3(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeDlS3
 
     bucket: str
     r"""Name of the destination S3 bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
     stage_path: Annotated[str, pydantic.Field(alias="stagePath")]
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -12423,6 +12801,7 @@ class OutputResponseOutputDlS3(BaseModel):
     r"""List of fields to partition the path by, in addition to time, which is included automatically. The effective partition will be YYYY/MM/DD/HH/<list/of/fields>."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
@@ -12614,12 +12993,6 @@ class OutputResponseOutputDlS3(BaseModel):
     ] = None
     r"""Binds 'parquetSchema' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'parquetSchema' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -12723,7 +13096,6 @@ class OutputResponseOutputDlS3(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -12804,8 +13176,6 @@ class OutputResponseOutputDlS3(BaseModel):
                 "__template_awsApiKey",
                 "__template_compress",
                 "__template_parquetSchema",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -12822,28 +13192,28 @@ class OutputResponseOutputDlS3(BaseModel):
         return m
 
 
-class OutputResponseTypeCrowdstrikeNextGenSiem(str, Enum):
+class CreateOutputSystemByPackTypeCrowdstrikeNextGenSiem(str, Enum):
     CROWDSTRIKE_NEXT_GEN_SIEM = "crowdstrike_next_gen_siem"
 
 
-class OutputResponsePqControlsCrowdstrikeNextGenSiemTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCrowdstrikeNextGenSiemTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsCrowdstrikeNextGenSiem(BaseModel):
+class CreateOutputSystemByPackPqControlsCrowdstrikeNextGenSiem(BaseModel):
     pass
 
 
-class OutputResponseOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
-    type: OutputResponseTypeCrowdstrikeNextGenSiem
+class CreateOutputSystemByPackOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCrowdstrikeNextGenSiem
     url: str
     r"""URL provided from a CrowdStrike data connector.
     Example: https://ingest.<region>.crowdstrike.com/api/ingest/hec/<connection-id>/v1/services/collector
     """
     format_: RequestFormatOptions
     r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -12889,6 +13259,7 @@ class OutputResponseOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     token: NotRequired[str]
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
@@ -12914,7 +13285,9 @@ class OutputResponseOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsCrowdstrikeNextGenSiemTypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackPqControlsCrowdstrikeNextGenSiemTypedDict
+    ]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -12923,14 +13296,13 @@ class OutputResponseOutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputCrowdstrikeNextGenSiem(BaseModel):
-    type: OutputResponseTypeCrowdstrikeNextGenSiem
+class CreateOutputSystemByPackOutputCrowdstrikeNextGenSiem(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCrowdstrikeNextGenSiem
 
     url: str
     r"""URL provided from a CrowdStrike data connector.
@@ -12939,9 +13311,6 @@ class OutputResponseOutputCrowdstrikeNextGenSiem(BaseModel):
 
     format_: Annotated[RequestFormatOptions, pydantic.Field(alias="format")]
     r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -13038,6 +13407,7 @@ class OutputResponseOutputCrowdstrikeNextGenSiem(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     token: Optional[str] = None
 
@@ -13094,7 +13464,7 @@ class OutputResponseOutputCrowdstrikeNextGenSiem(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsCrowdstrikeNextGenSiem],
+        Optional[CreateOutputSystemByPackPqControlsCrowdstrikeNextGenSiem],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -13117,12 +13487,6 @@ class OutputResponseOutputCrowdstrikeNextGenSiem(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):
@@ -13191,7 +13555,6 @@ class OutputResponseOutputCrowdstrikeNextGenSiem(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -13231,8 +13594,6 @@ class OutputResponseOutputCrowdstrikeNextGenSiem(BaseModel):
                 "__template_url",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -13249,26 +13610,26 @@ class OutputResponseOutputCrowdstrikeNextGenSiem(BaseModel):
         return m
 
 
-class OutputResponseTypeHumioHec(str, Enum):
+class CreateOutputSystemByPackTypeHumioHec(str, Enum):
     HUMIO_HEC = "humio_hec"
 
 
-class OutputResponsePqControlsHumioHecTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsHumioHecTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsHumioHec(BaseModel):
+class CreateOutputSystemByPackPqControlsHumioHec(BaseModel):
     pass
 
 
-class OutputResponseOutputHumioHecTypedDict(TypedDict):
-    type: OutputResponseTypeHumioHec
+class CreateOutputSystemByPackOutputHumioHecTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeHumioHec
     url: str
     r"""URL to a CrowdStrike Falcon LogScale endpoint to send events to. Examples: https://cloud.us.humio.com/api/v1/ingest/hec for JSON and https://cloud.us.humio.com/api/v1/ingest/hec/raw for raw"""
     format_: RequestFormatOptions
     r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -13314,6 +13675,7 @@ class OutputResponseOutputHumioHecTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     token: NotRequired[str]
     r"""CrowdStrike Falcon LogScale authentication token"""
     text_secret: NotRequired[str]
@@ -13340,7 +13702,7 @@ class OutputResponseOutputHumioHecTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsHumioHecTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsHumioHecTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -13349,23 +13711,19 @@ class OutputResponseOutputHumioHecTypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputHumioHec(BaseModel):
-    type: OutputResponseTypeHumioHec
+class CreateOutputSystemByPackOutputHumioHec(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeHumioHec
 
     url: str
     r"""URL to a CrowdStrike Falcon LogScale endpoint to send events to. Examples: https://cloud.us.humio.com/api/v1/ingest/hec for JSON and https://cloud.us.humio.com/api/v1/ingest/hec/raw for raw"""
 
     format_: Annotated[RequestFormatOptions, pydantic.Field(alias="format")]
     r"""When set to JSON, the event is automatically formatted with required fields before sending. When set to Raw, only the event's `_raw` value is sent."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -13462,6 +13820,7 @@ class OutputResponseOutputHumioHec(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     token: Optional[str] = None
     r"""CrowdStrike Falcon LogScale authentication token"""
@@ -13519,7 +13878,8 @@ class OutputResponseOutputHumioHec(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsHumioHec], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsHumioHec],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -13541,12 +13901,6 @@ class OutputResponseOutputHumioHec(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):
@@ -13615,7 +13969,6 @@ class OutputResponseOutputHumioHec(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -13655,8 +14008,6 @@ class OutputResponseOutputHumioHec(BaseModel):
                 "__template_url",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -13673,22 +14024,22 @@ class OutputResponseOutputHumioHec(BaseModel):
         return m
 
 
-class OutputResponseTypeCriblSearchEngine(str, Enum):
+class CreateOutputSystemByPackTypeCriblSearchEngine(str, Enum):
     CRIBL_SEARCH_ENGINE = "cribl_search_engine"
 
 
-class OutputResponsePqControlsCriblSearchEngineTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCriblSearchEngineTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsCriblSearchEngine(BaseModel):
+class CreateOutputSystemByPackPqControlsCriblSearchEngine(BaseModel):
     pass
 
 
-class OutputResponseOutputCriblSearchEngineTypedDict(TypedDict):
-    type: OutputResponseTypeCriblSearchEngine
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputCriblSearchEngineTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCriblSearchEngine
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -13743,6 +14094,7 @@ class OutputResponseOutputCriblSearchEngineTypedDict(TypedDict):
     use_round_robin_dns: NotRequired[bool]
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
     exclude_self: NotRequired[bool]
@@ -13774,7 +14126,9 @@ class OutputResponseOutputCriblSearchEngineTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsCriblSearchEngineTypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackPqControlsCriblSearchEngineTypedDict
+    ]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -13783,17 +14137,13 @@ class OutputResponseOutputCriblSearchEngineTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputCriblSearchEngine(BaseModel):
-    type: OutputResponseTypeCriblSearchEngine
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputCriblSearchEngine(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCriblSearchEngine
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -13911,6 +14261,7 @@ class OutputResponseOutputCriblSearchEngine(BaseModel):
     r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
@@ -13980,7 +14331,7 @@ class OutputResponseOutputCriblSearchEngine(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsCriblSearchEngine],
+        Optional[CreateOutputSystemByPackPqControlsCriblSearchEngine],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -14004,12 +14355,6 @@ class OutputResponseOutputCriblSearchEngine(BaseModel):
     )
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("compression")
     def serialize_compression(self, value):
         if isinstance(value, str):
@@ -14068,7 +14413,6 @@ class OutputResponseOutputCriblSearchEngine(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -14116,8 +14460,6 @@ class OutputResponseOutputCriblSearchEngine(BaseModel):
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_url",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -14134,22 +14476,22 @@ class OutputResponseOutputCriblSearchEngine(BaseModel):
         return m
 
 
-class OutputResponseTypeCriblHTTP(str, Enum):
+class CreateOutputSystemByPackTypeCriblHTTP(str, Enum):
     CRIBL_HTTP = "cribl_http"
 
 
-class OutputResponsePqControlsCriblHTTPTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCriblHTTPTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsCriblHTTP(BaseModel):
+class CreateOutputSystemByPackPqControlsCriblHTTP(BaseModel):
     pass
 
 
-class OutputResponseOutputCriblHTTPTypedDict(TypedDict):
-    type: OutputResponseTypeCriblHTTP
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputCriblHTTPTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCriblHTTP
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -14202,6 +14544,7 @@ class OutputResponseOutputCriblHTTPTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
     use_round_robin_dns: NotRequired[bool]
@@ -14235,7 +14578,7 @@ class OutputResponseOutputCriblHTTPTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsCriblHTTPTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsCriblHTTPTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -14244,17 +14587,13 @@ class OutputResponseOutputCriblHTTPTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputCriblHTTP(BaseModel):
-    type: OutputResponseTypeCriblHTTP
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputCriblHTTP(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCriblHTTP
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -14367,6 +14706,7 @@ class OutputResponseOutputCriblHTTP(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
@@ -14441,7 +14781,8 @@ class OutputResponseOutputCriblHTTP(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsCriblHTTP], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsCriblHTTP],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -14463,12 +14804,6 @@ class OutputResponseOutputCriblHTTP(BaseModel):
         None
     )
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("compression")
     def serialize_compression(self, value):
@@ -14528,7 +14863,6 @@ class OutputResponseOutputCriblHTTP(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -14576,8 +14910,6 @@ class OutputResponseOutputCriblHTTP(BaseModel):
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_url",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -14594,22 +14926,22 @@ class OutputResponseOutputCriblHTTP(BaseModel):
         return m
 
 
-class OutputResponseTypeCriblTCP(str, Enum):
+class CreateOutputSystemByPackTypeCriblTCP(str, Enum):
     CRIBL_TCP = "cribl_tcp"
 
 
-class OutputResponsePqControlsCriblTCPTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsCriblTCPTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsCriblTCP(BaseModel):
+class CreateOutputSystemByPackPqControlsCriblTCP(BaseModel):
     pass
 
 
-class OutputResponseOutputCriblTCPTypedDict(TypedDict):
-    type: OutputResponseTypeCriblTCP
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputCriblTCPTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeCriblTCP
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -14640,6 +14972,7 @@ class OutputResponseOutputCriblTCPTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     host: NotRequired[str]
     r"""The hostname of the receiver"""
     port: NotRequired[float]
@@ -14676,7 +15009,7 @@ class OutputResponseOutputCriblTCPTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsCriblTCPTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsCriblTCPTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -14685,17 +15018,13 @@ class OutputResponseOutputCriblTCPTypedDict(TypedDict):
     r"""Binds 'host' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'host' at runtime."""
     template_port: NotRequired[str]
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputCriblTCP(BaseModel):
-    type: OutputResponseTypeCriblTCP
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputCriblTCP(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeCriblTCP
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -14762,6 +15091,7 @@ class OutputResponseOutputCriblTCP(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     host: Optional[str] = None
     r"""The hostname of the receiver"""
@@ -14840,7 +15170,8 @@ class OutputResponseOutputCriblTCP(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsCriblTCP], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsCriblTCP],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -14862,12 +15193,6 @@ class OutputResponseOutputCriblTCP(BaseModel):
         None
     )
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("compression")
     def serialize_compression(self, value):
@@ -14918,7 +15243,6 @@ class OutputResponseOutputCriblTCP(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -14958,8 +15282,6 @@ class OutputResponseOutputCriblTCP(BaseModel):
                 "__template_onBackpressure",
                 "__template_host",
                 "__template_port",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -14976,11 +15298,11 @@ class OutputResponseOutputCriblTCP(BaseModel):
         return m
 
 
-class OutputResponseTypeDataset(str, Enum):
+class CreateOutputSystemByPackTypeDataset(str, Enum):
     DATASET = "dataset"
 
 
-class OutputResponseSeverityDataset(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackSeverityDataset(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
 
     # 0 - finest
@@ -14999,7 +15321,7 @@ class OutputResponseSeverityDataset(str, Enum, metaclass=utils.OpenEnumMeta):
     FATAL = "fatal"
 
 
-class OutputResponseDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""DataSet site to which events should be sent"""
 
     # US
@@ -15010,18 +15332,18 @@ class OutputResponseDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class OutputResponsePqControlsDatasetTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsDatasetTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsDataset(BaseModel):
+class CreateOutputSystemByPackPqControlsDataset(BaseModel):
     pass
 
 
-class OutputResponseOutputDatasetTypedDict(TypedDict):
-    type: OutputResponseTypeDataset
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputDatasetTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeDataset
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -15038,7 +15360,7 @@ class OutputResponseOutputDatasetTypedDict(TypedDict):
     r"""Name of the event field that contains the `serverHost` identifier. If not specified, defaults to `cribl_<outputId>`."""
     timestamp_field: NotRequired[str]
     r"""Name of the event field that contains the timestamp. If not specified, defaults to `ts`, `_time`, or `Date.now()`, in that order."""
-    default_severity: NotRequired[OutputResponseSeverityDataset]
+    default_severity: NotRequired[CreateOutputSystemByPackSeverityDataset]
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
@@ -15047,7 +15369,7 @@ class OutputResponseOutputDatasetTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    site: NotRequired[OutputResponseDataSetSite]
+    site: NotRequired[CreateOutputSystemByPackDataSetSite]
     r"""DataSet site to which events should be sent"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -15081,6 +15403,7 @@ class OutputResponseOutputDatasetTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -15104,7 +15427,7 @@ class OutputResponseOutputDatasetTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsDatasetTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsDatasetTypedDict]
     api_key: NotRequired[str]
     r"""A 'Log Write Access' API key for the DataSet account"""
     text_secret: NotRequired[str]
@@ -15117,17 +15440,13 @@ class OutputResponseOutputDatasetTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_custom_url: NotRequired[str]
     r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputDataset(BaseModel):
-    type: OutputResponseTypeDataset
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputDataset(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeDataset
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -15162,7 +15481,8 @@ class OutputResponseOutputDataset(BaseModel):
     r"""Name of the event field that contains the timestamp. If not specified, defaults to `ts`, `_time`, or `Date.now()`, in that order."""
 
     default_severity: Annotated[
-        Optional[OutputResponseSeverityDataset], pydantic.Field(alias="defaultSeverity")
+        Optional[CreateOutputSystemByPackSeverityDataset],
+        pydantic.Field(alias="defaultSeverity"),
     ] = None
     r"""Default value for event severity. If the `sev` or `__severity` fields are set on an event, the first one matching will override this value."""
 
@@ -15181,7 +15501,7 @@ class OutputResponseOutputDataset(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    site: Optional[OutputResponseDataSetSite] = None
+    site: Optional[CreateOutputSystemByPackDataSetSite] = None
     r"""DataSet site to which events should be sent"""
 
     concurrency: Optional[float] = None
@@ -15254,6 +15574,7 @@ class OutputResponseOutputDataset(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 
@@ -15307,7 +15628,8 @@ class OutputResponseOutputDataset(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsDataset], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsDataset],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
@@ -15336,17 +15658,11 @@ class OutputResponseOutputDataset(BaseModel):
     ] = None
     r"""Binds 'customUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'customUrl' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("default_severity")
     def serialize_default_severity(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseSeverityDataset(value)
+                return models.CreateOutputSystemByPackSeverityDataset(value)
             except ValueError:
                 return value
         return value
@@ -15355,7 +15671,7 @@ class OutputResponseOutputDataset(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseDataSetSite(value)
+                return models.CreateOutputSystemByPackDataSetSite(value)
             except ValueError:
                 return value
         return value
@@ -15418,7 +15734,6 @@ class OutputResponseOutputDataset(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -15466,8 +15781,6 @@ class OutputResponseOutputDataset(BaseModel):
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_customUrl",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -15484,20 +15797,22 @@ class OutputResponseOutputDataset(BaseModel):
         return m
 
 
-class OutputResponseTypeServiceNow(str, Enum):
+class CreateOutputSystemByPackTypeServiceNow(str, Enum):
     SERVICE_NOW = "service_now"
 
 
-class OutputResponsePqControlsServiceNowTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsServiceNowTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsServiceNow(BaseModel):
+class CreateOutputSystemByPackPqControlsServiceNow(BaseModel):
     pass
 
 
-class OutputResponseOutputServiceNowTypedDict(TypedDict):
-    type: OutputResponseTypeServiceNow
+class CreateOutputSystemByPackOutputServiceNowTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeServiceNow
     endpoint: str
     r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     token_secret: str
@@ -15506,8 +15821,6 @@ class OutputResponseOutputServiceNowTypedDict(TypedDict):
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     protocol: ProtocolOptions
     r"""Select a transport option for OpenTelemetry"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -15552,6 +15865,7 @@ class OutputResponseOutputServiceNowTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
@@ -15593,21 +15907,20 @@ class OutputResponseOutputServiceNowTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsServiceNowTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsServiceNowTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputServiceNow(BaseModel):
-    type: OutputResponseTypeServiceNow
+class CreateOutputSystemByPackOutputServiceNow(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeServiceNow
 
     endpoint: str
     r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
@@ -15620,9 +15933,6 @@ class OutputResponseOutputServiceNow(BaseModel):
 
     protocol: ProtocolOptions
     r"""Select a transport option for OpenTelemetry"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -15719,6 +16029,7 @@ class OutputResponseOutputServiceNow(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -15811,7 +16122,8 @@ class OutputResponseOutputServiceNow(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsServiceNow], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsServiceNow],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -15828,12 +16140,6 @@ class OutputResponseOutputServiceNow(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("otlp_version")
     def serialize_otlp_version(self, value):
@@ -15920,7 +16226,6 @@ class OutputResponseOutputServiceNow(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -15967,8 +16272,6 @@ class OutputResponseOutputServiceNow(BaseModel):
                 "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -15985,11 +16288,13 @@ class OutputResponseOutputServiceNow(BaseModel):
         return m
 
 
-class OutputResponseTypeOpenTelemetry(str, Enum):
+class CreateOutputSystemByPackTypeOpenTelemetry(str, Enum):
     OPEN_TELEMETRY = "open_telemetry"
 
 
-class OutputResponseOTLPVersionOpenTelemetry(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackOTLPVersionOpenTelemetry(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     # 0.10.0
@@ -15998,7 +16303,7 @@ class OutputResponseOTLPVersionOpenTelemetry(str, Enum, metaclass=utils.OpenEnum
     ONE_DOT_3_DOT_1 = "1.3.1"
 
 
-class OutputResponseAuthenticationTypeOpenTelemetry(
+class CreateOutputSystemByPackAuthenticationTypeOpenTelemetry(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     # None
@@ -16015,20 +16320,20 @@ class OutputResponseAuthenticationTypeOpenTelemetry(
     OAUTH_SECRET = "oauthSecret"
 
 
-class OutputResponsePqControlsOpenTelemetryTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsOpenTelemetryTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsOpenTelemetry(BaseModel):
+class CreateOutputSystemByPackPqControlsOpenTelemetry(BaseModel):
     pass
 
 
-class OutputResponseOutputOpenTelemetryTypedDict(TypedDict):
-    type: OutputResponseTypeOpenTelemetry
+class CreateOutputSystemByPackOutputOpenTelemetryTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeOpenTelemetry
     endpoint: str
     r"""The endpoint where OTel events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets). Unspecified ports will default to 4317, unless the endpoint is an HTTPS-based URL or TLS is enabled, in which case 443 will be used."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -16039,13 +16344,13 @@ class OutputResponseOutputOpenTelemetryTypedDict(TypedDict):
     r"""Tags for filtering and grouping in @{product}"""
     protocol: NotRequired[ProtocolOptions]
     r"""Select a transport option for OpenTelemetry"""
-    otlp_version: NotRequired[OutputResponseOTLPVersionOpenTelemetry]
+    otlp_version: NotRequired[CreateOutputSystemByPackOTLPVersionOpenTelemetry]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_compress: NotRequired[CompressionOptionsMessages]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
-    auth_type: NotRequired[OutputResponseAuthenticationTypeOpenTelemetry]
+    auth_type: NotRequired[CreateOutputSystemByPackAuthenticationTypeOpenTelemetry]
     http_traces_endpoint_override: NotRequired[str]
     r"""If you want to send traces to the default `{endpoint}/v1/traces` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
     http_metrics_endpoint_override: NotRequired[str]
@@ -16077,6 +16382,7 @@ class OutputResponseOutputOpenTelemetryTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     token: NotRequired[str]
@@ -16142,7 +16448,7 @@ class OutputResponseOutputOpenTelemetryTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsOpenTelemetryTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsOpenTelemetryTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -16151,20 +16457,16 @@ class OutputResponseOutputOpenTelemetryTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_login_url: NotRequired[str]
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputOpenTelemetry(BaseModel):
-    type: OutputResponseTypeOpenTelemetry
+class CreateOutputSystemByPackOutputOpenTelemetry(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeOpenTelemetry
 
     endpoint: str
     r"""The endpoint where OTel events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets). Unspecified ports will default to 4317, unless the endpoint is an HTTPS-based URL or TLS is enabled, in which case 443 will be used."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -16184,7 +16486,7 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
     r"""Select a transport option for OpenTelemetry"""
 
     otlp_version: Annotated[
-        Optional[OutputResponseOTLPVersionOpenTelemetry],
+        Optional[CreateOutputSystemByPackOTLPVersionOpenTelemetry],
         pydantic.Field(alias="otlpVersion"),
     ] = None
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
@@ -16198,7 +16500,7 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
     auth_type: Annotated[
-        Optional[OutputResponseAuthenticationTypeOpenTelemetry],
+        Optional[CreateOutputSystemByPackAuthenticationTypeOpenTelemetry],
         pydantic.Field(alias="authType"),
     ] = None
 
@@ -16271,6 +16573,7 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -16418,7 +16721,7 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsOpenTelemetry],
+        Optional[CreateOutputSystemByPackPqControlsOpenTelemetry],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -16442,12 +16745,6 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
     ] = None
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("protocol")
     def serialize_protocol(self, value):
         if isinstance(value, str):
@@ -16461,7 +16758,7 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseOTLPVersionOpenTelemetry(value)
+                return models.CreateOutputSystemByPackOTLPVersionOpenTelemetry(value)
             except ValueError:
                 return value
         return value
@@ -16488,7 +16785,9 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseAuthenticationTypeOpenTelemetry(value)
+                return models.CreateOutputSystemByPackAuthenticationTypeOpenTelemetry(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -16542,7 +16841,6 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -16605,8 +16903,6 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
                 "__template_loginUrl",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -16623,21 +16919,21 @@ class OutputResponseOutputOpenTelemetry(BaseModel):
         return m
 
 
-class OutputResponseTypeRing(str, Enum):
+class CreateOutputSystemByPackTypeRing(str, Enum):
     RING = "ring"
 
 
-class OutputResponseDataFormatRing(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackDataFormatRing(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of the output data."""
 
     JSON = "json"
     RAW = "raw"
 
 
-class OutputResponseOutputRingTypedDict(TypedDict):
-    type: OutputResponseTypeRing
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputRingTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeRing
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -16646,7 +16942,7 @@ class OutputResponseOutputRingTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    format_: NotRequired[OutputResponseDataFormatRing]
+    format_: NotRequired[CreateOutputSystemByPackDataFormatRing]
     r"""Format of the output data."""
     partition_expr: NotRequired[str]
     r"""JS expression to define how files are partitioned and organized. If left blank, Cribl Stream will fallback on event.__partition."""
@@ -16660,21 +16956,18 @@ class OutputResponseOutputRingTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputRing(BaseModel):
-    type: OutputResponseTypeRing
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputRing(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeRing
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -16691,7 +16984,7 @@ class OutputResponseOutputRing(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     format_: Annotated[
-        Optional[OutputResponseDataFormatRing], pydantic.Field(alias="format")
+        Optional[CreateOutputSystemByPackDataFormatRing], pydantic.Field(alias="format")
     ] = None
     r"""Format of the output data."""
 
@@ -16718,6 +17011,7 @@ class OutputResponseOutputRing(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -16729,17 +17023,11 @@ class OutputResponseOutputRing(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseDataFormatRing(value)
+                return models.CreateOutputSystemByPackDataFormatRing(value)
             except ValueError:
                 return value
         return value
@@ -16766,7 +17054,6 @@ class OutputResponseOutputRing(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -16781,8 +17068,6 @@ class OutputResponseOutputRing(BaseModel):
                 "description",
                 "__template_streamtags",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -16799,11 +17084,11 @@ class OutputResponseOutputRing(BaseModel):
         return m
 
 
-class OutputResponseTypePrometheus(str, Enum):
+class CreateOutputSystemByPackTypePrometheus(str, Enum):
     PROMETHEUS = "prometheus"
 
 
-class OutputResponseAuthenticationTypePrometheus(
+class CreateOutputSystemByPackAuthenticationTypePrometheus(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Remote Write authentication type"""
@@ -16822,20 +17107,20 @@ class OutputResponseAuthenticationTypePrometheus(
     AWS_SIGV4 = "aws_sigv4"
 
 
-class OutputResponsePqControlsPrometheusTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsPrometheusTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsPrometheus(BaseModel):
+class CreateOutputSystemByPackPqControlsPrometheus(BaseModel):
     pass
 
 
-class OutputResponseOutputPrometheusTypedDict(TypedDict):
-    type: OutputResponseTypePrometheus
+class CreateOutputSystemByPackOutputPrometheusTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypePrometheus
     url: str
     r"""The endpoint to send metrics to"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -16882,9 +17167,10 @@ class OutputResponseOutputPrometheusTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[OutputResponseAuthenticationTypePrometheus]
+    auth_type: NotRequired[CreateOutputSystemByPackAuthenticationTypePrometheus]
     r"""Remote Write authentication type"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     metrics_flush_period_sec: NotRequired[float]
     r"""How frequently metrics metadata is sent out. Value cannot be smaller than the base Flush period set above."""
     pq_strict_ordering: NotRequired[bool]
@@ -16909,7 +17195,7 @@ class OutputResponseOutputPrometheusTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsPrometheusTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsPrometheusTypedDict]
     username: NotRequired[str]
     password: NotRequired[str]
     token: NotRequired[str]
@@ -16950,20 +17236,16 @@ class OutputResponseOutputPrometheusTypedDict(TypedDict):
     r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
     template_assume_role_external_id: NotRequired[str]
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputPrometheus(BaseModel):
-    type: OutputResponseTypePrometheus
+class CreateOutputSystemByPackOutputPrometheus(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypePrometheus
 
     url: str
     r"""The endpoint to send metrics to"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -17066,12 +17348,13 @@ class OutputResponseOutputPrometheus(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     auth_type: Annotated[
-        Optional[OutputResponseAuthenticationTypePrometheus],
+        Optional[CreateOutputSystemByPackAuthenticationTypePrometheus],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Remote Write authentication type"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     metrics_flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="metricsFlushPeriodSec")
@@ -17128,7 +17411,8 @@ class OutputResponseOutputPrometheus(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsPrometheus], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsPrometheus],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     username: Optional[str] = None
@@ -17221,12 +17505,6 @@ class OutputResponseOutputPrometheus(BaseModel):
     ] = None
     r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):
         if isinstance(value, str):
@@ -17249,7 +17527,9 @@ class OutputResponseOutputPrometheus(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseAuthenticationTypePrometheus(value)
+                return models.CreateOutputSystemByPackAuthenticationTypePrometheus(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -17294,7 +17574,6 @@ class OutputResponseOutputPrometheus(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -17352,8 +17631,6 @@ class OutputResponseOutputPrometheus(BaseModel):
                 "__template_awsService",
                 "__template_assumeRoleArn",
                 "__template_assumeRoleExternalId",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -17370,24 +17647,24 @@ class OutputResponseOutputPrometheus(BaseModel):
         return m
 
 
-class OutputResponseTypeLoki(str, Enum):
+class CreateOutputSystemByPackTypeLoki(str, Enum):
     LOKI = "loki"
 
 
-class OutputResponsePqControlsLokiTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsLokiTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsLoki(BaseModel):
+class CreateOutputSystemByPackPqControlsLoki(BaseModel):
     pass
 
 
-class OutputResponseOutputLokiTypedDict(TypedDict):
-    type: OutputResponseTypeLoki
+class CreateOutputSystemByPackOutputLokiTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeLoki
     url: str
     r"""The endpoint to send logs to"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -17442,6 +17719,7 @@ class OutputResponseOutputLokiTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[bool]
     r"""Compress the payload body before sending"""
     token: NotRequired[str]
@@ -17476,27 +17754,23 @@ class OutputResponseOutputLokiTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsLokiTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsLokiTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputLoki(BaseModel):
-    type: OutputResponseTypeLoki
+class CreateOutputSystemByPackOutputLoki(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeLoki
 
     url: str
     r"""The endpoint to send logs to"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -17610,6 +17884,7 @@ class OutputResponseOutputLoki(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[bool] = None
     r"""Compress the payload body before sending"""
@@ -17681,7 +17956,8 @@ class OutputResponseOutputLoki(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsLoki], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsLoki],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -17698,12 +17974,6 @@ class OutputResponseOutputLoki(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("message_format")
     def serialize_message_format(self, value):
@@ -17774,7 +18044,6 @@ class OutputResponseOutputLoki(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -17821,8 +18090,6 @@ class OutputResponseOutputLoki(BaseModel):
                 "__template_streamtags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -17839,24 +18106,24 @@ class OutputResponseOutputLoki(BaseModel):
         return m
 
 
-class OutputResponseOutputGrafanaCloudType2(str, Enum):
+class CreateOutputSystemByPackOutputGrafanaCloudType2(str, Enum):
     GRAFANA_CLOUD = "grafana_cloud"
 
 
-class OutputResponseOutputGrafanaCloudPqControls2TypedDict(TypedDict):
+class CreateOutputSystemByPackOutputGrafanaCloudPqControls2TypedDict(TypedDict):
     pass
 
 
-class OutputResponseOutputGrafanaCloudPqControls2(BaseModel):
+class CreateOutputSystemByPackOutputGrafanaCloudPqControls2(BaseModel):
     pass
 
 
-class OutputResponseOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
-    type: OutputResponseOutputGrafanaCloudType2
+class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackOutputGrafanaCloudType2
     prometheus_url: str
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -17910,6 +18177,7 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[bool]
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""
     pq_strict_ordering: NotRequired[bool]
@@ -17934,7 +18202,9 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponseOutputGrafanaCloudPqControls2TypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackOutputGrafanaCloudPqControls2TypedDict
+    ]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_loki_url: NotRequired[str]
@@ -17945,20 +18215,16 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputGrafanaCloudGrafanaCloud2(BaseModel):
-    type: OutputResponseOutputGrafanaCloudType2
+class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackOutputGrafanaCloudType2
 
     prometheus_url: Annotated[str, pydantic.Field(alias="prometheusUrl")]
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -18073,6 +18339,7 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[bool] = None
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""
@@ -18127,7 +18394,7 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponseOutputGrafanaCloudPqControls2],
+        Optional[CreateOutputSystemByPackOutputGrafanaCloudPqControls2],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -18155,12 +18422,6 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud2(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("message_format")
     def serialize_message_format(self, value):
@@ -18220,7 +18481,6 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud2(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -18265,8 +18525,6 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud2(BaseModel):
                 "__template_prometheusUrl",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -18283,24 +18541,24 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud2(BaseModel):
         return m
 
 
-class OutputResponseOutputGrafanaCloudType1(str, Enum):
+class CreateOutputSystemByPackOutputGrafanaCloudType1(str, Enum):
     GRAFANA_CLOUD = "grafana_cloud"
 
 
-class OutputResponseOutputGrafanaCloudPqControls1TypedDict(TypedDict):
+class CreateOutputSystemByPackOutputGrafanaCloudPqControls1TypedDict(TypedDict):
     pass
 
 
-class OutputResponseOutputGrafanaCloudPqControls1(BaseModel):
+class CreateOutputSystemByPackOutputGrafanaCloudPqControls1(BaseModel):
     pass
 
 
-class OutputResponseOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
-    type: OutputResponseOutputGrafanaCloudType1
+class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackOutputGrafanaCloudType1
     loki_url: str
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -18354,6 +18612,7 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[bool]
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""
     pq_strict_ordering: NotRequired[bool]
@@ -18378,7 +18637,9 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponseOutputGrafanaCloudPqControls1TypedDict]
+    pq_controls: NotRequired[
+        CreateOutputSystemByPackOutputGrafanaCloudPqControls1TypedDict
+    ]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_loki_url: NotRequired[str]
@@ -18389,20 +18650,16 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputGrafanaCloudGrafanaCloud1(BaseModel):
-    type: OutputResponseOutputGrafanaCloudType1
+class CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackOutputGrafanaCloudType1
 
     loki_url: Annotated[str, pydantic.Field(alias="lokiUrl")]
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -18519,6 +18776,7 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[bool] = None
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""
@@ -18573,7 +18831,7 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponseOutputGrafanaCloudPqControls1],
+        Optional[CreateOutputSystemByPackOutputGrafanaCloudPqControls1],
         pydantic.Field(alias="pqControls"),
     ] = None
 
@@ -18601,12 +18859,6 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud1(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("message_format")
     def serialize_message_format(self, value):
@@ -18666,7 +18918,6 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud1(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -18711,8 +18962,6 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud1(BaseModel):
                 "__template_prometheusUrl",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -18729,29 +18978,29 @@ class OutputResponseOutputGrafanaCloudGrafanaCloud1(BaseModel):
         return m
 
 
-OutputResponseOutputGrafanaCloudUnionTypedDict = TypeAliasType(
-    "OutputResponseOutputGrafanaCloudUnionTypedDict",
+CreateOutputSystemByPackOutputGrafanaCloudUnionTypedDict = TypeAliasType(
+    "CreateOutputSystemByPackOutputGrafanaCloudUnionTypedDict",
     Union[
-        OutputResponseOutputGrafanaCloudGrafanaCloud1TypedDict,
-        OutputResponseOutputGrafanaCloudGrafanaCloud2TypedDict,
+        CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1TypedDict,
+        CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2TypedDict,
     ],
 )
 
 
-OutputResponseOutputGrafanaCloudUnion = TypeAliasType(
-    "OutputResponseOutputGrafanaCloudUnion",
+CreateOutputSystemByPackOutputGrafanaCloudUnion = TypeAliasType(
+    "CreateOutputSystemByPackOutputGrafanaCloudUnion",
     Union[
-        OutputResponseOutputGrafanaCloudGrafanaCloud1,
-        OutputResponseOutputGrafanaCloudGrafanaCloud2,
+        CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1,
+        CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2,
     ],
 )
 
 
-class OutputResponseTypeDatadog(str, Enum):
+class CreateOutputSystemByPackTypeDatadog(str, Enum):
     DATADOG = "datadog"
 
 
-class OutputResponseSendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackSendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The content type to use when sending logs"""
 
     # text/plain
@@ -18760,7 +19009,7 @@ class OutputResponseSendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
 
 
-class OutputResponseSeverityDatadog(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackSeverityDatadog(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
     # emergency
@@ -18781,7 +19030,7 @@ class OutputResponseSeverityDatadog(str, Enum, metaclass=utils.OpenEnumMeta):
     DEBUG = "debug"
 
 
-class OutputResponseDatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackDatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Datadog site to which events should be sent"""
 
     # US
@@ -18800,18 +19049,18 @@ class OutputResponseDatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class OutputResponsePqControlsDatadogTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsDatadogTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsDatadog(BaseModel):
+class CreateOutputSystemByPackPqControlsDatadog(BaseModel):
     pass
 
 
-class OutputResponseOutputDatadogTypedDict(TypedDict):
-    type: OutputResponseTypeDatadog
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputDatadogTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeDatadog
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -18820,7 +19069,7 @@ class OutputResponseOutputDatadogTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
-    content_type: NotRequired[OutputResponseSendLogsAs]
+    content_type: NotRequired[CreateOutputSystemByPackSendLogsAs]
     r"""The content type to use when sending logs"""
     message: NotRequired[str]
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
@@ -18836,9 +19085,9 @@ class OutputResponseOutputDatadogTypedDict(TypedDict):
     r"""Batch events by API key and the ddtags field on the event. When disabled, batches events only by API key. If incoming events have high cardinality in the ddtags field, disabling this setting may improve Destination performance."""
     allow_api_key_from_events: NotRequired[bool]
     r"""Allow API key to be set from the event's '__agent_api_key' field"""
-    severity: NotRequired[OutputResponseSeverityDatadog]
+    severity: NotRequired[CreateOutputSystemByPackSeverityDatadog]
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
-    site: NotRequired[OutputResponseDatadogSite]
+    site: NotRequired[CreateOutputSystemByPackDatadogSite]
     r"""Datadog site to which events should be sent"""
     send_counters_as_count: NotRequired[bool]
     r"""If not enabled, Datadog will transform 'counter' metrics to 'gauge'. [Learn more about Datadog metrics types.](https://docs.datadoghq.com/metrics/types/?tab=count)"""
@@ -18881,6 +19130,7 @@ class OutputResponseOutputDatadogTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -18904,7 +19154,7 @@ class OutputResponseOutputDatadogTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsDatadogTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsDatadogTypedDict]
     api_key: NotRequired[str]
     r"""Organization's API key in Datadog"""
     text_secret: NotRequired[str]
@@ -18917,17 +19167,13 @@ class OutputResponseOutputDatadogTypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputDatadog(BaseModel):
-    type: OutputResponseTypeDatadog
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputDatadog(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeDatadog
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -18944,7 +19190,8 @@ class OutputResponseOutputDatadog(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     content_type: Annotated[
-        Optional[OutputResponseSendLogsAs], pydantic.Field(alias="contentType")
+        Optional[CreateOutputSystemByPackSendLogsAs],
+        pydantic.Field(alias="contentType"),
     ] = None
     r"""The content type to use when sending logs"""
 
@@ -18971,10 +19218,10 @@ class OutputResponseOutputDatadog(BaseModel):
     ] = None
     r"""Allow API key to be set from the event's '__agent_api_key' field"""
 
-    severity: Optional[OutputResponseSeverityDatadog] = None
+    severity: Optional[CreateOutputSystemByPackSeverityDatadog] = None
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
-    site: Optional[OutputResponseDatadogSite] = None
+    site: Optional[CreateOutputSystemByPackDatadogSite] = None
     r"""Datadog site to which events should be sent"""
 
     send_counters_as_count: Annotated[
@@ -19067,6 +19314,7 @@ class OutputResponseOutputDatadog(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 
@@ -19120,7 +19368,8 @@ class OutputResponseOutputDatadog(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsDatadog], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsDatadog],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
@@ -19149,17 +19398,11 @@ class OutputResponseOutputDatadog(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("content_type")
     def serialize_content_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseSendLogsAs(value)
+                return models.CreateOutputSystemByPackSendLogsAs(value)
             except ValueError:
                 return value
         return value
@@ -19168,7 +19411,7 @@ class OutputResponseOutputDatadog(BaseModel):
     def serialize_severity(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseSeverityDatadog(value)
+                return models.CreateOutputSystemByPackSeverityDatadog(value)
             except ValueError:
                 return value
         return value
@@ -19177,7 +19420,7 @@ class OutputResponseOutputDatadog(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseDatadogSite(value)
+                return models.CreateOutputSystemByPackDatadogSite(value)
             except ValueError:
                 return value
         return value
@@ -19240,7 +19483,6 @@ class OutputResponseOutputDatadog(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -19293,8 +19535,6 @@ class OutputResponseOutputDatadog(BaseModel):
                 "__template_tags",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -19311,11 +19551,13 @@ class OutputResponseOutputDatadog(BaseModel):
         return m
 
 
-class OutputResponseTypeSumoLogic(str, Enum):
+class CreateOutputSystemByPackTypeSumoLogic(str, Enum):
     SUMO_LOGIC = "sumo_logic"
 
 
-class OutputResponseDataFormatSumoLogic(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackDataFormatSumoLogic(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Preserve the raw event format instead of JSONifying it"""
 
     # JSON
@@ -19324,20 +19566,20 @@ class OutputResponseDataFormatSumoLogic(str, Enum, metaclass=utils.OpenEnumMeta)
     RAW = "raw"
 
 
-class OutputResponsePqControlsSumoLogicTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsSumoLogicTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsSumoLogic(BaseModel):
+class CreateOutputSystemByPackPqControlsSumoLogic(BaseModel):
     pass
 
 
-class OutputResponseOutputSumoLogicTypedDict(TypedDict):
-    type: OutputResponseTypeSumoLogic
+class CreateOutputSystemByPackOutputSumoLogicTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeSumoLogic
     url: str
     r"""Sumo Logic HTTP collector URL to which events should be sent"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -19350,7 +19592,7 @@ class OutputResponseOutputSumoLogicTypedDict(TypedDict):
     r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""
     custom_category: NotRequired[str]
     r"""Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field."""
-    format_: NotRequired[OutputResponseDataFormatSumoLogic]
+    format_: NotRequired[CreateOutputSystemByPackDataFormatSumoLogic]
     r"""Preserve the raw event format instead of JSONifying it"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -19389,6 +19631,7 @@ class OutputResponseOutputSumoLogicTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -19411,7 +19654,7 @@ class OutputResponseOutputSumoLogicTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsSumoLogicTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsSumoLogicTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -19420,20 +19663,16 @@ class OutputResponseOutputSumoLogicTypedDict(TypedDict):
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputSumoLogic(BaseModel):
-    type: OutputResponseTypeSumoLogic
+class CreateOutputSystemByPackOutputSumoLogic(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeSumoLogic
 
     url: str
     r"""Sumo Logic HTTP collector URL to which events should be sent"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -19458,7 +19697,8 @@ class OutputResponseOutputSumoLogic(BaseModel):
     r"""Override the source category configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceCategory field."""
 
     format_: Annotated[
-        Optional[OutputResponseDataFormatSumoLogic], pydantic.Field(alias="format")
+        Optional[CreateOutputSystemByPackDataFormatSumoLogic],
+        pydantic.Field(alias="format"),
     ] = None
     r"""Preserve the raw event format instead of JSONifying it"""
 
@@ -19542,6 +19782,7 @@ class OutputResponseOutputSumoLogic(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -19593,7 +19834,8 @@ class OutputResponseOutputSumoLogic(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsSumoLogic], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsSumoLogic],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -19616,17 +19858,11 @@ class OutputResponseOutputSumoLogic(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("format_")
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseDataFormatSumoLogic(value)
+                return models.CreateOutputSystemByPackDataFormatSumoLogic(value)
             except ValueError:
                 return value
         return value
@@ -19680,7 +19916,6 @@ class OutputResponseOutputSumoLogic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -19721,8 +19956,6 @@ class OutputResponseOutputSumoLogic(BaseModel):
                 "__template_url",
                 "__template_failedRequestLoggingMode",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -19739,11 +19972,11 @@ class OutputResponseOutputSumoLogic(BaseModel):
         return m
 
 
-class OutputResponseTypeSnmp(str, Enum):
+class CreateOutputSystemByPackTypeSnmp(str, Enum):
     SNMP = "snmp"
 
 
-class OutputResponseHostSnmpTypedDict(TypedDict):
+class CreateOutputSystemByPackHostSnmpTypedDict(TypedDict):
     host: str
     r"""Destination host"""
     port: float
@@ -19754,7 +19987,7 @@ class OutputResponseHostSnmpTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class OutputResponseHostSnmp(BaseModel):
+class CreateOutputSystemByPackHostSnmp(BaseModel):
     host: str
     r"""Destination host"""
 
@@ -19788,12 +20021,12 @@ class OutputResponseHostSnmp(BaseModel):
         return m
 
 
-class OutputResponseOutputSnmpTypedDict(TypedDict):
-    type: OutputResponseTypeSnmp
-    hosts: List[OutputResponseHostSnmpTypedDict]
-    r"""One or more SNMP destinations to forward traps to"""
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputSnmpTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeSnmp
+    hosts: List[CreateOutputSystemByPackHostSnmpTypedDict]
+    r"""One or more SNMP destinations to forward traps to"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -19807,24 +20040,21 @@ class OutputResponseOutputSnmpTypedDict(TypedDict):
     enable_ip_spoofing: NotRequired[bool]
     r"""Send SNMP Trap traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     max_record_size: NotRequired[float]
     r"""MTU in bytes. The actual maximum SNMP Trap payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). Payloads exceeding this limit will be dropped."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputSnmp(BaseModel):
-    type: OutputResponseTypeSnmp
-
-    hosts: List[OutputResponseHostSnmp]
-    r"""One or more SNMP destinations to forward traps to"""
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputSnmp(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeSnmp
+
+    hosts: List[CreateOutputSystemByPackHostSnmp]
+    r"""One or more SNMP destinations to forward traps to"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -19851,6 +20081,7 @@ class OutputResponseOutputSnmp(BaseModel):
     r"""Send SNMP Trap traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     max_record_size: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSize")
@@ -19862,17 +20093,10 @@ class OutputResponseOutputSnmp(BaseModel):
     ] = None
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -19882,8 +20106,6 @@ class OutputResponseOutputSnmp(BaseModel):
                 "description",
                 "maxRecordSize",
                 "__template_streamtags",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -19900,11 +20122,11 @@ class OutputResponseOutputSnmp(BaseModel):
         return m
 
 
-class OutputResponseTypeSqs(str, Enum):
+class CreateOutputSystemByPackTypeSqs(str, Enum):
     SQS = "sqs"
 
 
-class OutputResponseQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateOutputSystemByPackQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The queue type used (or created). Defaults to Standard."""
 
     # Standard
@@ -19913,22 +20135,22 @@ class OutputResponseQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
     FIFO = "fifo"
 
 
-class OutputResponsePqControlsSqsTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsSqsTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsSqs(BaseModel):
+class CreateOutputSystemByPackPqControlsSqs(BaseModel):
     pass
 
 
-class OutputResponseOutputSqsTypedDict(TypedDict):
-    type: OutputResponseTypeSqs
+class CreateOutputSystemByPackOutputSqsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeSqs
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
-    queue_type: OutputResponseQueueType
+    queue_type: CreateOutputSystemByPackQueueType
     r"""The queue type used (or created). Defaults to Standard."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -19973,6 +20195,7 @@ class OutputResponseOutputSqsTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -19998,7 +20221,7 @@ class OutputResponseOutputSqsTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsSqsTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsSqsTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_queue_name: NotRequired[str]
@@ -20023,23 +20246,21 @@ class OutputResponseOutputSqsTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputSqs(BaseModel):
-    type: OutputResponseTypeSqs
+class CreateOutputSystemByPackOutputSqs(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeSqs
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
-    queue_type: Annotated[OutputResponseQueueType, pydantic.Field(alias="queueType")]
+    queue_type: Annotated[
+        CreateOutputSystemByPackQueueType, pydantic.Field(alias="queueType")
+    ]
     r"""The queue type used (or created). Defaults to Standard."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -20140,6 +20361,7 @@ class OutputResponseOutputSqs(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -20196,7 +20418,8 @@ class OutputResponseOutputSqs(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsSqs], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsSqs],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -20259,17 +20482,11 @@ class OutputResponseOutputSqs(BaseModel):
     ] = None
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("queue_type")
     def serialize_queue_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputResponseQueueType(value)
+                return models.CreateOutputSystemByPackQueueType(value)
             except ValueError:
                 return value
         return value
@@ -20323,7 +20540,6 @@ class OutputResponseOutputSqs(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -20373,8 +20589,6 @@ class OutputResponseOutputSqs(BaseModel):
                 "__template_assumeRoleExternalId",
                 "__template_onBackpressure",
                 "__template_awsApiKey",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -20391,26 +20605,26 @@ class OutputResponseOutputSqs(BaseModel):
         return m
 
 
-class OutputResponseTypeSns(str, Enum):
+class CreateOutputSystemByPackTypeSns(str, Enum):
     SNS = "sns"
 
 
-class OutputResponsePqControlsSnsTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsSnsTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsSns(BaseModel):
+class CreateOutputSystemByPackPqControlsSns(BaseModel):
     pass
 
 
-class OutputResponseOutputSnsTypedDict(TypedDict):
-    type: OutputResponseTypeSns
+class CreateOutputSystemByPackOutputSnsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeSns
     topic_arn: str
     r"""The ARN of the SNS topic to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`"""
     message_group_id: str
     r"""Messages in the same group are processed in a FIFO manner. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -20443,6 +20657,7 @@ class OutputResponseOutputSnsTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -20468,7 +20683,7 @@ class OutputResponseOutputSnsTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsSnsTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsSnsTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic_arn: NotRequired[str]
@@ -20489,23 +20704,19 @@ class OutputResponseOutputSnsTypedDict(TypedDict):
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_aws_api_key: NotRequired[str]
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputSns(BaseModel):
-    type: OutputResponseTypeSns
+class CreateOutputSystemByPackOutputSns(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeSns
 
     topic_arn: Annotated[str, pydantic.Field(alias="topicArn")]
     r"""The ARN of the SNS topic to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`"""
 
     message_group_id: Annotated[str, pydantic.Field(alias="messageGroupId")]
     r"""Messages in the same group are processed in a FIFO manner. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -20576,6 +20787,7 @@ class OutputResponseOutputSns(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -20632,7 +20844,8 @@ class OutputResponseOutputSns(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsSns], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsSns],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -20685,12 +20898,6 @@ class OutputResponseOutputSns(BaseModel):
     ] = None
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @field_serializer("aws_authentication_method")
     def serialize_aws_authentication_method(self, value):
         if isinstance(value, str):
@@ -20740,7 +20947,6 @@ class OutputResponseOutputSns(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -20782,8 +20988,6 @@ class OutputResponseOutputSns(BaseModel):
                 "__template_assumeRoleExternalId",
                 "__template_onBackpressure",
                 "__template_awsApiKey",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -20800,11 +21004,11 @@ class OutputResponseOutputSns(BaseModel):
         return m
 
 
-class OutputResponseTypeRouter(str, Enum):
+class CreateOutputSystemByPackTypeRouter(str, Enum):
     ROUTER = "router"
 
 
-class OutputResponseRuleTypedDict(TypedDict):
+class CreateOutputSystemByPackRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression to select events to send to output"""
     output: str
@@ -20815,7 +21019,7 @@ class OutputResponseRuleTypedDict(TypedDict):
     r"""Flag to control whether to stop the event from being checked against other rules"""
 
 
-class OutputResponseRule(BaseModel):
+class CreateOutputSystemByPackRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression to select events to send to output"""
 
@@ -20845,12 +21049,12 @@ class OutputResponseRule(BaseModel):
         return m
 
 
-class OutputResponseOutputRouterTypedDict(TypedDict):
-    type: OutputResponseTypeRouter
-    rules: List[OutputResponseRuleTypedDict]
-    r"""Event routing rules"""
-    id: NotRequired[str]
+class CreateOutputSystemByPackOutputRouterTypedDict(TypedDict):
+    id: str
     r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeRouter
+    rules: List[CreateOutputSystemByPackRuleTypedDict]
+    r"""Event routing rules"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -20860,22 +21064,19 @@ class OutputResponseOutputRouterTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Tags for filtering and grouping in @{product}"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputRouter(BaseModel):
-    type: OutputResponseTypeRouter
-
-    rules: List[OutputResponseRule]
-    r"""Event routing rules"""
-
-    id: Optional[str] = None
+class CreateOutputSystemByPackOutputRouter(BaseModel):
+    id: str
     r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeRouter
+
+    rules: List[CreateOutputSystemByPackRule]
+    r"""Event routing rules"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -20892,31 +21093,23 @@ class OutputResponseOutputRouter(BaseModel):
     r"""Tags for filtering and grouping in @{product}"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
     ] = None
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
                 "streamtags",
                 "description",
                 "__template_streamtags",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -20933,28 +21126,28 @@ class OutputResponseOutputRouter(BaseModel):
         return m
 
 
-class OutputResponseTypeGraphite(str, Enum):
+class CreateOutputSystemByPackTypeGraphite(str, Enum):
     GRAPHITE = "graphite"
 
 
-class OutputResponsePqControlsGraphiteTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsGraphiteTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsGraphite(BaseModel):
+class CreateOutputSystemByPackPqControlsGraphite(BaseModel):
     pass
 
 
-class OutputResponseOutputGraphiteTypedDict(TypedDict):
-    type: OutputResponseTypeGraphite
+class CreateOutputSystemByPackOutputGraphiteTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this output"""
+    type: CreateOutputSystemByPackTypeGraphite
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
     host: str
     r"""The hostname of the destination."""
     port: float
     r"""Destination port."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data before sending out to this output"""
     system_fields: NotRequired[List[str]]
@@ -20970,6 +21163,7 @@ class OutputResponseOutputGraphiteTypedDict(TypedDict):
     dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     connection_timeout: NotRequired[float]
@@ -21000,19 +21194,18 @@ class OutputResponseOutputGraphiteTypedDict(TypedDict):
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsGraphiteTypedDict]
+    pq_controls: NotRequired[CreateOutputSystemByPackPqControlsGraphiteTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_on_backpressure: NotRequired[str]
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
 
-class OutputResponseOutputGraphite(BaseModel):
-    type: OutputResponseTypeGraphite
+class CreateOutputSystemByPackOutputGraphite(BaseModel):
+    id: str
+    r"""Unique ID for this output"""
+
+    type: CreateOutputSystemByPackTypeGraphite
 
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
@@ -21022,9 +21215,6 @@ class OutputResponseOutputGraphite(BaseModel):
 
     port: float
     r"""Destination port."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data before sending out to this output"""
@@ -21054,6 +21244,7 @@ class OutputResponseOutputGraphite(BaseModel):
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
@@ -21125,7 +21316,8 @@ class OutputResponseOutputGraphite(BaseModel):
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
-        Optional[OutputResponsePqControlsGraphite], pydantic.Field(alias="pqControls")
+        Optional[CreateOutputSystemByPackPqControlsGraphite],
+        pydantic.Field(alias="pqControls"),
     ] = None
 
     template_streamtags: Annotated[
@@ -21137,12 +21329,6 @@ class OutputResponseOutputGraphite(BaseModel):
         Optional[str], pydantic.Field(alias="__template_onBackpressure")
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
 
     @field_serializer("protocol")
     def serialize_protocol(self, value):
@@ -21193,7 +21379,6 @@ class OutputResponseOutputGraphite(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "id",
                 "pipeline",
                 "systemFields",
                 "environment",
@@ -21220,8 +21405,6 @@ class OutputResponseOutputGraphite(BaseModel):
                 "pqControls",
                 "__template_streamtags",
                 "__template_onBackpressure",
-                "notifications",
-                "status",
             ]
         )
         serialized = handler(self)
@@ -21238,524 +21421,219 @@ class OutputResponseOutputGraphite(BaseModel):
         return m
 
 
-class OutputResponseTypeStatsdExt(str, Enum):
+class CreateOutputSystemByPackTypeStatsdExt(str, Enum):
     STATSD_EXT = "statsd_ext"
 
 
-class OutputResponsePqControlsStatsdExtTypedDict(TypedDict):
+class CreateOutputSystemByPackPqControlsStatsdExtTypedDict(TypedDict):
     pass
 
 
-class OutputResponsePqControlsStatsdExt(BaseModel):
-    pass
-
-
-class OutputResponseOutputStatsdExtTypedDict(TypedDict):
-    type: OutputResponseTypeStatsdExt
-    protocol: DestinationProtocolOptions
-    r"""Protocol to use when communicating with the destination."""
-    host: str
-    r"""The hostname of the destination."""
-    port: float
-    r"""Destination port."""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data before sending out to this output"""
-    system_fields: NotRequired[List[str]]
-    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    mtu: NotRequired[float]
-    r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
-    flush_period_sec: NotRequired[float]
-    r"""When protocol is TCP, specifies how often buffers should be flushed, resulting in records sent to the destination."""
-    dns_resolve_period_sec: NotRequired[float]
-    r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
-    description: NotRequired[str]
-    throttle_rate_per_sec: NotRequired[str]
-    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-    connection_timeout: NotRequired[float]
-    r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
-    write_timeout: NotRequired[float]
-    r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions]
-    r"""How to handle events when all receivers are exerting backpressure"""
-    pq_strict_ordering: NotRequired[bool]
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-    pq_rate_per_sec: NotRequired[float]
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-    pq_mode: NotRequired[ModeOptions]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-    pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
-    pq_max_backpressure_sec: NotRequired[float]
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-    pq_max_file_size: NotRequired[str]
-    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
-    pq_max_size: NotRequired[str]
-    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
-    pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
-    pq_compress: NotRequired[CompressionOptionsPq]
-    r"""Codec to use to compress the persisted data"""
-    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
-    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponsePqControlsStatsdExtTypedDict]
-    template_streamtags: NotRequired[str]
-    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
-    template_on_backpressure: NotRequired[str]
-    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
-
-class OutputResponseOutputStatsdExt(BaseModel):
-    type: OutputResponseTypeStatsdExt
-
-    protocol: DestinationProtocolOptions
-    r"""Protocol to use when communicating with the destination."""
-
-    host: str
-    r"""The hostname of the destination."""
-
-    port: float
-    r"""Destination port."""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data before sending out to this output"""
-
-    system_fields: Annotated[
-        Optional[List[str]], pydantic.Field(alias="systemFields")
-    ] = None
-    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    mtu: Optional[float] = None
-    r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
-
-    flush_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = None
-    r"""When protocol is TCP, specifies how often buffers should be flushed, resulting in records sent to the destination."""
-
-    dns_resolve_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = None
-    r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
-
-    description: Optional[str] = None
-
-    throttle_rate_per_sec: Annotated[
-        Optional[str], pydantic.Field(alias="throttleRatePerSec")
-    ] = None
-    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
-
-    connection_timeout: Annotated[
-        Optional[float], pydantic.Field(alias="connectionTimeout")
-    ] = None
-    r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
-
-    write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
-        None
-    )
-    r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
-
-    on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = None
-    r"""How to handle events when all receivers are exerting backpressure"""
-
-    pq_strict_ordering: Annotated[
-        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = None
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-
-    pq_rate_per_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = None
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    pq_max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
-
-    pq_max_backpressure_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = None
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-
-    pq_max_file_size: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = None
-    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
-
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
-    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
-
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
-
-    pq_compress: Annotated[
-        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = None
-    r"""Codec to use to compress the persisted data"""
-
-    pq_on_backpressure: Annotated[
-        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = None
-    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-
-    pq_controls: Annotated[
-        Optional[OutputResponsePqControlsStatsdExt], pydantic.Field(alias="pqControls")
-    ] = None
-
-    template_streamtags: Annotated[
-        Optional[str], pydantic.Field(alias="__template_streamtags")
-    ] = None
-    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
-
-    template_on_backpressure: Annotated[
-        Optional[str], pydantic.Field(alias="__template_onBackpressure")
-    ] = None
-    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
-    @field_serializer("protocol")
-    def serialize_protocol(self, value):
-        if isinstance(value, str):
-            try:
-                return models.DestinationProtocolOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("on_backpressure")
-    def serialize_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.BackpressureBehaviorOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_mode")
-    def serialize_pq_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ModeOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_compress")
-    def serialize_pq_compress(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CompressionOptionsPq(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_on_backpressure")
-    def serialize_pq_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.QueueFullBehaviorOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "id",
-                "pipeline",
-                "systemFields",
-                "environment",
-                "streamtags",
-                "mtu",
-                "flushPeriodSec",
-                "dnsResolvePeriodSec",
-                "description",
-                "throttleRatePerSec",
-                "connectionTimeout",
-                "writeTimeout",
-                "onBackpressure",
-                "pqStrictOrdering",
-                "pqRatePerSec",
-                "pqMode",
-                "pqMaxBufferSize",
-                "pqMaxBackpressureSec",
-                "pqMaxFileSize",
-                "pqMaxSize",
-                "pqPath",
-                "pqCompress",
-                "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
-                "pqControls",
-                "__template_streamtags",
-                "__template_onBackpressure",
-                "notifications",
-                "status",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class OutputResponseTypeStatsd(str, Enum):
-    STATSD = "statsd"
-
-
-class OutputResponsePqControlsStatsdTypedDict(TypedDict):
-    pass
-
-
-class OutputResponsePqControlsStatsd(BaseModel):
+class CreateOutputSystemByPackPqControlsStatsdExt(BaseModel):
     pass
 
 
 try:
-    OutputResponseOutputAlibabaCloudS3.model_rebuild()
+    CreateOutputSystemByPackOutputIbmCloudS3.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputScalityS3.model_rebuild()
+    CreateOutputSystemByPackOutputAlibabaCloudS3.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputCloudianS3.model_rebuild()
+    CreateOutputSystemByPackOutputScalityS3.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputDellS3.model_rebuild()
+    CreateOutputSystemByPackOutputCloudianS3.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputAlphasocS3.model_rebuild()
+    CreateOutputSystemByPackOutputDellS3.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputStorjS3.model_rebuild()
+    CreateOutputSystemByPackOutputAlphasocS3.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputNutanixObjects.model_rebuild()
+    CreateOutputSystemByPackOutputStorjS3.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputCloudflareR2.model_rebuild()
+    CreateOutputSystemByPackOutputNutanixObjects.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseAuthentication.model_rebuild()
+    CreateOutputSystemByPackOutputCloudflareR2.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputMicrosoftFabric.model_rebuild()
+    CreateOutputSystemByPackAuthentication.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputDatabricks.model_rebuild()
+    CreateOutputSystemByPackOutputMicrosoftFabric.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseCustomLabel.model_rebuild()
+    CreateOutputSystemByPackOutputDatabricks.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputChronicle.model_rebuild()
+    CreateOutputSystemByPackCustomLabel.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputSentinelOneAiSiem.model_rebuild()
+    CreateOutputSystemByPackOutputChronicle.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputDynatraceOtlp.model_rebuild()
+    CreateOutputSystemByPackOutputSentinelOneAiSiem.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputDynatraceHTTP.model_rebuild()
+    CreateOutputSystemByPackOutputDynatraceOtlp.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseHostNetflow.model_rebuild()
+    CreateOutputSystemByPackOutputDynatraceHTTP.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputNetflow.model_rebuild()
+    CreateOutputSystemByPackHostNetflow.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputXsiam.model_rebuild()
+    CreateOutputSystemByPackOutputNetflow.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseStatsDestination.model_rebuild()
+    CreateOutputSystemByPackOutputXsiam.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseColumnMapping.model_rebuild()
+    CreateOutputSystemByPackStatsDestination.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputLocalSearchStorage.model_rebuild()
+    CreateOutputSystemByPackColumnMapping.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputCustomerMetricsStorage.model_rebuild()
+    CreateOutputSystemByPackOutputLocalSearchStorage.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputClickHouse.model_rebuild()
+    CreateOutputSystemByPackOutputCustomerMetricsStorage.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputDiskSpool.model_rebuild()
+    CreateOutputSystemByPackOutputClickHouse.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputCriblLake.model_rebuild()
+    CreateOutputSystemByPackOutputDiskSpool.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputSecurityLake.model_rebuild()
+    CreateOutputSystemByPackOutputCriblLake.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputDlS3.model_rebuild()
+    CreateOutputSystemByPackOutputSecurityLake.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputCrowdstrikeNextGenSiem.model_rebuild()
+    CreateOutputSystemByPackOutputDlS3.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputHumioHec.model_rebuild()
+    CreateOutputSystemByPackOutputCrowdstrikeNextGenSiem.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputCriblSearchEngine.model_rebuild()
+    CreateOutputSystemByPackOutputHumioHec.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputCriblHTTP.model_rebuild()
+    CreateOutputSystemByPackOutputCriblSearchEngine.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputCriblTCP.model_rebuild()
+    CreateOutputSystemByPackOutputCriblHTTP.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputDataset.model_rebuild()
+    CreateOutputSystemByPackOutputCriblTCP.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputServiceNow.model_rebuild()
+    CreateOutputSystemByPackOutputDataset.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputOpenTelemetry.model_rebuild()
+    CreateOutputSystemByPackOutputServiceNow.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputRing.model_rebuild()
+    CreateOutputSystemByPackOutputOpenTelemetry.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputPrometheus.model_rebuild()
+    CreateOutputSystemByPackOutputRing.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputLoki.model_rebuild()
+    CreateOutputSystemByPackOutputPrometheus.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputGrafanaCloudGrafanaCloud2.model_rebuild()
+    CreateOutputSystemByPackOutputLoki.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputGrafanaCloudGrafanaCloud1.model_rebuild()
+    CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud2.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputDatadog.model_rebuild()
+    CreateOutputSystemByPackOutputGrafanaCloudGrafanaCloud1.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputSumoLogic.model_rebuild()
+    CreateOutputSystemByPackOutputDatadog.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseHostSnmp.model_rebuild()
+    CreateOutputSystemByPackOutputSumoLogic.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputSnmp.model_rebuild()
+    CreateOutputSystemByPackHostSnmp.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputSqs.model_rebuild()
+    CreateOutputSystemByPackOutputSnmp.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputSns.model_rebuild()
+    CreateOutputSystemByPackOutputSqs.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseRule.model_rebuild()
+    CreateOutputSystemByPackOutputSns.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputRouter.model_rebuild()
+    CreateOutputSystemByPackRule.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputGraphite.model_rebuild()
+    CreateOutputSystemByPackOutputRouter.model_rebuild()
 except NameError:
     pass
 try:
-    OutputResponseOutputStatsdExt.model_rebuild()
+    CreateOutputSystemByPackOutputGraphite.model_rebuild()
 except NameError:
     pass

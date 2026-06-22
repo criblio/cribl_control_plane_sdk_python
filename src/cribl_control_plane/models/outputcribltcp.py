@@ -70,6 +70,7 @@ class OutputCriblTCPTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     host: NotRequired[str]
     r"""The hostname of the receiver"""
     port: NotRequired[float]
@@ -188,6 +189,7 @@ class OutputCriblTCP(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     host: Optional[str] = None
     r"""The hostname of the receiver"""

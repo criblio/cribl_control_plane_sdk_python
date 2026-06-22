@@ -112,6 +112,7 @@ class OutputCloudflareR2TypedDict(TypedDict):
     ]
     r"""Server-side encryption to use for uploaded objects"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -343,6 +344,7 @@ class OutputCloudflareR2(BaseModel):
     r"""Server-side encryption to use for uploaded objects"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""

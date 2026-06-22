@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionOtlpTracesID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>otlp_traces</code>"""
 
     OTLP_TRACES = "otlp_traces"
 
 
 class PipelineFunctionOtlpTracesTypedDict(TypedDict):
     id: PipelineFunctionOtlpTracesID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>otlp_traces</code>"""
     conf: FunctionConfSchemaOtlpTracesTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionOtlpTracesTypedDict(TypedDict):
 
 class PipelineFunctionOtlpTraces(BaseModel):
     id: PipelineFunctionOtlpTracesID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>otlp_traces</code>"""
 
     conf: FunctionConfSchemaOtlpTraces
 

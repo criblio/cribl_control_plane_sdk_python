@@ -53,7 +53,7 @@ class Packs(BaseSDK):
     ) -> models.CountedPackInstallInfo:
         r"""Install a Pack
 
-        Install a Pack.<br><br> To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br><br> To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br><br> To install a Pack by importing from a Git repository, provide <code>git+<repo-url></code> as the <code>source</code> parameter in the request body.<br><br> If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
+        Install a Pack.<br/><br/>To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br/><br/>To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br/><br/>To install a Pack by importing from a Git repository, provide <code>git+&lt;repo-url&gt;</code> as the <code>source</code> parameter in the request body.<br/><br/>If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -153,7 +153,7 @@ class Packs(BaseSDK):
     ) -> models.CountedPackInstallInfo:
         r"""Install a Pack
 
-        Install a Pack.<br><br> To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br><br> To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br><br> To install a Pack by importing from a Git repository, provide <code>git+<repo-url></code> as the <code>source</code> parameter in the request body.<br><br> If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
+        Install a Pack.<br/><br/>To install an uploaded Pack, provide the <code>source</code> value from the <code>PUT /packs</code> response as the <code>source</code> parameter in the request body.<br/><br/>To install a Pack by importing from a URL, provide the direct URL location of the <code>.crbl</code> file for the Pack as the <code>source</code> parameter in the request body.<br/><br/>To install a Pack by importing from a Git repository, provide <code>git+&lt;repo-url&gt;</code> as the <code>source</code> parameter in the request body.<br/><br/>If you do not include the <code>source</code> parameter in the request body, an empty Pack is created.
 
         :param request: The request object to send.
         :param retries: Override the default retry configuration for this method
@@ -253,7 +253,7 @@ class Packs(BaseSDK):
 
         Get a list of all Packs.
 
-        :param with_: Comma-separated list of additional properties to include in the response. When set, the response includes a count of the specified properties in the Pack. Available values are <code>inputs</code> and <code>outputs</code>.
+        :param with_: Comma-separated list of additional properties to include in the response. When set, the response includes a count of each specified property in each Pack. Supported values: <code>inputs</code>, <code>outputs</code>, <code>collectors</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -348,7 +348,7 @@ class Packs(BaseSDK):
 
         Get a list of all Packs.
 
-        :param with_: Comma-separated list of additional properties to include in the response. When set, the response includes a count of the specified properties in the Pack. Available values are <code>inputs</code> and <code>outputs</code>.
+        :param with_: Comma-separated list of additional properties to include in the response. When set, the response includes a count of each specified property in each Pack. Supported values: <code>inputs</code>, <code>outputs</code>, <code>collectors</code>.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -653,7 +653,7 @@ class Packs(BaseSDK):
 
         Get the specified Pack.
 
-        :param id: The <code>id</code> of the Pack to get.
+        :param id: The <code>id</code> of the Pack to get. Use the <code>id</code> field from the list response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -748,7 +748,7 @@ class Packs(BaseSDK):
 
         Get the specified Pack.
 
-        :param id: The <code>id</code> of the Pack to get.
+        :param id: The <code>id</code> of the Pack to get. Use the <code>id</code> field from the list response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -836,7 +836,7 @@ class Packs(BaseSDK):
         id: str,
         source: str,
         allow_custom_functions: Optional[bool] = None,
-        minor: Optional[str] = None,
+        minor: Optional[bool] = None,
         spec: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -847,11 +847,11 @@ class Packs(BaseSDK):
 
         Upgrade the specified Pack.<br/><br/>If the Pack includes any user-modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.<br/><br/>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
 
-        :param id: The <code>id</code> of the Pack to upgrade.
-        :param source:
-        :param allow_custom_functions:
-        :param minor:
-        :param spec:
+        :param id: The <code>id</code> of the Pack to upgrade. Use the <code>id</code> field from the list response.
+        :param source: Source of the upgraded Pack. Use the <code>source</code> value returned by <code>PUT /packs</code> for an uploaded file, or provide a direct URL to a <code>.crbl</code> file or a <code>git+&lt;repo-url&gt;</code> Git repository URL.
+        :param allow_custom_functions: If <code>true</code> or omitted, allow the Pack to use custom JavaScript functions. If <code>false</code>, reject Packs that use custom JavaScript functions.
+        :param minor: If <code>true</code>, allow the upgrade to install a minor (non-breaking) version. Otherwise, <code>false</code>.
+        :param spec: Semver range constraint to apply when resolving the Pack version to install.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -952,7 +952,7 @@ class Packs(BaseSDK):
         id: str,
         source: str,
         allow_custom_functions: Optional[bool] = None,
-        minor: Optional[str] = None,
+        minor: Optional[bool] = None,
         spec: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -963,11 +963,11 @@ class Packs(BaseSDK):
 
         Upgrade the specified Pack.<br/><br/>If the Pack includes any user-modified versions of default Cribl Knowledge resources such as lookups, copy the modified files locally for safekeeping before upgrading the Pack. Copy the modified files back to the upgraded Pack after you install it with <code>POST /packs</code> to overwrite the default versions in the Pack.<br/><br/>After you upgrade the Pack, update any Routes, Pipelines, Sources, and Destinations that use the previous Pack version so that they reference the upgraded Pack.
 
-        :param id: The <code>id</code> of the Pack to upgrade.
-        :param source:
-        :param allow_custom_functions:
-        :param minor:
-        :param spec:
+        :param id: The <code>id</code> of the Pack to upgrade. Use the <code>id</code> field from the list response.
+        :param source: Source of the upgraded Pack. Use the <code>source</code> value returned by <code>PUT /packs</code> for an uploaded file, or provide a direct URL to a <code>.crbl</code> file or a <code>git+&lt;repo-url&gt;</code> Git repository URL.
+        :param allow_custom_functions: If <code>true</code> or omitted, allow the Pack to use custom JavaScript functions. If <code>false</code>, reject Packs that use custom JavaScript functions.
+        :param minor: If <code>true</code>, allow the upgrade to install a minor (non-breaking) version. Otherwise, <code>false</code>.
+        :param spec: Semver range constraint to apply when resolving the Pack version to install.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1075,7 +1075,7 @@ class Packs(BaseSDK):
 
         Uninstall the specified Pack.
 
-        :param id: The <code>id</code> of the Pack to uninstall.
+        :param id: The <code>id</code> of the Pack to uninstall. Use the <code>id</code> field from the list response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -1170,7 +1170,7 @@ class Packs(BaseSDK):
 
         Uninstall the specified Pack.
 
-        :param id: The <code>id</code> of the Pack to uninstall.
+        :param id: The <code>id</code> of the Pack to uninstall. Use the <code>id</code> field from the list response.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds

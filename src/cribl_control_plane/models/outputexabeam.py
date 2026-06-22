@@ -89,6 +89,7 @@ class OutputExabeamTypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     r"""HMAC secret. Can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     empty_dir_cleanup_sec: NotRequired[float]
     r"""How frequently, in seconds, to clean up empty directories"""
     directory_batch_size: NotRequired[float]
@@ -247,6 +248,7 @@ class OutputExabeam(BaseModel):
     r"""HMAC secret. Can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")

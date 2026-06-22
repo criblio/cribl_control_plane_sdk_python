@@ -15,6 +15,7 @@ class Functions(BaseSDK):
     def list(
         self,
         *,
+        show_hidden: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -24,6 +25,7 @@ class Functions(BaseSDK):
 
         Get a list of all Functions.
 
+        :param show_hidden: If <code>true</code>, include hidden Functions in the response. Otherwise, hidden Functions are excluded.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -38,12 +40,17 @@ class Functions(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetFunctionsRequest(
+            show_hidden=show_hidden,
+        )
+
         req = self._build_request(
             method="GET",
             path="/functions",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,
@@ -103,6 +110,7 @@ class Functions(BaseSDK):
     async def list_async(
         self,
         *,
+        show_hidden: Optional[bool] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -112,6 +120,7 @@ class Functions(BaseSDK):
 
         Get a list of all Functions.
 
+        :param show_hidden: If <code>true</code>, include hidden Functions in the response. Otherwise, hidden Functions are excluded.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -126,12 +135,17 @@ class Functions(BaseSDK):
             base_url = server_url
         else:
             base_url = self._get_url(base_url, url_variables)
+
+        request = models.GetFunctionsRequest(
+            show_hidden=show_hidden,
+        )
+
         req = self._build_request_async(
             method="GET",
             path="/functions",
             base_url=base_url,
             url_variables=url_variables,
-            request=None,
+            request=request,
             request_body_required=False,
             request_has_path_params=False,
             request_has_query_params=True,

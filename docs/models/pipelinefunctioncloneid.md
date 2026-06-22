@@ -1,6 +1,6 @@
 # PipelineFunctionCloneID
 
-Function ID
+Identifier of the Function. Always <code>clone</code>
 
 ## Example Usage
 

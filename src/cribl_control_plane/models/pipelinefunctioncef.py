@@ -16,14 +16,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionCefID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>cef</code>"""
 
     CEF = "cef"
 
 
 class PipelineFunctionCefTypedDict(TypedDict):
     id: PipelineFunctionCefID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>cef</code>"""
     conf: FunctionConfSchemaCefTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -39,7 +39,7 @@ class PipelineFunctionCefTypedDict(TypedDict):
 
 class PipelineFunctionCef(BaseModel):
     id: PipelineFunctionCefID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>cef</code>"""
 
     conf: FunctionConfSchemaCef
 
@@ -77,7 +77,7 @@ class PipelineFunctionCef(BaseModel):
 
 class PipelineFunctionCefInputTypedDict(TypedDict):
     id: PipelineFunctionCefID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>cef</code>"""
     conf: FunctionConfSchemaCefInputTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -93,7 +93,7 @@ class PipelineFunctionCefInputTypedDict(TypedDict):
 
 class PipelineFunctionCefInput(BaseModel):
     id: PipelineFunctionCefID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>cef</code>"""
 
     conf: FunctionConfSchemaCefInput
 

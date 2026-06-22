@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionLookupID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>lookup</code>"""
 
     LOOKUP = "lookup"
 
@@ -205,7 +205,7 @@ class PipelineFunctionLookupConf(BaseModel):
 
 class PipelineFunctionLookupTypedDict(TypedDict):
     id: PipelineFunctionLookupID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>lookup</code>"""
     conf: PipelineFunctionLookupConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -221,7 +221,7 @@ class PipelineFunctionLookupTypedDict(TypedDict):
 
 class PipelineFunctionLookup(BaseModel):
     id: PipelineFunctionLookupID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>lookup</code>"""
 
     conf: PipelineFunctionLookupConf
 

@@ -14,7 +14,7 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionSerializeID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>serialize</code>"""
 
     SERIALIZE = "serialize"
 
@@ -376,7 +376,7 @@ PipelineFunctionSerializeConf = Annotated[
 
 class PipelineFunctionSerializeTypedDict(TypedDict):
     id: PipelineFunctionSerializeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>serialize</code>"""
     conf: PipelineFunctionSerializeConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -392,7 +392,7 @@ class PipelineFunctionSerializeTypedDict(TypedDict):
 
 class PipelineFunctionSerialize(BaseModel):
     id: PipelineFunctionSerializeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>serialize</code>"""
 
     conf: PipelineFunctionSerializeConf
 

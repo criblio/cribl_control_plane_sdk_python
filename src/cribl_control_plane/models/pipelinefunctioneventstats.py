@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionEventstatsID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>eventstats</code>"""
 
     EVENTSTATS = "eventstats"
 
@@ -60,7 +60,7 @@ class EventstatsConfiguration(BaseModel):
 
 class PipelineFunctionEventstatsTypedDict(TypedDict):
     id: PipelineFunctionEventstatsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>eventstats</code>"""
     conf: EventstatsConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -76,7 +76,7 @@ class PipelineFunctionEventstatsTypedDict(TypedDict):
 
 class PipelineFunctionEventstats(BaseModel):
     id: PipelineFunctionEventstatsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>eventstats</code>"""
 
     conf: EventstatsConfiguration
 

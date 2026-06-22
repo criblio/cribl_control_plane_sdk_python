@@ -137,6 +137,7 @@ class OutputSecurityLakeTypedDict(TypedDict):
     enable_page_checksum: NotRequired[bool]
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
@@ -420,6 +421,7 @@ class OutputSecurityLake(BaseModel):
     r"""Parquet tools can use the checksum of a Parquet page to verify data integrity"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""

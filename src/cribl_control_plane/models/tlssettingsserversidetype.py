@@ -13,6 +13,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class TLSSettingsServerSideTypeTypedDict(TypedDict):
     disabled: NotRequired[bool]
+    r"""If true, TLS is disabled on this connection."""
     request_cert: NotRequired[bool]
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[bool]
@@ -35,6 +36,7 @@ class TLSSettingsServerSideTypeTypedDict(TypedDict):
 
 class TLSSettingsServerSideType(BaseModel):
     disabled: Optional[bool] = None
+    r"""If true, TLS is disabled on this connection."""
 
     request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = None
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""

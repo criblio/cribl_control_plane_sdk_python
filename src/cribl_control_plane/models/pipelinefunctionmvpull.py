@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionMvPullID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>mv_pull</code>"""
 
     MV_PULL = "mv_pull"
 
@@ -67,7 +67,7 @@ class PipelineFunctionMvPullConf(BaseModel):
 
 class PipelineFunctionMvPullTypedDict(TypedDict):
     id: PipelineFunctionMvPullID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>mv_pull</code>"""
     conf: PipelineFunctionMvPullConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -83,7 +83,7 @@ class PipelineFunctionMvPullTypedDict(TypedDict):
 
 class PipelineFunctionMvPull(BaseModel):
     id: PipelineFunctionMvPullID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>mv_pull</code>"""
 
     conf: PipelineFunctionMvPullConf
 

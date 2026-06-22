@@ -12,11 +12,11 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PqTypePqControlsTypedDict(TypedDict):
-    pass
+    r"""Management controls for the persistent queue."""
 
 
 class PqTypePqControls(BaseModel):
-    pass
+    r"""Management controls for the persistent queue."""
 
 
 class PqTypeTypedDict(TypedDict):
@@ -37,6 +37,7 @@ class PqTypeTypedDict(TypedDict):
     compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_controls: NotRequired[PqTypePqControlsTypedDict]
+    r"""Management controls for the persistent queue."""
 
 
 class PqType(BaseModel):
@@ -73,6 +74,7 @@ class PqType(BaseModel):
     pq_controls: Annotated[
         Optional[PqTypePqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Management controls for the persistent queue."""
 
     @field_serializer("mode")
     def serialize_mode(self, value):

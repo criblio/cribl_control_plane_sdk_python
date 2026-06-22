@@ -104,6 +104,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[bool]
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""
     pq_strict_ordering: NotRequired[bool]
@@ -263,6 +264,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[bool] = None
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""
@@ -535,6 +537,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[bool]
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""
     pq_strict_ordering: NotRequired[bool]
@@ -696,6 +699,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[bool] = None
     r"""Compress the payload body before sending. Applies only to JSON payloads; the Protobuf variant for both Prometheus and Loki are snappy-compressed by default."""

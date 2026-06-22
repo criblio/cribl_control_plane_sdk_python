@@ -96,6 +96,7 @@ class OutputHumioHecTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     token: NotRequired[str]
     r"""CrowdStrike Falcon LogScale authentication token"""
     text_secret: NotRequired[str]
@@ -240,6 +241,7 @@ class OutputHumioHec(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     token: Optional[str] = None
     r"""CrowdStrike Falcon LogScale authentication token"""

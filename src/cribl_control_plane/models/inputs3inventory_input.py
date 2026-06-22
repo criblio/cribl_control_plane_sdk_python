@@ -36,6 +36,7 @@ class InputS3InventoryInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -107,6 +108,7 @@ class InputS3InventoryInputTypedDict(TypedDict):
     validate_inventory_files: NotRequired[bool]
     r"""If set to Yes, each inventory file in the manifest will be validated against its checksum. Defaults to false"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -147,6 +149,7 @@ class InputS3InventoryInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -301,6 +304,7 @@ class InputS3InventoryInput(BaseModel):
     r"""If set to Yes, each inventory file in the manifest will be validated against its checksum. Defaults to false"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 

@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionUnrollID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>unroll</code>"""
 
     UNROLL = "unroll"
 
@@ -32,7 +32,7 @@ class PipelineFunctionUnrollConf(BaseModel):
 
 class PipelineFunctionUnrollTypedDict(TypedDict):
     id: PipelineFunctionUnrollID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>unroll</code>"""
     conf: PipelineFunctionUnrollConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -48,7 +48,7 @@ class PipelineFunctionUnrollTypedDict(TypedDict):
 
 class PipelineFunctionUnroll(BaseModel):
     id: PipelineFunctionUnrollID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>unroll</code>"""
 
     conf: PipelineFunctionUnrollConf
 

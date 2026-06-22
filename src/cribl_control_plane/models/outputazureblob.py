@@ -107,6 +107,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptions]
     storage_class: NotRequired[OutputAzureBlobBlobAccessTier]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -324,6 +325,7 @@ class OutputAzureBlob(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""

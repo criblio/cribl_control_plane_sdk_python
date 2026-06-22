@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionDropDimensionsID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>drop_dimensions</code>"""
 
     DROP_DIMENSIONS = "drop_dimensions"
 
@@ -55,7 +55,7 @@ class PipelineFunctionDropDimensionsConf(BaseModel):
 
 class PipelineFunctionDropDimensionsTypedDict(TypedDict):
     id: PipelineFunctionDropDimensionsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>drop_dimensions</code>"""
     conf: PipelineFunctionDropDimensionsConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -71,7 +71,7 @@ class PipelineFunctionDropDimensionsTypedDict(TypedDict):
 
 class PipelineFunctionDropDimensions(BaseModel):
     id: PipelineFunctionDropDimensionsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>drop_dimensions</code>"""
 
     conf: PipelineFunctionDropDimensionsConf
 

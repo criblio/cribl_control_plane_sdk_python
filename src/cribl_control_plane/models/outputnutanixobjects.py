@@ -100,6 +100,7 @@ class OutputNutanixObjectsTypedDict(TypedDict):
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -315,6 +316,7 @@ class OutputNutanixObjects(BaseModel):
     orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""

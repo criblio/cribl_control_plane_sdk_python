@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionMvExpandID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>mv_expand</code>"""
 
     MV_EXPAND = "mv_expand"
 
@@ -90,7 +90,7 @@ class PipelineFunctionMvExpandConf(BaseModel):
 
 class PipelineFunctionMvExpandTypedDict(TypedDict):
     id: PipelineFunctionMvExpandID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>mv_expand</code>"""
     conf: PipelineFunctionMvExpandConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -106,7 +106,7 @@ class PipelineFunctionMvExpandTypedDict(TypedDict):
 
 class PipelineFunctionMvExpand(BaseModel):
     id: PipelineFunctionMvExpandID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>mv_expand</code>"""
 
     conf: PipelineFunctionMvExpandConf
 

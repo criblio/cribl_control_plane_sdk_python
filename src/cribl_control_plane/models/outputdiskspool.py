@@ -38,6 +38,7 @@ class OutputDiskSpoolTypedDict(TypedDict):
     partition_expr: NotRequired[str]
     r"""JavaScript expression defining how files are partitioned and organized within the time-buckets. If blank, the event's __partition property is used and otherwise, events go directly into the time-bucket directory."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
@@ -80,6 +81,7 @@ class OutputDiskSpool(BaseModel):
     r"""JavaScript expression defining how files are partitioned and organized within the time-buckets. If blank, the event's __partition property is used and otherwise, events go directly into the time-bucket directory."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

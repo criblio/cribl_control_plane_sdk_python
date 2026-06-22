@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionWindowID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>window</code>"""
 
     WINDOW = "window"
 
@@ -64,7 +64,7 @@ class PipelineFunctionWindowConf(BaseModel):
 
 class PipelineFunctionWindowTypedDict(TypedDict):
     id: PipelineFunctionWindowID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>window</code>"""
     conf: PipelineFunctionWindowConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -80,7 +80,7 @@ class PipelineFunctionWindowTypedDict(TypedDict):
 
 class PipelineFunctionWindow(BaseModel):
     id: PipelineFunctionWindowID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>window</code>"""
 
     conf: PipelineFunctionWindowConf
 

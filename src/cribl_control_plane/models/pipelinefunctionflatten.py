@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionFlattenID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>flatten</code>"""
 
     FLATTEN = "flatten"
 
 
 class PipelineFunctionFlattenTypedDict(TypedDict):
     id: PipelineFunctionFlattenID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>flatten</code>"""
     conf: FunctionConfSchemaFlattenTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionFlattenTypedDict(TypedDict):
 
 class PipelineFunctionFlatten(BaseModel):
     id: PipelineFunctionFlattenID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>flatten</code>"""
 
     conf: FunctionConfSchemaFlatten
 

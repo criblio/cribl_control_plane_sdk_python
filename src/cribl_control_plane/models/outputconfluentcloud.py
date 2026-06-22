@@ -91,6 +91,7 @@ class OutputConfluentCloudTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     protobuf_library_id: NotRequired[str]
     r"""Select a set of Protobuf definitions for the events you want to send"""
     protobuf_encoding_id: NotRequired[str]
@@ -234,6 +235,7 @@ class OutputConfluentCloud(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     protobuf_library_id: Annotated[
         Optional[str], pydantic.Field(alias="protobufLibraryId")

@@ -181,6 +181,7 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     load_balanced: NotRequired[bool]
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_source_expression: NotRequired[str]
     r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
     custom_drop_when_null: NotRequired[bool]
@@ -391,6 +392,7 @@ class OutputWebhookWebhook2(BaseModel):
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_source_expression: Annotated[
         Optional[str], pydantic.Field(alias="customSourceExpression")
@@ -889,6 +891,7 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     load_balanced: NotRequired[bool]
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_source_expression: NotRequired[str]
     r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
     custom_drop_when_null: NotRequired[bool]
@@ -1099,6 +1102,7 @@ class OutputWebhookWebhook1(BaseModel):
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_source_expression: Annotated[
         Optional[str], pydantic.Field(alias="customSourceExpression")

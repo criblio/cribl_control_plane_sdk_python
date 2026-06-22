@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionJoinID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>join</code>"""
 
     JOIN = "join"
 
@@ -80,7 +80,7 @@ class JoinConfiguration(BaseModel):
 
 class PipelineFunctionJoinTypedDict(TypedDict):
     id: PipelineFunctionJoinID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>join</code>"""
     conf: JoinConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -96,7 +96,7 @@ class PipelineFunctionJoinTypedDict(TypedDict):
 
 class PipelineFunctionJoin(BaseModel):
     id: PipelineFunctionJoinID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>join</code>"""
 
     conf: JoinConfiguration
 

@@ -164,6 +164,7 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     payload_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the payload. Must evaluate to a JavaScript object value. If an invalid value is encountered it will result in the default value instead. Defaults to the entire event."""
     pq_strict_ordering: NotRequired[bool]
@@ -480,6 +481,7 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     payload_expression: Annotated[
         Optional[str], pydantic.Field(alias="payloadExpression")

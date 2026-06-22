@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionSortID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sort</code>"""
 
     SORT = "sort"
 
@@ -65,7 +65,7 @@ class SortConfiguration(BaseModel):
 
 class PipelineFunctionSortTypedDict(TypedDict):
     id: PipelineFunctionSortID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sort</code>"""
     conf: SortConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -81,7 +81,7 @@ class PipelineFunctionSortTypedDict(TypedDict):
 
 class PipelineFunctionSort(BaseModel):
     id: PipelineFunctionSortID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sort</code>"""
 
     conf: SortConfiguration
 

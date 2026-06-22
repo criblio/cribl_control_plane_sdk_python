@@ -227,6 +227,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     r"""How to handle events when all receivers are exerting backpressure"""
     stats_destination: NotRequired[OutputLocalSearchStorageStatsDestinationTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     credentials_secret: NotRequired[str]
@@ -415,6 +416,7 @@ class OutputLocalSearchStorage(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 

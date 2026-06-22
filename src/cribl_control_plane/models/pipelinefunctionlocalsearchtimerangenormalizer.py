@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionLocalSearchTimeRangeNormalizerID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>local_search_time_range_normalizer</code>"""
 
     LOCAL_SEARCH_TIME_RANGE_NORMALIZER = "local_search_time_range_normalizer"
 
 
 class PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict(TypedDict):
     id: PipelineFunctionLocalSearchTimeRangeNormalizerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>local_search_time_range_normalizer</code>"""
     conf: FunctionConfSchemaLocalSearchTimeRangeNormalizerTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionLocalSearchTimeRangeNormalizerTypedDict(TypedDict):
 
 class PipelineFunctionLocalSearchTimeRangeNormalizer(BaseModel):
     id: PipelineFunctionLocalSearchTimeRangeNormalizerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>local_search_time_range_normalizer</code>"""
 
     conf: FunctionConfSchemaLocalSearchTimeRangeNormalizer
 

@@ -130,6 +130,7 @@ class OutputInfluxdbTypedDict(TypedDict):
     auth_type: NotRequired[OutputInfluxdbAuthenticationType]
     r"""InfluxDB authentication type"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     database: NotRequired[str]
     r"""Database to write to."""
     bucket: NotRequired[str]
@@ -303,6 +304,7 @@ class OutputInfluxdb(BaseModel):
     r"""InfluxDB authentication type"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     database: Optional[str] = None
     r"""Database to write to."""

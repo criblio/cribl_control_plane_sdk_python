@@ -485,3 +485,9 @@ value: models.CreateOutputSystemByPackOutputScalityS3 = /* values here */
 value: models.CreateOutputSystemByPackOutputAlibabaCloudS3 = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputIbmCloudS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputIbmCloudS3 = /* values here */
+```
+

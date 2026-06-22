@@ -374,6 +374,7 @@ class CreateInputSystemByPackInputSystemStateTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeSystemState
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -398,6 +399,7 @@ class CreateInputSystemByPackInputSystemStateTypedDict(TypedDict):
     disable_native_last_log_module: NotRequired[bool]
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -411,6 +413,7 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
     type: CreateInputSystemByPackTypeSystemState
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -455,6 +458,7 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1094,6 +1098,7 @@ class CreateInputSystemByPackInputSystemMetricsTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeSystemMetrics
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1117,6 +1122,7 @@ class CreateInputSystemByPackInputSystemMetricsTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     persistence: NotRequired[CreateInputSystemByPackPersistenceSystemMetricsTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1130,6 +1136,7 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     type: CreateInputSystemByPackTypeSystemMetrics
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1170,6 +1177,7 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     persistence: Optional[CreateInputSystemByPackPersistenceSystemMetrics] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1232,6 +1240,7 @@ class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1265,6 +1274,7 @@ class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     text_secret: NotRequired[str]
@@ -1292,6 +1302,7 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1362,6 +1373,7 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -1444,6 +1456,8 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
 
 
 class CreateInputSystemByPackTypeCriblLakeHTTP(str, Enum):
+    r"""Source type identifier."""
+
     CRIBL_LAKE_HTTP = "cribl_lake_http"
 
 
@@ -1562,11 +1576,13 @@ class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeCriblLakeHTTP
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1616,6 +1632,7 @@ class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[CreateInputSystemByPackAuthTokensExtTypedDict]]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1639,6 +1656,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeCriblLakeHTTP
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1647,6 +1665,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1756,6 +1775,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1854,6 +1874,8 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
 
 
 class CreateInputSystemByPackTypeCriblHTTP(str, Enum):
+    r"""Source type identifier."""
+
     CRIBL_HTTP = "cribl_http"
 
 
@@ -1861,11 +1883,13 @@ class CreateInputSystemByPackInputCriblHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeCriblHTTP
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1907,6 +1931,7 @@ class CreateInputSystemByPackInputCriblHTTPTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1922,6 +1947,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeCriblHTTP
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1930,6 +1956,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2019,6 +2046,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2100,6 +2128,7 @@ class CreateInputSystemByPackInputCriblTCPTypedDict(TypedDict):
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2131,6 +2160,7 @@ class CreateInputSystemByPackInputCriblTCPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[AuthTokenConfInputCriblTCPTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2154,6 +2184,7 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2218,6 +2249,7 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2290,6 +2322,7 @@ class CreateInputSystemByPackInputCriblTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeCribl
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2307,6 +2340,7 @@ class CreateInputSystemByPackInputCriblTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2320,6 +2354,7 @@ class CreateInputSystemByPackInputCribl(BaseModel):
     type: CreateInputSystemByPackTypeCribl
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2349,6 +2384,7 @@ class CreateInputSystemByPackInputCribl(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2406,6 +2442,7 @@ class CreateInputSystemByPackInputGooglePubsubTypedDict(TypedDict):
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2442,6 +2479,7 @@ class CreateInputSystemByPackInputGooglePubsubTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     ordered_delivery: NotRequired[bool]
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
     template_environment: NotRequired[str]
@@ -2469,6 +2507,7 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2537,6 +2576,7 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")
@@ -2624,6 +2664,8 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
 
 
 class CreateInputSystemByPackTypeFirehose(str, Enum):
+    r"""Source type identifier."""
+
     FIREHOSE = "firehose"
 
 
@@ -2631,11 +2673,13 @@ class CreateInputSystemByPackInputFirehoseTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeFirehose
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2677,6 +2721,7 @@ class CreateInputSystemByPackInputFirehoseTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2694,6 +2739,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeFirehose
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2702,6 +2748,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2791,6 +2838,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2909,6 +2957,7 @@ class CreateInputSystemByPackInputExecTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     interval: NotRequired[float]
     r"""Interval between command executions in seconds."""
     cron_schedule: NotRequired[str]
@@ -2978,6 +3027,7 @@ class CreateInputSystemByPackInputExec(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     interval: Optional[float] = None
     r"""Interval between command executions in seconds."""
@@ -3396,6 +3446,7 @@ class CreateInputSystemByPackInputEventhubAmqpTypedDict(TypedDict):
     r"""The consumer group this instance belongs to. Default is '$Default'."""
     checkpointing: CreateInputSystemByPackCheckpointingTypedDict
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3437,6 +3488,7 @@ class CreateInputSystemByPackInputEventhubAmqpTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -3455,6 +3507,7 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
     checkpointing: CreateInputSystemByPackCheckpointing
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3538,6 +3591,7 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -3607,6 +3661,7 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     topics: List[str]
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3670,6 +3725,7 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -3695,6 +3751,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3818,6 +3875,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -3938,6 +3996,7 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3983,6 +4042,7 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""client_secret to pass in the OAuth request parameter."""
     tenant_id: NotRequired[str]
@@ -4025,6 +4085,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4115,6 +4176,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""client_secret to pass in the OAuth request parameter."""
@@ -4289,6 +4351,7 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4332,6 +4395,7 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     r"""Username to run Message Trace API call."""
     password: NotRequired[str]
@@ -4380,6 +4444,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4467,6 +4532,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
     r"""Username to run Message Trace API call."""
@@ -4698,6 +4764,7 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     app_id: str
     r"""Microsoft 365 Azure Application ID"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4735,6 +4802,7 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
@@ -4766,6 +4834,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     r"""Microsoft 365 Azure Application ID"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4838,6 +4907,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""Microsoft 365 Azure client secret"""
@@ -5011,6 +5081,7 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     app_id: str
     r"""Microsoft 365 Azure Application ID"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5050,6 +5121,7 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
@@ -5086,6 +5158,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     r"""Microsoft 365 Azure Application ID"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5163,6 +5236,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""Microsoft 365 Azure client secret"""
@@ -5398,6 +5472,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     interval: float
     r"""How often in seconds to scrape targets for metrics."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5423,6 +5498,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodEdgePrometheus]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     targets: NotRequired[List[CreateInputSystemByPackTargetTypedDict]]
     record_type: NotRequired[RecordTypeOptions]
     r"""DNS record type to resolve"""
@@ -5529,6 +5605,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""How often in seconds to scrape targets for metrics."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5577,6 +5654,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     targets: Optional[List[CreateInputSystemByPackTarget]] = None
 
@@ -5931,6 +6009,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     log_level: LogLevelOptions
     r"""Collector runtime log level"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5969,6 +6048,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsSasl]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     target_list: NotRequired[List[str]]
     r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
     record_type: NotRequired[RecordTypeOptions]
@@ -6066,6 +6146,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""Collector runtime log level"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6143,6 +6224,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     target_list: Annotated[Optional[List[str]], pydantic.Field(alias="targetList")] = (
         None
@@ -6468,6 +6550,8 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
 
 
 class CreateInputSystemByPackTypePrometheusRw(str, Enum):
+    r"""Source type identifier."""
+
     PROMETHEUS_RW = "prometheus_rw"
 
 
@@ -6475,6 +6559,7 @@ class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypePrometheusRw
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -6482,6 +6567,7 @@ class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     prometheus_api: str
     r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6523,6 +6609,7 @@ class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     token: NotRequired[str]
@@ -6550,6 +6637,7 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypePrometheusRw
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -6561,6 +6649,7 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6651,6 +6740,7 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -6761,6 +6851,8 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
 
 
 class CreateInputSystemByPackTypeLoki(str, Enum):
+    r"""Source type identifier."""
+
     LOKI = "loki"
 
 
@@ -6768,6 +6860,7 @@ class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeLoki
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -6775,6 +6868,7 @@ class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     loki_api: str
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6816,6 +6910,7 @@ class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     token: NotRequired[str]
@@ -6841,6 +6936,7 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeLoki
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -6852,6 +6948,7 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6941,6 +7038,7 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -7045,6 +7143,8 @@ class CreateInputSystemByPackInputLoki(BaseModel):
 
 
 class CreateInputSystemByPackInputGrafanaType2(str, Enum):
+    r"""Source type identifier."""
+
     GRAFANA = "grafana"
 
 
@@ -7191,6 +7291,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackInputGrafanaType2
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -7198,6 +7299,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2TypedDict(TypedDict):
     loki_api: str
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7241,6 +7343,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2TypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -7260,6 +7363,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackInputGrafanaType2
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7271,6 +7375,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7369,6 +7474,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -7452,6 +7558,8 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
 
 
 class CreateInputSystemByPackInputGrafanaType1(str, Enum):
+    r"""Source type identifier."""
+
     GRAFANA = "grafana"
 
 
@@ -7598,6 +7706,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackInputGrafanaType1
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -7605,6 +7714,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1TypedDict(TypedDict):
     prometheus_api: str
     r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7648,6 +7758,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1TypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -7667,6 +7778,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackInputGrafanaType1
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7678,6 +7790,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
     r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7774,6 +7887,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -7887,6 +8001,7 @@ class CreateInputSystemByPackInputConfluentCloudTypedDict(TypedDict):
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7953,6 +8068,7 @@ class CreateInputSystemByPackInputConfluentCloudTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -7978,6 +8094,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8105,6 +8222,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -8188,6 +8306,8 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
 
 
 class CreateInputSystemByPackTypeElastic(str, Enum):
+    r"""Source type identifier."""
+
     ELASTIC = "elastic"
 
 
@@ -8328,6 +8448,7 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeElastic
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -8335,6 +8456,7 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     elastic_api: str
     r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8380,6 +8502,7 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     proxy_mode: NotRequired[CreateInputSystemByPackProxyModeElasticTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     credentials_secret: NotRequired[str]
@@ -8407,6 +8530,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeElastic
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -8418,6 +8542,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8523,6 +8648,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -8659,6 +8785,7 @@ class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     queue_name: str
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8696,6 +8823,7 @@ class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
     auth_type: NotRequired[AuthenticationMethodOptions]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     connection_string: NotRequired[str]
     r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
     text_secret: NotRequired[str]
@@ -8741,6 +8869,7 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8816,6 +8945,7 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     connection_string: Annotated[
         Optional[str], pydantic.Field(alias="connectionString")
@@ -8959,6 +9089,8 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
 
 
 class CreateInputSystemByPackTypeSplunkHec(str, Enum):
+    r"""Source type identifier."""
+
     SPLUNK_HEC = "splunk_hec"
 
 
@@ -8970,6 +9102,7 @@ class CreateInputSystemByPackAuthTokenSplunkHecTypedDict(TypedDict):
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     enabled: NotRequired[bool]
+    r"""If true, the token is active and can be used for authentication."""
     description: NotRequired[str]
     r"""Optional token description"""
     allowed_indexes_at_token: NotRequired[List[str]]
@@ -8992,6 +9125,7 @@ class CreateInputSystemByPackAuthTokenSplunkHec(BaseModel):
     r"""Select or create a stored text secret"""
 
     enabled: Optional[bool] = None
+    r"""If true, the token is active and can be used for authentication."""
 
     description: Optional[str] = None
     r"""Optional token description"""
@@ -9043,6 +9177,7 @@ class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeSplunkHec
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -9050,6 +9185,7 @@ class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     splunk_hec_api: str
     r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9109,6 +9245,7 @@ class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -9126,6 +9263,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeSplunkHec
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9137,6 +9275,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9272,6 +9411,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -9430,6 +9570,7 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     auth_type: CreateInputSystemByPackAuthenticationTypeSplunkSearch
     r"""Splunk Search authentication type"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9479,6 +9620,7 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     token: NotRequired[str]
@@ -9535,6 +9677,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""Splunk Search authentication type"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9639,6 +9782,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -9846,6 +9990,7 @@ class CreateInputSystemByPackInputSplunkTypedDict(TypedDict):
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9883,6 +10028,7 @@ class CreateInputSystemByPackInputSplunkTypedDict(TypedDict):
     max_s2_sversion: NotRequired[CreateInputSystemByPackMaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     use_fwd_timezone: NotRequired[bool]
     r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
     drop_control_fields: NotRequired[bool]
@@ -9918,6 +10064,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9999,6 +10146,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     r"""The highest S2S protocol version to advertise during handshake"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     use_fwd_timezone: Annotated[
         Optional[bool], pydantic.Field(alias="useFwdTimezone")
@@ -10118,6 +10266,8 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
 
 
 class CreateInputSystemByPackTypeHTTP(str, Enum):
+    r"""Source type identifier."""
+
     HTTP = "http"
 
 
@@ -10125,11 +10275,13 @@ class CreateInputSystemByPackInputHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeHTTP
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10180,6 +10332,7 @@ class CreateInputSystemByPackInputHTTPTypedDict(TypedDict):
     auth_tokens_ext: NotRequired[List[AuthTokensExtConfInputHTTPTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -10203,6 +10356,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeHTTP
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -10211,6 +10365,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10321,6 +10476,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -10435,6 +10591,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     region: str
     r"""Region where the MSK cluster is located"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10514,6 +10671,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     max_socket_errors: NotRequired[float]
     r"""Maximum number of network errors before the consumer re-creates a socket"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -10563,6 +10721,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     r"""Region where the MSK cluster is located"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10724,6 +10883,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -10878,6 +11038,7 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10944,6 +11105,7 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -10969,6 +11131,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11096,6 +11259,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -11187,6 +11351,7 @@ class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeCollection
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process results"""
     send_to_routes: NotRequired[bool]
@@ -11224,6 +11389,7 @@ class CreateInputSystemByPackInputCollection(BaseModel):
     type: CreateInputSystemByPackTypeCollection
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process results"""

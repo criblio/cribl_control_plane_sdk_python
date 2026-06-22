@@ -112,6 +112,7 @@ class OutputPrometheusTypedDict(TypedDict):
     auth_type: NotRequired[OutputPrometheusAuthenticationType]
     r"""Remote Write authentication type"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     metrics_flush_period_sec: NotRequired[float]
     r"""How frequently metrics metadata is sent out. Value cannot be smaller than the base Flush period set above."""
     pq_strict_ordering: NotRequired[bool]
@@ -294,6 +295,7 @@ class OutputPrometheus(BaseModel):
     r"""Remote Write authentication type"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     metrics_flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="metricsFlushPeriodSec")

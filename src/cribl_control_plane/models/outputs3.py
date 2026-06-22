@@ -125,6 +125,7 @@ class OutputS3TypedDict(TypedDict):
     kms_key_id: NotRequired[str]
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
@@ -402,6 +403,7 @@ class OutputS3(BaseModel):
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""

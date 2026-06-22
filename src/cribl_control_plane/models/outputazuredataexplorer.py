@@ -218,6 +218,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
     ingest_mode: NotRequired[OutputAzureDataExplorerIngestionMode]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""The client secret that you generated for your app in the Azure portal"""
     text_secret: NotRequired[str]
@@ -455,6 +456,7 @@ class OutputAzureDataExplorer(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""The client secret that you generated for your app in the Azure portal"""

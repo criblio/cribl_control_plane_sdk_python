@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionSuppressID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>suppress</code>"""
 
     SUPPRESS = "suppress"
 
@@ -88,7 +88,7 @@ class PipelineFunctionSuppressConf(BaseModel):
 
 class PipelineFunctionSuppressTypedDict(TypedDict):
     id: PipelineFunctionSuppressID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>suppress</code>"""
     conf: PipelineFunctionSuppressConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -104,7 +104,7 @@ class PipelineFunctionSuppressTypedDict(TypedDict):
 
 class PipelineFunctionSuppress(BaseModel):
     id: PipelineFunctionSuppressID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>suppress</code>"""
 
     conf: PipelineFunctionSuppressConf
 

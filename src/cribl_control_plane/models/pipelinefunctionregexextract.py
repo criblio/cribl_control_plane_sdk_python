@@ -14,7 +14,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionRegexExtractID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>regex_extract</code>"""
 
     REGEX_EXTRACT = "regex_extract"
 
@@ -76,7 +76,7 @@ class PipelineFunctionRegexExtractConf(BaseModel):
 
 class PipelineFunctionRegexExtractTypedDict(TypedDict):
     id: PipelineFunctionRegexExtractID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>regex_extract</code>"""
     conf: PipelineFunctionRegexExtractConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -92,7 +92,7 @@ class PipelineFunctionRegexExtractTypedDict(TypedDict):
 
 class PipelineFunctionRegexExtract(BaseModel):
     id: PipelineFunctionRegexExtractID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>regex_extract</code>"""
 
     conf: PipelineFunctionRegexExtractConf
 

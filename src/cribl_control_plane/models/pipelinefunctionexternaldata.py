@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionExternaldataID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>externaldata</code>"""
 
     EXTERNALDATA = "externaldata"
 
 
 class PipelineFunctionExternaldataTypedDict(TypedDict):
     id: PipelineFunctionExternaldataID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>externaldata</code>"""
     conf: FunctionConfSchemaExternaldataTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionExternaldataTypedDict(TypedDict):
 
 class PipelineFunctionExternaldata(BaseModel):
     id: PipelineFunctionExternaldataID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>externaldata</code>"""
 
     conf: FunctionConfSchemaExternaldata
 

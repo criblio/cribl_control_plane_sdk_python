@@ -77,6 +77,7 @@ class OutputSnmpTypedDict(TypedDict):
     enable_ip_spoofing: NotRequired[bool]
     r"""Send SNMP Trap traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     max_record_size: NotRequired[float]
     r"""MTU in bytes. The actual maximum SNMP Trap payload size will be MTU minus IP and UDP headers (28 bytes for IPv4, 48 bytes for IPv6). Payloads exceeding this limit will be dropped."""
     template_streamtags: NotRequired[str]
@@ -117,6 +118,7 @@ class OutputSnmp(BaseModel):
     r"""Send SNMP Trap traffic using the original event's Source IP and port. To enable this, you must install the external `udp-sender` helper binary at `/usr/bin/udp-sender` on all Worker Nodes and grant it the `CAP_NET_RAW` capability."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     max_record_size: Annotated[
         Optional[float], pydantic.Field(alias="maxRecordSize")

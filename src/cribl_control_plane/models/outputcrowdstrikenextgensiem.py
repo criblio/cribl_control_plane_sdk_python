@@ -98,6 +98,7 @@ class OutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     token: NotRequired[str]
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
@@ -243,6 +244,7 @@ class OutputCrowdstrikeNextGenSiem(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     token: Optional[str] = None
 

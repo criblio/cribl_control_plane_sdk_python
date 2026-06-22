@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionSendID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>send</code>"""
 
     SEND = "send"
 
@@ -115,7 +115,7 @@ class SendConfiguration(BaseModel):
 
 class PipelineFunctionSendTypedDict(TypedDict):
     id: PipelineFunctionSendID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>send</code>"""
     conf: SendConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -131,7 +131,7 @@ class PipelineFunctionSendTypedDict(TypedDict):
 
 class PipelineFunctionSend(BaseModel):
     id: PipelineFunctionSendID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>send</code>"""
 
     conf: SendConfiguration
 

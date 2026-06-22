@@ -76,10 +76,10 @@ from .orphanfilerecoverytype import (
     OrphanFileRecoveryType,
     OrphanFileRecoveryTypeTypedDict,
 )
-from .outputresponse_pqcontrols_statsd import (
-    OutputResponsePqControlsStatsd,
-    OutputResponsePqControlsStatsdTypedDict,
-    OutputResponseTypeStatsd,
+from .outputresponse_pqcontrols_statsdext import (
+    OutputResponsePqControlsStatsdExt,
+    OutputResponsePqControlsStatsdExtTypedDict,
+    OutputResponseTypeStatsdExt,
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
@@ -136,6 +136,313 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
+class OutputResponseOutputStatsdExtTypedDict(TypedDict):
+    type: OutputResponseTypeStatsdExt
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
+    host: str
+    r"""The hostname of the destination."""
+    port: float
+    r"""Destination port."""
+    id: NotRequired[str]
+    r"""Unique ID for this output"""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data before sending out to this output"""
+    system_fields: NotRequired[List[str]]
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    streamtags: NotRequired[List[str]]
+    r"""Tags for filtering and grouping in @{product}"""
+    mtu: NotRequired[float]
+    r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
+    flush_period_sec: NotRequired[float]
+    r"""When protocol is TCP, specifies how often buffers should be flushed, resulting in records sent to the destination."""
+    dns_resolve_period_sec: NotRequired[float]
+    r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
+    description: NotRequired[str]
+    r"""Optional description for this configuration."""
+    throttle_rate_per_sec: NotRequired[str]
+    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+    connection_timeout: NotRequired[float]
+    r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
+    write_timeout: NotRequired[float]
+    r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
+    on_backpressure: NotRequired[BackpressureBehaviorOptions]
+    r"""How to handle events when all receivers are exerting backpressure"""
+    pq_strict_ordering: NotRequired[bool]
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+    pq_rate_per_sec: NotRequired[float]
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+    pq_mode: NotRequired[ModeOptions]
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+    pq_max_buffer_size: NotRequired[float]
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+    pq_max_backpressure_sec: NotRequired[float]
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+    pq_max_file_size: NotRequired[str]
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+    pq_max_size: NotRequired[str]
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+    pq_path: NotRequired[str]
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+    pq_compress: NotRequired[CompressionOptionsPq]
+    r"""Codec to use to compress the persisted data"""
+    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+    pq_max_buffer_size_bytes: NotRequired[str]
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
+    pq_controls: NotRequired[OutputResponsePqControlsStatsdExtTypedDict]
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+    notifications: NotRequired[List[NotificationUnionTypedDict]]
+    r"""Notifications attached to the Destination."""
+    status: NotRequired[StatusTypeTypedDict]
+    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
+
+
+class OutputResponseOutputStatsdExt(BaseModel):
+    type: OutputResponseTypeStatsdExt
+
+    protocol: DestinationProtocolOptions
+    r"""Protocol to use when communicating with the destination."""
+
+    host: str
+    r"""The hostname of the destination."""
+
+    port: float
+    r"""Destination port."""
+
+    id: Optional[str] = None
+    r"""Unique ID for this output"""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data before sending out to this output"""
+
+    system_fields: Annotated[
+        Optional[List[str]], pydantic.Field(alias="systemFields")
+    ] = None
+    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Tags for filtering and grouping in @{product}"""
+
+    mtu: Optional[float] = None
+    r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
+
+    flush_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="flushPeriodSec")
+    ] = None
+    r"""When protocol is TCP, specifies how often buffers should be flushed, resulting in records sent to the destination."""
+
+    dns_resolve_period_sec: Annotated[
+        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
+    ] = None
+    r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
+
+    description: Optional[str] = None
+    r"""Optional description for this configuration."""
+
+    throttle_rate_per_sec: Annotated[
+        Optional[str], pydantic.Field(alias="throttleRatePerSec")
+    ] = None
+    r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
+
+    connection_timeout: Annotated[
+        Optional[float], pydantic.Field(alias="connectionTimeout")
+    ] = None
+    r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
+
+    write_timeout: Annotated[Optional[float], pydantic.Field(alias="writeTimeout")] = (
+        None
+    )
+    r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
+
+    on_backpressure: Annotated[
+        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
+    ] = None
+    r"""How to handle events when all receivers are exerting backpressure"""
+
+    pq_strict_ordering: Annotated[
+        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
+    ] = None
+    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
+
+    pq_rate_per_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqRatePerSec")
+    ] = None
+    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
+
+    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
+    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
+
+    pq_max_buffer_size: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
+    ] = None
+    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
+
+    pq_max_backpressure_sec: Annotated[
+        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
+    ] = None
+    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
+
+    pq_max_file_size: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxFileSize")
+    ] = None
+    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
+
+    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
+    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
+
+    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
+    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
+
+    pq_compress: Annotated[
+        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
+    ] = None
+    r"""Codec to use to compress the persisted data"""
+
+    pq_on_backpressure: Annotated[
+        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
+    ] = None
+    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
+
+    pq_max_buffer_size_bytes: Annotated[
+        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
+    ] = None
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
+
+    pq_controls: Annotated[
+        Optional[OutputResponsePqControlsStatsdExt], pydantic.Field(alias="pqControls")
+    ] = None
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
+
+    notifications: Optional[List[NotificationUnion]] = None
+    r"""Notifications attached to the Destination."""
+
+    status: Optional[StatusType] = None
+    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
+
+    @field_serializer("protocol")
+    def serialize_protocol(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DestinationProtocolOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("on_backpressure")
+    def serialize_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_mode")
+    def serialize_pq_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_compress")
+    def serialize_pq_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.CompressionOptionsPq(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("pq_on_backpressure")
+    def serialize_pq_on_backpressure(self, value):
+        if isinstance(value, str):
+            try:
+                return models.QueueFullBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "id",
+                "pipeline",
+                "systemFields",
+                "environment",
+                "streamtags",
+                "mtu",
+                "flushPeriodSec",
+                "dnsResolvePeriodSec",
+                "description",
+                "throttleRatePerSec",
+                "connectionTimeout",
+                "writeTimeout",
+                "onBackpressure",
+                "pqStrictOrdering",
+                "pqRatePerSec",
+                "pqMode",
+                "pqMaxBufferSize",
+                "pqMaxBackpressureSec",
+                "pqMaxFileSize",
+                "pqMaxSize",
+                "pqPath",
+                "pqCompress",
+                "pqOnBackpressure",
+                "pqMaxBufferSizeBytes",
+                "pqControls",
+                "__template_streamtags",
+                "__template_onBackpressure",
+                "notifications",
+                "status",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class OutputResponseTypeStatsd(str, Enum):
+    STATSD = "statsd"
+
+
+class OutputResponsePqControlsStatsdTypedDict(TypedDict):
+    pass
+
+
+class OutputResponsePqControlsStatsd(BaseModel):
+    pass
+
+
 class OutputResponseOutputStatsdTypedDict(TypedDict):
     type: OutputResponseTypeStatsd
     protocol: DestinationProtocolOptions
@@ -161,6 +468,7 @@ class OutputResponseOutputStatsdTypedDict(TypedDict):
     dns_resolve_period_sec: NotRequired[float]
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     connection_timeout: NotRequired[float]
@@ -245,6 +553,7 @@ class OutputResponseOutputStatsd(BaseModel):
     r"""How often to resolve the destination hostname to an IP address. Ignored if the destination is an IP address. A value of 0 means every batch sent will incur a DNS lookup."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
@@ -512,6 +821,7 @@ class OutputResponseOutputMinioTypedDict(TypedDict):
     ]
     r"""Server-side encryption to use for uploaded objects"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
@@ -763,6 +1073,7 @@ class OutputResponseOutputMinio(BaseModel):
     r"""Server-side encryption to use for uploaded objects"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
@@ -1188,6 +1499,7 @@ class OutputResponseOutputCloudwatchTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -1333,6 +1645,7 @@ class OutputResponseOutputCloudwatch(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -1661,6 +1974,7 @@ class OutputResponseOutputInfluxdbTypedDict(TypedDict):
     auth_type: NotRequired[OutputResponseAuthenticationTypeInfluxdb]
     r"""InfluxDB authentication type"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     database: NotRequired[str]
     r"""Database to write to."""
     bucket: NotRequired[str]
@@ -1839,6 +2153,7 @@ class OutputResponseOutputInfluxdb(BaseModel):
     r"""InfluxDB authentication type"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     database: Optional[str] = None
     r"""Database to write to."""
@@ -2157,6 +2472,7 @@ class OutputResponseOutputNewrelicEventsTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -2314,6 +2630,7 @@ class OutputResponseOutputNewrelicEvents(BaseModel):
     r"""Enter API key directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 
@@ -2652,6 +2969,7 @@ class OutputResponseOutputNewrelicTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -2815,6 +3133,7 @@ class OutputResponseOutputNewrelic(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 
@@ -3114,6 +3433,7 @@ class OutputResponseOutputElasticCloudTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -3268,6 +3588,7 @@ class OutputResponseOutputElasticCloud(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -3601,6 +3922,7 @@ class OutputResponseOutputElasticTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""The Cloud ID or URL to an Elastic cluster to send events to. Example: http://elastic:9200/_bulk"""
     use_round_robin_dns: NotRequired[bool]
@@ -3787,6 +4109,7 @@ class OutputResponseOutputElastic(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""The Cloud ID or URL to an Elastic cluster to send events to. Example: http://elastic:9200/_bulk"""
@@ -4126,6 +4449,7 @@ class OutputResponseOutputMskTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -4329,6 +4653,7 @@ class OutputResponseOutputMsk(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -4676,6 +5001,7 @@ class OutputResponseOutputConfluentCloudTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     protobuf_library_id: NotRequired[str]
     r"""Select a set of Protobuf definitions for the events you want to send"""
     protobuf_encoding_id: NotRequired[str]
@@ -4823,6 +5149,7 @@ class OutputResponseOutputConfluentCloud(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     protobuf_library_id: Annotated[
         Optional[str], pydantic.Field(alias="protobufLibraryId")
@@ -5118,6 +5445,7 @@ class OutputResponseOutputKafkaTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     protobuf_library_id: NotRequired[str]
     r"""Select a set of Protobuf definitions for the events you want to send"""
     protobuf_encoding_id: NotRequired[str]
@@ -5263,6 +5591,7 @@ class OutputResponseOutputKafka(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     protobuf_library_id: Annotated[
         Optional[str], pydantic.Field(alias="protobufLibraryId")
@@ -5554,6 +5883,7 @@ class OutputResponseOutputExabeamTypedDict(TypedDict):
     aws_secret_key: NotRequired[str]
     r"""HMAC secret. Can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     empty_dir_cleanup_sec: NotRequired[float]
     r"""How frequently, in seconds, to clean up empty directories"""
     directory_batch_size: NotRequired[float]
@@ -5716,6 +6046,7 @@ class OutputResponseOutputExabeam(BaseModel):
     r"""HMAC secret. Can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
@@ -5923,6 +6254,7 @@ class OutputResponseOutputGooglePubsubTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -6040,6 +6372,7 @@ class OutputResponseOutputGooglePubsub(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -6304,10 +6637,11 @@ class OutputResponseOutputGoogleCloudObservabilityTypedDict(TypedDict):
     r"""How often the sender should ping the peer to keep the connection open"""
     tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
     max_payload_events: NotRequired[float]
-    r"""Max number of events to include in the request body. Default is 0 (unlimited)."""
+    r"""Max number of events to include in the request body. Default is 0 (unlimited). Use to keep outgoing data points within GCO request limits. For metrics, combine with the OTLP Metrics function batchSize."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     pq_strict_ordering: NotRequired[bool]
@@ -6431,7 +6765,7 @@ class OutputResponseOutputGoogleCloudObservability(BaseModel):
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
     ] = None
-    r"""Max number of events to include in the request body. Default is 0 (unlimited)."""
+    r"""Max number of events to include in the request body. Default is 0 (unlimited). Use to keep outgoing data points within GCO request limits. For metrics, combine with the OTLP Metrics function batchSize."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -6439,6 +6773,7 @@ class OutputResponseOutputGoogleCloudObservability(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     secret: Optional[str] = None
     r"""Select or create a stored text secret"""
@@ -6804,6 +7139,7 @@ class OutputResponseOutputGoogleCloudLoggingTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     payload_expression: NotRequired[str]
     r"""JavaScript expression to compute the value of the payload. Must evaluate to a JavaScript object value. If an invalid value is encountered it will result in the default value instead. Defaults to the entire event."""
     pq_strict_ordering: NotRequired[bool]
@@ -7123,6 +7459,7 @@ class OutputResponseOutputGoogleCloudLogging(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     payload_expression: Annotated[
         Optional[str], pydantic.Field(alias="payloadExpression")
@@ -7503,6 +7840,7 @@ class OutputResponseOutputGoogleCloudStorageTypedDict(TypedDict):
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -7735,6 +8073,7 @@ class OutputResponseOutputGoogleCloudStorage(BaseModel):
     orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -8229,6 +8568,7 @@ class OutputResponseOutputGoogleChronicleTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     extra_log_types: NotRequired[List[OutputResponseExtraLogTypeTypedDict]]
     r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
     log_type: NotRequired[str]
@@ -8408,6 +8748,7 @@ class OutputResponseOutputGoogleChronicle(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     extra_log_types: Annotated[
         Optional[List[OutputResponseExtraLogType]],
@@ -8765,6 +9106,7 @@ class OutputResponseOutputAzureEventhubTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -8898,6 +9240,7 @@ class OutputResponseOutputAzureEventhub(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -9162,6 +9505,7 @@ class OutputResponseOutputHoneycombTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -9304,6 +9648,7 @@ class OutputResponseOutputHoneycomb(BaseModel):
     r"""Enter API key directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -9569,6 +9914,7 @@ class OutputResponseOutputKinesisTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -9720,6 +10066,7 @@ class OutputResponseOutputKinesis(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
 
@@ -10032,6 +10379,7 @@ class OutputResponseOutputAzureLogsTypedDict(TypedDict):
     auth_type: NotRequired[OutputResponseAuthenticationMethodAzureLogs]
     r"""Enter workspace ID and workspace key directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -10186,6 +10534,7 @@ class OutputResponseOutputAzureLogs(BaseModel):
     r"""Enter workspace ID and workspace key directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -10580,6 +10929,7 @@ class OutputResponseOutputAzureDataExplorerTypedDict(TypedDict):
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
     ingest_mode: NotRequired[OutputResponseIngestionMode]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""The client secret that you generated for your app in the Azure portal"""
     text_secret: NotRequired[str]
@@ -10817,6 +11167,7 @@ class OutputResponseOutputAzureDataExplorer(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""The client secret that you generated for your app in the Azure portal"""
@@ -11545,6 +11896,7 @@ class OutputResponseOutputAzureBlobTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptions]
     storage_class: NotRequired[OutputResponseBlobAccessTier]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -11766,6 +12118,7 @@ class OutputResponseOutputAzureBlob(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -12230,6 +12583,7 @@ class OutputResponseOutputS3TypedDict(TypedDict):
     kms_key_id: NotRequired[str]
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
     aws_secret: NotRequired[str]
@@ -12511,6 +12865,7 @@ class OutputResponseOutputS3(BaseModel):
     r"""ID or ARN of the KMS customer-managed key to use for encryption"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""This value can be a constant or a JavaScript expression (`${C.env.SOME_ACCESS_KEY}`)"""
@@ -12965,6 +13320,7 @@ class OutputResponseOutputFilesystemTypedDict(TypedDict):
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -13134,6 +13490,7 @@ class OutputResponseOutputFilesystem(BaseModel):
     orphans: Optional[OrphanFileRecoveryType] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""
@@ -13463,6 +13820,7 @@ class OutputResponseOutputSignalfxTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     token: NotRequired[str]
     r"""SignalFx API access token (see [here](https://docs.signalfx.com/en/latest/admin-guide/tokens.html#working-with-access-tokens))"""
     text_secret: NotRequired[str]
@@ -13606,6 +13964,7 @@ class OutputResponseOutputSignalfx(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     token: Optional[str] = None
     r"""SignalFx API access token (see [here](https://docs.signalfx.com/en/latest/admin-guide/tokens.html#working-with-access-tokens))"""
@@ -13865,6 +14224,7 @@ class OutputResponseOutputWavefrontTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     token: NotRequired[str]
     r"""WaveFront API authentication token (see [here](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token))"""
     text_secret: NotRequired[str]
@@ -14008,6 +14368,7 @@ class OutputResponseOutputWavefront(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     token: Optional[str] = None
     r"""WaveFront API authentication token (see [here](https://docs.wavefront.com/wavefront_api.html#generating-an-api-token))"""
@@ -14250,6 +14611,7 @@ class OutputResponseOutputTcpjsonTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     host: NotRequired[str]
     r"""The hostname of the receiver"""
     port: NotRequired[float]
@@ -14375,6 +14737,7 @@ class OutputResponseOutputTcpjson(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     host: Optional[str] = None
     r"""The hostname of the receiver"""
@@ -14677,6 +15040,7 @@ class OutputResponseOutputWizHecTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -14837,6 +15201,7 @@ class OutputResponseOutputWizHec(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -15159,6 +15524,7 @@ class OutputResponseOutputSplunkHecTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""URL to a Splunk HEC endpoint to send events to, e.g., http://localhost:8088/services/collector/event"""
     use_round_robin_dns: NotRequired[bool]
@@ -15325,6 +15691,7 @@ class OutputResponseOutputSplunkHec(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""URL to a Splunk HEC endpoint to send events to, e.g., http://localhost:8088/services/collector/event"""
@@ -15749,6 +16116,7 @@ class OutputResponseOutputSplunkLbTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     max_failed_health_checks: NotRequired[float]
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
     compress: NotRequired[CompressionOptions]
@@ -15902,6 +16270,7 @@ class OutputResponseOutputSplunkLb(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     max_failed_health_checks: Annotated[
         Optional[float], pydantic.Field(alias="maxFailedHealthChecks")
@@ -16199,6 +16568,7 @@ class OutputResponseOutputSplunkTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     max_failed_health_checks: NotRequired[float]
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
     compress: NotRequired[CompressionOptions]
@@ -16328,6 +16698,7 @@ class OutputResponseOutputSplunk(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     max_failed_health_checks: Annotated[
         Optional[float], pydantic.Field(alias="maxFailedHealthChecks")
@@ -16711,6 +17082,7 @@ class OutputResponseOutputSyslogTypedDict(TypedDict):
     log_failed_requests: NotRequired[bool]
     r"""Use to troubleshoot issues with sending data"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs.  If this setting is disabled, consider enabling round-robin DNS."""
     host: NotRequired[str]
@@ -16835,6 +17207,7 @@ class OutputResponseOutputSyslog(BaseModel):
     r"""Use to troubleshoot issues with sending data"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
         None
@@ -17305,6 +17678,7 @@ class OutputResponseOutputSentinelTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     format_: NotRequired[OutputResponseFormatSentinel]
     custom_source_expression: NotRequired[str]
     r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
@@ -17506,6 +17880,7 @@ class OutputResponseOutputSentinel(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     format_: Annotated[
         Optional[OutputResponseFormatSentinel], pydantic.Field(alias="format")
@@ -17975,6 +18350,7 @@ class OutputResponseOutputWebhookWebhook2TypedDict(TypedDict):
     load_balanced: NotRequired[bool]
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_source_expression: NotRequired[str]
     r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
     custom_drop_when_null: NotRequired[bool]
@@ -18190,6 +18566,7 @@ class OutputResponseOutputWebhookWebhook2(BaseModel):
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_source_expression: Annotated[
         Optional[str], pydantic.Field(alias="customSourceExpression")
@@ -18591,693 +18968,10 @@ class OutputResponseOutputWebhookAuthenticationType1(
     OAUTH = "oauth"
 
 
-class OutputResponseOutputWebhookPqControls1TypedDict(TypedDict):
+try:
+    OutputResponseOutputStatsdExt.model_rebuild()
+except NameError:
     pass
-
-
-class OutputResponseOutputWebhookPqControls1(BaseModel):
-    pass
-
-
-class OutputResponseOutputWebhookURL1TypedDict(TypedDict):
-    url: str
-    r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
-    weight: NotRequired[float]
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-    template_url: NotRequired[str]
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
-
-class OutputResponseOutputWebhookURL1(BaseModel):
-    url: str
-    r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
-
-    weight: Optional[float] = None
-    r"""Assign a weight (>0) to each endpoint to indicate its traffic-handling capability"""
-
-    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
-        None
-    )
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["weight", "__template_url"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class OutputResponseOutputWebhookWebhook1TypedDict(TypedDict):
-    type: OutputResponseOutputWebhookType1
-    url: str
-    r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
-    id: NotRequired[str]
-    r"""Unique ID for this output"""
-    pipeline: NotRequired[str]
-    r"""Pipeline to process data before sending out to this output"""
-    system_fields: NotRequired[List[str]]
-    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
-    environment: NotRequired[str]
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-    streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    method: NotRequired[MethodOptions]
-    r"""The method to use when sending events"""
-    format_: NotRequired[OutputResponseOutputWebhookFormat1]
-    r"""How to format events before sending out"""
-    keep_alive: NotRequired[bool]
-    r"""Disable to close the connection immediately after sending the outgoing request"""
-    concurrency: NotRequired[float]
-    r"""Maximum number of ongoing requests before blocking"""
-    max_payload_size_kb: NotRequired[float]
-    r"""Maximum size, in KB, of the request body"""
-    max_payload_events: NotRequired[float]
-    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
-    compress: NotRequired[bool]
-    r"""Compress the payload body before sending"""
-    reject_unauthorized: NotRequired[bool]
-    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
-    Enabled by default. When this setting is also present in TLS Settings (Client Side),
-    that value will take precedence.
-    """
-    timeout_sec: NotRequired[float]
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
-    flush_period_sec: NotRequired[float]
-    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-    extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
-    r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
-    use_round_robin_dns: NotRequired[bool]
-    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
-    failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
-    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
-    safe_headers: NotRequired[List[str]]
-    r"""List of headers that are safe to log in plain text"""
-    response_retry_settings: NotRequired[
-        List[ResponseRetrySettingConfOutputWebhookTypedDict]
-    ]
-    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
-    timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
-    response_honor_retry_after_header: NotRequired[bool]
-    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    on_backpressure: NotRequired[BackpressureBehaviorOptions]
-    r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[OutputResponseOutputWebhookAuthenticationType1]
-    r"""Authentication method to use for the HTTP request"""
-    tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
-    total_memory_limit_kb: NotRequired[float]
-    r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
-    load_balanced: NotRequired[bool]
-    r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
-    description: NotRequired[str]
-    custom_source_expression: NotRequired[str]
-    r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
-    custom_drop_when_null: NotRequired[bool]
-    r"""Whether to drop events when the source expression evaluates to null"""
-    custom_event_delimiter: NotRequired[str]
-    r"""Delimiter string to insert between individual events. Defaults to newline character."""
-    custom_content_type: NotRequired[str]
-    r"""Content type to use for request. Defaults to application/x-ndjson. Any content types set in Advanced Settings > Extra HTTP headers will override this entry."""
-    custom_payload_expression: NotRequired[str]
-    r"""Expression specifying how to format the payload for each batch. To reference the events to send, use the `${events}` variable. Example expression: `{ \"items\" : [${events}] }` would send the batch inside a JSON object."""
-    advanced_content_type: NotRequired[str]
-    r"""HTTP content-type header value"""
-    format_event_code: NotRequired[str]
-    r"""Custom JavaScript code to format incoming event data accessible through the __e variable. The formatted content is added to (__e['__eventOut']) if available. Otherwise, the original event is serialized as JSON. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    format_payload_code: NotRequired[str]
-    r"""Optional JavaScript code to format the payload sent to the Destination. The payload, containing a batch of formatted events, is accessible through the __e['payload'] variable. The formatted payload is returned in the __e['__payloadOut'] variable. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-    pq_strict_ordering: NotRequired[bool]
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-    pq_rate_per_sec: NotRequired[float]
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-    pq_mode: NotRequired[ModeOptions]
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-    pq_max_buffer_size: NotRequired[float]
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
-    pq_max_backpressure_sec: NotRequired[float]
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-    pq_max_file_size: NotRequired[str]
-    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
-    pq_max_size: NotRequired[str]
-    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
-    pq_path: NotRequired[str]
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
-    pq_compress: NotRequired[CompressionOptionsPq]
-    r"""Codec to use to compress the persisted data"""
-    pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
-    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-    pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-    pq_controls: NotRequired[OutputResponseOutputWebhookPqControls1TypedDict]
-    username: NotRequired[str]
-    password: NotRequired[str]
-    token: NotRequired[str]
-    r"""Bearer token to include in the authorization header"""
-    credentials_secret: NotRequired[str]
-    r"""Select or create a secret that references your credentials"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
-    login_url: NotRequired[str]
-    r"""URL for OAuth"""
-    secret_param_name: NotRequired[str]
-    r"""Secret parameter name to pass in request body"""
-    secret: NotRequired[str]
-    r"""Secret parameter value to pass in request body"""
-    token_attribute_name: NotRequired[str]
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-    auth_header_expr: NotRequired[str]
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-    token_timeout_secs: NotRequired[float]
-    r"""How often the OAuth token should be refreshed."""
-    oauth_params: NotRequired[List[OauthParamConfInputServicenowTableTypedDict]]
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-    exclude_self: NotRequired[bool]
-    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-    urls: NotRequired[List[OutputResponseOutputWebhookURL1TypedDict]]
-    dns_resolve_period_sec: NotRequired[float]
-    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
-    load_balance_stats_period_sec: NotRequired[float]
-    r"""How far back in time to keep traffic stats for load balancing purposes"""
-    template_streamtags: NotRequired[str]
-    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
-    template_failed_request_logging_mode: NotRequired[str]
-    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
-    template_on_backpressure: NotRequired[str]
-    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-    template_login_url: NotRequired[str]
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-    template_secret: NotRequired[str]
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-    template_url: NotRequired[str]
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-    notifications: NotRequired[List[NotificationUnionTypedDict]]
-    r"""Notifications attached to the Destination."""
-    status: NotRequired[StatusTypeTypedDict]
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
-
-class OutputResponseOutputWebhookWebhook1(BaseModel):
-    type: OutputResponseOutputWebhookType1
-
-    url: str
-    r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
-
-    id: Optional[str] = None
-    r"""Unique ID for this output"""
-
-    pipeline: Optional[str] = None
-    r"""Pipeline to process data before sending out to this output"""
-
-    system_fields: Annotated[
-        Optional[List[str]], pydantic.Field(alias="systemFields")
-    ] = None
-    r"""Fields to automatically add to events, such as cribl_pipe. Supports wildcards."""
-
-    environment: Optional[str] = None
-    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
-
-    streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    method: Optional[MethodOptions] = None
-    r"""The method to use when sending events"""
-
-    format_: Annotated[
-        Optional[OutputResponseOutputWebhookFormat1], pydantic.Field(alias="format")
-    ] = None
-    r"""How to format events before sending out"""
-
-    keep_alive: Annotated[Optional[bool], pydantic.Field(alias="keepAlive")] = None
-    r"""Disable to close the connection immediately after sending the outgoing request"""
-
-    concurrency: Optional[float] = None
-    r"""Maximum number of ongoing requests before blocking"""
-
-    max_payload_size_kb: Annotated[
-        Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
-    ] = None
-    r"""Maximum size, in KB, of the request body"""
-
-    max_payload_events: Annotated[
-        Optional[float], pydantic.Field(alias="maxPayloadEvents")
-    ] = None
-    r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
-
-    compress: Optional[bool] = None
-    r"""Compress the payload body before sending"""
-
-    reject_unauthorized: Annotated[
-        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
-    ] = None
-    r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
-    Enabled by default. When this setting is also present in TLS Settings (Client Side),
-    that value will take precedence.
-    """
-
-    timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
-    r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
-
-    flush_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="flushPeriodSec")
-    ] = None
-    r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
-
-    extra_http_headers: Annotated[
-        Optional[List[ExtraHTTPHeaderConfInputElastic]],
-        pydantic.Field(alias="extraHttpHeaders"),
-    ] = None
-    r"""Headers to add to all events. You can also add headers dynamically on a per-event basis in the __headers field, as explained in [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook/#internal-fields)."""
-
-    use_round_robin_dns: Annotated[
-        Optional[bool], pydantic.Field(alias="useRoundRobinDns")
-    ] = None
-    r"""Enable round-robin DNS lookup. When a DNS server returns multiple addresses, @{product} will cycle through them in the order returned. For optimal performance, consider enabling this setting for non-load balanced destinations."""
-
-    failed_request_logging_mode: Annotated[
-        Optional[FailedRequestLoggingModeOptions],
-        pydantic.Field(alias="failedRequestLoggingMode"),
-    ] = None
-    r"""Data to log when a request fails. All headers are redacted by default, unless listed as safe headers below."""
-
-    safe_headers: Annotated[
-        Optional[List[str]], pydantic.Field(alias="safeHeaders")
-    ] = None
-    r"""List of headers that are safe to log in plain text"""
-
-    response_retry_settings: Annotated[
-        Optional[List[ResponseRetrySettingConfOutputWebhook]],
-        pydantic.Field(alias="responseRetrySettings"),
-    ] = None
-    r"""Automatically retry after unsuccessful response status codes, such as 429 (Too Many Requests) or 503 (Service Unavailable)"""
-
-    timeout_retry_settings: Annotated[
-        Optional[TimeoutRetrySettingsType], pydantic.Field(alias="timeoutRetrySettings")
-    ] = None
-
-    response_honor_retry_after_header: Annotated[
-        Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
-    ] = None
-    r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-
-    on_backpressure: Annotated[
-        Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
-    ] = None
-    r"""How to handle events when all receivers are exerting backpressure"""
-
-    auth_type: Annotated[
-        Optional[OutputResponseOutputWebhookAuthenticationType1],
-        pydantic.Field(alias="authType"),
-    ] = None
-    r"""Authentication method to use for the HTTP request"""
-
-    tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
-
-    total_memory_limit_kb: Annotated[
-        Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
-    ] = None
-    r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
-
-    load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
-        None
-    )
-    r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
-
-    description: Optional[str] = None
-
-    custom_source_expression: Annotated[
-        Optional[str], pydantic.Field(alias="customSourceExpression")
-    ] = None
-    r"""Expression to evaluate on events to generate output. Example: `raw=${_raw}`. See [Cribl Docs](https://docs.cribl.io/stream/destinations-webhook#custom-format) for other examples. If empty, the full event is sent as stringified JSON."""
-
-    custom_drop_when_null: Annotated[
-        Optional[bool], pydantic.Field(alias="customDropWhenNull")
-    ] = None
-    r"""Whether to drop events when the source expression evaluates to null"""
-
-    custom_event_delimiter: Annotated[
-        Optional[str], pydantic.Field(alias="customEventDelimiter")
-    ] = None
-    r"""Delimiter string to insert between individual events. Defaults to newline character."""
-
-    custom_content_type: Annotated[
-        Optional[str], pydantic.Field(alias="customContentType")
-    ] = None
-    r"""Content type to use for request. Defaults to application/x-ndjson. Any content types set in Advanced Settings > Extra HTTP headers will override this entry."""
-
-    custom_payload_expression: Annotated[
-        Optional[str], pydantic.Field(alias="customPayloadExpression")
-    ] = None
-    r"""Expression specifying how to format the payload for each batch. To reference the events to send, use the `${events}` variable. Example expression: `{ \"items\" : [${events}] }` would send the batch inside a JSON object."""
-
-    advanced_content_type: Annotated[
-        Optional[str], pydantic.Field(alias="advancedContentType")
-    ] = None
-    r"""HTTP content-type header value"""
-
-    format_event_code: Annotated[
-        Optional[str], pydantic.Field(alias="formatEventCode")
-    ] = None
-    r"""Custom JavaScript code to format incoming event data accessible through the __e variable. The formatted content is added to (__e['__eventOut']) if available. Otherwise, the original event is serialized as JSON. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-
-    format_payload_code: Annotated[
-        Optional[str], pydantic.Field(alias="formatPayloadCode")
-    ] = None
-    r"""Optional JavaScript code to format the payload sent to the Destination. The payload, containing a batch of formatted events, is accessible through the __e['payload'] variable. The formatted payload is returned in the __e['__payloadOut'] variable. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
-
-    pq_strict_ordering: Annotated[
-        Optional[bool], pydantic.Field(alias="pqStrictOrdering")
-    ] = None
-    r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
-
-    pq_rate_per_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqRatePerSec")
-    ] = None
-    r"""Throttling rate (in events per second) to impose while writing to Destinations from PQ. Defaults to 0, which disables throttling."""
-
-    pq_mode: Annotated[Optional[ModeOptions], pydantic.Field(alias="pqMode")] = None
-    r"""In Error mode, PQ writes events to the filesystem if the Destination is unavailable. In Backpressure mode, PQ writes events to the filesystem when it detects backpressure from the Destination. In Always On mode, PQ always writes events to the filesystem."""
-
-    pq_max_buffer_size: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBufferSize")
-    ] = None
-    r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use pqMaxBufferSizeBytes instead."""
-
-    pq_max_backpressure_sec: Annotated[
-        Optional[float], pydantic.Field(alias="pqMaxBackpressureSec")
-    ] = None
-    r"""How long (in seconds) to wait for backpressure to resolve before engaging the queue"""
-
-    pq_max_file_size: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxFileSize")
-    ] = None
-    r"""The maximum size to store in each queue file before closing and optionally compressing (KB, MB, etc.)"""
-
-    pq_max_size: Annotated[Optional[str], pydantic.Field(alias="pqMaxSize")] = None
-    r"""The maximum disk space that the queue can consume (as an average per Worker Process) before queueing stops. Enter a numeral with units of KB, MB, etc."""
-
-    pq_path: Annotated[Optional[str], pydantic.Field(alias="pqPath")] = None
-    r"""The location for the persistent queue files. To this field's value, the system will append: /<worker-id>/<output-id>."""
-
-    pq_compress: Annotated[
-        Optional[CompressionOptionsPq], pydantic.Field(alias="pqCompress")
-    ] = None
-    r"""Codec to use to compress the persisted data"""
-
-    pq_on_backpressure: Annotated[
-        Optional[QueueFullBehaviorOptions], pydantic.Field(alias="pqOnBackpressure")
-    ] = None
-    r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
-
-    pq_max_buffer_size_bytes: Annotated[
-        Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
-    ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
-
-    pq_controls: Annotated[
-        Optional[OutputResponseOutputWebhookPqControls1],
-        pydantic.Field(alias="pqControls"),
-    ] = None
-
-    username: Optional[str] = None
-
-    password: Optional[str] = None
-
-    token: Optional[str] = None
-    r"""Bearer token to include in the authorization header"""
-
-    credentials_secret: Annotated[
-        Optional[str], pydantic.Field(alias="credentialsSecret")
-    ] = None
-    r"""Select or create a secret that references your credentials"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
-
-    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
-    r"""URL for OAuth"""
-
-    secret_param_name: Annotated[
-        Optional[str], pydantic.Field(alias="secretParamName")
-    ] = None
-    r"""Secret parameter name to pass in request body"""
-
-    secret: Optional[str] = None
-    r"""Secret parameter value to pass in request body"""
-
-    token_attribute_name: Annotated[
-        Optional[str], pydantic.Field(alias="tokenAttributeName")
-    ] = None
-    r"""Name of the auth token attribute in the OAuth response. Can be top-level (e.g., 'token'); or nested, using a period (e.g., 'data.token')."""
-
-    auth_header_expr: Annotated[
-        Optional[str], pydantic.Field(alias="authHeaderExpr")
-    ] = None
-    r"""JavaScript expression to compute the Authorization header value to pass in requests. The value `${token}` is used to reference the token obtained from authentication, e.g.: `Bearer ${token}`."""
-
-    token_timeout_secs: Annotated[
-        Optional[float], pydantic.Field(alias="tokenTimeoutSecs")
-    ] = None
-    r"""How often the OAuth token should be refreshed."""
-
-    oauth_params: Annotated[
-        Optional[List[OauthParamConfInputServicenowTable]],
-        pydantic.Field(alias="oauthParams"),
-    ] = None
-    r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    oauth_headers: Annotated[
-        Optional[List[OauthHeaderConfInputServicenowTable]],
-        pydantic.Field(alias="oauthHeaders"),
-    ] = None
-    r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
-
-    exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
-    r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
-
-    urls: Optional[List[OutputResponseOutputWebhookURL1]] = None
-
-    dns_resolve_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
-    ] = None
-    r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
-
-    load_balance_stats_period_sec: Annotated[
-        Optional[float], pydantic.Field(alias="loadBalanceStatsPeriodSec")
-    ] = None
-    r"""How far back in time to keep traffic stats for load balancing purposes"""
-
-    template_streamtags: Annotated[
-        Optional[str], pydantic.Field(alias="__template_streamtags")
-    ] = None
-    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
-
-    template_failed_request_logging_mode: Annotated[
-        Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
-    ] = None
-    r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
-
-    template_on_backpressure: Annotated[
-        Optional[str], pydantic.Field(alias="__template_onBackpressure")
-    ] = None
-    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
-
-    template_login_url: Annotated[
-        Optional[str], pydantic.Field(alias="__template_loginUrl")
-    ] = None
-    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
-
-    template_secret: Annotated[
-        Optional[str], pydantic.Field(alias="__template_secret")
-    ] = None
-    r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
-
-    template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
-        None
-    )
-    r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
-
-    notifications: Optional[List[NotificationUnion]] = None
-    r"""Notifications attached to the Destination."""
-
-    status: Optional[StatusType] = None
-    r"""Runtime status: health, metrics, and optional persistent-queue info. Fields may be absent when data is unavailable."""
-
-    @field_serializer("method")
-    def serialize_method(self, value):
-        if isinstance(value, str):
-            try:
-                return models.MethodOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("format_")
-    def serialize_format_(self, value):
-        if isinstance(value, str):
-            try:
-                return models.OutputResponseOutputWebhookFormat1(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("failed_request_logging_mode")
-    def serialize_failed_request_logging_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.FailedRequestLoggingModeOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("on_backpressure")
-    def serialize_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.BackpressureBehaviorOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("auth_type")
-    def serialize_auth_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.OutputResponseOutputWebhookAuthenticationType1(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_mode")
-    def serialize_pq_mode(self, value):
-        if isinstance(value, str):
-            try:
-                return models.ModeOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_compress")
-    def serialize_pq_compress(self, value):
-        if isinstance(value, str):
-            try:
-                return models.CompressionOptionsPq(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("pq_on_backpressure")
-    def serialize_pq_on_backpressure(self, value):
-        if isinstance(value, str):
-            try:
-                return models.QueueFullBehaviorOptions(value)
-            except ValueError:
-                return value
-        return value
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "id",
-                "pipeline",
-                "systemFields",
-                "environment",
-                "streamtags",
-                "method",
-                "format",
-                "keepAlive",
-                "concurrency",
-                "maxPayloadSizeKB",
-                "maxPayloadEvents",
-                "compress",
-                "rejectUnauthorized",
-                "timeoutSec",
-                "flushPeriodSec",
-                "extraHttpHeaders",
-                "useRoundRobinDns",
-                "failedRequestLoggingMode",
-                "safeHeaders",
-                "responseRetrySettings",
-                "timeoutRetrySettings",
-                "responseHonorRetryAfterHeader",
-                "onBackpressure",
-                "authType",
-                "tls",
-                "totalMemoryLimitKB",
-                "loadBalanced",
-                "description",
-                "customSourceExpression",
-                "customDropWhenNull",
-                "customEventDelimiter",
-                "customContentType",
-                "customPayloadExpression",
-                "advancedContentType",
-                "formatEventCode",
-                "formatPayloadCode",
-                "pqStrictOrdering",
-                "pqRatePerSec",
-                "pqMode",
-                "pqMaxBufferSize",
-                "pqMaxBackpressureSec",
-                "pqMaxFileSize",
-                "pqMaxSize",
-                "pqPath",
-                "pqCompress",
-                "pqOnBackpressure",
-                "pqMaxBufferSizeBytes",
-                "pqControls",
-                "username",
-                "password",
-                "token",
-                "credentialsSecret",
-                "textSecret",
-                "loginUrl",
-                "secretParamName",
-                "secret",
-                "tokenAttributeName",
-                "authHeaderExpr",
-                "tokenTimeoutSecs",
-                "oauthParams",
-                "oauthHeaders",
-                "excludeSelf",
-                "urls",
-                "dnsResolvePeriodSec",
-                "loadBalanceStatsPeriodSec",
-                "__template_streamtags",
-                "__template_failedRequestLoggingMode",
-                "__template_onBackpressure",
-                "__template_loginUrl",
-                "__template_secret",
-                "__template_url",
-                "notifications",
-                "status",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
 try:
     OutputResponseOutputStatsd.model_rebuild()
 except NameError:
@@ -19448,13 +19142,5 @@ except NameError:
     pass
 try:
     OutputResponseOutputWebhookWebhook2.model_rebuild()
-except NameError:
-    pass
-try:
-    OutputResponseOutputWebhookURL1.model_rebuild()
-except NameError:
-    pass
-try:
-    OutputResponseOutputWebhookWebhook1.model_rebuild()
 except NameError:
     pass

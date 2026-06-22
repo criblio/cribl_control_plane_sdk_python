@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionStoreID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>store</code>"""
 
     STORE = "store"
 
@@ -112,7 +112,7 @@ class StoreFunctionConfiguration(BaseModel):
 
 class PipelineFunctionStoreTypedDict(TypedDict):
     id: PipelineFunctionStoreID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>store</code>"""
     conf: StoreFunctionConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -128,7 +128,7 @@ class PipelineFunctionStoreTypedDict(TypedDict):
 
 class PipelineFunctionStore(BaseModel):
     id: PipelineFunctionStoreID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>store</code>"""
 
     conf: StoreFunctionConfiguration
 

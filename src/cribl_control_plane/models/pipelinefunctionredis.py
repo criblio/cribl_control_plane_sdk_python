@@ -25,7 +25,7 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionRedisID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>redis</code>"""
 
     REDIS = "redis"
 
@@ -1745,7 +1745,7 @@ PipelineFunctionRedisConf = Annotated[
 
 class PipelineFunctionRedisTypedDict(TypedDict):
     id: PipelineFunctionRedisID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>redis</code>"""
     conf: PipelineFunctionRedisConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -1761,7 +1761,7 @@ class PipelineFunctionRedisTypedDict(TypedDict):
 
 class PipelineFunctionRedis(BaseModel):
     id: PipelineFunctionRedisID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>redis</code>"""
 
     conf: PipelineFunctionRedisConf
 

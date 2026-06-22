@@ -96,6 +96,7 @@ class OutputNewrelicEventsTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -249,6 +250,7 @@ class OutputNewrelicEvents(BaseModel):
     r"""Enter API key directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 

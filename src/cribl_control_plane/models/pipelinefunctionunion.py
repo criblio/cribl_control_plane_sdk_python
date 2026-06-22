@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionUnionID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>union</code>"""
 
     UNION = "union"
 
@@ -32,7 +32,7 @@ class UnionConfiguration(BaseModel):
 
 class PipelineFunctionUnionTypedDict(TypedDict):
     id: PipelineFunctionUnionID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>union</code>"""
     conf: UnionConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -48,7 +48,7 @@ class PipelineFunctionUnionTypedDict(TypedDict):
 
 class PipelineFunctionUnion(BaseModel):
     id: PipelineFunctionUnionID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>union</code>"""
 
     conf: UnionConfiguration
 

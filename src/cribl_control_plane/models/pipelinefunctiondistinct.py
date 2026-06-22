@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionDistinctID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>distinct</code>"""
 
     DISTINCT = "distinct"
 
@@ -69,7 +69,7 @@ class DistinctConfiguration(BaseModel):
 
 class PipelineFunctionDistinctTypedDict(TypedDict):
     id: PipelineFunctionDistinctID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>distinct</code>"""
     conf: DistinctConfigurationTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -85,7 +85,7 @@ class PipelineFunctionDistinctTypedDict(TypedDict):
 
 class PipelineFunctionDistinct(BaseModel):
     id: PipelineFunctionDistinctID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>distinct</code>"""
 
     conf: DistinctConfiguration
 

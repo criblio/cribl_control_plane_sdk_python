@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionSensitiveDataScannerID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sensitive_data_scanner</code>"""
 
     SENSITIVE_DATA_SCANNER = "sensitive_data_scanner"
 
@@ -139,7 +139,7 @@ class PipelineFunctionSensitiveDataScannerConf(BaseModel):
 
 class PipelineFunctionSensitiveDataScannerTypedDict(TypedDict):
     id: PipelineFunctionSensitiveDataScannerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sensitive_data_scanner</code>"""
     conf: PipelineFunctionSensitiveDataScannerConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -155,7 +155,7 @@ class PipelineFunctionSensitiveDataScannerTypedDict(TypedDict):
 
 class PipelineFunctionSensitiveDataScanner(BaseModel):
     id: PipelineFunctionSensitiveDataScannerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sensitive_data_scanner</code>"""
 
     conf: PipelineFunctionSensitiveDataScannerConf
 

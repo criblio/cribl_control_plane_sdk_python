@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionSnmpTrapSerializeID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>snmp_trap_serialize</code>"""
 
     SNMP_TRAP_SERIALIZE = "snmp_trap_serialize"
 
 
 class PipelineFunctionSnmpTrapSerializeTypedDict(TypedDict):
     id: PipelineFunctionSnmpTrapSerializeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>snmp_trap_serialize</code>"""
     conf: FunctionConfSchemaSnmpTrapSerializeTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionSnmpTrapSerializeTypedDict(TypedDict):
 
 class PipelineFunctionSnmpTrapSerialize(BaseModel):
     id: PipelineFunctionSnmpTrapSerializeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>snmp_trap_serialize</code>"""
 
     conf: FunctionConfSchemaSnmpTrapSerialize
 

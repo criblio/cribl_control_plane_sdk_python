@@ -2257,6 +2257,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesibmCloudS3
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesibmCloudS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "ibm-cloud-s3-output",
+        "type": models.CreateOutputTypeIbmCloudS3.IBM_CLOUD_S3,
+        "endpoint": "https://s3.us-south.cloud-object-storage.appdomain.cloud",
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesscalityS3
 
 <!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesscalityS3" -->
@@ -6903,6 +6930,33 @@ with CriblControlPlane(
         "bucket": "my-bucket",
         "stage_path": "/tmp/staging",
         "endpoint": "https://powerscale.example.com:9021",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesibmCloudS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesibmCloudS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "ibm-cloud-s3-output",
+        "type": models.OutputIbmCloudS3Type.IBM_CLOUD_S3,
+        "endpoint": "https://s3.us-south.cloud-object-storage.appdomain.cloud",
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
     })
 
     # Handle response

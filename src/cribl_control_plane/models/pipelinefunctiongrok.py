@@ -14,7 +14,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionGrokID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>grok</code>"""
 
     GROK = "grok"
 
@@ -58,7 +58,7 @@ class PipelineFunctionGrokConf(BaseModel):
 
 class PipelineFunctionGrokTypedDict(TypedDict):
     id: PipelineFunctionGrokID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>grok</code>"""
     conf: PipelineFunctionGrokConfTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -74,7 +74,7 @@ class PipelineFunctionGrokTypedDict(TypedDict):
 
 class PipelineFunctionGrok(BaseModel):
     id: PipelineFunctionGrokID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>grok</code>"""
 
     conf: PipelineFunctionGrokConf
 

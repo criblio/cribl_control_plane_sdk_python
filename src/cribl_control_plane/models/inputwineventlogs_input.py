@@ -48,6 +48,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -76,6 +77,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     max_event_bytes: NotRequired[int]
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     disable_json_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
     disable_xml_rendering: NotRequired[bool]
@@ -96,6 +98,7 @@ class InputWinEventLogsInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -149,6 +152,7 @@ class InputWinEventLogsInput(BaseModel):
     r"""The maximum number of bytes in an event before it is flushed to the pipelines"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     disable_json_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableJsonRendering")

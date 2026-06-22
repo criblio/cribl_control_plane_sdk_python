@@ -159,6 +159,7 @@ class OutputSyslogTypedDict(TypedDict):
     log_failed_requests: NotRequired[bool]
     r"""Use to troubleshoot issues with sending data"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs.  If this setting is disabled, consider enabling round-robin DNS."""
     host: NotRequired[str]
@@ -279,6 +280,7 @@ class OutputSyslog(BaseModel):
     r"""Use to troubleshoot issues with sending data"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
         None

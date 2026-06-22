@@ -144,6 +144,7 @@ class OutputChronicleTypedDict(TypedDict):
     endpoint: NotRequired[str]
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     service_account_credentials: NotRequired[str]
     r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
     service_account_credentials_secret: NotRequired[str]
@@ -332,6 +333,7 @@ class OutputChronicle(BaseModel):
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")

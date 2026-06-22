@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionSidlookupID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sidlookup</code>"""
 
     SIDLOOKUP = "sidlookup"
 
 
 class PipelineFunctionSidlookupTypedDict(TypedDict):
     id: PipelineFunctionSidlookupID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sidlookup</code>"""
     conf: FunctionConfSchemaSidlookupTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionSidlookupTypedDict(TypedDict):
 
 class PipelineFunctionSidlookup(BaseModel):
     id: PipelineFunctionSidlookupID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sidlookup</code>"""
 
     conf: FunctionConfSchemaSidlookup
 

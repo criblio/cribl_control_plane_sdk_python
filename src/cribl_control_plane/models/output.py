@@ -66,6 +66,7 @@ from .outputgrafanacloud_union import (
 from .outputgraphite import OutputGraphite, OutputGraphiteTypedDict
 from .outputhoneycomb import OutputHoneycomb, OutputHoneycombTypedDict
 from .outputhumiohec import OutputHumioHec, OutputHumioHecTypedDict
+from .outputibmclouds3 import OutputIbmCloudS3, OutputIbmCloudS3TypedDict
 from .outputinfluxdb import OutputInfluxdb, OutputInfluxdbTypedDict
 from .outputkafka import OutputKafka, OutputKafkaTypedDict
 from .outputkinesis import OutputKinesis, OutputKinesisTypedDict
@@ -181,6 +182,7 @@ OutputTypedDict = TypeAliasType(
         OutputDatabricksTypedDict,
         OutputMskTypedDict,
         OutputAlphasocS3TypedDict,
+        OutputIbmCloudS3TypedDict,
         OutputStorjS3TypedDict,
         OutputOpenTelemetryTypedDict,
         OutputAlibabaCloudS3TypedDict,
@@ -286,6 +288,7 @@ Output = Annotated[
         Annotated[OutputCloudianS3, Tag("cloudian_s3")],
         Annotated[OutputScalityS3, Tag("scality_s3")],
         Annotated[OutputAlibabaCloudS3, Tag("alibaba_cloud_s3")],
+        Annotated[OutputIbmCloudS3, Tag("ibm_cloud_s3")],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]

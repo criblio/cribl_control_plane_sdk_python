@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionLocalSearchSchemaMapperID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>local_search_schema_mapper</code>"""
 
     LOCAL_SEARCH_SCHEMA_MAPPER = "local_search_schema_mapper"
 
 
 class PipelineFunctionLocalSearchSchemaMapperTypedDict(TypedDict):
     id: PipelineFunctionLocalSearchSchemaMapperID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>local_search_schema_mapper</code>"""
     conf: FunctionConfSchemaLocalSearchSchemaMapperTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionLocalSearchSchemaMapperTypedDict(TypedDict):
 
 class PipelineFunctionLocalSearchSchemaMapper(BaseModel):
     id: PipelineFunctionLocalSearchSchemaMapperID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>local_search_schema_mapper</code>"""
 
     conf: FunctionConfSchemaLocalSearchSchemaMapper
 

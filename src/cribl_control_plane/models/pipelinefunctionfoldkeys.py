@@ -14,14 +14,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionFoldkeysID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>foldkeys</code>"""
 
     FOLDKEYS = "foldkeys"
 
 
 class PipelineFunctionFoldkeysTypedDict(TypedDict):
     id: PipelineFunctionFoldkeysID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>foldkeys</code>"""
     conf: FunctionConfSchemaFoldkeysTypedDict
     filter_: NotRequired[str]
     r"""Filter that selects data to be fed through this Function"""
@@ -37,7 +37,7 @@ class PipelineFunctionFoldkeysTypedDict(TypedDict):
 
 class PipelineFunctionFoldkeys(BaseModel):
     id: PipelineFunctionFoldkeysID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>foldkeys</code>"""
 
     conf: FunctionConfSchemaFoldkeys
 

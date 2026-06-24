@@ -5,12 +5,12 @@ from cribl_control_plane.types import BaseModel
 from typing_extensions import TypedDict
 
 
-class RequestParamConfInputOpenaiTypedDict(TypedDict):
+class HTTPDiscoveryHeaderConfInputPrometheusTypedDict(TypedDict):
     name: str
     value: str
 
 
-class RequestParamConfInputOpenai(BaseModel):
+class HTTPDiscoveryHeaderConfInputPrometheus(BaseModel):
     name: str
 
     value: str

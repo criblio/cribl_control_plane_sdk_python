@@ -157,6 +157,8 @@ class OutputClickHouseTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+    workload: NotRequired[str]
+    r"""Optional ClickHouse workload name to append as a SETTINGS clause on INSERT queries. Used for workload scheduling classification."""
     dump_format_errors_to_disk: NotRequired[bool]
     r"""Log the most recent event that fails to match the table schema"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
@@ -196,7 +198,7 @@ class OutputClickHouseTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputClickHousePqControlsTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -330,6 +332,9 @@ class OutputClickHouse(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
+    workload: Optional[str] = None
+    r"""Optional ClickHouse workload name to append as a SETTINGS clause on INSERT queries. Used for workload scheduling classification."""
+
     dump_format_errors_to_disk: Annotated[
         Optional[bool], pydantic.Field(alias="dumpFormatErrorsToDisk")
     ] = None
@@ -421,7 +426,7 @@ class OutputClickHouse(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputClickHousePqControls], pydantic.Field(alias="pqControls")
@@ -557,6 +562,7 @@ class OutputClickHouse(BaseModel):
                 "responseRetrySettings",
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
+                "workload",
                 "dumpFormatErrorsToDisk",
                 "onBackpressure",
                 "description",

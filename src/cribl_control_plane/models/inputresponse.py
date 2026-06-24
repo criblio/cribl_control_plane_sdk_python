@@ -46,6 +46,10 @@ from .extrahttpheaderconfinputelastic import (
 )
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
 from .gputype import GpuType, GpuTypeTypedDict
+from .httpdiscoveryheaderconfinputprometheus import (
+    HTTPDiscoveryHeaderConfInputPrometheus,
+    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
+)
 from .inputcollectionorigindatasourcediscoverywithdestinationarnconstraint import (
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint,
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict,
@@ -3277,6 +3281,47 @@ class InputResponseAuthenticationMechanism(str, Enum, metaclass=utils.OpenEnumMe
     OAUTH_BEARER = "oauth-bearer"
 
 
+class InputResponseCertificateTypedDict(TypedDict):
+    certificate_name: str
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+    cert_path: str
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+    priv_key_path: str
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+    passphrase: NotRequired[str]
+    r"""Passphrase to use to decrypt private key"""
+
+
+class InputResponseCertificate(BaseModel):
+    certificate_name: Annotated[str, pydantic.Field(alias="certificateName")]
+    r"""The certificate you registered as credentials for your app in the Azure portal"""
+
+    cert_path: Annotated[str, pydantic.Field(alias="certPath")]
+    r"""Path on server containing certificates to use. PEM format. Can reference $ENV_VARS."""
+
+    priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
+    r"""Path on server containing the private key to use. PEM format. Can reference $ENV_VARS."""
+
+    passphrase: Optional[str] = None
+    r"""Passphrase to use to decrypt private key"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["passphrase"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class InputResponseAuthTypedDict(TypedDict):
     mechanism: InputResponseAuthenticationMechanism
     text_secret: NotRequired[str]
@@ -3284,7 +3329,7 @@ class InputResponseAuthTypedDict(TypedDict):
     client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[InputResponseCertificateTypedDict]
     oauth_endpoint: NotRequired[MicrosoftEntraIDAuthenticationEndpointOptionsSasl]
     r"""Endpoint used to acquire authentication tokens from Azure"""
     client_id: NotRequired[str]
@@ -3319,7 +3364,7 @@ class InputResponseAuth(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[InputResponseCertificate] = None
 
     oauth_endpoint: Annotated[
         Optional[MicrosoftEntraIDAuthenticationEndpointOptionsSasl],
@@ -3850,20 +3895,16 @@ class InputResponseInputEventhubTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
     session_timeout: NotRequired[float]
-    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
-    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
-    Value must be lower than rebalanceTimeout.
-    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    r"""
+    Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities. If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance. Value must be lower than rebalanceTimeout. See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
     """
     rebalance_timeout: NotRequired[float]
-    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    r"""
+    Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
     """
     heartbeat_interval: NotRequired[float]
-    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    r"""
+    Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
     """
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
@@ -3988,26 +4029,22 @@ class InputResponseInputEventhub(BaseModel):
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
     ] = None
-    r"""Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities.
-    If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance.
-    Value must be lower than rebalanceTimeout.
-    See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    r"""
+    Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities. If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance. Value must be lower than rebalanceTimeout. See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
     """
 
     rebalance_timeout: Annotated[
         Optional[float], pydantic.Field(alias="rebalanceTimeout")
     ] = None
-    r"""Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    r"""
+    Maximum allowed time (rebalance.timeout.ms in Kafka domain) for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
     """
 
     heartbeat_interval: Annotated[
         Optional[float], pydantic.Field(alias="heartbeatInterval")
     ] = None
-    r"""Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
+    r"""
+    Expected time (heartbeat.interval.ms in Kafka domain) between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Recommended configurations](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
     """
 
     auto_commit_interval: Annotated[
@@ -5613,6 +5650,8 @@ class InputResponseDiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEn
     K8S_PODS = "k8s-pods"
     # Kubernetes Service Monitor (v4.18+)
     K8S_SERVICE_MONITOR = "k8s-service-monitor"
+    # HTTP SD
+    HTTP_SD = "http_sd"
 
 
 class InputResponseAuthenticationMethodEdgePrometheus(
@@ -5790,11 +5829,22 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
     scrape_path_expr: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
     pod_filter: NotRequired[List[InputResponsePodFilterTypedDict]]
-    r"""Add rules to decide which pods to discover for metrics.
+    r"""
+    Add rules to decide which pods to discover for metrics.
     Pods are searched if no rules are given or of all the rules'
     expressions evaluate to true.
 
     """
+    http_discovery_url: NotRequired[str]
+    r"""URL to fetch target groups from (must be http or https)"""
+    http_discovery_headers: NotRequired[
+        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+    ]
+    r"""Extra headers to send with the discovery request"""
+    http_discovery_reject_unauthorized: NotRequired[bool]
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
     username: NotRequired[str]
     r"""Username for Prometheus Basic authentication"""
     password: NotRequired[str]
@@ -6001,11 +6051,33 @@ class InputResponseInputEdgePrometheus(BaseModel):
     pod_filter: Annotated[
         Optional[List[InputResponsePodFilter]], pydantic.Field(alias="podFilter")
     ] = None
-    r"""Add rules to decide which pods to discover for metrics.
+    r"""
+    Add rules to decide which pods to discover for metrics.
     Pods are searched if no rules are given or of all the rules'
     expressions evaluate to true.
 
     """
+
+    http_discovery_url: Annotated[
+        Optional[str], pydantic.Field(alias="httpDiscoveryUrl")
+    ] = None
+    r"""URL to fetch target groups from (must be http or https)"""
+
+    http_discovery_headers: Annotated[
+        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        pydantic.Field(alias="httpDiscoveryHeaders"),
+    ] = None
+    r"""Extra headers to send with the discovery request"""
+
+    http_discovery_reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="httpDiscoveryRejectUnauthorized")
+    ] = None
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
 
     username: Optional[str] = None
     r"""Username for Prometheus Basic authentication"""
@@ -6165,6 +6237,10 @@ class InputResponseInputEdgePrometheus(BaseModel):
                 "scrapePortExpr",
                 "scrapePathExpr",
                 "podFilter",
+                "httpDiscoveryUrl",
+                "httpDiscoveryHeaders",
+                "httpDiscoveryRejectUnauthorized",
+                "maxResponseBodySize",
                 "username",
                 "password",
                 "credentialsSecret",
@@ -6209,6 +6285,8 @@ class InputResponseDiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMe
     DNS = "dns"
     # AWS EC2
     EC2 = "ec2"
+    # HTTP SD
+    HTTP_SD = "http_sd"
 
 
 class InputResponseMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -6305,6 +6383,16 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    http_discovery_url: NotRequired[str]
+    r"""URL to fetch target groups from (must be http or https)"""
+    http_discovery_headers: NotRequired[
+        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+    ]
+    r"""Extra headers to send with the discovery request"""
+    http_discovery_reject_unauthorized: NotRequired[bool]
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
     username: NotRequired[str]
     r"""Username for Prometheus Basic authentication"""
     password: NotRequired[str]
@@ -6523,6 +6611,27 @@ class InputResponseInputPrometheus(BaseModel):
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
+    http_discovery_url: Annotated[
+        Optional[str], pydantic.Field(alias="httpDiscoveryUrl")
+    ] = None
+    r"""URL to fetch target groups from (must be http or https)"""
+
+    http_discovery_headers: Annotated[
+        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        pydantic.Field(alias="httpDiscoveryHeaders"),
+    ] = None
+    r"""Extra headers to send with the discovery request"""
+
+    http_discovery_reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="httpDiscoveryRejectUnauthorized")
+    ] = None
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
+
     username: Optional[str] = None
     r"""Username for Prometheus Basic authentication"""
 
@@ -6715,6 +6824,10 @@ class InputResponseInputPrometheus(BaseModel):
                 "assumeRoleArn",
                 "assumeRoleExternalId",
                 "durationSeconds",
+                "httpDiscoveryUrl",
+                "httpDiscoveryHeaders",
+                "httpDiscoveryRejectUnauthorized",
+                "maxResponseBodySize",
                 "username",
                 "password",
                 "credentialsSecret",
@@ -8312,14 +8425,12 @@ class InputResponseInputConfluentCloudTypedDict(TypedDict):
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
     """
     rebalance_timeout: NotRequired[float]
-    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    r"""
+    Maximum allowed time for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
     """
     heartbeat_interval: NotRequired[float]
-    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    r"""
+    Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
@@ -8458,17 +8569,15 @@ class InputResponseInputConfluentCloud(BaseModel):
     rebalance_timeout: Annotated[
         Optional[float], pydantic.Field(alias="rebalanceTimeout")
     ] = None
-    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    r"""
+    Maximum allowed time for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
     """
 
     heartbeat_interval: Annotated[
         Optional[float], pydantic.Field(alias="heartbeatInterval")
     ] = None
-    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    r"""
+    Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
 
     auto_commit_interval: Annotated[
@@ -10999,14 +11108,12 @@ class InputResponseInputMskTypedDict(TypedDict):
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
     """
     rebalance_timeout: NotRequired[float]
-    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    r"""
+    Maximum allowed time for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
     """
     heartbeat_interval: NotRequired[float]
-    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    r"""
+    Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
@@ -11158,17 +11265,15 @@ class InputResponseInputMsk(BaseModel):
     rebalance_timeout: Annotated[
         Optional[float], pydantic.Field(alias="rebalanceTimeout")
     ] = None
-    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    r"""
+    Maximum allowed time for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
     """
 
     heartbeat_interval: Annotated[
         Optional[float], pydantic.Field(alias="heartbeatInterval")
     ] = None
-    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    r"""
+    Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
@@ -11490,14 +11595,12 @@ class InputResponseInputKafkaTypedDict(TypedDict):
     See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_session.timeout.ms) for details.
     """
     rebalance_timeout: NotRequired[float]
-    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    r"""
+    Maximum allowed time for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
     """
     heartbeat_interval: NotRequired[float]
-    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    r"""
+    Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
@@ -11636,17 +11739,15 @@ class InputResponseInputKafka(BaseModel):
     rebalance_timeout: Annotated[
         Optional[float], pydantic.Field(alias="rebalanceTimeout")
     ] = None
-    r"""Maximum allowed time for each worker to join the group after a rebalance begins.
-    If the timeout is exceeded, the coordinator broker will remove the worker from the group.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
+    r"""
+    Maximum allowed time for each worker to join the group after a rebalance begins. If the timeout is exceeded, the coordinator broker will remove the worker from the group. See [Kafka's documentation](https://kafka.apache.org/documentation/#connectconfigs_rebalance.timeout.ms) for details.
     """
 
     heartbeat_interval: Annotated[
         Optional[float], pydantic.Field(alias="heartbeatInterval")
     ] = None
-    r"""Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities.
-    Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value.
-    See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
+    r"""
+    Expected time between heartbeats to the consumer coordinator when using Kafka's group-management facilities. Value must be lower than sessionTimeout and typically should not exceed 1/3 of the sessionTimeout value. See [Kafka's documentation](https://kafka.apache.org/documentation/#consumerconfigs_heartbeat.interval.ms) for details.
     """
 
     auto_commit_interval: Annotated[
@@ -11944,12 +12045,12 @@ InputResponseTypedDict = TypeAliasType(
         InputResponseInputSystemMetricsTypedDict,
         InputResponseInputWindowsMetricsTypedDict,
         InputResponseInputJournalFilesTypedDict,
-        InputResponseInputKubeLogsTypedDict,
         InputResponseInputModelDrivenTelemetryTypedDict,
         InputResponseInputExecTypedDict,
         InputResponseInputRawUDPTypedDict,
         InputResponseInputAnthropicComplianceTypedDict,
         InputResponseInputWinEventLogsTypedDict,
+        InputResponseInputKubeLogsTypedDict,
         InputResponseInputSnmpTypedDict,
         InputResponseInputMetricsTypedDict,
         InputResponseInputNetflowTypedDict,
@@ -11996,8 +12097,8 @@ InputResponseTypedDict = TypeAliasType(
         InputResponseInputSecurityLakeTypedDict,
         InputResponseInputS3TypedDict,
         InputResponseInputS3InventoryTypedDict,
-        InputResponseInputEdgePrometheusTypedDict,
         InputResponseInputMskTypedDict,
+        InputResponseInputEdgePrometheusTypedDict,
         InputResponseInputPrometheusTypedDict,
         InputResponseInputGrafanaUnionTypedDict,
         InputResponseInputSyslogUnionTypedDict,
@@ -12251,6 +12352,10 @@ except NameError:
     pass
 try:
     InputResponseInputExec.model_rebuild()
+except NameError:
+    pass
+try:
+    InputResponseCertificate.model_rebuild()
 except NameError:
     pass
 try:

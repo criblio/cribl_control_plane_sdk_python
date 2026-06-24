@@ -25,6 +25,10 @@ from .datacompressionformatoptionspersistence import (
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
 from .gputype import GpuType, GpuTypeTypedDict
+from .httpdiscoveryheaderconfinputprometheus import (
+    HTTPDiscoveryHeaderConfInputPrometheus,
+    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
+)
 from .logleveloptions import LogLevelOptions
 from .logleveloptionscontentconfigitemsdebugerror import (
     LogLevelOptionsContentConfigItemsDebugError,
@@ -50,10 +54,6 @@ from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
     PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
 )
 from .processtype import ProcessType, ProcessTypeTypedDict
-from .requestparamconfinputopenai import (
-    RequestParamConfInputOpenai,
-    RequestParamConfInputOpenaiTypedDict,
-)
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from .ruleconfinputkubemetrics import (
     RuleConfInputKubeMetrics,
@@ -888,6 +888,8 @@ class CreateInputSystemByPackAuthTokenCloudflareHecTypedDict(TypedDict):
     r"""Select Secret to use a text secret to authenticate"""
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    token: NotRequired[str]
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
     enabled: NotRequired[bool]
     description: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
@@ -905,6 +907,9 @@ class CreateInputSystemByPackAuthTokenCloudflareHec(BaseModel):
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored text secret"""
+
+    token: Optional[str] = None
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     enabled: Optional[bool] = None
 
@@ -935,6 +940,7 @@ class CreateInputSystemByPackAuthTokenCloudflareHec(BaseModel):
             [
                 "authType",
                 "tokenSecret",
+                "token",
                 "enabled",
                 "description",
                 "allowedIndexesAtToken",
@@ -3145,7 +3151,7 @@ class CreateInputSystemByPackLogLevelOpenai(str, Enum, metaclass=utils.OpenEnumM
 
 
 class CreateInputSystemByPackContentConfigInputTypedDict(TypedDict):
-    request_params: List[RequestParamConfInputOpenaiTypedDict]
+    request_params: List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
     r"""Query-string parameters to send with this endpoint"""
     pagination_type: CreateInputSystemByPackPaginationType
     cron_schedule: str
@@ -3180,7 +3186,8 @@ class CreateInputSystemByPackContentConfigInputTypedDict(TypedDict):
 
 class CreateInputSystemByPackContentConfigInput(BaseModel):
     request_params: Annotated[
-        List[RequestParamConfInputOpenai], pydantic.Field(alias="requestParams")
+        List[HTTPDiscoveryHeaderConfInputPrometheus],
+        pydantic.Field(alias="requestParams"),
     ]
     r"""Query-string parameters to send with this endpoint"""
 
@@ -3942,7 +3949,7 @@ class CreateInputSystemByPackInputJournalFilesTypedDict(TypedDict):
     rules: NotRequired[List[CreateInputSystemByPackInputJournalFilesRuleTypedDict]]
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
     current_boot: NotRequired[bool]
-    r"""Skip log messages that are not part of the current boot session."""
+    r"""Skip log messages that are not part of the current boot session"""
     max_age_dur: NotRequired[str]
     r"""The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."""
     suppress_missing_path_errors: NotRequired[bool]
@@ -3998,7 +4005,7 @@ class CreateInputSystemByPackInputJournalFiles(BaseModel):
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
     current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = None
-    r"""Skip log messages that are not part of the current boot session."""
+    r"""Skip log messages that are not part of the current boot session"""
 
     max_age_dur: Annotated[Optional[str], pydantic.Field(alias="maxAgeDur")] = None
     r"""The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."""
@@ -4253,7 +4260,7 @@ class CreateInputSystemByPackInputAppleUnifiedLogsTypedDict(TypedDict):
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeAppleUnifiedLogs
     predicate: str
-    r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Predicate format reference](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html) for more information."""
+    r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
     disabled: NotRequired[bool]
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4286,7 +4293,7 @@ class CreateInputSystemByPackInputAppleUnifiedLogs(BaseModel):
     type: CreateInputSystemByPackTypeAppleUnifiedLogs
 
     predicate: str
-    r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Predicate format reference](https://developer.apple.com/library/archive/documentation/Cocoa/Conceptual/Predicates/AdditionalChapters/Introduction.html) for more information."""
+    r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
 
     disabled: Optional[bool] = None
 
@@ -11385,6 +11392,10 @@ class CreateInputSystemByPackInputKubeLogsTypedDict(TypedDict):
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
     timestamps: NotRequired[bool]
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
+    line_buffer_limit: NotRequired[float]
+    r"""Maximum bytes to buffer while reassembling a single log line. A line that exceeds this size is flushed as-is, either whole or partially. The default is 1048576 (1 MB)."""
+    lb_disable_assembly: NotRequired[bool]
+    r"""Internal flag to disable LB worker payload reassembly."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
@@ -11440,6 +11451,16 @@ class CreateInputSystemByPackInputKubeLogs(BaseModel):
     timestamps: Optional[bool] = None
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
 
+    line_buffer_limit: Annotated[
+        Optional[float], pydantic.Field(alias="lineBufferLimit")
+    ] = None
+    r"""Maximum bytes to buffer while reassembling a single log line. A line that exceeds this size is flushed as-is, either whole or partially. The default is 1048576 (1 MB)."""
+
+    lb_disable_assembly: Annotated[
+        Optional[bool], pydantic.Field(alias="__LBDisableAssembly")
+    ] = None
+    r"""Internal flag to disable LB worker payload reassembly."""
+
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
@@ -11487,6 +11508,8 @@ class CreateInputSystemByPackInputKubeLogs(BaseModel):
                 "interval",
                 "rules",
                 "timestamps",
+                "lineBufferLimit",
+                "__LBDisableAssembly",
                 "metadata",
                 "persistence",
                 "breakerRulesets",

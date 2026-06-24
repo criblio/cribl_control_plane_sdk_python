@@ -5,15 +5,15 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
+from .httpdiscoveryheaderconfinputprometheus import (
+    HTTPDiscoveryHeaderConfInputPrometheus,
+    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
+)
 from .metadataconfinputcollection import (
     MetadataConfInputCollection,
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
-from .requestparamconfinputopenai import (
-    RequestParamConfInputOpenai,
-    RequestParamConfInputOpenaiTypedDict,
-)
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -58,7 +58,7 @@ class InputOpenaiLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputOpenaiContentConfigTypedDict(TypedDict):
-    request_params: List[RequestParamConfInputOpenaiTypedDict]
+    request_params: List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
     r"""Query-string parameters to send with this endpoint"""
     pagination_type: InputOpenaiPaginationType
     cron_schedule: str
@@ -93,7 +93,8 @@ class InputOpenaiContentConfigTypedDict(TypedDict):
 
 class InputOpenaiContentConfig(BaseModel):
     request_params: Annotated[
-        List[RequestParamConfInputOpenai], pydantic.Field(alias="requestParams")
+        List[HTTPDiscoveryHeaderConfInputPrometheus],
+        pydantic.Field(alias="requestParams"),
     ]
     r"""Query-string parameters to send with this endpoint"""
 

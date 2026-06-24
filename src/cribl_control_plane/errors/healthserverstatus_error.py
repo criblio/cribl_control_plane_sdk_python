@@ -2,7 +2,10 @@
 
 from __future__ import annotations
 from cribl_control_plane.errors import CriblControlPlaneError
-from cribl_control_plane.models import healthserverstatus as models_healthserverstatus
+from cribl_control_plane.models import (
+    healthoverlaystatus as models_healthoverlaystatus,
+    healthserverstatus as models_healthserverstatus,
+)
 from cribl_control_plane.types import BaseModel
 from dataclasses import dataclass, field
 import httpx
@@ -12,6 +15,7 @@ from typing_extensions import Annotated
 
 
 class HealthServerStatusErrorData(BaseModel):
+    overlay: models_healthoverlaystatus.HealthOverlayStatus
     start_time: Annotated[int, pydantic.Field(alias="startTime")]
     r"""Timestamp (in Unix time) when the Cribl process started."""
     status: models_healthserverstatus.HealthServerStatusStatus

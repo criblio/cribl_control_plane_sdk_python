@@ -50,6 +50,7 @@ class DestinationType(str, Enum, metaclass=utils.OpenEnumMeta):
     GOOGLE_PUBSUB = "google_pubsub"
     GOOGLE_CHRONICLE = "google_chronicle"
     CHRONICLE = "chronicle"
+    GOOGLE_CLOUD_OBSERVABILITY = "google_cloud_observability"
     GRAFANA_CLOUD = "grafana_cloud"
     LOKI = "loki"
     OPEN_TELEMETRY = "open_telemetry"

@@ -143,6 +143,12 @@ value: models.OutputResponseOutputGoogleCloudStorage = /* values here */
 value: models.OutputResponseOutputGoogleCloudLogging = /* values here */
 ```
 
+### `models.OutputResponseOutputGoogleCloudObservability`
+
+```python
+value: models.OutputResponseOutputGoogleCloudObservability = /* values here */
+```
+
 ### `models.OutputResponseOutputGooglePubsub`
 
 ```python

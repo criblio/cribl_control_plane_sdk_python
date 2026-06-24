@@ -6,10 +6,55 @@ Actions related to DatabaseConnections
 
 ### Available Operations
 
+* [list](#list) - List Database Connections
 * [create](#create) - Create Database Connection
-* [delete](#delete) - Delete a Database Connection
 * [get](#get) - Get a Database Connection
 * [update](#update) - Update a Database Connection
+* [delete](#delete) - Delete a Database Connection
+
+## list
+
+Get a list of all Database Connections.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="getDatabaseConnectionConfig" method="get" path="/lib/database-connections" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.list()
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                                         | Type                                                                              | Required                                                                          | Description                                                                       |
+| --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- | --------------------------------------------------------------------------------- |
+| `database_type`                                                                   | [Optional[models.DatabaseConnectionType]](../../models/databaseconnectiontype.md) | :heavy_minus_sign:                                                                | Type of Database Connections to include in the results.                           |
+| `retries`                                                                         | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                  | :heavy_minus_sign:                                                                | Configuration to override the default retry behavior of the client.               |
+
+### Response
+
+**[models.CountedDatabaseConnectionConfig](../../models/counteddatabaseconnectionconfig.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
 
 ## create
 
@@ -256,50 +301,6 @@ with CriblControlPlane(
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
-## delete
-
-Delete the specified Database Connection.
-
-### Example Usage
-
-<!-- UsageSnippet language="python" operationID="deleteDatabaseConnectionConfigById" method="delete" path="/lib/database-connections/{id}" -->
-```python
-from cribl_control_plane import CriblControlPlane, models
-import os
-
-
-with CriblControlPlane(
-    "https://api.example.com",
-    security=models.Security(
-        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
-    ),
-) as ccp_client:
-
-    res = ccp_client.database_connections.delete(id="<id>")
-
-    # Handle response
-    print(res)
-
-```
-
-### Parameters
-
-| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Database Connection to delete.           |
-| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
-
-### Response
-
-**[models.CountedDatabaseConnectionConfig](../../models/counteddatabaseconnectionconfig.md)**
-
-### Errors
-
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
-
 ## get
 
 Get the specified Database Connection.
@@ -346,7 +347,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Database Connection.</br></br>Provide a complete representation of the Database Connection that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Database Connection.</br></br>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Database Connection might not function as expected.
+Update the specified Database Connection.<br/><br/>Provide a complete representation of the Database Connection that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Database Connection.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Database Connection might not function as expected.
 
 ### Example Usage: DatabaseConnectionExamplesMySQLWithConnectionString
 
@@ -558,6 +559,216 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateDatabaseConnectionExamplesMySQLWithConnectionString
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesMySQLWithConnectionString" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.MYSQL, description="Production MySQL database for customer data", id="mysql-prod-db", connection_string="mysql://admin:password123@mysql.example.com:3306/production?ssl=true", connection_timeout=10000, tags="production,mysql,customer-data")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesMySQLWithSecret
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesMySQLWithSecret" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.MYSQL, description="Analytics MySQL database", id="mysql-analytics-db", connection_timeout=15000, tags="analytics,mysql", text_secret="mysql-analytics-connection")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesOracleWithConnectionString
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesOracleWithConnectionString" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle ERP database", id="oracle-erp", connection_string="oracle.example.com:1521/ORCL", connection_timeout=15000, password="Oracle_Pass456!", tags="erp,oracle,finance", user="erp_user")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesOracleWithCredentialsSecrets
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesOracleWithCredentialsSecrets" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secrets", database_type=models.DatabaseConnectionType.ORACLE, description="High-security Oracle database with credential secrets", id="oracle-secure-db", connection_timeout=15000, creds_secrets="oracle-secure-credentials", tags="secure,oracle,sensitive-data", text_secret="oracle-secure-connection")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesOracleWithSecret
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesOracleWithSecret" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.ORACLE, description="Oracle data warehouse", id="oracle-warehouse", connection_timeout=20000, password="Warehouse_Pass789!", tags="warehouse,oracle,reporting", text_secret="oracle-warehouse-connection", user="warehouse_user")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesPostgreSQLWithConnectionString
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesPostgreSQLWithConnectionString" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.POSTGRES, description="Data warehouse PostgreSQL database", id="postgres-warehouse", connection_string="postgresql://warehouse_user:SecurePass456@postgres.example.com:5432/warehouse?sslmode=require", connection_timeout=15000, tags="warehouse,postgres,reporting")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesPostgreSQLWithSecret
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesPostgreSQLWithSecret" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.POSTGRES, description="Logs PostgreSQL database", id="postgres-logs", connection_timeout=10000, tags="logs,postgres", text_secret="postgres-logs-connection")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesSQLServerWithConfigObject
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesSQLServerWithConfigObject" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="configObj", database_type=models.DatabaseConnectionType.SQLSERVER, description="Reporting SQL Server database with custom config", id="sqlserver-reporting", config_obj="{\"server\":\"sqlserver.example.com\",\"database\":\"Reporting\",\"user\":\"report_user\",\"password\":\"Report_Pass123!\",\"options\":{\"encrypt\":true,\"trustServerCertificate\":false,\"connectTimeout\":20000}}", request_timeout=60000, tags="reporting,sqlserver,analytics")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesSQLServerWithConnectionString
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesSQLServerWithConnectionString" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="connectionString", database_type=models.DatabaseConnectionType.SQLSERVER, description="ERP SQL Server database", id="sqlserver-erp", connection_string="Server=sqlserver.example.com;Database=ERP;User Id=erp_admin;Password=ERP_Pass789!;Encrypt=true", connection_timeout=15000, request_timeout=30000, tags="erp,sqlserver,finance")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateDatabaseConnectionExamplesSQLServerWithSecret
+
+<!-- UsageSnippet language="python" operationID="updateDatabaseConnectionConfigById" method="patch" path="/lib/database-connections/{id}" example="UpdateDatabaseConnectionExamplesSQLServerWithSecret" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.update(id_param="<value>", auth_type="secret", database_type=models.DatabaseConnectionType.SQLSERVER, description="CRM SQL Server database", id="sqlserver-crm", connection_timeout=15000, request_timeout=15000, tags="crm,sqlserver,sales", text_secret="sqlserver-crm-connection")
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -578,6 +789,50 @@ with CriblControlPlane(
 | `text_secret`                                                           | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `user`                                                                  | *Optional[str]*                                                         | :heavy_minus_sign:                                                      | N/A                                                                     |
 | `retries`                                                               | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)        | :heavy_minus_sign:                                                      | Configuration to override the default retry behavior of the client.     |
+
+### Response
+
+**[models.CountedDatabaseConnectionConfig](../../models/counteddatabaseconnectionconfig.md)**
+
+### Errors
+
+| Error Type       | Status Code      | Content Type     |
+| ---------------- | ---------------- | ---------------- |
+| errors.Error     | 500              | application/json |
+| errors.APIError  | 4XX, 5XX         | \*/\*            |
+
+## delete
+
+Delete the specified Database Connection.
+
+### Example Usage
+
+<!-- UsageSnippet language="python" operationID="deleteDatabaseConnectionConfigById" method="delete" path="/lib/database-connections/{id}" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.database_connections.delete(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+
+### Parameters
+
+| Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `id`                                                                | *str*                                                               | :heavy_check_mark:                                                  | The <code>id</code> of the Database Connection to delete.           |
+| `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 

@@ -6,7 +6,7 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from typing import Any, Iterable, List, Mapping, Optional, Union
 
 
 class PacksHecTokens(BaseSDK):
@@ -16,13 +16,13 @@ class PacksHecTokens(BaseSDK):
         id: str,
         pack: str,
         token: str,
-        allowed_indexes_at_token: Optional[List[str]] = None,
+        allowed_indexes_at_token: Optional[Iterable[str]] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                List[models.EventBreakerRuleFields],
-                List[models.EventBreakerRuleFieldsTypedDict],
+                Iterable[models.EventBreakerRuleFields],
+                Iterable[models.EventBreakerRuleFieldsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -60,7 +60,9 @@ class PacksHecTokens(BaseSDK):
             id=id,
             pack=pack,
             add_hec_token_request=models.AddHecTokenRequest(
-                allowed_indexes_at_token=allowed_indexes_at_token,
+                allowed_indexes_at_token=utils.unmarshal(
+                    allowed_indexes_at_token, Optional[List[str]]
+                ),
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
@@ -142,13 +144,13 @@ class PacksHecTokens(BaseSDK):
         id: str,
         pack: str,
         token: str,
-        allowed_indexes_at_token: Optional[List[str]] = None,
+        allowed_indexes_at_token: Optional[Iterable[str]] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                List[models.EventBreakerRuleFields],
-                List[models.EventBreakerRuleFieldsTypedDict],
+                Iterable[models.EventBreakerRuleFields],
+                Iterable[models.EventBreakerRuleFieldsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -186,7 +188,9 @@ class PacksHecTokens(BaseSDK):
             id=id,
             pack=pack,
             add_hec_token_request=models.AddHecTokenRequest(
-                allowed_indexes_at_token=allowed_indexes_at_token,
+                allowed_indexes_at_token=utils.unmarshal(
+                    allowed_indexes_at_token, Optional[List[str]]
+                ),
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
@@ -268,13 +272,13 @@ class PacksHecTokens(BaseSDK):
         id: str,
         token: str,
         pack: str,
-        allowed_indexes_at_token: Optional[List[str]] = None,
+        allowed_indexes_at_token: Optional[Iterable[str]] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                List[models.EventBreakerRuleFields],
-                List[models.EventBreakerRuleFieldsTypedDict],
+                Iterable[models.EventBreakerRuleFields],
+                Iterable[models.EventBreakerRuleFieldsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -313,7 +317,9 @@ class PacksHecTokens(BaseSDK):
             token=token,
             pack=pack,
             update_hec_token_request=models.UpdateHecTokenRequest(
-                allowed_indexes_at_token=allowed_indexes_at_token,
+                allowed_indexes_at_token=utils.unmarshal(
+                    allowed_indexes_at_token, Optional[List[str]]
+                ),
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
@@ -394,13 +400,13 @@ class PacksHecTokens(BaseSDK):
         id: str,
         token: str,
         pack: str,
-        allowed_indexes_at_token: Optional[List[str]] = None,
+        allowed_indexes_at_token: Optional[Iterable[str]] = None,
         description: Optional[str] = None,
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                List[models.EventBreakerRuleFields],
-                List[models.EventBreakerRuleFieldsTypedDict],
+                Iterable[models.EventBreakerRuleFields],
+                Iterable[models.EventBreakerRuleFieldsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -439,7 +445,9 @@ class PacksHecTokens(BaseSDK):
             token=token,
             pack=pack,
             update_hec_token_request=models.UpdateHecTokenRequest(
-                allowed_indexes_at_token=allowed_indexes_at_token,
+                allowed_indexes_at_token=utils.unmarshal(
+                    allowed_indexes_at_token, Optional[List[str]]
+                ),
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(

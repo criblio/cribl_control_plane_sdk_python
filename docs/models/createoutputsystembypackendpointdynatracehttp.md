@@ -1,11 +1,11 @@
-# OutputResponseEndpoint
+# CreateOutputSystemByPackEndpointDynatraceHTTP
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import OutputResponseEndpoint
+from cribl_control_plane.models import CreateOutputSystemByPackEndpointDynatraceHTTP
 
-value = OutputResponseEndpoint.CLOUD
+value = CreateOutputSystemByPackEndpointDynatraceHTTP.CLOUD
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

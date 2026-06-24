@@ -1,13 +1,13 @@
-# OutputResponseOTLPVersion
+# CreateOutputSystemByPackOTLPVersionOpenTelemetry
 
 The version of OTLP Protobuf definitions to use when structuring data to send
 
 ## Example Usage
 
 ```python
-from cribl_control_plane.models import OutputResponseOTLPVersion
+from cribl_control_plane.models import CreateOutputSystemByPackOTLPVersionOpenTelemetry
 
-value = OutputResponseOTLPVersion.ZERO_DOT_10_DOT_0
+value = CreateOutputSystemByPackOTLPVersionOpenTelemetry.ZERO_DOT_10_DOT_0
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```

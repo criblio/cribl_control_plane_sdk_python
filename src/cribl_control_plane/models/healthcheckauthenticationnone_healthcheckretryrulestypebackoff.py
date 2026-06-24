@@ -5,10 +5,6 @@ from .authrequestheaderconfhealthcheckauthenticationlogin import (
     AuthRequestHeaderConfHealthCheckAuthenticationLogin,
     AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict,
 )
-from .authrequestheaderconfhealthcheckauthenticationoauth import (
-    AuthRequestHeaderConfHealthCheckAuthenticationOauth,
-    AuthRequestHeaderConfHealthCheckAuthenticationOauthTypedDict,
-)
 from .authrequestparamconfhealthcheckauthenticationoauth import (
     AuthRequestParamConfHealthCheckAuthenticationOauth,
     AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict,
@@ -74,6 +70,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNoneTy
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -82,6 +80,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNoneTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -100,6 +102,11 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNone(
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -111,6 +118,16 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNone(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -147,8 +164,11 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNone(
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -191,6 +211,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeListTy
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -199,6 +221,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeListTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -218,6 +244,11 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeList(
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -229,6 +260,16 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeList(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -262,8 +303,11 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeList(
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -304,9 +348,11 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONTy
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -315,6 +361,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
 
@@ -334,10 +382,15 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSON(
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
@@ -350,6 +403,11 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSON(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
@@ -382,8 +440,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSON(
             [
                 "discoverDataField",
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "__template_discoverDataField",
                 "itemList",
             ]
         )
@@ -433,6 +493,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -471,6 +535,16 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -508,6 +582,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
                 "discoverBody",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -560,6 +636,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -601,6 +681,16 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -638,6 +728,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -690,6 +782,10 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -731,6 +827,16 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -768,6 +874,8 @@ class HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -839,9 +947,9 @@ HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTP = Annot
 HealthCheckAuthenticationOauthSecretDiscoveryTypedDict = TypeAliasType(
     "HealthCheckAuthenticationOauthSecretDiscoveryTypedDict",
     Union[
+        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -1109,7 +1217,7 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     authentication: HealthCheckAuthenticationOauthSecretAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
     login_url: str
-    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    r"""URL to use for login API call. This call is expected to be a POST."""
     auth_header_expr: str
     r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
     client_secret_param_name: str
@@ -1127,9 +1235,13 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     ]
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     auth_request_headers: NotRequired[
-        List[AuthRequestHeaderConfHealthCheckAuthenticationOauthTypedDict]
+        List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional authentication request headers."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_token_resp_attribute: NotRequired[str]
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationOauthSecretDiscoveryTypedDict]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationOauthSecretCollectRequestHeaderTypedDict]
@@ -1145,6 +1257,18 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationOauthSecretRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
     template_collect_url: NotRequired[str]
@@ -1156,7 +1280,7 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
-    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    r"""URL to use for login API call. This call is expected to be a POST."""
 
     auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
     r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
@@ -1190,10 +1314,20 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     auth_request_headers: Annotated[
-        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationOauth]],
+        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationLogin]],
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
     r"""Optional authentication request headers."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tokenRespAttribute")
+    ] = None
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationOauthSecretDiscovery] = None
 
@@ -1230,6 +1364,30 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
         Optional[HealthCheckAuthenticationOauthSecretRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
 
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
@@ -1277,6 +1435,8 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
                 "tokenRespAttribute",
                 "authRequestParams",
                 "authRequestHeaders",
+                "__template_loginUrl",
+                "__template_tokenRespAttribute",
                 "discovery",
                 "collectRequestHeaders",
                 "authenticateCollect",
@@ -1285,6 +1445,12 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "username",
+                "__template_username",
+                "password",
+                "__template_password",
+                "credentialsSecret",
+                "loginBody",
                 "clientSecretParamValue",
                 "__template_collectUrl",
             ]
@@ -1341,6 +1507,8 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNoneTypedDic
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -1349,6 +1517,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNoneTypedDic
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -1365,6 +1537,11 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNone(BaseMod
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -1376,6 +1553,16 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNone(BaseMod
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -1412,8 +1599,11 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNone(BaseMod
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -1458,6 +1648,8 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeListTypedDic
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -1466,6 +1658,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeListTypedDic
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -1483,6 +1679,11 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeList(BaseMod
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -1494,6 +1695,16 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeList(BaseMod
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -1527,8 +1738,11 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeList(BaseMod
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -1571,9 +1785,11 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONTypedDic
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -1582,6 +1798,8 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONTypedDic
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
 
@@ -1599,10 +1817,15 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSON(BaseMod
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
@@ -1615,6 +1838,11 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSON(BaseMod
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
@@ -1647,8 +1875,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSON(BaseMod
             [
                 "discoverDataField",
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "__template_discoverDataField",
                 "itemList",
             ]
         )
@@ -1698,6 +1928,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -1736,6 +1970,16 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -1773,6 +2017,8 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
                 "discoverBody",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -1825,6 +2071,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -1866,6 +2116,16 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -1903,6 +2163,8 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -1955,6 +2217,10 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -1996,6 +2262,16 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -2033,6 +2309,8 @@ class HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPDiscover
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -2104,9 +2382,9 @@ HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
 HealthCheckAuthenticationOauthDiscoveryTypedDict = TypeAliasType(
     "HealthCheckAuthenticationOauthDiscoveryTypedDict",
     Union[
+        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -2370,7 +2648,7 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     authentication: HealthCheckAuthenticationOauthAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
     login_url: str
-    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    r"""URL to use for login API call. This call is expected to be a POST."""
     auth_header_expr: str
     r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
     client_secret_param_name: str
@@ -2388,9 +2666,13 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     ]
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     auth_request_headers: NotRequired[
-        List[AuthRequestHeaderConfHealthCheckAuthenticationOauthTypedDict]
+        List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional authentication request headers."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_token_resp_attribute: NotRequired[str]
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationOauthDiscoveryTypedDict]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationOauthCollectRequestHeaderTypedDict]
@@ -2406,6 +2688,18 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationOauthRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -2417,7 +2711,7 @@ class HealthCheckAuthenticationOauth(BaseModel):
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
-    r"""URL to use for the OAuth API call. This call is expected to be a POST."""
+    r"""URL to use for login API call. This call is expected to be a POST."""
 
     auth_header_expr: Annotated[str, pydantic.Field(alias="authHeaderExpr")]
     r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
@@ -2453,10 +2747,20 @@ class HealthCheckAuthenticationOauth(BaseModel):
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     auth_request_headers: Annotated[
-        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationOauth]],
+        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationLogin]],
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
     r"""Optional authentication request headers."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tokenRespAttribute")
+    ] = None
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationOauthDiscovery] = None
 
@@ -2493,6 +2797,30 @@ class HealthCheckAuthenticationOauth(BaseModel):
         Optional[HealthCheckAuthenticationOauthRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
@@ -2536,6 +2864,8 @@ class HealthCheckAuthenticationOauth(BaseModel):
                 "tokenRespAttribute",
                 "authRequestParams",
                 "authRequestHeaders",
+                "__template_loginUrl",
+                "__template_tokenRespAttribute",
                 "discovery",
                 "collectRequestHeaders",
                 "authenticateCollect",
@@ -2544,6 +2874,12 @@ class HealthCheckAuthenticationOauth(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "username",
+                "__template_username",
+                "password",
+                "__template_password",
+                "credentialsSecret",
+                "loginBody",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -2598,6 +2934,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNoneTy
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -2606,6 +2944,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNoneTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -2624,6 +2966,11 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNone(
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -2635,6 +2982,16 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNone(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -2671,8 +3028,11 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNone(
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -2715,6 +3075,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeListTy
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -2723,6 +3085,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeListTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -2742,6 +3108,11 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeList(
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -2753,6 +3124,16 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeList(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -2786,8 +3167,11 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeList(
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -2828,9 +3212,11 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONTy
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -2839,6 +3225,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
 
@@ -2858,10 +3246,15 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSON(
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
@@ -2874,6 +3267,11 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSON(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
@@ -2906,8 +3304,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSON(
             [
                 "discoverDataField",
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "__template_discoverDataField",
                 "itemList",
             ]
         )
@@ -2957,6 +3357,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -2995,6 +3399,16 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -3032,6 +3446,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
                 "discoverBody",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -3084,6 +3500,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -3125,6 +3545,16 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -3162,6 +3592,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -3214,6 +3646,10 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -3255,6 +3691,16 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -3292,6 +3738,8 @@ class HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -3363,9 +3811,9 @@ HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTP = Annot
 HealthCheckAuthenticationLoginSecretDiscoveryTypedDict = TypeAliasType(
     "HealthCheckAuthenticationLoginSecretDiscoveryTypedDict",
     Union[
+        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -3633,9 +4081,9 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     authentication: HealthCheckAuthenticationLoginSecretAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
     login_url: str
-    r"""URL to use for login API call, this call is expected to be a POST."""
+    r"""URL to use for login API call. This call is expected to be a POST."""
     credentials_secret: str
-    r"""Select or create a stored secret that references your login credentials"""
+    r"""Select or create a stored secret that references your credentials"""
     login_body: str
     r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
     auth_header_expr: str
@@ -3645,11 +4093,15 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     collect_method: HealthCheckAuthenticationLoginSecretHealthCheckMethod
     r"""Health check HTTP method."""
     token_resp_attribute: NotRequired[str]
-    r"""Path to token attribute in login response body. Nested attributes are OK. If left blank, the entire response body will be used to derive the authorization header."""
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
     auth_request_headers: NotRequired[
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional authentication request headers."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_token_resp_attribute: NotRequired[str]
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationLoginSecretDiscoveryTypedDict]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationLoginSecretCollectRequestHeaderTypedDict]
@@ -3665,8 +4117,22 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationLoginSecretRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+    client_secret_param_name: NotRequired[str]
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    auth_request_params: NotRequired[
+        List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -3678,10 +4144,10 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
     r"""Authentication method for Discover and Collect REST calls. You can specify API Key–based authentication by adding the appropriate Collect headers."""
 
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
-    r"""URL to use for login API call, this call is expected to be a POST."""
+    r"""URL to use for login API call. This call is expected to be a POST."""
 
     credentials_secret: Annotated[str, pydantic.Field(alias="credentialsSecret")]
-    r"""Select or create a stored secret that references your login credentials"""
+    r"""Select or create a stored secret that references your credentials"""
 
     login_body: Annotated[str, pydantic.Field(alias="loginBody")]
     r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
@@ -3701,13 +4167,23 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
     token_resp_attribute: Annotated[
         Optional[str], pydantic.Field(alias="tokenRespAttribute")
     ] = None
-    r"""Path to token attribute in login response body. Nested attributes are OK. If left blank, the entire response body will be used to derive the authorization header."""
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
 
     auth_request_headers: Annotated[
         Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationLogin]],
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
     r"""Optional authentication request headers."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tokenRespAttribute")
+    ] = None
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationLoginSecretDiscovery] = None
 
@@ -3745,10 +4221,37 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    auth_request_params: Annotated[
+        Optional[List[AuthRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
@@ -3793,6 +4296,8 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
             [
                 "tokenRespAttribute",
                 "authRequestHeaders",
+                "__template_loginUrl",
+                "__template_tokenRespAttribute",
                 "discovery",
                 "collectRequestHeaders",
                 "authenticateCollect",
@@ -3801,7 +4306,13 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "username",
+                "__template_username",
+                "password",
+                "__template_password",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -3858,6 +4369,8 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNoneTypedDic
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -3866,6 +4379,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNoneTypedDic
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -3882,6 +4399,11 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNone(BaseMod
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -3893,6 +4415,16 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNone(BaseMod
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -3929,8 +4461,11 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNone(BaseMod
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -3975,6 +4510,8 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeListTypedDic
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -3983,6 +4520,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeListTypedDic
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -4000,6 +4541,11 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeList(BaseMod
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -4011,6 +4557,16 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeList(BaseMod
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -4044,8 +4600,11 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeList(BaseMod
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -4088,9 +4647,11 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONTypedDic
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -4099,6 +4660,8 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONTypedDic
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
 
@@ -4116,10 +4679,15 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSON(BaseMod
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
@@ -4132,6 +4700,11 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSON(BaseMod
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
@@ -4164,8 +4737,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSON(BaseMod
             [
                 "discoverDataField",
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "__template_discoverDataField",
                 "itemList",
             ]
         )
@@ -4215,6 +4790,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -4253,6 +4832,16 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -4290,6 +4879,8 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
                 "discoverBody",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -4342,6 +4933,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -4383,6 +4978,16 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -4420,6 +5025,8 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -4472,6 +5079,10 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -4513,6 +5124,16 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -4550,6 +5171,8 @@ class HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPDiscover
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -4621,9 +5244,9 @@ HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
 HealthCheckAuthenticationLoginDiscoveryTypedDict = TypeAliasType(
     "HealthCheckAuthenticationLoginDiscoveryTypedDict",
     Union[
+        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -4889,9 +5512,9 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
     login_url: str
     r"""URL to use for login API call. This call is expected to be a POST."""
     username: str
-    r"""Login username"""
+    r"""Basic authentication username"""
     password: str
-    r"""Login password"""
+    r"""Basic authentication password"""
     login_body: str
     r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
     auth_header_expr: str
@@ -4906,6 +5529,14 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional authentication request headers."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+    template_token_resp_attribute: NotRequired[str]
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationLoginDiscoveryTypedDict]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationLoginCollectRequestHeaderTypedDict]
@@ -4921,8 +5552,16 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationLoginRetryRulesTypedDict]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    client_secret_param_name: NotRequired[str]
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    auth_request_params: NotRequired[
+        List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -4937,10 +5576,10 @@ class HealthCheckAuthenticationLogin(BaseModel):
     r"""URL to use for login API call. This call is expected to be a POST."""
 
     username: str
-    r"""Login username"""
+    r"""Basic authentication username"""
 
     password: str
-    r"""Login password"""
+    r"""Basic authentication password"""
 
     login_body: Annotated[str, pydantic.Field(alias="loginBody")]
     r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
@@ -4967,6 +5606,26 @@ class HealthCheckAuthenticationLogin(BaseModel):
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
     r"""Optional authentication request headers."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+
+    template_token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tokenRespAttribute")
+    ] = None
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationLoginDiscovery] = None
 
@@ -5004,10 +5663,26 @@ class HealthCheckAuthenticationLogin(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    auth_request_params: Annotated[
+        Optional[List[AuthRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
@@ -5050,6 +5725,10 @@ class HealthCheckAuthenticationLogin(BaseModel):
             [
                 "tokenRespAttribute",
                 "authRequestHeaders",
+                "__template_loginUrl",
+                "__template_username",
+                "__template_password",
+                "__template_tokenRespAttribute",
                 "discovery",
                 "collectRequestHeaders",
                 "authenticateCollect",
@@ -5058,7 +5737,10 @@ class HealthCheckAuthenticationLogin(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "credentialsSecret",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -5113,6 +5795,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNoneTy
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -5121,6 +5805,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNoneTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -5139,6 +5827,11 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNone(
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -5150,6 +5843,16 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNone(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -5186,8 +5889,11 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNone(
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -5230,6 +5936,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeListTy
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -5238,6 +5946,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeListTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -5257,6 +5969,11 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeList(
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -5268,6 +5985,16 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeList(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -5301,8 +6028,11 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeList(
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -5343,9 +6073,11 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONTy
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -5354,6 +6086,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONTy
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
 
@@ -5373,10 +6107,15 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSON(
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
@@ -5389,6 +6128,11 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSON(
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
@@ -5421,8 +6165,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSON(
             [
                 "discoverDataField",
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "__template_discoverDataField",
                 "itemList",
             ]
         )
@@ -5472,6 +6218,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -5510,6 +6260,16 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -5547,6 +6307,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
                 "discoverBody",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -5599,6 +6361,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -5640,6 +6406,16 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -5677,6 +6453,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -5729,6 +6507,10 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -5770,6 +6552,16 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -5807,6 +6599,8 @@ class HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPDi
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -5878,9 +6672,9 @@ HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTP = Annot
 HealthCheckAuthenticationBasicSecretDiscoveryTypedDict = TypeAliasType(
     "HealthCheckAuthenticationBasicSecretDiscoveryTypedDict",
     Union[
+        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -6168,8 +6962,38 @@ class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationBasicSecretRetryRulesTypedDict]
+    username: NotRequired[str]
+    r"""Basic authentication username"""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    password: NotRequired[str]
+    r"""Basic authentication password"""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    template_token_resp_attribute: NotRequired[str]
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
+    ]
+    r"""Optional authentication request headers."""
+    client_secret_param_name: NotRequired[str]
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    auth_request_params: NotRequired[
+        List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -6228,10 +7052,69 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    username: Optional[str] = None
+    r"""Basic authentication username"""
+
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    password: Optional[str] = None
+    r"""Basic authentication password"""
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    template_token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tokenRespAttribute")
+    ] = None
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationLogin]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+    r"""Optional authentication request headers."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    auth_request_params: Annotated[
+        Optional[List[AuthRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
@@ -6282,7 +7165,20 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "username",
+                "__template_username",
+                "password",
+                "__template_password",
+                "loginUrl",
+                "__template_loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "__template_tokenRespAttribute",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -6339,6 +7235,8 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNoneTypedDic
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -6347,6 +7245,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNoneTypedDic
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -6363,6 +7265,11 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNone(BaseMod
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -6374,6 +7281,16 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNone(BaseMod
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -6410,8 +7327,11 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNone(BaseMod
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -6456,6 +7376,8 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeListTypedDic
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -6464,6 +7386,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeListTypedDic
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -6481,6 +7407,11 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeList(BaseMod
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -6492,6 +7423,16 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeList(BaseMod
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -6525,8 +7466,11 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeList(BaseMod
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -6569,9 +7513,11 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONTypedDic
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -6580,6 +7526,8 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONTypedDic
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
 
@@ -6597,10 +7545,15 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSON(BaseMod
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
@@ -6613,6 +7566,11 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSON(BaseMod
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
@@ -6645,8 +7603,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSON(BaseMod
             [
                 "discoverDataField",
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "__template_discoverDataField",
                 "itemList",
             ]
         )
@@ -6696,6 +7656,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -6734,6 +7698,16 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -6771,6 +7745,8 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
                 "discoverBody",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -6823,6 +7799,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -6864,6 +7844,16 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -6901,6 +7891,8 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -6953,6 +7945,10 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -6994,6 +7990,16 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -7031,6 +8037,8 @@ class HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPDiscover
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -7102,9 +8110,9 @@ HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
 HealthCheckAuthenticationBasicDiscoveryTypedDict = TypeAliasType(
     "HealthCheckAuthenticationBasicDiscoveryTypedDict",
     Union[
+        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
@@ -7375,6 +8383,10 @@ class HealthCheckAuthenticationBasicTypedDict(TypedDict):
     r"""Expression to derive URL to use for the health check operation (can be a constant)."""
     collect_method: HealthCheckAuthenticationBasicHealthCheckMethod
     r"""Health check HTTP method."""
+    template_username: NotRequired[str]
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+    template_password: NotRequired[str]
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationBasicDiscoveryTypedDict]
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationBasicCollectRequestHeaderTypedDict]
@@ -7390,8 +8402,32 @@ class HealthCheckAuthenticationBasicTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationBasicRetryRulesTypedDict]
+    credentials_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your credentials"""
+    login_url: NotRequired[str]
+    r"""URL to use for login API call. This call is expected to be a POST."""
+    template_login_url: NotRequired[str]
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+    login_body: NotRequired[str]
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+    token_resp_attribute: NotRequired[str]
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+    template_token_resp_attribute: NotRequired[str]
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
+    auth_header_expr: NotRequired[str]
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+    auth_request_headers: NotRequired[
+        List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
+    ]
+    r"""Optional authentication request headers."""
+    client_secret_param_name: NotRequired[str]
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
     client_secret_param_value: NotRequired[str]
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+    auth_request_params: NotRequired[
+        List[AuthRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value."""
     template_collect_url: NotRequired[str]
@@ -7416,6 +8452,16 @@ class HealthCheckAuthenticationBasic(BaseModel):
         pydantic.Field(alias="collectMethod"),
     ]
     r"""Health check HTTP method."""
+
+    template_username: Annotated[
+        Optional[str], pydantic.Field(alias="__template_username")
+    ] = None
+    r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
+
+    template_password: Annotated[
+        Optional[str], pydantic.Field(alias="__template_password")
+    ] = None
+    r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationBasicDiscovery] = None
 
@@ -7453,10 +8499,58 @@ class HealthCheckAuthenticationBasic(BaseModel):
         pydantic.Field(alias="retryRules"),
     ] = None
 
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Select or create a stored secret that references your credentials"""
+
+    login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
+    r"""URL to use for login API call. This call is expected to be a POST."""
+
+    template_login_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_loginUrl")
+    ] = None
+    r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
+
+    login_body: Annotated[Optional[str], pydantic.Field(alias="loginBody")] = None
+    r"""Template for POST body to send with login request, ${username} and ${password} are used to specify location of these attributes in the message"""
+
+    token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="tokenRespAttribute")
+    ] = None
+    r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
+
+    template_token_resp_attribute: Annotated[
+        Optional[str], pydantic.Field(alias="__template_tokenRespAttribute")
+    ] = None
+    r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
+
+    auth_header_expr: Annotated[
+        Optional[str], pydantic.Field(alias="authHeaderExpr")
+    ] = None
+    r"""JavaScript expression to compute the Authorization header to pass in discover and collect calls. The value ${token} is used to reference the token obtained from login."""
+
+    auth_request_headers: Annotated[
+        Optional[List[AuthRequestHeaderConfHealthCheckAuthenticationLogin]],
+        pydantic.Field(alias="authRequestHeaders"),
+    ] = None
+    r"""Optional authentication request headers."""
+
+    client_secret_param_name: Annotated[
+        Optional[str], pydantic.Field(alias="clientSecretParamName")
+    ] = None
+    r"""Parameter name that contains client secret. Defaults to 'client_secret', and is automatically added to request parameters."""
+
     client_secret_param_value: Annotated[
         Optional[str], pydantic.Field(alias="clientSecretParamValue")
     ] = None
     r"""Secret value to add to HTTP requests as the 'client secret' parameter. Stored on disk encrypted, and is automatically added to request parameters"""
+
+    auth_request_params: Annotated[
+        Optional[List[AuthRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="authRequestParams"),
+    ] = None
+    r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value."""
@@ -7497,6 +8591,8 @@ class HealthCheckAuthenticationBasic(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "__template_username",
+                "__template_password",
                 "discovery",
                 "collectRequestHeaders",
                 "authenticateCollect",
@@ -7505,7 +8601,17 @@ class HealthCheckAuthenticationBasic(BaseModel):
                 "defaultBreakers",
                 "safeHeaders",
                 "retryRules",
+                "credentialsSecret",
+                "loginUrl",
+                "__template_loginUrl",
+                "loginBody",
+                "tokenRespAttribute",
+                "__template_tokenRespAttribute",
+                "authHeaderExpr",
+                "authRequestHeaders",
+                "clientSecretParamName",
                 "clientSecretParamValue",
+                "authRequestParams",
                 "textSecret",
                 "__template_collectUrl",
             ]
@@ -7562,6 +8668,8 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNoneTypedDict
     r"""Defines how task discovery will be performed. Use None to skip the discovery. Use HTTP Request to make a REST call to discover tasks. Use Item List to enumerate items for collect to retrieve. Use JSON Response to manually define discover tasks as a JSON array of objects. Each entry returned by the discover operation will result in a collect task."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -7570,6 +8678,10 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNoneTypedDict
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -7586,6 +8698,11 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNone(BaseMode
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -7597,6 +8714,16 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNone(BaseMode
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -7633,8 +8760,11 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNone(BaseMode
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -7679,6 +8809,8 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeListTypedDict
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -7687,6 +8819,10 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeListTypedDict
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    discover_data_field: NotRequired[str]
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
 
@@ -7704,6 +8840,11 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeList(BaseMode
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
@@ -7715,6 +8856,16 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeList(BaseMode
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="discoverDataField")
+    ] = None
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -7748,8 +8899,11 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeList(BaseMode
         optional_fields = set(
             [
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "discoverDataField",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
             ]
         )
@@ -7792,9 +8946,11 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONTypedDict
     manual_discover_result: str
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     discover_data_field: NotRequired[str]
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
     discover_url: NotRequired[str]
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[
         DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP
     ]
@@ -7803,6 +8959,8 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONTypedDict
         List[AuthRequestHeaderConfHealthCheckAuthenticationLoginTypedDict]
     ]
     r"""Optional discover request headers."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
 
@@ -7820,10 +8978,15 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSON(BaseMode
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
     ] = None
-    r"""Within the response JSON, name of the field or array element to pull results from. Leave blank if the result is an array of values. Sample entry: items, json: { items: [{id: 'first'},{id: 'second'}] }"""
+    r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
     discover_url: Annotated[Optional[str], pydantic.Field(alias="discoverUrl")] = None
     r"""Expression to derive URL to use for the Discover operation (can be a constant)."""
+
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
 
     discover_method: Annotated[
         Optional[DiscoverMethodOptionsHealthCheckDiscoveryDiscoverTypeHTTP],
@@ -7836,6 +8999,11 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSON(BaseMode
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
     r"""Optional discover request headers."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned will generate a collect task, and can be referenced using `${id}` in the collect URL, headers, or parameters."""
@@ -7868,8 +9036,10 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSON(BaseMode
             [
                 "discoverDataField",
                 "discoverUrl",
+                "__template_discoverUrl",
                 "discoverMethod",
                 "discoverRequestHeaders",
+                "__template_discoverDataField",
                 "itemList",
             ]
         )
@@ -7919,6 +9089,10 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -7957,6 +9131,16 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -7994,6 +9178,8 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
                 "discoverBody",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -8046,6 +9232,10 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -8087,6 +9277,16 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -8124,6 +9324,8 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -8176,6 +9378,10 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
     r"""Optional discover request headers."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
+    template_discover_url: NotRequired[str]
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+    template_discover_data_field: NotRequired[str]
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object. Works with the Discover Data field."""
     item_list: NotRequired[List[str]]
@@ -8217,6 +9423,16 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
     ] = None
     r"""Path to field in the response object which contains discover results (e.g.: level1.name), leave blank if the result is an array."""
 
+    template_discover_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverUrl")
+    ] = None
+    r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
+
+    template_discover_data_field: Annotated[
+        Optional[str], pydantic.Field(alias="__template_discoverDataField")
+    ] = None
+    r"""Binds 'discoverDataField' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverDataField' at runtime."""
+
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
     ] = None
@@ -8254,6 +9470,8 @@ class HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPDiscoverM
                 "discoverRequestParams",
                 "discoverRequestHeaders",
                 "discoverDataField",
+                "__template_discoverUrl",
+                "__template_discoverDataField",
                 "manualDiscoverResult",
                 "itemList",
             ]
@@ -8325,9 +9543,9 @@ HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTP = Annotated[
 HealthCheckAuthenticationNoneDiscoveryTypedDict = TypeAliasType(
     "HealthCheckAuthenticationNoneDiscoveryTypedDict",
     Union[
+        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeListTypedDict,
         HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeNoneTypedDict,
-        HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeJSONTypedDict,
         HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )

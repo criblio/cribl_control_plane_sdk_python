@@ -7,7 +7,9 @@ from typing_extensions import TypedDict
 
 class BranchInfoTypedDict(TypedDict):
     id: str
+    r"""Unique identifier."""
 
 
 class BranchInfo(BaseModel):
     id: str
+    r"""Unique identifier."""

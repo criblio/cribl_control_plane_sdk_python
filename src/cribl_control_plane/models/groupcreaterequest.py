@@ -14,6 +14,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GroupCreateRequestTypedDict(TypedDict):
     id: str
+    r"""Unique identifier."""
     cloud: NotRequired[ConfigGroupCloudTypedDict]
     description: NotRequired[str]
     r"""Brief description of the Worker Group, Outpost Group, or Edge Fleet."""
@@ -49,6 +50,7 @@ class GroupCreateRequestTypedDict(TypedDict):
 
 class GroupCreateRequest(BaseModel):
     id: str
+    r"""Unique identifier."""
 
     cloud: Optional[ConfigGroupCloud] = None
 

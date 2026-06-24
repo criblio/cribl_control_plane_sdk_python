@@ -11,7 +11,7 @@ from typing_extensions import Annotated, TypedDict
 class UpdatePacksRequestTypedDict(TypedDict):
     filename: str
     r"""Filename of the Pack file to upload."""
-    request_body: Union[bytes, IO[bytes], io.BufferedReader]
+    request_body: Union[bytes, IO[bytes], io.IOBase]
 
 
 class UpdatePacksRequest(BaseModel):
@@ -21,5 +21,5 @@ class UpdatePacksRequest(BaseModel):
     r"""Filename of the Pack file to upload."""
 
     request_body: Annotated[
-        Union[bytes, IO[bytes], io.BufferedReader], FieldMetadata(request=True)
+        Union[bytes, IO[bytes], io.IOBase], FieldMetadata(request=True)
     ]

@@ -15,8 +15,9 @@ value = FormatOptionsCriblLakeDataset.DDSS
 
 ## Values
 
-| Name      | Value     |
-| --------- | --------- |
-| `DDSS`    | ddss      |
-| `JSON`    | json      |
-| `PARQUET` | parquet   |
+| Name       | Value      |
+| ---------- | ---------- |
+| `DDSS`     | ddss       |
+| `JSON`     | json       |
+| `NETSKOPE` | netskope   |
+| `PARQUET`  | parquet    |

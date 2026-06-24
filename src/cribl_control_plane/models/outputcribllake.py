@@ -36,6 +36,7 @@ class OutputCriblLakeFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON = "json"
     PARQUET = "parquet"
     DDSS = "ddss"
+    NETSKOPE = "netskope"
 
 
 class OutputCriblLakeTypedDict(TypedDict):

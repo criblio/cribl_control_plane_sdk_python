@@ -56,6 +56,7 @@ class Git(BaseModel):
 
 class ConfigGroupTypedDict(TypedDict):
     id: str
+    r"""Unique identifier."""
     cloud: NotRequired[ConfigGroupCloudTypedDict]
     config_version: NotRequired[str]
     r"""Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response."""
@@ -101,6 +102,7 @@ class ConfigGroupTypedDict(TypedDict):
 
 class ConfigGroup(BaseModel):
     id: str
+    r"""Unique identifier."""
 
     cloud: Optional[ConfigGroupCloud] = None
 

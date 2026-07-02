@@ -14,6 +14,8 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class NumerifyFormatNoneFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Numeric format to apply after type conversion."""
+
     # None
     NONE = "none"
     # Fix
@@ -26,6 +28,7 @@ class NumerifyFormatNoneFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class NumerifyFormatNoneTypedDict(TypedDict):
     format_: NotRequired[NumerifyFormatNoneFormat]
+    r"""Numeric format to apply after type conversion."""
     depth: NotRequired[int]
     r"""Depth to which the Numerify Function will search within a nested event. Depth greater than 5 (the default) could decrease performance."""
     ignore_fields: NotRequired[List[str]]
@@ -40,6 +43,7 @@ class NumerifyFormatNone(BaseModel):
     format_: Annotated[
         Optional[NumerifyFormatNoneFormat], pydantic.Field(alias="format")
     ] = None
+    r"""Numeric format to apply after type conversion."""
 
     depth: Optional[int] = None
     r"""Depth to which the Numerify Function will search within a nested event. Depth greater than 5 (the default) could decrease performance."""
@@ -84,6 +88,8 @@ class NumerifyFormatNone(BaseModel):
 
 
 class NumerifyFormatFixFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Numeric format to apply after type conversion."""
+
     # None
     NONE = "none"
     # Fix
@@ -96,6 +102,7 @@ class NumerifyFormatFixFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class NumerifyFormatFixTypedDict(TypedDict):
     format_: NotRequired[NumerifyFormatFixFormat]
+    r"""Numeric format to apply after type conversion."""
     digits: NotRequired[float]
     r"""Number of digits after the decimal point, between 0 and 20. If left blank, defaults to 2."""
     depth: NotRequired[int]
@@ -110,6 +117,7 @@ class NumerifyFormatFix(BaseModel):
     format_: Annotated[
         Optional[NumerifyFormatFixFormat], pydantic.Field(alias="format")
     ] = None
+    r"""Numeric format to apply after type conversion."""
 
     digits: Optional[float] = None
     r"""Number of digits after the decimal point, between 0 and 20. If left blank, defaults to 2."""

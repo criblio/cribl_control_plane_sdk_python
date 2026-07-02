@@ -3,6 +3,7 @@
 from __future__ import annotations
 from .connectionprotocol import ConnectionProtocol
 from .heartbeatmetadata import HeartbeatMetadata, HeartbeatMetadataTypedDict
+from .masterworkerprocesses import MasterWorkerProcesses, MasterWorkerProcessesTypedDict
 from .nodeprovidedinfo import NodeProvidedInfo, NodeProvidedInfoTypedDict
 from .nodeupgradestatus import NodeUpgradeStatus, NodeUpgradeStatusTypedDict
 from cribl_control_plane import models, utils
@@ -15,62 +16,77 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class MasterWorkerEntryType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""RPC message type reported by the node."""
+
     INFO = "info"
     REQ = "req"
     RESP = "resp"
 
 
-class MasterWorkerEntryWorkersTypedDict(TypedDict):
-    count: float
-
-
-class MasterWorkerEntryWorkers(BaseModel):
-    count: float
-
-
 class MasterWorkerEntryTypedDict(TypedDict):
-    first_msg_time: float
+    first_msg_time: int
+    r"""Timestamp (in Unix time) when the Leader first received a message from the node."""
     group: str
+    r"""The <code>id</code> of the Worker Group, Edge Fleet, or Outpost Group that contains the node."""
     id: str
+    r"""Unique identifier for the node."""
     info: NodeProvidedInfoTypedDict
-    last_msg_time: float
-    worker_processes: float
+    last_msg_time: int
+    r"""Timestamp (in Unix time) when the Leader last received a message from the node."""
+    worker_processes: int
+    r"""Number of Worker Processes running on the node."""
     connection_protocol: NotRequired[ConnectionProtocol]
     deployable: NotRequired[bool]
+    r"""If <code>true</code>, the node can receive configuration deployments. Otherwise, <code>false</code>."""
     disconnected: NotRequired[bool]
+    r"""If <code>true</code>, the node is disconnected from the Leader. Otherwise, <code>false</code>."""
     last_metrics: NotRequired[Dict[str, Any]]
+    r"""Latest total, input, and destination metrics cached for UI display."""
     metadata: NotRequired[HeartbeatMetadataTypedDict]
     node_upgrade_status: NotRequired[NodeUpgradeStatusTypedDict]
+    offline_duration_ms: NotRequired[int]
+    r"""Configured ephemeral offline duration, in milliseconds."""
     provisioning_token_id: NotRequired[str]
+    r"""The <code>id</code> of the provisioning token used to authenticate the node, if used."""
     status: NotRequired[str]
+    r"""Health status reported for the node."""
     type: NotRequired[MasterWorkerEntryType]
-    workers: NotRequired[MasterWorkerEntryWorkersTypedDict]
+    r"""RPC message type reported by the node."""
+    workers: NotRequired[MasterWorkerProcessesTypedDict]
 
 
 class MasterWorkerEntry(BaseModel):
-    first_msg_time: Annotated[float, pydantic.Field(alias="firstMsgTime")]
+    first_msg_time: Annotated[int, pydantic.Field(alias="firstMsgTime")]
+    r"""Timestamp (in Unix time) when the Leader first received a message from the node."""
 
     group: str
+    r"""The <code>id</code> of the Worker Group, Edge Fleet, or Outpost Group that contains the node."""
 
     id: str
+    r"""Unique identifier for the node."""
 
     info: NodeProvidedInfo
 
-    last_msg_time: Annotated[float, pydantic.Field(alias="lastMsgTime")]
+    last_msg_time: Annotated[int, pydantic.Field(alias="lastMsgTime")]
+    r"""Timestamp (in Unix time) when the Leader last received a message from the node."""
 
-    worker_processes: Annotated[float, pydantic.Field(alias="workerProcesses")]
+    worker_processes: Annotated[int, pydantic.Field(alias="workerProcesses")]
+    r"""Number of Worker Processes running on the node."""
 
     connection_protocol: Annotated[
         Optional[ConnectionProtocol], pydantic.Field(alias="connectionProtocol")
     ] = None
 
     deployable: Optional[bool] = None
+    r"""If <code>true</code>, the node can receive configuration deployments. Otherwise, <code>false</code>."""
 
     disconnected: Optional[bool] = None
+    r"""If <code>true</code>, the node is disconnected from the Leader. Otherwise, <code>false</code>."""
 
     last_metrics: Annotated[
         Optional[Dict[str, Any]], pydantic.Field(alias="lastMetrics")
     ] = None
+    r"""Latest total, input, and destination metrics cached for UI display."""
 
     metadata: Optional[HeartbeatMetadata] = None
 
@@ -78,15 +94,23 @@ class MasterWorkerEntry(BaseModel):
         Optional[NodeUpgradeStatus], pydantic.Field(alias="nodeUpgradeStatus")
     ] = None
 
+    offline_duration_ms: Annotated[
+        Optional[int], pydantic.Field(alias="offlineDurationMs")
+    ] = None
+    r"""Configured ephemeral offline duration, in milliseconds."""
+
     provisioning_token_id: Annotated[
         Optional[str], pydantic.Field(alias="provisioningTokenId")
     ] = None
+    r"""The <code>id</code> of the provisioning token used to authenticate the node, if used."""
 
     status: Optional[str] = None
+    r"""Health status reported for the node."""
 
     type: Optional[MasterWorkerEntryType] = None
+    r"""RPC message type reported by the node."""
 
-    workers: Optional[MasterWorkerEntryWorkers] = None
+    workers: Optional[MasterWorkerProcesses] = None
 
     @field_serializer("connection_protocol")
     def serialize_connection_protocol(self, value):
@@ -116,6 +140,7 @@ class MasterWorkerEntry(BaseModel):
                 "lastMetrics",
                 "metadata",
                 "nodeUpgradeStatus",
+                "offlineDurationMs",
                 "provisioningTokenId",
                 "status",
                 "type",

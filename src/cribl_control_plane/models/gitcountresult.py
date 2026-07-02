@@ -6,8 +6,10 @@ from typing_extensions import TypedDict
 
 
 class GitCountResultTypedDict(TypedDict):
-    count: float
+    count: int
+    r"""Number of files that changed since the specified commit."""
 
 
 class GitCountResult(BaseModel):
-    count: float
+    count: int
+    r"""Number of files that changed since the specified commit."""

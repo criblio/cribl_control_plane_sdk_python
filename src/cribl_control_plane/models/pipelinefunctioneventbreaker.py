@@ -21,7 +21,7 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionEventBreakerID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>event_breaker</code>"""
 
     EVENT_BREAKER = "event_breaker"
 
@@ -29,6 +29,8 @@ class PipelineFunctionEventBreakerID(str, Enum):
 class EventBreakerExistingOrNewExistingExistingOrNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
+
     # Use Existing
     EXISTING = "existing"
     # Create New
@@ -37,7 +39,9 @@ class EventBreakerExistingOrNewExistingExistingOrNew(
 
 class EventBreakerExistingOrNewExistingTypedDict(TypedDict):
     existing_or_new: EventBreakerExistingOrNewExistingExistingOrNew
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     existing_rule: NotRequired[str]
+    r"""ID of an existing event breaker ruleset to apply."""
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
@@ -59,8 +63,10 @@ class EventBreakerExistingOrNewExisting(BaseModel):
         EventBreakerExistingOrNewExistingExistingOrNew,
         pydantic.Field(alias="existingOrNew"),
     ]
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
 
     existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
+    r"""ID of an existing event breaker ruleset to apply."""
 
     should_mark_cribl_breaker: Annotated[
         Optional[bool], pydantic.Field(alias="shouldMarkCriblBreaker")
@@ -149,6 +155,8 @@ class EventBreakerExistingOrNewExisting(BaseModel):
 class EventBreakerExistingOrNewNewRuleTypeCsvExistingOrNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
+
     # Use Existing
     EXISTING = "existing"
     # Create New
@@ -163,6 +171,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsvTypedDict(TypedDict):
     escape_char: str
     r"""Character used to escape the quote character in field values"""
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeCsvExistingOrNew
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
     time_field: NotRequired[str]
     r"""Optional timestamp field name in extracted events"""
@@ -180,6 +189,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsvTypedDict(TypedDict):
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
     existing_rule: NotRequired[str]
+    r"""ID of an existing event breaker ruleset to apply."""
 
 
 class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
@@ -196,6 +206,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
         EventBreakerExistingOrNewNewRuleTypeCsvExistingOrNew,
         pydantic.Field(alias="existingOrNew"),
     ]
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
 
     rule_type: Annotated[
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
@@ -238,6 +249,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
     r"""Add this Function name to the cribl_breaker field"""
 
     existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
+    r"""ID of an existing event breaker ruleset to apply."""
 
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
@@ -292,6 +304,8 @@ class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
 class EventBreakerExistingOrNewNewRuleTypeHeaderExistingOrNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
+
     # Use Existing
     EXISTING = "existing"
     # Create New
@@ -306,6 +320,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeaderTypedDict(TypedDict):
     header_line_regex: str
     r"""Regex matching a file header line"""
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeHeaderExistingOrNew
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
     null_field_val: NotRequired[str]
     r"""Representation of a null value. Null fields are not added to events."""
@@ -325,6 +340,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeaderTypedDict(TypedDict):
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
     existing_rule: NotRequired[str]
+    r"""ID of an existing event breaker ruleset to apply."""
 
 
 class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
@@ -341,6 +357,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
         EventBreakerExistingOrNewNewRuleTypeHeaderExistingOrNew,
         pydantic.Field(alias="existingOrNew"),
     ]
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
 
     rule_type: Annotated[
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
@@ -388,6 +405,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
     r"""Add this Function name to the cribl_breaker field"""
 
     existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
+    r"""ID of an existing event breaker ruleset to apply."""
 
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
@@ -443,6 +461,8 @@ class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
 class EventBreakerExistingOrNewNewRuleTypeJSONArrayExistingOrNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
+
     # Use Existing
     EXISTING = "existing"
     # Create New
@@ -451,6 +471,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayExistingOrNew(
 
 class EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict(TypedDict):
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeJSONArrayExistingOrNew
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
     json_array_field: NotRequired[str]
     r"""The path to an array in a JSON event with records to extract, such as Records or level1.level2.events. Leave blank if result itself is an array, such as [{...},{...}]"""
@@ -476,6 +497,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict(TypedDict):
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
     existing_rule: NotRequired[str]
+    r"""ID of an existing event breaker ruleset to apply."""
 
 
 class EventBreakerExistingOrNewNewRuleTypeJSONArray(BaseModel):
@@ -483,6 +505,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArray(BaseModel):
         EventBreakerExistingOrNewNewRuleTypeJSONArrayExistingOrNew,
         pydantic.Field(alias="existingOrNew"),
     ]
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
 
     rule_type: Annotated[
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
@@ -547,6 +570,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArray(BaseModel):
     r"""Add this Function name to the cribl_breaker field"""
 
     existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
+    r"""ID of an existing event breaker ruleset to apply."""
 
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
@@ -607,6 +631,8 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArray(BaseModel):
 class EventBreakerExistingOrNewNewRuleTypeJSONExistingOrNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
+
     # Use Existing
     EXISTING = "existing"
     # Create New
@@ -615,6 +641,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONExistingOrNew(
 
 class EventBreakerExistingOrNewNewRuleTypeJSONTypedDict(TypedDict):
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeJSONExistingOrNew
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
@@ -630,6 +657,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONTypedDict(TypedDict):
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
     existing_rule: NotRequired[str]
+    r"""ID of an existing event breaker ruleset to apply."""
 
 
 class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
@@ -637,6 +665,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
         EventBreakerExistingOrNewNewRuleTypeJSONExistingOrNew,
         pydantic.Field(alias="existingOrNew"),
     ]
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
 
     rule_type: Annotated[
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
@@ -676,6 +705,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
     r"""Add this Function name to the cribl_breaker field"""
 
     existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
+    r"""ID of an existing event breaker ruleset to apply."""
 
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
@@ -729,6 +759,8 @@ class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
 class EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
+
     # Use Existing
     EXISTING = "existing"
     # Create New
@@ -739,6 +771,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegexTypedDict(TypedDict):
     event_breaker_regex: str
     r"""The regex used to break the stream into events at the beginning of the match. Matched content will be consumed, unless you use a lookahead regex such as (?=pattern) to keep it. Do NOT use capturing groups in the pattern."""
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
@@ -754,6 +787,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegexTypedDict(TypedDict):
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
     existing_rule: NotRequired[str]
+    r"""ID of an existing event breaker ruleset to apply."""
 
 
 class EventBreakerExistingOrNewNewRuleTypeRegex(BaseModel):
@@ -764,6 +798,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegex(BaseModel):
         EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew,
         pydantic.Field(alias="existingOrNew"),
     ]
+    r"""Whether to use an existing event breaker ruleset or create a new one inline."""
 
     rule_type: Annotated[
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
@@ -803,6 +838,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegex(BaseModel):
     r"""Add this Function name to the cribl_breaker field"""
 
     existing_rule: Annotated[Optional[str], pydantic.Field(alias="existingRule")] = None
+    r"""ID of an existing event breaker ruleset to apply."""
 
     @field_serializer("rule_type")
     def serialize_rule_type(self, value):
@@ -912,6 +948,7 @@ PipelineFunctionEventBreakerConfTypedDict = TypeAliasType(
         EventBreakerExistingOrNewNewTypedDict,
     ],
 )
+r"""Configuration specific to the Pipeline Function."""
 
 
 class UnknownPipelineFunctionEventBreakerConf(BaseModel):
@@ -946,44 +983,47 @@ PipelineFunctionEventBreakerConf = Annotated[
         )
     ),
 ]
+r"""Configuration specific to the Pipeline Function."""
 
 
 class PipelineFunctionEventBreakerTypedDict(TypedDict):
     id: PipelineFunctionEventBreakerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>event_breaker</code>"""
     conf: PipelineFunctionEventBreakerConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionEventBreaker(BaseModel):
     id: PipelineFunctionEventBreakerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>event_breaker</code>"""
 
     conf: PipelineFunctionEventBreakerConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

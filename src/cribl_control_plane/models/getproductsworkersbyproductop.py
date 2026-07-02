@@ -5,6 +5,10 @@ from .countedmasterworkerentry import (
     CountedMasterWorkerEntry,
     CountedMasterWorkerEntryTypedDict,
 )
+from .paginatedmasterworkerentry import (
+    PaginatedMasterWorkerEntry,
+    PaginatedMasterWorkerEntryTypedDict,
+)
 from .productscore import ProductsCore
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -16,7 +20,7 @@ from cribl_control_plane.utils import (
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import Awaitable, Callable, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class GetProductsWorkersByProductRequestTypedDict(TypedDict):
@@ -110,8 +114,22 @@ class GetProductsWorkersByProductRequest(BaseModel):
         return m
 
 
+GetProductsWorkersByProductResponseBodyTypedDict = TypeAliasType(
+    "GetProductsWorkersByProductResponseBodyTypedDict",
+    Union[CountedMasterWorkerEntryTypedDict, PaginatedMasterWorkerEntryTypedDict],
+)
+r"""List of MasterWorkerEntry objects."""
+
+
+GetProductsWorkersByProductResponseBody = TypeAliasType(
+    "GetProductsWorkersByProductResponseBody",
+    Union[CountedMasterWorkerEntry, PaginatedMasterWorkerEntry],
+)
+r"""List of MasterWorkerEntry objects."""
+
+
 class GetProductsWorkersByProductResponseTypedDict(TypedDict):
-    result: CountedMasterWorkerEntryTypedDict
+    result: GetProductsWorkersByProductResponseBodyTypedDict
 
 
 class GetProductsWorkersByProductResponse(BaseModel):
@@ -120,4 +138,4 @@ class GetProductsWorkersByProductResponse(BaseModel):
         Callable[[], Awaitable[Optional[GetProductsWorkersByProductResponse]]],
     ]
 
-    result: CountedMasterWorkerEntry
+    result: GetProductsWorkersByProductResponseBody

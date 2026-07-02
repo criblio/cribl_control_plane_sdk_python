@@ -12,7 +12,7 @@ Get the Access Control List (ACL) for the specified Worker Group, Outpost Group,
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getConfigGroupAclByProductAndId" method="get" path="/products/{product}/groups/{id}/acl" -->
+<!-- UsageSnippet language="python" operationID="getProductsGroupsAclByProductAndId" method="get" path="/products/{product}/groups/{id}/acl" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -25,7 +25,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.acl.get(product=models.ProductsCore.EDGE, id="<id>", type_=models.RbacResource.MACROS)
+    res = ccp_client.groups.acl.get(product=models.ProductsCore.OUTPOST, id="<id>")
 
     # Handle response
     print(res)
@@ -49,5 +49,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

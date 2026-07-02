@@ -1,5 +1,7 @@
 # NumerifyFormatFixFormat
 
+Numeric format to apply after type conversion.
+
 ## Example Usage
 
 ```python

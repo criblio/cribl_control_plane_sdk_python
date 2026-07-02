@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 from .countedinputstatus import CountedInputStatus, CountedInputStatusTypedDict
+from .paginatedinputstatus import PaginatedInputStatus, PaginatedInputStatusTypedDict
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
 from pydantic import model_serializer
 from typing import Awaitable, Callable, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class GetInputStatusRequestTypedDict(TypedDict):
@@ -62,8 +63,21 @@ class GetInputStatusRequest(BaseModel):
         return m
 
 
+GetInputStatusResponseBodyTypedDict = TypeAliasType(
+    "GetInputStatusResponseBodyTypedDict",
+    Union[CountedInputStatusTypedDict, PaginatedInputStatusTypedDict],
+)
+r"""List of Source status objects."""
+
+
+GetInputStatusResponseBody = TypeAliasType(
+    "GetInputStatusResponseBody", Union[CountedInputStatus, PaginatedInputStatus]
+)
+r"""List of Source status objects."""
+
+
 class GetInputStatusResponseTypedDict(TypedDict):
-    result: CountedInputStatusTypedDict
+    result: GetInputStatusResponseBodyTypedDict
 
 
 class GetInputStatusResponse(BaseModel):
@@ -72,4 +86,4 @@ class GetInputStatusResponse(BaseModel):
         Callable[[], Awaitable[Optional[GetInputStatusResponse]]],
     ]
 
-    result: CountedInputStatus
+    result: GetInputStatusResponseBody

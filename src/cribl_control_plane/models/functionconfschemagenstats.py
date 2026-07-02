@@ -9,10 +9,12 @@ from typing_extensions import NotRequired, TypedDict
 
 class FunctionConfSchemaGenStatsTypedDict(TypedDict):
     fields: NotRequired[List[str]]
+    r"""List of field names from which to generate statistics."""
 
 
 class FunctionConfSchemaGenStats(BaseModel):
     fields: Optional[List[str]] = None
+    r"""List of field names from which to generate statistics."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

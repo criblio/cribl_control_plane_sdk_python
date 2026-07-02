@@ -9,7 +9,8 @@ from cribl_control_plane.groups_configs import GroupsConfigs
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from jsonpath import JSONPath
+from typing import Any, Awaitable, Dict, Iterable, List, Mapping, Optional, Union
 
 
 class GroupsSDK(BaseSDK):
@@ -34,17 +35,21 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         fields: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedConfigGroup:
+    ) -> Optional[models.GetProductsGroupsByProductResponse]:
         r"""List all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product
 
         Get a list of all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product.
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param fields: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
+        :param offset: Pagination offset
+        :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -60,9 +65,11 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.ListConfigGroupByProductRequest(
+        request = models.GetProductsGroupsByProductRequest(
             product=product,
             fields=fields,
+            offset=offset,
+            limit=limit,
         )
 
         req = self._build_request(
@@ -98,24 +105,60 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="listConfigGroupByProduct",
+                operation_id="getProductsGroupsByProduct",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[models.GetProductsGroupsByProductResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return None
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return None
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return None
+            next_offset = offset + len(results[0])
+
+            return self.list(
+                product=product,
+                fields=fields,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedConfigGroup, http_res)
+            return models.GetProductsGroupsByProductResponse(
+                result=unmarshal_json_response(
+                    models.GetProductsGroupsByProductResponseBody, http_res
+                ),
+                next=next_func,
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -129,17 +172,21 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         fields: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedConfigGroup:
+    ) -> Optional[models.GetProductsGroupsByProductResponse]:
         r"""List all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product
 
         Get a list of all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product.
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param fields: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
+        :param offset: Pagination offset
+        :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -155,9 +202,11 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.ListConfigGroupByProductRequest(
+        request = models.GetProductsGroupsByProductRequest(
             product=product,
             fields=fields,
+            offset=offset,
+            limit=limit,
         )
 
         req = self._build_request_async(
@@ -193,24 +242,65 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="listConfigGroupByProduct",
+                operation_id="getProductsGroupsByProduct",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Awaitable[Optional[models.GetProductsGroupsByProductResponse]]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            async def empty_result():
+                return None
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return empty_result()
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return empty_result()
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return empty_result()
+            next_offset = offset + len(results[0])
+
+            return self.list_async(
+                product=product,
+                fields=fields,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedConfigGroup, http_res)
+            return models.GetProductsGroupsByProductResponse(
+                result=unmarshal_json_response(
+                    models.GetProductsGroupsByProductResponseBody, http_res
+                ),
+                next=next_func,
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -227,6 +317,7 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        collectors_ha_enabled: Optional[bool] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
@@ -239,7 +330,7 @@ class GroupsSDK(BaseSDK):
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
         source_group_id: Optional[str] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -256,6 +347,7 @@ class GroupsSDK(BaseSDK):
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id: Unique identifier.
         :param cloud:
+        :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
         :param inherits: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
@@ -286,12 +378,13 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateConfigGroupByProductRequest(
+        request = models.CreateProductsGroupsByProductRequest(
             product=product,
             group_create_request=models.GroupCreateRequest(
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
+                collectors_ha_enabled=collectors_ha_enabled,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
                 id=id,
@@ -303,7 +396,7 @@ class GroupsSDK(BaseSDK):
                 on_prem=on_prem,
                 provisioned=provisioned,
                 source_group_id=source_group_id,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -351,11 +444,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="createConfigGroupByProduct",
+                operation_id="createProductsGroupsByProduct",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -365,10 +460,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -385,6 +483,7 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        collectors_ha_enabled: Optional[bool] = None,
         description: Optional[str] = None,
         estimated_ingest_rate: Optional[
             models.EstimatedIngestRateOptionsConfigGroup
@@ -397,7 +496,7 @@ class GroupsSDK(BaseSDK):
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
         source_group_id: Optional[str] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -414,6 +513,7 @@ class GroupsSDK(BaseSDK):
         :param product: Name of the Cribl product to add the Worker Group, Outpost Group, or Edge Fleet to.
         :param id: Unique identifier.
         :param cloud:
+        :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
         :param estimated_ingest_rate: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
         :param inherits: The <code>id</code> of the parent Edge Fleet. If provided, this Fleet inherits configuration from the specified parent Fleet. Applies only to Edge Fleets.
@@ -444,12 +544,13 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.CreateConfigGroupByProductRequest(
+        request = models.CreateProductsGroupsByProductRequest(
             product=product,
             group_create_request=models.GroupCreateRequest(
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
+                collectors_ha_enabled=collectors_ha_enabled,
                 description=description,
                 estimated_ingest_rate=estimated_ingest_rate,
                 id=id,
@@ -461,7 +562,7 @@ class GroupsSDK(BaseSDK):
                 on_prem=on_prem,
                 provisioned=provisioned,
                 source_group_id=source_group_id,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -509,11 +610,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="createConfigGroupByProduct",
+                operation_id="createProductsGroupsByProduct",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -523,10 +626,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "409", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -568,7 +674,7 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetConfigGroupByProductAndIDRequest(
+        request = models.GetProductsGroupsByProductAndIDRequest(
             product=product,
             id=id,
             fields=fields,
@@ -607,11 +713,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getConfigGroupByProductAndId",
+                operation_id="getProductsGroupsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -621,10 +729,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -666,7 +777,7 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetConfigGroupByProductAndIDRequest(
+        request = models.GetProductsGroupsByProductAndIDRequest(
             product=product,
             id=id,
             fields=fields,
@@ -705,11 +816,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getConfigGroupByProductAndId",
+                operation_id="getProductsGroupsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -719,10 +832,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -740,6 +856,7 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        collectors_ha_enabled: Optional[bool] = None,
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[int] = None,
         description: Optional[str] = None,
@@ -753,15 +870,15 @@ class GroupsSDK(BaseSDK):
         is_search: Optional[bool] = None,
         lookup_deployments: Optional[
             Union[
-                List[models.ConfigGroupLookups],
-                List[models.ConfigGroupLookupsTypedDict],
+                Iterable[models.ConfigGroupLookups],
+                Iterable[models.ConfigGroupLookupsTypedDict],
             ]
         ] = None,
         max_worker_age: Optional[str] = None,
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -780,6 +897,7 @@ class GroupsSDK(BaseSDK):
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
         :param cloud:
+        :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
@@ -815,13 +933,14 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateConfigGroupByProductAndIDRequest(
+        request = models.UpdateProductsGroupsByProductAndIDRequest(
             product=product,
             id_param=id_param,
             config_group=models.ConfigGroup(
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
+                collectors_ha_enabled=collectors_ha_enabled,
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
@@ -839,7 +958,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -884,11 +1003,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateConfigGroupByProductAndId",
+                operation_id="updateProductsGroupsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -898,10 +1019,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -919,6 +1043,7 @@ class GroupsSDK(BaseSDK):
         cloud: Optional[
             Union[models.ConfigGroupCloud, models.ConfigGroupCloudTypedDict]
         ] = None,
+        collectors_ha_enabled: Optional[bool] = None,
         config_version: Optional[str] = None,
         deploying_worker_count: Optional[int] = None,
         description: Optional[str] = None,
@@ -932,15 +1057,15 @@ class GroupsSDK(BaseSDK):
         is_search: Optional[bool] = None,
         lookup_deployments: Optional[
             Union[
-                List[models.ConfigGroupLookups],
-                List[models.ConfigGroupLookupsTypedDict],
+                Iterable[models.ConfigGroupLookups],
+                Iterable[models.ConfigGroupLookupsTypedDict],
             ]
         ] = None,
         max_worker_age: Optional[str] = None,
         name: Optional[str] = None,
         on_prem: Optional[bool] = None,
         provisioned: Optional[bool] = None,
-        streamtags: Optional[List[str]] = None,
+        streamtags: Optional[Iterable[str]] = None,
         tags: Optional[str] = None,
         type_: Optional[models.TypeOptionsConfigGroup] = None,
         upgrade_version: Optional[str] = None,
@@ -959,6 +1084,7 @@ class GroupsSDK(BaseSDK):
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
         :param cloud:
+        :param collectors_ha_enabled: Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups.
         :param config_version: Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param deploying_worker_count: Number of Workers or Nodes that are currently deploying the latest configuration version.<br/><br/> **Warning**: Do not change the value of <code>deployingWorkerCount</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response.
         :param description: Brief description of the Worker Group, Outpost Group, or Edge Fleet.
@@ -994,13 +1120,14 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateConfigGroupByProductAndIDRequest(
+        request = models.UpdateProductsGroupsByProductAndIDRequest(
             product=product,
             id_param=id_param,
             config_group=models.ConfigGroup(
                 cloud=utils.get_pydantic_model(
                     cloud, Optional[models.ConfigGroupCloud]
                 ),
+                collectors_ha_enabled=collectors_ha_enabled,
                 config_version=config_version,
                 deploying_worker_count=deploying_worker_count,
                 description=description,
@@ -1018,7 +1145,7 @@ class GroupsSDK(BaseSDK):
                 name=name,
                 on_prem=on_prem,
                 provisioned=provisioned,
-                streamtags=streamtags,
+                streamtags=utils.unmarshal(streamtags, Optional[List[str]]),
                 tags=tags,
                 type=type_,
                 upgrade_version=upgrade_version,
@@ -1063,11 +1190,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateConfigGroupByProductAndId",
+                operation_id="updateProductsGroupsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1077,10 +1206,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1120,7 +1252,7 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.DeleteConfigGroupByProductAndIDRequest(
+        request = models.DeleteProductsGroupsByProductAndIDRequest(
             product=product,
             id=id,
         )
@@ -1158,11 +1290,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="deleteConfigGroupByProductAndId",
+                operation_id="deleteProductsGroupsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1172,10 +1306,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1215,7 +1352,7 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.DeleteConfigGroupByProductAndIDRequest(
+        request = models.DeleteProductsGroupsByProductAndIDRequest(
             product=product,
             id=id,
         )
@@ -1253,11 +1390,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="deleteConfigGroupByProductAndId",
+                operation_id="deleteProductsGroupsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1267,10 +1406,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1287,8 +1429,8 @@ class GroupsSDK(BaseSDK):
         version: str,
         lookups: Optional[
             Union[
-                List[models.DeployRequestLookups],
-                List[models.DeployRequestLookupsTypedDict],
+                Iterable[models.DeployRequestLookups],
+                Iterable[models.DeployRequestLookupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1319,7 +1461,7 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateConfigGroupDeployByProductAndIDRequest(
+        request = models.UpdateProductsGroupsDeployByProductAndIDRequest(
             product=product,
             id=id,
             deploy_request=models.DeployRequest(
@@ -1366,11 +1508,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateConfigGroupDeployByProductAndId",
+                operation_id="updateProductsGroupsDeployByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1380,10 +1524,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1400,8 +1547,8 @@ class GroupsSDK(BaseSDK):
         version: str,
         lookups: Optional[
             Union[
-                List[models.DeployRequestLookups],
-                List[models.DeployRequestLookupsTypedDict],
+                Iterable[models.DeployRequestLookups],
+                Iterable[models.DeployRequestLookupsTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -1432,7 +1579,7 @@ class GroupsSDK(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.UpdateConfigGroupDeployByProductAndIDRequest(
+        request = models.UpdateProductsGroupsDeployByProductAndIDRequest(
             product=product,
             id=id,
             deploy_request=models.DeployRequest(
@@ -1479,11 +1626,13 @@ class GroupsSDK(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="updateConfigGroupDeployByProductAndId",
+                operation_id="updateProductsGroupsDeployByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1493,10 +1642,13 @@ class GroupsSDK(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedConfigGroup, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

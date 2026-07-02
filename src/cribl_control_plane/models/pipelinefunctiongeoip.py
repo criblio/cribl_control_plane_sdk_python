@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionGeoipID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>geoip</code>"""
 
     GEOIP = "geoip"
 
@@ -39,6 +39,8 @@ class OutputFieldMappings(BaseModel):
 
 
 class PipelineFunctionGeoipConfTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     file: str
     r"""Select an uploaded Maxmind database, or specify path to a Maxmind database with .mmdb extension"""
     in_field: NotRequired[str]
@@ -46,11 +48,14 @@ class PipelineFunctionGeoipConfTypedDict(TypedDict):
     out_field: NotRequired[str]
     r"""Field name in which to store the GeoIP lookup results"""
     additional_fields: NotRequired[List[AdditionalFieldTypedDict]]
+    r"""Additional IP fields on which to perform GeoIP lookups."""
     out_field_mappings: NotRequired[OutputFieldMappingsTypedDict]
     r"""Search-specific mappings for granular control over event enrichment"""
 
 
 class PipelineFunctionGeoipConf(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     file: str
     r"""Select an uploaded Maxmind database, or specify path to a Maxmind database with .mmdb extension"""
 
@@ -63,6 +68,7 @@ class PipelineFunctionGeoipConf(BaseModel):
     additional_fields: Annotated[
         Optional[List[AdditionalField]], pydantic.Field(alias="additionalFields")
     ] = None
+    r"""Additional IP fields on which to perform GeoIP lookups."""
 
     out_field_mappings: Annotated[
         Optional[OutputFieldMappings], pydantic.Field(alias="outFieldMappings")
@@ -90,40 +96,42 @@ class PipelineFunctionGeoipConf(BaseModel):
 
 class PipelineFunctionGeoipTypedDict(TypedDict):
     id: PipelineFunctionGeoipID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>geoip</code>"""
     conf: PipelineFunctionGeoipConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionGeoip(BaseModel):
     id: PipelineFunctionGeoipID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>geoip</code>"""
 
     conf: PipelineFunctionGeoipConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

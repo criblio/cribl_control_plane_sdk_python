@@ -12,18 +12,18 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PqTypePqControlsTypedDict(TypedDict):
-    pass
+    r"""Management controls for the persistent queue."""
 
 
 class PqTypePqControls(BaseModel):
-    pass
+    r"""Management controls for the persistent queue."""
 
 
 class PqTypeTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsPq]
     r"""With Smart mode, PQ will write events to the filesystem only when it detects backpressure from the processing engine. With Always On mode, PQ will always write events directly to the queue before forwarding them to the processing engine."""
     max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to hold in memory before writing the events to disk. Deprecated and only supported in workers < v4.17.0. Use maxBufferSizeBytes instead."""
     commit_frequency: NotRequired[float]
@@ -37,6 +37,7 @@ class PqTypeTypedDict(TypedDict):
     compress: NotRequired[CompressionOptionsPq]
     r"""Codec to use to compress the persisted data"""
     pq_controls: NotRequired[PqTypePqControlsTypedDict]
+    r"""Management controls for the persistent queue."""
 
 
 class PqType(BaseModel):
@@ -46,7 +47,7 @@ class PqType(BaseModel):
     max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="maxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     max_buffer_size: Annotated[
         Optional[float], pydantic.Field(alias="maxBufferSize")
@@ -73,6 +74,7 @@ class PqType(BaseModel):
     pq_controls: Annotated[
         Optional[PqTypePqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Management controls for the persistent queue."""
 
     @field_serializer("mode")
     def serialize_mode(self, value):

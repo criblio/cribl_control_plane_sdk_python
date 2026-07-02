@@ -2,11 +2,12 @@
 
 from __future__ import annotations
 from .countedoutputstatus import CountedOutputStatus, CountedOutputStatusTypedDict
+from .paginatedoutputstatus import PaginatedOutputStatus, PaginatedOutputStatusTypedDict
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
 from pydantic import model_serializer
 from typing import Awaitable, Callable, Optional, Union
-from typing_extensions import Annotated, NotRequired, TypedDict
+from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class GetOutputStatusRequestTypedDict(TypedDict):
@@ -62,8 +63,21 @@ class GetOutputStatusRequest(BaseModel):
         return m
 
 
+GetOutputStatusResponseBodyTypedDict = TypeAliasType(
+    "GetOutputStatusResponseBodyTypedDict",
+    Union[CountedOutputStatusTypedDict, PaginatedOutputStatusTypedDict],
+)
+r"""List of Destination status objects."""
+
+
+GetOutputStatusResponseBody = TypeAliasType(
+    "GetOutputStatusResponseBody", Union[CountedOutputStatus, PaginatedOutputStatus]
+)
+r"""List of Destination status objects."""
+
+
 class GetOutputStatusResponseTypedDict(TypedDict):
-    result: CountedOutputStatusTypedDict
+    result: GetOutputStatusResponseBodyTypedDict
 
 
 class GetOutputStatusResponse(BaseModel):
@@ -72,4 +86,4 @@ class GetOutputStatusResponse(BaseModel):
         Callable[[], Awaitable[Optional[GetOutputStatusResponse]]],
     ]
 
-    result: CountedOutputStatus
+    result: GetOutputStatusResponseBody

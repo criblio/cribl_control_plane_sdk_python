@@ -3,12 +3,18 @@
 from __future__ import annotations
 from .authenticationtypeoptions import AuthenticationTypeOptions
 from .backpressurebehavioroptions import BackpressureBehaviorOptions
+from .columnmappingconfoutputclickhouse import (
+    ColumnMappingConfOutputClickHouse,
+    ColumnMappingConfOutputClickHouseTypedDict,
+)
 from .compressionoptionspq import CompressionOptionsPq
 from .extrahttpheaderconfinputelastic import (
     ExtraHTTPHeaderConfInputElastic,
     ExtraHTTPHeaderConfInputElasticTypedDict,
 )
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
+from .formatoptions import FormatOptions
+from .mappingtypeoptions import MappingTypeOptions
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .responseretrysettingconfoutputwebhook import (
@@ -23,7 +29,7 @@ from .tlssettingsclientsidetypecapathcertpathextended import (
     TLSSettingsClientSideTypeCaPathCertPathExtended,
     TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict,
 )
-from cribl_control_plane import models, utils
+from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -34,62 +40,6 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class OutputClickHouseType(str, Enum):
     CLICK_HOUSE = "click_house"
-
-
-class OutputClickHouseFormat(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
-
-    # JSONCompactEachRowWithNames
-    JSON_COMPACT_EACH_ROW_WITH_NAMES = "json-compact-each-row-with-names"
-    # JSONEachRow
-    JSON_EACH_ROW = "json-each-row"
-
-
-class OutputClickHouseMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""How event fields are mapped to ClickHouse columns"""
-
-    # Automatic
-    AUTOMATIC = "automatic"
-    # Custom
-    CUSTOM = "custom"
-
-
-class OutputClickHouseColumnMappingTypedDict(TypedDict):
-    column_name: str
-    r"""Name of the column in ClickHouse that will store field value"""
-    column_value_expression: str
-    r"""JavaScript expression to compute value to be inserted into ClickHouse table"""
-    column_type: NotRequired[str]
-    r"""Type of the column in the ClickHouse database"""
-
-
-class OutputClickHouseColumnMapping(BaseModel):
-    column_name: Annotated[str, pydantic.Field(alias="columnName")]
-    r"""Name of the column in ClickHouse that will store field value"""
-
-    column_value_expression: Annotated[
-        str, pydantic.Field(alias="columnValueExpression")
-    ]
-    r"""JavaScript expression to compute value to be inserted into ClickHouse table"""
-
-    column_type: Annotated[Optional[str], pydantic.Field(alias="columnType")] = None
-    r"""Type of the column in the ClickHouse database"""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["columnType"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
 
 
 class OutputClickHousePqControlsTypedDict(TypedDict):
@@ -116,11 +66,11 @@ class OutputClickHouseTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     auth_type: NotRequired[AuthenticationTypeOptions]
-    format_: NotRequired[OutputClickHouseFormat]
+    format_: NotRequired[FormatOptions]
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
-    mapping_type: NotRequired[OutputClickHouseMappingType]
+    mapping_type: NotRequired[MappingTypeOptions]
     r"""How event fields are mapped to ClickHouse columns"""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing on the ClickHouse server. Disable to write to a ClickHouse table immediately. Cribl sends the configured value with every insert (<code>async_insert=1</code> or <code>async_insert=0</code>) so behavior is consistent across ClickHouse versions, including 26.3 LTS and later, where async inserts are enabled by default on the server."""
@@ -157,11 +107,14 @@ class OutputClickHouseTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+    workload: NotRequired[str]
+    r"""Optional ClickHouse workload name to append as a SETTINGS clause on INSERT queries. Used for workload scheduling classification."""
     dump_format_errors_to_disk: NotRequired[bool]
     r"""Log the most recent event that fails to match the table schema"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     password: NotRequired[str]
     credentials_secret: NotRequired[str]
@@ -174,7 +127,7 @@ class OutputClickHouseTypedDict(TypedDict):
     r"""Fields to exclude from sending to ClickHouse"""
     describe_table: NotRequired[str]
     r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
-    column_mappings: NotRequired[List[OutputClickHouseColumnMappingTypedDict]]
+    column_mappings: NotRequired[List[ColumnMappingConfOutputClickHouseTypedDict]]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -196,7 +149,7 @@ class OutputClickHouseTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputClickHousePqControlsTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
@@ -238,19 +191,17 @@ class OutputClickHouse(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     auth_type: Annotated[
         Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
     ] = None
 
-    format_: Annotated[
-        Optional[OutputClickHouseFormat], pydantic.Field(alias="format")
-    ] = None
+    format_: Annotated[Optional[FormatOptions], pydantic.Field(alias="format")] = None
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Optional[OutputClickHouseMappingType], pydantic.Field(alias="mappingType")
+        Optional[MappingTypeOptions], pydantic.Field(alias="mappingType")
     ] = None
     r"""How event fields are mapped to ClickHouse columns"""
 
@@ -330,6 +281,9 @@ class OutputClickHouse(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
+    workload: Optional[str] = None
+    r"""Optional ClickHouse workload name to append as a SETTINGS clause on INSERT queries. Used for workload scheduling classification."""
+
     dump_format_errors_to_disk: Annotated[
         Optional[bool], pydantic.Field(alias="dumpFormatErrorsToDisk")
     ] = None
@@ -341,6 +295,7 @@ class OutputClickHouse(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
 
@@ -370,7 +325,7 @@ class OutputClickHouse(BaseModel):
     r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
 
     column_mappings: Annotated[
-        Optional[List[OutputClickHouseColumnMapping]],
+        Optional[List[ColumnMappingConfOutputClickHouse]],
         pydantic.Field(alias="columnMappings"),
     ] = None
 
@@ -421,7 +376,7 @@ class OutputClickHouse(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputClickHousePqControls], pydantic.Field(alias="pqControls")
@@ -470,7 +425,7 @@ class OutputClickHouse(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputClickHouseFormat(value)
+                return models.FormatOptions(value)
             except ValueError:
                 return value
         return value
@@ -479,7 +434,7 @@ class OutputClickHouse(BaseModel):
     def serialize_mapping_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputClickHouseMappingType(value)
+                return models.MappingTypeOptions(value)
             except ValueError:
                 return value
         return value
@@ -557,6 +512,7 @@ class OutputClickHouse(BaseModel):
                 "responseRetrySettings",
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
+                "workload",
                 "dumpFormatErrorsToDisk",
                 "onBackpressure",
                 "description",
@@ -602,10 +558,6 @@ class OutputClickHouse(BaseModel):
         return m
 
 
-try:
-    OutputClickHouseColumnMapping.model_rebuild()
-except NameError:
-    pass
 try:
     OutputClickHouse.model_rebuild()
 except NameError:

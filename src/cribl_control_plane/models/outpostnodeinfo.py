@@ -9,16 +9,22 @@ from typing_extensions import NotRequired, TypedDict
 
 class OutpostNodeInfoTypedDict(TypedDict):
     guid: str
+    r"""Unique identifier for the Outpost Node."""
     host: str
+    r"""Hostname or IP address for the Outpost Node."""
     groupname: NotRequired[str]
+    r"""Name of the Outpost Group that contains the Outpost Node."""
 
 
 class OutpostNodeInfo(BaseModel):
     guid: str
+    r"""Unique identifier for the Outpost Node."""
 
     host: str
+    r"""Hostname or IP address for the Outpost Node."""
 
     groupname: Optional[str] = None
+    r"""Name of the Outpost Group that contains the Outpost Node."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

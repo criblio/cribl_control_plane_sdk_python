@@ -1,5 +1,7 @@
 # CreateInputTypeDatadogAgent
 
+Source type identifier.
+
 ## Example Usage
 
 ```python

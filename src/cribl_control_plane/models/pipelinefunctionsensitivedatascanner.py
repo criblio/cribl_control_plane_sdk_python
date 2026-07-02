@@ -10,7 +10,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionSensitiveDataScannerID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sensitive_data_scanner</code>"""
 
     SENSITIVE_DATA_SCANNER = "sensitive_data_scanner"
 
@@ -77,7 +77,10 @@ class Flag(BaseModel):
 
 
 class PipelineFunctionSensitiveDataScannerConfTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     rules: List[PipelineFunctionSensitiveDataScannerRuleTypedDict]
+    r"""List of scanning rulesets to apply, each with a ruleset ID and a mitigation expression."""
     fields: NotRequired[List[str]]
     r"""Rulesets act on the events contained in these fields. Mitigation expressions apply to the scan results. Supports wildcards (*)."""
     exclude_fields: NotRequired[List[str]]
@@ -87,10 +90,14 @@ class PipelineFunctionSensitiveDataScannerConfTypedDict(TypedDict):
     include_detected_rules: NotRequired[bool]
     r"""Add matching ruleset IDs to a field called \"__detected\" """
     background_detection: NotRequired[bool]
+    r"""Run detection in the background without blocking event processing."""
 
 
 class PipelineFunctionSensitiveDataScannerConf(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     rules: List[PipelineFunctionSensitiveDataScannerRule]
+    r"""List of scanning rulesets to apply, each with a ruleset ID and a mitigation expression."""
 
     fields: Optional[List[str]] = None
     r"""Rulesets act on the events contained in these fields. Mitigation expressions apply to the scan results. Supports wildcards (*)."""
@@ -111,6 +118,7 @@ class PipelineFunctionSensitiveDataScannerConf(BaseModel):
     background_detection: Annotated[
         Optional[bool], pydantic.Field(alias="backgroundDetection")
     ] = None
+    r"""Run detection in the background without blocking event processing."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -139,40 +147,42 @@ class PipelineFunctionSensitiveDataScannerConf(BaseModel):
 
 class PipelineFunctionSensitiveDataScannerTypedDict(TypedDict):
     id: PipelineFunctionSensitiveDataScannerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sensitive_data_scanner</code>"""
     conf: PipelineFunctionSensitiveDataScannerConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionSensitiveDataScanner(BaseModel):
     id: PipelineFunctionSensitiveDataScannerID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>sensitive_data_scanner</code>"""
 
     conf: PipelineFunctionSensitiveDataScannerConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

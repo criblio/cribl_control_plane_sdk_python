@@ -11,16 +11,25 @@ from .metadataconfinputcollection import (
 )
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import model_serializer
+from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputAnthropicComplianceType(str, Enum):
     ANTHROPIC_COMPLIANCE = "anthropic_compliance"
+
+
+class InputAnthropicComplianceEndpointName(str, Enum, metaclass=utils.OpenEnumMeta):
+    ACTIVITIES = "activities"
+    CHATS = "chats"
+    PROJECTS = "projects"
+    GROUPS = "groups"
+    ORGANIZATIONS = "organizations"
 
 
 class InputAnthropicComplianceManageStateTypedDict(TypedDict):
@@ -32,13 +41,9 @@ class InputAnthropicComplianceManageState(BaseModel):
 
 
 class InputAnthropicComplianceContentConfigTypedDict(TypedDict):
-    content_type: str
+    content_type: InputAnthropicComplianceEndpointName
     cron_schedule: str
     r"""Schedule on which to run this collection job"""
-    earliest: str
-    r"""Earliest time for data collection, relative to now"""
-    latest: str
-    r"""Latest time for data collection, relative to now"""
     content_description: NotRequired[str]
     enabled: NotRequired[bool]
     state_tracking: NotRequired[bool]
@@ -48,21 +53,21 @@ class InputAnthropicComplianceContentConfigTypedDict(TypedDict):
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging task state"""
     manage_state: NotRequired[InputAnthropicComplianceManageStateTypedDict]
+    earliest: NotRequired[str]
+    r"""Earliest time for data collection, relative to now"""
+    latest: NotRequired[str]
+    r"""Latest time for data collection, relative to now"""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
 
 class InputAnthropicComplianceContentConfig(BaseModel):
-    content_type: Annotated[str, pydantic.Field(alias="contentType")]
+    content_type: Annotated[
+        InputAnthropicComplianceEndpointName, pydantic.Field(alias="contentType")
+    ]
 
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
     r"""Schedule on which to run this collection job"""
-
-    earliest: str
-    r"""Earliest time for data collection, relative to now"""
-
-    latest: str
-    r"""Latest time for data collection, relative to now"""
 
     content_description: Annotated[
         Optional[str], pydantic.Field(alias="contentDescription")
@@ -90,8 +95,23 @@ class InputAnthropicComplianceContentConfig(BaseModel):
         pydantic.Field(alias="manageState"),
     ] = None
 
+    earliest: Optional[str] = None
+    r"""Earliest time for data collection, relative to now"""
+
+    latest: Optional[str] = None
+    r"""Latest time for data collection, relative to now"""
+
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    @field_serializer("content_type")
+    def serialize_content_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.InputAnthropicComplianceEndpointName(value)
+            except ValueError:
+                return value
+        return value
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -103,6 +123,8 @@ class InputAnthropicComplianceContentConfig(BaseModel):
                 "stateUpdateExpression",
                 "stateMergeExpression",
                 "manageState",
+                "earliest",
+                "latest",
                 "jobTimeout",
             ]
         )
@@ -128,6 +150,7 @@ class InputAnthropicComplianceInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -137,7 +160,7 @@ class InputAnthropicComplianceInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -156,6 +179,7 @@ class InputAnthropicComplianceInputTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -177,6 +201,7 @@ class InputAnthropicComplianceInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -193,7 +218,7 @@ class InputAnthropicComplianceInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -233,6 +258,7 @@ class InputAnthropicComplianceInput(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")

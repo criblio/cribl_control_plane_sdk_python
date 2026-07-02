@@ -6,7 +6,8 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, List, Mapping, Optional, Union
+from jsonpath import JSONPath
+from typing import Any, Awaitable, Dict, Iterable, List, Mapping, Optional, Union
 
 
 class Datasets(BaseSDK):
@@ -17,15 +18,18 @@ class Datasets(BaseSDK):
         storage_location_id: Optional[str] = None,
         format_: Optional[models.GetCriblLakeDatasetByLakeIDFormat] = None,
         exclude_ddss: Optional[bool] = None,
+        exclude_netskope: Optional[bool] = None,
         exclude_deleted: Optional[bool] = None,
         exclude_internal: Optional[bool] = None,
         exclude_byos: Optional[bool] = None,
         include_metrics: Optional[bool] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedCriblLakeDataset:
+    ) -> Optional[models.GetCriblLakeDatasetByLakeIDResponse]:
         r"""List all Lake Datasets (Cribl.Cloud only)
 
         Get a list of all Lake Datasets in the specified Lake (Cribl.Cloud only).
@@ -34,10 +38,13 @@ class Datasets(BaseSDK):
         :param storage_location_id: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
         :param format_: Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
         :param exclude_ddss: Exclude DDSS format datasets from the response.
+        :param exclude_netskope: Exclude Netskope format datasets from the response.
         :param exclude_deleted: Exclude deleted datasets from the response.
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
         :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
+        :param offset: Pagination offset
+        :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -58,10 +65,13 @@ class Datasets(BaseSDK):
             storage_location_id=storage_location_id,
             format_=format_,
             exclude_ddss=exclude_ddss,
+            exclude_netskope=exclude_netskope,
             exclude_deleted=exclude_deleted,
             exclude_internal=exclude_internal,
             exclude_byos=exclude_byos,
             include_metrics=include_metrics,
+            offset=offset,
+            limit=limit,
         )
 
         req = self._build_request(
@@ -102,19 +112,62 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[models.GetCriblLakeDatasetByLakeIDResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return None
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return None
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return None
+            next_offset = offset + len(results[0])
+
+            return self.list(
+                lake_id=lake_id,
+                storage_location_id=storage_location_id,
+                format_=format_,
+                exclude_ddss=exclude_ddss,
+                exclude_netskope=exclude_netskope,
+                exclude_deleted=exclude_deleted,
+                exclude_internal=exclude_internal,
+                exclude_byos=exclude_byos,
+                include_metrics=include_metrics,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+            return models.GetCriblLakeDatasetByLakeIDResponse(
+                result=unmarshal_json_response(
+                    models.GetCriblLakeDatasetByLakeIDResponseBody, http_res
+                ),
+                next=next_func,
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -130,15 +183,18 @@ class Datasets(BaseSDK):
         storage_location_id: Optional[str] = None,
         format_: Optional[models.GetCriblLakeDatasetByLakeIDFormat] = None,
         exclude_ddss: Optional[bool] = None,
+        exclude_netskope: Optional[bool] = None,
         exclude_deleted: Optional[bool] = None,
         exclude_internal: Optional[bool] = None,
         exclude_byos: Optional[bool] = None,
         include_metrics: Optional[bool] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedCriblLakeDataset:
+    ) -> Optional[models.GetCriblLakeDatasetByLakeIDResponse]:
         r"""List all Lake Datasets (Cribl.Cloud only)
 
         Get a list of all Lake Datasets in the specified Lake (Cribl.Cloud only).
@@ -147,10 +203,13 @@ class Datasets(BaseSDK):
         :param storage_location_id: Filter datasets by storage location ID. Use <code>default</code> for default storage location.
         :param format_: Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.
         :param exclude_ddss: Exclude DDSS format datasets from the response.
+        :param exclude_netskope: Exclude Netskope format datasets from the response.
         :param exclude_deleted: Exclude deleted datasets from the response.
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
         :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
+        :param offset: Pagination offset
+        :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -171,10 +230,13 @@ class Datasets(BaseSDK):
             storage_location_id=storage_location_id,
             format_=format_,
             exclude_ddss=exclude_ddss,
+            exclude_netskope=exclude_netskope,
             exclude_deleted=exclude_deleted,
             exclude_internal=exclude_internal,
             exclude_byos=exclude_byos,
             include_metrics=include_metrics,
+            offset=offset,
+            limit=limit,
         )
 
         req = self._build_request_async(
@@ -215,19 +277,67 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Awaitable[Optional[models.GetCriblLakeDatasetByLakeIDResponse]]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            async def empty_result():
+                return None
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return empty_result()
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return empty_result()
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return empty_result()
+            next_offset = offset + len(results[0])
+
+            return self.list_async(
+                lake_id=lake_id,
+                storage_location_id=storage_location_id,
+                format_=format_,
+                exclude_ddss=exclude_ddss,
+                exclude_netskope=exclude_netskope,
+                exclude_deleted=exclude_deleted,
+                exclude_internal=exclude_internal,
+                exclude_byos=exclude_byos,
+                include_metrics=include_metrics,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+            return models.GetCriblLakeDatasetByLakeIDResponse(
+                result=unmarshal_json_response(
+                    models.GetCriblLakeDatasetByLakeIDResponseBody, http_res
+                ),
+                next=next_func,
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -241,7 +351,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id: str,
-        accelerated_fields: Optional[List[str]] = None,
+        accelerated_fields: Optional[Iterable[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -279,12 +389,12 @@ class Datasets(BaseSDK):
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
         :param description: Brief description of the Dataset.
         :param format_: Storage format used for data persisted in the Dataset.
-        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
         :param metrics:
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
-        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param storage_location_id: Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
         :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -304,7 +414,9 @@ class Datasets(BaseSDK):
         request = models.CreateCriblLakeDatasetByLakeIDRequest(
             lake_id=lake_id,
             cribl_lake_dataset=models.CriblLakeDataset(
-                accelerated_fields=accelerated_fields,
+                accelerated_fields=utils.unmarshal(
+                    accelerated_fields, Optional[List[str]]
+                ),
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -372,6 +484,8 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -381,10 +495,13 @@ class Datasets(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -398,7 +515,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id: str,
-        accelerated_fields: Optional[List[str]] = None,
+        accelerated_fields: Optional[Iterable[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -436,12 +553,12 @@ class Datasets(BaseSDK):
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
         :param description: Brief description of the Dataset.
         :param format_: Storage format used for data persisted in the Dataset.
-        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
         :param metrics:
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
-        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param storage_location_id: Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
         :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -461,7 +578,9 @@ class Datasets(BaseSDK):
         request = models.CreateCriblLakeDatasetByLakeIDRequest(
             lake_id=lake_id,
             cribl_lake_dataset=models.CriblLakeDataset(
-                accelerated_fields=accelerated_fields,
+                accelerated_fields=utils.unmarshal(
+                    accelerated_fields, Optional[List[str]]
+                ),
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -529,6 +648,8 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -538,10 +659,13 @@ class Datasets(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -627,6 +751,8 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -636,10 +762,13 @@ class Datasets(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -725,6 +854,8 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -734,10 +865,13 @@ class Datasets(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -751,7 +885,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id_param: str,
-        accelerated_fields: Optional[List[str]] = None,
+        accelerated_fields: Optional[Iterable[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -790,13 +924,13 @@ class Datasets(BaseSDK):
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
         :param description: Brief description of the Dataset.
         :param format_: Storage format used for data persisted in the Dataset.
-        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
-        :param id: Dataset identifier. Optional; the path parameter <code>id</code> is authoritative.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
+        :param id: Unique identifier for the Dataset. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
-        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param storage_location_id: Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
         :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -817,7 +951,9 @@ class Datasets(BaseSDK):
             lake_id=lake_id,
             id_param=id_param,
             cribl_lake_dataset_update=models.CriblLakeDatasetUpdate(
-                accelerated_fields=accelerated_fields,
+                accelerated_fields=utils.unmarshal(
+                    accelerated_fields, Optional[List[str]]
+                ),
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -885,6 +1021,8 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -894,10 +1032,13 @@ class Datasets(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -911,7 +1052,7 @@ class Datasets(BaseSDK):
         *,
         lake_id: str,
         id_param: str,
-        accelerated_fields: Optional[List[str]] = None,
+        accelerated_fields: Optional[Iterable[str]] = None,
         bucket_name: Optional[str] = None,
         cache_connection: Optional[
             Union[models.CacheConnection, models.CacheConnectionTypedDict]
@@ -950,13 +1091,13 @@ class Datasets(BaseSDK):
         :param deletion_started_at: Timestamp (in Unix time) when Dataset deletion was initiated, in milliseconds.
         :param description: Brief description of the Dataset.
         :param format_: Storage format used for data persisted in the Dataset.
-        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP.
-        :param id: Dataset identifier. Optional; the path parameter <code>id</code> is authoritative.
+        :param http_da_used: If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>.
+        :param id: Unique identifier for the Dataset. Optional; the path parameter <code>id</code> is authoritative.
         :param metrics:
         :param retention_period_in_days: Dataset retention period, in days.
         :param search_config:
         :param storage_class: Storage class used for objects written to the Dataset.
-        :param storage_location_id: Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
+        :param storage_location_id: Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>.
         :param view_name: Name of the ClickHouse view for the Dataset on the Lakehouse.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -977,7 +1118,9 @@ class Datasets(BaseSDK):
             lake_id=lake_id,
             id_param=id_param,
             cribl_lake_dataset_update=models.CriblLakeDatasetUpdate(
-                accelerated_fields=accelerated_fields,
+                accelerated_fields=utils.unmarshal(
+                    accelerated_fields, Optional[List[str]]
+                ),
                 bucket_name=bucket_name,
                 cache_connection=utils.get_pydantic_model(
                     cache_connection, Optional[models.CacheConnection]
@@ -1045,6 +1188,8 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1054,10 +1199,13 @@ class Datasets(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1140,6 +1288,8 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1149,10 +1299,13 @@ class Datasets(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1235,6 +1388,8 @@ class Datasets(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["lake"],
+                extensions={"x-cribl-availability": "cloud", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1244,10 +1399,13 @@ class Datasets(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedCriblLakeDataset, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

@@ -1,5 +1,7 @@
 # FunctionOtlpMetricsID
 
+Identifier of the Function. Always <code>otlp_metrics</code>
+
 ## Example Usage
 
 ```python

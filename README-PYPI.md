@@ -240,8 +240,8 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [DatabaseConnections](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md)
 
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#list) - List Database Connections
-* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#create) - Create Database Connection
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#list) - List all Database Connections
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#create) - Create a Database Connection
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#get) - Get a Database Connection
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#update) - Update a Database Connection
 * [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/databaseconnections/README.md#delete) - Delete a Database Connection
@@ -295,9 +295,9 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
 
-### [Health](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md)
+### [Health](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/healthsdk/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md#get) - Get the health status of the server
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/healthsdk/README.md#get) - Get the health status of the server
 
 ### [Lakes.Datasets](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md)
 
@@ -316,7 +316,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Nodes.Summaries](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the deployment for a specific product.
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the deployment for a Cribl product
 
 ### [Packs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md)
 
@@ -362,7 +362,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#list) - List all Routes within a Pack
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#get) - Get a Routing table within a Pack
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#update) - Update a Route within a Pack
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#update) - Update a Routing table within a Pack
 * [append](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packsroutes/README.md#append) - Add a Route to the end of the Routing table within a Pack
 
 #### [Packs.Sources](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packssources/README.md)
@@ -400,7 +400,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#list) - List all Routes
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#get) - Get a Routing table
-* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#update) - Update a Route
+* [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#update) - Update a Routing table
 * [append](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/routessdk/README.md#append) - Add a Route to the end of the Routing table
 
 ### [Sources](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/sources/README.md)
@@ -454,10 +454,10 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commits/README.md#get) - Get the diff and log message for a commit
 * [undo](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commits/README.md#undo) - Discard uncommitted (staged) changes
 
-#### [Versions.Commits.Files](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/files/README.md)
+#### [Versions.Commits.Files](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commitsfiles/README.md)
 
-* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/files/README.md#count) - Get a count of files that changed since a commit
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/files/README.md#list) - Get the names and statuses of files that changed since a commit
+* [count](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commitsfiles/README.md#count) - Get a count of files that changed since a commit
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/commitsfiles/README.md#list) - Get the names and statuses of files that changed since a commit
 
 ### [Versions.Configs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/versionsconfigs/README.md)
 
@@ -528,7 +528,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.statuses.list(pack="<value>", metrics=True, type_=False)
+    res = ccp_client.functions.list()
 
     while res is not None:
         # Handle items

@@ -58,6 +58,8 @@ class ConfigGroupTypedDict(TypedDict):
     id: str
     r"""Unique identifier."""
     cloud: NotRequired[ConfigGroupCloudTypedDict]
+    collectors_ha_enabled: NotRequired[bool]
+    r"""Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups."""
     config_version: NotRequired[str]
     r"""Commit hash of the deployed configuration version for the Worker Group, Outpost Group, or Edge Fleet. Automatically populated and returned in responses.<br/><br/> **Warning**: Do not change the value of <code>configVersion</code> in the body of PATCH requests. The PATCH request body must include the value as it appears in the <code>GET /products/{product}/groups/{id}</code> response."""
     deploying_worker_count: NotRequired[int]
@@ -105,6 +107,11 @@ class ConfigGroup(BaseModel):
     r"""Unique identifier."""
 
     cloud: Optional[ConfigGroupCloud] = None
+
+    collectors_ha_enabled: Annotated[
+        Optional[bool], pydantic.Field(alias="collectorsHaEnabled")
+    ] = None
+    r"""Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups."""
 
     config_version: Annotated[Optional[str], pydantic.Field(alias="configVersion")] = (
         None
@@ -223,6 +230,7 @@ class ConfigGroup(BaseModel):
         optional_fields = set(
             [
                 "cloud",
+                "collectorsHaEnabled",
                 "configVersion",
                 "deployingWorkerCount",
                 "description",

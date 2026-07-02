@@ -125,6 +125,12 @@ value: models.CreateOutputOutputHoneycomb = /* values here */
 value: models.CreateOutputOutputAzureEventhub = /* values here */
 ```
 
+### `models.CreateOutputOutputGoogleBigquery`
+
+```python
+value: models.CreateOutputOutputGoogleBigquery = /* values here */
+```
+
 ### `models.CreateOutputOutputGoogleChronicle`
 
 ```python
@@ -141,6 +147,12 @@ value: models.CreateOutputOutputGoogleCloudStorage = /* values here */
 
 ```python
 value: models.CreateOutputOutputGoogleCloudLogging = /* values here */
+```
+
+### `models.CreateOutputOutputGoogleCloudObservability`
+
+```python
+value: models.CreateOutputOutputGoogleCloudObservability = /* values here */
 ```
 
 ### `models.CreateOutputOutputGooglePubsub`
@@ -281,6 +293,12 @@ value: models.CreateOutputOutputGrafanaCloudUnion = /* values here */
 value: models.CreateOutputOutputLoki = /* values here */
 ```
 
+### `models.CreateOutputOutputAmazonManagedPrometheus`
+
+```python
+value: models.CreateOutputOutputAmazonManagedPrometheus = /* values here */
+```
+
 ### `models.CreateOutputOutputPrometheus`
 
 ```python
@@ -369,6 +387,12 @@ value: models.CreateOutputOutputDiskSpool = /* values here */
 
 ```python
 value: models.CreateOutputOutputClickHouse = /* values here */
+```
+
+### `models.CreateOutputOutputCustomerMetricsStorage`
+
+```python
+value: models.CreateOutputOutputCustomerMetricsStorage = /* values here */
 ```
 
 ### `models.CreateOutputOutputLocalSearchStorage`
@@ -471,5 +495,11 @@ value: models.CreateOutputOutputScalityS3 = /* values here */
 
 ```python
 value: models.CreateOutputOutputAlibabaCloudS3 = /* values here */
+```
+
+### `models.CreateOutputOutputIbmCloudS3`
+
+```python
+value: models.CreateOutputOutputIbmCloudS3 = /* values here */
 ```
 

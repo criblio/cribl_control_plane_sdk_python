@@ -23,24 +23,46 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputDatadogAgentType(str, Enum):
+    r"""Source type identifier."""
+
     DATADOG_AGENT = "datadog_agent"
+
+
+class InputDatadogAgentSamplingRuleTypedDict(TypedDict):
+    service: str
+    r"""Datadog service name"""
+    environment: str
+    r"""Datadog environment name (example: prod, staging)"""
+    rate: float
+    r"""Sampling rate for this service/environment combination (0.0–1.0)"""
+
+
+class InputDatadogAgentSamplingRule(BaseModel):
+    service: str
+    r"""Datadog service name"""
+
+    environment: str
+    r"""Datadog environment name (example: prod, staging)"""
+
+    rate: float
+    r"""Sampling rate for this service/environment combination (0.0–1.0)"""
 
 
 class InputDatadogAgentProxyModeTypedDict(TypedDict):
     enabled: bool
-    r"""Toggle to Yes to send key validation requests from Datadog Agent to the Datadog API. If toggled to No (the default), Stream handles key validation requests by always responding that the key is valid."""
+    r"""Forward key validation requests from the Datadog Agent to the Datadog API. If disabled, Stream handles key validation requests locally by always responding that the key is valid."""
     reject_unauthorized: NotRequired[bool]
-    r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
+    r"""Whether to reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
 
 class InputDatadogAgentProxyMode(BaseModel):
     enabled: bool
-    r"""Toggle to Yes to send key validation requests from Datadog Agent to the Datadog API. If toggled to No (the default), Stream handles key validation requests by always responding that the key is valid."""
+    r"""Forward key validation requests from the Datadog Agent to the Datadog API. If disabled, Stream handles key validation requests locally by always responding that the key is valid."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
     ] = None
-    r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
+    r"""Whether to reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -61,6 +83,7 @@ class InputDatadogAgentProxyMode(BaseModel):
 
 class InputDatadogAgentInputTypedDict(TypedDict):
     type: InputDatadogAgentType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -68,6 +91,7 @@ class InputDatadogAgentInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -77,7 +101,7 @@ class InputDatadogAgentInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -105,11 +129,16 @@ class InputDatadogAgentInputTypedDict(TypedDict):
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     extract_metrics: NotRequired[bool]
-    r"""Toggle to Yes to extract each incoming metric to multiple events, one per data point. This works well when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave toggled to No (the default)."""
+    r"""Extract each incoming metric to multiple events, one per data point. Recommended when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave disabled."""
+    sampling_rate: NotRequired[float]
+    r"""The rate_by_service hint sent to connected tracers as the catch-all sampling rate. Applies to any service/environment not explicitly listed in Per-Service Sampling Rules. 1.0 = keep all traces (default); 0.0 = suggest dropping all."""
+    sampling_rules: NotRequired[List[InputDatadogAgentSamplingRuleTypedDict]]
+    r"""Per-service sampling rate hints. Each row maps to a \"service:<s>,env:<e>\" key in the rate_by_service response sent to tracers."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     proxy_mode: NotRequired[InputDatadogAgentProxyModeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -122,6 +151,7 @@ class InputDatadogAgentInputTypedDict(TypedDict):
 
 class InputDatadogAgentInput(BaseModel):
     type: InputDatadogAgentType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -133,6 +163,7 @@ class InputDatadogAgentInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -149,7 +180,7 @@ class InputDatadogAgentInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -216,7 +247,18 @@ class InputDatadogAgentInput(BaseModel):
     extract_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="extractMetrics")
     ] = None
-    r"""Toggle to Yes to extract each incoming metric to multiple events, one per data point. This works well when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave toggled to No (the default)."""
+    r"""Extract each incoming metric to multiple events, one per data point. Recommended when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave disabled."""
+
+    sampling_rate: Annotated[Optional[float], pydantic.Field(alias="samplingRate")] = (
+        None
+    )
+    r"""The rate_by_service hint sent to connected tracers as the catch-all sampling rate. Applies to any service/environment not explicitly listed in Per-Service Sampling Rules. 1.0 = keep all traces (default); 0.0 = suggest dropping all."""
+
+    sampling_rules: Annotated[
+        Optional[List[InputDatadogAgentSamplingRule]],
+        pydantic.Field(alias="samplingRules"),
+    ] = None
+    r"""Per-service sampling rate hints. Each row maps to a \"service:<s>,env:<e>\" key in the rate_by_service response sent to tracers."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -226,6 +268,7 @@ class InputDatadogAgentInput(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -273,6 +316,8 @@ class InputDatadogAgentInput(BaseModel):
                 "ipAllowlistRegex",
                 "ipDenylistRegex",
                 "extractMetrics",
+                "samplingRate",
+                "samplingRules",
                 "metadata",
                 "proxyMode",
                 "description",

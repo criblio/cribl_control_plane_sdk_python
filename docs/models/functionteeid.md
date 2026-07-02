@@ -1,5 +1,7 @@
 # FunctionTeeID
 
+Identifier of the Function. Always <code>tee</code>
+
 ## Example Usage
 
 ```python

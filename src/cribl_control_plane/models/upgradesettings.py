@@ -11,32 +11,42 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpgradeSettingsTypedDict(TypedDict):
     automatic_upgrade_check_period: NotRequired[str]
+    r"""How frequently to check for available upgrades. Value is a duration string such as <code>24h</code>."""
     disable_automatic_upgrade: NotRequired[bool]
+    r"""If <code>true</code>, automatic upgrades are disabled. Otherwise, <code>false</code>."""
     enable_legacy_edge_upgrade: NotRequired[bool]
+    r"""If <code>true</code>, enable the legacy upgrade flow for Edge Nodes. Otherwise, <code>false</code>."""
     package_urls: NotRequired[List[UpgradePackageUrlsTypedDict]]
+    r"""List of custom package URLs to use for manual upgrades."""
     upgrade_source: NotRequired[str]
+    r"""Upgrade source: <code>cribl</code> for official Cribl packages or <code>custom</code> for a custom package URL."""
 
 
 class UpgradeSettings(BaseModel):
     automatic_upgrade_check_period: Annotated[
         Optional[str], pydantic.Field(alias="automaticUpgradeCheckPeriod")
     ] = None
+    r"""How frequently to check for available upgrades. Value is a duration string such as <code>24h</code>."""
 
     disable_automatic_upgrade: Annotated[
         Optional[bool], pydantic.Field(alias="disableAutomaticUpgrade")
     ] = None
+    r"""If <code>true</code>, automatic upgrades are disabled. Otherwise, <code>false</code>."""
 
     enable_legacy_edge_upgrade: Annotated[
         Optional[bool], pydantic.Field(alias="enableLegacyEdgeUpgrade")
     ] = None
+    r"""If <code>true</code>, enable the legacy upgrade flow for Edge Nodes. Otherwise, <code>false</code>."""
 
     package_urls: Annotated[
         Optional[List[UpgradePackageUrls]], pydantic.Field(alias="packageUrls")
     ] = None
+    r"""List of custom package URLs to use for manual upgrades."""
 
     upgrade_source: Annotated[Optional[str], pydantic.Field(alias="upgradeSource")] = (
         None
     )
+    r"""Upgrade source: <code>cribl</code> for official Cribl packages or <code>custom</code> for a custom package URL."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

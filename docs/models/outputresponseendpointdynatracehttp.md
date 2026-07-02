@@ -1,0 +1,20 @@
+# OutputResponseEndpointDynatraceHTTP
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import OutputResponseEndpointDynatraceHTTP
+
+value = OutputResponseEndpointDynatraceHTTP.CLOUD
+
+# Open enum: unrecognized values are captured as UnrecognizedStr
+```
+
+
+## Values
+
+| Name          | Value         |
+| ------------- | ------------- |
+| `CLOUD`       | cloud         |
+| `ACTIVE_GATE` | activeGate    |
+| `MANUAL`      | manual        |

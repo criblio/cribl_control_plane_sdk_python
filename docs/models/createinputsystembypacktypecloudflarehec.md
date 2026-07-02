@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeCloudflareHec
 
+Source type identifier.
+
 ## Example Usage
 
 ```python

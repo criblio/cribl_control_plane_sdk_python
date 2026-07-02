@@ -34,6 +34,8 @@ class OutputNewrelicType(str, Enum):
 
 
 class OutputNewrelicFieldName(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Name of the metadata field."""
+
     SERVICE = "service"
     HOSTNAME = "hostname"
     TIMESTAMP = "timestamp"
@@ -42,12 +44,14 @@ class OutputNewrelicFieldName(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class OutputNewrelicMetadatumTypedDict(TypedDict):
     name: OutputNewrelicFieldName
+    r"""Name of the metadata field."""
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
 class OutputNewrelicMetadatum(BaseModel):
     name: OutputNewrelicFieldName
+    r"""Name of the metadata field."""
 
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
@@ -81,7 +85,7 @@ class OutputNewrelicTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     region: NotRequired[RegionOptions]
     r"""Which New Relic region endpoint to use."""
     log_type: NotRequired[str]
@@ -129,6 +133,7 @@ class OutputNewrelicTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -151,7 +156,7 @@ class OutputNewrelicTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputNewrelicPqControlsTypedDict]
     api_key: NotRequired[str]
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
@@ -189,7 +194,7 @@ class OutputNewrelic(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     region: Optional[RegionOptions] = None
     r"""Which New Relic region endpoint to use."""
@@ -288,6 +293,7 @@ class OutputNewrelic(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 
@@ -338,7 +344,7 @@ class OutputNewrelic(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputNewrelicPqControls], pydantic.Field(alias="pqControls")

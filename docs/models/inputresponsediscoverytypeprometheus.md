@@ -15,8 +15,9 @@ value = InputResponseDiscoveryTypePrometheus.STATIC
 
 ## Values
 
-| Name     | Value    |
-| -------- | -------- |
-| `STATIC` | static   |
-| `DNS`    | dns      |
-| `EC2`    | ec2      |
+| Name      | Value     |
+| --------- | --------- |
+| `STATIC`  | static    |
+| `DNS`     | dns       |
+| `EC2`     | ec2       |
+| `HTTP_SD` | http_sd   |

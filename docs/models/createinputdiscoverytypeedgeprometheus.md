@@ -23,3 +23,4 @@ value = CreateInputDiscoveryTypeEdgePrometheus.STATIC
 | `K8S_NODE`            | k8s-node              |
 | `K8S_PODS`            | k8s-pods              |
 | `K8S_SERVICE_MONITOR` | k8s-service-monitor   |
+| `HTTP_SD`             | http_sd               |

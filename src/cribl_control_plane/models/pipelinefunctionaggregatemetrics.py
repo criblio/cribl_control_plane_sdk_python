@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionAggregateMetricsID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>aggregate_metrics</code>"""
 
     AGGREGATE_METRICS = "aggregate_metrics"
 
@@ -86,6 +86,8 @@ class PipelineFunctionAggregateMetricsAdd(BaseModel):
 
 
 class PipelineFunctionAggregateMetricsConfTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     time_window: str
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
     aggregations: List[AggregationTypedDict]
@@ -119,6 +121,8 @@ class PipelineFunctionAggregateMetricsConfTypedDict(TypedDict):
 
 
 class PipelineFunctionAggregateMetricsConf(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     time_window: Annotated[str, pydantic.Field(alias="timeWindow")]
     r"""The time span of the tumbling window for aggregating events. Must be a valid time string (such as 10s)."""
 
@@ -213,40 +217,42 @@ class PipelineFunctionAggregateMetricsConf(BaseModel):
 
 class PipelineFunctionAggregateMetricsTypedDict(TypedDict):
     id: PipelineFunctionAggregateMetricsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>aggregate_metrics</code>"""
     conf: PipelineFunctionAggregateMetricsConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionAggregateMetrics(BaseModel):
     id: PipelineFunctionAggregateMetricsID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>aggregate_metrics</code>"""
 
     conf: PipelineFunctionAggregateMetricsConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

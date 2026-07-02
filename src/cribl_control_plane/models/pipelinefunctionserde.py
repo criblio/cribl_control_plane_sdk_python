@@ -9,7 +9,6 @@ from .regexlistconfserdetyperegex import (
     RegexListConfSerdeTypeRegex,
     RegexListConfSerdeTypeRegexTypedDict,
 )
-from .typeoptions import TypeOptions
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils.unions import parse_open_union
@@ -23,9 +22,32 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionSerdeID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>serde</code>"""
 
     SERDE = "serde"
+
+
+class SerdeTypeGrokType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Parser or formatter type to use"""
+
+    # CSV
+    CSV = "csv"
+    # Extended Log File Format
+    ELFF = "elff"
+    # Common Log Format
+    CLF = "clf"
+    # Key=Value Pairs
+    KVP = "kvp"
+    # JSON Object
+    JSON = "json"
+    # Delimited values
+    DELIM = "delim"
+    # Regular Expression
+    REGEX = "regex"
+    # Grok
+    GROK = "grok"
+    # Auto
+    AUTO = "auto"
 
 
 class SerdeTypeGrokOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -38,17 +60,18 @@ class SerdeTypeGrokOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class SerdeTypeGrokTypedDict(TypedDict):
-    type: TypeOptions
+    type: SerdeTypeGrokType
     r"""Parser or formatter type to use"""
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     mode: SerdeTypeGrokOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
-    pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
     src_field: NotRequired[str]
     r"""Field containing text to be parsed"""
     dst_field: NotRequired[str]
     r"""Name of the field to add fields to. Extract mode only."""
+    pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
+    r"""Additional Grok patterns to apply to the source field."""
     keep: NotRequired[List[str]]
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
     remove: NotRequired[List[str]]
@@ -64,16 +87,19 @@ class SerdeTypeGrokTypedDict(TypedDict):
     regex: NotRequired[str]
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
+    r"""Additional regex patterns to apply for field extraction."""
     iterations: NotRequired[float]
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
     field_name_expression: NotRequired[str]
     r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
     overwrite: NotRequired[bool]
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
+    tag_datatype: NotRequired[bool]
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
 
 
 class SerdeTypeGrok(BaseModel):
-    type: TypeOptions
+    type: SerdeTypeGrokType
     r"""Parser or formatter type to use"""
 
     pattern: str
@@ -82,16 +108,17 @@ class SerdeTypeGrok(BaseModel):
     mode: SerdeTypeGrokOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
-    pattern_list: Annotated[
-        Optional[List[PatternListConfSerdeTypeGrok]],
-        pydantic.Field(alias="patternList"),
-    ] = None
-
     src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
     r"""Field containing text to be parsed"""
 
     dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
     r"""Name of the field to add fields to. Extract mode only."""
+
+    pattern_list: Annotated[
+        Optional[List[PatternListConfSerdeTypeGrok]],
+        pydantic.Field(alias="patternList"),
+    ] = None
+    r"""Additional Grok patterns to apply to the source field."""
 
     keep: Optional[List[str]] = None
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
@@ -123,6 +150,7 @@ class SerdeTypeGrok(BaseModel):
     regex_list: Annotated[
         Optional[List[RegexListConfSerdeTypeRegex]], pydantic.Field(alias="regexList")
     ] = None
+    r"""Additional regex patterns to apply for field extraction."""
 
     iterations: Optional[float] = None
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
@@ -135,11 +163,14 @@ class SerdeTypeGrok(BaseModel):
     overwrite: Optional[bool] = None
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
 
+    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
+
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.TypeOptions(value)
+                return models.SerdeTypeGrokType(value)
             except ValueError:
                 return value
         return value
@@ -157,9 +188,9 @@ class SerdeTypeGrok(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "patternList",
                 "srcField",
                 "dstField",
+                "patternList",
                 "keep",
                 "remove",
                 "fieldFilterExpr",
@@ -171,6 +202,7 @@ class SerdeTypeGrok(BaseModel):
                 "iterations",
                 "fieldNameExpression",
                 "overwrite",
+                "tagDatatype",
             ]
         )
         serialized = handler(self)
@@ -187,7 +219,30 @@ class SerdeTypeGrok(BaseModel):
         return m
 
 
-class SerdeTypeRegexOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class SerdeTypeAutoType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Parser or formatter type to use"""
+
+    # CSV
+    CSV = "csv"
+    # Extended Log File Format
+    ELFF = "elff"
+    # Common Log Format
+    CLF = "clf"
+    # Key=Value Pairs
+    KVP = "kvp"
+    # JSON Object
+    JSON = "json"
+    # Delimited values
+    DELIM = "delim"
+    # Regular Expression
+    REGEX = "regex"
+    # Grok
+    GROK = "grok"
+    # Auto
+    AUTO = "auto"
+
+
+class SerdeTypeAutoOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
     # Extract
@@ -196,24 +251,13 @@ class SerdeTypeRegexOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
     RESERIALIZE = "reserialize"
 
 
-class SerdeTypeRegexTypedDict(TypedDict):
-    type: TypeOptions
+class SerdeTypeAutoTypedDict(TypedDict):
+    type: SerdeTypeAutoType
     r"""Parser or formatter type to use"""
-    regex: str
-    r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
-    mode: SerdeTypeRegexOperationMode
+    mode: SerdeTypeAutoOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
-    regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
-    iterations: NotRequired[float]
-    r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
-    field_name_expression: NotRequired[str]
-    r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
-    overwrite: NotRequired[bool]
-    r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
-    src_field: NotRequired[str]
-    r"""Field containing text to be parsed"""
-    dst_field: NotRequired[str]
-    r"""Name of the field to add fields to. Extract mode only."""
+    tag_datatype: NotRequired[bool]
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     keep: NotRequired[List[str]]
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
     remove: NotRequired[List[str]]
@@ -226,41 +270,31 @@ class SerdeTypeRegexTypedDict(TypedDict):
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
     fields: NotRequired[List[str]]
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
+    regex: NotRequired[str]
+    r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
+    regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
+    r"""Additional regex patterns to apply for field extraction."""
+    iterations: NotRequired[float]
+    r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
+    field_name_expression: NotRequired[str]
+    r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
+    overwrite: NotRequired[bool]
+    r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
     pattern: NotRequired[str]
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
+    r"""Additional Grok patterns to apply to the source field."""
 
 
-class SerdeTypeRegex(BaseModel):
-    type: TypeOptions
+class SerdeTypeAuto(BaseModel):
+    type: SerdeTypeAutoType
     r"""Parser or formatter type to use"""
 
-    regex: str
-    r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
-
-    mode: SerdeTypeRegexOperationMode
+    mode: SerdeTypeAutoOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
-    regex_list: Annotated[
-        Optional[List[RegexListConfSerdeTypeRegex]], pydantic.Field(alias="regexList")
-    ] = None
-
-    iterations: Optional[float] = None
-    r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
-
-    field_name_expression: Annotated[
-        Optional[str], pydantic.Field(alias="fieldNameExpression")
-    ] = None
-    r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
-
-    overwrite: Optional[bool] = None
-    r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
-
-    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
-    r"""Field containing text to be parsed"""
-
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
-    r"""Name of the field to add fields to. Extract mode only."""
+    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
 
     keep: Optional[List[str]] = None
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
@@ -286,6 +320,25 @@ class SerdeTypeRegex(BaseModel):
     fields: Optional[List[str]] = None
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
 
+    regex: Optional[str] = None
+    r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
+
+    regex_list: Annotated[
+        Optional[List[RegexListConfSerdeTypeRegex]], pydantic.Field(alias="regexList")
+    ] = None
+    r"""Additional regex patterns to apply for field extraction."""
+
+    iterations: Optional[float] = None
+    r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
+
+    field_name_expression: Annotated[
+        Optional[str], pydantic.Field(alias="fieldNameExpression")
+    ] = None
+    r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
+
+    overwrite: Optional[bool] = None
+    r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
+
     pattern: Optional[str] = None
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
@@ -293,12 +346,204 @@ class SerdeTypeRegex(BaseModel):
         Optional[List[PatternListConfSerdeTypeGrok]],
         pydantic.Field(alias="patternList"),
     ] = None
+    r"""Additional Grok patterns to apply to the source field."""
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.TypeOptions(value)
+                return models.SerdeTypeAutoType(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("mode")
+    def serialize_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SerdeTypeAutoOperationMode(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "tagDatatype",
+                "keep",
+                "remove",
+                "fieldFilterExpr",
+                "allowedKeyChars",
+                "allowedValueChars",
+                "fields",
+                "regex",
+                "regexList",
+                "iterations",
+                "fieldNameExpression",
+                "overwrite",
+                "pattern",
+                "patternList",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class SerdeTypeRegexType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Parser or formatter type to use"""
+
+    # CSV
+    CSV = "csv"
+    # Extended Log File Format
+    ELFF = "elff"
+    # Common Log Format
+    CLF = "clf"
+    # Key=Value Pairs
+    KVP = "kvp"
+    # JSON Object
+    JSON = "json"
+    # Delimited values
+    DELIM = "delim"
+    # Regular Expression
+    REGEX = "regex"
+    # Grok
+    GROK = "grok"
+    # Auto
+    AUTO = "auto"
+
+
+class SerdeTypeRegexOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+
+    # Extract
+    EXTRACT = "extract"
+    # Reserialize
+    RESERIALIZE = "reserialize"
+
+
+class SerdeTypeRegexTypedDict(TypedDict):
+    type: SerdeTypeRegexType
+    r"""Parser or formatter type to use"""
+    regex: str
+    r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
+    mode: SerdeTypeRegexOperationMode
+    r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+    src_field: NotRequired[str]
+    r"""Field containing text to be parsed"""
+    dst_field: NotRequired[str]
+    r"""Name of the field to add fields to. Extract mode only."""
+    regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
+    r"""Additional regex patterns to apply for field extraction."""
+    iterations: NotRequired[float]
+    r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
+    field_name_expression: NotRequired[str]
+    r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
+    overwrite: NotRequired[bool]
+    r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
+    keep: NotRequired[List[str]]
+    r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
+    remove: NotRequired[List[str]]
+    r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
+    field_filter_expr: NotRequired[str]
+    r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
+    allowed_key_chars: NotRequired[List[str]]
+    r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
+    allowed_value_chars: NotRequired[List[str]]
+    r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
+    fields: NotRequired[List[str]]
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
+    tag_datatype: NotRequired[bool]
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
+    pattern: NotRequired[str]
+    r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
+    pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
+    r"""Additional Grok patterns to apply to the source field."""
+
+
+class SerdeTypeRegex(BaseModel):
+    type: SerdeTypeRegexType
+    r"""Parser or formatter type to use"""
+
+    regex: str
+    r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
+
+    mode: SerdeTypeRegexOperationMode
+    r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
+    r"""Field containing text to be parsed"""
+
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
+    r"""Name of the field to add fields to. Extract mode only."""
+
+    regex_list: Annotated[
+        Optional[List[RegexListConfSerdeTypeRegex]], pydantic.Field(alias="regexList")
+    ] = None
+    r"""Additional regex patterns to apply for field extraction."""
+
+    iterations: Optional[float] = None
+    r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
+
+    field_name_expression: Annotated[
+        Optional[str], pydantic.Field(alias="fieldNameExpression")
+    ] = None
+    r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
+
+    overwrite: Optional[bool] = None
+    r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
+
+    keep: Optional[List[str]] = None
+    r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
+
+    remove: Optional[List[str]] = None
+    r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
+
+    field_filter_expr: Annotated[
+        Optional[str], pydantic.Field(alias="fieldFilterExpr")
+    ] = None
+    r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
+
+    allowed_key_chars: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedKeyChars")
+    ] = None
+    r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
+
+    allowed_value_chars: Annotated[
+        Optional[List[str]], pydantic.Field(alias="allowedValueChars")
+    ] = None
+    r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
+
+    fields: Optional[List[str]] = None
+    r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
+
+    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
+
+    pattern: Optional[str] = None
+    r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
+
+    pattern_list: Annotated[
+        Optional[List[PatternListConfSerdeTypeGrok]],
+        pydantic.Field(alias="patternList"),
+    ] = None
+    r"""Additional Grok patterns to apply to the source field."""
+
+    @field_serializer("type")
+    def serialize_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.SerdeTypeRegexType(value)
             except ValueError:
                 return value
         return value
@@ -316,18 +561,19 @@ class SerdeTypeRegex(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "srcField",
+                "dstField",
                 "regexList",
                 "iterations",
                 "fieldNameExpression",
                 "overwrite",
-                "srcField",
-                "dstField",
                 "keep",
                 "remove",
                 "fieldFilterExpr",
                 "allowedKeyChars",
                 "allowedValueChars",
                 "fields",
+                "tagDatatype",
                 "pattern",
                 "patternList",
             ]
@@ -346,6 +592,29 @@ class SerdeTypeRegex(BaseModel):
         return m
 
 
+class SerdeTypeJSONType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Parser or formatter type to use"""
+
+    # CSV
+    CSV = "csv"
+    # Extended Log File Format
+    ELFF = "elff"
+    # Common Log Format
+    CLF = "clf"
+    # Key=Value Pairs
+    KVP = "kvp"
+    # JSON Object
+    JSON = "json"
+    # Delimited values
+    DELIM = "delim"
+    # Regular Expression
+    REGEX = "regex"
+    # Grok
+    GROK = "grok"
+    # Auto
+    AUTO = "auto"
+
+
 class SerdeTypeJSONOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
@@ -356,20 +625,20 @@ class SerdeTypeJSONOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class SerdeTypeJSONTypedDict(TypedDict):
-    type: TypeOptions
+    type: SerdeTypeJSONType
     r"""Parser or formatter type to use"""
     mode: SerdeTypeJSONOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+    src_field: NotRequired[str]
+    r"""Field containing text to be parsed"""
+    dst_field: NotRequired[str]
+    r"""Name of the field to add fields to. Extract mode only."""
     keep: NotRequired[List[str]]
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
     remove: NotRequired[List[str]]
     r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
     field_filter_expr: NotRequired[str]
     r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
-    src_field: NotRequired[str]
-    r"""Field containing text to be parsed"""
-    dst_field: NotRequired[str]
-    r"""Name of the field to add fields to. Extract mode only."""
     allowed_key_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
@@ -379,23 +648,33 @@ class SerdeTypeJSONTypedDict(TypedDict):
     regex: NotRequired[str]
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
+    r"""Additional regex patterns to apply for field extraction."""
     iterations: NotRequired[float]
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
     field_name_expression: NotRequired[str]
     r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
     overwrite: NotRequired[bool]
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
+    tag_datatype: NotRequired[bool]
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     pattern: NotRequired[str]
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
+    r"""Additional Grok patterns to apply to the source field."""
 
 
 class SerdeTypeJSON(BaseModel):
-    type: TypeOptions
+    type: SerdeTypeJSONType
     r"""Parser or formatter type to use"""
 
     mode: SerdeTypeJSONOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
+    r"""Field containing text to be parsed"""
+
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
+    r"""Name of the field to add fields to. Extract mode only."""
 
     keep: Optional[List[str]] = None
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
@@ -407,12 +686,6 @@ class SerdeTypeJSON(BaseModel):
         Optional[str], pydantic.Field(alias="fieldFilterExpr")
     ] = None
     r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
-
-    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
-    r"""Field containing text to be parsed"""
-
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
-    r"""Name of the field to add fields to. Extract mode only."""
 
     allowed_key_chars: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedKeyChars")
@@ -433,6 +706,7 @@ class SerdeTypeJSON(BaseModel):
     regex_list: Annotated[
         Optional[List[RegexListConfSerdeTypeRegex]], pydantic.Field(alias="regexList")
     ] = None
+    r"""Additional regex patterns to apply for field extraction."""
 
     iterations: Optional[float] = None
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
@@ -445,6 +719,9 @@ class SerdeTypeJSON(BaseModel):
     overwrite: Optional[bool] = None
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
 
+    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
+
     pattern: Optional[str] = None
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
@@ -452,12 +729,13 @@ class SerdeTypeJSON(BaseModel):
         Optional[List[PatternListConfSerdeTypeGrok]],
         pydantic.Field(alias="patternList"),
     ] = None
+    r"""Additional Grok patterns to apply to the source field."""
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.TypeOptions(value)
+                return models.SerdeTypeJSONType(value)
             except ValueError:
                 return value
         return value
@@ -475,11 +753,11 @@ class SerdeTypeJSON(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "srcField",
+                "dstField",
                 "keep",
                 "remove",
                 "fieldFilterExpr",
-                "srcField",
-                "dstField",
                 "allowedKeyChars",
                 "allowedValueChars",
                 "fields",
@@ -488,6 +766,7 @@ class SerdeTypeJSON(BaseModel):
                 "iterations",
                 "fieldNameExpression",
                 "overwrite",
+                "tagDatatype",
                 "pattern",
                 "patternList",
             ]
@@ -506,6 +785,29 @@ class SerdeTypeJSON(BaseModel):
         return m
 
 
+class SerdeTypeCsvType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Parser or formatter type to use"""
+
+    # CSV
+    CSV = "csv"
+    # Extended Log File Format
+    ELFF = "elff"
+    # Common Log Format
+    CLF = "clf"
+    # Key=Value Pairs
+    KVP = "kvp"
+    # JSON Object
+    JSON = "json"
+    # Delimited values
+    DELIM = "delim"
+    # Regular Expression
+    REGEX = "regex"
+    # Grok
+    GROK = "grok"
+    # Auto
+    AUTO = "auto"
+
+
 class SerdeTypeCsvOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
@@ -516,10 +818,14 @@ class SerdeTypeCsvOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class SerdeTypeCsvTypedDict(TypedDict):
-    type: TypeOptions
+    type: SerdeTypeCsvType
     r"""Parser or formatter type to use"""
     mode: SerdeTypeCsvOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+    src_field: NotRequired[str]
+    r"""Field containing text to be parsed"""
+    dst_field: NotRequired[str]
+    r"""Name of the field to add fields to. Extract mode only."""
     fields: NotRequired[List[str]]
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
     keep: NotRequired[List[str]]
@@ -528,10 +834,6 @@ class SerdeTypeCsvTypedDict(TypedDict):
     r"""List of fields to remove. Supports wildcards (*). Cannot remove fields that match 'Fields to keep'."""
     field_filter_expr: NotRequired[str]
     r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
-    src_field: NotRequired[str]
-    r"""Field containing text to be parsed"""
-    dst_field: NotRequired[str]
-    r"""Name of the field to add fields to. Extract mode only."""
     allowed_key_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
@@ -539,23 +841,33 @@ class SerdeTypeCsvTypedDict(TypedDict):
     regex: NotRequired[str]
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
+    r"""Additional regex patterns to apply for field extraction."""
     iterations: NotRequired[float]
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
     field_name_expression: NotRequired[str]
     r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
     overwrite: NotRequired[bool]
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
+    tag_datatype: NotRequired[bool]
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     pattern: NotRequired[str]
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
+    r"""Additional Grok patterns to apply to the source field."""
 
 
 class SerdeTypeCsv(BaseModel):
-    type: TypeOptions
+    type: SerdeTypeCsvType
     r"""Parser or formatter type to use"""
 
     mode: SerdeTypeCsvOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
+    r"""Field containing text to be parsed"""
+
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
+    r"""Name of the field to add fields to. Extract mode only."""
 
     fields: Optional[List[str]] = None
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
@@ -570,12 +882,6 @@ class SerdeTypeCsv(BaseModel):
         Optional[str], pydantic.Field(alias="fieldFilterExpr")
     ] = None
     r"""Expression evaluated against {index, name, value} context. Return truthy to keep a field, or falsy to remove it."""
-
-    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
-    r"""Field containing text to be parsed"""
-
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
-    r"""Name of the field to add fields to. Extract mode only."""
 
     allowed_key_chars: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedKeyChars")
@@ -593,6 +899,7 @@ class SerdeTypeCsv(BaseModel):
     regex_list: Annotated[
         Optional[List[RegexListConfSerdeTypeRegex]], pydantic.Field(alias="regexList")
     ] = None
+    r"""Additional regex patterns to apply for field extraction."""
 
     iterations: Optional[float] = None
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
@@ -605,6 +912,9 @@ class SerdeTypeCsv(BaseModel):
     overwrite: Optional[bool] = None
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
 
+    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
+
     pattern: Optional[str] = None
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
@@ -612,12 +922,13 @@ class SerdeTypeCsv(BaseModel):
         Optional[List[PatternListConfSerdeTypeGrok]],
         pydantic.Field(alias="patternList"),
     ] = None
+    r"""Additional Grok patterns to apply to the source field."""
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.TypeOptions(value)
+                return models.SerdeTypeCsvType(value)
             except ValueError:
                 return value
         return value
@@ -635,12 +946,12 @@ class SerdeTypeCsv(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "srcField",
+                "dstField",
                 "fields",
                 "keep",
                 "remove",
                 "fieldFilterExpr",
-                "srcField",
-                "dstField",
                 "allowedKeyChars",
                 "allowedValueChars",
                 "regex",
@@ -648,6 +959,7 @@ class SerdeTypeCsv(BaseModel):
                 "iterations",
                 "fieldNameExpression",
                 "overwrite",
+                "tagDatatype",
                 "pattern",
                 "patternList",
             ]
@@ -666,6 +978,29 @@ class SerdeTypeCsv(BaseModel):
         return m
 
 
+class SerdeTypeDelimType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Parser or formatter type to use"""
+
+    # CSV
+    CSV = "csv"
+    # Extended Log File Format
+    ELFF = "elff"
+    # Common Log Format
+    CLF = "clf"
+    # Key=Value Pairs
+    KVP = "kvp"
+    # JSON Object
+    JSON = "json"
+    # Delimited values
+    DELIM = "delim"
+    # Regular Expression
+    REGEX = "regex"
+    # Grok
+    GROK = "grok"
+    # Auto
+    AUTO = "auto"
+
+
 class SerdeTypeDelimOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
@@ -676,10 +1011,14 @@ class SerdeTypeDelimOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class SerdeTypeDelimTypedDict(TypedDict):
-    type: TypeOptions
+    type: SerdeTypeDelimType
     r"""Parser or formatter type to use"""
     mode: SerdeTypeDelimOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+    src_field: NotRequired[str]
+    r"""Field containing text to be parsed"""
+    dst_field: NotRequired[str]
+    r"""Name of the field to add fields to. Extract mode only."""
     fields: NotRequired[List[str]]
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
     keep: NotRequired[List[str]]
@@ -696,10 +1035,6 @@ class SerdeTypeDelimTypedDict(TypedDict):
     r"""Escape character used to escape delimiter or quote character"""
     null_value: NotRequired[str]
     r"""Field value representing the null value. Null fields will be omitted."""
-    src_field: NotRequired[str]
-    r"""Field containing text to be parsed"""
-    dst_field: NotRequired[str]
-    r"""Name of the field to add fields to. Extract mode only."""
     allowed_key_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
@@ -707,23 +1042,33 @@ class SerdeTypeDelimTypedDict(TypedDict):
     regex: NotRequired[str]
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
+    r"""Additional regex patterns to apply for field extraction."""
     iterations: NotRequired[float]
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
     field_name_expression: NotRequired[str]
     r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
     overwrite: NotRequired[bool]
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
+    tag_datatype: NotRequired[bool]
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     pattern: NotRequired[str]
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
+    r"""Additional Grok patterns to apply to the source field."""
 
 
 class SerdeTypeDelim(BaseModel):
-    type: TypeOptions
+    type: SerdeTypeDelimType
     r"""Parser or formatter type to use"""
 
     mode: SerdeTypeDelimOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
+    r"""Field containing text to be parsed"""
+
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
+    r"""Name of the field to add fields to. Extract mode only."""
 
     fields: Optional[List[str]] = None
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
@@ -751,12 +1096,6 @@ class SerdeTypeDelim(BaseModel):
     null_value: Annotated[Optional[str], pydantic.Field(alias="nullValue")] = None
     r"""Field value representing the null value. Null fields will be omitted."""
 
-    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
-    r"""Field containing text to be parsed"""
-
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
-    r"""Name of the field to add fields to. Extract mode only."""
-
     allowed_key_chars: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedKeyChars")
     ] = None
@@ -773,6 +1112,7 @@ class SerdeTypeDelim(BaseModel):
     regex_list: Annotated[
         Optional[List[RegexListConfSerdeTypeRegex]], pydantic.Field(alias="regexList")
     ] = None
+    r"""Additional regex patterns to apply for field extraction."""
 
     iterations: Optional[float] = None
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
@@ -785,6 +1125,9 @@ class SerdeTypeDelim(BaseModel):
     overwrite: Optional[bool] = None
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
 
+    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
+
     pattern: Optional[str] = None
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
@@ -792,12 +1135,13 @@ class SerdeTypeDelim(BaseModel):
         Optional[List[PatternListConfSerdeTypeGrok]],
         pydantic.Field(alias="patternList"),
     ] = None
+    r"""Additional Grok patterns to apply to the source field."""
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.TypeOptions(value)
+                return models.SerdeTypeDelimType(value)
             except ValueError:
                 return value
         return value
@@ -815,6 +1159,8 @@ class SerdeTypeDelim(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "srcField",
+                "dstField",
                 "fields",
                 "keep",
                 "remove",
@@ -823,8 +1169,6 @@ class SerdeTypeDelim(BaseModel):
                 "quoteChar",
                 "escapeChar",
                 "nullValue",
-                "srcField",
-                "dstField",
                 "allowedKeyChars",
                 "allowedValueChars",
                 "regex",
@@ -832,6 +1176,7 @@ class SerdeTypeDelim(BaseModel):
                 "iterations",
                 "fieldNameExpression",
                 "overwrite",
+                "tagDatatype",
                 "pattern",
                 "patternList",
             ]
@@ -850,6 +1195,29 @@ class SerdeTypeDelim(BaseModel):
         return m
 
 
+class SerdeTypeKvpType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Parser or formatter type to use"""
+
+    # CSV
+    CSV = "csv"
+    # Extended Log File Format
+    ELFF = "elff"
+    # Common Log Format
+    CLF = "clf"
+    # Key=Value Pairs
+    KVP = "kvp"
+    # JSON Object
+    JSON = "json"
+    # Delimited values
+    DELIM = "delim"
+    # Regular Expression
+    REGEX = "regex"
+    # Grok
+    GROK = "grok"
+    # Auto
+    AUTO = "auto"
+
+
 class SerdeTypeKvpOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
 
@@ -860,10 +1228,14 @@ class SerdeTypeKvpOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class SerdeTypeKvpTypedDict(TypedDict):
-    type: TypeOptions
+    type: SerdeTypeKvpType
     r"""Parser or formatter type to use"""
     mode: SerdeTypeKvpOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+    src_field: NotRequired[str]
+    r"""Field containing text to be parsed"""
+    dst_field: NotRequired[str]
+    r"""Name of the field to add fields to. Extract mode only."""
     keep: NotRequired[List[str]]
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
     remove: NotRequired[List[str]]
@@ -876,32 +1248,38 @@ class SerdeTypeKvpTypedDict(TypedDict):
     r"""A list of characters that may be present in a key name, even though they are normally separator or control characters"""
     allowed_value_chars: NotRequired[List[str]]
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
-    src_field: NotRequired[str]
-    r"""Field containing text to be parsed"""
-    dst_field: NotRequired[str]
-    r"""Name of the field to add fields to. Extract mode only."""
     fields: NotRequired[List[str]]
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
     regex: NotRequired[str]
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     regex_list: NotRequired[List[RegexListConfSerdeTypeRegexTypedDict]]
+    r"""Additional regex patterns to apply for field extraction."""
     iterations: NotRequired[float]
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
     field_name_expression: NotRequired[str]
     r"""JavaScript expression to format field names when _NAME_n and _VALUE_n capturing groups are used. Original field name is in global variable 'name'. Example: To append XX to all field names, use `${name}_XX` (backticks are literal). If empty, names will be sanitized using this regex: /^[_0-9]+|[^a-zA-Z0-9_]+/g. You can access other fields values via __e.<fieldName>."""
     overwrite: NotRequired[bool]
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
+    tag_datatype: NotRequired[bool]
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
     pattern: NotRequired[str]
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     pattern_list: NotRequired[List[PatternListConfSerdeTypeGrokTypedDict]]
+    r"""Additional Grok patterns to apply to the source field."""
 
 
 class SerdeTypeKvp(BaseModel):
-    type: TypeOptions
+    type: SerdeTypeKvpType
     r"""Parser or formatter type to use"""
 
     mode: SerdeTypeKvpOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
+
+    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
+    r"""Field containing text to be parsed"""
+
+    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
+    r"""Name of the field to add fields to. Extract mode only."""
 
     keep: Optional[List[str]] = None
     r"""List of fields to keep. Supports wildcards (*). Takes precedence over 'Fields to remove'."""
@@ -927,12 +1305,6 @@ class SerdeTypeKvp(BaseModel):
     ] = None
     r"""A list of characters that may be present in a value, even though they are normally separator or control characters"""
 
-    src_field: Annotated[Optional[str], pydantic.Field(alias="srcField")] = None
-    r"""Field containing text to be parsed"""
-
-    dst_field: Annotated[Optional[str], pydantic.Field(alias="dstField")] = None
-    r"""Name of the field to add fields to. Extract mode only."""
-
     fields: Optional[List[str]] = None
     r"""The fields to be extracted, listed in order. Will auto-generate if empty."""
 
@@ -942,6 +1314,7 @@ class SerdeTypeKvp(BaseModel):
     regex_list: Annotated[
         Optional[List[RegexListConfSerdeTypeRegex]], pydantic.Field(alias="regexList")
     ] = None
+    r"""Additional regex patterns to apply for field extraction."""
 
     iterations: Optional[float] = None
     r"""The maximum number of times to apply regex to source field when the global flag is set, or when using _NAME_ and _VALUE_ capturing groups"""
@@ -954,6 +1327,9 @@ class SerdeTypeKvp(BaseModel):
     overwrite: Optional[bool] = None
     r"""Overwrite existing event fields with extracted values. If disabled, existing fields will be converted to an array."""
 
+    tag_datatype: Annotated[Optional[bool], pydantic.Field(alias="tagDatatype")] = None
+    r"""Keep the detected datatype field and set isParsed to true on each event. Enable this when events are bound for downstream Cribl Search processing."""
+
     pattern: Optional[str] = None
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
 
@@ -961,12 +1337,13 @@ class SerdeTypeKvp(BaseModel):
         Optional[List[PatternListConfSerdeTypeGrok]],
         pydantic.Field(alias="patternList"),
     ] = None
+    r"""Additional Grok patterns to apply to the source field."""
 
     @field_serializer("type")
     def serialize_type(self, value):
         if isinstance(value, str):
             try:
-                return models.TypeOptions(value)
+                return models.SerdeTypeKvpType(value)
             except ValueError:
                 return value
         return value
@@ -984,20 +1361,21 @@ class SerdeTypeKvp(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "srcField",
+                "dstField",
                 "keep",
                 "remove",
                 "fieldFilterExpr",
                 "cleanFields",
                 "allowedKeyChars",
                 "allowedValueChars",
-                "srcField",
-                "dstField",
                 "fields",
                 "regex",
                 "regexList",
                 "iterations",
                 "fieldNameExpression",
                 "overwrite",
+                "tagDatatype",
                 "pattern",
                 "patternList",
             ]
@@ -1019,6 +1397,7 @@ class SerdeTypeKvp(BaseModel):
 PipelineFunctionSerdeConfTypedDict = TypeAliasType(
     "PipelineFunctionSerdeConfTypedDict",
     Union[
+        SerdeTypeAutoTypedDict,
         SerdeTypeCsvTypedDict,
         SerdeTypeJSONTypedDict,
         SerdeTypeRegexTypedDict,
@@ -1027,6 +1406,7 @@ PipelineFunctionSerdeConfTypedDict = TypeAliasType(
         SerdeTypeDelimTypedDict,
     ],
 )
+r"""Configuration specific to the Pipeline Function."""
 
 
 class UnknownPipelineFunctionSerdeConf(BaseModel):
@@ -1045,6 +1425,7 @@ _PIPELINE_FUNCTION_SERDE_CONF_VARIANTS: dict[str, Any] = {
     "csv": SerdeTypeCsv,
     "json": SerdeTypeJSON,
     "regex": SerdeTypeRegex,
+    "auto": SerdeTypeAuto,
     "grok": SerdeTypeGrok,
 }
 
@@ -1056,6 +1437,7 @@ PipelineFunctionSerdeConf = Annotated[
         SerdeTypeCsv,
         SerdeTypeJSON,
         SerdeTypeRegex,
+        SerdeTypeAuto,
         SerdeTypeGrok,
         UnknownPipelineFunctionSerdeConf,
     ],
@@ -1069,44 +1451,47 @@ PipelineFunctionSerdeConf = Annotated[
         )
     ),
 ]
+r"""Configuration specific to the Pipeline Function."""
 
 
 class PipelineFunctionSerdeTypedDict(TypedDict):
     id: PipelineFunctionSerdeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>serde</code>"""
     conf: PipelineFunctionSerdeConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionSerde(BaseModel):
     id: PipelineFunctionSerdeID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>serde</code>"""
 
     conf: PipelineFunctionSerdeConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -1127,6 +1512,10 @@ class PipelineFunctionSerde(BaseModel):
 
 try:
     SerdeTypeGrok.model_rebuild()
+except NameError:
+    pass
+try:
+    SerdeTypeAuto.model_rebuild()
 except NameError:
     pass
 try:

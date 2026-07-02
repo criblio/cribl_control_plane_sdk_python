@@ -64,11 +64,7 @@ class OutputWizHecTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
-    next_queue: NotRequired[str]
-    r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
-    tcp_routing: NotRequired[str]
-    r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
+    r"""Metadata tags used for categorization and filtering."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -105,6 +101,11 @@ class OutputWizHecTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
+    token: NotRequired[str]
+    r"""Wiz Defend Auth token"""
+    text_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -126,24 +127,20 @@ class OutputWizHecTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputWizHecPqControlsTypedDict]
-    token: NotRequired[str]
-    r"""Wiz Defend Auth token"""
-    text_secret: NotRequired[str]
-    r"""Select or create a stored text secret"""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
-    template_on_backpressure: NotRequired[str]
-    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
     template_wiz_environment: NotRequired[str]
     r"""Binds 'wiz_environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_environment' at runtime."""
     template_data_center: NotRequired[str]
     r"""Binds 'data_center' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'data_center' at runtime."""
     template_wiz_sourcetype: NotRequired[str]
     r"""Binds 'wiz_sourcetype' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_sourcetype' at runtime."""
+    template_on_backpressure: NotRequired[str]
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
 
 class OutputWizHec(BaseModel):
@@ -175,13 +172,7 @@ class OutputWizHec(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
-
-    next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = None
-    r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
-
-    tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = None
-    r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
+    r"""Metadata tags used for categorization and filtering."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
 
@@ -261,6 +252,13 @@ class OutputWizHec(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
+
+    token: Optional[str] = None
+    r"""Wiz Defend Auth token"""
+
+    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
+    r"""Select or create a stored text secret"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -309,17 +307,11 @@ class OutputWizHec(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputWizHecPqControls], pydantic.Field(alias="pqControls")
     ] = None
-
-    token: Optional[str] = None
-    r"""Wiz Defend Auth token"""
-
-    text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
-    r"""Select or create a stored text secret"""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -330,11 +322,6 @@ class OutputWizHec(BaseModel):
         Optional[str], pydantic.Field(alias="__template_failedRequestLoggingMode")
     ] = None
     r"""Binds 'failedRequestLoggingMode' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'failedRequestLoggingMode' at runtime."""
-
-    template_on_backpressure: Annotated[
-        Optional[str], pydantic.Field(alias="__template_onBackpressure")
-    ] = None
-    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     template_wiz_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_wiz_environment")
@@ -350,6 +337,11 @@ class OutputWizHec(BaseModel):
         Optional[str], pydantic.Field(alias="__template_wiz_sourcetype")
     ] = None
     r"""Binds 'wiz_sourcetype' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'wiz_sourcetype' at runtime."""
+
+    template_on_backpressure: Annotated[
+        Optional[str], pydantic.Field(alias="__template_onBackpressure")
+    ] = None
+    r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):
@@ -414,8 +406,6 @@ class OutputWizHec(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
-                "nextQueue",
-                "tcpRouting",
                 "tls",
                 "concurrency",
                 "maxPayloadSizeKB",
@@ -433,6 +423,8 @@ class OutputWizHec(BaseModel):
                 "responseHonorRetryAfterHeader",
                 "onBackpressure",
                 "description",
+                "token",
+                "textSecret",
                 "pqStrictOrdering",
                 "pqRatePerSec",
                 "pqMode",
@@ -445,14 +437,12 @@ class OutputWizHec(BaseModel):
                 "pqOnBackpressure",
                 "pqMaxBufferSizeBytes",
                 "pqControls",
-                "token",
-                "textSecret",
                 "__template_streamtags",
                 "__template_failedRequestLoggingMode",
-                "__template_onBackpressure",
                 "__template_wiz_environment",
                 "__template_data_center",
                 "__template_wiz_sourcetype",
+                "__template_onBackpressure",
             ]
         )
         serialized = handler(self)

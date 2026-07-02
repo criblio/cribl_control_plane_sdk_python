@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     )
     from .no_response_error import NoResponseError
     from .responsevalidationerror import ResponseValidationError
+    from .restapijsonerror import RestAPIJSONError, RestAPIJSONErrorData
 
 __all__ = [
     "APIError",
@@ -24,6 +25,8 @@ __all__ = [
     "HealthServerStatusErrorData",
     "NoResponseError",
     "ResponseValidationError",
+    "RestAPIJSONError",
+    "RestAPIJSONErrorData",
 ]
 
 _dynamic_imports: dict[str, str] = {
@@ -34,6 +37,8 @@ _dynamic_imports: dict[str, str] = {
     "HealthServerStatusErrorData": ".healthserverstatus_error",
     "NoResponseError": ".no_response_error",
     "ResponseValidationError": ".responsevalidationerror",
+    "RestAPIJSONError": ".restapijsonerror",
+    "RestAPIJSONErrorData": ".restapijsonerror",
 }
 
 

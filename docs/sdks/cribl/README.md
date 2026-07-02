@@ -9,11 +9,11 @@
 
 ## list
 
-Get Cribl system settings.
+Get the current Cribl system settings.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getSystemSettingsConf" method="get" path="/system/settings/conf" -->
+<!-- UsageSnippet language="python" operationID="getSystemSettingsConf" method="get" path="/system/settings/conf" example="GetSystemSettingsConfExamplesDefault" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -47,14 +47,15 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
 ## update
 
-Update Cribl system settings.
+Update the specified Cribl system settings.<br/><br/>Provide a complete representation of the system settings that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the system settings.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated system settings might not function as expected.
 
-### Example Usage
+### Example Usage: UpdateSystemSettingsExamplesUpdateApiSettings
 
 <!-- UsageSnippet language="python" operationID="updateSystemSettingsConf" method="patch" path="/system/settings/conf" example="UpdateSystemSettingsExamplesUpdateApiSettings" -->
 ```python
@@ -116,27 +117,63 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateSystemSettingsResponseExamplesUpdateApiSettings
+
+<!-- UsageSnippet language="python" operationID="updateSystemSettingsConf" method="patch" path="/system/settings/conf" example="UpdateSystemSettingsResponseExamplesUpdateApiSettings" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.system.settings.cribl.update(api={
+        "disabled": True,
+        "host": "both-draw.com",
+        "port": 379506,
+    }, backups={}, pii={}, proxy={
+        "use_env_vars": False,
+    }, rollback={}, shutdown={
+        "drain_timeout": 506758,
+    }, sni={}, system={
+        "intercom": False,
+        "upgrade": models.UpgradeOptionsSystemSettingsConfSystem.API,
+    }, tls={}, upgrade_group_settings={}, upgrade_settings={}, workers={
+        "count": 8927,
+        "memory": 142072,
+        "minimum": 242438,
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
 | Parameter                                                                                             | Type                                                                                                  | Required                                                                                              | Description                                                                                           |
 | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `api`                                                                                                 | [models.APITypeSystemSettingsConf](../../models/apitypesystemsettingsconf.md)                         | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
+| `api`                                                                                                 | [models.APITypeSystemSettingsConf](../../models/apitypesystemsettingsconf.md)                         | :heavy_check_mark:                                                                                    | API server configuration for the Cribl instance.                                                      |
 | `backups`                                                                                             | [models.BackupsSettingsUnion](../../models/backupssettingsunion.md)                                   | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
 | `pii`                                                                                                 | [models.PiiSettingsUnion](../../models/piisettingsunion.md)                                           | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
-| `proxy`                                                                                               | [models.ProxyTypeSystemSettingsConf](../../models/proxytypesystemsettingsconf.md)                     | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
+| `proxy`                                                                                               | [models.ProxyTypeSystemSettingsConf](../../models/proxytypesystemsettingsconf.md)                     | :heavy_check_mark:                                                                                    | HTTP proxy configuration for outbound connections.                                                    |
 | `rollback`                                                                                            | [models.RollbackSettingsUnion](../../models/rollbacksettingsunion.md)                                 | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
-| `shutdown`                                                                                            | [models.ShutdownTypeSystemSettingsConf](../../models/shutdowntypesystemsettingsconf.md)               | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
+| `shutdown`                                                                                            | [models.ShutdownTypeSystemSettingsConf](../../models/shutdowntypesystemsettingsconf.md)               | :heavy_check_mark:                                                                                    | Graceful shutdown configuration.                                                                      |
 | `sni`                                                                                                 | [models.SniSettingsUnion](../../models/snisettingsunion.md)                                           | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
-| `system`                                                                                              | [models.SystemTypeSystemSettingsConf](../../models/systemtypesystemsettingsconf.md)                   | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
+| `system`                                                                                              | [models.SystemTypeSystemSettingsConf](../../models/systemtypesystemsettingsconf.md)                   | :heavy_check_mark:                                                                                    | System-level operational settings for the Cribl instance.                                             |
 | `tls`                                                                                                 | [models.TLSSettingsUnion](../../models/tlssettingsunion.md)                                           | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
 | `upgrade_group_settings`                                                                              | [models.UpgradeGroupSettings](../../models/upgradegroupsettings.md)                                   | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
 | `upgrade_settings`                                                                                    | [models.UpgradeSettings](../../models/upgradesettings.md)                                             | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
-| `workers`                                                                                             | [models.WorkersTypeSystemSettingsConf](../../models/workerstypesystemsettingsconf.md)                 | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
-| `apps`                                                                                                | [Optional[models.AppsTypeSystemSettingsConf]](../../models/appstypesystemsettingsconf.md)             | :heavy_minus_sign:                                                                                    | N/A                                                                                                   |
-| `custom_logo`                                                                                         | [Optional[models.CustomLogoTypeSystemSettingsConf]](../../models/customlogotypesystemsettingsconf.md) | :heavy_minus_sign:                                                                                    | N/A                                                                                                   |
-| `sockets`                                                                                             | [Optional[models.SocketsTypeSystemSettingsConf]](../../models/socketstypesystemsettingsconf.md)       | :heavy_minus_sign:                                                                                    | N/A                                                                                                   |
-| `support`                                                                                             | [Optional[models.SupportTypeSystemSettingsConf]](../../models/supporttypesystemsettingsconf.md)       | :heavy_minus_sign:                                                                                    | N/A                                                                                                   |
+| `workers`                                                                                             | [models.WorkersTypeSystemSettingsConf](../../models/workerstypesystemsettingsconf.md)                 | :heavy_check_mark:                                                                                    | Worker Process configuration.                                                                         |
+| `apps`                                                                                                | [Optional[models.AppsTypeSystemSettingsConf]](../../models/appstypesystemsettingsconf.md)             | :heavy_minus_sign:                                                                                    | App configuration.                                                                                    |
+| `custom_logo`                                                                                         | [Optional[models.CustomLogoTypeSystemSettingsConf]](../../models/customlogotypesystemsettingsconf.md) | :heavy_minus_sign:                                                                                    | Custom logo configuration for the Cribl UI login page and navigation bar.                             |
+| `sockets`                                                                                             | [Optional[models.SocketsTypeSystemSettingsConf]](../../models/socketstypesystemsettingsconf.md)       | :heavy_minus_sign:                                                                                    | Unix domain socket configuration.                                                                     |
+| `support`                                                                                             | [Optional[models.SupportTypeSystemSettingsConf]](../../models/supporttypesystemsettingsconf.md)       | :heavy_minus_sign:                                                                                    | Support and diagnostics settings.                                                                     |
 | `retries`                                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                      | :heavy_minus_sign:                                                                                    | Configuration to override the default retry behavior of the client.                                   |
 
 ### Response
@@ -147,5 +184,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

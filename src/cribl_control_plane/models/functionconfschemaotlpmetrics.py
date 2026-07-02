@@ -6,7 +6,7 @@ from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -14,6 +14,7 @@ class FunctionConfSchemaOtlpMetricsTypedDict(TypedDict):
     resource_attribute_prefixes: NotRequired[List[str]]
     r"""The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9_\.]+$`. Use Eval to copy nested attributes to the top level for matching."""
     drop_non_metric_events: NotRequired[bool]
+    r"""Drop events that are not OTLP metric data points."""
     otlp_version: NotRequired[OtlpVersionOptions]
     batch_otlp_metrics: NotRequired[bool]
     r"""Batch OTLP metrics by shared top-level `resource` attributes"""
@@ -23,7 +24,7 @@ class FunctionConfSchemaOtlpMetricsTypedDict(TypedDict):
     r"""Time duration after which a batch will be sent, regardless of size"""
     send_batch_max_size: NotRequired[float]
     r"""Maximum batch size. Enter 0 for no maximum."""
-    metadata_keys: NotRequired[List[Any]]
+    metadata_keys: NotRequired[List[str]]
     r"""When set, this processor will create one batcher instance per distinct combination of values in the metadata"""
     metadata_cardinality_limit: NotRequired[float]
     r"""Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped."""
@@ -38,6 +39,7 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
     drop_non_metric_events: Annotated[
         Optional[bool], pydantic.Field(alias="dropNonMetricEvents")
     ] = None
+    r"""Drop events that are not OTLP metric data points."""
 
     otlp_version: Annotated[
         Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
@@ -62,7 +64,7 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
     r"""Maximum batch size. Enter 0 for no maximum."""
 
     metadata_keys: Annotated[
-        Optional[List[Any]], pydantic.Field(alias="metadataKeys")
+        Optional[List[str]], pydantic.Field(alias="metadataKeys")
     ] = None
     r"""When set, this processor will create one batcher instance per distinct combination of values in the metadata"""
 

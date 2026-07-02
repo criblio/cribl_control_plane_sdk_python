@@ -9,23 +9,37 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class SslTypeSystemSettingsConfAPITypedDict(TypedDict):
+    r"""TLS configuration for the API server."""
+
     cert_path: str
+    r"""Filesystem path to the PEM-encoded TLS certificate."""
     disabled: bool
+    r"""If <code>true</code>, TLS is disabled for the API server. Otherwise, <code>false</code>."""
     passphrase: str
+    r"""Passphrase to decrypt the TLS private key, if encrypted."""
     priv_key_path: str
+    r"""Filesystem path to the PEM-encoded TLS private key."""
     ca_path: NotRequired[str]
+    r"""Filesystem path to the PEM-encoded Certificate Authority (CA) certificate for client authentication."""
 
 
 class SslTypeSystemSettingsConfAPI(BaseModel):
+    r"""TLS configuration for the API server."""
+
     cert_path: Annotated[str, pydantic.Field(alias="certPath")]
+    r"""Filesystem path to the PEM-encoded TLS certificate."""
 
     disabled: bool
+    r"""If <code>true</code>, TLS is disabled for the API server. Otherwise, <code>false</code>."""
 
     passphrase: str
+    r"""Passphrase to decrypt the TLS private key, if encrypted."""
 
     priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
+    r"""Filesystem path to the PEM-encoded TLS private key."""
 
     ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
+    r"""Filesystem path to the PEM-encoded Certificate Authority (CA) certificate for client authentication."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

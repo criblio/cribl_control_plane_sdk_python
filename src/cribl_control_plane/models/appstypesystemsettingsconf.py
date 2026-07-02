@@ -6,8 +6,14 @@ from typing_extensions import TypedDict
 
 
 class AppsTypeSystemSettingsConfTypedDict(TypedDict):
+    r"""App configuration."""
+
     enabled: bool
+    r"""If <code>true</code>, enable Apps. Otherwise, <code>false</code>."""
 
 
 class AppsTypeSystemSettingsConf(BaseModel):
+    r"""App configuration."""
+
     enabled: bool
+    r"""If <code>true</code>, enable Apps. Otherwise, <code>false</code>."""

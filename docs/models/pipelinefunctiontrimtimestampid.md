@@ -1,6 +1,6 @@
 # PipelineFunctionTrimTimestampID
 
-Function ID
+Identifier of the Function. Always <code>trim_timestamp</code>
 
 ## Example Usage
 

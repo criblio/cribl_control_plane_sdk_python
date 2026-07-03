@@ -204,6 +204,7 @@ V3UserTypedDict = TypeAliasType(
         SnmpTrapSerializeV3UserAuthProtocolNotNoneTypedDict,
     ],
 )
+r"""SNMPv3 user configuration, including authentication and privacy protocol settings."""
 
 
 class UnknownV3User(BaseModel):
@@ -248,6 +249,7 @@ V3User = Annotated[
         )
     ),
 ]
+r"""SNMPv3 user configuration, including authentication and privacy protocol settings."""
 
 
 class FunctionConfSchemaSnmpTrapSerializeTypedDict(TypedDict):
@@ -256,6 +258,7 @@ class FunctionConfSchemaSnmpTrapSerializeTypedDict(TypedDict):
     drop_failed_events: NotRequired[bool]
     r"""When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination"""
     v3_user: NotRequired[V3UserTypedDict]
+    r"""SNMPv3 user configuration, including authentication and privacy protocol settings."""
 
 
 class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
@@ -268,6 +271,7 @@ class FunctionConfSchemaSnmpTrapSerialize(BaseModel):
     r"""When disabled, `snmpSerializeErrors` will be set on the event, and the `__snmpRaw` field will be removed to prevent @{product} from sending the event from the SNMP Trap Destination"""
 
     v3_user: Annotated[Optional[V3User], pydantic.Field(alias="v3User")] = None
+    r"""SNMPv3 user configuration, including authentication and privacy protocol settings."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

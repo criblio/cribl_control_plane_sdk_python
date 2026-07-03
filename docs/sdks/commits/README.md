@@ -33,8 +33,10 @@ with CriblControlPlane(
 
     res = ccp_client.versions.commits.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -43,11 +45,13 @@ with CriblControlPlane(
 | Parameter                                                             | Type                                                                  | Required                                                              | Description                                                           |
 | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
 | `count`                                                               | *Optional[int]*                                                       | :heavy_minus_sign:                                                    | Maximum number of commits to return in the response for this request. |
+| `offset`                                                              | *Optional[int]*                                                       | :heavy_minus_sign:                                                    | Pagination offset                                                     |
+| `limit`                                                               | *Optional[int]*                                                       | :heavy_minus_sign:                                                    | Maximum number of items to return                                     |
 | `retries`                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)      | :heavy_minus_sign:                                                    | Configuration to override the default retry behavior of the client.   |
 
 ### Response
 
-**[models.CountedGitLogResult](../../models/countedgitlogresult.md)**
+**[models.GetVersionResponse](../../models/getversionresponse.md)**
 
 ### Errors
 

@@ -31,8 +31,10 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.list(pack="<value>")
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 ### Example Usage: InputResponseExamplesSplunkHecSource
@@ -52,8 +54,10 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.list(pack="<value>")
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 ### Example Usage: InputResponseExamplesSyslogSource
@@ -73,8 +77,10 @@ with CriblControlPlane(
 
     res = ccp_client.packs.sources.list(pack="<value>")
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -84,11 +90,13 @@ with CriblControlPlane(
 | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `pack`                                                                                                                                                      | *str*                                                                                                                                                       | :heavy_check_mark:                                                                                                                                          | The <code>id</code> of the Pack.                                                                                                                            |
 | `type`                                                                                                                                                      | List[*str*]                                                                                                                                                 | :heavy_minus_sign:                                                                                                                                          | Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
+| `offset`                                                                                                                                                    | *Optional[int]*                                                                                                                                             | :heavy_minus_sign:                                                                                                                                          | Pagination offset                                                                                                                                           |
+| `limit`                                                                                                                                                     | *Optional[int]*                                                                                                                                             | :heavy_minus_sign:                                                                                                                                          | Maximum number of items to return                                                                                                                           |
 | `retries`                                                                                                                                                   | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                            | :heavy_minus_sign:                                                                                                                                          | Configuration to override the default retry behavior of the client.                                                                                         |
 
 ### Response
 
-**[models.CountedInputResponse](../../models/countedinputresponse.md)**
+**[models.GetInputSystemByPackResponse](../../models/getinputsystembypackresponse.md)**
 
 ### Errors
 
@@ -125,15 +133,15 @@ with CriblControlPlane(
         "text_secret": "anthropic-api-key-secret",
         "content_config": [
             {
-                "content_type": "activities",
+                "content_type": models.CreateInputSystemByPackEndpointName.ACTIVITIES,
                 "content_description": "Compliance Activities",
                 "enabled": True,
                 "state_tracking": True,
                 "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
                 "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
-                "cron_schedule": "*/5 * * * *",
                 "earliest": "-7d@d",
                 "latest": "now",
+                "cron_schedule": "*/5 * * * *",
                 "job_timeout": "300",
             },
         ],
@@ -1901,6 +1909,35 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesUpwindHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesUpwindHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "upwind-hec-source",
+        "type": models.CreateInputSystemByPackTypeUpwindHec.UPWIND_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesWef
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesWef" -->
@@ -2294,15 +2331,15 @@ with CriblControlPlane(
         "text_secret": "anthropic-api-key-secret",
         "content_config": [
             {
-                "content_type": "activities",
+                "content_type": models.InputAnthropicComplianceEndpointName.ACTIVITIES,
                 "content_description": "Compliance Activities",
                 "enabled": True,
                 "state_tracking": True,
                 "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
                 "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
-                "cron_schedule": "*/5 * * * *",
                 "earliest": "-7d@d",
                 "latest": "now",
+                "cron_schedule": "*/5 * * * *",
                 "job_timeout": "300",
             },
         ],
@@ -4371,15 +4408,15 @@ with CriblControlPlane(
         "text_secret": "anthropic-api-key-secret",
         "content_config": [
             {
-                "content_type": "activities",
+                "content_type": models.InputAnthropicComplianceEndpointName.ACTIVITIES,
                 "content_description": "Compliance Activities",
                 "enabled": True,
                 "state_tracking": True,
                 "state_update_expression": "__timestampExtracted !== false && {latestTime: (state.latestTime || 0) > _time ? state.latestTime : _time}",
                 "state_merge_expression": "prevState.latestTime > newState.latestTime ? prevState : newState",
-                "cron_schedule": "*/5 * * * *",
                 "earliest": "-7d@d",
                 "latest": "now",
+                "cron_schedule": "*/5 * * * *",
                 "job_timeout": "300",
             },
         ],
@@ -6193,6 +6230,35 @@ with CriblControlPlane(
         "pq_enabled": False,
         "host": "0.0.0.0",
         "port": 10090,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesUpwindHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesUpwindHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "upwind-hec-source",
+        "type": models.InputUpwindHecType.UPWIND_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
     })
 
     # Handle response

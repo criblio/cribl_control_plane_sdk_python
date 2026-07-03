@@ -12,7 +12,7 @@ Get the configuration version for the specified Worker Group, Outpost Group, or 
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getConfigGroupConfigVersionByProductAndId" method="get" path="/products/{product}/groups/{id}/configVersion" -->
+<!-- UsageSnippet language="python" operationID="getProductsGroupsConfigVersionByProductAndId" method="get" path="/products/{product}/groups/{id}/configVersion" example="GroupConfigVersionResponseExamplesConfigVersion" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

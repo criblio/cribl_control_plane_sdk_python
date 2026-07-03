@@ -78,7 +78,7 @@ class OutputSentinelOneAiSiemTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -204,7 +204,7 @@ class OutputSentinelOneAiSiem(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -423,24 +423,6 @@ class OutputSentinelOneAiSiem(BaseModel):
     ] = None
     r"""Binds 'onBackpressure' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'onBackpressure' at runtime."""
 
-    @field_serializer("region")
-    def serialize_region(self, value):
-        if isinstance(value, str):
-            try:
-                return models.OutputSentinelOneAiSiemRegion(value)
-            except ValueError:
-                return value
-        return value
-
-    @field_serializer("endpoint")
-    def serialize_endpoint(self, value):
-        if isinstance(value, str):
-            try:
-                return models.OutputSentinelOneAISIEMAISIEMEndpointPath(value)
-            except ValueError:
-                return value
-        return value
-
     @field_serializer("failed_request_logging_mode")
     def serialize_failed_request_logging_mode(self, value):
         if isinstance(value, str):
@@ -455,6 +437,24 @@ class OutputSentinelOneAiSiem(BaseModel):
         if isinstance(value, str):
             try:
                 return models.AuthenticationMethodOptionsAuthTokensItems(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("region")
+    def serialize_region(self, value):
+        if isinstance(value, str):
+            try:
+                return models.OutputSentinelOneAiSiemRegion(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("endpoint")
+    def serialize_endpoint(self, value):
+        if isinstance(value, str):
+            try:
+                return models.OutputSentinelOneAISIEMAISIEMEndpointPath(value)
             except ValueError:
                 return value
         return value

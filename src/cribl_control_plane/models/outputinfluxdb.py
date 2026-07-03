@@ -84,7 +84,7 @@ class OutputInfluxdbTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     use_v2_api: NotRequired[bool]
     r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
     timestamp_precision: NotRequired[OutputInfluxdbTimestampPrecision]
@@ -203,7 +203,7 @@ class OutputInfluxdb(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     use_v2_api: Annotated[Optional[bool], pydantic.Field(alias="useV2API")] = None
     r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""

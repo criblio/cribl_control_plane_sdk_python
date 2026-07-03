@@ -33,8 +33,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 ### Example Usage: PipelineResponseExamplesEvalPipeline
@@ -54,8 +56,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -63,11 +67,13 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| `offset`                                                            | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Pagination offset                                                   |
+| `limit`                                                             | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Maximum number of items to return                                   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedPipeline](../../models/countedpipeline.md)**
+**[models.GetPipelinesResponse](../../models/getpipelinesresponse.md)**
 
 ### Errors
 
@@ -1316,24 +1322,24 @@ with CriblControlPlane(
         "description": "Pipeline that extracts fields from key-value pair formatted data",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionSerde(
-                filter_="true",
-                id=models.PipelineFunctionSerdeID.SERDE,
-                conf=models.SerdeTypeKvp(
-                    type=models.TypeOptions.KVP,
-                    keep=[
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionSerdeID.SERDE,
+                "conf": {
+                    "type": models.SerdeTypeKvpType.KVP,
+                    "src_field": "_raw",
+                    "keep": [
                         "a",
                         "b",
                         "c",
                     ],
-                    remove=[
+                    "remove": [
                         "*",
                     ],
-                    clean_fields=False,
-                    mode=models.SerdeTypeKvpOperationMode.EXTRACT,
-                    src_field="_raw",
-                ),
-            ),
+                    "clean_fields": False,
+                    "mode": models.SerdeTypeKvpOperationMode.EXTRACT,
+                },
+            },
         ],
         "groups": {
 
@@ -1922,7 +1928,14 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.create(id="<id>", conf={})
+    res = ccp_client.pipelines.create(id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionCefID.CEF,
+                "conf": {},
+            },
+        ],
+    })
 
     # Handle response
     print(res)
@@ -1943,7 +1956,14 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.create(id="<id>", conf={})
+    res = ccp_client.pipelines.create(id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionCefID.CEF,
+                "conf": {},
+            },
+        ],
+    })
 
     # Handle response
     print(res)
@@ -2104,7 +2124,7 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Pipeline.<br/><br/>Provide a complete representation of the Pipeline that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Pipeline might not function as expected.
+Update the specified Pipeline.<br/><br/>Provide a complete representation of the Pipeline that you want to update in the request body.<br/><br/>This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Pipeline.<br/><br/>Confirm that the configuration in your request body is correct before sending the request.<br/><br/>If the configuration is incorrect, the updated Pipeline might not function as expected.
 
 ### Example Usage: PipelineExamplesAggregateMetrics
 
@@ -3341,24 +3361,24 @@ with CriblControlPlane(
         "description": "Pipeline that extracts fields from key-value pair formatted data",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionSerde(
-                filter_="true",
-                id=models.PipelineFunctionSerdeID.SERDE,
-                conf=models.SerdeTypeKvp(
-                    type=models.TypeOptions.KVP,
-                    keep=[
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionSerdeID.SERDE,
+                "conf": {
+                    "type": models.SerdeTypeKvpType.KVP,
+                    "src_field": "_raw",
+                    "keep": [
                         "a",
                         "b",
                         "c",
                     ],
-                    remove=[
+                    "remove": [
                         "*",
                     ],
-                    clean_fields=False,
-                    mode=models.SerdeTypeKvpOperationMode.EXTRACT,
-                    src_field="_raw",
-                ),
-            ),
+                    "clean_fields": False,
+                    "mode": models.SerdeTypeKvpOperationMode.EXTRACT,
+                },
+            },
         ],
         "groups": {
 
@@ -3947,7 +3967,14 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={})
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
+        "functions": [
+            models.PipelineFunctionSnmpTrapSerialize(
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
+            ),
+        ],
+    })
 
     # Handle response
     print(res)
@@ -3968,7 +3995,14 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={})
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
+        "functions": [
+            models.PipelineFunctionSnmpTrapSerialize(
+                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
+            ),
+        ],
+    })
 
     # Handle response
     print(res)
@@ -5209,24 +5243,24 @@ with CriblControlPlane(
         "description": "Pipeline that extracts fields from key-value pair formatted data",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionSerde(
-                filter_="true",
-                id=models.PipelineFunctionSerdeID.SERDE,
-                conf=models.SerdeTypeKvp(
-                    type=models.TypeOptions.KVP,
-                    keep=[
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionSerdeID.SERDE,
+                "conf": {
+                    "type": models.SerdeTypeKvpType.KVP,
+                    "src_field": "_raw",
+                    "keep": [
                         "a",
                         "b",
                         "c",
                     ],
-                    remove=[
+                    "remove": [
                         "*",
                     ],
-                    clean_fields=False,
-                    mode=models.SerdeTypeKvpOperationMode.EXTRACT,
-                    src_field="_raw",
-                ),
-            ),
+                    "clean_fields": False,
+                    "mode": models.SerdeTypeKvpOperationMode.EXTRACT,
+                },
+            },
         ],
         "groups": {
 

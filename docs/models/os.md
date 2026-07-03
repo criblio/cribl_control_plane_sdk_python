@@ -1,8 +1,19 @@
 # Os
 
+Operating system metadata collected from the node.
 
-## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `addresses`        | List[*str*]        | :heavy_check_mark: | N/A                |
+## Supported Types
+
+### `models.NodeOsInfo`
+
+```python
+value: models.NodeOsInfo = /* values here */
+```
+
+### `models.OsTypeHeartbeatMetadata`
+
+```python
+value: models.OsTypeHeartbeatMetadata = /* values here */
+```
+

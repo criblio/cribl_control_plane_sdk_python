@@ -129,6 +129,7 @@ class HBCriblInfoTypedDict(TypedDict):
     master: NotRequired[HBLeaderInfoTypedDict]
     r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
     overlay_id: NotRequired[str]
+    r"""Currently active overlay identifier on the node. Omitted if no overlay is active."""
     pid: NotRequired[int]
     r"""The process ID."""
     socks_enabled: NotRequired[bool]
@@ -178,6 +179,7 @@ class HBCriblInfo(BaseModel):
     r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
 
     overlay_id: Annotated[Optional[str], pydantic.Field(alias="overlayId")] = None
+    r"""Currently active overlay identifier on the node. Omitted if no overlay is active."""
 
     pid: Optional[int] = None
     r"""The process ID."""

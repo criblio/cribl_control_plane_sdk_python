@@ -81,7 +81,7 @@ class OutputDatasetTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     message_field: NotRequired[str]
     r"""Name of the event field that contains the message or attributes to send. If not specified, all of the event's non-internal fields will be sent as attributes."""
     exclude_fields: NotRequired[List[str]]
@@ -190,7 +190,7 @@ class OutputDataset(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     message_field: Annotated[Optional[str], pydantic.Field(alias="messageField")] = None
     r"""Name of the event field that contains the message or attributes to send. If not specified, all of the event's non-internal fields will be sent as attributes."""

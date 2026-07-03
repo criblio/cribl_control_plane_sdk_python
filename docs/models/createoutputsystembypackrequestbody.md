@@ -125,6 +125,12 @@ value: models.CreateOutputSystemByPackOutputHoneycomb = /* values here */
 value: models.CreateOutputSystemByPackOutputAzureEventhub = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputGoogleBigquery`
+
+```python
+value: models.CreateOutputSystemByPackOutputGoogleBigquery = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputGoogleChronicle`
 
 ```python
@@ -285,6 +291,12 @@ value: models.CreateOutputSystemByPackOutputGrafanaCloudUnion = /* values here *
 
 ```python
 value: models.CreateOutputSystemByPackOutputLoki = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputAmazonManagedPrometheus`
+
+```python
+value: models.CreateOutputSystemByPackOutputAmazonManagedPrometheus = /* values here */
 ```
 
 ### `models.CreateOutputSystemByPackOutputPrometheus`

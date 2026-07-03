@@ -67,7 +67,7 @@ class OutputRouterTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_streamtags: NotRequired[str]
@@ -95,7 +95,7 @@ class OutputRouter(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

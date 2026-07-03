@@ -91,6 +91,8 @@ class DestinationsStatuses(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["destinations"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -126,7 +128,7 @@ class DestinationsStatuses(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.GetOutputStatusResponse(
-                result=unmarshal_json_response(models.CountedOutputStatus, http_res),
+                result=unmarshal_json_response(models.PaginatedOutputStatus, http_res),
                 next=next_func,
             )
         if utils.match_response(http_res, "401", "application/json"):
@@ -224,6 +226,8 @@ class DestinationsStatuses(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["destinations"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -262,7 +266,7 @@ class DestinationsStatuses(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.GetOutputStatusResponse(
-                result=unmarshal_json_response(models.CountedOutputStatus, http_res),
+                result=unmarshal_json_response(models.PaginatedOutputStatus, http_res),
                 next=next_func,
             )
         if utils.match_response(http_res, "401", "application/json"):
@@ -357,6 +361,8 @@ class DestinationsStatuses(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["destinations"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -458,6 +464,8 @@ class DestinationsStatuses(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["destinations"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

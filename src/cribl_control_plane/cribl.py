@@ -20,7 +20,7 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConf:
         r"""Get system settings
 
-        Get Cribl system settings.
+        Get the current Cribl system settings.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -74,6 +74,8 @@ class Cribl(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["system"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -108,7 +110,7 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConf:
         r"""Get system settings
 
-        Get Cribl system settings.
+        Get the current Cribl system settings.
 
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -162,6 +164,8 @@ class Cribl(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["system"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -254,24 +258,24 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConf:
         r"""Update system settings
 
-        Update Cribl system settings.
+        Update the specified Cribl system settings.<br/><br/>Provide a complete representation of the system settings that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the system settings.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated system settings might not function as expected.
 
-        :param api:
+        :param api: API server configuration for the Cribl instance.
         :param backups:
         :param pii:
-        :param proxy:
+        :param proxy: HTTP proxy configuration for outbound connections.
         :param rollback:
-        :param shutdown:
+        :param shutdown: Graceful shutdown configuration.
         :param sni:
-        :param system:
+        :param system: System-level operational settings for the Cribl instance.
         :param tls:
         :param upgrade_group_settings:
         :param upgrade_settings:
-        :param workers:
-        :param apps:
-        :param custom_logo:
-        :param sockets:
-        :param support:
+        :param workers: Worker Process configuration.
+        :param apps: App configuration.
+        :param custom_logo: Custom logo configuration for the Cribl UI login page and navigation bar.
+        :param sockets: Unix domain socket configuration.
+        :param support: Support and diagnostics settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -365,6 +369,8 @@ class Cribl(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["system"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -380,7 +386,7 @@ class Cribl(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -457,24 +463,24 @@ class Cribl(BaseSDK):
     ) -> models.CountedSystemSettingsConf:
         r"""Update system settings
 
-        Update Cribl system settings.
+        Update the specified Cribl system settings.<br/><br/>Provide a complete representation of the system settings that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the system settings.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated system settings might not function as expected.
 
-        :param api:
+        :param api: API server configuration for the Cribl instance.
         :param backups:
         :param pii:
-        :param proxy:
+        :param proxy: HTTP proxy configuration for outbound connections.
         :param rollback:
-        :param shutdown:
+        :param shutdown: Graceful shutdown configuration.
         :param sni:
-        :param system:
+        :param system: System-level operational settings for the Cribl instance.
         :param tls:
         :param upgrade_group_settings:
         :param upgrade_settings:
-        :param workers:
-        :param apps:
-        :param custom_logo:
-        :param sockets:
-        :param support:
+        :param workers: Worker Process configuration.
+        :param apps: App configuration.
+        :param custom_logo: Custom logo configuration for the Cribl UI login page and navigation bar.
+        :param sockets: Unix domain socket configuration.
+        :param support: Support and diagnostics settings.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -568,6 +574,8 @@ class Cribl(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["system"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -583,7 +591,7 @@ class Cribl(BaseSDK):
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, "4XX", "*"):
+        if utils.match_response(http_res, ["400", "403", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

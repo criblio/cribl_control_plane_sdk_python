@@ -9,6 +9,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class DistributedSummaryGroupsTypedDict(TypedDict):
+    r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
+
     count: int
     r"""Total number of Worker Groups or Edge Fleets."""
     destinations: int
@@ -26,6 +28,8 @@ class DistributedSummaryGroupsTypedDict(TypedDict):
 
 
 class DistributedSummaryGroups(BaseModel):
+    r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
+
     count: int
     r"""Total number of Worker Groups or Edge Fleets."""
 
@@ -48,7 +52,9 @@ class DistributedSummaryGroups(BaseModel):
     r"""Total number of Sources."""
 
 
-class DistributedSummaryWorkersTypedDict(TypedDict):
+class WorkersTypedDict(TypedDict):
+    r"""Worker or Edge Node counts and health statistics in the deployment summary."""
+
     alive: int
     r"""Total number of Worker or Edge Nodes that are connected with <code>healthy</code> status."""
     conf_versions: int
@@ -65,7 +71,9 @@ class DistributedSummaryWorkersTypedDict(TypedDict):
     r"""Total number of Worker or Edge Nodes that are connected with a status other than <code>healthy</code>."""
 
 
-class DistributedSummaryWorkers(BaseModel):
+class Workers(BaseModel):
+    r"""Worker or Edge Node counts and health statistics in the deployment summary."""
+
     alive: int
     r"""Total number of Worker or Edge Nodes that are connected with <code>healthy</code> status."""
 
@@ -92,15 +100,19 @@ class DistributedSummaryTypedDict(TypedDict):
     r"""Summary of the deployment for the specified Cribl product (Stream or Edge)."""
 
     groups: DistributedSummaryGroupsTypedDict
-    workers: NotRequired[DistributedSummaryWorkersTypedDict]
+    r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
+    workers: NotRequired[WorkersTypedDict]
+    r"""Worker or Edge Node counts and health statistics in the deployment summary."""
 
 
 class DistributedSummary(BaseModel):
     r"""Summary of the deployment for the specified Cribl product (Stream or Edge)."""
 
     groups: DistributedSummaryGroups
+    r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
 
-    workers: Optional[DistributedSummaryWorkers] = None
+    workers: Optional[Workers] = None
+    r"""Worker or Edge Node counts and health statistics in the deployment summary."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -124,6 +136,6 @@ try:
 except NameError:
     pass
 try:
-    DistributedSummaryWorkers.model_rebuild()
+    Workers.model_rebuild()
 except NameError:
     pass

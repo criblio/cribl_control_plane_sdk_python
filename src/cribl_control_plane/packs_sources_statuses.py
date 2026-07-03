@@ -94,6 +94,8 @@ class PacksSourcesStatuses(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -130,7 +132,7 @@ class PacksSourcesStatuses(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.GetInputStatusSystemInputsByPackResponse(
-                result=unmarshal_json_response(models.CountedInputStatus, http_res),
+                result=unmarshal_json_response(models.PaginatedInputStatus, http_res),
                 next=next_func,
             )
         if utils.match_response(http_res, "401", "application/json"):
@@ -231,6 +233,8 @@ class PacksSourcesStatuses(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -272,7 +276,7 @@ class PacksSourcesStatuses(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return models.GetInputStatusSystemInputsByPackResponse(
-                result=unmarshal_json_response(models.CountedInputStatus, http_res),
+                result=unmarshal_json_response(models.PaginatedInputStatus, http_res),
                 next=next_func,
             )
         if utils.match_response(http_res, "401", "application/json"):
@@ -370,6 +374,8 @@ class PacksSourcesStatuses(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -474,6 +480,8 @@ class PacksSourcesStatuses(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

@@ -20,78 +20,102 @@ from .kubetypeheartbeatmetadata import (
     KubeTypeHeartbeatMetadata,
     KubeTypeHeartbeatMetadataTypedDict,
 )
+from .nodeosinfo import NodeOsInfo, NodeOsInfoTypedDict
+from .ostypeheartbeatmetadata import (
+    OsTypeHeartbeatMetadata,
+    OsTypeHeartbeatMetadataTypedDict,
+)
 from .outpostnodeinfo import OutpostNodeInfo, OutpostNodeInfoTypedDict
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Dict, List, Optional, Union
+from typing import Dict, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class OsTypedDict(TypedDict):
-    addresses: List[str]
-
-
-class Os(BaseModel):
-    addresses: List[str]
-
-
-OsUnionTypedDict = TypeAliasType(
-    "OsUnionTypedDict", Union[OsTypedDict, HostOsTypeHeartbeatMetadataTypedDict]
+OsTypedDict = TypeAliasType(
+    "OsTypedDict", Union[NodeOsInfoTypedDict, OsTypeHeartbeatMetadataTypedDict]
 )
+r"""Operating system metadata collected from the node."""
 
 
-OsUnion = TypeAliasType("OsUnion", Union[Os, HostOsTypeHeartbeatMetadata])
+Os = TypeAliasType("Os", Union[NodeOsInfo, OsTypeHeartbeatMetadata])
+r"""Operating system metadata collected from the node."""
 
 
 class NodeProvidedInfoTypedDict(TypedDict):
     architecture: str
-    cpus: float
+    r"""CPU architecture."""
+    cpus: int
+    r"""Number of CPU cores available on the node."""
     cribl: HBCriblInfoTypedDict
     env: Dict[str, str]
+    r"""Environment variables reported by the node."""
     hostname: str
+    r"""Hostname reported by the node."""
     node: str
+    r"""Node.js runtime version running on the node."""
     platform: str
+    r"""Operating system platform."""
     release: str
-    totalmem: float
-    api_port: NotRequired[float]
+    r"""Operating system kernel release."""
+    totalmem: int
+    r"""Total memory on the node, in bytes."""
+    api_port: NotRequired[int]
+    r"""API port exposed by the node."""
     api_scheme: NotRequired[APIScheme]
     aws: NotRequired[AwsTypeHeartbeatMetadataTypedDict]
     azure: NotRequired[AzureTypeHeartbeatMetadataTypedDict]
     conn_ip: NotRequired[str]
-    free_disk_space: NotRequired[float]
+    r"""Remote <code>ip:port</code> for the worker socket."""
+    free_disk_space: NotRequired[int]
+    r"""Free disk space on the node, in bytes."""
     host_os: NotRequired[HostOsTypeHeartbeatMetadataTypedDict]
     is_captain: NotRequired[bool]
+    r"""If <code>true</code>, the node considers itself the elected captain for its group. Otherwise, <code>false</code>."""
     is_saas_worker: NotRequired[bool]
+    r"""If <code>true</code>, the node runs in Cribl.Cloud. Otherwise, <code>false</code>."""
     kube: NotRequired[KubeTypeHeartbeatMetadataTypedDict]
-    local_time: NotRequired[float]
+    local_time: NotRequired[int]
+    r"""Local timestamp (in Unix time) on the node, in milliseconds."""
     metadata: NotRequired[HeartbeatMetadataTypedDict]
-    os: NotRequired[OsUnionTypedDict]
+    os: NotRequired[OsTypedDict]
+    r"""Operating system metadata collected from the node."""
     outpost: NotRequired[OutpostNodeInfoTypedDict]
-    total_disk_space: NotRequired[float]
+    total_disk_space: NotRequired[int]
+    r"""Total disk space on the node, in bytes."""
 
 
 class NodeProvidedInfo(BaseModel):
     architecture: str
+    r"""CPU architecture."""
 
-    cpus: float
+    cpus: int
+    r"""Number of CPU cores available on the node."""
 
     cribl: HBCriblInfo
 
     env: Dict[str, str]
+    r"""Environment variables reported by the node."""
 
     hostname: str
+    r"""Hostname reported by the node."""
 
     node: str
+    r"""Node.js runtime version running on the node."""
 
     platform: str
+    r"""Operating system platform."""
 
     release: str
+    r"""Operating system kernel release."""
 
-    totalmem: float
+    totalmem: int
+    r"""Total memory on the node, in bytes."""
 
-    api_port: Annotated[Optional[float], pydantic.Field(alias="apiPort")] = None
+    api_port: Annotated[Optional[int], pydantic.Field(alias="apiPort")] = None
+    r"""API port exposed by the node."""
 
     api_scheme: Annotated[Optional[APIScheme], pydantic.Field(alias="apiScheme")] = None
 
@@ -100,34 +124,41 @@ class NodeProvidedInfo(BaseModel):
     azure: Optional[AzureTypeHeartbeatMetadata] = None
 
     conn_ip: Optional[str] = None
+    r"""Remote <code>ip:port</code> for the worker socket."""
 
-    free_disk_space: Annotated[
-        Optional[float], pydantic.Field(alias="freeDiskSpace")
-    ] = None
+    free_disk_space: Annotated[Optional[int], pydantic.Field(alias="freeDiskSpace")] = (
+        None
+    )
+    r"""Free disk space on the node, in bytes."""
 
     host_os: Annotated[
         Optional[HostOsTypeHeartbeatMetadata], pydantic.Field(alias="hostOs")
     ] = None
 
     is_captain: Annotated[Optional[bool], pydantic.Field(alias="isCaptain")] = None
+    r"""If <code>true</code>, the node considers itself the elected captain for its group. Otherwise, <code>false</code>."""
 
     is_saas_worker: Annotated[Optional[bool], pydantic.Field(alias="isSaasWorker")] = (
         None
     )
+    r"""If <code>true</code>, the node runs in Cribl.Cloud. Otherwise, <code>false</code>."""
 
     kube: Optional[KubeTypeHeartbeatMetadata] = None
 
-    local_time: Annotated[Optional[float], pydantic.Field(alias="localTime")] = None
+    local_time: Annotated[Optional[int], pydantic.Field(alias="localTime")] = None
+    r"""Local timestamp (in Unix time) on the node, in milliseconds."""
 
     metadata: Optional[HeartbeatMetadata] = None
 
-    os: Optional[OsUnion] = None
+    os: Optional[Os] = None
+    r"""Operating system metadata collected from the node."""
 
     outpost: Optional[OutpostNodeInfo] = None
 
     total_disk_space: Annotated[
-        Optional[float], pydantic.Field(alias="totalDiskSpace")
+        Optional[int], pydantic.Field(alias="totalDiskSpace")
     ] = None
+    r"""Total disk space on the node, in bytes."""
 
     @field_serializer("api_scheme")
     def serialize_api_scheme(self, value):

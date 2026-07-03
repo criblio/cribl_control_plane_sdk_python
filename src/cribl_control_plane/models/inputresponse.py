@@ -46,21 +46,15 @@ from .extrahttpheaderconfinputelastic import (
 )
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
 from .gputype import GpuType, GpuTypeTypedDict
-from .httpdiscoveryheaderconfinputprometheus import (
-    HTTPDiscoveryHeaderConfInputPrometheus,
-    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
-)
 from .inputcollectionorigindatasourcediscoverywithdestinationarnconstraint import (
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint,
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict,
 )
-from .inputresponse_logged_in_users import (
+from .inputresponse_users_and_groups import (
     InputResponseDNS,
     InputResponseDNSTypedDict,
     InputResponseDisksAndFileSystems,
     InputResponseDisksAndFileSystemsTypedDict,
-    InputResponseFirewall,
-    InputResponseFirewallTypedDict,
     InputResponseHostInfo,
     InputResponseHostInfoTypedDict,
     InputResponseHostsFile,
@@ -129,6 +123,8 @@ from .inputresponse_logged_in_users import (
     InputResponseInputSyslogUnionTypedDict,
     InputResponseInputTCP,
     InputResponseInputTCPTypedDict,
+    InputResponseInputUpwindHec,
+    InputResponseInputUpwindHecTypedDict,
     InputResponseInputWef,
     InputResponseInputWefTypedDict,
     InputResponseInputWinEventLogs,
@@ -143,14 +139,8 @@ from .inputresponse_logged_in_users import (
     InputResponseInputZscalerHecTypedDict,
     InputResponseInterfaces,
     InputResponseInterfacesTypedDict,
-    InputResponseListeningPorts,
-    InputResponseListeningPortsTypedDict,
-    InputResponseLoggedInUsers,
-    InputResponseLoggedInUsersTypedDict,
     InputResponseRoutes,
     InputResponseRoutesTypedDict,
-    InputResponseServices,
-    InputResponseServicesTypedDict,
     InputResponseTypeSystemState,
     InputResponseUsersAndGroups,
     InputResponseUsersAndGroupsTypedDict,
@@ -177,6 +167,10 @@ from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .processtype import ProcessType, ProcessTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from .retryrulestypecodesenableheader import (
     RetryRulesTypeCodesEnableHeader,
@@ -210,6 +204,118 @@ from pydantic import ConfigDict, field_serializer, model_serializer
 from pydantic.functional_validators import BeforeValidator
 from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class InputResponseFirewallTypedDict(TypedDict):
+    r"""Creates events for Firewall rules entries"""
+
+    enable: NotRequired[bool]
+
+
+class InputResponseFirewall(BaseModel):
+    r"""Creates events for Firewall rules entries"""
+
+    enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseServicesTypedDict(TypedDict):
+    r"""Creates events from the list of services"""
+
+    enable: NotRequired[bool]
+
+
+class InputResponseServices(BaseModel):
+    r"""Creates events from the list of services"""
+
+    enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseListeningPortsTypedDict(TypedDict):
+    r"""Creates events from list of listening ports"""
+
+    enable: NotRequired[bool]
+
+
+class InputResponseListeningPorts(BaseModel):
+    r"""Creates events from list of listening ports"""
+
+    enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseLoggedInUsersTypedDict(TypedDict):
+    r"""Creates events from list of logged-in users"""
+
+    enable: NotRequired[bool]
+
+
+class InputResponseLoggedInUsers(BaseModel):
+    r"""Creates events from list of logged-in users"""
+
+    enable: Optional[bool] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class InputResponseCollectorsTypedDict(TypedDict):
@@ -386,7 +492,7 @@ class InputResponseInputSystemStateTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -440,7 +546,7 @@ class InputResponseInputSystemState(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -1124,7 +1230,7 @@ class InputResponseInputSystemMetricsTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -1177,7 +1283,7 @@ class InputResponseInputSystemMetrics(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -1290,7 +1396,7 @@ class InputResponseInputTcpjsonTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -1367,7 +1473,7 @@ class InputResponseInputTcpjson(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -1654,7 +1760,7 @@ class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -1752,7 +1858,7 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -1985,7 +2091,7 @@ class InputResponseInputCriblHTTPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -2067,7 +2173,7 @@ class InputResponseInputCriblHTTP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -2248,7 +2354,7 @@ class InputResponseInputCriblTCPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -2319,7 +2425,7 @@ class InputResponseInputCriblTCP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -2466,7 +2572,7 @@ class InputResponseInputCriblTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -2513,7 +2619,7 @@ class InputResponseInputCribl(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -2610,7 +2716,7 @@ class InputResponseInputGooglePubsubTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -2690,7 +2796,7 @@ class InputResponseInputGooglePubsub(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -2871,7 +2977,7 @@ class InputResponseInputFirehoseTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -2955,7 +3061,7 @@ class InputResponseInputFirehose(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -3146,7 +3252,7 @@ class InputResponseInputExecTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -3208,7 +3314,7 @@ class InputResponseInputExec(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -3681,7 +3787,7 @@ class InputResponseInputEventhubAmqpTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -3757,7 +3863,7 @@ class InputResponseInputEventhubAmqp(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -3920,7 +4026,7 @@ class InputResponseInputEventhubTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -4025,7 +4131,7 @@ class InputResponseInputEventhub(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -4279,7 +4385,7 @@ class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -4383,7 +4489,7 @@ class InputResponseInputMicrosoftGraph(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -4655,7 +4761,7 @@ class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -4763,7 +4869,7 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -5088,7 +5194,7 @@ class InputResponseInputOffice365ServiceTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -5173,7 +5279,7 @@ class InputResponseInputOffice365Service(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -5429,7 +5535,7 @@ class InputResponseInputOffice365MgmtTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -5519,7 +5625,7 @@ class InputResponseInputOffice365Mgmt(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -5840,7 +5946,7 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -5916,7 +6022,7 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
     http_discovery_url: NotRequired[str]
     r"""URL to fetch target groups from (must be http or https)"""
     http_discovery_headers: NotRequired[
-        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Extra headers to send with the discovery request"""
     http_discovery_reject_unauthorized: NotRequired[bool]
@@ -5987,7 +6093,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -6144,7 +6250,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     r"""URL to fetch target groups from (must be http or https)"""
 
     http_discovery_headers: Annotated[
-        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
         pydantic.Field(alias="httpDiscoveryHeaders"),
     ] = None
     r"""Extra headers to send with the discovery request"""
@@ -6395,7 +6501,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -6468,7 +6574,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     http_discovery_url: NotRequired[str]
     r"""URL to fetch target groups from (must be http or https)"""
     http_discovery_headers: NotRequired[
-        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Extra headers to send with the discovery request"""
     http_discovery_reject_unauthorized: NotRequired[bool]
@@ -6547,7 +6653,7 @@ class InputResponseInputPrometheus(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -6701,7 +6807,7 @@ class InputResponseInputPrometheus(BaseModel):
     r"""URL to fetch target groups from (must be http or https)"""
 
     http_discovery_headers: Annotated[
-        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
         pydantic.Field(alias="httpDiscoveryHeaders"),
     ] = None
     r"""Extra headers to send with the discovery request"""
@@ -6976,7 +7082,7 @@ class InputResponseInputPrometheusRwTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -7073,7 +7179,7 @@ class InputResponseInputPrometheusRw(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -7301,7 +7407,7 @@ class InputResponseInputLokiTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -7396,7 +7502,7 @@ class InputResponseInputLoki(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -7756,7 +7862,7 @@ class InputResponseInputGrafanaGrafana2TypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -7847,7 +7953,7 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -8194,7 +8300,7 @@ class InputResponseInputGrafanaGrafana1TypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -8285,7 +8391,7 @@ class InputResponseInputGrafanaGrafana1(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -8501,7 +8607,7 @@ class InputResponseInputConfluentCloudTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -8609,7 +8715,7 @@ class InputResponseInputConfluentCloud(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -8976,7 +9082,7 @@ class InputResponseInputElasticTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -9077,7 +9183,7 @@ class InputResponseInputElastic(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -9328,7 +9434,7 @@ class InputResponseInputAzureBlobTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -9427,7 +9533,7 @@ class InputResponseInputAzureBlob(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -9752,7 +9858,7 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -9857,7 +9963,7 @@ class InputResponseInputSplunkHec(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -10159,7 +10265,7 @@ class InputResponseInputSplunkSearchTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -10280,7 +10386,7 @@ class InputResponseInputSplunkSearch(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -10599,7 +10705,7 @@ class InputResponseInputSplunkTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -10688,7 +10794,7 @@ class InputResponseInputSplunk(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -10912,7 +11018,7 @@ class InputResponseInputHTTPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -11011,7 +11117,7 @@ class InputResponseInputHTTP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -11246,7 +11352,7 @@ class InputResponseInputMskTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -11391,7 +11497,7 @@ class InputResponseInputMsk(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -11717,7 +11823,7 @@ class InputResponseInputKafkaTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -11825,7 +11931,7 @@ class InputResponseInputKafka(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -12054,7 +12160,7 @@ class InputResponseInputCollectionTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -12107,7 +12213,7 @@ class InputResponseInputCollection(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -12230,29 +12336,30 @@ InputResponseTypedDict = TypeAliasType(
         InputResponseInputGooglePubsubTypedDict,
         InputResponseInputCriblHTTPTypedDict,
         InputResponseInputTCPTypedDict,
-        InputResponseInputDatadogAgentTypedDict,
         InputResponseInputFirehoseTypedDict,
         InputResponseInputOffice365ServiceTypedDict,
         InputResponseInputWizTypedDict,
+        InputResponseInputDatadogAgentTypedDict,
         InputResponseInputAppscopeTypedDict,
-        InputResponseInputFileTypedDict,
-        InputResponseInputSplunkTypedDict,
         InputResponseInputOffice365MgmtTypedDict,
+        InputResponseInputSplunkTypedDict,
+        InputResponseInputFileTypedDict,
         InputResponseInputWefTypedDict,
         InputResponseInputLokiTypedDict,
-        InputResponseInputWizWebhookTypedDict,
         InputResponseInputHTTPRawTypedDict,
-        InputResponseInputSysdigHecTypedDict,
+        InputResponseInputWizWebhookTypedDict,
         InputResponseInputPrometheusRwTypedDict,
-        InputResponseInputKafkaTypedDict,
-        InputResponseInputCriblLakeHTTPTypedDict,
-        InputResponseInputConfluentCloudTypedDict,
-        InputResponseInputZscalerHecTypedDict,
+        InputResponseInputUpwindHecTypedDict,
+        InputResponseInputSysdigHecTypedDict,
         InputResponseInputHTTPTypedDict,
+        InputResponseInputKafkaTypedDict,
+        InputResponseInputConfluentCloudTypedDict,
+        InputResponseInputCriblLakeHTTPTypedDict,
+        InputResponseInputZscalerHecTypedDict,
         InputResponseInputEventhubTypedDict,
-        InputResponseInputOpenaiComplianceLogsTypedDict,
         InputResponseInputAzureBlobTypedDict,
         InputResponseInputCloudflareHecTypedDict,
+        InputResponseInputOpenaiComplianceLogsTypedDict,
         InputResponseInputElasticTypedDict,
         InputResponseInputOpenTelemetryTypedDict,
         InputResponseInputSplunkHecTypedDict,
@@ -12261,14 +12368,14 @@ InputResponseTypedDict = TypeAliasType(
         InputResponseInputKinesisTypedDict,
         InputResponseInputOffice365MsgTraceTypedDict,
         InputResponseInputSplunkSearchTypedDict,
-        InputResponseInputCrowdstrikeTypedDict,
         InputResponseInputServicenowTableTypedDict,
-        InputResponseInputS3TypedDict,
-        InputResponseInputSecurityLakeTypedDict,
-        InputResponseInputS3InventoryTypedDict,
         InputResponseInputMskTypedDict,
         InputResponseInputEdgePrometheusTypedDict,
+        InputResponseInputCrowdstrikeTypedDict,
+        InputResponseInputS3TypedDict,
+        InputResponseInputSecurityLakeTypedDict,
         InputResponseInputPrometheusTypedDict,
+        InputResponseInputS3InventoryTypedDict,
         InputResponseInputGrafanaUnionTypedDict,
         InputResponseInputSyslogUnionTypedDict,
     ],
@@ -12353,6 +12460,7 @@ _INPUT_RESPONSE_VARIANTS: dict[str, Any] = {
     "zscaler_hec": InputResponseInputZscalerHec,
     "cloudflare_hec": InputResponseInputCloudflareHec,
     "sysdig_hec": InputResponseInputSysdigHec,
+    "upwind_hec": InputResponseInputUpwindHec,
     "openai_compliance_logs": InputResponseInputOpenaiComplianceLogs,
     "anthropic_compliance": InputResponseInputAnthropicCompliance,
     "okta": InputResponseInputOkta,
@@ -12427,6 +12535,7 @@ InputResponse = Annotated[
         InputResponseInputZscalerHec,
         InputResponseInputCloudflareHec,
         InputResponseInputSysdigHec,
+        InputResponseInputUpwindHec,
         InputResponseInputOpenaiComplianceLogs,
         InputResponseInputAnthropicCompliance,
         InputResponseInputOkta,

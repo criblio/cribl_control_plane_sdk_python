@@ -38,9 +38,9 @@ async def main():
     # Retrieve and list all Worker Groups
     worker_groups_response = cribl.groups.list(product=ProductsCore.STREAM)
 
-    if worker_groups_response.items:
+    if worker_groups_response and worker_groups_response.result and worker_groups_response.result.items:
         print(f"✅ List of Worker Group Configurations:")
-        for group in worker_groups_response.items:
+        for group in worker_groups_response.result.items:
             print(group)  # Print the entire configuration for each Worker Group
     else:
         print(f"❌ No Worker Groups found.")

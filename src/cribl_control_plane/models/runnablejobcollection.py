@@ -297,7 +297,7 @@ class RunnableJobCollectionTypedDict(TypedDict):
     schedule: NotRequired[ScheduleTypeRunnableJobCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
     input: NotRequired[
@@ -345,7 +345,7 @@ class RunnableJobCollection(BaseModel):
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     worker_affinity: Annotated[
         Optional[bool], pydantic.Field(alias="workerAffinity")

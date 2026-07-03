@@ -6,12 +6,13 @@ from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import Any, List, Optional
+from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class FunctionConfSchemaOtlpTracesTypedDict(TypedDict):
     drop_non_trace_events: NotRequired[bool]
+    r"""Drop events that are not OTLP trace spans."""
     otlp_version: NotRequired[OtlpVersionOptions]
     batch_otlp_traces: NotRequired[bool]
     r"""Batch OTLP traces by shared top-level `resource` attributes"""
@@ -21,7 +22,7 @@ class FunctionConfSchemaOtlpTracesTypedDict(TypedDict):
     r"""Time duration after which a batch will be sent, regardless of size"""
     send_batch_max_size: NotRequired[float]
     r"""Maximum batch size. Enter 0 for no maximum."""
-    metadata_keys: NotRequired[List[Any]]
+    metadata_keys: NotRequired[List[str]]
     r"""When set, this processor will create one batcher instance per distinct combination of values in the metadata"""
     metadata_cardinality_limit: NotRequired[float]
     r"""Limit the number of unique combinations of metadata key values that will be processed over the lifetime of the process. After the limit is reached, events with new metadata key value combinations will be dropped."""
@@ -31,6 +32,7 @@ class FunctionConfSchemaOtlpTraces(BaseModel):
     drop_non_trace_events: Annotated[
         Optional[bool], pydantic.Field(alias="dropNonTraceEvents")
     ] = None
+    r"""Drop events that are not OTLP trace spans."""
 
     otlp_version: Annotated[
         Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
@@ -55,7 +57,7 @@ class FunctionConfSchemaOtlpTraces(BaseModel):
     r"""Maximum batch size. Enter 0 for no maximum."""
 
     metadata_keys: Annotated[
-        Optional[List[Any]], pydantic.Field(alias="metadataKeys")
+        Optional[List[str]], pydantic.Field(alias="metadataKeys")
     ] = None
     r"""When set, this processor will create one batcher instance per distinct combination of values in the metadata"""
 

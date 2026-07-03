@@ -15,16 +15,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class PipelineGroupsTypedDict(TypedDict):
     name: str
+    r"""Name of the group."""
     description: NotRequired[str]
+    r"""Brief description of the group."""
     disabled: NotRequired[bool]
+    r"""If <code>true</code>, disable all items in the group. Otherwise, <code>false</code>."""
 
 
 class PipelineGroups(BaseModel):
     name: str
+    r"""Name of the group."""
 
     description: Optional[str] = None
+    r"""Brief description of the group."""
 
     disabled: Optional[bool] = None
+    r"""If <code>true</code>, disable all items in the group. Otherwise, <code>false</code>."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -53,9 +59,9 @@ class PipelineConfTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Brief description of the Pipeline."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     functions: NotRequired[List[PipelineFunctionConfTypedDict]]
-    r"""List of Functions to pass data through"""
+    r"""List of Functions to pass data through the Pipeline."""
     groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
     r"""Named groups of Pipeline functions for organizational display in the UI."""
     template_streamtags: NotRequired[str]
@@ -77,10 +83,10 @@ class PipelineConf(BaseModel):
     r"""Brief description of the Pipeline."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     functions: Optional[List[PipelineFunctionConf]] = None
-    r"""List of Functions to pass data through"""
+    r"""List of Functions to pass data through the Pipeline."""
 
     groups: Optional[Dict[str, PipelineGroups]] = None
     r"""Named groups of Pipeline functions for organizational display in the UI."""
@@ -142,9 +148,9 @@ class ConfInputTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Brief description of the Pipeline."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     functions: NotRequired[List[PipelineFunctionConfInputTypedDict]]
-    r"""List of Functions to pass data through"""
+    r"""List of Functions to pass data through the Pipeline."""
     groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
     r"""Named groups of Pipeline functions for organizational display in the UI."""
     template_streamtags: NotRequired[str]
@@ -166,10 +172,10 @@ class ConfInput(BaseModel):
     r"""Brief description of the Pipeline."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     functions: Optional[List[PipelineFunctionConfInput]] = None
-    r"""List of Functions to pass data through"""
+    r"""List of Functions to pass data through the Pipeline."""
 
     groups: Optional[Dict[str, PipelineGroups]] = None
     r"""Named groups of Pipeline functions for organizational display in the UI."""

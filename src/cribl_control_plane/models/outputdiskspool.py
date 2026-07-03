@@ -26,7 +26,7 @@ class OutputDiskSpoolTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     time_window: NotRequired[str]
     r"""Time period for grouping spooled events. Default is 10m."""
     max_data_size: NotRequired[str]
@@ -61,7 +61,7 @@ class OutputDiskSpool(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
     r"""Time period for grouping spooled events. Default is 10m."""

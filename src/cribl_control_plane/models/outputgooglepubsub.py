@@ -40,7 +40,7 @@ class OutputGooglePubsubTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     create_topic: NotRequired[bool]
     r"""If enabled, create topic if it does not exist."""
     ordered_delivery: NotRequired[bool]
@@ -123,7 +123,7 @@ class OutputGooglePubsub(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     create_topic: Annotated[Optional[bool], pydantic.Field(alias="createTopic")] = None
     r"""If enabled, create topic if it does not exist."""

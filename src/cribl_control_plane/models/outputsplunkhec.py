@@ -95,13 +95,9 @@ class OutputSplunkHecTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     load_balanced: NotRequired[bool]
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
-    next_queue: NotRequired[str]
-    r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
-    tcp_routing: NotRequired[str]
-    r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -137,6 +133,10 @@ class OutputSplunkHecTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+    next_queue: NotRequired[str]
+    r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
+    tcp_routing: NotRequired[str]
+    r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -207,18 +207,12 @@ class OutputSplunkHec(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
         None
     )
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
-
-    next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = None
-    r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
-
-    tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = None
-    r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
 
@@ -296,6 +290,12 @@ class OutputSplunkHec(BaseModel):
         Optional[bool], pydantic.Field(alias="responseHonorRetryAfterHeader")
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
+
+    next_queue: Annotated[Optional[str], pydantic.Field(alias="nextQueue")] = None
+    r"""In the Splunk app, define which Splunk processing queue to send the events after HEC processing."""
+
+    tcp_routing: Annotated[Optional[str], pydantic.Field(alias="tcpRouting")] = None
+    r"""In the Splunk app, set the value of _TCP_ROUTING for events that do not have _ctrl._TCP_ROUTING set."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -471,8 +471,6 @@ class OutputSplunkHec(BaseModel):
                 "environment",
                 "streamtags",
                 "loadBalanced",
-                "nextQueue",
-                "tcpRouting",
                 "tls",
                 "concurrency",
                 "maxPayloadSizeKB",
@@ -489,6 +487,8 @@ class OutputSplunkHec(BaseModel):
                 "responseRetrySettings",
                 "timeoutRetrySettings",
                 "responseHonorRetryAfterHeader",
+                "nextQueue",
+                "tcpRouting",
                 "onBackpressure",
                 "description",
                 "url",

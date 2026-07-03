@@ -41,7 +41,7 @@ class ConfigsVersions(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetConfigGroupConfigVersionByProductAndIDRequest(
+        request = models.GetProductsGroupsConfigVersionByProductAndIDRequest(
             product=product,
             id=id,
         )
@@ -79,11 +79,13 @@ class ConfigsVersions(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getConfigGroupConfigVersionByProductAndId",
+                operation_id="getProductsGroupsConfigVersionByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -139,7 +141,7 @@ class ConfigsVersions(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetConfigGroupConfigVersionByProductAndIDRequest(
+        request = models.GetProductsGroupsConfigVersionByProductAndIDRequest(
             product=product,
             id=id,
         )
@@ -177,11 +179,13 @@ class ConfigsVersions(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getConfigGroupConfigVersionByProductAndId",
+                operation_id="getProductsGroupsConfigVersionByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["groups"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

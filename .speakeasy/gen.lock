@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: 7f91b2ace5756433861c612b283397ef
-  docVersion: 4.19.0-alpha.1783033439755-cce5d464
+  docChecksum: 2bb13036d86cc544650d43f628754c26
+  docVersion: 4.19.0-alpha.1783092126309-1ce0032a
   speakeasyVersion: 1.787.0
   generationVersion: 2.914.0
-  releaseVersion: 0.10.0b1
-  configChecksum: 9c3e378bad1a066b026ff284e4e727d1
+  releaseVersion: 0.10.0b2
+  configChecksum: cea14c93ce5d89a1fe133c219bf4b35c
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: 02250ea6-3cf6-414e-8052-a941a207f22d
-  pristine_commit_hash: a3fd10f635b9fc86855980c192ce32580a1134d6
-  pristine_tree_hash: 19fb0d4215aafaafbb2d51b2d59da9269a01a8ad
+  generation_id: 321cd63e-ec6d-4330-95bb-c10d63cafe5d
+  pristine_commit_hash: 054a8f8a06ff3f4b610c8cde9e3c2b20dd319781
+  pristine_tree_hash: 0cd5588bab4ece4782533729973e61c46dfbdd04
 features:
   python:
     additionalDependencies: 1.1.0
@@ -7868,8 +7868,8 @@ trackedFiles:
     pristine_git_object: 9ea7f945fe16a3096c7bb8101909550a90083012
   docs/models/healthcounttype.md:
     id: a1d90ef3f539
-    last_write_checksum: sha1:d10966501ee1a2816d833683aee97d80b3d69ca8
-    pristine_git_object: 61d63810daecc81bb45bc7edd6946d0fdc0f16f0
+    last_write_checksum: sha1:d66a45e0466c1b7635a970136b41f203ad1976bb
+    pristine_git_object: 47041bc1c7911bd7c7b1b3b1216143268e47ab3e
   docs/models/healthoptionsstatus.md:
     id: 73b3970347ec
     last_write_checksum: sha1:1d0ffbd02812f54925fb2eb34f207f1fabf0b57e
@@ -17176,8 +17176,8 @@ trackedFiles:
     pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:f2f40b6b8f5443c868d720ea6c9f43e4dbc83352
-    pristine_git_object: bc888ddf7edff2e36fc8a4276df5bba8d652c59e
+    last_write_checksum: sha1:fdf246a3f8d9239744654dcac5648e937d47f3a9
+    pristine_git_object: 7bd54874ebc8f35dfa0f86cf0222ba32f3da4a2c
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -17208,8 +17208,8 @@ trackedFiles:
     pristine_git_object: faaf4fb816e5dcaf59ae8e6927e853aa7218a3df
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:8e655696832b8b3dab42931ccc3de449e5db8860
-    pristine_git_object: 057057d5fec0a2632c94aab47dcf3d8323af8c64
+    last_write_checksum: sha1:ac94f4662cc774077c9fcf2b87f2892d101277cf
+    pristine_git_object: b3c1effa504310d6bfb11f27e948dd6be1ec123b
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:559cbdc9c628dd800f56dedbf8dbf593abf532d5
@@ -18824,8 +18824,8 @@ trackedFiles:
     pristine_git_object: 7bc59e2ee0c79f58240504c1dd6ae4b2c0649f54
   src/cribl_control_plane/models/healthcounttype.py:
     id: e05460975fbb
-    last_write_checksum: sha1:76fa5420f56f2a8d0d5185fd7a1e3311da32f93b
-    pristine_git_object: edc41adc5526152fff1941aa08c1d36aced844a4
+    last_write_checksum: sha1:a355c4cdc16976b0ae41984e4a0186c99ecd06d8
+    pristine_git_object: ed7aa83ffdf85fba792aed3fef7dbb4e2afa2dff
   src/cribl_control_plane/models/healthoptionsstatus.py:
     id: 2ac31b0b0881
     last_write_checksum: sha1:4180461427e2923022cf880c25a9f19febe64779
@@ -40770,7 +40770,16 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.packs.destinations.statuses.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.pipelines.create()`: \n  *  `request.conf.functions[]` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.pipelines.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.pipelines.update()`: \n  *  `request.conf.functions[]` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.pipelines.delete()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.destinations.statuses.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.destinations.statuses.list()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.destinations.delete()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.destinations.update()`: \n  *  `request.output` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.destinations.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.destinations.create()`: \n  *  `request` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.destinations.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.sources.statuses.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.sources.statuses.list()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.sources.delete()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.sources.update()`: \n  *  `request.input` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.sources.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.sources.create()`: \n  *  `request` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.sources.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.system.settings.cribl.update()`: \n  *  `request` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n  *  `error` **Changed**\n* `cribl_control_plane.system.settings.cribl.list()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.sources.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.sources.create()`: \n  *  `request_body` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.sources.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.sources.update()`: \n  *  `request.input` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.sources.delete()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.nodes.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.nodes.list()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.pipelines.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.update()`: \n  *  `request.conf.functions[]` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.sources.statuses.list()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.sources.statuses.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.destinations.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.destinations.create()`: \n  *  `request_body` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.destinations.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.destinations.update()`: \n  *  `request.output` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.destinations.delete()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.get()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.delete()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.create()`: \n  *  `request.conf.functions[]` **Changed** (Breaking ⚠️)\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.pipelines.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.packs.destinations.statuses.list()`:  `response` **Changed** (Breaking ⚠️)\n* `cribl_control_plane.groups.acl.get()`:  `response` **Changed**\n* `cribl_control_plane.packs.routes.list()`:  `response` **Changed**\n* `cribl_control_plane.packs.destinations.samples.get()`:  `response` **Changed**\n* `cribl_control_plane.packs.destinations.pq.get()`:  `response` **Changed**\n* `cribl_control_plane.packs.destinations.pq.clear()`:  `response` **Changed**\n* `cribl_control_plane.packs.sources.pq.get()`:  `response` **Changed**\n* `cribl_control_plane.groups.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed**\n* `cribl_control_plane.groups.create()`:  `response` **Changed**\n* `cribl_control_plane.groups.get()`: \n  *  `response` **Changed**\n  *  `error.status[404]` **Added**\n* `cribl_control_plane.groups.update()`:  `response` **Changed**\n* `cribl_control_plane.groups.delete()`:  `response` **Changed**\n* `cribl_control_plane.groups.deploy()`:  `response` **Changed**\n* `cribl_control_plane.packs.sources.pq.clear()`:  `response` **Changed**\n* `cribl_control_plane.groups.acl.teams.get()`:  `response` **Changed**\n* `cribl_control_plane.groups.configs.versions.get()`:  `response` **Changed**\n* `cribl_control_plane.nodes.count()`:  `response` **Changed**\n* `cribl_control_plane.packs.sources.hec_tokens.update()`:  `response` **Changed**\n* `cribl_control_plane.packs.sources.hec_tokens.create()`:  `response` **Changed**\n* `cribl_control_plane.nodes.restart()`:  `response` **Changed**\n* `cribl_control_plane.nodes.summaries.get()`: \n  *  `request` **Changed**\n  *  `response` **Changed**\n* `cribl_control_plane.lakes.datasets.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed**\n* `cribl_control_plane.lakes.datasets.create()`:  `response` **Changed**\n* `cribl_control_plane.lakes.datasets.get()`:  `response` **Changed**\n* `cribl_control_plane.lakes.datasets.update()`:  `response` **Changed**\n* `cribl_control_plane.lakes.datasets.delete()`:  `response` **Changed**\n* `cribl_control_plane.routes.list()`:  `response` **Changed**\n* `cribl_control_plane.routes.get()`:  `response` **Changed**\n* `cribl_control_plane.routes.update()`:  `response` **Changed**\n* `cribl_control_plane.routes.append()`:  `response` **Changed**\n* `cribl_control_plane.system.settings.restart()`: \n  *  `response` **Changed**\n  *  `error.status[403]` **Added**\n* `cribl_control_plane.packs.routes.append()`:  `response` **Changed**\n* `cribl_control_plane.packs.routes.update()`:  `response` **Changed**\n* `cribl_control_plane.packs.routes.get()`:  `response` **Changed**\n* `cribl_control_plane.packs.destinations.samples.create()`:  `response` **Changed**\n* `cribl_control_plane.packs.delete()`:  `response` **Changed**\n* `cribl_control_plane.packs.update()`:  `response` **Changed**\n* `cribl_control_plane.packs.get()`:  `response` **Changed**\n* `cribl_control_plane.sources.hec_tokens.create()`:  `response` **Changed**\n* `cribl_control_plane.sources.hec_tokens.update()`:  `response` **Changed**\n* `cribl_control_plane.sources.pq.get()`:  `response` **Changed**\n* `cribl_control_plane.sources.pq.clear()`:  `response` **Changed**\n* `cribl_control_plane.packs.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed**\n* `cribl_control_plane.packs.install()`:  `response` **Changed**\n* `cribl_control_plane.collectors.delete()`:  `response` **Changed**\n* `cribl_control_plane.collectors.update()`: \n  *  `request.saved_job.union(SavedJobCollection).collector` **Changed**\n  *  `response` **Changed**\n* `cribl_control_plane.collectors.get()`:  `response` **Changed**\n* `cribl_control_plane.collectors.create()`: \n  *  `request.union(SavedJobCollection).collector` **Changed**\n  *  `response` **Changed**\n* `cribl_control_plane.collectors.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed**\n* `cribl_control_plane.destinations.pq.clear()`:  `response` **Changed**\n* `cribl_control_plane.destinations.pq.get()`:  `response` **Changed**\n* `cribl_control_plane.destinations.samples.get()`:  `response` **Changed**\n* `cribl_control_plane.destinations.samples.create()`:  `response` **Changed**\n* `cribl_control_plane.functions.get()`:  `response` **Changed**\n* `cribl_control_plane.functions.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed**\n* `cribl_control_plane.versions.commits.list()`: \n  *  `request` **Changed**\n  *  `response` **Changed**\n* `cribl_control_plane.versions.commits.create()`:  `response` **Changed**\n* `cribl_control_plane.versions.commits.diff()`:  `response` **Changed**\n* `cribl_control_plane.versions.commits.push()`:  `response` **Changed**\n* `cribl_control_plane.versions.commits.revert()`:  `response` **Changed**\n* `cribl_control_plane.versions.commits.get()`:  `response` **Changed**\n* `cribl_control_plane.versions.commits.undo()`:  `response` **Changed**\n* `cribl_control_plane.versions.commits.files.count()`:  `response` **Changed**\n* `cribl_control_plane.versions.commits.files.list()`:  `response` **Changed**\n* `cribl_control_plane.versions.branches.list()`:  `response` **Changed**\n* `cribl_control_plane.versions.configs.get()`:  `response` **Changed**\n* `cribl_control_plane.versions.statuses.get()`:  `response` **Changed**\n"
+releaseNotes: |
+  ## Python SDK Changes:
+  * `cribl_control_plane.packs.sources.statuses.list()`:  `response.items[].status.health_counts` **Changed**
+  * `cribl_control_plane.packs.sources.statuses.get()`:  `response.items[].status.health_counts` **Changed**
+  * `cribl_control_plane.packs.destinations.statuses.list()`:  `response.items[].status.health_counts` **Changed**
+  * `cribl_control_plane.packs.destinations.statuses.get()`:  `response.items[].status.health_counts` **Changed**
+  * `cribl_control_plane.sources.statuses.list()`:  `response.items[].status.health_counts` **Changed**
+  * `cribl_control_plane.sources.statuses.get()`:  `response.items[].status.health_counts` **Changed**
+  * `cribl_control_plane.destinations.statuses.list()`:  `response.items[].status.health_counts` **Changed**
+  * `cribl_control_plane.destinations.statuses.get()`:  `response.items[].status.health_counts` **Changed**
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

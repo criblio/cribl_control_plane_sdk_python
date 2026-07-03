@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.19.0-alpha.1783033439755-cce5d464
+  version: 4.19.0-alpha.1783092126309-1ce0032a
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -56121,11 +56121,6 @@ components:
         Yellow:
           type: integer
           description: Number of Worker Processes reporting a degraded (Yellow) status.
-      required:
-        - Green
-        - Red
-        - Unknown
-        - Yellow
     AggregatedPQStatus:
       type: object
       properties:

@@ -11,6 +11,27 @@
 
 Clear the persistent queue (PQ) for the specified Destination within the specified Pack.
 
+### Example Usage: OutputClearPQResponseExamplesClearPQJobId
+
+<!-- UsageSnippet language="python" operationID="deleteOutputSystemPqByPackAndId" method="delete" path="/p/{pack}/system/outputs/{id}/pq" example="OutputClearPQResponseExamplesClearPQJobId" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.pq.clear(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputResponseExamplesS3Destination
 
 <!-- UsageSnippet language="python" operationID="deleteOutputSystemPqByPackAndId" method="delete" path="/p/{pack}/system/outputs/{id}/pq" example="OutputResponseExamplesS3Destination" -->

@@ -70,7 +70,7 @@ class OutputServiceNowTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     auth_token_name: NotRequired[str]
     max_payload_size_kb: NotRequired[float]
     r"""Maximum size, in KB, of the request body"""
@@ -188,7 +188,7 @@ class OutputServiceNow(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     auth_token_name: Annotated[Optional[str], pydantic.Field(alias="authTokenName")] = (
         None

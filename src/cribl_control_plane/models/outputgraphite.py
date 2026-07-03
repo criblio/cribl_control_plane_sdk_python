@@ -44,7 +44,7 @@ class OutputGraphiteTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     mtu: NotRequired[float]
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""
     flush_period_sec: NotRequired[float]
@@ -117,7 +117,7 @@ class OutputGraphite(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     mtu: Optional[float] = None
     r"""When protocol is UDP, specifies the maximum size of packets sent to the destination. Also known as the MTU for the network path to the destination system."""

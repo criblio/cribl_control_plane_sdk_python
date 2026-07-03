@@ -22,6 +22,7 @@ class FunctionConfSchemaRegexFilterTypedDict(TypedDict):
     regex: NotRequired[str]
     r"""Regex to test against"""
     regex_list: NotRequired[List[RegexListTypedDict]]
+    r"""Additional regex patterns to test against the field."""
     field: NotRequired[str]
     r"""Name of the field to apply the regex on (defaults to _raw)"""
 
@@ -33,6 +34,7 @@ class FunctionConfSchemaRegexFilter(BaseModel):
     regex_list: Annotated[
         Optional[List[RegexList]], pydantic.Field(alias="regexList")
     ] = None
+    r"""Additional regex patterns to test against the field."""
 
     field: Optional[str] = None
     r"""Name of the field to apply the regex on (defaults to _raw)"""

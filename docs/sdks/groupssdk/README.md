@@ -6,8 +6,8 @@ Actions related to Groups
 
 ### Available Operations
 
-* [list](#list) - List all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product
-* [create](#create) - Create a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+* [list](#list) - List all Worker Groups, Outpost Groups, or Edge Fleets
+* [create](#create) - Create a Worker Group, Outpost Group, or Edge Fleet
 * [get](#get) - Get a Worker Group, Outpost Group, or Edge Fleet
 * [update](#update) - Update a Worker Group, Outpost Group, or Edge Fleet
 * [delete](#delete) - Delete a Worker Group, Outpost Group, or Edge Fleet
@@ -19,7 +19,7 @@ Get a list of all Worker Groups, Outpost Groups, or Edge Fleets for the specifie
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="listConfigGroupByProduct" method="get" path="/products/{product}/groups" -->
+<!-- UsageSnippet language="python" operationID="getProductsGroupsByProduct" method="get" path="/products/{product}/groups" example="GroupListResponseExamplesWorkerGroups" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -32,10 +32,12 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.list(product=models.ProductsCore.EDGE, fields="<value>")
+    res = ccp_client.groups.list(product=models.ProductsCore.STREAM)
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -45,11 +47,13 @@ with CriblControlPlane(
 | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `product`                                                                                                                                                                        | [models.ProductsCore](../../models/productscore.md)                                                                                                                              | :heavy_check_mark:                                                                                                                                                               | Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.                                                                                          |
 | `fields`                                                                                                                                                                         | *Optional[str]*                                                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                               | Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>. |
+| `offset`                                                                                                                                                                         | *Optional[int]*                                                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                               | Pagination offset                                                                                                                                                                |
+| `limit`                                                                                                                                                                          | *Optional[int]*                                                                                                                                                                  | :heavy_minus_sign:                                                                                                                                                               | Maximum number of items to return                                                                                                                                                |
 | `retries`                                                                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                                 | :heavy_minus_sign:                                                                                                                                                               | Configuration to override the default retry behavior of the client.                                                                                                              |
 
 ### Response
 
-**[models.CountedConfigGroup](../../models/countedconfiggroup.md)**
+**[models.GetProductsGroupsByProductResponse](../../models/getproductsgroupsbyproductresponse.md)**
 
 ### Errors
 
@@ -65,7 +69,7 @@ Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl 
 
 ### Example Usage: CreateGroupExamplesCloneWg
 
-<!-- UsageSnippet language="python" operationID="createConfigGroupByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesCloneWg" -->
+<!-- UsageSnippet language="python" operationID="createProductsGroupsByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesCloneWg" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -78,7 +82,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremDollyWg", description="Worker Group cloned from goatOnPremIanWg with identical configuration", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatonpremdollywg", on_prem=True, source_group_id="goatOnPremIanWg", type_=models.TypeOptionsConfigGroup.STREAM, worker_remote_access=True)
+    res = ccp_client.groups.create(product=models.ProductsCore.OUTPOST, id="goatOnPremDollyWg", description="Worker Group cloned from goatOnPremIanWg with identical configuration", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatonpremdollywg", on_prem=True, source_group_id="goatOnPremIanWg", type_=models.TypeOptionsConfigGroup.STREAM, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -86,7 +90,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: CreateGroupExamplesCloudWg
 
-<!-- UsageSnippet language="python" operationID="createConfigGroupByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesCloudWg" -->
+<!-- UsageSnippet language="python" operationID="createProductsGroupsByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesCloudWg" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -110,7 +114,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: CreateGroupExamplesEdgeFleet
 
-<!-- UsageSnippet language="python" operationID="createConfigGroupByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesEdgeFleet" -->
+<!-- UsageSnippet language="python" operationID="createProductsGroupsByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesEdgeFleet" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -123,7 +127,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatIanEdgeFleet", description="Create a new Edge Fleet", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatianedgefleet", on_prem=True, type_=models.TypeOptionsConfigGroup.EDGE, worker_remote_access=True)
+    res = ccp_client.groups.create(product=models.ProductsCore.STREAM, id="goatIanEdgeFleet", description="Edge Fleet for customer-managed deployments", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatianedgefleet", on_prem=True, type_=models.TypeOptionsConfigGroup.EDGE, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -131,7 +135,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: CreateGroupExamplesOnPremWg
 
-<!-- UsageSnippet language="python" operationID="createConfigGroupByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesOnPremWg" -->
+<!-- UsageSnippet language="python" operationID="createProductsGroupsByProduct" method="post" path="/products/{product}/groups" example="CreateGroupExamplesOnPremWg" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -144,7 +148,28 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.create(product=models.ProductsCore.EDGE, id="goatOnPremIanWg", description="Worker group in customer-managed deployment", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatonpremianwg", on_prem=True, type_=models.TypeOptionsConfigGroup.STREAM, worker_remote_access=True)
+    res = ccp_client.groups.create(product=models.ProductsCore.OUTPOST, id="goatOnPremIanWg", description="Worker group in customer-managed deployment", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, name="goatonpremianwg", on_prem=True, type_=models.TypeOptionsConfigGroup.STREAM, worker_remote_access=True)
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: GroupCreateResponseExamplesWorkerGroup
+
+<!-- UsageSnippet language="python" operationID="createProductsGroupsByProduct" method="post" path="/products/{product}/groups" example="GroupCreateResponseExamplesWorkerGroup" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.groups.create(product=models.ProductsCore.STREAM, id="<id>", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC)
 
     # Handle response
     print(res)
@@ -194,7 +219,7 @@ Get the specified Worker Group, Outpost Group, or Edge Fleet.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getConfigGroupByProductAndId" method="get" path="/products/{product}/groups/{id}" -->
+<!-- UsageSnippet language="python" operationID="getProductsGroupsByProductAndId" method="get" path="/products/{product}/groups/{id}" example="GroupGetResponseExamplesWorkerGroup" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -207,7 +232,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.get(product=models.ProductsCore.EDGE, id="<id>", fields="<value>")
+    res = ccp_client.groups.get(product=models.ProductsCore.EDGE, id="<id>")
 
     # Handle response
     print(res)
@@ -237,11 +262,11 @@ with CriblControlPlane(
 
 ## update
 
-Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body.  This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request.  If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
+Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
 
-### Example Usage: UpdateGroupExamplesScaleCloudWorkerGroup
+### Example Usage: GroupUpdateResponseExamplesWorkerGroup
 
-<!-- UsageSnippet language="python" operationID="updateConfigGroupByProductAndId" method="patch" path="/products/{product}/groups/{id}" example="UpdateGroupExamplesScaleCloudWorkerGroup" -->
+<!-- UsageSnippet language="python" operationID="updateProductsGroupsByProductAndId" method="patch" path="/products/{product}/groups/{id}" example="GroupUpdateResponseExamplesWorkerGroup" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -254,7 +279,28 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.update(product=models.ProductsCore.EDGE, id_param="<value>", id="goatCloudIanWg", cloud={
+    res = ccp_client.groups.update(product=models.ProductsCore.EDGE, id_param="<value>", id="<id>", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC)
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateGroupExamplesScaleCloudWorkerGroup
+
+<!-- UsageSnippet language="python" operationID="updateProductsGroupsByProductAndId" method="patch" path="/products/{product}/groups/{id}" example="UpdateGroupExamplesScaleCloudWorkerGroup" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.groups.update(product=models.ProductsCore.STREAM, id_param="<value>", id="goatCloudIanWg", cloud={
         "provider": models.CloudProvider.AWS,
         "region": "us-west-2",
     }, config_version="abc1234", deploying_worker_count=0, description="Scaled Worker Group with estimated ingest rate of 4096 (48 MB/s, 21 Worker Processes) for increased capacity", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, incompatible_worker_count=0, lookup_deployments=[], name="goatcloudianwg", on_prem=False, provisioned=True, type_=models.TypeOptionsConfigGroup.STREAM, worker_count=3, worker_remote_access=True)
@@ -265,7 +311,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: UpdateGroupExamplesUpdateOnPremWorkerGroup
 
-<!-- UsageSnippet language="python" operationID="updateConfigGroupByProductAndId" method="patch" path="/products/{product}/groups/{id}" example="UpdateGroupExamplesUpdateOnPremWorkerGroup" -->
+<!-- UsageSnippet language="python" operationID="updateProductsGroupsByProductAndId" method="patch" path="/products/{product}/groups/{id}" example="UpdateGroupExamplesUpdateOnPremWorkerGroup" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -278,7 +324,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.update(product=models.ProductsCore.OUTPOST, id_param="<value>", id="goatOnPremIanWg", config_version="abc1234", deploying_worker_count=0, description="Updated customer-managed Worker Group with remote access enabled", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, incompatible_worker_count=0, lookup_deployments=[], name="goatonpremianwg", on_prem=True, type_=models.TypeOptionsConfigGroup.STREAM, worker_count=5, worker_remote_access=True)
+    res = ccp_client.groups.update(product=models.ProductsCore.STREAM, id_param="<value>", id="goatOnPremIanWg", config_version="abc1234", deploying_worker_count=0, description="Updated customer-managed Worker Group with remote access enabled", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, incompatible_worker_count=0, lookup_deployments=[], name="goatonpremianwg", on_prem=True, type_=models.TypeOptionsConfigGroup.STREAM, worker_count=5, worker_remote_access=True)
 
     # Handle response
     print(res)
@@ -334,7 +380,7 @@ Delete the specified Worker Group, Outpost Group, or Edge Fleet.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="deleteConfigGroupByProductAndId" method="delete" path="/products/{product}/groups/{id}" -->
+<!-- UsageSnippet language="python" operationID="deleteProductsGroupsByProductAndId" method="delete" path="/products/{product}/groups/{id}" example="GroupDeleteResponseExamplesWorkerGroup" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -378,9 +424,9 @@ with CriblControlPlane(
 
 Deploy commits to the specified Worker Group, Outpost Group, or Edge Fleet.
 
-### Example Usage
+### Example Usage: DeployGroupExamplesDeployWorkerGroup
 
-<!-- UsageSnippet language="python" operationID="updateConfigGroupDeployByProductAndId" method="patch" path="/products/{product}/groups/{id}/deploy" -->
+<!-- UsageSnippet language="python" operationID="updateProductsGroupsDeployByProductAndId" method="patch" path="/products/{product}/groups/{id}/deploy" example="DeployGroupExamplesDeployWorkerGroup" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -393,7 +439,38 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.groups.deploy(product=models.ProductsCore.STREAM, id="<id>", version="<value>")
+    res = ccp_client.groups.deploy(product=models.ProductsCore.EDGE, id="<id>", version="abc1234", lookups=[
+        {
+            "context": "cribl",
+            "lookups": [
+                {
+                    "file": "customers.csv",
+                    "version": "lookup123",
+                },
+            ],
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: GroupDeployResponseExamplesWorkerGroup
+
+<!-- UsageSnippet language="python" operationID="updateProductsGroupsDeployByProductAndId" method="patch" path="/products/{product}/groups/{id}/deploy" example="GroupDeployResponseExamplesWorkerGroup" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.groups.deploy(product=models.ProductsCore.OUTPOST, id="<id>", version="<value>")
 
     # Handle response
     print(res)
@@ -402,13 +479,13 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                                                             | Type                                                                                                  | Required                                                                                              | Description                                                                                           |
-| ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
-| `product`                                                                                             | [models.ProductsCore](../../models/productscore.md)                                                   | :heavy_check_mark:                                                                                    | Name of the Cribl product to deploy commits to the Worker Groups, Outpost Groups, or Edge Fleets for. |
-| `id`                                                                                                  | *str*                                                                                                 | :heavy_check_mark:                                                                                    | The <code>id</code> of the target Worker Group, Outpost Group, or Edge Fleet for commit deployment.   |
-| `version`                                                                                             | *str*                                                                                                 | :heavy_check_mark:                                                                                    | N/A                                                                                                   |
-| `lookups`                                                                                             | List[[models.DeployRequestLookups](../../models/deployrequestlookups.md)]                             | :heavy_minus_sign:                                                                                    | N/A                                                                                                   |
-| `retries`                                                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                      | :heavy_minus_sign:                                                                                    | Configuration to override the default retry behavior of the client.                                   |
+| Parameter                                                                                           | Type                                                                                                | Required                                                                                            | Description                                                                                         |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `product`                                                                                           | [models.ProductsCore](../../models/productscore.md)                                                 | :heavy_check_mark:                                                                                  | Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.             |
+| `id`                                                                                                | *str*                                                                                               | :heavy_check_mark:                                                                                  | The <code>id</code> of the target Worker Group, Outpost Group, or Edge Fleet for commit deployment. |
+| `version`                                                                                           | *str*                                                                                               | :heavy_check_mark:                                                                                  | Commit hash to deploy to the Worker Group, Outpost Group, or Edge Fleet.                            |
+| `lookups`                                                                                           | List[[models.DeployRequestLookups](../../models/deployrequestlookups.md)]                           | :heavy_minus_sign:                                                                                  | Optional list of lookup file deployments to include with the commit deployment.                     |
+| `retries`                                                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                    | :heavy_minus_sign:                                                                                  | Configuration to override the default retry behavior of the client.                                 |
 
 ### Response
 

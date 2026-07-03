@@ -57,7 +57,7 @@ class OutputAlibabaCloudS3TypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     aws_authentication_method: NotRequired[OutputAlibabaCloudS3AuthenticationMethod]
     r"""Authentication method."""
     reuse_connections: NotRequired[bool]
@@ -108,6 +108,14 @@ class OutputAlibabaCloudS3TypedDict(TypedDict):
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
+    enable_assume_role: NotRequired[bool]
+    r"""Use Assume Role credentials to access Alibaba OSS"""
+    duration_seconds: NotRequired[float]
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    assume_role_arn: NotRequired[str]
+    r"""ARN of the RAM role to assume. Format: acs:ram::<account-id>:role/<role-name>. Example: acs:ram::123456789:role/OSSAccessRole"""
+    assume_role_external_id: NotRequired[str]
+    r"""External ID for the assumed role (optional, for security when configured in the role trust policy)"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
@@ -166,6 +174,10 @@ class OutputAlibabaCloudS3TypedDict(TypedDict):
     r"""Binds 'objectACL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'objectACL' at runtime."""
     template_endpoint: NotRequired[str]
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
+    template_assume_role_arn: NotRequired[str]
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+    template_assume_role_external_id: NotRequired[str]
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
     template_compress: NotRequired[str]
     r"""Binds 'compress' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'compress' at runtime."""
     template_parquet_schema: NotRequired[str]
@@ -199,7 +211,7 @@ class OutputAlibabaCloudS3(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     aws_authentication_method: Annotated[
         Optional[OutputAlibabaCloudS3AuthenticationMethod],
@@ -325,6 +337,26 @@ class OutputAlibabaCloudS3(BaseModel):
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")
     ] = None
     r"""Object ACL to assign to uploaded objects"""
+
+    enable_assume_role: Annotated[
+        Optional[bool], pydantic.Field(alias="enableAssumeRole")
+    ] = None
+    r"""Use Assume Role credentials to access Alibaba OSS"""
+
+    duration_seconds: Annotated[
+        Optional[float], pydantic.Field(alias="durationSeconds")
+    ] = None
+    r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    assume_role_arn: Annotated[Optional[str], pydantic.Field(alias="assumeRoleArn")] = (
+        None
+    )
+    r"""ARN of the RAM role to assume. Format: acs:ram::<account-id>:role/<role-name>. Example: acs:ram::123456789:role/OSSAccessRole"""
+
+    assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="assumeRoleExternalId")
+    ] = None
+    r"""External ID for the assumed role (optional, for security when configured in the role trust policy)"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -466,6 +498,16 @@ class OutputAlibabaCloudS3(BaseModel):
     ] = None
     r"""Binds 'endpoint' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'endpoint' at runtime."""
 
+    template_assume_role_arn: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleArn")
+    ] = None
+    r"""Binds 'assumeRoleArn' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleArn' at runtime."""
+
+    template_assume_role_external_id: Annotated[
+        Optional[str], pydantic.Field(alias="__template_assumeRoleExternalId")
+    ] = None
+    r"""Binds 'assumeRoleExternalId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'assumeRoleExternalId' at runtime."""
+
     template_compress: Annotated[
         Optional[str], pydantic.Field(alias="__template_compress")
     ] = None
@@ -592,6 +634,10 @@ class OutputAlibabaCloudS3(BaseModel):
                 "retrySettings",
                 "orphans",
                 "objectACL",
+                "enableAssumeRole",
+                "durationSeconds",
+                "assumeRoleArn",
+                "assumeRoleExternalId",
                 "description",
                 "awsSecret",
                 "compress",
@@ -621,6 +667,8 @@ class OutputAlibabaCloudS3(BaseModel):
                 "__template_onBackpressure",
                 "__template_objectACL",
                 "__template_endpoint",
+                "__template_assumeRoleArn",
+                "__template_assumeRoleExternalId",
                 "__template_compress",
                 "__template_parquetSchema",
             ]

@@ -74,6 +74,27 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: PQStatusResponseExamplesCompletedJob
+
+<!-- UsageSnippet language="python" operationID="getInputPqById" method="get" path="/system/inputs/{id}/pq" example="PQStatusResponseExamplesCompletedJob" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.pq.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -98,6 +119,27 @@ with CriblControlPlane(
 
 Clear the persistent queue (PQ) for the specified Source.
 
+### Example Usage: ClearPQResponseExamplesClearPQJob
+
+<!-- UsageSnippet language="python" operationID="deleteInputPqById" method="delete" path="/system/inputs/{id}/pq" example="ClearPQResponseExamplesClearPQJob" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.pq.clear(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputResponseExamplesHttpSource
 
 <!-- UsageSnippet language="python" operationID="deleteInputPqById" method="delete" path="/system/inputs/{id}/pq" example="InputResponseExamplesHttpSource" -->

@@ -125,6 +125,12 @@ value: models.OutputResponseOutputHoneycomb = /* values here */
 value: models.OutputResponseOutputAzureEventhub = /* values here */
 ```
 
+### `models.OutputResponseOutputGoogleBigquery`
+
+```python
+value: models.OutputResponseOutputGoogleBigquery = /* values here */
+```
+
 ### `models.OutputResponseOutputGoogleChronicle`
 
 ```python
@@ -285,6 +291,12 @@ value: models.OutputResponseOutputGrafanaCloudUnion = /* values here */
 
 ```python
 value: models.OutputResponseOutputLoki = /* values here */
+```
+
+### `models.OutputResponseOutputAmazonManagedPrometheus`
+
+```python
+value: models.OutputResponseOutputAmazonManagedPrometheus = /* values here */
 ```
 
 ### `models.OutputResponseOutputPrometheus`

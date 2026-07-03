@@ -51,7 +51,7 @@ class OutputSplunkTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     nested_fields: NotRequired[NestedFieldSerializationOptions]
     r"""How to serialize nested fields into index-time fields"""
     throttle_rate_per_sec: NotRequired[str]
@@ -146,7 +146,7 @@ class OutputSplunk(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     nested_fields: Annotated[
         Optional[NestedFieldSerializationOptions], pydantic.Field(alias="nestedFields")

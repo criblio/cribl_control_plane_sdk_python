@@ -399,6 +399,12 @@ value: models.InputCloudflareHecInput = /* values here */
 value: models.InputSysdigHecInput = /* values here */
 ```
 
+### `models.InputUpwindHecInput`
+
+```python
+value: models.InputUpwindHecInput = /* values here */
+```
+
 ### `models.InputOpenaiComplianceLogsInput`
 
 ```python

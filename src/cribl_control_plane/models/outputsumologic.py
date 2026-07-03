@@ -61,7 +61,7 @@ class OutputSumoLogicTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     custom_source: NotRequired[str]
     r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""
     custom_category: NotRequired[str]
@@ -160,7 +160,7 @@ class OutputSumoLogic(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     custom_source: Annotated[Optional[str], pydantic.Field(alias="customSource")] = None
     r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""

@@ -63,7 +63,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     create_container: NotRequired[bool]
     r"""Create the configured container in Azure Blob Storage if it does not already exist"""
     dest_path: NotRequired[str]
@@ -215,7 +215,7 @@ class OutputAzureBlob(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     create_container: Annotated[
         Optional[bool], pydantic.Field(alias="createContainer")

@@ -12,7 +12,8 @@ from cribl_control_plane.types import BaseModel, OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
 import io
-from typing import Any, IO, Mapping, Optional, Union, cast
+from jsonpath import JSONPath
+from typing import Any, Awaitable, Dict, IO, List, Mapping, Optional, Union, cast
 
 
 class Packs(BaseSDK):
@@ -116,6 +117,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -216,6 +219,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -244,16 +249,20 @@ class Packs(BaseSDK):
         self,
         *,
         with_: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedPackInfo:
+    ) -> Optional[models.GetPacksResponse]:
         r"""List all Packs
 
         Get a list of all Packs.
 
         :param with_: Comma-separated list of additional properties to include in the response. When set, the response includes a count of each specified property in each Pack. Supported values: <code>inputs</code>, <code>outputs</code>, <code>collectors</code>.
+        :param offset: Pagination offset
+        :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -271,6 +280,8 @@ class Packs(BaseSDK):
 
         request = models.GetPacksRequest(
             with_=with_,
+            offset=offset,
+            limit=limit,
         )
 
         req = self._build_request(
@@ -311,15 +322,45 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[models.GetPacksResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return None
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return None
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return None
+            next_offset = offset + len(results[0])
+
+            return self.list(
+                with_=with_,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedPackInfo, http_res)
+            return models.GetPacksResponse(
+                result=unmarshal_json_response(models.PaginatedPackInfo, http_res),
+                next=next_func,
+            )
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -339,16 +380,20 @@ class Packs(BaseSDK):
         self,
         *,
         with_: Optional[str] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedPackInfo:
+    ) -> Optional[models.GetPacksResponse]:
         r"""List all Packs
 
         Get a list of all Packs.
 
         :param with_: Comma-separated list of additional properties to include in the response. When set, the response includes a count of each specified property in each Pack. Supported values: <code>inputs</code>, <code>outputs</code>, <code>collectors</code>.
+        :param offset: Pagination offset
+        :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -366,6 +411,8 @@ class Packs(BaseSDK):
 
         request = models.GetPacksRequest(
             with_=with_,
+            offset=offset,
+            limit=limit,
         )
 
         req = self._build_request_async(
@@ -406,15 +453,48 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> Awaitable[Optional[models.GetPacksResponse]]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            async def empty_result():
+                return None
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return empty_result()
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return empty_result()
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return empty_result()
+            next_offset = offset + len(results[0])
+
+            return self.list_async(
+                with_=with_,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedPackInfo, http_res)
+            return models.GetPacksResponse(
+                result=unmarshal_json_response(models.PaginatedPackInfo, http_res),
+                next=next_func,
+            )
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -511,6 +591,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -616,6 +698,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -711,6 +795,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -806,6 +892,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -922,6 +1010,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1038,6 +1128,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1133,6 +1225,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1228,6 +1322,8 @@ class Packs(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["packs"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

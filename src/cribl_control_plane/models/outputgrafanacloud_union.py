@@ -8,14 +8,14 @@ from .extrahttpheaderconfinputelastic import (
     ExtraHTTPHeaderConfInputElasticTypedDict,
 )
 from .failedrequestloggingmodeoptions import FailedRequestLoggingModeOptions
-from .httpdiscoveryheaderconfinputprometheus import (
-    HTTPDiscoveryHeaderConfInputPrometheus,
-    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
-)
 from .messageformatoptions import MessageFormatOptions
 from .modeoptions import ModeOptions
 from .prometheusauthtype import PrometheusAuthType, PrometheusAuthTypeTypedDict
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .responseretrysettingconfoutputwebhook import (
     ResponseRetrySettingConfOutputWebhook,
     ResponseRetrySettingConfOutputWebhookTypedDict,
@@ -58,14 +58,16 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     loki_url: NotRequired[str]
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
     message: NotRequired[str]
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]]
+    labels: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
+    ]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -163,7 +165,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     loki_url: Annotated[Optional[str], pydantic.Field(alias="lokiUrl")] = None
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
@@ -176,7 +178,9 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]] = None
+    labels: Optional[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]
+    ] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[
@@ -491,14 +495,16 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     prometheus_url: NotRequired[str]
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
     message: NotRequired[str]
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
     message_format: NotRequired[MessageFormatOptions]
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
-    labels: NotRequired[List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]]
+    labels: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
+    ]
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
     metric_rename_expr: NotRequired[str]
     r"""JavaScript expression that can be used to rename metrics. For example, name.replace(/\./g, '_') will replace all '.' characters in a metric's name with the supported '_' character. Use the 'name' global variable to access the metric's name. You can access event fields' values via __e.<fieldName>."""
@@ -596,7 +602,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     prometheus_url: Annotated[Optional[str], pydantic.Field(alias="prometheusUrl")] = (
         None
@@ -611,7 +617,9 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     ] = None
     r"""Format to use when sending logs to Loki (Protobuf or JSON)"""
 
-    labels: Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]] = None
+    labels: Optional[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]
+    ] = None
     r"""List of labels to send with logs. Labels define Loki streams, so use static labels to avoid proliferating label value combinations and streams. Can be merged and/or overridden by the event's __labels field. Example: '__labels: {host: \"cribl.io\", level: \"error\"}'"""
 
     metric_rename_expr: Annotated[

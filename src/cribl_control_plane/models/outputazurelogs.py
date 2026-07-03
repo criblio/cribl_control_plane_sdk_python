@@ -59,7 +59,7 @@ class OutputAzureLogsTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     resource_id: NotRequired[str]
     r"""Optional Resource ID of the Azure resource to associate the data with. Can be overridden by the __resourceId event field. This ID populates the _ResourceId property, allowing the data to be included in resource-centric queries. If the ID is neither specified nor overridden, resource-centric queries will omit the data."""
     concurrency: NotRequired[float]
@@ -163,7 +163,7 @@ class OutputAzureLogs(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     resource_id: Annotated[Optional[str], pydantic.Field(alias="resourceId")] = None
     r"""Optional Resource ID of the Azure resource to associate the data with. Can be overridden by the __resourceId event field. This ID populates the _ResourceId property, allowing the data to be included in resource-centric queries. If the ID is neither specified nor overridden, resource-centric queries will omit the data."""

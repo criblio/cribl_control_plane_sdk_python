@@ -48,7 +48,7 @@ class OutputExabeamTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     object_acl: NotRequired[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptionsArchiveColdline]
@@ -147,7 +147,7 @@ class OutputExabeam(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     object_acl: Annotated[
         Optional[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol],

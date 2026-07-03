@@ -55,7 +55,7 @@ class OutputWavefrontTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     concurrency: NotRequired[float]
@@ -150,7 +150,7 @@ class OutputWavefront(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],

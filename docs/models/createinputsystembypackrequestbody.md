@@ -401,6 +401,12 @@ value: models.CreateInputSystemByPackInputCloudflareHec = /* values here */
 value: models.CreateInputSystemByPackInputSysdigHec = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputUpwindHec`
+
+```python
+value: models.CreateInputSystemByPackInputUpwindHec = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputOpenaiComplianceLogs`
 
 ```python

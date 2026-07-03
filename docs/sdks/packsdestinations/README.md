@@ -31,8 +31,10 @@ with CriblControlPlane(
 
     res = ccp_client.packs.destinations.list(pack="<value>")
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 ### Example Usage: OutputResponseExamplesSplunkHecDestination
@@ -52,8 +54,10 @@ with CriblControlPlane(
 
     res = ccp_client.packs.destinations.list(pack="<value>")
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 ### Example Usage: OutputResponseExamplesSyslogDestination
@@ -73,8 +77,10 @@ with CriblControlPlane(
 
     res = ccp_client.packs.destinations.list(pack="<value>")
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -84,11 +90,13 @@ with CriblControlPlane(
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `pack`                                                                                                                                                           | *str*                                                                                                                                                            | :heavy_check_mark:                                                                                                                                               | The <code>id</code> of the Pack.                                                                                                                                 |
 | `type`                                                                                                                                                           | [Optional[models.DestinationType]](../../models/destinationtype.md)                                                                                              | :heavy_minus_sign:                                                                                                                                               | Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
+| `offset`                                                                                                                                                         | *Optional[int]*                                                                                                                                                  | :heavy_minus_sign:                                                                                                                                               | Pagination offset                                                                                                                                                |
+| `limit`                                                                                                                                                          | *Optional[int]*                                                                                                                                                  | :heavy_minus_sign:                                                                                                                                               | Maximum number of items to return                                                                                                                                |
 | `retries`                                                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                 | :heavy_minus_sign:                                                                                                                                               | Configuration to override the default retry behavior of the client.                                                                                              |
 
 ### Response
 
-**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
+**[models.GetOutputSystemByPackResponse](../../models/getoutputsystembypackresponse.md)**
 
 ### Errors
 
@@ -123,6 +131,33 @@ with CriblControlPlane(
         "bucket": "events",
         "stage_path": "/tmp/staging",
         "endpoint": "https://s3.alphasoc.net",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesAmazonManagedPrometheus
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesAmazonManagedPrometheus" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "amazon-managed-prometheus-output",
+        "type": models.CreateOutputSystemByPackTypeAmazonManagedPrometheus.AMAZON_MANAGED_PROMETHEUS,
+        "url": "https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-example/api/v1/remote_write",
+        "aws_authentication_method": models.AuthenticationMethodOptionsAutoSecret.AUTO,
+        "region": "us-east-1",
     })
 
     # Handle response
@@ -918,6 +953,34 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesGoogleBigQuery
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesGoogleBigQuery" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "google-bigquery-output",
+        "type": models.CreateOutputSystemByPackTypeGoogleBigquery.GOOGLE_BIGQUERY,
+        "project_id": "my-project",
+        "dataset_id": "my-dataset",
+        "table_id": "my-table",
+        "google_auth_method": models.CreateOutputSystemByPackGoogleAuthenticationMethodGoogleBigquery.AUTO,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesGoogleChronicle
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesGoogleChronicle" -->
@@ -990,7 +1053,7 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.create(pack="<value>", request_body={
         "id": "google-cloud-observability-output",
         "type": models.CreateOutputSystemByPackTypeGoogleCloudObservability.GOOGLE_CLOUD_OBSERVABILITY,
-        "google_auth_method": models.CreateOutputSystemByPackGoogleAuthenticationMethod.AUTO,
+        "google_auth_method": models.CreateOutputSystemByPackGoogleAuthenticationMethodGoogleCloudObservability.AUTO,
     })
 
     # Handle response
@@ -4785,6 +4848,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateOutputExamplesAmazonManagedPrometheus
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesAmazonManagedPrometheus" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "amazon-managed-prometheus-output",
+        "type": models.OutputAmazonManagedPrometheusType.AMAZON_MANAGED_PROMETHEUS,
+        "url": "https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-example/api/v1/remote_write",
+        "aws_authentication_method": models.AuthenticationMethodOptionsAutoSecret.AUTO,
+        "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateOutputExamplesAzureBlob
 
 <!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesAzureBlob" -->
@@ -5593,6 +5683,34 @@ with CriblControlPlane(
         "id": "filesystem-output",
         "type": models.OutputFilesystemType.FILESYSTEM,
         "dest_path": "/var/log/output",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesGoogleBigQuery
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesGoogleBigQuery" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "google-bigquery-output",
+        "type": models.OutputGoogleBigqueryType.GOOGLE_BIGQUERY,
+        "project_id": "my-project",
+        "dataset_id": "my-dataset",
+        "table_id": "my-table",
+        "google_auth_method": models.OutputGoogleBigqueryGoogleAuthenticationMethod.AUTO,
     })
 
     # Handle response

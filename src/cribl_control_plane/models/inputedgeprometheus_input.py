@@ -9,10 +9,6 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollectionTypedDict,
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
-from .httpdiscoveryheaderconfinputprometheus import (
-    HTTPDiscoveryHeaderConfInputPrometheus,
-    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
-)
 from .metadataconfinputcollection import (
     MetadataConfInputCollection,
     MetadataConfInputCollectionTypedDict,
@@ -20,6 +16,10 @@ from .metadataconfinputcollection import (
 from .pqtype import PqType, PqTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .searchfilterconfinputprometheus import (
     SearchFilterConfInputPrometheus,
     SearchFilterConfInputPrometheusTypedDict,
@@ -164,7 +164,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -236,7 +236,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     http_discovery_url: NotRequired[str]
     r"""URL to fetch target groups from (must be http or https)"""
     http_discovery_headers: NotRequired[
-        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Extra headers to send with the discovery request"""
     http_discovery_reject_unauthorized: NotRequired[bool]
@@ -303,7 +303,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -454,7 +454,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""URL to fetch target groups from (must be http or https)"""
 
     http_discovery_headers: Annotated[
-        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
         pydantic.Field(alias="httpDiscoveryHeaders"),
     ] = None
     r"""Extra headers to send with the discovery request"""

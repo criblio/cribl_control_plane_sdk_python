@@ -19,6 +19,10 @@ from .oauthparamconfinputservicenowtable import (
     OauthParamConfInputServicenowTableTypedDict,
 )
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .responseretrysettingconfoutputwebhook import (
     ResponseRetrySettingConfOutputWebhook,
     ResponseRetrySettingConfOutputWebhookTypedDict,
@@ -132,7 +136,7 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     method: NotRequired[MethodOptions]
     r"""The method to use when sending events"""
     format_: NotRequired[OutputWebhookFormat2]
@@ -245,6 +249,16 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""@{product} will update the stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
     url: NotRequired[str]
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
     exclude_self: NotRequired[bool]
@@ -263,6 +277,8 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
     template_secret: NotRequired[str]
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
@@ -287,7 +303,7 @@ class OutputWebhookWebhook2(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     method: Optional[MethodOptions] = None
     r"""The method to use when sending events"""
@@ -540,6 +556,25 @@ class OutputWebhookWebhook2(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""@{product} will update the stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
+
     url: Optional[str] = None
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
 
@@ -580,6 +615,11 @@ class OutputWebhookWebhook2(BaseModel):
         Optional[str], pydantic.Field(alias="__template_secret")
     ] = None
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
@@ -723,6 +763,10 @@ class OutputWebhookWebhook2(BaseModel):
                 "tokenTimeoutSecs",
                 "oauthParams",
                 "oauthHeaders",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "refreshRequestParams",
                 "url",
                 "excludeSelf",
                 "dnsResolvePeriodSec",
@@ -732,6 +776,7 @@ class OutputWebhookWebhook2(BaseModel):
                 "__template_onBackpressure",
                 "__template_loginUrl",
                 "__template_secret",
+                "__template_refreshUrl",
                 "__template_url",
             ]
         )
@@ -842,7 +887,7 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     method: NotRequired[MethodOptions]
     r"""The method to use when sending events"""
     format_: NotRequired[OutputWebhookFormat1]
@@ -955,6 +1000,16 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     r"""Additional parameters to send in the OAuth login request. @{product} will combine the secret with these parameters, and will send the URL-encoded result in a POST request to the endpoint specified in the 'Login URL'. We'll automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""@{product} will update the stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
     urls: NotRequired[List[OutputWebhookURL1TypedDict]]
@@ -972,6 +1027,8 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     r"""Binds 'loginUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'loginUrl' at runtime."""
     template_secret: NotRequired[str]
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
@@ -997,7 +1054,7 @@ class OutputWebhookWebhook1(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     method: Optional[MethodOptions] = None
     r"""The method to use when sending events"""
@@ -1250,6 +1307,25 @@ class OutputWebhookWebhook1(BaseModel):
     ] = None
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""@{product} will update the stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, @{product} sends only grant_type, refresh_token, and client_secret."""
+
     exclude_self: Annotated[Optional[bool], pydantic.Field(alias="excludeSelf")] = None
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
@@ -1289,6 +1365,11 @@ class OutputWebhookWebhook1(BaseModel):
         Optional[str], pydantic.Field(alias="__template_secret")
     ] = None
     r"""Binds 'secret' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'secret' at runtime."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None
@@ -1432,6 +1513,10 @@ class OutputWebhookWebhook1(BaseModel):
                 "tokenTimeoutSecs",
                 "oauthParams",
                 "oauthHeaders",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "refreshRequestParams",
                 "excludeSelf",
                 "urls",
                 "dnsResolvePeriodSec",
@@ -1441,6 +1526,7 @@ class OutputWebhookWebhook1(BaseModel):
                 "__template_onBackpressure",
                 "__template_loginUrl",
                 "__template_secret",
+                "__template_refreshUrl",
                 "__template_url",
             ]
         )

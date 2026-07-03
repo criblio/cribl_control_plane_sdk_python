@@ -33,8 +33,10 @@ with CriblControlPlane(
 
     res = ccp_client.collectors.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -43,11 +45,13 @@ with CriblControlPlane(
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | `collector_type`                                                    | [Optional[models.CollectorType]](../../models/collectortype.md)     | :heavy_minus_sign:                                                  | Filter by collector type.                                           |
+| `offset`                                                            | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Pagination offset                                                   |
+| `limit`                                                             | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Maximum number of items to return                                   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
+**[models.GetSavedJobResponse](../../models/getsavedjobresponse.md)**
 
 ### Errors
 

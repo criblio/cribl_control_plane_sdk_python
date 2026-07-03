@@ -213,7 +213,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     validate_database_settings: NotRequired[bool]
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
     ingest_mode: NotRequired[OutputAzureDataExplorerIngestionMode]
@@ -443,7 +443,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     validate_database_settings: Annotated[
         Optional[bool], pydantic.Field(alias="validateDatabaseSettings")

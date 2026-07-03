@@ -139,7 +139,7 @@ class OutputSyslogTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     protocol: NotRequired[OutputSyslogProtocol]
     r"""The network protocol to use for sending out syslog messages"""
     facility: NotRequired[OutputSyslogFacility]
@@ -240,7 +240,7 @@ class OutputSyslog(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     protocol: Optional[OutputSyslogProtocol] = None
     r"""The network protocol to use for sending out syslog messages"""

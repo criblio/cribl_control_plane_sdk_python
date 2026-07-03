@@ -266,8 +266,8 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 ### [Groups](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md)
 
-* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#list) - List all Worker Groups, Outpost Groups, or Edge Fleets for the specified Cribl product
-* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#create) - Create a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+* [list](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#list) - List all Worker Groups, Outpost Groups, or Edge Fleets
+* [create](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#create) - Create a Worker Group, Outpost Group, or Edge Fleet
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#get) - Get a Worker Group, Outpost Group, or Edge Fleet
 * [update](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#update) - Update a Worker Group, Outpost Group, or Edge Fleet
 * [delete](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/groupssdk/README.md#delete) - Delete a Worker Group, Outpost Group, or Edge Fleet
@@ -285,9 +285,9 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 * [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/configsversions/README.md#get) - Get the configuration version for a Worker Group, Outpost Group, or Edge Fleet
 
-### [Health](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md)
+### [Health](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/healthsdk/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/health/README.md#get) - Get the health status of the server
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/healthsdk/README.md#get) - Get the health status of the server
 
 ### [Lakes.Datasets](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/datasets/README.md)
 
@@ -306,7 +306,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Nodes.Summaries](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the deployment for a specific product.
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/summaries/README.md#get) - Get a summary of the deployment for a Cribl product
 
 ### [Packs](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/packs/README.md)
 
@@ -518,7 +518,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.database_connections.list()
+    res = ccp_client.functions.list()
 
     while res is not None:
         # Handle items

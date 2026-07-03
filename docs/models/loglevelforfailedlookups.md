@@ -1,5 +1,7 @@
 # LogLevelForFailedLookups
 
+Log level to use when a DNS lookup fails.
+
 ## Example Usage
 
 ```python

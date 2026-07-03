@@ -1,5 +1,7 @@
 # PipelineFunctionSerdeConf
 
+Configuration specific to the Pipeline Function.
+
 
 ## Supported Types
 
@@ -31,6 +33,12 @@ value: models.SerdeTypeJSON = /* values here */
 
 ```python
 value: models.SerdeTypeRegex = /* values here */
+```
+
+### `models.SerdeTypeAuto`
+
+```python
+value: models.SerdeTypeAuto = /* values here */
 ```
 
 ### `models.SerdeTypeGrok`

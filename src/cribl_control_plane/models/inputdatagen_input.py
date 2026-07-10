@@ -19,17 +19,21 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputDatagenType(str, Enum):
+    r"""Connector type identifier."""
+
     DATAGEN = "datagen"
 
 
 class InputDatagenSampleTypedDict(TypedDict):
     sample: str
+    r"""Data Generator File Name"""
     events_per_sec: float
     r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
 
 
 class InputDatagenSample(BaseModel):
     sample: str
+    r"""Data Generator File Name"""
 
     events_per_sec: Annotated[float, pydantic.Field(alias="eventsPerSec")]
     r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
@@ -37,7 +41,9 @@ class InputDatagenSample(BaseModel):
 
 class InputDatagenInputTypedDict(TypedDict):
     type: InputDatagenType
+    r"""Connector type identifier."""
     samples: List[InputDatagenSampleTypedDict]
+    r"""Datagens"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -67,8 +73,10 @@ class InputDatagenInputTypedDict(TypedDict):
 
 class InputDatagenInput(BaseModel):
     type: InputDatagenType
+    r"""Connector type identifier."""
 
     samples: List[InputDatagenSample]
+    r"""Datagens"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""

@@ -23,6 +23,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputSystemStateType(str, Enum):
+    r"""Connector type identifier."""
+
     SYSTEM_STATE = "system_state"
 
 
@@ -30,12 +32,14 @@ class InputSystemStateHostsFileTypedDict(TypedDict):
     r"""Creates events based on entries collected from the hosts file"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateHostsFile(BaseModel):
     r"""Creates events based on entries collected from the hosts file"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -58,12 +62,14 @@ class InputSystemStateInterfacesTypedDict(TypedDict):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateInterfaces(BaseModel):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -86,12 +92,14 @@ class InputSystemStateDisksAndFileSystemsTypedDict(TypedDict):
     r"""Creates events for physical disks, partitions, and file systems"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateDisksAndFileSystems(BaseModel):
     r"""Creates events for physical disks, partitions, and file systems"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -114,12 +122,14 @@ class InputSystemStateHostInfoTypedDict(TypedDict):
     r"""Creates events based on the host system’s current state"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateHostInfo(BaseModel):
     r"""Creates events based on the host system’s current state"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -142,12 +152,14 @@ class InputSystemStateRoutesTypedDict(TypedDict):
     r"""Creates events based on entries collected from the host’s network routes"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateRoutes(BaseModel):
     r"""Creates events based on entries collected from the host’s network routes"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -170,12 +182,14 @@ class InputSystemStateDNSTypedDict(TypedDict):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateDNS(BaseModel):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -198,12 +212,14 @@ class InputSystemStateUsersAndGroupsTypedDict(TypedDict):
     r"""Creates events for local users and groups"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateUsersAndGroups(BaseModel):
     r"""Creates events for local users and groups"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -226,12 +242,14 @@ class InputSystemStateFirewallTypedDict(TypedDict):
     r"""Creates events for Firewall rules entries"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateFirewall(BaseModel):
     r"""Creates events for Firewall rules entries"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -254,12 +272,14 @@ class InputSystemStateServicesTypedDict(TypedDict):
     r"""Creates events from the list of services"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateServices(BaseModel):
     r"""Creates events from the list of services"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -282,12 +302,14 @@ class InputSystemStateListeningPortsTypedDict(TypedDict):
     r"""Creates events from list of listening ports"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateListeningPorts(BaseModel):
     r"""Creates events from list of listening ports"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -310,12 +332,14 @@ class InputSystemStateLoggedInUsersTypedDict(TypedDict):
     r"""Creates events from list of logged-in users"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateLoggedInUsers(BaseModel):
     r"""Creates events from list of logged-in users"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -436,6 +460,7 @@ class InputSystemStatePersistenceTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
 
@@ -454,6 +479,7 @@ class InputSystemStatePersistence(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
@@ -495,6 +521,7 @@ class InputSystemStatePersistence(BaseModel):
 
 class InputSystemStateInputTypedDict(TypedDict):
     type: InputSystemStateType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -532,6 +559,7 @@ class InputSystemStateInputTypedDict(TypedDict):
 
 class InputSystemStateInput(BaseModel):
     type: InputSystemStateType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""

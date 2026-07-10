@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputFileType(str, Enum):
+    r"""Connector type identifier."""
+
     FILE = "file"
 
 
@@ -34,6 +36,7 @@ class InputFileMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputFileInputTypedDict(TypedDict):
     type: InputFileType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -88,6 +91,7 @@ class InputFileInputTypedDict(TypedDict):
     depth: NotRequired[float]
     r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
     suppress_missing_path_errors: NotRequired[bool]
+    r"""Suppress errors when search path does not exist"""
     delete_files: NotRequired[bool]
     r"""Delete files after they have been collected"""
     salt_hash: NotRequired[bool]
@@ -104,6 +108,7 @@ class InputFileInputTypedDict(TypedDict):
 
 class InputFileInput(BaseModel):
     type: InputFileType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -200,6 +205,7 @@ class InputFileInput(BaseModel):
     suppress_missing_path_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
     ] = None
+    r"""Suppress errors when search path does not exist"""
 
     delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
     r"""Delete files after they have been collected"""

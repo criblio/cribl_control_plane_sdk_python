@@ -20,10 +20,12 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class SavedJobExecutorTypedDict(TypedDict):
     type: JobTypeOptionsRunnableJobCollection
+    r"""Job type"""
     executor: ExecutorTypeRunnableJobExecutorTypedDict
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
+    r"""Description"""
     ttl: NotRequired[str]
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
@@ -44,6 +46,7 @@ class SavedJobExecutorTypedDict(TypedDict):
 
 class SavedJobExecutor(BaseModel):
     type: JobTypeOptionsRunnableJobCollection
+    r"""Job type"""
 
     executor: ExecutorTypeRunnableJobExecutor
 
@@ -51,6 +54,7 @@ class SavedJobExecutor(BaseModel):
     r"""Unique ID for this Job"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""

@@ -377,6 +377,12 @@ value: models.CreateInputInputNetflow = /* values here */
 value: models.CreateInputInputSecurityLake = /* values here */
 ```
 
+### `models.CreateInputInputBedrockS3`
+
+```python
+value: models.CreateInputInputBedrockS3 = /* values here */
+```
+
 ### `models.CreateInputInputServicenowTable`
 
 ```python

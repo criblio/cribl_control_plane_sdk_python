@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsKinesis
 
+Persistent queue controls.
+
 
 ## Fields
 

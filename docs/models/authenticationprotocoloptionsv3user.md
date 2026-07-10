@@ -1,5 +1,7 @@
 # AuthenticationProtocolOptionsV3User
 
+Authentication protocol
+
 ## Example Usage
 
 ```python

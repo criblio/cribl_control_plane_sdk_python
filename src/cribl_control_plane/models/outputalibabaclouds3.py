@@ -28,6 +28,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputAlibabaCloudS3Type(str, Enum):
+    r"""Connector type identifier."""
+
     ALIBABA_CLOUD_S3 = "alibaba_cloud_s3"
 
 
@@ -42,6 +44,7 @@ class OutputAlibabaCloudS3AuthenticationMethod(str, Enum, metaclass=utils.OpenEn
 
 class OutputAlibabaCloudS3TypedDict(TypedDict):
     type: OutputAlibabaCloudS3Type
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination Alibaba OSS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -106,6 +109,7 @@ class OutputAlibabaCloudS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     enable_assume_role: NotRequired[bool]
@@ -186,6 +190,7 @@ class OutputAlibabaCloudS3TypedDict(TypedDict):
 
 class OutputAlibabaCloudS3(BaseModel):
     type: OutputAlibabaCloudS3Type
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination Alibaba OSS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -332,6 +337,7 @@ class OutputAlibabaCloudS3(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")

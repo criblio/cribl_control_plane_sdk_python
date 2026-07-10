@@ -34,19 +34,22 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class OutputGrafanaCloudType2(str, Enum):
+    r"""Connector type identifier."""
+
     GRAFANA_CLOUD = "grafana_cloud"
 
 
 class OutputGrafanaCloudPqControls2TypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGrafanaCloudPqControls2(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     type: OutputGrafanaCloudType2
+    r"""Connector type identifier."""
     prometheus_url: str
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
     id: NotRequired[str]
@@ -132,6 +135,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputGrafanaCloudPqControls2TypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_loki_url: NotRequired[str]
@@ -146,6 +150,7 @@ class OutputGrafanaCloudGrafanaCloud2TypedDict(TypedDict):
 
 class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     type: OutputGrafanaCloudType2
+    r"""Connector type identifier."""
 
     prometheus_url: Annotated[str, pydantic.Field(alias="prometheusUrl")]
     r"""The remote_write endpoint to send Prometheus metrics to, such as https://prometheus-blocks-prod-us-central1.grafana.net/api/prom/push"""
@@ -325,6 +330,7 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGrafanaCloudPqControls2], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -471,19 +477,22 @@ class OutputGrafanaCloudGrafanaCloud2(BaseModel):
 
 
 class OutputGrafanaCloudType1(str, Enum):
+    r"""Connector type identifier."""
+
     GRAFANA_CLOUD = "grafana_cloud"
 
 
 class OutputGrafanaCloudPqControls1TypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGrafanaCloudPqControls1(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     type: OutputGrafanaCloudType1
+    r"""Connector type identifier."""
     loki_url: str
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
     id: NotRequired[str]
@@ -569,6 +578,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputGrafanaCloudPqControls1TypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_loki_url: NotRequired[str]
@@ -583,6 +593,7 @@ class OutputGrafanaCloudGrafanaCloud1TypedDict(TypedDict):
 
 class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     type: OutputGrafanaCloudType1
+    r"""Connector type identifier."""
 
     loki_url: Annotated[str, pydantic.Field(alias="lokiUrl")]
     r"""The endpoint to send logs to, such as https://logs-prod-us-central1.grafana.net"""
@@ -764,6 +775,7 @@ class OutputGrafanaCloudGrafanaCloud1(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGrafanaCloudPqControls1], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

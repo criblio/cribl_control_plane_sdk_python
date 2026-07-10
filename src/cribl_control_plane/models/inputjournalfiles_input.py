@@ -19,6 +19,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputJournalFilesType(str, Enum):
+    r"""Connector type identifier."""
+
     JOURNAL_FILES = "journal_files"
 
 
@@ -55,6 +57,7 @@ class InputJournalFilesRule(BaseModel):
 
 class InputJournalFilesInputTypedDict(TypedDict):
     type: InputJournalFilesType
+    r"""Connector type identifier."""
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
     journals: List[str]
@@ -85,6 +88,7 @@ class InputJournalFilesInputTypedDict(TypedDict):
     max_age_dur: NotRequired[str]
     r"""The maximum log message age, in duration form (e.g,: 60s, 4h, 3d, 1w).  Default of no value will apply no max age filters."""
     suppress_missing_path_errors: NotRequired[bool]
+    r"""Suppress errors when search path does not exist"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
@@ -97,6 +101,7 @@ class InputJournalFilesInputTypedDict(TypedDict):
 
 class InputJournalFilesInput(BaseModel):
     type: InputJournalFilesType
+    r"""Connector type identifier."""
 
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
@@ -147,6 +152,7 @@ class InputJournalFilesInput(BaseModel):
     suppress_missing_path_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
     ] = None
+    r"""Suppress errors when search path does not exist"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""

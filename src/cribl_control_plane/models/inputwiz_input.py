@@ -27,6 +27,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputWizType(str, Enum):
+    r"""Connector type identifier."""
+
     WIZ = "wiz"
 
 
@@ -50,7 +52,9 @@ class InputWizContentConfigTypedDict(TypedDict):
     latest: str
     r"""Latest time, relative to now. Format supported: [+|-]<time_integer><time_unit>@<snap-to_time_unit> (ex: -1hr, -42m, -42m@h)"""
     content_description: NotRequired[str]
+    r"""Description"""
     enabled: NotRequired[bool]
+    r"""Enable content"""
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
     state_update_expression: NotRequired[str]
@@ -85,8 +89,10 @@ class InputWizContentConfig(BaseModel):
     content_description: Annotated[
         Optional[str], pydantic.Field(alias="contentDescription")
     ] = None
+    r"""Description"""
 
     enabled: Optional[bool] = None
+    r"""Enable content"""
 
     state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
         None
@@ -159,6 +165,7 @@ class InputWizContentConfig(BaseModel):
 
 class InputWizInputTypedDict(TypedDict):
     type: InputWizType
+    r"""Connector type identifier."""
     endpoint: str
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
     auth_url: str
@@ -166,6 +173,7 @@ class InputWizInputTypedDict(TypedDict):
     client_id: str
     r"""The client ID of the Wiz application"""
     content_config: List[InputWizContentConfigTypedDict]
+    r"""Content types"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -224,6 +232,7 @@ class InputWizInputTypedDict(TypedDict):
 
 class InputWizInput(BaseModel):
     type: InputWizType
+    r"""Connector type identifier."""
 
     endpoint: str
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -237,6 +246,7 @@ class InputWizInput(BaseModel):
     content_config: Annotated[
         List[InputWizContentConfig], pydantic.Field(alias="contentConfig")
     ]
+    r"""Content types"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""

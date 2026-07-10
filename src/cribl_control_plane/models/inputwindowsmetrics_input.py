@@ -26,6 +26,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputWindowsMetricsType(str, Enum):
+    r"""Connector type identifier."""
+
     WINDOWS_METRICS = "windows_metrics"
 
 
@@ -408,6 +410,8 @@ class InputWindowsMetricsHost(BaseModel):
 
 
 class InputWindowsMetricsPersistenceTypedDict(TypedDict):
+    r"""persistence"""
+
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -417,11 +421,14 @@ class InputWindowsMetricsPersistenceTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/windows_metrics"""
 
 
 class InputWindowsMetricsPersistence(BaseModel):
+    r"""persistence"""
+
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -435,6 +442,7 @@ class InputWindowsMetricsPersistence(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/windows_metrics"""
@@ -476,6 +484,7 @@ class InputWindowsMetricsPersistence(BaseModel):
 
 class InputWindowsMetricsInputTypedDict(TypedDict):
     type: InputWindowsMetricsType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -501,6 +510,7 @@ class InputWindowsMetricsInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputWindowsMetricsPersistenceTypedDict]
+    r"""persistence"""
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
     description: NotRequired[str]
@@ -513,6 +523,7 @@ class InputWindowsMetricsInputTypedDict(TypedDict):
 
 class InputWindowsMetricsInput(BaseModel):
     type: InputWindowsMetricsType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -555,6 +566,7 @@ class InputWindowsMetricsInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     persistence: Optional[InputWindowsMetricsPersistence] = None
+    r"""persistence"""
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")

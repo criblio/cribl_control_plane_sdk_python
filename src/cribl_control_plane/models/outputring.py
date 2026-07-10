@@ -15,6 +15,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputRingType(str, Enum):
+    r"""Connector type identifier."""
+
     RING = "ring"
 
 
@@ -27,6 +29,7 @@ class OutputRingDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class OutputRingTypedDict(TypedDict):
     type: OutputRingType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -46,6 +49,7 @@ class OutputRingTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
     on_backpressure: NotRequired[BackpressureBehaviorOptionsBlockDrop]
@@ -60,6 +64,7 @@ class OutputRingTypedDict(TypedDict):
 
 class OutputRing(BaseModel):
     type: OutputRingType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -95,6 +100,7 @@ class OutputRing(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""

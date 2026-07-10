@@ -39,22 +39,26 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputCustomerMetricsStorageType(str, Enum):
+    r"""Connector type identifier."""
+
     CUSTOMER_METRICS_STORAGE = "customer_metrics_storage"
 
 
 class OutputCustomerMetricsStoragePqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCustomerMetricsStoragePqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCustomerMetricsStorageTypedDict(TypedDict):
     type: OutputCustomerMetricsStorageType
+    r"""Connector type identifier."""
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
     database: str
+    r"""ClickHouse database"""
     table_name: str
     r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
     id: NotRequired[str]
@@ -68,6 +72,7 @@ class OutputCustomerMetricsStorageTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
     auth_type: NotRequired[AuthenticationTypeOptions]
+    r"""Authentication type"""
     format_: NotRequired[FormatOptions]
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
     mapping_type: NotRequired[MappingTypeOptions]
@@ -75,6 +80,7 @@ class OutputCustomerMetricsStorageTypedDict(TypedDict):
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing on the ClickHouse server. Disable to write to a ClickHouse table immediately. Cribl sends the configured value with every insert (<code>async_insert=1</code> or <code>async_insert=0</code>) so behavior is consistent across ClickHouse versions, including 26.3 LTS and later, where async inserts are enabled by default on the server."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    r"""TLS settings (client side)"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -116,7 +122,9 @@ class OutputCustomerMetricsStorageTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     sql_username: NotRequired[str]
@@ -128,6 +136,7 @@ class OutputCustomerMetricsStorageTypedDict(TypedDict):
     describe_table: NotRequired[str]
     r"""Retrieves the table schema from ClickHouse and populates the Column Mapping table"""
     column_mappings: NotRequired[List[ColumnMappingConfOutputClickHouseTypedDict]]
+    r"""Column Mapping"""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -151,6 +160,7 @@ class OutputCustomerMetricsStorageTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputCustomerMetricsStoragePqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -167,11 +177,13 @@ class OutputCustomerMetricsStorageTypedDict(TypedDict):
 
 class OutputCustomerMetricsStorage(BaseModel):
     type: OutputCustomerMetricsStorageType
+    r"""Connector type identifier."""
 
     url: str
     r"""URL of the ClickHouse instance. Example: http://localhost:8123/"""
 
     database: str
+    r"""ClickHouse database"""
 
     table_name: Annotated[str, pydantic.Field(alias="tableName")]
     r"""Name of the ClickHouse table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
@@ -196,6 +208,7 @@ class OutputCustomerMetricsStorage(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
     ] = None
+    r"""Authentication type"""
 
     format_: Annotated[Optional[FormatOptions], pydantic.Field(alias="format")] = None
     r"""Data format to use when sending data to ClickHouse. Defaults to JSON Compact."""
@@ -211,6 +224,7 @@ class OutputCustomerMetricsStorage(BaseModel):
     r"""Collect data into batches for later processing on the ClickHouse server. Disable to write to a ClickHouse table immediately. Cribl sends the configured value with every insert (<code>async_insert=1</code> or <code>async_insert=0</code>) so behavior is consistent across ClickHouse versions, including 26.3 LTS and later, where async inserts are enabled by default on the server."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    r"""TLS settings (client side)"""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -298,8 +312,10 @@ class OutputCustomerMetricsStorage(BaseModel):
     r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -328,6 +344,7 @@ class OutputCustomerMetricsStorage(BaseModel):
         Optional[List[ColumnMappingConfOutputClickHouse]],
         pydantic.Field(alias="columnMappings"),
     ] = None
+    r"""Column Mapping"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -382,6 +399,7 @@ class OutputCustomerMetricsStorage(BaseModel):
         Optional[OutputCustomerMetricsStoragePqControls],
         pydantic.Field(alias="pqControls"),
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

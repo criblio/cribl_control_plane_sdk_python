@@ -29,6 +29,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOffice365ServiceType(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_SERVICE = "office365_service"
 
 
@@ -38,9 +40,11 @@ class InputOffice365ServiceContentConfigTypedDict(TypedDict):
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
+    r"""Interval"""
     log_level: NotRequired[LogLevelOptionsContentConfigItems]
     r"""Collector runtime Log Level"""
     enabled: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputOffice365ServiceContentConfig(BaseModel):
@@ -51,6 +55,7 @@ class InputOffice365ServiceContentConfig(BaseModel):
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
 
     interval: Optional[float] = None
+    r"""Interval"""
 
     log_level: Annotated[
         Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
@@ -58,6 +63,7 @@ class InputOffice365ServiceContentConfig(BaseModel):
     r"""Collector runtime Log Level"""
 
     enabled: Optional[bool] = None
+    r"""Enabled"""
 
     @field_serializer("log_level")
     def serialize_log_level(self, value):
@@ -89,6 +95,7 @@ class InputOffice365ServiceContentConfig(BaseModel):
 
 class InputOffice365ServiceInputTypedDict(TypedDict):
     type: InputOffice365ServiceType
+    r"""Connector type identifier."""
     tenant_id: str
     r"""Microsoft 365 Azure Tenant ID"""
     app_id: str
@@ -153,6 +160,7 @@ class InputOffice365ServiceInputTypedDict(TypedDict):
 
 class InputOffice365ServiceInput(BaseModel):
     type: InputOffice365ServiceType
+    r"""Connector type identifier."""
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
     r"""Microsoft 365 Azure Tenant ID"""

@@ -65,6 +65,8 @@ class InputOpenTelemetryAuthenticationType(str, Enum, metaclass=utils.OpenEnumMe
 class InputOpenTelemetryAuthMethodsExtAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication type"""
+
     # Token
     TOKEN = "token"
     # Token (secret)
@@ -77,16 +79,21 @@ class InputOpenTelemetryAuthMethodsExtAuthenticationType(
 
 class InputOpenTelemetryAuthMethodsExtTypedDict(TypedDict):
     auth_type: InputOpenTelemetryAuthMethodsExtAuthenticationType
+    r"""Authentication type"""
     token: NotRequired[str]
     r"""Bearer token for Authorization header"""
     description: NotRequired[str]
+    r"""Description"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this auth method"""
     enabled: NotRequired[bool]
+    r"""Enable"""
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
 
@@ -96,23 +103,28 @@ class InputOpenTelemetryAuthMethodsExt(BaseModel):
         InputOpenTelemetryAuthMethodsExtAuthenticationType,
         pydantic.Field(alias="authType"),
     ]
+    r"""Authentication type"""
 
     token: Optional[str] = None
     r"""Bearer token for Authorization header"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events referencing this auth method"""
 
     enabled: Optional[bool] = None
+    r"""Enable"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored text secret"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -181,6 +193,7 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -216,7 +229,9 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -278,6 +293,7 @@ class InputOpenTelemetryInput(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -360,8 +376,10 @@ class InputOpenTelemetryInput(BaseModel):
     r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""

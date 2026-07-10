@@ -19,29 +19,26 @@ from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
+from .typeoptionsmsk import TypeOptionsMsk
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputMskType(str, Enum):
-    MSK = "msk"
-
-
 class OutputMskPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputMskPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputMskTypedDict(TypedDict):
-    type: OutputMskType
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
     topic: str
@@ -75,6 +72,7 @@ class OutputMskTypedDict(TypedDict):
     kafka_schema_registry: NotRequired[
         KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuthTypedDict
     ]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -92,6 +90,7 @@ class OutputMskTypedDict(TypedDict):
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
     reuse_connections: NotRequired[bool]
@@ -107,11 +106,13 @@ class OutputMskTypedDict(TypedDict):
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     protobuf_library_id: NotRequired[str]
@@ -141,6 +142,7 @@ class OutputMskTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputMskPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
@@ -166,7 +168,8 @@ class OutputMskTypedDict(TypedDict):
 
 
 class OutputMsk(BaseModel):
-    type: OutputMskType
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify hostname and port, e.g., mykafkabroker:9092, or just hostname, in which case @{product} will assign port 9092."""
@@ -230,6 +233,7 @@ class OutputMsk(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationTypeTemplateschemaRegistryURLAuth],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -268,6 +272,7 @@ class OutputMsk(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     endpoint: Optional[str] = None
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
@@ -303,6 +308,7 @@ class OutputMsk(BaseModel):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -313,6 +319,7 @@ class OutputMsk(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -379,6 +386,7 @@ class OutputMsk(BaseModel):
     pq_controls: Annotated[
         Optional[OutputMskPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

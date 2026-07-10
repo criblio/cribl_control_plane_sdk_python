@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsNewrelicEvents
 
+Persistent queue controls.
+
 
 ## Fields
 

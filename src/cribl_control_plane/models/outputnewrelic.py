@@ -30,6 +30,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputNewrelicType(str, Enum):
+    r"""Connector type identifier."""
+
     NEWRELIC = "newrelic"
 
 
@@ -67,15 +69,16 @@ class OutputNewrelicMetadatum(BaseModel):
 
 
 class OutputNewrelicPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputNewrelicPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputNewrelicTypedDict(TypedDict):
     type: OutputNewrelicType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -158,6 +161,7 @@ class OutputNewrelicTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputNewrelicPqControlsTypedDict]
+    r"""Persistent queue controls."""
     api_key: NotRequired[str]
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
     text_secret: NotRequired[str]
@@ -178,6 +182,7 @@ class OutputNewrelicTypedDict(TypedDict):
 
 class OutputNewrelic(BaseModel):
     type: OutputNewrelicType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -349,6 +354,7 @@ class OutputNewrelic(BaseModel):
     pq_controls: Annotated[
         Optional[OutputNewrelicPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""

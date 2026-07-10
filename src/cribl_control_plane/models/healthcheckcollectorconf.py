@@ -201,6 +201,7 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
+    r"""Hidden Default Breakers"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationNoneRetryRulesTypedDict]
@@ -294,6 +295,7 @@ class HealthCheckAuthenticationNone(BaseModel):
         Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
+    r"""Hidden Default Breakers"""
 
     safe_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
@@ -1683,6 +1685,7 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
+    r"""Hidden Default Breakers"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict]
@@ -1779,6 +1782,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
         Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
+    r"""Hidden Default Breakers"""
 
     safe_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
@@ -3167,6 +3171,7 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
+    r"""Hidden Default Breakers"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostRetryRulesTypedDict]
@@ -3266,6 +3271,7 @@ class HealthCheckCollectMethodPost(BaseModel):
         Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
+    r"""Hidden Default Breakers"""
 
     safe_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="safeHeaders")
@@ -4665,6 +4671,7 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (e.g., self-signed certificates)."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
+    r"""Hidden Default Breakers"""
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodGetRetryRulesTypedDict]
@@ -4764,6 +4771,7 @@ class HealthCheckCollectMethodGet(BaseModel):
         Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
+    r"""Hidden Default Breakers"""
 
     safe_headers: Annotated[
         Optional[List[str]], pydantic.Field(alias="safeHeaders")

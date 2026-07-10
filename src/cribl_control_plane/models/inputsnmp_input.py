@@ -14,45 +14,51 @@ from .pqtype import PqType, PqTypeTypedDict
 from .privacyprotocoloptionssnmptrapserializev3userauthprotocolnotnone import (
     PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone,
 )
+from .typeoptionssnmp import TypeOptionsSnmp
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputSnmpType(str, Enum):
-    SNMP = "snmp"
-
-
 class InputSnmpV3UserTypedDict(TypedDict):
     name: str
+    r"""V3 name"""
     auth_protocol: NotRequired[AuthenticationProtocolOptionsV3User]
+    r"""Authentication protocol"""
     auth_key: NotRequired[str]
+    r"""V3 authentication key"""
     priv_protocol: NotRequired[
         PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
     ]
+    r"""Privacy protocol"""
     priv_key: NotRequired[str]
+    r"""V3 privacy key"""
 
 
 class InputSnmpV3User(BaseModel):
     name: str
+    r"""V3 name"""
 
     auth_protocol: Annotated[
         Optional[AuthenticationProtocolOptionsV3User],
         pydantic.Field(alias="authProtocol"),
     ] = None
+    r"""Authentication protocol"""
 
     auth_key: Annotated[Optional[str], pydantic.Field(alias="authKey")] = None
+    r"""V3 authentication key"""
 
     priv_protocol: Annotated[
         Optional[PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone],
         pydantic.Field(alias="privProtocol"),
     ] = None
+    r"""Privacy protocol"""
 
     priv_key: Annotated[Optional[str], pydantic.Field(alias="privKey")] = None
+    r"""V3 privacy key"""
 
     @field_serializer("auth_protocol")
     def serialize_auth_protocol(self, value):
@@ -95,6 +101,7 @@ class InputSnmpSNMPv3AuthenticationTypedDict(TypedDict):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
     v3_auth_enabled: bool
+    r"""Enabled"""
     allow_unmatched_trap: NotRequired[bool]
     r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
     v3_users: NotRequired[List[InputSnmpV3UserTypedDict]]
@@ -105,6 +112,7 @@ class InputSnmpSNMPv3Authentication(BaseModel):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
     v3_auth_enabled: Annotated[bool, pydantic.Field(alias="v3AuthEnabled")]
+    r"""Enabled"""
 
     allow_unmatched_trap: Annotated[
         Optional[bool], pydantic.Field(alias="allowUnmatchedTrap")
@@ -134,7 +142,8 @@ class InputSnmpSNMPv3Authentication(BaseModel):
 
 
 class InputSnmpInputTypedDict(TypedDict):
-    type: InputSnmpType
+    type: TypeOptionsSnmp
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: float
@@ -183,7 +192,8 @@ class InputSnmpInputTypedDict(TypedDict):
 
 
 class InputSnmpInput(BaseModel):
-    type: InputSnmpType
+    type: TypeOptionsSnmp
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""

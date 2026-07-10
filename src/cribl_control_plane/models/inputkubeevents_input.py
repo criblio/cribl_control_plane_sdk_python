@@ -23,11 +23,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputKubeEventsType(str, Enum):
+    r"""Connector type identifier."""
+
     KUBE_EVENTS = "kube_events"
 
 
 class InputKubeEventsInputTypedDict(TypedDict):
     type: InputKubeEventsType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -59,6 +62,7 @@ class InputKubeEventsInputTypedDict(TypedDict):
 
 class InputKubeEventsInput(BaseModel):
     type: InputKubeEventsType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""

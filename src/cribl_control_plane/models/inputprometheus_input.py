@@ -24,6 +24,7 @@ from .searchfilterconfinputprometheus import (
     SearchFilterConfInputPrometheus,
     SearchFilterConfInputPrometheusTypedDict,
 )
+from .typeoptionsprometheus import TypeOptionsPrometheus
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -31,10 +32,6 @@ import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class InputPrometheusType(str, Enum):
-    PROMETHEUS = "prometheus"
 
 
 class InputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -58,7 +55,8 @@ class InputPrometheusMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputPrometheusInputTypedDict(TypedDict):
-    type: InputPrometheusType
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
     log_level: LogLevelOptions
@@ -121,6 +119,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -128,6 +127,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -191,7 +191,8 @@ class InputPrometheusInputTypedDict(TypedDict):
 
 
 class InputPrometheusInput(BaseModel):
-    type: InputPrometheusType
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
 
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
@@ -313,6 +314,7 @@ class InputPrometheusInput(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -329,6 +331,7 @@ class InputPrometheusInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""

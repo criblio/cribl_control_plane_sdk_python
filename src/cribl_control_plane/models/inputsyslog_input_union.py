@@ -14,20 +14,17 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
+from .typeoptionssyslog import TypeOptionsSyslog
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class InputSyslogType2(str, Enum):
-    SYSLOG = "syslog"
-
-
 class InputSyslogSyslogInput2TypedDict(TypedDict):
-    type: InputSyslogType2
+    type: TypeOptionsSyslog
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     tcp_port: float
@@ -80,6 +77,7 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
     socket_max_lifespan: NotRequired[float]
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
@@ -105,7 +103,8 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
 
 
 class InputSyslogSyslogInput2(BaseModel):
-    type: InputSyslogType2
+    type: TypeOptionsSyslog
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -215,6 +214,7 @@ class InputSyslogSyslogInput2(BaseModel):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -323,12 +323,9 @@ class InputSyslogSyslogInput2(BaseModel):
         return m
 
 
-class InputSyslogType1(str, Enum):
-    SYSLOG = "syslog"
-
-
 class InputSyslogSyslogInput1TypedDict(TypedDict):
-    type: InputSyslogType1
+    type: TypeOptionsSyslog
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     udp_port: float
@@ -381,6 +378,7 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
     socket_max_lifespan: NotRequired[float]
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
@@ -406,7 +404,8 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
 
 
 class InputSyslogSyslogInput1(BaseModel):
-    type: InputSyslogType1
+    type: TypeOptionsSyslog
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -516,6 +515,7 @@ class InputSyslogSyslogInput1(BaseModel):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""

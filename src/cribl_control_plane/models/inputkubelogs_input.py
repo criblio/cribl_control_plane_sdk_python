@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputKubeLogsType(str, Enum):
+    r"""Connector type identifier."""
+
     KUBE_LOGS = "kube_logs"
 
 
@@ -56,6 +58,7 @@ class InputKubeLogsRule(BaseModel):
 
 class InputKubeLogsInputTypedDict(TypedDict):
     type: InputKubeLogsType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -86,6 +89,7 @@ class InputKubeLogsInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    r"""Disk Spooling"""
     breaker_rulesets: NotRequired[List[str]]
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
@@ -102,6 +106,7 @@ class InputKubeLogsInputTypedDict(TypedDict):
 
 class InputKubeLogsInput(BaseModel):
     type: InputKubeLogsType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -154,6 +159,7 @@ class InputKubeLogsInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     persistence: Optional[DiskSpoolingType] = None
+    r"""Disk Spooling"""
 
     breaker_rulesets: Annotated[
         Optional[List[str]], pydantic.Field(alias="breakerRulesets")

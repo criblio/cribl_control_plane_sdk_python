@@ -1,5 +1,7 @@
 # OutputAzureDataExplorerPrefixOptional
 
+Prefix (optional)
+
 ## Example Usage
 
 ```python

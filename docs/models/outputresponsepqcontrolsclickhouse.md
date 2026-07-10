@@ -1,5 +1,7 @@
 # OutputResponsePqControlsClickHouse
 
+Persistent queue controls.
+
 
 ## Fields
 

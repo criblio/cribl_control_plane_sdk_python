@@ -39,6 +39,7 @@ class ResourceRecordType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class DNSLookupFieldTypedDict(TypedDict):
     in_field_name: NotRequired[str]
+    r"""Lookup field name"""
     resource_record_type: NotRequired[ResourceRecordType]
     r"""The DNS record type (RR) to return. Defaults to 'A'."""
     out_field_name: NotRequired[str]
@@ -47,6 +48,7 @@ class DNSLookupFieldTypedDict(TypedDict):
 
 class DNSLookupField(BaseModel):
     in_field_name: Annotated[Optional[str], pydantic.Field(alias="inFieldName")] = None
+    r"""Lookup field name"""
 
     resource_record_type: Annotated[
         Optional[ResourceRecordType], pydantic.Field(alias="resourceRecordType")

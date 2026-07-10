@@ -36,19 +36,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputElasticCloudType(str, Enum):
+    r"""Connector type identifier."""
+
     ELASTIC_CLOUD = "elastic_cloud"
 
 
 class OutputElasticCloudPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputElasticCloudPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputElasticCloudTypedDict(TypedDict):
     type: OutputElasticCloudType
+    r"""Connector type identifier."""
     url: str
     r"""Enter Cloud ID of the Elastic Cloud environment to send events to"""
     index: str
@@ -127,6 +130,7 @@ class OutputElasticCloudTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputElasticCloudPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -143,6 +147,7 @@ class OutputElasticCloudTypedDict(TypedDict):
 
 class OutputElasticCloud(BaseModel):
     type: OutputElasticCloudType
+    r"""Connector type identifier."""
 
     url: str
     r"""Enter Cloud ID of the Elastic Cloud environment to send events to"""
@@ -308,6 +313,7 @@ class OutputElasticCloud(BaseModel):
     pq_controls: Annotated[
         Optional[OutputElasticCloudPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

@@ -8,6 +8,7 @@ from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .typeoptionssqs import TypeOptionsSqs
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -15,10 +16,6 @@ import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class OutputSqsType(str, Enum):
-    SQS = "sqs"
 
 
 class OutputSqsQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -31,15 +28,16 @@ class OutputSqsQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputSqsPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSqsPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSqsTypedDict(TypedDict):
-    type: OutputSqsType
+    type: TypeOptionsSqs
+    r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     queue_type: OutputSqsQueueType
@@ -63,6 +61,7 @@ class OutputSqsTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
@@ -92,6 +91,7 @@ class OutputSqsTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     pq_strict_ordering: NotRequired[bool]
@@ -117,6 +117,7 @@ class OutputSqsTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSqsPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_queue_name: NotRequired[str]
@@ -144,7 +145,8 @@ class OutputSqsTypedDict(TypedDict):
 
 
 class OutputSqs(BaseModel):
-    type: OutputSqsType
+    type: TypeOptionsSqs
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -191,6 +193,7 @@ class OutputSqs(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
@@ -257,6 +260,7 @@ class OutputSqs(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -313,6 +317,7 @@ class OutputSqs(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSqsPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

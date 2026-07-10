@@ -12,6 +12,7 @@ class FunctionConfSchemaEvalAddTypedDict(TypedDict):
     value: str
     r"""JavaScript expression to compute the value (can be constant)"""
     name: NotRequired[str]
+    r"""Name"""
     disabled: NotRequired[bool]
     r"""Set to No to disable the evaluation of an individual expression"""
 
@@ -21,6 +22,7 @@ class FunctionConfSchemaEvalAdd(BaseModel):
     r"""JavaScript expression to compute the value (can be constant)"""
 
     name: Optional[str] = None
+    r"""Name"""
 
     disabled: Optional[bool] = None
     r"""Set to No to disable the evaluation of an individual expression"""

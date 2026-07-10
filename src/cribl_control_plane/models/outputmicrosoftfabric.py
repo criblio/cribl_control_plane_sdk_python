@@ -28,6 +28,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputMicrosoftFabricType(str, Enum):
+    r"""Connector type identifier."""
+
     MICROSOFT_FABRIC = "microsoft_fabric"
 
 
@@ -35,12 +37,15 @@ class OutputMicrosoftFabricAuthenticationTypedDict(TypedDict):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
+    r"""Disabled"""
     mechanism: NotRequired[SaslMechanismOptionsSaslOauthbearerPlain]
+    r"""SASL mechanism"""
     username: NotRequired[str]
     r"""The username for authentication. This should always be $ConnectionString."""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret corresponding to the SASL JASS Password Primary or Password Secondary"""
     client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
+    r"""Authentication method"""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate_name: NotRequired[str]
@@ -72,8 +77,10 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     disabled: bool
+    r"""Disabled"""
 
     mechanism: Optional[SaslMechanismOptionsSaslOauthbearerPlain] = None
+    r"""SASL mechanism"""
 
     username: Optional[str] = None
     r"""The username for authentication. This should always be $ConnectionString."""
@@ -85,6 +92,7 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
         Optional[AuthenticationMethodOptionsAuth],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
+    r"""Authentication method"""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
@@ -208,15 +216,16 @@ class OutputMicrosoftFabricAuthentication(BaseModel):
 
 
 class OutputMicrosoftFabricPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputMicrosoftFabricPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputMicrosoftFabricTypedDict(TypedDict):
     type: OutputMicrosoftFabricType
+    r"""Connector type identifier."""
     topic: str
     r"""Topic name from Fabric Eventstream's endpoint"""
     bootstrap_server: str
@@ -260,6 +269,7 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     sasl: NotRequired[OutputMicrosoftFabricAuthenticationTypedDict]
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    r"""TLS settings (client side)"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -287,6 +297,7 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputMicrosoftFabricPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic: NotRequired[str]
@@ -301,6 +312,7 @@ class OutputMicrosoftFabricTypedDict(TypedDict):
 
 class OutputMicrosoftFabric(BaseModel):
     type: OutputMicrosoftFabricType
+    r"""Connector type identifier."""
 
     topic: str
     r"""Topic name from Fabric Eventstream's endpoint"""
@@ -386,6 +398,7 @@ class OutputMicrosoftFabric(BaseModel):
     r"""Authentication parameters to use when connecting to bootstrap server. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
+    r"""TLS settings (client side)"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -447,6 +460,7 @@ class OutputMicrosoftFabric(BaseModel):
     pq_controls: Annotated[
         Optional[OutputMicrosoftFabricPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

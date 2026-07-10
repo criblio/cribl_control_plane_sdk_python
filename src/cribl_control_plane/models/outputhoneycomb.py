@@ -29,19 +29,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputHoneycombType(str, Enum):
+    r"""Connector type identifier."""
+
     HONEYCOMB = "honeycomb"
 
 
 class OutputHoneycombPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputHoneycombPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputHoneycombTypedDict(TypedDict):
     type: OutputHoneycombType
+    r"""Connector type identifier."""
     dataset: str
     r"""Name of the dataset to send events to – e.g., observability"""
     id: NotRequired[str]
@@ -115,6 +118,7 @@ class OutputHoneycombTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputHoneycombPqControlsTypedDict]
+    r"""Persistent queue controls."""
     team: NotRequired[str]
     r"""Team API key where the dataset belongs"""
     text_secret: NotRequired[str]
@@ -129,6 +133,7 @@ class OutputHoneycombTypedDict(TypedDict):
 
 class OutputHoneycomb(BaseModel):
     type: OutputHoneycombType
+    r"""Connector type identifier."""
 
     dataset: str
     r"""Name of the dataset to send events to – e.g., observability"""
@@ -284,6 +289,7 @@ class OutputHoneycomb(BaseModel):
     pq_controls: Annotated[
         Optional[OutputHoneycombPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     team: Optional[str] = None
     r"""Team API key where the dataset belongs"""

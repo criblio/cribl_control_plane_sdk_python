@@ -18,19 +18,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputSnsType(str, Enum):
+    r"""Connector type identifier."""
+
     SNS = "sns"
 
 
 class OutputSnsPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSnsPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSnsTypedDict(TypedDict):
     type: OutputSnsType
+    r"""Connector type identifier."""
     topic_arn: str
     r"""The ARN of the SNS topic to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`"""
     message_group_id: str
@@ -50,6 +53,7 @@ class OutputSnsTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the SNS is located"""
     endpoint: NotRequired[str]
@@ -71,6 +75,7 @@ class OutputSnsTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     pq_strict_ordering: NotRequired[bool]
@@ -96,6 +101,7 @@ class OutputSnsTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSnsPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_topic_arn: NotRequired[str]
@@ -120,6 +126,7 @@ class OutputSnsTypedDict(TypedDict):
 
 class OutputSns(BaseModel):
     type: OutputSnsType
+    r"""Connector type identifier."""
 
     topic_arn: Annotated[str, pydantic.Field(alias="topicArn")]
     r"""The ARN of the SNS topic to send events to. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. E.g., 'https://host:port/myQueueName'. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`"""
@@ -156,6 +163,7 @@ class OutputSns(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the SNS is located"""
@@ -202,6 +210,7 @@ class OutputSns(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -258,6 +267,7 @@ class OutputSns(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSnsPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

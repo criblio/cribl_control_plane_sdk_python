@@ -1,5 +1,7 @@
 # CreateOutputTypeDiskSpool
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -34,6 +34,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputEdgePrometheusType(str, Enum):
+    r"""Connector type identifier."""
+
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
@@ -147,6 +149,7 @@ class InputEdgePrometheusPodFilter(BaseModel):
 
 class InputEdgePrometheusInputTypedDict(TypedDict):
     type: InputEdgePrometheusType
+    r"""Connector type identifier."""
     discovery_type: InputEdgePrometheusDiscoveryType
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: float
@@ -175,6 +178,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     timeout: NotRequired[float]
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    r"""Disk Spooling"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_type: NotRequired[InputEdgePrometheusAuthenticationMethod]
@@ -182,6 +186,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     targets: NotRequired[List[InputEdgePrometheusTargetTypedDict]]
+    r"""Targets"""
     record_type: NotRequired[RecordTypeOptions]
     r"""DNS record type to resolve"""
     scrape_port: NotRequired[float]
@@ -195,6 +200,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -202,6 +208,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -273,6 +280,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
 
 class InputEdgePrometheusInput(BaseModel):
     type: InputEdgePrometheusType
+    r"""Connector type identifier."""
 
     discovery_type: Annotated[
         InputEdgePrometheusDiscoveryType, pydantic.Field(alias="discoveryType")
@@ -324,6 +332,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
 
     persistence: Optional[DiskSpoolingType] = None
+    r"""Disk Spooling"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -338,6 +347,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""Optional description for this configuration."""
 
     targets: Optional[List[InputEdgePrometheusTarget]] = None
+    r"""Targets"""
 
     record_type: Annotated[
         Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
@@ -365,6 +375,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -381,6 +392,7 @@ class InputEdgePrometheusInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""

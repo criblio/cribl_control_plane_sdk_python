@@ -377,6 +377,12 @@ value: models.CreateInputSystemByPackInputNetflow = /* values here */
 value: models.CreateInputSystemByPackInputSecurityLake = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputBedrockS3`
+
+```python
+value: models.CreateInputSystemByPackInputBedrockS3 = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputServicenowTable`
 
 ```python

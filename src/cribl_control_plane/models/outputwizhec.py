@@ -35,26 +35,30 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputWizHecType(str, Enum):
+    r"""Connector type identifier."""
+
     WIZ_HEC = "wiz_hec"
 
 
 class OutputWizHecPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWizHecPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWizHecTypedDict(TypedDict):
     type: OutputWizHecType
+    r"""Connector type identifier."""
     wiz_connector_id: str
     r"""The unique identifier for the specific Cribl connector defined in your Wiz Settings. This is used to cross-validate the bearer token and ensure traffic is originating from the authorized integration."""
     wiz_environment: str
-    r"""Your Wiz deployment environment."""
+    r"""Your Wiz deployment environment"""
     data_center: str
-    r"""Your Wiz deployment data center (e.g., us1, us8, eu1). From Tenant Info → Data Center and Regions → Tenant Data Center in your Wiz console."""
+    r"""Your Wiz deployment data center (such as us1, us8, or eu1). From Tenant Info → Data Center and Regions → Tenant Data Center in your Wiz console."""
     wiz_sourcetype: str
+    r"""Wiz Defend Source type"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -66,6 +70,7 @@ class OutputWizHecTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    r"""TLS settings (client side)"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -129,6 +134,7 @@ class OutputWizHecTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputWizHecPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -145,17 +151,19 @@ class OutputWizHecTypedDict(TypedDict):
 
 class OutputWizHec(BaseModel):
     type: OutputWizHecType
+    r"""Connector type identifier."""
 
     wiz_connector_id: str
     r"""The unique identifier for the specific Cribl connector defined in your Wiz Settings. This is used to cross-validate the bearer token and ensure traffic is originating from the authorized integration."""
 
     wiz_environment: str
-    r"""Your Wiz deployment environment."""
+    r"""Your Wiz deployment environment"""
 
     data_center: str
-    r"""Your Wiz deployment data center (e.g., us1, us8, eu1). From Tenant Info → Data Center and Regions → Tenant Data Center in your Wiz console."""
+    r"""Your Wiz deployment data center (such as us1, us8, or eu1). From Tenant Info → Data Center and Regions → Tenant Data Center in your Wiz console."""
 
     wiz_sourcetype: str
+    r"""Wiz Defend Source type"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -175,6 +183,7 @@ class OutputWizHec(BaseModel):
     r"""Metadata tags used for categorization and filtering."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    r"""TLS settings (client side)"""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -312,6 +321,7 @@ class OutputWizHec(BaseModel):
     pq_controls: Annotated[
         Optional[OutputWizHecPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

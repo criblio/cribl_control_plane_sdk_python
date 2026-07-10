@@ -37,7 +37,9 @@ class PrometheusAuth2TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -54,8 +56,10 @@ class PrometheusAuth2(BaseModel):
     r"""Remote Write authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -107,7 +111,9 @@ class LokiAuth2TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -123,8 +129,10 @@ class LokiAuth2(BaseModel):
     r"""Loki logs authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -199,6 +207,7 @@ class InputGrafanaGrafanaInput2TypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -285,6 +294,7 @@ class InputGrafanaGrafanaInput2(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -450,7 +460,9 @@ class PrometheusAuth1TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -467,8 +479,10 @@ class PrometheusAuth1(BaseModel):
     r"""Remote Write authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -520,7 +534,9 @@ class LokiAuth1TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -536,8 +552,10 @@ class LokiAuth1(BaseModel):
     r"""Loki logs authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -612,6 +630,7 @@ class InputGrafanaGrafanaInput1TypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -698,6 +717,7 @@ class InputGrafanaGrafanaInput1(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None

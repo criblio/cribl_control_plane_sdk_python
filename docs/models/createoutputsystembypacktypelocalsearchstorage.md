@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeLocalSearchStorage
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

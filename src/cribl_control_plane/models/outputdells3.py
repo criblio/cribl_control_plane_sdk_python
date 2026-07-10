@@ -29,11 +29,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDellS3Type(str, Enum):
+    r"""Connector type identifier."""
+
     DELL_S3 = "dell_s3"
 
 
 class OutputDellS3TypedDict(TypedDict):
     type: OutputDellS3Type
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination Dell PowerScale OneFS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -100,6 +103,7 @@ class OutputDellS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     description: NotRequired[str]
@@ -170,6 +174,7 @@ class OutputDellS3TypedDict(TypedDict):
 
 class OutputDellS3(BaseModel):
     type: OutputDellS3Type
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination Dell PowerScale OneFS bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -319,6 +324,7 @@ class OutputDellS3(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")

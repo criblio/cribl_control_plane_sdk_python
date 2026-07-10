@@ -22,6 +22,7 @@ from .orphanfilerecoverytype import (
 )
 from .parquetversionoptions import ParquetVersionOptions
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
+from .typeoptionsazureblob import TypeOptionsAzureblob
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -31,11 +32,9 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputAzureBlobType(str, Enum):
-    AZURE_BLOB = "azure_blob"
-
-
 class OutputAzureBlobBlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Blob access tier"""
+
     # Default account access tier
     INFERRED = "Inferred"
     # Hot tier
@@ -49,7 +48,8 @@ class OutputAzureBlobBlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputAzureBlobTypedDict(TypedDict):
-    type: OutputAzureBlobType
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
     container_name: str
     r"""The Azure Blob Storage container name. Name can include only lowercase letters, numbers, and hyphens. For dynamic container names, enter a JavaScript expression within quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myContainer-${C.env[\"CRIBL_WORKER_ID\"]}`."""
     stage_path: str
@@ -104,8 +104,11 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     auth_type: NotRequired[AuthenticationMethodOptions]
+    r"""Authentication method"""
     storage_class: NotRequired[OutputAzureBlobBlobAccessTier]
+    r"""Blob access tier"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -192,7 +195,8 @@ class OutputAzureBlobTypedDict(TypedDict):
 
 
 class OutputAzureBlob(BaseModel):
-    type: OutputAzureBlobType
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
 
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""The Azure Blob Storage container name. Name can include only lowercase letters, numbers, and hyphens. For dynamic container names, enter a JavaScript expression within quotes or backticks, to be evaluated at initialization. The expression can evaluate to a constant value and can reference Global Variables, such as `myContainer-${C.env[\"CRIBL_WORKER_ID\"]}`."""
@@ -315,14 +319,17 @@ class OutputAzureBlob(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = None
+    r"""Authentication method"""
 
     storage_class: Annotated[
         Optional[OutputAzureBlobBlobAccessTier], pydantic.Field(alias="storageClass")
     ] = None
+    r"""Blob access tier"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

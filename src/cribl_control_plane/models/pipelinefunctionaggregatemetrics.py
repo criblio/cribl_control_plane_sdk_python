@@ -60,6 +60,7 @@ class PipelineFunctionAggregateMetricsAddTypedDict(TypedDict):
     value: str
     r"""JavaScript expression to compute the value (can be constant)"""
     name: NotRequired[str]
+    r"""Name"""
 
 
 class PipelineFunctionAggregateMetricsAdd(BaseModel):
@@ -67,6 +68,7 @@ class PipelineFunctionAggregateMetricsAdd(BaseModel):
     r"""JavaScript expression to compute the value (can be constant)"""
 
     name: Optional[str] = None
+    r"""Name"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

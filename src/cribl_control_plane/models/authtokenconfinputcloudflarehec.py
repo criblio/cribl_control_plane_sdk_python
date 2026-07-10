@@ -24,7 +24,9 @@ class AuthTokenConfInputCloudflareHecTypedDict(TypedDict):
     token: NotRequired[str]
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     enabled: NotRequired[bool]
+    r"""Enable token"""
     description: NotRequired[str]
+    r"""Description"""
     allowed_indexes_at_token: NotRequired[List[str]]
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -45,8 +47,10 @@ class AuthTokenConfInputCloudflareHec(BaseModel):
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     enabled: Optional[bool] = None
+    r"""Enable token"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     allowed_indexes_at_token: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")

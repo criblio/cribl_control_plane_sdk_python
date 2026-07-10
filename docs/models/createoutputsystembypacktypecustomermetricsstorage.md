@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeCustomerMetricsStorage
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

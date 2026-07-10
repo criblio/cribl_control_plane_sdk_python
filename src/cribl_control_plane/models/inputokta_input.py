@@ -20,11 +20,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOktaType(str, Enum):
+    r"""Connector type identifier."""
+
     OKTA = "okta"
 
 
 class InputOktaInputTypedDict(TypedDict):
     type: InputOktaType
+    r"""Connector type identifier."""
     okta_domain: str
     r"""Your Okta domain (example: your-org). Do not include .okta.com, https://, or trailing slashes."""
     text_secret: str
@@ -81,6 +84,7 @@ class InputOktaInputTypedDict(TypedDict):
 
 class InputOktaInput(BaseModel):
     type: InputOktaType
+    r"""Connector type identifier."""
 
     okta_domain: Annotated[str, pydantic.Field(alias="oktaDomain")]
     r"""Your Okta domain (example: your-org). Do not include .okta.com, https://, or trailing slashes."""

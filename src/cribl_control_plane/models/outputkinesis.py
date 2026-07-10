@@ -8,6 +8,7 @@ from .backpressurebehavioroptions import BackpressureBehaviorOptions
 from .compressionoptionspq import CompressionOptionsPq
 from .modeoptions import ModeOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
+from .typeoptionskinesis import TypeOptionsKinesis
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -15,10 +16,6 @@ import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class OutputKinesisType(str, Enum):
-    KINESIS = "kinesis"
 
 
 class OutputKinesisCompression(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -31,15 +28,16 @@ class OutputKinesisCompression(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputKinesisPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputKinesisPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputKinesisTypedDict(TypedDict):
-    type: OutputKinesisType
+    type: TypeOptionsKinesis
+    r"""Connector type identifier."""
     stream_name: str
     r"""Kinesis stream name to send events to."""
     region: str
@@ -57,6 +55,7 @@ class OutputKinesisTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     endpoint: NotRequired[str]
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
     reuse_connections: NotRequired[bool]
@@ -88,6 +87,7 @@ class OutputKinesisTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     max_events_per_flush: NotRequired[float]
@@ -115,6 +115,7 @@ class OutputKinesisTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputKinesisPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_stream_name: NotRequired[str]
@@ -136,7 +137,8 @@ class OutputKinesisTypedDict(TypedDict):
 
 
 class OutputKinesis(BaseModel):
-    type: OutputKinesisType
+    type: TypeOptionsKinesis
+    r"""Connector type identifier."""
 
     stream_name: Annotated[str, pydantic.Field(alias="streamName")]
     r"""Kinesis stream name to send events to."""
@@ -170,6 +172,7 @@ class OutputKinesis(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     endpoint: Optional[str] = None
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
@@ -237,6 +240,7 @@ class OutputKinesis(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -298,6 +302,7 @@ class OutputKinesis(BaseModel):
     pq_controls: Annotated[
         Optional[OutputKinesisPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

@@ -88,4 +88,5 @@ class DestinationType(str, Enum, metaclass=utils.OpenEnumMeta):
     CLOUDIAN_S3 = "cloudian_s3"
     SCALITY_S3 = "scality_s3"
     ALIBABA_CLOUD_S3 = "alibaba_cloud_s3"
+    SNOWFLAKE_STREAMING = "snowflake_streaming"
     IBM_CLOUD_S3 = "ibm_cloud_s3"

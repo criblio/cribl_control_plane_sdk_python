@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeAzureEventhub
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

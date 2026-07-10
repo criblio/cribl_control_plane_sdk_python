@@ -1,5 +1,7 @@
 # OutputResponseTypeScalityS3
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

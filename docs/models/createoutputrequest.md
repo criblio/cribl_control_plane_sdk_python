@@ -443,6 +443,12 @@ value: models.CreateOutputOutputChronicle = /* values here */
 value: models.CreateOutputOutputDatabricks = /* values here */
 ```
 
+### `models.CreateOutputOutputSnowflakeStreaming`
+
+```python
+value: models.CreateOutputOutputSnowflakeStreaming = /* values here */
+```
+
 ### `models.CreateOutputOutputMicrosoftFabric`
 
 ```python

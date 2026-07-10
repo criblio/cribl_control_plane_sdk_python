@@ -1,5 +1,7 @@
 # CreateOutputPqControlsHumioHec
 
+Persistent queue controls.
+
 
 ## Fields
 

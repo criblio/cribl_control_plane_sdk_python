@@ -19,20 +19,17 @@ from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
+from .typeoptionsconfluentcloud import TypeOptionsConfluentcloud
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputConfluentCloudType(str, Enum):
-    CONFLUENT_CLOUD = "confluent_cloud"
-
-
 class InputConfluentCloudInputTypedDict(TypedDict):
-    type: InputConfluentCloudType
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
     topics: List[str]
@@ -55,11 +52,13 @@ class InputConfluentCloudInputTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -121,7 +120,8 @@ class InputConfluentCloudInputTypedDict(TypedDict):
 
 
 class InputConfluentCloudInput(BaseModel):
-    type: InputConfluentCloudType
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
@@ -158,6 +158,7 @@ class InputConfluentCloudInput(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -171,6 +172,7 @@ class InputConfluentCloudInput(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")

@@ -45,6 +45,8 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class OutputWebhookType2(str, Enum):
+    r"""Connector type identifier."""
+
     WEBHOOK = "webhook"
 
 
@@ -79,11 +81,11 @@ class OutputWebhookAuthenticationType2(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputWebhookPqControls2TypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWebhookPqControls2(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWebhookURL2TypedDict(TypedDict):
@@ -126,7 +128,9 @@ class OutputWebhookURL2(BaseModel):
 
 class OutputWebhookWebhook2TypedDict(TypedDict):
     type: OutputWebhookType2
+    r"""Connector type identifier."""
     urls: List[OutputWebhookURL2TypedDict]
+    r"""Webhook URLs"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -180,6 +184,7 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     auth_type: NotRequired[OutputWebhookAuthenticationType2]
     r"""Authentication method to use for the HTTP request"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    r"""TLS settings (client side)"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     load_balanced: NotRequired[bool]
@@ -225,8 +230,11 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputWebhookPqControls2TypedDict]
+    r"""Persistent queue controls."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -285,8 +293,10 @@ class OutputWebhookWebhook2TypedDict(TypedDict):
 
 class OutputWebhookWebhook2(BaseModel):
     type: OutputWebhookType2
+    r"""Connector type identifier."""
 
     urls: List[OutputWebhookURL2]
+    r"""Webhook URLs"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -396,6 +406,7 @@ class OutputWebhookWebhook2(BaseModel):
     r"""Authentication method to use for the HTTP request"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    r"""TLS settings (client side)"""
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -502,10 +513,13 @@ class OutputWebhookWebhook2(BaseModel):
     pq_controls: Annotated[
         Optional[OutputWebhookPqControls2], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -795,6 +809,8 @@ class OutputWebhookWebhook2(BaseModel):
 
 
 class OutputWebhookType1(str, Enum):
+    r"""Connector type identifier."""
+
     WEBHOOK = "webhook"
 
 
@@ -829,11 +845,11 @@ class OutputWebhookAuthenticationType1(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputWebhookPqControls1TypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWebhookPqControls1(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWebhookURL1TypedDict(TypedDict):
@@ -876,6 +892,7 @@ class OutputWebhookURL1(BaseModel):
 
 class OutputWebhookWebhook1TypedDict(TypedDict):
     type: OutputWebhookType1
+    r"""Connector type identifier."""
     url: str
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
     id: NotRequired[str]
@@ -931,6 +948,7 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     auth_type: NotRequired[OutputWebhookAuthenticationType1]
     r"""Authentication method to use for the HTTP request"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    r"""TLS settings (client side)"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     load_balanced: NotRequired[bool]
@@ -976,8 +994,11 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputWebhookPqControls1TypedDict]
+    r"""Persistent queue controls."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -1013,6 +1034,7 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
     urls: NotRequired[List[OutputWebhookURL1TypedDict]]
+    r"""Webhook URLs"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -1035,6 +1057,7 @@ class OutputWebhookWebhook1TypedDict(TypedDict):
 
 class OutputWebhookWebhook1(BaseModel):
     type: OutputWebhookType1
+    r"""Connector type identifier."""
 
     url: str
     r"""URL of a webhook endpoint to send events to, such as http://localhost:10200"""
@@ -1147,6 +1170,7 @@ class OutputWebhookWebhook1(BaseModel):
     r"""Authentication method to use for the HTTP request"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    r"""TLS settings (client side)"""
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -1253,10 +1277,13 @@ class OutputWebhookWebhook1(BaseModel):
     pq_controls: Annotated[
         Optional[OutputWebhookPqControls1], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -1330,6 +1357,7 @@ class OutputWebhookWebhook1(BaseModel):
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[OutputWebhookURL1]] = None
+    r"""Webhook URLs"""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")

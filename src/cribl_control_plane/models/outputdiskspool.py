@@ -12,11 +12,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDiskSpoolType(str, Enum):
+    r"""Connector type identifier."""
+
     DISK_SPOOL = "disk_spool"
 
 
 class OutputDiskSpoolTypedDict(TypedDict):
     type: OutputDiskSpoolType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -45,6 +48,7 @@ class OutputDiskSpoolTypedDict(TypedDict):
 
 class OutputDiskSpool(BaseModel):
     type: OutputDiskSpoolType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""

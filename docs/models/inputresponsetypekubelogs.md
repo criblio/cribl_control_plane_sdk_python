@@ -1,5 +1,7 @@
 # InputResponseTypeKubeLogs
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

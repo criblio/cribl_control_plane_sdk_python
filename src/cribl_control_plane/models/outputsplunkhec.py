@@ -35,6 +35,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputSplunkHecType(str, Enum):
+    r"""Connector type identifier."""
+
     SPLUNK_HEC = "splunk_hec"
 
 
@@ -77,15 +79,16 @@ class OutputSplunkHecURL(BaseModel):
 
 
 class OutputSplunkHecPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSplunkHecPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSplunkHecTypedDict(TypedDict):
     type: OutputSplunkHecType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -99,6 +102,7 @@ class OutputSplunkHecTypedDict(TypedDict):
     load_balanced: NotRequired[bool]
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    r"""TLS settings (client side)"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -148,6 +152,7 @@ class OutputSplunkHecTypedDict(TypedDict):
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
     urls: NotRequired[List[OutputSplunkHecURLTypedDict]]
+    r"""Splunk HEC Endpoints"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -179,6 +184,7 @@ class OutputSplunkHecTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSplunkHecPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -191,6 +197,7 @@ class OutputSplunkHecTypedDict(TypedDict):
 
 class OutputSplunkHec(BaseModel):
     type: OutputSplunkHecType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -215,6 +222,7 @@ class OutputSplunkHec(BaseModel):
     r"""Enable for optimal performance. Even if you have one hostname, it can expand to multiple IPs. If disabled, consider enabling round-robin DNS."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    r"""TLS settings (client side)"""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -317,6 +325,7 @@ class OutputSplunkHec(BaseModel):
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[OutputSplunkHecURL]] = None
+    r"""Splunk HEC Endpoints"""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -386,6 +395,7 @@ class OutputSplunkHec(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSplunkHecPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

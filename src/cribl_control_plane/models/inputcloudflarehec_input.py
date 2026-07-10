@@ -32,6 +32,8 @@ class InputCloudflareHecType(str, Enum):
 
 
 class InputCloudflareHecTLSSettingsServerSideTypedDict(TypedDict):
+    r"""TLS settings (server side)"""
+
     disabled: NotRequired[bool]
     r"""Enable or disable TLS. Defaults to enabled for Cloudflare sources."""
     request_cert: NotRequired[bool]
@@ -51,10 +53,14 @@ class InputCloudflareHecTLSSettingsServerSideTypedDict(TypedDict):
     ca_path: NotRequired[str]
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
     min_version: NotRequired[MinimumTLSVersionOptionsTLS]
+    r"""Minimum TLS version"""
     max_version: NotRequired[MaximumTLSVersionOptionsTLS]
+    r"""Maximum TLS version"""
 
 
 class InputCloudflareHecTLSSettingsServerSide(BaseModel):
+    r"""TLS settings (server side)"""
+
     disabled: Optional[bool] = None
     r"""Enable or disable TLS. Defaults to enabled for Cloudflare sources."""
 
@@ -91,10 +97,12 @@ class InputCloudflareHecTLSSettingsServerSide(BaseModel):
     min_version: Annotated[
         Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
     ] = None
+    r"""Minimum TLS version"""
 
     max_version: Annotated[
         Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
     ] = None
+    r"""Maximum TLS version"""
 
     @field_serializer("min_version")
     def serialize_min_version(self, value):
@@ -174,6 +182,7 @@ class InputCloudflareHecInputTypedDict(TypedDict):
     auth_tokens: NotRequired[List[AuthTokenConfInputCloudflareHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[InputCloudflareHecTLSSettingsServerSideTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -276,6 +285,7 @@ class InputCloudflareHecInput(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[InputCloudflareHecTLSSettingsServerSide] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None

@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsGoogleCloudObservability
 
+Persistent queue controls.
+
 
 ## Fields
 

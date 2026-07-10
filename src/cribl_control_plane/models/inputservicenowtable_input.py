@@ -30,6 +30,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputServicenowTableType(str, Enum):
+    r"""Connector type identifier."""
+
     SERVICENOW_TABLE = "servicenow_table"
 
 
@@ -72,6 +74,7 @@ class InputServicenowTableManageState(BaseModel):
 
 class InputServicenowTableInputTypedDict(TypedDict):
     type: InputServicenowTableType
+    r"""Connector type identifier."""
     instance: str
     r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (http or https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
     table_name: str
@@ -153,6 +156,7 @@ class InputServicenowTableInputTypedDict(TypedDict):
     oauth_headers: NotRequired[List[OauthHeaderConfInputServicenowTableTypedDict]]
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
     client_id: NotRequired[str]
+    r"""ServiceNow OAuth client ID"""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret for the OAuth client secret value"""
     state_update_expression: NotRequired[str]
@@ -178,6 +182,7 @@ class InputServicenowTableInputTypedDict(TypedDict):
 
 class InputServicenowTableInput(BaseModel):
     type: InputServicenowTableType
+    r"""Connector type identifier."""
 
     instance: str
     r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (http or https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
@@ -341,6 +346,7 @@ class InputServicenowTableInput(BaseModel):
     r"""Additional headers to send in the OAuth login request. @{product} will automatically add the content-type header 'application/x-www-form-urlencoded' when sending this request."""
 
     client_id: Annotated[Optional[str], pydantic.Field(alias="clientId")] = None
+    r"""ServiceNow OAuth client ID"""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")

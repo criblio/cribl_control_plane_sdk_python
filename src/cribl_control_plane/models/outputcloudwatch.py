@@ -18,19 +18,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputCloudwatchType(str, Enum):
+    r"""Connector type identifier."""
+
     CLOUDWATCH = "cloudwatch"
 
 
 class OutputCloudwatchPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCloudwatchPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCloudwatchTypedDict(TypedDict):
     type: OutputCloudwatchType
+    r"""Connector type identifier."""
     log_group_name: str
     r"""CloudWatch log group to associate events with"""
     log_stream_name: str
@@ -50,6 +53,7 @@ class OutputCloudwatchTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     endpoint: NotRequired[str]
     r"""CloudWatchLogs service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint."""
     reuse_connections: NotRequired[bool]
@@ -75,6 +79,7 @@ class OutputCloudwatchTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     pq_strict_ordering: NotRequired[bool]
@@ -100,6 +105,7 @@ class OutputCloudwatchTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputCloudwatchPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_log_group_name: NotRequired[str]
@@ -124,6 +130,7 @@ class OutputCloudwatchTypedDict(TypedDict):
 
 class OutputCloudwatch(BaseModel):
     type: OutputCloudwatchType
+    r"""Connector type identifier."""
 
     log_group_name: Annotated[str, pydantic.Field(alias="logGroupName")]
     r"""CloudWatch log group to associate events with"""
@@ -160,6 +167,7 @@ class OutputCloudwatch(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     endpoint: Optional[str] = None
     r"""CloudWatchLogs service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to CloudWatchLogs-compatible endpoint."""
@@ -218,6 +226,7 @@ class OutputCloudwatch(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -274,6 +283,7 @@ class OutputCloudwatch(BaseModel):
     pq_controls: Annotated[
         Optional[OutputCloudwatchPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

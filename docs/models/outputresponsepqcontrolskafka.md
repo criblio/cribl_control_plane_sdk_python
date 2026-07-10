@@ -1,5 +1,7 @@
 # OutputResponsePqControlsKafka
 
+Persistent queue controls.
+
 
 ## Fields
 

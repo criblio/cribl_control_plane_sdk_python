@@ -1,5 +1,7 @@
 # OutputResponsePqControlsConfluentCloud
 
+Persistent queue controls.
+
 
 ## Fields
 

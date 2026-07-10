@@ -26,6 +26,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputMicrosoftGraphType(str, Enum):
+    r"""Connector type identifier."""
+
     MICROSOFT_GRAPH = "microsoft_graph"
 
 
@@ -54,6 +56,7 @@ class InputMicrosoftGraphSubscriptionPlan(str, Enum, metaclass=utils.OpenEnumMet
 
 class InputMicrosoftGraphInputTypedDict(TypedDict):
     type: InputMicrosoftGraphType
+    r"""Connector type identifier."""
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
     interval: int
@@ -106,6 +109,10 @@ class InputMicrosoftGraphInputTypedDict(TypedDict):
     log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
@@ -139,6 +146,7 @@ class InputMicrosoftGraphInputTypedDict(TypedDict):
 
 class InputMicrosoftGraphInput(BaseModel):
     type: InputMicrosoftGraphType
+    r"""Connector type identifier."""
 
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
@@ -239,6 +247,16 @@ class InputMicrosoftGraphInput(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = None
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -358,6 +376,8 @@ class InputMicrosoftGraphInput(BaseModel):
                 "maxTaskReschedule",
                 "logLevel",
                 "retryRules",
+                "breakerRulesets",
+                "staleChannelFlushMs",
                 "description",
                 "clientSecret",
                 "tenantId",

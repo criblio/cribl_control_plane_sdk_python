@@ -26,6 +26,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputCriblLakeType(str, Enum):
+    r"""Connector type identifier."""
+
     CRIBL_LAKE = "cribl_lake"
 
 
@@ -37,6 +39,7 @@ class OutputCriblLakeFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class OutputCriblLakeTypedDict(TypedDict):
     type: OutputCriblLakeType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -79,6 +82,9 @@ class OutputCriblLakeTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
+    storage_location_id: NotRequired[str]
+    r"""Storage location that contains the target Lake dataset."""
     dest_path: NotRequired[str]
     r"""Lake dataset to send the data to."""
     format_: NotRequired[OutputCriblLakeFormat]
@@ -139,6 +145,7 @@ class OutputCriblLakeTypedDict(TypedDict):
 
 class OutputCriblLake(BaseModel):
     type: OutputCriblLakeType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -235,6 +242,12 @@ class OutputCriblLake(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
+
+    storage_location_id: Annotated[
+        Optional[str], pydantic.Field(alias="storageLocationId")
+    ] = None
+    r"""Storage location that contains the target Lake dataset."""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Lake dataset to send the data to."""
@@ -466,6 +479,7 @@ class OutputCriblLake(BaseModel):
                 "forceCloseOnShutdown",
                 "retrySettings",
                 "orphans",
+                "storageLocationId",
                 "destPath",
                 "format",
                 "dynamicDataset",

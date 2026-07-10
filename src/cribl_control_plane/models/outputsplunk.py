@@ -15,29 +15,26 @@ from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
+from .typeoptionssplunk import TypeOptionsSplunk
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputSplunkType(str, Enum):
-    SPLUNK = "splunk"
-
-
 class OutputSplunkPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSplunkPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSplunkTypedDict(TypedDict):
-    type: OutputSplunkType
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
     host: str
     r"""The hostname of the receiver"""
     port: float
@@ -61,6 +58,7 @@ class OutputSplunkTypedDict(TypedDict):
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     enable_multi_metrics: NotRequired[bool]
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
     enable_ack: NotRequired[bool]
@@ -102,6 +100,7 @@ class OutputSplunkTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSplunkPqControlsTypedDict]
+    r"""Persistent queue controls."""
     auth_token: NotRequired[str]
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
     text_secret: NotRequired[str]
@@ -123,7 +122,8 @@ class OutputSplunkTypedDict(TypedDict):
 
 
 class OutputSplunk(BaseModel):
-    type: OutputSplunkType
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
 
     host: str
     r"""The hostname of the receiver"""
@@ -169,6 +169,7 @@ class OutputSplunk(BaseModel):
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
@@ -262,6 +263,7 @@ class OutputSplunk(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSplunkPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""

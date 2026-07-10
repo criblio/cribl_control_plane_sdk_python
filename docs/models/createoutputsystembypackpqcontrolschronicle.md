@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsChronicle
 
+Persistent queue controls.
+
 
 ## Fields
 

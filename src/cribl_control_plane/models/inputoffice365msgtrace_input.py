@@ -27,6 +27,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOffice365MsgTraceType(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_MSG_TRACE = "office365_msg_trace"
 
 
@@ -44,6 +46,7 @@ class InputOffice365MsgTraceAuthenticationMethod(
 
 class InputOffice365MsgTraceInputTypedDict(TypedDict):
     type: InputOffice365MsgTraceType
+    r"""Connector type identifier."""
     url: str
     r"""URL to use when retrieving report data."""
     interval: int
@@ -133,6 +136,7 @@ class InputOffice365MsgTraceInputTypedDict(TypedDict):
 
 class InputOffice365MsgTraceInput(BaseModel):
     type: InputOffice365MsgTraceType
+    r"""Connector type identifier."""
 
     url: str
     r"""URL to use when retrieving report data."""

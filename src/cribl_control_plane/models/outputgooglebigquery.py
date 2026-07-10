@@ -15,6 +15,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputGoogleBigqueryType(str, Enum):
+    r"""Connector type identifier."""
+
     GOOGLE_BIGQUERY = "google_bigquery"
 
 
@@ -30,15 +32,16 @@ class OutputGoogleBigqueryGoogleAuthenticationMethod(
 
 
 class OutputGoogleBigqueryPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleBigqueryPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleBigqueryTypedDict(TypedDict):
     type: OutputGoogleBigqueryType
+    r"""Connector type identifier."""
     project_id: str
     r"""Google Cloud project ID that contains the BigQuery dataset"""
     dataset_id: str
@@ -69,6 +72,8 @@ class OutputGoogleBigqueryTypedDict(TypedDict):
     r"""Maximum size (KB) of a single append request. BigQuery limit is 10 MB"""
     max_in_progress: NotRequired[float]
     r"""The maximum number of in-progress API requests before backpressure is applied"""
+    max_send_retries: NotRequired[float]
+    r"""Maximum retries per batch for retryable failures (transient, rate-limit, unknown) before dropping. 0 (default) retries indefinitely."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -96,6 +101,7 @@ class OutputGoogleBigqueryTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputGoogleBigqueryPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_project_id: NotRequired[str]
@@ -110,6 +116,7 @@ class OutputGoogleBigqueryTypedDict(TypedDict):
 
 class OutputGoogleBigquery(BaseModel):
     type: OutputGoogleBigqueryType
+    r"""Connector type identifier."""
 
     project_id: Annotated[str, pydantic.Field(alias="projectId")]
     r"""Google Cloud project ID that contains the BigQuery dataset"""
@@ -168,6 +175,11 @@ class OutputGoogleBigquery(BaseModel):
         Optional[float], pydantic.Field(alias="maxInProgress")
     ] = None
     r"""The maximum number of in-progress API requests before backpressure is applied"""
+
+    max_send_retries: Annotated[
+        Optional[float], pydantic.Field(alias="maxSendRetries")
+    ] = None
+    r"""Maximum retries per batch for retryable failures (transient, rate-limit, unknown) before dropping. 0 (default) retries indefinitely."""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -229,6 +241,7 @@ class OutputGoogleBigquery(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGoogleBigqueryPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -315,6 +328,7 @@ class OutputGoogleBigquery(BaseModel):
                 "maxQueueSize",
                 "maxRecordSizeKB",
                 "maxInProgress",
+                "maxSendRetries",
                 "onBackpressure",
                 "description",
                 "pqStrictOrdering",

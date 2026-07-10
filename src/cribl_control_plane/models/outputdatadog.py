@@ -29,6 +29,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDatadogType(str, Enum):
+    r"""Connector type identifier."""
+
     DATADOG = "datadog"
 
 
@@ -82,15 +84,16 @@ class OutputDatadogDatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputDatadogPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputDatadogPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputDatadogTypedDict(TypedDict):
     type: OutputDatadogType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -187,6 +190,7 @@ class OutputDatadogTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputDatadogPqControlsTypedDict]
+    r"""Persistent queue controls."""
     api_key: NotRequired[str]
     r"""Organization's API key in Datadog"""
     text_secret: NotRequired[str]
@@ -203,6 +207,7 @@ class OutputDatadogTypedDict(TypedDict):
 
 class OutputDatadog(BaseModel):
     type: OutputDatadogType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -401,6 +406,7 @@ class OutputDatadog(BaseModel):
     pq_controls: Annotated[
         Optional[OutputDatadogPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
     r"""Organization's API key in Datadog"""

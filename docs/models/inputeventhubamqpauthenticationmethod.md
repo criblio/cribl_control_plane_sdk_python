@@ -1,5 +1,7 @@
 # InputEventhubAmqpAuthenticationMethod
 
+Authentication method
+
 ## Example Usage
 
 ```python

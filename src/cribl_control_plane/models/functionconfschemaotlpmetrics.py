@@ -16,6 +16,7 @@ class FunctionConfSchemaOtlpMetricsTypedDict(TypedDict):
     drop_non_metric_events: NotRequired[bool]
     r"""Drop events that are not OTLP metric data points."""
     otlp_version: NotRequired[OtlpVersionOptions]
+    r"""OTLP version"""
     batch_otlp_metrics: NotRequired[bool]
     r"""Batch OTLP metrics by shared top-level `resource` attributes"""
     send_batch_size: NotRequired[float]
@@ -44,6 +45,7 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
     otlp_version: Annotated[
         Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
     ] = None
+    r"""OTLP version"""
 
     batch_otlp_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="batchOTLPMetrics")

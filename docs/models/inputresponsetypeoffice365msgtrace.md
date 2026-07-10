@@ -1,5 +1,7 @@
 # InputResponseTypeOffice365MsgTrace
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

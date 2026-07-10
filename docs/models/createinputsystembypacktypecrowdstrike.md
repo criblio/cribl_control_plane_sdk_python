@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeCrowdstrike
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

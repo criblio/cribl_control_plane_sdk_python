@@ -1,5 +1,7 @@
 # CreateInputTypeSystemMetrics
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

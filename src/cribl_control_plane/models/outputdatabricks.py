@@ -27,11 +27,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDatabricksType(str, Enum):
+    r"""Connector type identifier."""
+
     DATABRICKS = "databricks"
 
 
 class OutputDatabricksTypedDict(TypedDict):
     type: OutputDatabricksType
+    r"""Connector type identifier."""
     workspace_id: str
     r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
     scope: str
@@ -94,6 +97,7 @@ class OutputDatabricksTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     workspace_host: NotRequired[str]
     r"""Hostname for the Databricks workspace. Override this to connect to government or secure cloud environments (e.g. cloud.databricks.us, cloud.databricks.mil, azuredatabricks.net)."""
     timeout_sec: NotRequired[int]
@@ -154,6 +158,7 @@ class OutputDatabricksTypedDict(TypedDict):
 
 class OutputDatabricks(BaseModel):
     type: OutputDatabricksType
+    r"""Connector type identifier."""
 
     workspace_id: Annotated[str, pydantic.Field(alias="workspaceId")]
     r"""Unique identifier for the Databricks workspace. Used to construct the OAuth login URL and API base URL."""
@@ -284,6 +289,7 @@ class OutputDatabricks(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     workspace_host: Annotated[Optional[str], pydantic.Field(alias="workspaceHost")] = (
         None

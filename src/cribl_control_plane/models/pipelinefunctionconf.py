@@ -104,6 +104,10 @@ from .pipelinefunctionlookup import (
     PipelineFunctionLookupTypedDict,
 )
 from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskTypedDict
+from .pipelinefunctionmetricsexport import (
+    PipelineFunctionMetricsExport,
+    PipelineFunctionMetricsExportTypedDict,
+)
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
     PipelineFunctionMvExpandTypedDict,
@@ -263,6 +267,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLocalSearchTransformerTypedDict,
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
+        PipelineFunctionMetricsExportTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -347,6 +352,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "local_search_transformer": PipelineFunctionLocalSearchTransformer,
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
+    "metrics_export": PipelineFunctionMetricsExport,
     "mv_expand": PipelineFunctionMvExpand,
     "mv_pull": PipelineFunctionMvPull,
     "notification_policies": PipelineFunctionNotificationPolicies,
@@ -421,6 +427,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLocalSearchTransformer,
         PipelineFunctionLookup,
         PipelineFunctionMask,
+        PipelineFunctionMetricsExport,
         PipelineFunctionMvExpand,
         PipelineFunctionMvPull,
         PipelineFunctionNotificationPolicies,

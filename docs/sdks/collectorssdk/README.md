@@ -452,8 +452,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
             ],
@@ -904,8 +904,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -1195,8 +1195,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",

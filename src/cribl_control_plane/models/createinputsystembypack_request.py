@@ -36,13 +36,7 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .createinputsystembypack_users_and_groups import (
-    CreateInputSystemByPackDNS,
-    CreateInputSystemByPackDNSTypedDict,
-    CreateInputSystemByPackDisksAndFileSystems,
-    CreateInputSystemByPackDisksAndFileSystemsTypedDict,
-    CreateInputSystemByPackHostInfo,
-    CreateInputSystemByPackHostInfoTypedDict,
+from .createinputsystembypack_interfaces import (
     CreateInputSystemByPackHostsFile,
     CreateInputSystemByPackHostsFileTypedDict,
     CreateInputSystemByPackInputAnthropicCompliance,
@@ -51,6 +45,8 @@ from .createinputsystembypack_users_and_groups import (
     CreateInputSystemByPackInputAppleUnifiedLogsTypedDict,
     CreateInputSystemByPackInputAppscope,
     CreateInputSystemByPackInputAppscopeTypedDict,
+    CreateInputSystemByPackInputBedrockS3,
+    CreateInputSystemByPackInputBedrockS3TypedDict,
     CreateInputSystemByPackInputCloudflareHec,
     CreateInputSystemByPackInputCloudflareHecTypedDict,
     CreateInputSystemByPackInputCriblmetrics,
@@ -125,11 +121,7 @@ from .createinputsystembypack_users_and_groups import (
     CreateInputSystemByPackInputZscalerHecTypedDict,
     CreateInputSystemByPackInterfaces,
     CreateInputSystemByPackInterfacesTypedDict,
-    CreateInputSystemByPackRoutes,
-    CreateInputSystemByPackRoutesTypedDict,
     CreateInputSystemByPackTypeSystemState,
-    CreateInputSystemByPackUsersAndGroups,
-    CreateInputSystemByPackUsersAndGroupsTypedDict,
 )
 from .datacompressionformatoptionspersistence import (
     DataCompressionFormatOptionsPersistence,
@@ -188,6 +180,15 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
+from .typeoptions import TypeOptions
+from .typeoptionsazureblob import TypeOptionsAzureblob
+from .typeoptionsconfluentcloud import TypeOptionsConfluentcloud
+from .typeoptionscribltcp import TypeOptionsCribltcp
+from .typeoptionsgooglepubsub import TypeOptionsGooglepubsub
+from .typeoptionsmsk import TypeOptionsMsk
+from .typeoptionsprometheus import TypeOptionsPrometheus
+from .typeoptionssplunk import TypeOptionsSplunk
+from .typeoptionstcpjson import TypeOptionsTcpjson
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import (
@@ -203,16 +204,168 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
+class CreateInputSystemByPackDisksAndFileSystemsTypedDict(TypedDict):
+    r"""Creates events for physical disks, partitions, and file systems"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackDisksAndFileSystems(BaseModel):
+    r"""Creates events for physical disks, partitions, and file systems"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackHostInfoTypedDict(TypedDict):
+    r"""Creates events based on the host system’s current state"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackHostInfo(BaseModel):
+    r"""Creates events based on the host system’s current state"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackRoutesTypedDict(TypedDict):
+    r"""Creates events based on entries collected from the host’s network routes"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackRoutes(BaseModel):
+    r"""Creates events based on entries collected from the host’s network routes"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackDNSTypedDict(TypedDict):
+    r"""Creates events for DNS resolvers and search entries"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackDNS(BaseModel):
+    r"""Creates events for DNS resolvers and search entries"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackUsersAndGroupsTypedDict(TypedDict):
+    r"""Creates events for local users and groups"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackUsersAndGroups(BaseModel):
+    r"""Creates events for local users and groups"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class CreateInputSystemByPackFirewallTypedDict(TypedDict):
     r"""Creates events for Firewall rules entries"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class CreateInputSystemByPackFirewall(BaseModel):
     r"""Creates events for Firewall rules entries"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -235,12 +388,14 @@ class CreateInputSystemByPackServicesTypedDict(TypedDict):
     r"""Creates events from the list of services"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class CreateInputSystemByPackServices(BaseModel):
     r"""Creates events from the list of services"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -263,12 +418,14 @@ class CreateInputSystemByPackListeningPortsTypedDict(TypedDict):
     r"""Creates events from list of listening ports"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class CreateInputSystemByPackListeningPorts(BaseModel):
     r"""Creates events from list of listening ports"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -291,12 +448,14 @@ class CreateInputSystemByPackLoggedInUsersTypedDict(TypedDict):
     r"""Creates events from list of logged-in users"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class CreateInputSystemByPackLoggedInUsers(BaseModel):
     r"""Creates events from list of logged-in users"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -418,6 +577,7 @@ class CreateInputSystemByPackPersistenceSystemStateTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
 
@@ -436,6 +596,7 @@ class CreateInputSystemByPackPersistenceSystemState(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
@@ -479,6 +640,7 @@ class CreateInputSystemByPackInputSystemStateTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeSystemState
+    r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -517,6 +679,7 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeSystemState
+    r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -614,6 +777,8 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
 
 
 class CreateInputSystemByPackTypeSystemMetrics(str, Enum):
+    r"""Connector type identifier."""
+
     SYSTEM_METRICS = "system_metrics"
 
 
@@ -1045,10 +1210,12 @@ class CreateInputSystemByPackContainerMode(str, Enum, metaclass=utils.OpenEnumMe
 
 class CreateInputSystemByPackFilterSystemMetricsTypedDict(TypedDict):
     expr: str
+    r"""Expression"""
 
 
 class CreateInputSystemByPackFilterSystemMetrics(BaseModel):
     expr: str
+    r"""Expression"""
 
 
 class CreateInputSystemByPackContainerTypedDict(TypedDict):
@@ -1133,6 +1300,8 @@ class CreateInputSystemByPackContainer(BaseModel):
 
 
 class CreateInputSystemByPackPersistenceSystemMetricsTypedDict(TypedDict):
+    r"""persistence"""
+
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -1142,11 +1311,14 @@ class CreateInputSystemByPackPersistenceSystemMetricsTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
 
 
 class CreateInputSystemByPackPersistenceSystemMetrics(BaseModel):
+    r"""persistence"""
+
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -1160,6 +1332,7 @@ class CreateInputSystemByPackPersistenceSystemMetrics(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
@@ -1203,6 +1376,7 @@ class CreateInputSystemByPackInputSystemMetricsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeSystemMetrics
+    r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -1227,6 +1401,7 @@ class CreateInputSystemByPackInputSystemMetricsTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[CreateInputSystemByPackPersistenceSystemMetricsTypedDict]
+    r"""persistence"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -1240,6 +1415,7 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeSystemMetrics
+    r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -1281,6 +1457,7 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     r"""Fields to add to events from this input"""
 
     persistence: Optional[CreateInputSystemByPackPersistenceSystemMetrics] = None
+    r"""persistence"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -1333,14 +1510,11 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeTcpjson(str, Enum):
-    TCPJSON = "tcpjson"
-
-
 class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeTcpjson
+    type: TypeOptionsTcpjson
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -1361,6 +1535,7 @@ class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -1399,7 +1574,8 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeTcpjson
+    type: TypeOptionsTcpjson
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1433,6 +1609,7 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -1569,12 +1746,14 @@ class CreateInputSystemByPackTypeCriblLakeHTTP(str, Enum):
 
 class CreateInputSystemByPackSplunkHecMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""Splunk HEC"""
     default_dataset: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
 
 
 class CreateInputSystemByPackSplunkHecMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""Splunk HEC"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -1603,11 +1782,13 @@ class CreateInputSystemByPackSplunkHecMetadata(BaseModel):
 
 class CreateInputSystemByPackElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""Elasticsearch"""
     default_dataset: NotRequired[str]
 
 
 class CreateInputSystemByPackElasticsearchMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""Elasticsearch"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -1632,6 +1813,7 @@ class CreateInputSystemByPackElasticsearchMetadata(BaseModel):
 
 class CreateInputSystemByPackAuthTokensExtTypedDict(TypedDict):
     token: str
+    r"""Token"""
     description: NotRequired[str]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this token"""
@@ -1643,6 +1825,7 @@ class CreateInputSystemByPackAuthTokensExtTypedDict(TypedDict):
 
 class CreateInputSystemByPackAuthTokensExt(BaseModel):
     token: str
+    r"""Token"""
 
     description: Optional[str] = None
 
@@ -1705,6 +1888,7 @@ class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -1734,9 +1918,11 @@ class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
+    r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[CreateInputSystemByPackAuthTokensExtTypedDict]]
+    r"""Auth tokens"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -1801,6 +1987,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -1871,6 +2058,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
+    r"""Enable Splunk HEC acknowledgements"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -1879,6 +2067,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
         Optional[List[CreateInputSystemByPackAuthTokensExt]],
         pydantic.Field(alias="authTokensExt"),
     ] = None
+    r"""Auth tokens"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -2012,6 +2201,7 @@ class CreateInputSystemByPackInputCriblHTTPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[AuthTokenConfInputCriblTCPTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -2092,6 +2282,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -2221,14 +2412,11 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCriblTCP(str, Enum):
-    CRIBL_TCP = "cribl_tcp"
-
-
 class CreateInputSystemByPackInputCriblTCPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCriblTCP
+    type: TypeOptionsCribltcp
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -2249,6 +2437,7 @@ class CreateInputSystemByPackInputCriblTCPTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
     socket_idle_timeout: NotRequired[float]
@@ -2281,7 +2470,8 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCriblTCP
+    type: TypeOptionsCribltcp
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2315,6 +2505,7 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
         None
@@ -2420,6 +2611,8 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
 
 
 class CreateInputSystemByPackTypeCribl(str, Enum):
+    r"""Connector type identifier."""
+
     CRIBL = "cribl"
 
 
@@ -2427,6 +2620,7 @@ class CreateInputSystemByPackInputCriblTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeCribl
+    r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -2458,6 +2652,7 @@ class CreateInputSystemByPackInputCribl(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeCribl
+    r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -2535,14 +2730,11 @@ class CreateInputSystemByPackInputCribl(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeGooglePubsub(str, Enum):
-    GOOGLE_PUBSUB = "google_pubsub"
-
-
 class CreateInputSystemByPackInputGooglePubsubTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeGooglePubsub
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
     topic_name: str
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     subscription_name: str
@@ -2604,7 +2796,8 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeGooglePubsub
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
 
     topic_name: Annotated[str, pydantic.Field(alias="topicName")]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -2802,6 +2995,7 @@ class CreateInputSystemByPackInputFirehoseTypedDict(TypedDict):
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -2884,6 +3078,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -3020,6 +3215,8 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
 
 
 class CreateInputSystemByPackInputExecType(str, Enum):
+    r"""Connector type identifier."""
+
     EXEC = "exec"
 
 
@@ -3034,9 +3231,11 @@ class CreateInputSystemByPackInputExecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackInputExecType
+    r"""Connector type identifier."""
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     disabled: NotRequired[bool]
+    r"""Disabled"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3079,11 +3278,13 @@ class CreateInputSystemByPackInputExec(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackInputExecType
+    r"""Connector type identifier."""
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
 
     disabled: Optional[bool] = None
+    r"""Disabled"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3200,12 +3401,16 @@ class CreateInputSystemByPackInputExec(BaseModel):
 
 
 class CreateInputSystemByPackTypeEventhubAmqp(str, Enum):
+    r"""Connector type identifier."""
+
     EVENTHUB_AMQP = "eventhub_amqp"
 
 
 class CreateInputSystemByPackAuthenticationMechanism(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication mechanism"""
+
     # Connection String
     CONNECTION_STRING = "connection-string"
     # OAuth Bearer
@@ -3255,9 +3460,11 @@ class CreateInputSystemByPackCertificate(BaseModel):
 
 class CreateInputSystemByPackAuthTypedDict(TypedDict):
     mechanism: CreateInputSystemByPackAuthenticationMechanism
+    r"""Authentication mechanism"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
+    r"""Authentication method"""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CreateInputSystemByPackCertificateTypedDict]
@@ -3281,6 +3488,7 @@ class CreateInputSystemByPackAuthTypedDict(TypedDict):
 
 class CreateInputSystemByPackAuth(BaseModel):
     mechanism: CreateInputSystemByPackAuthenticationMechanism
+    r"""Authentication mechanism"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -3289,6 +3497,7 @@ class CreateInputSystemByPackAuth(BaseModel):
         Optional[AuthenticationMethodOptionsAuth],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
+    r"""Authentication method"""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
@@ -3396,6 +3605,8 @@ class CreateInputSystemByPackAuth(BaseModel):
 class CreateInputSystemByPackAuthenticationMethodEventhubAmqp(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method"""
+
     SECRET = "secret"
     CLIENT_SECRET = "clientSecret"
     CLIENT_CERT = "clientCert"
@@ -3404,9 +3615,12 @@ class CreateInputSystemByPackAuthenticationMethodEventhubAmqp(
 
 
 class CreateInputSystemByPackAzureBlobStorageTypedDict(TypedDict):
+    r"""Azure Blob Storage"""
+
     container_name: str
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
     auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodEventhubAmqp]
+    r"""Authentication method"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     storage_account_name: NotRequired[str]
@@ -3433,6 +3647,8 @@ class CreateInputSystemByPackAzureBlobStorageTypedDict(TypedDict):
 
 
 class CreateInputSystemByPackAzureBlobStorage(BaseModel):
+    r"""Azure Blob Storage"""
+
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
 
@@ -3440,6 +3656,7 @@ class CreateInputSystemByPackAzureBlobStorage(BaseModel):
         Optional[CreateInputSystemByPackAuthenticationMethodEventhubAmqp],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -3536,18 +3753,21 @@ class CreateInputSystemByPackAzureBlobStorage(BaseModel):
 
 class CreateInputSystemByPackCheckpointingTypedDict(TypedDict):
     blob_store: CreateInputSystemByPackAzureBlobStorageTypedDict
+    r"""Azure Blob Storage"""
 
 
 class CreateInputSystemByPackCheckpointing(BaseModel):
     blob_store: Annotated[
         CreateInputSystemByPackAzureBlobStorage, pydantic.Field(alias="blobStore")
     ]
+    r"""Azure Blob Storage"""
 
 
 class CreateInputSystemByPackInputEventhubAmqpTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeEventhubAmqp
+    r"""Connector type identifier."""
     consumer_group: str
     r"""The consumer group this instance belongs to. Default is '$Default'."""
     checkpointing: CreateInputSystemByPackCheckpointingTypedDict
@@ -3606,6 +3826,7 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeEventhubAmqp
+    r"""Connector type identifier."""
 
     consumer_group: Annotated[str, pydantic.Field(alias="consumerGroup")]
     r"""The consumer group this instance belongs to. Default is '$Default'."""
@@ -3755,6 +3976,8 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
 
 
 class CreateInputSystemByPackTypeEventhub(str, Enum):
+    r"""Connector type identifier."""
+
     EVENTHUB = "eventhub"
 
 
@@ -3762,6 +3985,7 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeEventhub
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
     topics: List[str]
@@ -3804,6 +4028,7 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     sasl: NotRequired[AuthenticationTypeUseTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    r"""TLS settings (client side)"""
     session_timeout: NotRequired[float]
     r"""
     Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities. If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance. Value must be lower than rebalanceTimeout. See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
@@ -3849,6 +4074,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeEventhub
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
@@ -3927,6 +4153,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
+    r"""TLS settings (client side)"""
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -4065,6 +4292,8 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
 
 
 class CreateInputSystemByPackTypeMicrosoftGraph(str, Enum):
+    r"""Connector type identifier."""
+
     MICROSOFT_GRAPH = "microsoft_graph"
 
 
@@ -4097,6 +4326,7 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeMicrosoftGraph
+    r"""Connector type identifier."""
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
     interval: int
@@ -4147,6 +4377,10 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
@@ -4183,6 +4417,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeMicrosoftGraph
+    r"""Connector type identifier."""
 
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
@@ -4280,6 +4515,16 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     retry_rules: Annotated[
         Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = None
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -4401,6 +4646,8 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
                 "maxTaskReschedule",
                 "logLevel",
                 "retryRules",
+                "breakerRulesets",
+                "staleChannelFlushMs",
                 "description",
                 "clientSecret",
                 "tenantId",
@@ -4433,6 +4680,8 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
 
 
 class CreateInputSystemByPackTypeOffice365MsgTrace(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_MSG_TRACE = "office365_msg_trace"
 
 
@@ -4452,6 +4701,7 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeOffice365MsgTrace
+    r"""Connector type identifier."""
     url: str
     r"""URL to use when retrieving report data."""
     interval: int
@@ -4542,6 +4792,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeOffice365MsgTrace
+    r"""Connector type identifier."""
 
     url: str
     r"""URL to use when retrieving report data."""
@@ -4803,6 +5054,8 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
 
 
 class CreateInputSystemByPackTypeOffice365Service(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_SERVICE = "office365_service"
 
 
@@ -4812,9 +5065,11 @@ class CreateInputSystemByPackContentConfigOffice365ServiceTypedDict(TypedDict):
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
+    r"""Interval"""
     log_level: NotRequired[LogLevelOptionsContentConfigItems]
     r"""Collector runtime Log Level"""
     enabled: NotRequired[bool]
+    r"""Enabled"""
 
 
 class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
@@ -4825,6 +5080,7 @@ class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
 
     interval: Optional[float] = None
+    r"""Interval"""
 
     log_level: Annotated[
         Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
@@ -4832,6 +5088,7 @@ class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
     r"""Collector runtime Log Level"""
 
     enabled: Optional[bool] = None
+    r"""Enabled"""
 
     @field_serializer("log_level")
     def serialize_log_level(self, value):
@@ -4865,6 +5122,7 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeOffice365Service
+    r"""Connector type identifier."""
     tenant_id: str
     r"""Microsoft 365 Azure Tenant ID"""
     app_id: str
@@ -4932,6 +5190,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeOffice365Service
+    r"""Connector type identifier."""
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
     r"""Microsoft 365 Azure Tenant ID"""
@@ -5118,6 +5377,8 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
 
 
 class CreateInputSystemByPackTypeOffice365Mgmt(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_MGMT = "office365_mgmt"
 
 
@@ -5127,9 +5388,11 @@ class CreateInputSystemByPackContentConfigOffice365MgmtTypedDict(TypedDict):
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
+    r"""Interval"""
     log_level: NotRequired[LogLevelOptionsContentConfigItems]
     r"""Collector runtime Log Level"""
     enabled: NotRequired[bool]
+    r"""Enabled"""
 
 
 class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
@@ -5140,6 +5403,7 @@ class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
 
     interval: Optional[float] = None
+    r"""Interval"""
 
     log_level: Annotated[
         Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
@@ -5147,6 +5411,7 @@ class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
     r"""Collector runtime Log Level"""
 
     enabled: Optional[bool] = None
+    r"""Enabled"""
 
     @field_serializer("log_level")
     def serialize_log_level(self, value):
@@ -5180,6 +5445,7 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeOffice365Mgmt
+    r"""Connector type identifier."""
     plan_type: SubscriptionPlanOptions
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     tenant_id: str
@@ -5253,6 +5519,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeOffice365Mgmt
+    r"""Connector type identifier."""
 
     plan_type: Annotated[SubscriptionPlanOptions, pydantic.Field(alias="planType")]
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
@@ -5454,6 +5721,8 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
 
 
 class CreateInputSystemByPackTypeEdgePrometheus(str, Enum):
+    r"""Connector type identifier."""
+
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
@@ -5573,6 +5842,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeEdgePrometheus
+    r"""Connector type identifier."""
     discovery_type: CreateInputSystemByPackDiscoveryTypeEdgePrometheus
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: float
@@ -5599,6 +5869,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     timeout: NotRequired[float]
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    r"""Disk Spooling"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodEdgePrometheus]
@@ -5606,6 +5877,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     targets: NotRequired[List[CreateInputSystemByPackTargetTypedDict]]
+    r"""Targets"""
     record_type: NotRequired[RecordTypeOptions]
     r"""DNS record type to resolve"""
     scrape_port: NotRequired[float]
@@ -5619,6 +5891,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -5626,6 +5899,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -5700,6 +5974,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeEdgePrometheus
+    r"""Connector type identifier."""
 
     discovery_type: Annotated[
         CreateInputSystemByPackDiscoveryTypeEdgePrometheus,
@@ -5749,6 +6024,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
 
     persistence: Optional[DiskSpoolingType] = None
+    r"""Disk Spooling"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -5763,6 +6039,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""Optional description for this configuration."""
 
     targets: Optional[List[CreateInputSystemByPackTarget]] = None
+    r"""Targets"""
 
     record_type: Annotated[
         Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
@@ -5790,6 +6067,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -5806,6 +6084,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""
@@ -6080,10 +6359,6 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypePrometheus(str, Enum):
-    PROMETHEUS = "prometheus"
-
-
 class CreateInputSystemByPackDiscoveryTypePrometheus(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
@@ -6109,7 +6384,8 @@ class CreateInputSystemByPackMetricsProtocol(str, Enum, metaclass=utils.OpenEnum
 class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypePrometheus
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
     log_level: LogLevelOptions
@@ -6170,6 +6446,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -6177,6 +6454,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -6243,7 +6521,8 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypePrometheus
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
 
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
@@ -6364,6 +6643,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -6380,6 +6660,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""
@@ -6688,6 +6969,7 @@ class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -6717,7 +6999,9 @@ class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -6780,6 +7064,7 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -6849,8 +7134,10 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -6989,6 +7276,7 @@ class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -7018,7 +7306,9 @@ class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7079,6 +7369,7 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -7147,8 +7438,10 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7258,7 +7551,9 @@ class CreateInputSystemByPackPrometheusAuth2TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7275,8 +7570,10 @@ class CreateInputSystemByPackPrometheusAuth2(BaseModel):
     r"""Remote Write authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7328,7 +7625,9 @@ class CreateInputSystemByPackLokiAuth2TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7344,8 +7643,10 @@ class CreateInputSystemByPackLokiAuth2(BaseModel):
     r"""Loki logs authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7420,6 +7721,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2TypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -7506,6 +7808,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -7673,7 +7976,9 @@ class CreateInputSystemByPackPrometheusAuth1TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7690,8 +7995,10 @@ class CreateInputSystemByPackPrometheusAuth1(BaseModel):
     r"""Remote Write authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7743,7 +8050,9 @@ class CreateInputSystemByPackLokiAuth1TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7759,8 +8068,10 @@ class CreateInputSystemByPackLokiAuth1(BaseModel):
     r"""Loki logs authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7835,6 +8146,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1TypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -7921,6 +8233,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -8094,14 +8407,11 @@ CreateInputSystemByPackInputGrafanaUnion = TypeAliasType(
 )
 
 
-class CreateInputSystemByPackTypeConfluentCloud(str, Enum):
-    CONFLUENT_CLOUD = "confluent_cloud"
-
-
 class CreateInputSystemByPackInputConfluentCloudTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeConfluentCloud
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
     topics: List[str]
@@ -8122,11 +8432,13 @@ class CreateInputSystemByPackInputConfluentCloudTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -8191,7 +8503,8 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeConfluentCloud
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
@@ -8225,6 +8538,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -8238,6 +8552,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -8420,6 +8735,8 @@ class CreateInputSystemByPackTypeElastic(str, Enum):
 class CreateInputSystemByPackAuthenticationTypeElastic(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication type"""
+
     # None
     NONE = "none"
     # Basic
@@ -8457,7 +8774,9 @@ class CreateInputSystemByPackProxyModeElasticTypedDict(TypedDict):
     auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodElastic]
     r"""Enter credentials directly, or select a stored secret"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     url: NotRequired[str]
@@ -8483,8 +8802,10 @@ class CreateInputSystemByPackProxyModeElastic(BaseModel):
     r"""Enter credentials directly, or select a stored secret"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -8577,6 +8898,7 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -8600,6 +8922,7 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     auth_type: NotRequired[CreateInputSystemByPackAuthenticationTypeElastic]
+    r"""Authentication type"""
     api_version: NotRequired[CreateInputSystemByPackAPIVersion]
     r"""The API version to use for communicating with the server"""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -8610,7 +8933,9 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     auth_tokens: NotRequired[List[str]]
@@ -8673,6 +8998,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -8733,6 +9059,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
         Optional[CreateInputSystemByPackAuthenticationTypeElastic],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication type"""
 
     api_version: Annotated[
         Optional[CreateInputSystemByPackAPIVersion], pydantic.Field(alias="apiVersion")
@@ -8757,8 +9084,10 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -8880,14 +9209,11 @@ class CreateInputSystemByPackInputElastic(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeAzureBlob(str, Enum):
-    AZURE_BLOB = "azure_blob"
-
-
 class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeAzureBlob
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
     queue_name: str
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     disabled: NotRequired[bool]
@@ -8928,6 +9254,7 @@ class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
     auth_type: NotRequired[AuthenticationMethodOptions]
+    r"""Authentication method"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     connection_string: NotRequired[str]
@@ -8969,7 +9296,8 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeAzureBlob
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
@@ -9049,6 +9377,7 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = None
+    r"""Authentication method"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""
@@ -9308,6 +9637,7 @@ class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     auth_tokens: NotRequired[List[CreateInputSystemByPackAuthTokenSplunkHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -9412,6 +9742,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -9602,17 +9933,21 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
 
 
 class CreateInputSystemByPackTypeSplunkSearch(str, Enum):
+    r"""Connector type identifier."""
+
     SPLUNK_SEARCH = "splunk_search"
 
 
 class CreateInputSystemByPackEndpointParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
 class CreateInputSystemByPackEndpointParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
@@ -9620,12 +9955,14 @@ class CreateInputSystemByPackEndpointParam(BaseModel):
 
 class CreateInputSystemByPackEndpointHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
 class CreateInputSystemByPackEndpointHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
@@ -9663,6 +10000,7 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeSplunkSearch
+    r"""Connector type identifier."""
     search_head: str
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
@@ -9728,7 +10066,9 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -9758,6 +10098,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeSplunkSearch
+    r"""Connector type identifier."""
 
     search_head: Annotated[str, pydantic.Field(alias="searchHead")]
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
@@ -9891,8 +10232,10 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -10034,14 +10377,11 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeSplunk(str, Enum):
-    SPLUNK = "splunk"
-
-
 class CreateInputSystemByPackAuthTokenSplunkTypedDict(TypedDict):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    r"""Description"""
 
 
 class CreateInputSystemByPackAuthTokenSplunk(BaseModel):
@@ -10049,6 +10389,7 @@ class CreateInputSystemByPackAuthTokenSplunk(BaseModel):
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+    r"""Description"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -10090,7 +10431,8 @@ class CreateInputSystemByPackCompression(str, Enum, metaclass=utils.OpenEnumMeta
 class CreateInputSystemByPackInputSplunkTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSplunk
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -10111,6 +10453,7 @@ class CreateInputSystemByPackInputSplunkTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -10161,7 +10504,8 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSplunk
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -10195,6 +10539,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -10404,6 +10749,7 @@ class CreateInputSystemByPackInputHTTPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -10433,6 +10779,7 @@ class CreateInputSystemByPackInputHTTPTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
+    r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[AuthTokensExtConfInputHTTPTypedDict]]
@@ -10501,6 +10848,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -10571,6 +10919,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
+    r"""Enable Splunk HEC acknowledgements"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -10680,14 +11029,11 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeMsk(str, Enum):
-    MSK = "msk"
-
-
 class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeMsk
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
@@ -10734,6 +11080,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -10751,6 +11098,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
     reuse_connections: NotRequired[bool]
@@ -10766,6 +11114,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
     auto_commit_threshold: NotRequired[float]
@@ -10779,6 +11128,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     template_environment: NotRequired[str]
@@ -10809,7 +11159,8 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeMsk
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -10891,6 +11242,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -10929,6 +11281,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     endpoint: Optional[str] = None
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
@@ -10964,6 +11317,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     auto_commit_interval: Annotated[
         Optional[float], pydantic.Field(alias="autoCommitInterval")
@@ -10992,6 +11346,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -11131,14 +11486,11 @@ class CreateInputSystemByPackInputMsk(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeKafka(str, Enum):
-    KAFKA = "kafka"
-
-
 class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeKafka
+    type: TypeOptions
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
@@ -11163,6 +11515,7 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -11182,6 +11535,7 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     session_timeout: NotRequired[float]
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
@@ -11228,7 +11582,8 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeKafka
+    type: TypeOptions
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -11273,6 +11628,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -11312,6 +11668,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -11449,6 +11806,8 @@ class CreateInputSystemByPackInputKafka(BaseModel):
 
 
 class CreateInputSystemByPackTypeCollection(str, Enum):
+    r"""Connector type identifier."""
+
     COLLECTION = "collection"
 
 
@@ -11456,6 +11815,7 @@ class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackTypeCollection
+    r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -11493,6 +11853,7 @@ class CreateInputSystemByPackInputCollection(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackTypeCollection
+    r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -11605,10 +11966,9 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputModelDrivenTelemetryTypedDict,
         CreateInputSystemByPackInputExecTypedDict,
         CreateInputSystemByPackInputRawUDPTypedDict,
-        CreateInputSystemByPackInputAnthropicComplianceTypedDict,
-        CreateInputSystemByPackInputWinEventLogsTypedDict,
         CreateInputSystemByPackInputKubeLogsTypedDict,
         CreateInputSystemByPackInputSnmpTypedDict,
+        CreateInputSystemByPackInputWinEventLogsTypedDict,
         CreateInputSystemByPackInputMetricsTypedDict,
         CreateInputSystemByPackInputNetflowTypedDict,
         CreateInputSystemByPackInputCriblTCPTypedDict,
@@ -11617,6 +11977,7 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputEventhubAmqpTypedDict,
         CreateInputSystemByPackInputTcpjsonTypedDict,
         CreateInputSystemByPackInputGooglePubsubTypedDict,
+        CreateInputSystemByPackInputAnthropicComplianceTypedDict,
         CreateInputSystemByPackInputCriblHTTPTypedDict,
         CreateInputSystemByPackInputTCPTypedDict,
         CreateInputSystemByPackInputFirehoseTypedDict,
@@ -11635,27 +11996,28 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputUpwindHecTypedDict,
         CreateInputSystemByPackInputSysdigHecTypedDict,
         CreateInputSystemByPackInputHTTPTypedDict,
+        CreateInputSystemByPackInputZscalerHecTypedDict,
         CreateInputSystemByPackInputKafkaTypedDict,
         CreateInputSystemByPackInputConfluentCloudTypedDict,
         CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
-        CreateInputSystemByPackInputZscalerHecTypedDict,
         CreateInputSystemByPackInputEventhubTypedDict,
         CreateInputSystemByPackInputAzureBlobTypedDict,
-        CreateInputSystemByPackInputCloudflareHecTypedDict,
         CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict,
+        CreateInputSystemByPackInputCloudflareHecTypedDict,
         CreateInputSystemByPackInputElasticTypedDict,
         CreateInputSystemByPackInputOpenTelemetryTypedDict,
         CreateInputSystemByPackInputSplunkHecTypedDict,
         CreateInputSystemByPackInputSqsTypedDict,
-        CreateInputSystemByPackInputMicrosoftGraphTypedDict,
         CreateInputSystemByPackInputKinesisTypedDict,
         CreateInputSystemByPackInputOffice365MsgTraceTypedDict,
+        CreateInputSystemByPackInputMicrosoftGraphTypedDict,
         CreateInputSystemByPackInputSplunkSearchTypedDict,
         CreateInputSystemByPackInputServicenowTableTypedDict,
         CreateInputSystemByPackInputMskTypedDict,
         CreateInputSystemByPackInputEdgePrometheusTypedDict,
         CreateInputSystemByPackInputCrowdstrikeTypedDict,
         CreateInputSystemByPackInputS3TypedDict,
+        CreateInputSystemByPackInputBedrockS3TypedDict,
         CreateInputSystemByPackInputSecurityLakeTypedDict,
         CreateInputSystemByPackInputPrometheusTypedDict,
         CreateInputSystemByPackInputS3InventoryTypedDict,
@@ -11739,6 +12101,7 @@ CreateInputSystemByPackRequestBody = Annotated[
         Annotated[CreateInputSystemByPackInputWizWebhook, Tag("wiz_webhook")],
         Annotated[CreateInputSystemByPackInputNetflow, Tag("netflow")],
         Annotated[CreateInputSystemByPackInputSecurityLake, Tag("security_lake")],
+        Annotated[CreateInputSystemByPackInputBedrockS3, Tag("bedrock_s3")],
         Annotated[CreateInputSystemByPackInputServicenowTable, Tag("servicenow_table")],
         Annotated[CreateInputSystemByPackInputZscalerHec, Tag("zscaler_hec")],
         Annotated[CreateInputSystemByPackInputCloudflareHec, Tag("cloudflare_hec")],

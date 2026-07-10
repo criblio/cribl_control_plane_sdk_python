@@ -15,6 +15,7 @@ class AuthTokensExtConfInputHTTPTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     description: NotRequired[str]
+    r"""Description"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this token"""
 
@@ -24,6 +25,7 @@ class AuthTokensExtConfInputHTTP(BaseModel):
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events referencing this token"""

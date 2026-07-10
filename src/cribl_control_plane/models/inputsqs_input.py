@@ -13,6 +13,7 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
+from .typeoptionssqs import TypeOptionsSqs
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -20,10 +21,6 @@ import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class InputSqsType(str, Enum):
-    SQS = "sqs"
 
 
 class InputSqsQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -36,7 +33,8 @@ class InputSqsQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSqsInputTypedDict(TypedDict):
-    type: InputSqsType
+    type: TypeOptionsSqs
+    r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     queue_type: InputSqsQueueType
@@ -65,6 +63,7 @@ class InputSqsInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
@@ -92,6 +91,7 @@ class InputSqsInputTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     num_receivers: NotRequired[float]
@@ -121,7 +121,8 @@ class InputSqsInputTypedDict(TypedDict):
 
 
 class InputSqsInput(BaseModel):
-    type: InputSqsType
+    type: TypeOptionsSqs
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -174,6 +175,7 @@ class InputSqsInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""AWS Region where the SQS queue is located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
@@ -229,6 +231,7 @@ class InputSqsInput(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""

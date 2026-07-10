@@ -14,6 +14,7 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
+from .typeoptionssplunk import TypeOptionsSplunk
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -23,14 +24,11 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputSplunkType(str, Enum):
-    SPLUNK = "splunk"
-
-
 class InputSplunkAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    r"""Description"""
 
 
 class InputSplunkAuthToken(BaseModel):
@@ -38,6 +36,7 @@ class InputSplunkAuthToken(BaseModel):
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+    r"""Description"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -77,7 +76,8 @@ class InputSplunkCompression(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputSplunkInputTypedDict(TypedDict):
-    type: InputSplunkType
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -100,6 +100,7 @@ class InputSplunkInputTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -147,7 +148,8 @@ class InputSplunkInputTypedDict(TypedDict):
 
 
 class InputSplunkInput(BaseModel):
-    type: InputSplunkType
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -184,6 +186,7 @@ class InputSplunkInput(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")

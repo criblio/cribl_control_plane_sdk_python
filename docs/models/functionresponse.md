@@ -207,6 +207,12 @@ value: models.FunctionLookup = /* values here */
 value: models.FunctionMask = /* values here */
 ```
 
+### `models.FunctionMetricsExport`
+
+```python
+value: models.FunctionMetricsExport = /* values here */
+```
+
 ### `models.FunctionMvExpand`
 
 ```python

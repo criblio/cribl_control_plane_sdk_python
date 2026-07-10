@@ -441,6 +441,12 @@ value: models.OutputChronicle = /* values here */
 value: models.OutputDatabricks = /* values here */
 ```
 
+### `models.OutputSnowflakeStreaming`
+
+```python
+value: models.OutputSnowflakeStreaming = /* values here */
+```
+
 ### `models.OutputMicrosoftFabric`
 
 ```python

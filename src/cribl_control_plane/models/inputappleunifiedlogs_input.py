@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputAppleUnifiedLogsType(str, Enum):
+    r"""Connector type identifier."""
+
     APPLE_UNIFIED_LOGS = "apple_unified_logs"
 
 
@@ -34,6 +36,7 @@ class InputAppleUnifiedLogsReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputAppleUnifiedLogsInputTypedDict(TypedDict):
     type: InputAppleUnifiedLogsType
+    r"""Connector type identifier."""
     predicate: str
     r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
     id: NotRequired[str]
@@ -67,6 +70,7 @@ class InputAppleUnifiedLogsInputTypedDict(TypedDict):
 
 class InputAppleUnifiedLogsInput(BaseModel):
     type: InputAppleUnifiedLogsType
+    r"""Connector type identifier."""
 
     predicate: str
     r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""

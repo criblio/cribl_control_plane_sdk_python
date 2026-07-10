@@ -35,6 +35,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDynatraceOtlpType(str, Enum):
+    r"""Connector type identifier."""
+
     DYNATRACE_OTLP = "dynatrace_otlp"
 
 
@@ -55,15 +57,16 @@ class OutputDynatraceOtlpEndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputDynatraceOtlpPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputDynatraceOtlpPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputDynatraceOtlpTypedDict(TypedDict):
     type: OutputDynatraceOtlpType
+    r"""Connector type identifier."""
     protocol: OutputDynatraceOtlpProtocol
     r"""Select a transport option for Dynatrace"""
     endpoint: str
@@ -117,6 +120,7 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     keep_alive: NotRequired[bool]
     r"""Disable to close the connection immediately after sending the outgoing request"""
     auth_token_name: NotRequired[str]
+    r"""Api-Token name"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
@@ -162,6 +166,7 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputDynatraceOtlpPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -172,6 +177,7 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
 
 class OutputDynatraceOtlp(BaseModel):
     type: OutputDynatraceOtlpType
+    r"""Connector type identifier."""
 
     protocol: OutputDynatraceOtlpProtocol
     r"""Select a transport option for Dynatrace"""
@@ -281,6 +287,7 @@ class OutputDynatraceOtlp(BaseModel):
     auth_token_name: Annotated[Optional[str], pydantic.Field(alias="authTokenName")] = (
         None
     )
+    r"""Api-Token name"""
 
     on_backpressure: Annotated[
         Optional[BackpressureBehaviorOptions], pydantic.Field(alias="onBackpressure")
@@ -381,6 +388,7 @@ class OutputDynatraceOtlp(BaseModel):
     pq_controls: Annotated[
         Optional[OutputDynatraceOtlpPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

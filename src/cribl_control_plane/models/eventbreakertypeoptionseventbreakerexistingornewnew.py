@@ -8,6 +8,8 @@ from enum import Enum
 class EventBreakerTypeOptionsEventBreakerExistingOrNewNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Event Breaker type"""
+
     # Regex
     REGEX = "regex"
     # JSON Newline Delimited

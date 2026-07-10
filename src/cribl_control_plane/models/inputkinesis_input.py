@@ -13,6 +13,7 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
+from .typeoptionskinesis import TypeOptionsKinesis
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -20,10 +21,6 @@ import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class InputKinesisType(str, Enum):
-    KINESIS = "kinesis"
 
 
 class InputKinesisShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -58,7 +55,8 @@ class InputKinesisShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputKinesisInputTypedDict(TypedDict):
-    type: InputKinesisType
+    type: TypeOptionsKinesis
+    r"""Connector type identifier."""
     stream_name: str
     r"""Kinesis Data Stream to read data from"""
     region: str
@@ -97,6 +95,7 @@ class InputKinesisInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     endpoint: NotRequired[str]
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
     reuse_connections: NotRequired[bool]
@@ -120,6 +119,7 @@ class InputKinesisInputTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     template_environment: NotRequired[str]
@@ -147,7 +147,8 @@ class InputKinesisInputTypedDict(TypedDict):
 
 
 class InputKinesisInput(BaseModel):
-    type: InputKinesisType
+    type: TypeOptionsKinesis
+    r"""Connector type identifier."""
 
     stream_name: Annotated[str, pydantic.Field(alias="streamName")]
     r"""Kinesis Data Stream to read data from"""
@@ -227,6 +228,7 @@ class InputKinesisInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     endpoint: Optional[str] = None
     r"""Kinesis stream service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to Kinesis stream-compatible endpoint."""
@@ -278,6 +280,7 @@ class InputKinesisInput(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""

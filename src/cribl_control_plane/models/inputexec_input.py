@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputExecType(str, Enum):
+    r"""Connector type identifier."""
+
     EXEC = "exec"
 
 
@@ -32,11 +34,13 @@ class ScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputExecInputTypedDict(TypedDict):
     type: InputExecType
+    r"""Connector type identifier."""
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""Disabled"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -76,6 +80,7 @@ class InputExecInputTypedDict(TypedDict):
 
 class InputExecInput(BaseModel):
     type: InputExecType
+    r"""Connector type identifier."""
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
@@ -84,6 +89,7 @@ class InputExecInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""Disabled"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""

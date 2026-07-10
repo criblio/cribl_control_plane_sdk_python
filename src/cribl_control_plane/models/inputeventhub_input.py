@@ -24,11 +24,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputEventhubType(str, Enum):
+    r"""Connector type identifier."""
+
     EVENTHUB = "eventhub"
 
 
 class InputEventhubInputTypedDict(TypedDict):
     type: InputEventhubType
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
     topics: List[str]
@@ -73,6 +76,7 @@ class InputEventhubInputTypedDict(TypedDict):
     sasl: NotRequired[AuthenticationTypeUseTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    r"""TLS settings (client side)"""
     session_timeout: NotRequired[float]
     r"""
     Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities. If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance. Value must be lower than rebalanceTimeout. See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
@@ -115,6 +119,7 @@ class InputEventhubInputTypedDict(TypedDict):
 
 class InputEventhubInput(BaseModel):
     type: InputEventhubType
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
@@ -196,6 +201,7 @@ class InputEventhubInput(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
+    r"""TLS settings (client side)"""
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")

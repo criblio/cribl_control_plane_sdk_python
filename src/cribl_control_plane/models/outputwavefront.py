@@ -31,19 +31,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputWavefrontType(str, Enum):
+    r"""Connector type identifier."""
+
     WAVEFRONT = "wavefront"
 
 
 class OutputWavefrontPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWavefrontPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputWavefrontTypedDict(TypedDict):
     type: OutputWavefrontType
+    r"""Connector type identifier."""
     domain: str
     r"""WaveFront domain name, e.g. \"longboard\" """
     id: NotRequired[str]
@@ -121,6 +124,7 @@ class OutputWavefrontTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputWavefrontPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -131,6 +135,7 @@ class OutputWavefrontTypedDict(TypedDict):
 
 class OutputWavefront(BaseModel):
     type: OutputWavefrontType
+    r"""Connector type identifier."""
 
     domain: str
     r"""WaveFront domain name, e.g. \"longboard\" """
@@ -293,6 +298,7 @@ class OutputWavefront(BaseModel):
     pq_controls: Annotated[
         Optional[OutputWavefrontPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

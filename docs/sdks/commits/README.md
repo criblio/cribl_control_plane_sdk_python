@@ -42,12 +42,12 @@ with CriblControlPlane(
 
 ### Parameters
 
-| Parameter                                                             | Type                                                                  | Required                                                              | Description                                                           |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `count`                                                               | *Optional[int]*                                                       | :heavy_minus_sign:                                                    | Maximum number of commits to return in the response for this request. |
-| `offset`                                                              | *Optional[int]*                                                       | :heavy_minus_sign:                                                    | Pagination offset                                                     |
-| `limit`                                                               | *Optional[int]*                                                       | :heavy_minus_sign:                                                    | Maximum number of items to return                                     |
-| `retries`                                                             | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)      | :heavy_minus_sign:                                                    | Configuration to override the default retry behavior of the client.   |
+| Parameter                                                                                                                                          | Type                                                                                                                                               | Required                                                                                                                                           | Description                                                                                                                                        |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `count`                                                                                                                                            | *Optional[int]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | Maximum number of commits to read from the commit history. When provided, <code>offset</code> and <code>limit</code> are applied to that read set. |
+| `offset`                                                                                                                                           | *Optional[int]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | Pagination offset                                                                                                                                  |
+| `limit`                                                                                                                                            | *Optional[int]*                                                                                                                                    | :heavy_minus_sign:                                                                                                                                 | Maximum number of items to return                                                                                                                  |
+| `retries`                                                                                                                                          | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                   | :heavy_minus_sign:                                                                                                                                 | Configuration to override the default retry behavior of the client.                                                                                |
 
 ### Response
 
@@ -65,6 +65,27 @@ with CriblControlPlane(
 
 Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.<br/><br/>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
+### Example Usage: VersionCommitBadRequestExamplesEffectiveWithoutGroup
+
+<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" example="VersionCommitBadRequestExamplesEffectiveWithoutGroup" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.versions.commits.create(message="<value>")
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: VersionCommitExamplesCommitAll
 
 <!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" example="VersionCommitExamplesCommitAll" -->
@@ -137,7 +158,7 @@ with CriblControlPlane(
 | Parameter                                                                                                                        | Type                                                                                                                             | Required                                                                                                                         | Description                                                                                                                      |
 | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | `message`                                                                                                                        | *str*                                                                                                                            | :heavy_check_mark:                                                                                                               | Commit message to use for the new Git commit.                                                                                    |
-| `effective`                                                                                                                      | *Optional[bool]*                                                                                                                 | :heavy_minus_sign:                                                                                                               | If <code>true</code>, apply the commit to the group's effective configuration. Otherwise, <code>false</code>.                    |
+| `effective`                                                                                                                      | *Optional[bool]*                                                                                                                 | :heavy_minus_sign:                                                                                                               | If <code>true</code>, apply the commit to the group's effective configuration. Requires a group context.                         |
 | `files`                                                                                                                          | List[*str*]                                                                                                                      | :heavy_minus_sign:                                                                                                               | Array of file paths to include in the commit, relative to the configuration root. If omitted, all pending changes are committed. |
 | `retries`                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                 | :heavy_minus_sign:                                                                                                               | Configuration to override the default retry behavior of the client.                                                              |
 
@@ -147,11 +168,12 @@ with CriblControlPlane(
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 401              | application/json |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.RestAPIJSONError | 400                     | application/json        |
+| errors.Error            | 401                     | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |
 
 ## diff
 

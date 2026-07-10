@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputWinEventLogsType(str, Enum):
+    r"""Connector type identifier."""
+
     WIN_EVENT_LOGS = "win_event_logs"
 
 
@@ -43,6 +45,7 @@ class InputWinEventLogsEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputWinEventLogsInputTypedDict(TypedDict):
     type: InputWinEventLogsType
+    r"""Connector type identifier."""
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
     id: NotRequired[str]
@@ -62,6 +65,8 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
+    suppress_missing_log_errors: NotRequired[bool]
+    r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
     read_mode: NotRequired[InputWinEventLogsReadMode]
     r"""Read all stored and future event logs, or only future events"""
     event_format: NotRequired[InputWinEventLogsEventFormat]
@@ -90,6 +95,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
 
 class InputWinEventLogsInput(BaseModel):
     type: InputWinEventLogsType
+    r"""Connector type identifier."""
 
     log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
@@ -121,6 +127,11 @@ class InputWinEventLogsInput(BaseModel):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
 
     pq: Optional[PqType] = None
+
+    suppress_missing_log_errors: Annotated[
+        Optional[bool], pydantic.Field(alias="suppressMissingLogErrors")
+    ] = None
+    r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
 
     read_mode: Annotated[
         Optional[InputWinEventLogsReadMode], pydantic.Field(alias="readMode")
@@ -205,6 +216,7 @@ class InputWinEventLogsInput(BaseModel):
                 "streamtags",
                 "connections",
                 "pq",
+                "suppressMissingLogErrors",
                 "readMode",
                 "eventFormat",
                 "disableNativeModule",

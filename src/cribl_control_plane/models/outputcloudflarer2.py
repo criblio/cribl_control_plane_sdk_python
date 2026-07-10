@@ -34,11 +34,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputCloudflareR2Type(str, Enum):
+    r"""Connector type identifier."""
+
     CLOUDFLARE_R2 = "cloudflare_r2"
 
 
 class OutputCloudflareR2TypedDict(TypedDict):
     type: OutputCloudflareR2Type
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -103,6 +106,7 @@ class OutputCloudflareR2TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
     storage_class: NotRequired[StorageClassOptionsReducedredundancyStandard]
@@ -179,6 +183,7 @@ class OutputCloudflareR2TypedDict(TypedDict):
 
 class OutputCloudflareR2(BaseModel):
     type: OutputCloudflareR2Type
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination R2 bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -325,6 +330,7 @@ class OutputCloudflareR2(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None

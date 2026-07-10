@@ -1,5 +1,7 @@
 # CreateOutputPqControlsGooglePubsub
 
+Persistent queue controls.
+
 
 ## Fields
 

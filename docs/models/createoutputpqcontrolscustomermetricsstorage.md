@@ -1,5 +1,7 @@
 # CreateOutputPqControlsCustomerMetricsStorage
 
+Persistent queue controls.
+
 
 ## Fields
 

@@ -20,11 +20,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputCollectionType(str, Enum):
+    r"""Connector type identifier."""
+
     COLLECTION = "collection"
 
 
 class InputCollectionInputTypedDict(TypedDict):
     type: InputCollectionType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -61,6 +64,7 @@ class InputCollectionInputTypedDict(TypedDict):
 
 class InputCollectionInput(BaseModel):
     type: InputCollectionType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""

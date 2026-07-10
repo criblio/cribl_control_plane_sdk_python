@@ -40,7 +40,9 @@ class InputZscalerHecAuthTokenTypedDict(TypedDict):
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     enabled: NotRequired[bool]
+    r"""Enable token"""
     description: NotRequired[str]
+    r"""Description"""
     allowed_indexes_at_token: NotRequired[List[str]]
     r"""Enter the values you want to allow in the HEC event index field at the token level. Supports wildcards. To skip validation, leave blank."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -61,8 +63,10 @@ class InputZscalerHecAuthToken(BaseModel):
     r"""Select or create a stored text secret"""
 
     enabled: Optional[bool] = None
+    r"""Enable token"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     allowed_indexes_at_token: Annotated[
         Optional[List[str]], pydantic.Field(alias="allowedIndexesAtToken")
@@ -136,6 +140,7 @@ class InputZscalerHecInputTypedDict(TypedDict):
     auth_tokens: NotRequired[List[InputZscalerHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -235,6 +240,7 @@ class InputZscalerHecInput(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None

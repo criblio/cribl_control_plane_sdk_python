@@ -1,5 +1,7 @@
 # OutputResponseTypeGoogleBigquery
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

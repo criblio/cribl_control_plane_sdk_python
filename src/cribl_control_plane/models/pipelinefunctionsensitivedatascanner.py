@@ -51,13 +51,17 @@ class PipelineFunctionSensitiveDataScannerRule(BaseModel):
 
 class FlagTypedDict(TypedDict):
     value: str
+    r"""Value"""
     name: NotRequired[str]
+    r"""Name"""
 
 
 class Flag(BaseModel):
     value: str
+    r"""Value"""
 
     name: Optional[str] = None
+    r"""Name"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

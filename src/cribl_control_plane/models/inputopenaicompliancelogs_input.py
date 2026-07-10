@@ -24,10 +24,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOpenaiComplianceLogsType(str, Enum):
+    r"""Connector type identifier."""
+
     OPENAI_COMPLIANCE_LOGS = "openai_compliance_logs"
 
 
 class InputOpenaiComplianceLogsAccountType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Account type"""
+
     # Workspace
     WORKSPACE = "workspace"
     # Organization
@@ -44,10 +48,13 @@ class InputOpenaiComplianceLogsManageState(BaseModel):
 
 class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     type: InputOpenaiComplianceLogsType
+    r"""Connector type identifier."""
     text_secret: str
     r"""Select or create a stored text secret"""
     account_type: InputOpenaiComplianceLogsAccountType
+    r"""Account type"""
     cron_schedule: str
+    r"""Cron schedule"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -66,6 +73,7 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     api_key: NotRequired[str]
+    r"""API key"""
     earliest: NotRequired[str]
     r"""Relative to the current time. Format: [+|-]<time_integer><time_unit>"""
     latest: NotRequired[str]
@@ -122,6 +130,7 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
 
 class InputOpenaiComplianceLogsInput(BaseModel):
     type: InputOpenaiComplianceLogsType
+    r"""Connector type identifier."""
 
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
     r"""Select or create a stored text secret"""
@@ -129,8 +138,10 @@ class InputOpenaiComplianceLogsInput(BaseModel):
     account_type: Annotated[
         InputOpenaiComplianceLogsAccountType, pydantic.Field(alias="accountType")
     ]
+    r"""Account type"""
 
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
+    r"""Cron schedule"""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -161,6 +172,7 @@ class InputOpenaiComplianceLogsInput(BaseModel):
     pq: Optional[PqType] = None
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
+    r"""API key"""
 
     earliest: Optional[str] = None
     r"""Relative to the current time. Format: [+|-]<time_integer><time_unit>"""

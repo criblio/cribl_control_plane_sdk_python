@@ -1,5 +1,7 @@
 # CreateOutputPqControlsCrowdstrikeNextGenSiem
 
+Persistent queue controls.
+
 
 ## Fields
 

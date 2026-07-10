@@ -33,11 +33,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputCloudianS3Type(str, Enum):
+    r"""Connector type identifier."""
+
     CLOUDIAN_S3 = "cloudian_s3"
 
 
 class OutputCloudianS3TypedDict(TypedDict):
     type: OutputCloudianS3Type
+    r"""Connector type identifier."""
     endpoint: str
     r"""Cloudian HyperStore S3-compatible endpoint URL (example: https://s3.hyperstore.example.com)"""
     bucket: str
@@ -104,6 +107,7 @@ class OutputCloudianS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     object_acl: NotRequired[ObjectACLOptions]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptions]
@@ -186,6 +190,7 @@ class OutputCloudianS3TypedDict(TypedDict):
 
 class OutputCloudianS3(BaseModel):
     type: OutputCloudianS3Type
+    r"""Connector type identifier."""
 
     endpoint: str
     r"""Cloudian HyperStore S3-compatible endpoint URL (example: https://s3.hyperstore.example.com)"""
@@ -335,6 +340,7 @@ class OutputCloudianS3(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     object_acl: Annotated[
         Optional[ObjectACLOptions], pydantic.Field(alias="objectACL")

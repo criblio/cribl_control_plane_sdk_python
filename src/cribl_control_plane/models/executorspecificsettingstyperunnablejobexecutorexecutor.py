@@ -6,8 +6,8 @@ from typing_extensions import TypedDict
 
 
 class ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict(TypedDict):
-    pass
+    r"""Executor-specific settings"""
 
 
 class ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor(BaseModel):
-    pass
+    r"""Executor-specific settings"""

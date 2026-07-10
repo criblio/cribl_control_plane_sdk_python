@@ -1,5 +1,7 @@
 # CreateInputSystemByPackAuthenticationTypeElastic
 
+Authentication type
+
 ## Example Usage
 
 ```python

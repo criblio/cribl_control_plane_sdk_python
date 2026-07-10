@@ -1,5 +1,7 @@
 # OutputResponseTypeSignalfx
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

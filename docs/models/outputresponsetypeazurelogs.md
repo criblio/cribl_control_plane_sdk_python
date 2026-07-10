@@ -1,5 +1,7 @@
 # OutputResponseTypeAzureLogs
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

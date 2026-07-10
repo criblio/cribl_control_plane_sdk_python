@@ -26,6 +26,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputSplunkLbType(str, Enum):
+    r"""Connector type identifier."""
+
     SPLUNK_LB = "splunk_lb"
 
 
@@ -161,15 +163,16 @@ class OutputSplunkLbIndexerDiscoveryConfigs(BaseModel):
 
 
 class OutputSplunkLbPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSplunkLbPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSplunkLbTypedDict(TypedDict):
     type: OutputSplunkLbType
+    r"""Connector type identifier."""
     hosts: List[HostConfOutputSyslogTypedDict]
     r"""Set of Splunk indexers to load-balance data to."""
     id: NotRequired[str]
@@ -197,6 +200,7 @@ class OutputSplunkLbTypedDict(TypedDict):
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     enable_multi_metrics: NotRequired[bool]
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
     enable_ack: NotRequired[bool]
@@ -248,6 +252,7 @@ class OutputSplunkLbTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSplunkLbPqControlsTypedDict]
+    r"""Persistent queue controls."""
     auth_token: NotRequired[str]
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
     text_secret: NotRequired[str]
@@ -266,6 +271,7 @@ class OutputSplunkLbTypedDict(TypedDict):
 
 class OutputSplunkLb(BaseModel):
     type: OutputSplunkLbType
+    r"""Connector type identifier."""
 
     hosts: List[HostConfOutputSyslog]
     r"""Set of Splunk indexers to load-balance data to."""
@@ -323,6 +329,7 @@ class OutputSplunkLb(BaseModel):
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
@@ -435,6 +442,7 @@ class OutputSplunkLb(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSplunkLbPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""

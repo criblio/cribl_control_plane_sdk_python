@@ -11,7 +11,7 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class GetVersionRequestTypedDict(TypedDict):
     count: NotRequired[int]
-    r"""Maximum number of commits to return in the response for this request."""
+    r"""Maximum number of commits to read from the commit history. When provided, <code>offset</code> and <code>limit</code> are applied to that read set."""
     offset: NotRequired[int]
     r"""Pagination offset"""
     limit: NotRequired[int]
@@ -23,7 +23,7 @@ class GetVersionRequest(BaseModel):
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Maximum number of commits to return in the response for this request."""
+    r"""Maximum number of commits to read from the commit history. When provided, <code>offset</code> and <code>limit</code> are applied to that read set."""
 
     offset: Annotated[
         Optional[int],

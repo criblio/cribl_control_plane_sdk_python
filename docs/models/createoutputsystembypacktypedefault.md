@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeDefault
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

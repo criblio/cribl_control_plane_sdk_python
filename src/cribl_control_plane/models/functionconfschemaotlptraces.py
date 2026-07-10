@@ -14,6 +14,7 @@ class FunctionConfSchemaOtlpTracesTypedDict(TypedDict):
     drop_non_trace_events: NotRequired[bool]
     r"""Drop events that are not OTLP trace spans."""
     otlp_version: NotRequired[OtlpVersionOptions]
+    r"""OTLP version"""
     batch_otlp_traces: NotRequired[bool]
     r"""Batch OTLP traces by shared top-level `resource` attributes"""
     send_batch_size: NotRequired[float]
@@ -37,6 +38,7 @@ class FunctionConfSchemaOtlpTraces(BaseModel):
     otlp_version: Annotated[
         Optional[OtlpVersionOptions], pydantic.Field(alias="otlpVersion")
     ] = None
+    r"""OTLP version"""
 
     batch_otlp_traces: Annotated[
         Optional[bool], pydantic.Field(alias="batchOTLPTraces")

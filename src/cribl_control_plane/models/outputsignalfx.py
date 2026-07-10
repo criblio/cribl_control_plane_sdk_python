@@ -31,19 +31,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputSignalfxType(str, Enum):
+    r"""Connector type identifier."""
+
     SIGNALFX = "signalfx"
 
 
 class OutputSignalfxPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSignalfxPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSignalfxTypedDict(TypedDict):
     type: OutputSignalfxType
+    r"""Connector type identifier."""
     realm: str
     r"""SignalFx realm name, e.g. \"us0\". For a complete list of available SignalFx realm names, please check [here](https://docs.splunk.com/observability/en/get-started/service-description.html#sd-regions)."""
     id: NotRequired[str]
@@ -121,6 +124,7 @@ class OutputSignalfxTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSignalfxPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -131,6 +135,7 @@ class OutputSignalfxTypedDict(TypedDict):
 
 class OutputSignalfx(BaseModel):
     type: OutputSignalfxType
+    r"""Connector type identifier."""
 
     realm: str
     r"""SignalFx realm name, e.g. \"us0\". For a complete list of available SignalFx realm names, please check [here](https://docs.splunk.com/observability/en/get-started/service-description.html#sd-regions)."""
@@ -293,6 +298,7 @@ class OutputSignalfx(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSignalfxPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

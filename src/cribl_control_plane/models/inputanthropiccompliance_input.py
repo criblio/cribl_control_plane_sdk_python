@@ -11,70 +11,67 @@ from .metadataconfinputcollection import (
 )
 from .pqtype import PqType, PqTypeTypedDict
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
-from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
-from pydantic import field_serializer, model_serializer
+from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputAnthropicComplianceType(str, Enum):
+    r"""Connector type identifier."""
+
     ANTHROPIC_COMPLIANCE = "anthropic_compliance"
 
 
-class InputAnthropicComplianceEndpointName(str, Enum, metaclass=utils.OpenEnumMeta):
-    ACTIVITIES = "activities"
-    CHATS = "chats"
-    PROJECTS = "projects"
-    CHAT_MESSAGES = "chat_messages"
-    GROUPS = "groups"
-    ORGANIZATIONS = "organizations"
-
-
-class InputAnthropicComplianceManageStateTypedDict(TypedDict):
+class InputAnthropicComplianceActivitiesManageStateTypedDict(TypedDict):
     pass
 
 
-class InputAnthropicComplianceManageState(BaseModel):
+class InputAnthropicComplianceActivitiesManageState(BaseModel):
     pass
 
 
-class InputAnthropicComplianceContentConfigTypedDict(TypedDict):
-    content_type: InputAnthropicComplianceEndpointName
-    cron_schedule: str
-    r"""Schedule on which to run this collection job"""
-    content_description: NotRequired[str]
+class InputAnthropicComplianceActivitiesTypedDict(TypedDict):
+    r"""Activities"""
+
     enabled: NotRequired[bool]
-    state_tracking: NotRequired[bool]
-    r"""Track collection progress between consecutive scheduled executions"""
-    state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event"""
-    state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging task state"""
-    manage_state: NotRequired[InputAnthropicComplianceManageStateTypedDict]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
     earliest: NotRequired[str]
     r"""Earliest time for data collection, relative to now"""
     latest: NotRequired[str]
     r"""Latest time for data collection, relative to now"""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event"""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+    manage_state: NotRequired[InputAnthropicComplianceActivitiesManageStateTypedDict]
 
 
-class InputAnthropicComplianceContentConfig(BaseModel):
-    content_type: Annotated[
-        InputAnthropicComplianceEndpointName, pydantic.Field(alias="contentType")
-    ]
-
-    cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
-    r"""Schedule on which to run this collection job"""
-
-    content_description: Annotated[
-        Optional[str], pydantic.Field(alias="contentDescription")
-    ] = None
+class InputAnthropicComplianceActivities(BaseModel):
+    r"""Activities"""
 
     enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    earliest: Optional[str] = None
+    r"""Earliest time for data collection, relative to now"""
+
+    latest: Optional[str] = None
+    r"""Latest time for data collection, relative to now"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
     state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
         None
@@ -92,41 +89,23 @@ class InputAnthropicComplianceContentConfig(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging task state"""
 
     manage_state: Annotated[
-        Optional[InputAnthropicComplianceManageState],
+        Optional[InputAnthropicComplianceActivitiesManageState],
         pydantic.Field(alias="manageState"),
     ] = None
-
-    earliest: Optional[str] = None
-    r"""Earliest time for data collection, relative to now"""
-
-    latest: Optional[str] = None
-    r"""Latest time for data collection, relative to now"""
-
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
-    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-
-    @field_serializer("content_type")
-    def serialize_content_type(self, value):
-        if isinstance(value, str):
-            try:
-                return models.InputAnthropicComplianceEndpointName(value)
-            except ValueError:
-                return value
-        return value
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
             [
-                "contentDescription",
                 "enabled",
+                "cronSchedule",
+                "earliest",
+                "latest",
+                "jobTimeout",
                 "stateTracking",
                 "stateUpdateExpression",
                 "stateMergeExpression",
                 "manageState",
-                "earliest",
-                "latest",
-                "jobTimeout",
             ]
         )
         serialized = handler(self)
@@ -143,11 +122,561 @@ class InputAnthropicComplianceContentConfig(BaseModel):
         return m
 
 
+class InputAnthropicComplianceChatsManageStateTypedDict(TypedDict):
+    pass
+
+
+class InputAnthropicComplianceChatsManageState(BaseModel):
+    pass
+
+
+class InputAnthropicComplianceChatsTypedDict(TypedDict):
+    r"""Chats"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    earliest: NotRequired[str]
+    r"""Earliest time for data collection, relative to now"""
+    latest: NotRequired[str]
+    r"""Latest time for data collection, relative to now"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event"""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+    manage_state: NotRequired[InputAnthropicComplianceChatsManageStateTypedDict]
+
+
+class InputAnthropicComplianceChats(BaseModel):
+    r"""Chats"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    earliest: Optional[str] = None
+    r"""Earliest time for data collection, relative to now"""
+
+    latest: Optional[str] = None
+    r"""Latest time for data collection, relative to now"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        None
+    )
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = None
+    r"""JavaScript expression that defines how to update the state from an event"""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = None
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+
+    manage_state: Annotated[
+        Optional[InputAnthropicComplianceChatsManageState],
+        pydantic.Field(alias="manageState"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enabled",
+                "cronSchedule",
+                "earliest",
+                "latest",
+                "jobTimeout",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputAnthropicComplianceProjectsManageStateTypedDict(TypedDict):
+    pass
+
+
+class InputAnthropicComplianceProjectsManageState(BaseModel):
+    pass
+
+
+class InputAnthropicComplianceProjectsTypedDict(TypedDict):
+    r"""Projects"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    earliest: NotRequired[str]
+    r"""Earliest time for data collection, relative to now"""
+    latest: NotRequired[str]
+    r"""Latest time for data collection, relative to now"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event"""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+    manage_state: NotRequired[InputAnthropicComplianceProjectsManageStateTypedDict]
+
+
+class InputAnthropicComplianceProjects(BaseModel):
+    r"""Projects"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    earliest: Optional[str] = None
+    r"""Earliest time for data collection, relative to now"""
+
+    latest: Optional[str] = None
+    r"""Latest time for data collection, relative to now"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        None
+    )
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = None
+    r"""JavaScript expression that defines how to update the state from an event"""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = None
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+
+    manage_state: Annotated[
+        Optional[InputAnthropicComplianceProjectsManageState],
+        pydantic.Field(alias="manageState"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enabled",
+                "cronSchedule",
+                "earliest",
+                "latest",
+                "jobTimeout",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputAnthropicComplianceChatMessagesManageStateTypedDict(TypedDict):
+    pass
+
+
+class InputAnthropicComplianceChatMessagesManageState(BaseModel):
+    pass
+
+
+class InputAnthropicComplianceChatMessagesTypedDict(TypedDict):
+    r"""Chat Messages"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    earliest: NotRequired[str]
+    r"""Earliest time for data collection, relative to now"""
+    latest: NotRequired[str]
+    r"""Latest time for data collection, relative to now"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event"""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+    manage_state: NotRequired[InputAnthropicComplianceChatMessagesManageStateTypedDict]
+
+
+class InputAnthropicComplianceChatMessages(BaseModel):
+    r"""Chat Messages"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    earliest: Optional[str] = None
+    r"""Earliest time for data collection, relative to now"""
+
+    latest: Optional[str] = None
+    r"""Latest time for data collection, relative to now"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        None
+    )
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = None
+    r"""JavaScript expression that defines how to update the state from an event"""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = None
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+
+    manage_state: Annotated[
+        Optional[InputAnthropicComplianceChatMessagesManageState],
+        pydantic.Field(alias="manageState"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enabled",
+                "cronSchedule",
+                "earliest",
+                "latest",
+                "jobTimeout",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputAnthropicComplianceProjectDetailsManageStateTypedDict(TypedDict):
+    pass
+
+
+class InputAnthropicComplianceProjectDetailsManageState(BaseModel):
+    pass
+
+
+class InputAnthropicComplianceProjectDetailsTypedDict(TypedDict):
+    r"""Project Details"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    earliest: NotRequired[str]
+    r"""Earliest time for data collection, relative to now"""
+    latest: NotRequired[str]
+    r"""Latest time for data collection, relative to now"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event"""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+    manage_state: NotRequired[
+        InputAnthropicComplianceProjectDetailsManageStateTypedDict
+    ]
+
+
+class InputAnthropicComplianceProjectDetails(BaseModel):
+    r"""Project Details"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    earliest: Optional[str] = None
+    r"""Earliest time for data collection, relative to now"""
+
+    latest: Optional[str] = None
+    r"""Latest time for data collection, relative to now"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        None
+    )
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = None
+    r"""JavaScript expression that defines how to update the state from an event"""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = None
+    r"""JavaScript expression that defines which state to keep when merging task state"""
+
+    manage_state: Annotated[
+        Optional[InputAnthropicComplianceProjectDetailsManageState],
+        pydantic.Field(alias="manageState"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enabled",
+                "cronSchedule",
+                "earliest",
+                "latest",
+                "jobTimeout",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputAnthropicComplianceGroupsTypedDict(TypedDict):
+    r"""Groups"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+
+class InputAnthropicComplianceGroups(BaseModel):
+    r"""Groups"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "cronSchedule", "jobTimeout"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputAnthropicComplianceOrganizationsTypedDict(TypedDict):
+    r"""Organizations"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+
+class InputAnthropicComplianceOrganizations(BaseModel):
+    r"""Organizations"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "cronSchedule", "jobTimeout"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputAnthropicComplianceOrganizationUsersTypedDict(TypedDict):
+    r"""Organization Users"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+
+class InputAnthropicComplianceOrganizationUsers(BaseModel):
+    r"""Organization Users"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "cronSchedule", "jobTimeout"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputAnthropicComplianceOrganizationRolesTypedDict(TypedDict):
+    r"""Organization Roles"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+
+class InputAnthropicComplianceOrganizationRoles(BaseModel):
+    r"""Organization Roles"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enabled", "cronSchedule", "jobTimeout"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class InputAnthropicComplianceInputTypedDict(TypedDict):
     type: InputAnthropicComplianceType
+    r"""Connector type identifier."""
     text_secret: str
     r"""Select or create a stored Anthropic API key"""
-    content_config: List[InputAnthropicComplianceContentConfigTypedDict]
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -166,6 +695,25 @@ class InputAnthropicComplianceInputTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     api_key: NotRequired[str]
+    r"""API key"""
+    activities: NotRequired[InputAnthropicComplianceActivitiesTypedDict]
+    r"""Activities"""
+    chats: NotRequired[InputAnthropicComplianceChatsTypedDict]
+    r"""Chats"""
+    projects: NotRequired[InputAnthropicComplianceProjectsTypedDict]
+    r"""Projects"""
+    chat_messages: NotRequired[InputAnthropicComplianceChatMessagesTypedDict]
+    r"""Chat Messages"""
+    project_details: NotRequired[InputAnthropicComplianceProjectDetailsTypedDict]
+    r"""Project Details"""
+    groups: NotRequired[InputAnthropicComplianceGroupsTypedDict]
+    r"""Groups"""
+    organizations: NotRequired[InputAnthropicComplianceOrganizationsTypedDict]
+    r"""Organizations"""
+    org_users: NotRequired[InputAnthropicComplianceOrganizationUsersTypedDict]
+    r"""Organization Users"""
+    org_roles: NotRequired[InputAnthropicComplianceOrganizationRolesTypedDict]
+    r"""Organization Roles"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     keep_alive_time: NotRequired[float]
@@ -189,14 +737,10 @@ class InputAnthropicComplianceInputTypedDict(TypedDict):
 
 class InputAnthropicComplianceInput(BaseModel):
     type: InputAnthropicComplianceType
+    r"""Connector type identifier."""
 
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
     r"""Select or create a stored Anthropic API key"""
-
-    content_config: Annotated[
-        List[InputAnthropicComplianceContentConfig],
-        pydantic.Field(alias="contentConfig"),
-    ]
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -227,6 +771,34 @@ class InputAnthropicComplianceInput(BaseModel):
     pq: Optional[PqType] = None
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
+    r"""API key"""
+
+    activities: Optional[InputAnthropicComplianceActivities] = None
+    r"""Activities"""
+
+    chats: Optional[InputAnthropicComplianceChats] = None
+    r"""Chats"""
+
+    projects: Optional[InputAnthropicComplianceProjects] = None
+    r"""Projects"""
+
+    chat_messages: Optional[InputAnthropicComplianceChatMessages] = None
+    r"""Chat Messages"""
+
+    project_details: Optional[InputAnthropicComplianceProjectDetails] = None
+    r"""Project Details"""
+
+    groups: Optional[InputAnthropicComplianceGroups] = None
+    r"""Groups"""
+
+    organizations: Optional[InputAnthropicComplianceOrganizations] = None
+    r"""Organizations"""
+
+    org_users: Optional[InputAnthropicComplianceOrganizationUsers] = None
+    r"""Organization Users"""
+
+    org_roles: Optional[InputAnthropicComplianceOrganizationRoles] = None
+    r"""Organization Roles"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
@@ -285,6 +857,15 @@ class InputAnthropicComplianceInput(BaseModel):
                 "connections",
                 "pq",
                 "apiKey",
+                "activities",
+                "chats",
+                "projects",
+                "chat_messages",
+                "project_details",
+                "groups",
+                "organizations",
+                "org_users",
+                "org_roles",
                 "requestTimeout",
                 "keepAliveTime",
                 "maxMissedKeepAlives",
@@ -312,7 +893,39 @@ class InputAnthropicComplianceInput(BaseModel):
 
 
 try:
-    InputAnthropicComplianceContentConfig.model_rebuild()
+    InputAnthropicComplianceActivities.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAnthropicComplianceChats.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAnthropicComplianceProjects.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAnthropicComplianceChatMessages.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAnthropicComplianceProjectDetails.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAnthropicComplianceGroups.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAnthropicComplianceOrganizations.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAnthropicComplianceOrganizationUsers.model_rebuild()
+except NameError:
+    pass
+try:
+    InputAnthropicComplianceOrganizationRoles.model_rebuild()
 except NameError:
     pass
 try:

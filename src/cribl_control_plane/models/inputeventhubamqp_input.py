@@ -28,10 +28,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputEventhubAmqpType(str, Enum):
+    r"""Connector type identifier."""
+
     EVENTHUB_AMQP = "eventhub_amqp"
 
 
 class InputEventhubAmqpAuthenticationMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication mechanism"""
+
     # Connection String
     CONNECTION_STRING = "connection-string"
     # OAuth Bearer
@@ -81,9 +85,11 @@ class InputEventhubAmqpCertificate(BaseModel):
 
 class InputEventhubAmqpAuthTypedDict(TypedDict):
     mechanism: InputEventhubAmqpAuthenticationMechanism
+    r"""Authentication mechanism"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
+    r"""Authentication method"""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[InputEventhubAmqpCertificateTypedDict]
@@ -107,6 +113,7 @@ class InputEventhubAmqpAuthTypedDict(TypedDict):
 
 class InputEventhubAmqpAuth(BaseModel):
     mechanism: InputEventhubAmqpAuthenticationMechanism
+    r"""Authentication mechanism"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -115,6 +122,7 @@ class InputEventhubAmqpAuth(BaseModel):
         Optional[AuthenticationMethodOptionsAuth],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
+    r"""Authentication method"""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
@@ -220,6 +228,8 @@ class InputEventhubAmqpAuth(BaseModel):
 
 
 class InputEventhubAmqpAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication method"""
+
     SECRET = "secret"
     CLIENT_SECRET = "clientSecret"
     CLIENT_CERT = "clientCert"
@@ -228,9 +238,12 @@ class InputEventhubAmqpAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumM
 
 
 class InputEventhubAmqpAzureBlobStorageTypedDict(TypedDict):
+    r"""Azure Blob Storage"""
+
     container_name: str
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
     auth_type: NotRequired[InputEventhubAmqpAuthenticationMethod]
+    r"""Authentication method"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     storage_account_name: NotRequired[str]
@@ -257,6 +270,8 @@ class InputEventhubAmqpAzureBlobStorageTypedDict(TypedDict):
 
 
 class InputEventhubAmqpAzureBlobStorage(BaseModel):
+    r"""Azure Blob Storage"""
+
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
 
@@ -264,6 +279,7 @@ class InputEventhubAmqpAzureBlobStorage(BaseModel):
         Optional[InputEventhubAmqpAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -358,16 +374,19 @@ class InputEventhubAmqpAzureBlobStorage(BaseModel):
 
 class InputEventhubAmqpCheckpointingTypedDict(TypedDict):
     blob_store: InputEventhubAmqpAzureBlobStorageTypedDict
+    r"""Azure Blob Storage"""
 
 
 class InputEventhubAmqpCheckpointing(BaseModel):
     blob_store: Annotated[
         InputEventhubAmqpAzureBlobStorage, pydantic.Field(alias="blobStore")
     ]
+    r"""Azure Blob Storage"""
 
 
 class InputEventhubAmqpInputTypedDict(TypedDict):
     type: InputEventhubAmqpType
+    r"""Connector type identifier."""
     consumer_group: str
     r"""The consumer group this instance belongs to. Default is '$Default'."""
     checkpointing: InputEventhubAmqpCheckpointingTypedDict
@@ -425,6 +444,7 @@ class InputEventhubAmqpInputTypedDict(TypedDict):
 
 class InputEventhubAmqpInput(BaseModel):
     type: InputEventhubAmqpType
+    r"""Connector type identifier."""
 
     consumer_group: Annotated[str, pydantic.Field(alias="consumerGroup")]
     r"""The consumer group this instance belongs to. Default is '$Default'."""

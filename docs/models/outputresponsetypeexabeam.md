@@ -1,5 +1,7 @@
 # OutputResponseTypeExabeam
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

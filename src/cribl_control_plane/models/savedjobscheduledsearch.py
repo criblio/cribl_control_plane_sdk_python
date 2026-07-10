@@ -16,11 +16,13 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class SavedJobScheduledSearchTypedDict(TypedDict):
     type: JobTypeOptionsRunnableJobCollection
+    r"""Job type"""
     saved_query_id: str
     r"""Identifies which search query to run"""
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
+    r"""Description"""
     ttl: NotRequired[str]
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
@@ -41,6 +43,7 @@ class SavedJobScheduledSearchTypedDict(TypedDict):
 
 class SavedJobScheduledSearch(BaseModel):
     type: JobTypeOptionsRunnableJobCollection
+    r"""Job type"""
 
     saved_query_id: Annotated[str, pydantic.Field(alias="savedQueryId")]
     r"""Identifies which search query to run"""
@@ -49,6 +52,7 @@ class SavedJobScheduledSearch(BaseModel):
     r"""Unique ID for this Job"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""

@@ -37,11 +37,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputMinioType(str, Enum):
+    r"""Connector type identifier."""
+
     MINIO = "minio"
 
 
 class OutputMinioTypedDict(TypedDict):
     type: OutputMinioType
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination MinIO bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -108,6 +111,7 @@ class OutputMinioTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     aws_secret_key: NotRequired[str]
     r"""Secret key. This value can be a constant or a JavaScript expression. Example: `${C.env.SOME_SECRET}`)"""
     object_acl: NotRequired[ObjectACLOptions]
@@ -194,6 +198,7 @@ class OutputMinioTypedDict(TypedDict):
 
 class OutputMinio(BaseModel):
     type: OutputMinioType
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination MinIO bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -343,6 +348,7 @@ class OutputMinio(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None

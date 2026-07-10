@@ -11,7 +11,7 @@ class GitCommitBodyTypedDict(TypedDict):
     message: str
     r"""Commit message to use for the new Git commit."""
     effective: NotRequired[bool]
-    r"""If <code>true</code>, apply the commit to the group's effective configuration. Otherwise, <code>false</code>."""
+    r"""If <code>true</code>, apply the commit to the group's effective configuration. Requires a group context."""
     files: NotRequired[List[str]]
     r"""Array of file paths to include in the commit, relative to the configuration root. If omitted, all pending changes are committed."""
 
@@ -21,7 +21,7 @@ class GitCommitBody(BaseModel):
     r"""Commit message to use for the new Git commit."""
 
     effective: Optional[bool] = None
-    r"""If <code>true</code>, apply the commit to the group's effective configuration. Otherwise, <code>false</code>."""
+    r"""If <code>true</code>, apply the commit to the group's effective configuration. Requires a group context."""
 
     files: Optional[List[str]] = None
     r"""Array of file paths to include in the commit, relative to the configuration root. If omitted, all pending changes are committed."""

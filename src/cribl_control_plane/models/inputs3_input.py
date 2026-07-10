@@ -16,21 +16,18 @@ from .metadataconfinputcollection import (
 from .pqtype import PqType, PqTypeTypedDict
 from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .sqsauthenticationmethodoptions import SqsAuthenticationMethodOptions
+from .typeoptionss3 import TypeOptionsS3
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputS3Type(str, Enum):
-    S3 = "s3"
-
-
 class InputS3InputTypedDict(TypedDict):
-    type: InputS3Type
+    type: TypeOptionsS3
+    r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     id: NotRequired[str]
@@ -57,6 +54,7 @@ class InputS3InputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
@@ -112,6 +110,7 @@ class InputS3InputTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     sqs_assume_role_arn: NotRequired[str]
@@ -125,6 +124,7 @@ class InputS3InputTypedDict(TypedDict):
     sqs_aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     sqs_aws_secret_key: NotRequired[str]
+    r"""SQS secret key"""
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
     processed_tag_value: NotRequired[str]
@@ -158,7 +158,8 @@ class InputS3InputTypedDict(TypedDict):
 
 
 class InputS3Input(BaseModel):
-    type: InputS3Type
+    type: TypeOptionsS3
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -208,6 +209,7 @@ class InputS3Input(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
@@ -328,6 +330,7 @@ class InputS3Input(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -361,6 +364,7 @@ class InputS3Input(BaseModel):
     sqs_aws_secret_key: Annotated[
         Optional[str], pydantic.Field(alias="SQSAwsSecretKey")
     ] = None
+    r"""SQS secret key"""
 
     processed_tag_key: Annotated[
         Optional[str], pydantic.Field(alias="processedTagKey")

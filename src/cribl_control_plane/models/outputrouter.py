@@ -10,6 +10,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputRouterType(str, Enum):
+    r"""Connector type identifier."""
+
     ROUTER = "router"
 
 
@@ -56,6 +58,7 @@ class OutputRouterRule(BaseModel):
 
 class OutputRouterTypedDict(TypedDict):
     type: OutputRouterType
+    r"""Connector type identifier."""
     rules: List[OutputRouterRuleTypedDict]
     r"""Event routing rules"""
     id: NotRequired[str]
@@ -76,6 +79,7 @@ class OutputRouterTypedDict(TypedDict):
 
 class OutputRouter(BaseModel):
     type: OutputRouterType
+    r"""Connector type identifier."""
 
     rules: List[OutputRouterRule]
     r"""Event routing rules"""

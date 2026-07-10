@@ -22,11 +22,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputExabeamType(str, Enum):
+    r"""Connector type identifier."""
+
     EXABEAM = "exabeam"
 
 
 class OutputExabeamTypedDict(TypedDict):
     type: OutputExabeamType
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination bucket. A constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a JavaScript Global Variable: `myBucket-${C.vars.myVar}`."""
     region: str
@@ -75,6 +78,7 @@ class OutputExabeamTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
     encoded_configuration: NotRequired[str]
@@ -84,6 +88,7 @@ class OutputExabeamTypedDict(TypedDict):
     site_id: NotRequired[str]
     r"""Exabeam site ID. If left blank, @{product} will use the value of the Exabeam site name."""
     timezone_offset: NotRequired[str]
+    r"""Timezone offset"""
     aws_api_key: NotRequired[str]
     r"""HMAC access key. Can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""
     aws_secret_key: NotRequired[str]
@@ -114,6 +119,7 @@ class OutputExabeamTypedDict(TypedDict):
 
 class OutputExabeam(BaseModel):
     type: OutputExabeamType
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination bucket. A constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a JavaScript Global Variable: `myBucket-${C.vars.myVar}`."""
@@ -218,6 +224,7 @@ class OutputExabeam(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
@@ -238,6 +245,7 @@ class OutputExabeam(BaseModel):
     timezone_offset: Annotated[
         Optional[str], pydantic.Field(alias="timezoneOffset")
     ] = None
+    r"""Timezone offset"""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""HMAC access key. Can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""

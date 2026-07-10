@@ -40,7 +40,7 @@ class Commits(BaseSDK):
 
         List the commit history.<br/><br/>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
-        :param count: Maximum number of commits to return in the response for this request.
+        :param count: Maximum number of commits to read from the commit history. When provided, <code>offset</code> and <code>limit</code> are applied to that read set.
         :param offset: Pagination offset
         :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
@@ -171,7 +171,7 @@ class Commits(BaseSDK):
 
         List the commit history.<br/><br/>Analogous to <code>git log</code> for the Cribl configuration, allowing you to audit and review changes over time.
 
-        :param count: Maximum number of commits to return in the response for this request.
+        :param count: Maximum number of commits to read from the commit history. When provided, <code>offset</code> and <code>limit</code> are applied to that read set.
         :param offset: Pagination offset
         :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
@@ -306,7 +306,7 @@ class Commits(BaseSDK):
         Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.<br/><br/>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
         :param message: Commit message to use for the new Git commit.
-        :param effective: If <code>true</code>, apply the commit to the group's effective configuration. Otherwise, <code>false</code>.
+        :param effective: If <code>true</code>, apply the commit to the group's effective configuration. Requires a group context.
         :param files: Array of file paths to include in the commit, relative to the configuration root. If omitted, all pending changes are committed.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -381,6 +381,11 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitCommitSummary, http_res)
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -412,7 +417,7 @@ class Commits(BaseSDK):
         Create a new commit for pending changes to the Cribl configuration. Any merge conflicts indicated in the response must be resolved using Git.<br/><br/>To commit only a subset of configuration changes, specify the files to include in the commit in the <code>files</code> array.
 
         :param message: Commit message to use for the new Git commit.
-        :param effective: If <code>true</code>, apply the commit to the group's effective configuration. Otherwise, <code>false</code>.
+        :param effective: If <code>true</code>, apply the commit to the group's effective configuration. Requires a group context.
         :param files: Array of file paths to include in the commit, relative to the configuration root. If omitted, all pending changes are committed.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -487,6 +492,11 @@ class Commits(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedGitCommitSummary, http_res)
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)

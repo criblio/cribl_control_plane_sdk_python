@@ -27,11 +27,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputCrowdstrikeType(str, Enum):
+    r"""Connector type identifier."""
+
     CROWDSTRIKE = "crowdstrike"
 
 
 class InputCrowdstrikeInputTypedDict(TypedDict):
     type: InputCrowdstrikeType
+    r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
     id: NotRequired[str]
@@ -58,6 +61,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
     endpoint: NotRequired[str]
@@ -107,6 +111,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     sqs_assume_role_arn: NotRequired[str]
@@ -120,6 +125,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     sqs_aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     sqs_aws_secret_key: NotRequired[str]
+    r"""SQS secret key"""
     tag_after_processing: NotRequired[TagAfterProcessingOptions]
     processed_tag_key: NotRequired[str]
     r"""The key for the S3 object tag applied after processing. This field accepts an expression for dynamic generation."""
@@ -155,6 +161,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
 
 class InputCrowdstrikeInput(BaseModel):
     type: InputCrowdstrikeType
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -204,6 +211,7 @@ class InputCrowdstrikeInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""AWS Region where the S3 bucket and SQS queue are located. Required, unless the Queue entry is a URL or ARN that includes a Region."""
@@ -309,6 +317,7 @@ class InputCrowdstrikeInput(BaseModel):
     r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -342,6 +351,7 @@ class InputCrowdstrikeInput(BaseModel):
     sqs_aws_secret_key: Annotated[
         Optional[str], pydantic.Field(alias="SQSAwsSecretKey")
     ] = None
+    r"""SQS secret key"""
 
     tag_after_processing: Annotated[
         Optional[TagAfterProcessingOptions], pydantic.Field(alias="tagAfterProcessing")

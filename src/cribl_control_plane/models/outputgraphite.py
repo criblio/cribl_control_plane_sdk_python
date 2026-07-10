@@ -16,19 +16,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputGraphiteType(str, Enum):
+    r"""Connector type identifier."""
+
     GRAPHITE = "graphite"
 
 
 class OutputGraphitePqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGraphitePqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGraphiteTypedDict(TypedDict):
     type: OutputGraphiteType
+    r"""Connector type identifier."""
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
     host: str
@@ -84,6 +87,7 @@ class OutputGraphiteTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputGraphitePqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_on_backpressure: NotRequired[str]
@@ -92,6 +96,7 @@ class OutputGraphiteTypedDict(TypedDict):
 
 class OutputGraphite(BaseModel):
     type: OutputGraphiteType
+    r"""Connector type identifier."""
 
     protocol: DestinationProtocolOptions
     r"""Protocol to use when communicating with the destination."""
@@ -207,6 +212,7 @@ class OutputGraphite(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGraphitePqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

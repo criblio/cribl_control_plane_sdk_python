@@ -28,11 +28,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputIbmCloudS3Type(str, Enum):
+    r"""Connector type identifier."""
+
     IBM_CLOUD_S3 = "ibm_cloud_s3"
 
 
 class OutputIbmCloudS3TypedDict(TypedDict):
     type: OutputIbmCloudS3Type
+    r"""Connector type identifier."""
     endpoint: str
     r"""IBM Cloud Object Storage S3-compatible endpoint URL (example: https://s3.us-south.cloud-object-storage.appdomain.cloud)"""
     bucket: str
@@ -97,6 +100,7 @@ class OutputIbmCloudS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
@@ -161,6 +165,7 @@ class OutputIbmCloudS3TypedDict(TypedDict):
 
 class OutputIbmCloudS3(BaseModel):
     type: OutputIbmCloudS3Type
+    r"""Connector type identifier."""
 
     endpoint: str
     r"""IBM Cloud Object Storage S3-compatible endpoint URL (example: https://s3.us-south.cloud-object-storage.appdomain.cloud)"""
@@ -307,6 +312,7 @@ class OutputIbmCloudS3(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

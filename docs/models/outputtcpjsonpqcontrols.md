@@ -1,5 +1,7 @@
 # OutputTcpjsonPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

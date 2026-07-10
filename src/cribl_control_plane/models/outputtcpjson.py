@@ -14,29 +14,26 @@ from .tlssettingsclientsidetypecapathcertpath import (
     TLSSettingsClientSideTypeCaPathCertPath,
     TLSSettingsClientSideTypeCaPathCertPathTypedDict,
 )
+from .typeoptionstcpjson import TypeOptionsTcpjson
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputTcpjsonType(str, Enum):
-    TCPJSON = "tcpjson"
-
-
 class OutputTcpjsonPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputTcpjsonPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputTcpjsonTypedDict(TypedDict):
-    type: OutputTcpjsonType
+    type: TypeOptionsTcpjson
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -56,6 +53,7 @@ class OutputTcpjsonTypedDict(TypedDict):
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     connection_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for the connection to establish before retrying"""
     write_timeout: NotRequired[float]
@@ -107,6 +105,7 @@ class OutputTcpjsonTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputTcpjsonPqControlsTypedDict]
+    r"""Persistent queue controls."""
     auth_token: NotRequired[str]
     r"""Optional authentication token to include as part of the connection header"""
     text_secret: NotRequired[str]
@@ -122,7 +121,8 @@ class OutputTcpjsonTypedDict(TypedDict):
 
 
 class OutputTcpjson(BaseModel):
-    type: OutputTcpjsonType
+    type: TypeOptionsTcpjson
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -160,6 +160,7 @@ class OutputTcpjson(BaseModel):
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -272,6 +273,7 @@ class OutputTcpjson(BaseModel):
     pq_controls: Annotated[
         Optional[OutputTcpjsonPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Optional authentication token to include as part of the connection header"""

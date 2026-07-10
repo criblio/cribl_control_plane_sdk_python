@@ -28,11 +28,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputTCPType(str, Enum):
+    r"""Connector type identifier."""
+
     TCP = "tcp"
 
 
 class InputTCPInputTypedDict(TypedDict):
     type: InputTCPType
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -55,6 +58,7 @@ class InputTCPInputTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -96,6 +100,7 @@ class InputTCPInputTypedDict(TypedDict):
 
 class InputTCPInput(BaseModel):
     type: InputTCPType
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -132,6 +137,7 @@ class InputTCPInput(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")

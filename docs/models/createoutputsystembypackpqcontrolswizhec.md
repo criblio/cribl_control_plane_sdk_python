@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsWizHec
 
+Persistent queue controls.
+
 
 ## Fields
 

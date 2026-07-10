@@ -1,5 +1,7 @@
 # OutputResponsePqControlsElastic
 
+Persistent queue controls.
+
 
 ## Fields
 

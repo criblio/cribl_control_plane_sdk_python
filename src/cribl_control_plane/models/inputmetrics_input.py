@@ -23,11 +23,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputMetricsType(str, Enum):
+    r"""Connector type identifier."""
+
     METRICS = "metrics"
 
 
 class InputMetricsInputTypedDict(TypedDict):
     type: InputMetricsType
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     id: NotRequired[str]
@@ -58,6 +61,7 @@ class InputMetricsInputTypedDict(TypedDict):
     enable_proxy_header: NotRequired[bool]
     r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
@@ -78,6 +82,7 @@ class InputMetricsInputTypedDict(TypedDict):
 
 class InputMetricsInput(BaseModel):
     type: InputMetricsType
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -132,6 +137,7 @@ class InputMetricsInput(BaseModel):
     r"""Enable if the connection is proxied by a device that supports Proxy Protocol V1 or V2"""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""

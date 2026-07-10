@@ -19,11 +19,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputRawUDPType(str, Enum):
+    r"""Connector type identifier."""
+
     RAW_UDP = "raw_udp"
 
 
 class InputRawUDPInputTypedDict(TypedDict):
     type: InputRawUDPType
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: float
@@ -71,6 +74,7 @@ class InputRawUDPInputTypedDict(TypedDict):
 
 class InputRawUDPInput(BaseModel):
     type: InputRawUDPType
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""

@@ -27,11 +27,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputFilesystemType(str, Enum):
+    r"""Connector type identifier."""
+
     FILESYSTEM = "filesystem"
 
 
 class OutputFilesystemTypedDict(TypedDict):
     type: OutputFilesystemType
+    r"""Connector type identifier."""
     dest_path: str
     r"""Final destination for the output files"""
     id: NotRequired[str]
@@ -80,6 +83,7 @@ class OutputFilesystemTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -136,6 +140,7 @@ class OutputFilesystemTypedDict(TypedDict):
 
 class OutputFilesystem(BaseModel):
     type: OutputFilesystemType
+    r"""Connector type identifier."""
 
     dest_path: Annotated[str, pydantic.Field(alias="destPath")]
     r"""Final destination for the output files"""
@@ -245,6 +250,7 @@ class OutputFilesystem(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

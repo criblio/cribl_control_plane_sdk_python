@@ -26,6 +26,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputSystemMetricsType(str, Enum):
+    r"""Connector type identifier."""
+
     SYSTEM_METRICS = "system_metrics"
 
 
@@ -447,10 +449,12 @@ class InputSystemMetricsContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputSystemMetricsFilterTypedDict(TypedDict):
     expr: str
+    r"""Expression"""
 
 
 class InputSystemMetricsFilter(BaseModel):
     expr: str
+    r"""Expression"""
 
 
 class InputSystemMetricsContainerTypedDict(TypedDict):
@@ -535,6 +539,8 @@ class InputSystemMetricsContainer(BaseModel):
 
 
 class InputSystemMetricsPersistenceTypedDict(TypedDict):
+    r"""persistence"""
+
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -544,11 +550,14 @@ class InputSystemMetricsPersistenceTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
 
 
 class InputSystemMetricsPersistence(BaseModel):
+    r"""persistence"""
+
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -562,6 +571,7 @@ class InputSystemMetricsPersistence(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
@@ -603,6 +613,7 @@ class InputSystemMetricsPersistence(BaseModel):
 
 class InputSystemMetricsInputTypedDict(TypedDict):
     type: InputSystemMetricsType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -629,6 +640,7 @@ class InputSystemMetricsInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
+    r"""persistence"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -639,6 +651,7 @@ class InputSystemMetricsInputTypedDict(TypedDict):
 
 class InputSystemMetricsInput(BaseModel):
     type: InputSystemMetricsType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -683,6 +696,7 @@ class InputSystemMetricsInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     persistence: Optional[InputSystemMetricsPersistence] = None
+    r"""persistence"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

@@ -25,6 +25,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOpenaiType(str, Enum):
+    r"""Connector type identifier."""
+
     OPENAI = "openai"
 
 
@@ -37,6 +39,8 @@ class InputOpenaiManageState(BaseModel):
 
 
 class InputOpenaiPaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Pagination type"""
+
     # None
     NONE = "none"
     # Response Body Attribute
@@ -63,6 +67,7 @@ class InputOpenaiContentConfigTypedDict(TypedDict):
     ]
     r"""Query-string parameters to send with this endpoint"""
     pagination_type: InputOpenaiPaginationType
+    r"""Pagination type"""
     cron_schedule: str
     r"""A cron schedule on which to run this job"""
     earliest: str
@@ -70,6 +75,7 @@ class InputOpenaiContentConfigTypedDict(TypedDict):
     latest: str
     r"""Relative to the current time"""
     disabled: NotRequired[bool]
+    r"""Enabled"""
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions."""
     state_update_expression: NotRequired[str]
@@ -78,7 +84,9 @@ class InputOpenaiContentConfigTypedDict(TypedDict):
     r"""JavaScript expression that defines which state to keep when merging task state"""
     manage_state: NotRequired[InputOpenaiManageStateTypedDict]
     pagination_attribute: NotRequired[List[str]]
+    r"""Pagination attributes"""
     pagination_last_page_expr: NotRequired[str]
+    r"""Last page expression"""
     max_pages: NotRequired[float]
     r"""Maximum number of pages to retrieve per collection task. Set to 0 only when unlimited pagination is required."""
     pagination_next_relation_attribute: NotRequired[str]
@@ -103,6 +111,7 @@ class InputOpenaiContentConfig(BaseModel):
     pagination_type: Annotated[
         InputOpenaiPaginationType, pydantic.Field(alias="paginationType")
     ]
+    r"""Pagination type"""
 
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
     r"""A cron schedule on which to run this job"""
@@ -114,6 +123,7 @@ class InputOpenaiContentConfig(BaseModel):
     r"""Relative to the current time"""
 
     disabled: Optional[bool] = None
+    r"""Enabled"""
 
     state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
         None
@@ -137,10 +147,12 @@ class InputOpenaiContentConfig(BaseModel):
     pagination_attribute: Annotated[
         Optional[List[str]], pydantic.Field(alias="paginationAttribute")
     ] = None
+    r"""Pagination attributes"""
 
     pagination_last_page_expr: Annotated[
         Optional[str], pydantic.Field(alias="paginationLastPageExpr")
     ] = None
+    r"""Last page expression"""
 
     max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
     r"""Maximum number of pages to retrieve per collection task. Set to 0 only when unlimited pagination is required."""
@@ -222,7 +234,9 @@ class InputOpenaiContentConfig(BaseModel):
 
 class InputOpenaiInputTypedDict(TypedDict):
     type: InputOpenaiType
+    r"""Connector type identifier."""
     content_config: List[InputOpenaiContentConfigTypedDict]
+    r"""Content Types"""
     text_secret: str
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
     id: NotRequired[str]
@@ -249,6 +263,7 @@ class InputOpenaiInputTypedDict(TypedDict):
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     api_key: NotRequired[str]
+    r"""API key"""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
     max_missed_keep_alives: NotRequired[float]
@@ -274,10 +289,12 @@ class InputOpenaiInputTypedDict(TypedDict):
 
 class InputOpenaiInput(BaseModel):
     type: InputOpenaiType
+    r"""Connector type identifier."""
 
     content_config: Annotated[
         List[InputOpenaiContentConfig], pydantic.Field(alias="contentConfig")
     ]
+    r"""Content Types"""
 
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
@@ -326,6 +343,7 @@ class InputOpenaiInput(BaseModel):
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
+    r"""API key"""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")

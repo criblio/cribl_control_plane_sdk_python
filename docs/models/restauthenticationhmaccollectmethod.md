@@ -1,5 +1,7 @@
 # RestAuthenticationHmacCollectMethod
 
+Collect method
+
 ## Example Usage
 
 ```python

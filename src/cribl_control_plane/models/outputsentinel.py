@@ -32,10 +32,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputSentinelType(str, Enum):
+    r"""Connector type identifier."""
+
     SENTINEL = "sentinel"
 
 
 class OutputSentinelAuthType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Discriminator value."""
+
     OAUTH = "oauth"
 
 
@@ -56,15 +60,16 @@ class OutputSentinelFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputSentinelPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSentinelPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSentinelTypedDict(TypedDict):
     type: OutputSentinelType
+    r"""Connector type identifier."""
     login_url: str
     r"""URL for OAuth"""
     secret: str
@@ -120,6 +125,7 @@ class OutputSentinelTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[OutputSentinelAuthType]
+    r"""Discriminator value."""
     refresh_token_field: NotRequired[str]
     r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
     rotate_refresh_token: NotRequired[bool]
@@ -176,6 +182,7 @@ class OutputSentinelTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSentinelPqControlsTypedDict]
+    r"""Persistent queue controls."""
     url: NotRequired[str]
     r"""URL to send events to. Can be overwritten by an event's __url field."""
     dcr_id: NotRequired[str]
@@ -212,6 +219,7 @@ class OutputSentinelTypedDict(TypedDict):
 
 class OutputSentinel(BaseModel):
     type: OutputSentinelType
+    r"""Connector type identifier."""
 
     login_url: Annotated[str, pydantic.Field(alias="loginUrl")]
     r"""URL for OAuth"""
@@ -325,6 +333,7 @@ class OutputSentinel(BaseModel):
     auth_type: Annotated[
         Optional[OutputSentinelAuthType], pydantic.Field(alias="authType")
     ] = None
+    r"""Discriminator value."""
 
     refresh_token_field: Annotated[
         Optional[str], pydantic.Field(alias="refreshTokenField")
@@ -452,6 +461,7 @@ class OutputSentinel(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSentinelPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     url: Optional[str] = None
     r"""URL to send events to. Can be overwritten by an event's __url field."""

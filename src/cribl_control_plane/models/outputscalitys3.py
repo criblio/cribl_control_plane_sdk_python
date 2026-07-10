@@ -28,11 +28,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputScalityS3Type(str, Enum):
+    r"""Connector type identifier."""
+
     SCALITY_S3 = "scality_s3"
 
 
 class OutputScalityS3TypedDict(TypedDict):
     type: OutputScalityS3Type
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination Scality bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -99,6 +102,7 @@ class OutputScalityS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
@@ -165,6 +169,7 @@ class OutputScalityS3TypedDict(TypedDict):
 
 class OutputScalityS3(BaseModel):
     type: OutputScalityS3Type
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination Scality bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -314,6 +319,7 @@ class OutputScalityS3(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

@@ -8,6 +8,8 @@ from enum import Enum
 class PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Privacy protocol"""
+
     # None
     NONE = "none"
     # DES

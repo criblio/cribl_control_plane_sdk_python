@@ -23,11 +23,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputModelDrivenTelemetryType(str, Enum):
+    r"""Connector type identifier."""
+
     MODEL_DRIVEN_TELEMETRY = "model_driven_telemetry"
 
 
 class InputModelDrivenTelemetryInputTypedDict(TypedDict):
     type: InputModelDrivenTelemetryType
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -50,6 +53,7 @@ class InputModelDrivenTelemetryInputTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
@@ -70,6 +74,7 @@ class InputModelDrivenTelemetryInputTypedDict(TypedDict):
 
 class InputModelDrivenTelemetryInput(BaseModel):
     type: InputModelDrivenTelemetryType
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -106,6 +111,7 @@ class InputModelDrivenTelemetryInput(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""

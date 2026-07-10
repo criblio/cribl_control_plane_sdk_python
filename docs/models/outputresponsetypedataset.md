@@ -1,5 +1,7 @@
 # OutputResponseTypeDataset
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

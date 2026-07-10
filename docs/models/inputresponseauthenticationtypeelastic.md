@@ -1,5 +1,7 @@
 # InputResponseAuthenticationTypeElastic
 
+Authentication type
+
 ## Example Usage
 
 ```python

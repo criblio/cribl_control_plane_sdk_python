@@ -28,11 +28,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputAlphasocS3Type(str, Enum):
+    r"""Connector type identifier."""
+
     ALPHASOC_S3 = "alphasoc_s3"
 
 
 class OutputAlphasocS3TypedDict(TypedDict):
     type: OutputAlphasocS3Type
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination AlphaSOC bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -95,6 +98,7 @@ class OutputAlphasocS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     endpoint: NotRequired[str]
     r"""AlphaSOC S3-compatible endpoint URL (example: https://s3.alphasoc.net)"""
     description: NotRequired[str]
@@ -159,6 +163,7 @@ class OutputAlphasocS3TypedDict(TypedDict):
 
 class OutputAlphasocS3(BaseModel):
     type: OutputAlphasocS3Type
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination AlphaSOC bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -302,6 +307,7 @@ class OutputAlphasocS3(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     endpoint: Optional[str] = None
     r"""AlphaSOC S3-compatible endpoint URL (example: https://s3.alphasoc.net)"""

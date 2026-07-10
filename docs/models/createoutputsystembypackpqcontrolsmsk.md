@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsMsk
 
+Persistent queue controls.
+
 
 ## Fields
 

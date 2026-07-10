@@ -1,5 +1,7 @@
 # OutputResponseTypeFilesystem
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

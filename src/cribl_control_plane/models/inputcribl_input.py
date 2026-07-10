@@ -19,11 +19,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputCriblType(str, Enum):
+    r"""Connector type identifier."""
+
     CRIBL = "cribl"
 
 
 class InputCriblInputTypedDict(TypedDict):
     type: InputCriblType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -54,6 +57,7 @@ class InputCriblInputTypedDict(TypedDict):
 
 class InputCriblInput(BaseModel):
     type: InputCriblType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""

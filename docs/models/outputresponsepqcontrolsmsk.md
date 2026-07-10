@@ -1,5 +1,7 @@
 # OutputResponsePqControlsMsk
 
+Persistent queue controls.
+
 
 ## Fields
 

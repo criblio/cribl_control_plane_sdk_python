@@ -10,11 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDevnullType(str, Enum):
+    r"""Connector type identifier."""
+
     DEVNULL = "devnull"
 
 
 class OutputDevnullTypedDict(TypedDict):
     type: OutputDevnullType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -31,6 +34,7 @@ class OutputDevnullTypedDict(TypedDict):
 
 class OutputDevnull(BaseModel):
     type: OutputDevnullType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""

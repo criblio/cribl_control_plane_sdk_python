@@ -31,6 +31,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputSentinelOneAiSiemType(str, Enum):
+    r"""Connector type identifier."""
+
     SENTINEL_ONE_AI_SIEM = "sentinel_one_ai_siem"
 
 
@@ -56,15 +58,16 @@ class OutputSentinelOneAISIEMAISIEMEndpointPath(
 
 
 class OutputSentinelOneAiSiemPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSentinelOneAiSiemPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSentinelOneAiSiemTypedDict(TypedDict):
     type: OutputSentinelOneAiSiemType
+    r"""Connector type identifier."""
     region: OutputSentinelOneAiSiemRegion
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
     endpoint: OutputSentinelOneAISIEMAISIEMEndpointPath
@@ -172,6 +175,7 @@ class OutputSentinelOneAiSiemTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSentinelOneAiSiemPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -182,6 +186,7 @@ class OutputSentinelOneAiSiemTypedDict(TypedDict):
 
 class OutputSentinelOneAiSiem(BaseModel):
     type: OutputSentinelOneAiSiemType
+    r"""Connector type identifier."""
 
     region: OutputSentinelOneAiSiemRegion
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
@@ -407,6 +412,7 @@ class OutputSentinelOneAiSiem(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSentinelOneAiSiemPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

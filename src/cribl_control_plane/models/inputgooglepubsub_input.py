@@ -11,21 +11,18 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
+from .typeoptionsgooglepubsub import TypeOptionsGooglepubsub
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputGooglePubsubType(str, Enum):
-    GOOGLE_PUBSUB = "google_pubsub"
-
-
 class InputGooglePubsubInputTypedDict(TypedDict):
-    type: InputGooglePubsubType
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
     topic_name: str
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     subscription_name: str
@@ -86,7 +83,8 @@ class InputGooglePubsubInputTypedDict(TypedDict):
 
 
 class InputGooglePubsubInput(BaseModel):
-    type: InputGooglePubsubType
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
 
     topic_name: Annotated[str, pydantic.Field(alias="topicName")]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""

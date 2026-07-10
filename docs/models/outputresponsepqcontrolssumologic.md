@@ -1,5 +1,7 @@
 # OutputResponsePqControlsSumoLogic
 
+Persistent queue controls.
+
 
 ## Fields
 

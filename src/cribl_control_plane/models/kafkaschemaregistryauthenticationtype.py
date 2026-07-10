@@ -14,7 +14,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class KafkaSchemaRegistryAuthenticationTypeTypedDict(TypedDict):
+    r"""Kafka Schema Registry Authentication"""
+
     disabled: bool
+    r"""Disabled"""
     schema_registry_url: NotRequired[str]
     r"""URL for accessing the Confluent Schema Registry. Example: http://localhost:8081. To connect over TLS, use https instead of http."""
     connection_timeout: NotRequired[float]
@@ -26,12 +29,16 @@ class KafkaSchemaRegistryAuthenticationTypeTypedDict(TypedDict):
     auth: NotRequired[AuthTypeTypedDict]
     r"""Credentials to use when authenticating with the schema registry"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     template_schema_registry_url: NotRequired[str]
     r"""Binds 'schemaRegistryURL' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'schemaRegistryURL' at runtime."""
 
 
 class KafkaSchemaRegistryAuthenticationType(BaseModel):
+    r"""Kafka Schema Registry Authentication"""
+
     disabled: bool
+    r"""Disabled"""
 
     schema_registry_url: Annotated[
         Optional[str], pydantic.Field(alias="schemaRegistryURL")
@@ -55,6 +62,7 @@ class KafkaSchemaRegistryAuthenticationType(BaseModel):
     r"""Credentials to use when authenticating with the schema registry"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     template_schema_registry_url: Annotated[
         Optional[str], pydantic.Field(alias="__template_schemaRegistryURL")

@@ -32,10 +32,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputGoogleChronicleType(str, Enum):
+    r"""Connector type identifier."""
+
     GOOGLE_CHRONICLE = "google_chronicle"
 
 
 class OutputGoogleChronicleAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""API version"""
+
     # V1
     V1 = "v1"
     # V2
@@ -45,6 +49,8 @@ class OutputGoogleChronicleAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 class OutputGoogleChronicleAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method"""
+
     # API key
     MANUAL = "manual"
     # API key secret
@@ -56,6 +62,8 @@ class OutputGoogleChronicleAuthenticationMethod(
 
 
 class OutputGoogleChronicleSendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Send events as"""
+
     # Unstructured
     UNSTRUCTURED = "unstructured"
     # UDM
@@ -64,13 +72,17 @@ class OutputGoogleChronicleSendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta)
 
 class OutputGoogleChronicleExtraLogTypeTypedDict(TypedDict):
     log_type: str
+    r"""Log Type"""
     description: NotRequired[str]
+    r"""Description"""
 
 
 class OutputGoogleChronicleExtraLogType(BaseModel):
     log_type: Annotated[str, pydantic.Field(alias="logType")]
+    r"""Log Type"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -97,16 +109,18 @@ class OutputGoogleChronicleUDMType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputGoogleChroniclePqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleChroniclePqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleChronicleTypedDict(TypedDict):
     type: OutputGoogleChronicleType
+    r"""Connector type identifier."""
     log_format_type: OutputGoogleChronicleSendEventsAs
+    r"""Send events as"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -118,7 +132,9 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
     api_version: NotRequired[OutputGoogleChronicleAPIVersion]
+    r"""API version"""
     authentication_method: NotRequired[OutputGoogleChronicleAuthenticationMethod]
+    r"""Authentication method"""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
@@ -204,6 +220,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputGoogleChroniclePqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_api_version: NotRequired[str]
@@ -220,10 +237,12 @@ class OutputGoogleChronicleTypedDict(TypedDict):
 
 class OutputGoogleChronicle(BaseModel):
     type: OutputGoogleChronicleType
+    r"""Connector type identifier."""
 
     log_format_type: Annotated[
         OutputGoogleChronicleSendEventsAs, pydantic.Field(alias="logFormatType")
     ]
+    r"""Send events as"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -245,11 +264,13 @@ class OutputGoogleChronicle(BaseModel):
     api_version: Annotated[
         Optional[OutputGoogleChronicleAPIVersion], pydantic.Field(alias="apiVersion")
     ] = None
+    r"""API version"""
 
     authentication_method: Annotated[
         Optional[OutputGoogleChronicleAuthenticationMethod],
         pydantic.Field(alias="authenticationMethod"),
     ] = None
+    r"""Authentication method"""
 
     response_retry_settings: Annotated[
         Optional[List[ResponseRetrySettingConfOutputWebhook]],
@@ -437,6 +458,7 @@ class OutputGoogleChronicle(BaseModel):
     pq_controls: Annotated[
         Optional[OutputGoogleChroniclePqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

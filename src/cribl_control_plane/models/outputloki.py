@@ -36,19 +36,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputLokiType(str, Enum):
+    r"""Connector type identifier."""
+
     LOKI = "loki"
 
 
 class OutputLokiPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputLokiPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputLokiTypedDict(TypedDict):
     type: OutputLokiType
+    r"""Connector type identifier."""
     url: str
     r"""The endpoint to send logs to"""
     id: NotRequired[str]
@@ -72,6 +75,7 @@ class OutputLokiTypedDict(TypedDict):
     auth_type: NotRequired[
         AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret
     ]
+    r"""Authentication type"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki to complain about entries being delivered out of order."""
     max_payload_size_kb: NotRequired[float]
@@ -145,6 +149,7 @@ class OutputLokiTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputLokiPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -155,6 +160,7 @@ class OutputLokiTypedDict(TypedDict):
 
 class OutputLoki(BaseModel):
     type: OutputLokiType
+    r"""Connector type identifier."""
 
     url: str
     r"""The endpoint to send logs to"""
@@ -193,6 +199,7 @@ class OutputLoki(BaseModel):
         Optional[AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication type"""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking. Warning: Setting this value > 1 can cause Loki to complain about entries being delivered out of order."""
@@ -350,6 +357,7 @@ class OutputLoki(BaseModel):
     pq_controls: Annotated[
         Optional[OutputLokiPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

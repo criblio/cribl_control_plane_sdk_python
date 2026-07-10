@@ -30,12 +30,14 @@ class InputCriblLakeHTTPType(str, Enum):
 
 class InputCriblLakeHTTPSplunkHecMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""Splunk HEC"""
     default_dataset: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
 
 
 class InputCriblLakeHTTPSplunkHecMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""Splunk HEC"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -64,11 +66,13 @@ class InputCriblLakeHTTPSplunkHecMetadata(BaseModel):
 
 class InputCriblLakeHTTPElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""Elasticsearch"""
     default_dataset: NotRequired[str]
 
 
 class InputCriblLakeHTTPElasticsearchMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""Elasticsearch"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -93,6 +97,7 @@ class InputCriblLakeHTTPElasticsearchMetadata(BaseModel):
 
 class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
     token: str
+    r"""Token"""
     description: NotRequired[str]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this token"""
@@ -104,6 +109,7 @@ class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
 
 class InputCriblLakeHTTPAuthTokensExt(BaseModel):
     token: str
+    r"""Token"""
 
     description: Optional[str] = None
 
@@ -166,6 +172,7 @@ class InputCriblLakeHTTPInputTypedDict(TypedDict):
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -195,9 +202,11 @@ class InputCriblLakeHTTPInputTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
+    r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[InputCriblLakeHTTPAuthTokensExtTypedDict]]
+    r"""Auth tokens"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -262,6 +271,7 @@ class InputCriblLakeHTTPInput(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -332,6 +342,7 @@ class InputCriblLakeHTTPInput(BaseModel):
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
+    r"""Enable Splunk HEC acknowledgements"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -340,6 +351,7 @@ class InputCriblLakeHTTPInput(BaseModel):
         Optional[List[InputCriblLakeHTTPAuthTokensExt]],
         pydantic.Field(alias="authTokensExt"),
     ] = None
+    r"""Auth tokens"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

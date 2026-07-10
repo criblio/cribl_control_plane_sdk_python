@@ -1,5 +1,7 @@
 # OutputGoogleCloudLoggingLogLocationType
 
+Log location type
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # CreateInputTypeAnthropicCompliance
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

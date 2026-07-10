@@ -1,5 +1,7 @@
 # InputRawUDPType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -7,10 +7,14 @@ from typing_extensions import TypedDict
 
 class RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     name: str
+    r"""Name"""
     value: str
+    r"""Value"""
 
 
 class RefreshRequestParamConfHealthCheckAuthenticationOauthSecret(BaseModel):
     name: str
+    r"""Name"""
 
     value: str
+    r"""Value"""

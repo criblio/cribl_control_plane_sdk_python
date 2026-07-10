@@ -10,20 +10,17 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
+from .typeoptionsnetflow import TypeOptionsNetflow
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputNetflowType(str, Enum):
-    NETFLOW = "netflow"
-
-
 class InputNetflowInputTypedDict(TypedDict):
-    type: InputNetflowType
+    type: TypeOptionsNetflow
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     port: float
@@ -76,7 +73,8 @@ class InputNetflowInputTypedDict(TypedDict):
 
 
 class InputNetflowInput(BaseModel):
-    type: InputNetflowType
+    type: TypeOptionsNetflow
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""

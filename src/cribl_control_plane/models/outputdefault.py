@@ -10,11 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDefaultType(str, Enum):
+    r"""Connector type identifier."""
+
     DEFAULT = "default"
 
 
 class OutputDefaultTypedDict(TypedDict):
     type: OutputDefaultType
+    r"""Connector type identifier."""
     default_id: Nullable[str]
     r"""ID of the default output. This will be used whenever a nonexistent/deleted output is referenced."""
     id: NotRequired[str]
@@ -33,6 +36,7 @@ class OutputDefaultTypedDict(TypedDict):
 
 class OutputDefault(BaseModel):
     type: OutputDefaultType
+    r"""Connector type identifier."""
 
     default_id: Annotated[Nullable[str], pydantic.Field(alias="defaultId")]
     r"""ID of the default output. This will be used whenever a nonexistent/deleted output is referenced."""

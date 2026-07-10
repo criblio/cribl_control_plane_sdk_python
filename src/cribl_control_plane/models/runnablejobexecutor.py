@@ -86,7 +86,9 @@ class RunnableJobExecutorTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
+    r"""Description"""
     type: NotRequired[JobTypeOptionsRunnableJobCollection]
+    r"""Job type"""
     ttl: NotRequired[str]
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
@@ -114,8 +116,10 @@ class RunnableJobExecutor(BaseModel):
     r"""Unique ID for this Job"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     type: Optional[JobTypeOptionsRunnableJobCollection] = None
+    r"""Job type"""
 
     ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""

@@ -27,10 +27,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputKubeMetricsType(str, Enum):
+    r"""Connector type identifier."""
+
     KUBE_METRICS = "kube_metrics"
 
 
 class InputKubeMetricsPersistenceTypedDict(TypedDict):
+    r"""persistence"""
+
     enable: NotRequired[bool]
     r"""Spool metrics on disk for Cribl Search"""
     time_window: NotRequired[str]
@@ -40,11 +44,14 @@ class InputKubeMetricsPersistenceTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
 
 
 class InputKubeMetricsPersistence(BaseModel):
+    r"""persistence"""
+
     enable: Optional[bool] = None
     r"""Spool metrics on disk for Cribl Search"""
 
@@ -58,6 +65,7 @@ class InputKubeMetricsPersistence(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
@@ -99,6 +107,7 @@ class InputKubeMetricsPersistence(BaseModel):
 
 class InputKubeMetricsInputTypedDict(TypedDict):
     type: InputKubeMetricsType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -127,6 +136,7 @@ class InputKubeMetricsInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputKubeMetricsPersistenceTypedDict]
+    r"""persistence"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -137,6 +147,7 @@ class InputKubeMetricsInputTypedDict(TypedDict):
 
 class InputKubeMetricsInput(BaseModel):
     type: InputKubeMetricsType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -186,6 +197,7 @@ class InputKubeMetricsInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     persistence: Optional[InputKubeMetricsPersistence] = None
+    r"""persistence"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

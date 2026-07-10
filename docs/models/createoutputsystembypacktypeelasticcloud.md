@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeElasticCloud
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -31,12 +31,16 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputGoogleCloudStorageType(str, Enum):
+    r"""Connector type identifier."""
+
     GOOGLE_CLOUD_STORAGE = "google_cloud_storage"
 
 
 class OutputGoogleCloudStorageAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method"""
+
     # auto
     AUTO = "auto"
     # manual
@@ -47,6 +51,7 @@ class OutputGoogleCloudStorageAuthenticationMethod(
 
 class OutputGoogleCloudStorageTypedDict(TypedDict):
     type: OutputGoogleCloudStorageType
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
     region: str
@@ -66,6 +71,7 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
     aws_authentication_method: NotRequired[OutputGoogleCloudStorageAuthenticationMethod]
+    r"""Authentication method"""
     dest_path: NotRequired[str]
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
     verify_permissions: NotRequired[bool]
@@ -112,6 +118,7 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -190,6 +197,7 @@ class OutputGoogleCloudStorageTypedDict(TypedDict):
 
 class OutputGoogleCloudStorage(BaseModel):
     type: OutputGoogleCloudStorageType
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination bucket. This value can be a constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a Global Variable: `myBucket-${C.vars.myVar}`."""
@@ -224,6 +232,7 @@ class OutputGoogleCloudStorage(BaseModel):
         Optional[OutputGoogleCloudStorageAuthenticationMethod],
         pydantic.Field(alias="awsAuthenticationMethod"),
     ] = None
+    r"""Authentication method"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Prefix to prepend to files before uploading. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myKeyPrefix-${C.vars.myVar}`"""
@@ -340,6 +349,7 @@ class OutputGoogleCloudStorage(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

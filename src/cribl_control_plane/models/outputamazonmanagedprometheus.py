@@ -29,19 +29,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputAmazonManagedPrometheusType(str, Enum):
+    r"""Connector type identifier."""
+
     AMAZON_MANAGED_PROMETHEUS = "amazon_managed_prometheus"
 
 
 class OutputAmazonManagedPrometheusPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAmazonManagedPrometheusPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAmazonManagedPrometheusTypedDict(TypedDict):
     type: OutputAmazonManagedPrometheusType
+    r"""Connector type identifier."""
     url: str
     r"""The Amazon Managed Service for Prometheus remote_write endpoint"""
     aws_authentication_method: AuthenticationMethodOptionsAutoSecret
@@ -59,6 +62,7 @@ class OutputAmazonManagedPrometheusTypedDict(TypedDict):
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
@@ -134,6 +138,7 @@ class OutputAmazonManagedPrometheusTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputAmazonManagedPrometheusPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -154,6 +159,7 @@ class OutputAmazonManagedPrometheusTypedDict(TypedDict):
 
 class OutputAmazonManagedPrometheus(BaseModel):
     type: OutputAmazonManagedPrometheusType
+    r"""Connector type identifier."""
 
     url: str
     r"""The Amazon Managed Service for Prometheus remote_write endpoint"""
@@ -187,6 +193,7 @@ class OutputAmazonManagedPrometheus(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -358,6 +365,7 @@ class OutputAmazonManagedPrometheus(BaseModel):
         Optional[OutputAmazonManagedPrometheusPqControls],
         pydantic.Field(alias="pqControls"),
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

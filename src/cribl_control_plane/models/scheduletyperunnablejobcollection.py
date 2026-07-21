@@ -26,6 +26,7 @@ class ScheduleTypeRunnableJobCollectionTypedDict(TypedDict):
     max_concurrent_runs: NotRequired[float]
     r"""The maximum number of instances of this scheduled job that may be running at any time"""
     run: NotRequired[RunSettingsTypeRunnableJobCollectionScheduleTypedDict]
+    r"""Run settings"""
 
 
 class ScheduleTypeRunnableJobCollection(BaseModel):
@@ -51,6 +52,7 @@ class ScheduleTypeRunnableJobCollection(BaseModel):
     r"""The maximum number of instances of this scheduled job that may be running at any time"""
 
     run: Optional[RunSettingsTypeRunnableJobCollectionSchedule] = None
+    r"""Run settings"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

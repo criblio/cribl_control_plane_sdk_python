@@ -1,5 +1,7 @@
 # OutputResponseAuthenticationMethodGoogleCloudStorage
 
+Authentication method
+
 ## Example Usage
 
 ```python

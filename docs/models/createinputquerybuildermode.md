@@ -1,5 +1,7 @@
 # CreateInputQueryBuilderMode
 
+Query builder mode
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # CreateOutputTypeSplunkLb
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

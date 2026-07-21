@@ -1,5 +1,7 @@
 # InputOpenaiPaginationType
 
+Pagination type
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # OutputResponseTypeSplunkHec
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

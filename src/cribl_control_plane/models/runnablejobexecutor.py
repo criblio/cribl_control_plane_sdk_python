@@ -86,7 +86,9 @@ class RunnableJobExecutorTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
+    r"""Description"""
     type: NotRequired[JobTypeOptionsRunnableJobCollection]
+    r"""Job type"""
     ttl: NotRequired[str]
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
@@ -100,7 +102,7 @@ class RunnableJobExecutorTypedDict(TypedDict):
     schedule: NotRequired[ScheduleTypeRunnableJobCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
@@ -114,8 +116,10 @@ class RunnableJobExecutor(BaseModel):
     r"""Unique ID for this Job"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     type: Optional[JobTypeOptionsRunnableJobCollection] = None
+    r"""Job type"""
 
     ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
@@ -142,7 +146,7 @@ class RunnableJobExecutor(BaseModel):
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

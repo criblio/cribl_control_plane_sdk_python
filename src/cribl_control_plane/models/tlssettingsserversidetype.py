@@ -12,7 +12,10 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class TLSSettingsServerSideTypeTypedDict(TypedDict):
+    r"""TLS settings (server side)"""
+
     disabled: NotRequired[bool]
+    r"""If true, TLS is disabled on this connection."""
     request_cert: NotRequired[bool]
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
     reject_unauthorized: NotRequired[bool]
@@ -30,11 +33,16 @@ class TLSSettingsServerSideTypeTypedDict(TypedDict):
     ca_path: NotRequired[str]
     r"""Path on server containing CA certificates to use. PEM format. Can reference $ENV_VARS."""
     min_version: NotRequired[MinimumTLSVersionOptionsTLS]
+    r"""Minimum TLS version"""
     max_version: NotRequired[MaximumTLSVersionOptionsTLS]
+    r"""Maximum TLS version"""
 
 
 class TLSSettingsServerSideType(BaseModel):
+    r"""TLS settings (server side)"""
+
     disabled: Optional[bool] = None
+    r"""If true, TLS is disabled on this connection."""
 
     request_cert: Annotated[Optional[bool], pydantic.Field(alias="requestCert")] = None
     r"""Require clients to present their certificates. Used to perform client authentication using SSL certs."""
@@ -69,10 +77,12 @@ class TLSSettingsServerSideType(BaseModel):
     min_version: Annotated[
         Optional[MinimumTLSVersionOptionsTLS], pydantic.Field(alias="minVersion")
     ] = None
+    r"""Minimum TLS version"""
 
     max_version: Annotated[
         Optional[MaximumTLSVersionOptionsTLS], pydantic.Field(alias="maxVersion")
     ] = None
+    r"""Maximum TLS version"""
 
     @field_serializer("min_version")
     def serialize_min_version(self, value):

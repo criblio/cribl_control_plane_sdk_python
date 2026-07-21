@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeExabeam
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

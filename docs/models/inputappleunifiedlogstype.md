@@ -1,5 +1,7 @@
 # InputAppleUnifiedLogsType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

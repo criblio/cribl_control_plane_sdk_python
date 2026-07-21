@@ -16,7 +16,7 @@ class LakeDatasetSearchConfigTypedDict(TypedDict):
     datatypes: NotRequired[List[str]]
     r"""Datatype identifiers assigned to the Dataset for search-time event classification."""
     description: NotRequired[str]
-    r"""Brief description of Dataset search configuration."""
+    r"""Brief description of the Dataset search configuration."""
     metadata: NotRequired[DatasetMetadataTypedDict]
     path_filters: NotRequired[List[ObjectStorageFilterTypedDict]]
     r"""Glob-to-Datatype mappings for the Lake bucket path. Used only for search execution v2."""
@@ -30,7 +30,7 @@ class LakeDatasetSearchConfig(BaseModel):
     r"""Datatype identifiers assigned to the Dataset for search-time event classification."""
 
     description: Optional[str] = None
-    r"""Brief description of Dataset search configuration."""
+    r"""Brief description of the Dataset search configuration."""
 
     metadata: Optional[DatasetMetadata] = None
 

@@ -123,6 +123,12 @@ value: models.OutputHoneycomb = /* values here */
 value: models.OutputAzureEventhub = /* values here */
 ```
 
+### `models.OutputGoogleBigquery`
+
+```python
+value: models.OutputGoogleBigquery = /* values here */
+```
+
 ### `models.OutputGoogleChronicle`
 
 ```python
@@ -139,6 +145,12 @@ value: models.OutputGoogleCloudStorage = /* values here */
 
 ```python
 value: models.OutputGoogleCloudLogging = /* values here */
+```
+
+### `models.OutputGoogleCloudObservability`
+
+```python
+value: models.OutputGoogleCloudObservability = /* values here */
 ```
 
 ### `models.OutputGooglePubsub`
@@ -279,6 +291,12 @@ value: models.OutputGrafanaCloudUnion = /* values here */
 value: models.OutputLoki = /* values here */
 ```
 
+### `models.OutputAmazonManagedPrometheus`
+
+```python
+value: models.OutputAmazonManagedPrometheus = /* values here */
+```
+
 ### `models.OutputPrometheus`
 
 ```python
@@ -369,6 +387,12 @@ value: models.OutputDiskSpool = /* values here */
 value: models.OutputClickHouse = /* values here */
 ```
 
+### `models.OutputCustomerMetricsStorage`
+
+```python
+value: models.OutputCustomerMetricsStorage = /* values here */
+```
+
 ### `models.OutputLocalSearchStorage`
 
 ```python
@@ -415,6 +439,12 @@ value: models.OutputChronicle = /* values here */
 
 ```python
 value: models.OutputDatabricks = /* values here */
+```
+
+### `models.OutputSnowflakeStreaming`
+
+```python
+value: models.OutputSnowflakeStreaming = /* values here */
 ```
 
 ### `models.OutputMicrosoftFabric`
@@ -469,5 +499,11 @@ value: models.OutputScalityS3 = /* values here */
 
 ```python
 value: models.OutputAlibabaCloudS3 = /* values here */
+```
+
+### `models.OutputIbmCloudS3`
+
+```python
+value: models.OutputIbmCloudS3 = /* values here */
 ```
 

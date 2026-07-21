@@ -207,6 +207,12 @@ value: models.PipelineFunctionLookup = /* values here */
 value: models.PipelineFunctionMask = /* values here */
 ```
 
+### `models.PipelineFunctionMetricsExport`
+
+```python
+value: models.PipelineFunctionMetricsExport = /* values here */
+```
+
 ### `models.PipelineFunctionMvExpand`
 
 ```python

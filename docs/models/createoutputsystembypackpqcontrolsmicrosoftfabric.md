@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsMicrosoftFabric
 
+Persistent queue controls.
+
 
 ## Fields
 

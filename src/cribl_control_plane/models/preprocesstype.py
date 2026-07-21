@@ -9,6 +9,7 @@ from typing_extensions import NotRequired, TypedDict
 
 class PreprocessTypeTypedDict(TypedDict):
     disabled: bool
+    r"""Disabled"""
     command: NotRequired[str]
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""
     args: NotRequired[List[str]]
@@ -17,6 +18,7 @@ class PreprocessTypeTypedDict(TypedDict):
 
 class PreprocessType(BaseModel):
     disabled: bool
+    r"""Disabled"""
 
     command: Optional[str] = None
     r"""Command to feed the data through (via stdin) and process its output (stdout)"""

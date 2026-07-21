@@ -36,12 +36,14 @@ class SplunkAuthenticationTokenSecretAuthentication(
 
 class SplunkAuthenticationTokenSecretCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationTokenSecretCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -49,12 +51,14 @@ class SplunkAuthenticationTokenSecretCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationTokenSecretCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationTokenSecretCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -334,6 +338,7 @@ class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
+    r"""Bearer token"""
     login_url: NotRequired[str]
     r"""URL to use for login API call. This call is expected to be a POST."""
     login_body: NotRequired[str]
@@ -435,6 +440,7 @@ class SplunkAuthenticationTokenSecret(BaseModel):
     r"""Select or create a stored secret that references your credentials"""
 
     token: Optional[str] = None
+    r"""Bearer token"""
 
     login_url: Annotated[Optional[str], pydantic.Field(alias="loginUrl")] = None
     r"""URL to use for login API call. This call is expected to be a POST."""
@@ -561,12 +567,14 @@ class SplunkAuthenticationTokenAuthentication(str, Enum, metaclass=utils.OpenEnu
 
 class SplunkAuthenticationTokenCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationTokenCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -574,12 +582,14 @@ class SplunkAuthenticationTokenCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationTokenCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationTokenCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -820,6 +830,7 @@ class SplunkAuthenticationTokenTypedDict(TypedDict):
     authentication: SplunkAuthenticationTokenAuthentication
     r"""Authentication method for Discover and Collect REST calls"""
     token: str
+    r"""Bearer token"""
     search_head: str
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
@@ -886,6 +897,7 @@ class SplunkAuthenticationToken(BaseModel):
     r"""Authentication method for Discover and Collect REST calls"""
 
     token: str
+    r"""Bearer token"""
 
     search_head: Annotated[str, pydantic.Field(alias="searchHead")]
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
@@ -1088,12 +1100,14 @@ class SplunkAuthenticationBasicSecretAuthentication(
 
 class SplunkAuthenticationBasicSecretCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationBasicSecretCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -1101,12 +1115,14 @@ class SplunkAuthenticationBasicSecretCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationBasicSecretCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationBasicSecretCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -1384,6 +1400,7 @@ class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
     password: NotRequired[str]
     r"""Basic authentication password"""
     token: NotRequired[str]
+    r"""Bearer token"""
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
     login_url: NotRequired[str]
@@ -1482,6 +1499,7 @@ class SplunkAuthenticationBasicSecret(BaseModel):
     r"""Basic authentication password"""
 
     token: Optional[str] = None
+    r"""Bearer token"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
@@ -1611,12 +1629,14 @@ class SplunkAuthenticationBasicAuthentication(str, Enum, metaclass=utils.OpenEnu
 
 class SplunkAuthenticationBasicCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationBasicCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -1624,12 +1644,14 @@ class SplunkAuthenticationBasicCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationBasicCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationBasicCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -1907,6 +1929,7 @@ class SplunkAuthenticationBasicTypedDict(TypedDict):
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
+    r"""Bearer token"""
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
     login_url: NotRequired[str]
@@ -2007,6 +2030,7 @@ class SplunkAuthenticationBasic(BaseModel):
     r"""Select or create a stored secret that references your credentials"""
 
     token: Optional[str] = None
+    r"""Bearer token"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""
@@ -2135,12 +2159,14 @@ class SplunkAuthenticationNoneAuthentication(str, Enum, metaclass=utils.OpenEnum
 
 class SplunkAuthenticationNoneCollectRequestParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationNoneCollectRequestParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -2148,12 +2174,14 @@ class SplunkAuthenticationNoneCollectRequestParam(BaseModel):
 
 class SplunkAuthenticationNoneCollectRequestHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
 
 
 class SplunkAuthenticationNoneCollectRequestHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values without delimiters (earliest) are evaluated as strings."""
@@ -2431,6 +2459,7 @@ class SplunkAuthenticationNoneTypedDict(TypedDict):
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
+    r"""Bearer token"""
     token_secret: NotRequired[str]
     r"""Select or create a stored secret that references your Bearer token"""
     login_url: NotRequired[str]
@@ -2530,6 +2559,7 @@ class SplunkAuthenticationNone(BaseModel):
     r"""Select or create a stored secret that references your credentials"""
 
     token: Optional[str] = None
+    r"""Bearer token"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored secret that references your Bearer token"""

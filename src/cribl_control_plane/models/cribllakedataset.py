@@ -32,7 +32,7 @@ class CriblLakeDatasetTypedDict(TypedDict):
     format_: NotRequired[FormatOptionsCriblLakeDataset]
     r"""Storage format used for data persisted in the Dataset."""
     http_da_used: NotRequired[bool]
-    r"""If <code>true</code>, the Dataset is used by Direct Access HTTP."""
+    r"""If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>."""
     metrics: NotRequired[LakeDatasetMetricsTypedDict]
     retention_period_in_days: NotRequired[int]
     r"""Dataset retention period, in days."""
@@ -40,7 +40,7 @@ class CriblLakeDatasetTypedDict(TypedDict):
     storage_class: NotRequired[StorageClassOptionsCriblLakeDataset]
     r"""Storage class used for objects written to the Dataset."""
     storage_location_id: NotRequired[str]
-    r"""Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>."""
+    r"""Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>."""
     view_name: NotRequired[str]
     r"""Name of the ClickHouse view for the Dataset on the Lakehouse."""
 
@@ -75,7 +75,7 @@ class CriblLakeDataset(BaseModel):
     r"""Storage format used for data persisted in the Dataset."""
 
     http_da_used: Annotated[Optional[bool], pydantic.Field(alias="httpDAUsed")] = None
-    r"""If <code>true</code>, the Dataset is used by Direct Access HTTP."""
+    r"""If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>."""
 
     metrics: Optional[LakeDatasetMetrics] = None
 
@@ -97,7 +97,7 @@ class CriblLakeDataset(BaseModel):
     storage_location_id: Annotated[
         Optional[str], pydantic.Field(alias="storageLocationId")
     ] = None
-    r"""Identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>."""
+    r"""Unique identifier for the Storage Location that backs the Dataset. Mutually exclusive with <code>bucketName</code>."""
 
     view_name: Annotated[Optional[str], pydantic.Field(alias="viewName")] = None
     r"""Name of the ClickHouse view for the Dataset on the Lakehouse."""

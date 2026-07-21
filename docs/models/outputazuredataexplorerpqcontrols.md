@@ -1,5 +1,7 @@
 # OutputAzureDataExplorerPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

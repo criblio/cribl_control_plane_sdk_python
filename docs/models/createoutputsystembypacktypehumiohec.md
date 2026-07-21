@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeHumioHec
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

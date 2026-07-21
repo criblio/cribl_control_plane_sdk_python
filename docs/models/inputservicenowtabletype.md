@@ -1,5 +1,7 @@
 # InputServicenowTableType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

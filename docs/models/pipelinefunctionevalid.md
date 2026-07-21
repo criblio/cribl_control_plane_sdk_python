@@ -1,6 +1,6 @@
 # PipelineFunctionEvalID
 
-Function ID
+Identifier of the Function. Always <code>eval</code>
 
 ## Example Usage
 

@@ -1,5 +1,7 @@
 # CreateOutputPqControlsSignalfx
 
+Persistent queue controls.
+
 
 ## Fields
 

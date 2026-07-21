@@ -1,5 +1,7 @@
 # InputOpenaiComplianceLogsAccountType
 
+Account type
+
 ## Example Usage
 
 ```python

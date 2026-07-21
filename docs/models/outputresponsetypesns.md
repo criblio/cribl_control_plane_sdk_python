@@ -1,5 +1,7 @@
 # OutputResponseTypeSns
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

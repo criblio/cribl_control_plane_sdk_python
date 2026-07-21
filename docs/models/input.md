@@ -375,6 +375,12 @@ value: models.InputNetflowInput = /* values here */
 value: models.InputSecurityLakeInput = /* values here */
 ```
 
+### `models.InputBedrockS3Input`
+
+```python
+value: models.InputBedrockS3Input = /* values here */
+```
+
 ### `models.InputServicenowTableInput`
 
 ```python
@@ -391,6 +397,18 @@ value: models.InputZscalerHecInput = /* values here */
 
 ```python
 value: models.InputCloudflareHecInput = /* values here */
+```
+
+### `models.InputSysdigHecInput`
+
+```python
+value: models.InputSysdigHecInput = /* values here */
+```
+
+### `models.InputUpwindHecInput`
+
+```python
+value: models.InputUpwindHecInput = /* values here */
 ```
 
 ### `models.InputOpenaiComplianceLogsInput`

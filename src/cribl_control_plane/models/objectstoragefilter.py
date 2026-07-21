@@ -16,6 +16,8 @@ class ObjectStorageFilterTypedDict(TypedDict):
     filter_: str
     r"""Glob pattern for selecting files within the storage path."""
     data_path_format: NotRequired[PathFilterDataFormat]
+    preprocess_outer_json: NotRequired[bool]
+    r"""When true, instructs the C++ reader to unwrap the outer JSON envelope before applying the user datatype to the nested _raw field. Set for Cribl Lake NDJSON filters only."""
 
 
 class ObjectStorageFilter(BaseModel):
@@ -29,6 +31,11 @@ class ObjectStorageFilter(BaseModel):
         Optional[PathFilterDataFormat], pydantic.Field(alias="dataPathFormat")
     ] = None
 
+    preprocess_outer_json: Annotated[
+        Optional[bool], pydantic.Field(alias="preprocessOuterJson")
+    ] = None
+    r"""When true, instructs the C++ reader to unwrap the outer JSON envelope before applying the user datatype to the nested _raw field. Set for Cribl Lake NDJSON filters only."""
+
     @field_serializer("data_path_format")
     def serialize_data_path_format(self, value):
         if isinstance(value, str):
@@ -40,7 +47,7 @@ class ObjectStorageFilter(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["dataPathFormat"])
+        optional_fields = set(["dataPathFormat", "preprocessOuterJson"])
         serialized = handler(self)
         m = {}
 

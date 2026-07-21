@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeElastic
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # InputWefQueryBuilderMode
 
+Query builder mode
+
 ## Example Usage
 
 ```python

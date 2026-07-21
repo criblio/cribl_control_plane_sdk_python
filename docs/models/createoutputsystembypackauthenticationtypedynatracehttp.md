@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackAuthenticationTypeDynatraceHTTP
 
+Authentication type
+
 ## Example Usage
 
 ```python

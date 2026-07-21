@@ -16,20 +16,35 @@ class PackInstallInfoTypedDict(TypedDict):
     id: str
     r"""Unique identifier."""
     source: str
+    r"""Source of the Pack — a file path, URL, or Git URL from which the Pack was installed."""
     author: NotRequired[str]
+    r"""Name or identifier of the Pack author."""
     collectors: NotRequired[float]
+    r"""Number of Collectors (saved jobs) configured within the Pack."""
     dependencies: NotRequired[Dict[str, str]]
+    r"""Map of Pack dependency identifiers to their version constraints."""
     description: NotRequired[str]
+    r"""Brief description of the Pack and its purpose."""
     display_name: NotRequired[str]
+    r"""Human-readable display name for the Pack."""
     exports: NotRequired[List[str]]
+    r"""List of entity IDs exported by this Pack and available for use outside the Pack context."""
     inputs: NotRequired[float]
+    r"""Number of Sources configured within the Pack."""
     is_disabled: NotRequired[bool]
+    r"""If <code>true</code>, the Pack is disabled. Otherwise, <code>false</code>."""
     min_log_stream_version: NotRequired[str]
+    r"""Minimum version of Cribl Stream required to run this Pack."""
     outputs: NotRequired[float]
+    r"""Number of Destinations configured within the Pack."""
     settings: NotRequired[Dict[str, Any]]
+    r"""Pack-specific settings object. Contents vary by Pack."""
     spec: NotRequired[str]
+    r"""Semver range constraint that was applied when the Pack was installed."""
     tags: NotRequired[TagsTypePackInstallInfoTypedDict]
+    r"""Categorization tags for the Pack."""
     version: NotRequired[str]
+    r"""Version of the Pack, following semantic versioning."""
     warnings: NotRequired[List[str]]
 
 
@@ -38,36 +53,51 @@ class PackInstallInfo(BaseModel):
     r"""Unique identifier."""
 
     source: str
+    r"""Source of the Pack — a file path, URL, or Git URL from which the Pack was installed."""
 
     author: Optional[str] = None
+    r"""Name or identifier of the Pack author."""
 
     collectors: Optional[float] = None
+    r"""Number of Collectors (saved jobs) configured within the Pack."""
 
     dependencies: Optional[Dict[str, str]] = None
+    r"""Map of Pack dependency identifiers to their version constraints."""
 
     description: Optional[str] = None
+    r"""Brief description of the Pack and its purpose."""
 
     display_name: Annotated[Optional[str], pydantic.Field(alias="displayName")] = None
+    r"""Human-readable display name for the Pack."""
 
     exports: Optional[List[str]] = None
+    r"""List of entity IDs exported by this Pack and available for use outside the Pack context."""
 
     inputs: Optional[float] = None
+    r"""Number of Sources configured within the Pack."""
 
     is_disabled: Annotated[Optional[bool], pydantic.Field(alias="isDisabled")] = None
+    r"""If <code>true</code>, the Pack is disabled. Otherwise, <code>false</code>."""
 
     min_log_stream_version: Annotated[
         Optional[str], pydantic.Field(alias="minLogStreamVersion")
     ] = None
+    r"""Minimum version of Cribl Stream required to run this Pack."""
 
     outputs: Optional[float] = None
+    r"""Number of Destinations configured within the Pack."""
 
     settings: Optional[Dict[str, Any]] = None
+    r"""Pack-specific settings object. Contents vary by Pack."""
 
     spec: Optional[str] = None
+    r"""Semver range constraint that was applied when the Pack was installed."""
 
     tags: Optional[TagsTypePackInstallInfo] = None
+    r"""Categorization tags for the Pack."""
 
     version: Optional[str] = None
+    r"""Version of the Pack, following semantic versioning."""
 
     warnings: Optional[List[str]] = None
 

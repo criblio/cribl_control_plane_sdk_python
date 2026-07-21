@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeSentinel
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -10,7 +10,7 @@ class LakeDatasetMetricsTypedDict(TypedDict):
     current_size_bytes: float
     r"""Total current logical size of the Dataset, in bytes."""
     metrics_date: str
-    r"""Timestamp (ISO 8601) when the metrics snapshot was generated."""
+    r"""Timestamp (in Unix time) when the metrics snapshot was generated, as a YYYY-MM-DD calendar date."""
 
 
 class LakeDatasetMetrics(BaseModel):
@@ -18,7 +18,7 @@ class LakeDatasetMetrics(BaseModel):
     r"""Total current logical size of the Dataset, in bytes."""
 
     metrics_date: Annotated[str, pydantic.Field(alias="metricsDate")]
-    r"""Timestamp (ISO 8601) when the metrics snapshot was generated."""
+    r"""Timestamp (in Unix time) when the metrics snapshot was generated, as a YYYY-MM-DD calendar date."""
 
 
 try:

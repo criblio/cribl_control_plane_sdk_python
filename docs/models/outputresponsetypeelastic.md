@@ -1,5 +1,7 @@
 # OutputResponseTypeElastic
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

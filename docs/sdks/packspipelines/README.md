@@ -1976,6 +1976,38 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createPipelinesByPack" method="post" path="/p/{pack}/pipelines" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.pipelines.create(pack="<value>", id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionMvPullID.MV_PULL,
+                "conf": {
+                    "array_path": "<value>",
+                    "relative_key_path": "<value>",
+                    "relative_value_path": "<value>",
+                },
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -5771,6 +5803,34 @@ with CriblControlPlane(
         "groups": {
 
         },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesByPackAndId" method="patch" path="/p/{pack}/pipelines/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.pipelines.update(id_param="<value>", pack="<value>", id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionGenStatsID.GEN_STATS,
+                "conf": {},
+            },
+        ],
     })
 
     # Handle response

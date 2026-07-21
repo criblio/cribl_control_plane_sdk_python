@@ -1969,6 +1969,34 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createPipelines" method="post" path="/pipelines" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.create(id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionCefID.CEF,
+                "conf": {},
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -5828,6 +5856,34 @@ with CriblControlPlane(
         "groups": {
 
         },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesById" method="patch" path="/pipelines/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                "conf": {},
+            },
+        ],
     })
 
     # Handle response

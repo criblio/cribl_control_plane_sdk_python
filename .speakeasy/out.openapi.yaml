@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.19.1-alpha.1784628830262-d0cc0691
+  version: 4.19.1-alpha.1784641738382-d73d2920
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -8717,7 +8717,8 @@ components:
           type: string
           enum:
             - aggregate_metrics
-          example: aggregate_metrics
+          examples:
+            - aggregate_metrics
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -8761,7 +8762,8 @@ components:
           type: string
           enum:
             - aggregation
-          example: aggregation
+          examples:
+            - aggregation
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -8805,7 +8807,8 @@ components:
           type: string
           enum:
             - auto_timestamp
-          example: auto_timestamp
+          examples:
+            - auto_timestamp
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -8845,7 +8848,8 @@ components:
           type: string
           enum:
             - cef
-          example: cef
+          examples:
+            - cef
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -8885,7 +8889,8 @@ components:
           type: string
           enum:
             - chain
-          example: chain
+          examples:
+            - chain
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -8928,7 +8933,8 @@ components:
           type: string
           enum:
             - clone
-          example: clone
+          examples:
+            - clone
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -8968,7 +8974,8 @@ components:
           type: string
           enum:
             - code
-          example: code
+          examples:
+            - code
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9008,7 +9015,8 @@ components:
           type: string
           enum:
             - comment
-          example: comment
+          examples:
+            - comment
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9048,7 +9056,8 @@ components:
           type: string
           enum:
             - distinct
-          example: distinct
+          examples:
+            - distinct
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9091,7 +9100,8 @@ components:
           type: string
           enum:
             - dns_lookup
-          example: dns_lookup
+          examples:
+            - dns_lookup
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9131,7 +9141,8 @@ components:
           type: string
           enum:
             - drop
-          example: drop
+          examples:
+            - drop
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9171,7 +9182,8 @@ components:
           type: string
           enum:
             - drop_dimensions
-          example: drop_dimensions
+          examples:
+            - drop_dimensions
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9215,7 +9227,8 @@ components:
           type: string
           enum:
             - dynamic_sampling
-          example: dynamic_sampling
+          examples:
+            - dynamic_sampling
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9259,7 +9272,8 @@ components:
           type: string
           enum:
             - eval
-          example: eval
+          examples:
+            - eval
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9299,7 +9313,8 @@ components:
           type: string
           enum:
             - event_breaker
-          example: event_breaker
+          examples:
+            - event_breaker
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9342,7 +9357,8 @@ components:
           type: string
           enum:
             - eventstats
-          example: eventstats
+          examples:
+            - eventstats
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9385,7 +9401,8 @@ components:
           type: string
           enum:
             - externaldata
-          example: externaldata
+          examples:
+            - externaldata
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9425,7 +9442,8 @@ components:
           type: string
           enum:
             - flatten
-          example: flatten
+          examples:
+            - flatten
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9465,7 +9483,8 @@ components:
           type: string
           enum:
             - foldkeys
-          example: foldkeys
+          examples:
+            - foldkeys
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9505,7 +9524,8 @@ components:
           type: string
           enum:
             - gen_stats
-          example: gen_stats
+          examples:
+            - gen_stats
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9545,7 +9565,8 @@ components:
           type: string
           enum:
             - geoip
-          example: geoip
+          examples:
+            - geoip
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9588,7 +9609,8 @@ components:
           type: string
           enum:
             - grok
-          example: grok
+          examples:
+            - grok
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9631,7 +9653,8 @@ components:
           type: string
           enum:
             - handlebars
-          example: handlebars
+          examples:
+            - handlebars
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9674,7 +9697,8 @@ components:
           type: string
           enum:
             - join
-          example: join
+          examples:
+            - join
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9717,7 +9741,8 @@ components:
           type: string
           enum:
             - json_unroll
-          example: json_unroll
+          examples:
+            - json_unroll
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9760,7 +9785,8 @@ components:
           type: string
           enum:
             - lake_export
-          example: lake_export
+          examples:
+            - lake_export
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9804,7 +9830,8 @@ components:
           type: string
           enum:
             - limit
-          example: limit
+          examples:
+            - limit
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9845,7 +9872,8 @@ components:
           type: string
           enum:
             - local_search_datatype_parser
-          example: local_search_datatype_parser
+          examples:
+            - local_search_datatype_parser
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9886,7 +9914,8 @@ components:
           type: string
           enum:
             - local_search_ruleset_runner
-          example: local_search_ruleset_runner
+          examples:
+            - local_search_ruleset_runner
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9927,7 +9956,8 @@ components:
           type: string
           enum:
             - local_search_schema_mapper
-          example: local_search_schema_mapper
+          examples:
+            - local_search_schema_mapper
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -9968,7 +9998,8 @@ components:
           type: string
           enum:
             - local_search_time_range_normalizer
-          example: local_search_time_range_normalizer
+          examples:
+            - local_search_time_range_normalizer
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10009,7 +10040,8 @@ components:
           type: string
           enum:
             - local_search_transformer
-          example: local_search_transformer
+          examples:
+            - local_search_transformer
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10049,7 +10081,8 @@ components:
           type: string
           enum:
             - lookup
-          example: lookup
+          examples:
+            - lookup
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10092,7 +10125,8 @@ components:
           type: string
           enum:
             - mask
-          example: mask
+          examples:
+            - mask
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10135,7 +10169,8 @@ components:
           type: string
           enum:
             - metrics_export
-          example: metrics_export
+          examples:
+            - metrics_export
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10179,7 +10214,8 @@ components:
           type: string
           enum:
             - mv_expand
-          example: mv_expand
+          examples:
+            - mv_expand
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10222,7 +10258,8 @@ components:
           type: string
           enum:
             - mv_pull
-          example: mv_pull
+          examples:
+            - mv_pull
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10267,7 +10304,8 @@ components:
           type: string
           enum:
             - notification_policies
-          example: notification_policies
+          examples:
+            - notification_policies
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10307,7 +10345,8 @@ components:
           type: string
           enum:
             - notifications
-          example: notifications
+          examples:
+            - notifications
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10352,7 +10391,8 @@ components:
           type: string
           enum:
             - notify
-          example: notify
+          examples:
+            - notify
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10401,7 +10441,8 @@ components:
           type: string
           enum:
             - numerify
-          example: numerify
+          examples:
+            - numerify
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10441,7 +10482,8 @@ components:
           type: string
           enum:
             - otlp_logs
-          example: otlp_logs
+          examples:
+            - otlp_logs
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10481,7 +10523,8 @@ components:
           type: string
           enum:
             - otlp_metrics
-          example: otlp_metrics
+          examples:
+            - otlp_metrics
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10521,7 +10564,8 @@ components:
           type: string
           enum:
             - otlp_traces
-          example: otlp_traces
+          examples:
+            - otlp_traces
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10561,7 +10605,8 @@ components:
           type: string
           enum:
             - pack
-          example: pack
+          examples:
+            - pack
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10604,7 +10649,8 @@ components:
           type: string
           enum:
             - pivot
-          example: pivot
+          examples:
+            - pivot
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10649,7 +10695,8 @@ components:
           type: string
           enum:
             - publish_metrics
-          example: publish_metrics
+          examples:
+            - publish_metrics
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10689,7 +10736,8 @@ components:
           type: string
           enum:
             - redis
-          example: redis
+          examples:
+            - redis
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10732,7 +10780,8 @@ components:
           type: string
           enum:
             - regex_extract
-          example: regex_extract
+          examples:
+            - regex_extract
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10775,7 +10824,8 @@ components:
           type: string
           enum:
             - regex_filter
-          example: regex_filter
+          examples:
+            - regex_filter
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10815,7 +10865,8 @@ components:
           type: string
           enum:
             - rename
-          example: rename
+          examples:
+            - rename
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10855,7 +10906,8 @@ components:
           type: string
           enum:
             - rollup_metrics
-          example: rollup_metrics
+          examples:
+            - rollup_metrics
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10895,7 +10947,8 @@ components:
           type: string
           enum:
             - sampling
-          example: sampling
+          examples:
+            - sampling
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10935,7 +10988,8 @@ components:
           type: string
           enum:
             - search_engine_export
-          example: search_engine_export
+          examples:
+            - search_engine_export
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -10979,7 +11033,8 @@ components:
           type: string
           enum:
             - send
-          example: send
+          examples:
+            - send
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11023,7 +11078,8 @@ components:
           type: string
           enum:
             - sensitive_data_scanner
-          example: sensitive_data_scanner
+          examples:
+            - sensitive_data_scanner
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11066,7 +11122,8 @@ components:
           type: string
           enum:
             - serde
-          example: serde
+          examples:
+            - serde
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11110,7 +11167,8 @@ components:
           type: string
           enum:
             - serialize
-          example: serialize
+          examples:
+            - serialize
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11153,7 +11211,8 @@ components:
           type: string
           enum:
             - sidlookup
-          example: sidlookup
+          examples:
+            - sidlookup
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11193,7 +11252,8 @@ components:
           type: string
           enum:
             - signal_filter
-          example: signal_filter
+          examples:
+            - signal_filter
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11233,7 +11293,8 @@ components:
           type: string
           enum:
             - snmp_trap_serialize
-          example: snmp_trap_serialize
+          examples:
+            - snmp_trap_serialize
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11273,7 +11334,8 @@ components:
           type: string
           enum:
             - sort
-          example: sort
+          examples:
+            - sort
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11316,7 +11378,8 @@ components:
           type: string
           enum:
             - store
-          example: store
+          examples:
+            - store
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11359,7 +11422,8 @@ components:
           type: string
           enum:
             - suppress
-          example: suppress
+          examples:
+            - suppress
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11404,7 +11468,8 @@ components:
           type: string
           enum:
             - tee
-          example: tee
+          examples:
+            - tee
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11447,7 +11512,8 @@ components:
           type: string
           enum:
             - trim_timestamp
-          example: trim_timestamp
+          examples:
+            - trim_timestamp
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11487,7 +11553,8 @@ components:
           type: string
           enum:
             - union
-          example: union
+          examples:
+            - union
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11531,7 +11598,8 @@ components:
           type: string
           enum:
             - unroll
-          example: unroll
+          examples:
+            - unroll
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11575,7 +11643,8 @@ components:
           type: string
           enum:
             - window
-          example: window
+          examples:
+            - window
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -11619,7 +11688,8 @@ components:
           type: string
           enum:
             - xml_unroll
-          example: xml_unroll
+          examples:
+            - xml_unroll
         description:
           title: Description
           description: Brief description of the Pipeline function.
@@ -16034,7 +16104,8 @@ components:
         type:
           $ref: "#/components/schemas/RbacResource"
           description: Resource type that the access control policy applies to.
-          example: projects
+          examples:
+            - projects
       required:
         - gid
         - policy
@@ -16120,74 +16191,85 @@ components:
           $ref: "#/components/schemas/DatabaseConnectionAuthType"
           description: Authentication method for the Database Connection. Determines how
             credentials are provided.
-          example: connectionString
+          examples:
+            - connectionString
         configObj:
           type: string
           description: JSON configuration object for advanced SQL Server connection
             settings.
-          example:
-            server: sqlserver.example.com
-            database: Reporting
-            user: yourUsername
-            password: yourPassword
-            options:
-              trustServerCertificate: false
-              connectTimeout: 20000
+          examples:
+            - server: sqlserver.example.com
+              database: Reporting
+              user: yourUsername
+              password: yourPassword
+              options:
+                connectTimeout: 20000
         connectionString:
           type: string
           description: Database connection string with embedded credentials or server
             information.
-          example: mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true
+          examples:
+            - mysql://yourUsername:yourPassword@mysql.example.com:3306/production?ssl=true
         connectionTimeout:
           type: integer
           description: Maximum time (in milliseconds) to wait when establishing the
             database connection.
+          examples:
+            - 10000
           minimum: 1000
           maximum: 60000
-          example: 10000
         credsSecrets:
           type: string
           description: Name of the stored credentials secret containing username and
             password. Used with Oracle connections.
-          example: oracle-production-credentials
+          examples:
+            - oracle-production-credentials
         databaseType:
           $ref: "#/components/schemas/DatabaseConnectionType"
           description: Type of database engine for the connection.
-          example: mysql
+          examples:
+            - mysql
         description:
           type: string
           description: Brief description of the Database Connection.
-          example: Production MySQL database for customer data
+          examples:
+            - Production MySQL database for customer data
         id:
           type: string
           description: Unique identifier for the Database Connection.
+          examples:
+            - mysql-prod-db
           pattern: ^[a-zA-Z0-9_\\-]+$
-          example: mysql-prod-db
         password:
           type: string
           description: Database password for authentication. Used with Oracle connections.
-          example: yourPassword
+          examples:
+            - yourPassword
         requestTimeout:
           type: integer
           description: Maximum time (in milliseconds) to wait for a database query to
             complete. Applies to SQL Server connections only.
+          examples:
+            - 30000
           minimum: 1000
-          example: 30000
         tags:
           type: string
           description: Comma-separated list of tags for categorizing and filtering
             Database Connections.
-          example: production,mysql,customer-data
+          examples:
+            - production,mysql,customer-data
         textSecret:
           type: string
           description: Name of the stored text secret containing the connection string.
-          example: mysql-production-connection
+          examples:
+            - mysql-production-connection
         tls:
           $ref: "#/components/schemas/TLSClientParams"
         user:
           type: string
           description: Database username for authentication. Used with Oracle connections.
-          example: yourUsername
+          examples:
+            - yourUsername
       required:
         - authType
         - databaseType
@@ -16199,8 +16281,9 @@ components:
         count:
           type: integer
           description: Number of Database Connections returned in the response envelope.
+          examples:
+            - 1
           minimum: 0
-          example: 1
         items:
           type: array
           items:
@@ -60298,7 +60381,8 @@ components:
       maxProperties: 0
       additionalProperties: false
       description: An object that must not contain any properties.
-      example: {}
+      examples:
+        - {}
       title: EmptyObject
     CountedCriblLakeDataset:
       type: object
@@ -60389,7 +60473,8 @@ components:
         earliest:
           type: string
           description: Rolling time window that defines how far back acceleration scans.
-          example: -30d
+          examples:
+            - -30d
         enableAcceleration:
           type: boolean
           description: If <code>true</code>, the system automatically backfills and
@@ -61341,13 +61426,15 @@ components:
       type: string
       description: Filter expression to evaluate against Nodes for inclusion in the
         response.
-      example: group=="default"
+      examples:
+        - group=="default"
     WorkerFilterJson:
       type: string
       description: JSON-stringified filter object to evaluate against Nodes for
         inclusion in the response.
-      example: "%7B%22field%22%3A%22group%22%2C%22op%22%3A%22is%22%2C%22value%22%3A%2\
-        2default%22%7D"
+      examples:
+        - "%7B%22field%22%3A%22group%22%2C%22op%22%3A%22is%22%2C%22value%22%3A%\
+          22default%22%7D"
     PaginatedMasterWorkerEntry:
       type: object
       required:
@@ -61526,7 +61613,8 @@ components:
           type: string
           const: active
           description: Current overlay state.
-          example: active
+          examples:
+            - active
       required:
         - state
       title: ActiveHealthOverlayStatus
@@ -61537,7 +61625,8 @@ components:
           type: string
           const: inactive
           description: Current overlay state.
-          example: inactive
+          examples:
+            - inactive
       required:
         - state
       title: NoActiveHealthOverlayStatus
@@ -61606,9 +61695,9 @@ components:
           items:
             type: string
           description: List of domain tags for the Pack.
-          example:
-            - security
-            - observability
+          examples:
+            - - security
+              - observability
         streamtags:
           type: array
           items:
@@ -61619,9 +61708,9 @@ components:
           items:
             type: string
           description: List of technology tags for the Pack.
-          example:
-            - aws
-            - splunk
+          examples:
+            - - aws
+              - splunk
       description: Categorization tags for the Pack.
     InstallWarnings:
       type: array
@@ -61686,7 +61775,8 @@ components:
         version:
           type: string
           description: Version of the Pack, following semantic versioning.
-          example: 1.0.0
+          examples:
+            - 1.0.0
         warnings:
           $ref: "#/components/schemas/InstallWarnings"
           description: List of warning messages generated during Pack installation, if any.
@@ -61706,7 +61796,8 @@ components:
         version:
           type: string
           description: Version of the Pack, following semantic versioning.
-          example: 1.0.0
+          examples:
+            - 1.0.0
         minLogStreamVersion:
           type: string
           description: Minimum version of Cribl Stream required to run this Pack.
@@ -61739,17 +61830,17 @@ components:
               items:
                 type: string
               description: List of domain tags for the Pack.
-              example:
-                - security
-                - observability
+              examples:
+                - - security
+                  - observability
             technology:
               type: array
               items:
                 type: string
               description: List of technology tags for the Pack.
-              example:
-                - aws
-                - splunk
+              examples:
+                - - aws
+                  - splunk
             streamtags:
               type: array
               items:
@@ -61868,7 +61959,8 @@ components:
         version:
           type: string
           description: Version of the Pack, following semantic versioning.
-          example: 1.0.0
+          examples:
+            - 1.0.0
       required:
         - id
         - source
@@ -62077,7 +62169,8 @@ components:
                 header:
                   type: string
                   description: Unified diff hunk header.
-                  example: "@@ -1,5 +1,8 @@"
+                  examples:
+                    - "@@ -1,5 +1,8 @@"
                 lines:
                   $ref: "#/components/schemas/GitDiffLines"
                   description: Array of lines in this diff hunk.
@@ -62162,7 +62255,8 @@ components:
           newMode:
             type: string
             description: File mode of the new file.
-            example: "100644"
+            examples:
+              - "100644"
           newName:
             type: string
             description: New file path after the change.
@@ -62173,7 +62267,8 @@ components:
                 items:
                   type: string
             description: File mode of the original file. May be an array for combined diffs.
-            example: "100644"
+            examples:
+              - "100644"
           oldName:
             type: string
             description: Original file path before the change.
@@ -65054,6 +65149,8 @@ components:
         - 13312
         - 15360
       description: Estimated ingest rate for a Cribl.Cloud Worker Group, in GB/sec.
+      examples:
+        - 4096
       x-speakeasy-enum-descriptions:
         - 12 MB/sec
         - 24 MB/sec
@@ -65075,7 +65172,6 @@ components:
         - Rate156MBPerSec
         - Rate180MBPerSec
       x-speakeasy-unknown-values: allow
-      example: 4096
     TypeOptionsConfigGroup:
       type: string
       enum:
@@ -75157,9 +75253,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "429":
           description: Rate limit exceeded (check Retry-After header).
           headers:
@@ -75168,7 +75266,8 @@ paths:
                 request
               schema:
                 type: integer
-                example: 60
+                examples:
+                  - 60
         "500":
           description: Unexpected server error.
           content:
@@ -75210,9 +75309,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -75282,9 +75383,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -75375,9 +75478,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -75459,9 +75564,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -75534,9 +75641,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: The requested resource does not exist — Database Connection not
             found.
@@ -75608,9 +75717,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: Database Connection not found.
           content:
@@ -75701,9 +75812,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: Database Connection not found.
           content:
@@ -75759,9 +75872,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -75828,9 +75943,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -75892,9 +76009,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -75942,9 +76061,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -76012,9 +76133,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -76058,9 +76181,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -76131,9 +76256,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -76265,9 +76392,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -76326,9 +76455,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -76465,9 +76596,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -76517,9 +76650,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -76563,9 +76698,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: Routing table not found. The specified <code>id</code> does not
             match any stored Routing table.
@@ -76629,9 +76766,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: Routing table not found. The specified <code>id</code> does not
             match any stored Routing table.
@@ -76705,9 +76844,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: Routing table not found. The specified <code>id</code> does not
             match any stored Routing table.
@@ -76781,9 +76922,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -77017,9 +77160,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "409":
           description: Request conflicts with current resource state — source with the
             same ID already exists.
@@ -77070,9 +77215,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: The requested resource does not exist — Source not found.
         "500":
@@ -77288,9 +77435,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -77343,9 +77492,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -77398,9 +77549,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -77464,9 +77617,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -77535,9 +77690,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -77586,9 +77743,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -77643,9 +77802,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -77902,9 +78063,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "409":
           description: Request conflicts with current resource state — Destination with
             the specified ID already exists.
@@ -77956,9 +78119,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: The requested resource does not exist.
         "500":
@@ -78194,9 +78359,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: The requested resource does not exist — Destination not found.
         "500":
@@ -78252,9 +78419,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: The requested resource does not exist — Destination not found.
         "409":
@@ -78308,9 +78477,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78356,9 +78527,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78410,9 +78583,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78465,9 +78640,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78533,9 +78710,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78621,9 +78800,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78692,9 +78873,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78780,9 +78963,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78853,9 +79038,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78907,9 +79094,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78980,9 +79169,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -78996,6 +79187,7 @@ paths:
             schema:
               type: string
               format: binary
+              contentMediaType: application/octet-stream
               description: Pack file upload
       parameters:
         - name: filename
@@ -79034,9 +79226,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79085,9 +79279,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79139,9 +79335,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79186,9 +79384,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79253,9 +79453,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79380,9 +79582,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79425,9 +79629,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79479,9 +79685,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79612,9 +79820,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79693,9 +79903,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "409":
           description: Request conflicts with current resource state — duplicate group ID
             or duplicate group name.
@@ -79757,9 +79969,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: Worker Group, Outpost Group, or Edge Fleet not found.
         "500":
@@ -79835,9 +80049,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79898,9 +80114,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -79949,9 +80167,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80008,9 +80228,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80069,9 +80291,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80122,9 +80346,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80192,9 +80418,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -80268,9 +80496,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -80326,9 +80556,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -80428,9 +80660,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -80488,9 +80722,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "403":
           description: Not authorized or licensed to perform this action.
         "500":
@@ -80542,9 +80778,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80664,9 +80902,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80719,9 +80959,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80775,9 +81017,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80835,9 +81079,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80888,9 +81134,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -80927,9 +81175,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: Routing table not found. The specified <code>id</code> does not
             match any stored Routing table.
@@ -80986,9 +81236,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: Routing table not found. The specified <code>id</code> does not
             match any stored Routing table.
@@ -81055,9 +81307,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: Routing table not found. The specified <code>id</code> does not
             match any stored Routing table.
@@ -81124,9 +81378,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -81183,9 +81439,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -81413,9 +81671,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "409":
           description: Request conflicts with current resource state — source with the
             same ID already exists.
@@ -81459,9 +81719,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: The requested resource does not exist — Source not found.
         "500":
@@ -81670,9 +81932,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -81719,9 +81983,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -81767,9 +82033,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -81827,9 +82095,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -81892,9 +82162,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -81936,9 +82208,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -81987,9 +82261,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -82240,9 +82516,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "409":
           description: Request conflicts with current resource state — Destination with
             the specified ID already exists.
@@ -82287,9 +82565,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: The requested resource does not exist.
         "500":
@@ -82519,9 +82799,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: The requested resource does not exist — Destination not found.
         "500":
@@ -82571,9 +82853,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "404":
           description: The requested resource does not exist — Destination not found.
         "409":
@@ -82620,9 +82904,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -82662,9 +82948,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -82710,9 +82998,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -82759,9 +83049,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -82815,9 +83107,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -82862,9 +83156,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "403":
           description: Not authorized to perform this action, or the requested change is
             not permitted in this deployment.
@@ -82919,9 +83215,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "403":
           description: Restart from the API is disabled. Set <code>system.restart</code>
             to <code>api</code> in <code>cribl.yml</code> to enable it.
@@ -82965,9 +83263,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83046,9 +83346,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83110,9 +83412,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83191,9 +83495,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83251,9 +83557,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83323,9 +83631,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83374,9 +83684,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83424,9 +83736,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83470,9 +83784,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83507,9 +83823,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83566,9 +83884,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83611,9 +83931,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83651,9 +83973,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83691,9 +84015,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83741,9 +84067,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83802,9 +84130,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:
@@ -83844,9 +84174,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-              example:
-                status: error
-                message: Authentication failed (missing or invalid credentials or Bearer token).
+              examples:
+                authenticationFailed:
+                  value:
+                    status: error
+                    message: Authentication failed (missing or invalid credentials or Bearer token).
         "500":
           description: Unexpected server error.
           content:

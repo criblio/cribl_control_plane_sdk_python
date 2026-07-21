@@ -2295,6 +2295,35 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "<id>",
+        "type": models.CreateInputSystemByPackTypeWinEventLogs.WIN_EVENT_LOGS,
+        "log_names": [
+            "<value 1>",
+            "<value 2>",
+            "<value 3>",
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -6621,6 +6650,31 @@ with CriblControlPlane(
         "host": "0.0.0.0",
         "port": 8088,
         "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "type": models.InputOffice365ServiceType.OFFICE365_SERVICE,
+        "tenant_id": "<id>",
+        "app_id": "<id>",
     })
 
     # Handle response

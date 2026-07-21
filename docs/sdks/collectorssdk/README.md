@@ -346,6 +346,42 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorAzureBlob(
+            type=models.CollectorAzureBlobType.AZURE_BLOB,
+            conf=models.AzureBlobAuthTypeClientCert(
+                auth_type=models.AzureBlobAuthTypeClientCertAuthenticationMethod.CLIENT_CERT,
+                storage_account_name="<value>",
+                tenant_id="<id>",
+                client_id="<id>",
+                certificate=models.CertificateTypeAzureBlobAuthTypeClientCert(
+                    certificate_name="<value>",
+                ),
+                container_name="<value>",
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -934,6 +970,40 @@ with CriblControlPlane(
 ### Example Usage: UpdateCollectorExamplesSplunk
 
 <!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesSplunk" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="authenticationFailed" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

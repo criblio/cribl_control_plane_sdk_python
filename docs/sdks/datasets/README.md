@@ -162,6 +162,37 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createCriblLakeDatasetByLakeId" method="post" path="/products/lake/lakes/{lakeId}/datasets" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.lakes.datasets.create(lake_id="<id>", id="<id>", search_config={
+        "metadata": {
+            "earliest": "-30d",
+            "enable_acceleration": False,
+            "field_list": [
+                "<value 1>",
+                "<value 2>",
+            ],
+            "scan_mode": models.ScanMode.DETAILED,
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -298,6 +329,37 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.lakes.datasets.update(lake_id="<id>", id_param="<value>", retention_period_in_days=180, search_config={
+        "metadata": {
+            "earliest": "-30d",
+            "enable_acceleration": False,
+            "field_list": [
+                "<value 1>",
+                "<value 2>",
+            ],
+            "scan_mode": models.ScanMode.QUICK,
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateCriblLakeDatasetByLakeIdAndId" method="patch" path="/products/lake/lakes/{lakeId}/datasets/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.lakes.datasets.update(lake_id="<id>", id_param="<value>", search_config={
         "metadata": {
             "earliest": "-30d",
             "enable_acceleration": False,

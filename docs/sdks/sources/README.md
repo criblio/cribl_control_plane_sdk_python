@@ -2294,6 +2294,32 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.create(request={
+        "id": "<id>",
+        "type": models.CreateInputTypeWizWebhook.WIZ_WEBHOOK,
+        "host": "amused-glider.biz",
+        "port": 7905.42,
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -6623,6 +6649,31 @@ with CriblControlPlane(
         "host": "0.0.0.0",
         "port": 8088,
         "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.update(id="<id>", input_={
+        "type": models.InputHTTPRawType.HTTP_RAW,
+        "host": "focused-invite.org",
+        "port": 4085.76,
     })
 
     # Handle response

@@ -12,7 +12,7 @@ This endpoint is unavailable on Cribl.Cloud. Instead, follow the instructions at
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="createAuthLogin" method="post" path="/auth/login" -->
+<!-- UsageSnippet language="python" operationID="createAuthLogin" method="post" path="/auth/login" example="authenticationFailed" -->
 ```python
 from cribl_control_plane import CriblControlPlane
 

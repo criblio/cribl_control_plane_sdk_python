@@ -11,9 +11,9 @@
 
 List status information and optional metrics for all configured Sources in the Worker Group or Edge Fleet within the specified Pack.
 
-### Example Usage
+### Example Usage: InputStatusResponseExamplesGreenSource
 
-<!-- UsageSnippet language="python" operationID="getInputStatusSystemInputsByPack" method="get" path="/p/{pack}/system/status/inputs" -->
+<!-- UsageSnippet language="python" operationID="getInputStatusSystemInputsByPack" method="get" path="/p/{pack}/system/status/inputs" example="InputStatusResponseExamplesGreenSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -26,7 +26,30 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.statuses.list(pack="<value>", metrics=True, type_=False)
+    res = ccp_client.packs.sources.statuses.list(pack="<value>")
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: InputStatusResponseExamplesYellowSource
+
+<!-- UsageSnippet language="python" operationID="getInputStatusSystemInputsByPack" method="get" path="/p/{pack}/system/status/inputs" example="InputStatusResponseExamplesYellowSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.statuses.list(pack="<value>")
 
     while res is not None:
         # Handle items
@@ -54,6 +77,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -61,9 +85,9 @@ with CriblControlPlane(
 
 Get the status and optional metrics for the specified Source within the specified Pack.
 
-### Example Usage
+### Example Usage: InputStatusResponseExamplesGreenSource
 
-<!-- UsageSnippet language="python" operationID="getInputStatusSystemInputsByPackAndId" method="get" path="/p/{pack}/system/status/inputs/{id}" -->
+<!-- UsageSnippet language="python" operationID="getInputStatusSystemInputsByPackAndId" method="get" path="/p/{pack}/system/status/inputs/{id}" example="InputStatusResponseExamplesGreenSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -76,7 +100,28 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.packs.sources.statuses.get(id="<id>", pack="<value>", metrics=True, type_=True)
+    res = ccp_client.packs.sources.statuses.get(id="<id>", pack="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputStatusResponseExamplesYellowSource
+
+<!-- UsageSnippet language="python" operationID="getInputStatusSystemInputsByPackAndId" method="get" path="/p/{pack}/system/status/inputs/{id}" example="InputStatusResponseExamplesYellowSource" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.statuses.get(id="<id>", pack="<value>")
 
     # Handle response
     print(res)
@@ -101,5 +146,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

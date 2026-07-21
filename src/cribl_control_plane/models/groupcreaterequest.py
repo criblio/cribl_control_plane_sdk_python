@@ -13,9 +13,13 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GroupCreateRequestTypedDict(TypedDict):
+    r"""Request body for creating a new Worker Group, Outpost Group, or Edge Fleet. Do not include automatically populated fields."""
+
     id: str
     r"""Unique identifier."""
     cloud: NotRequired[ConfigGroupCloudTypedDict]
+    collectors_ha_enabled: NotRequired[bool]
+    r"""Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups."""
     description: NotRequired[str]
     r"""Brief description of the Worker Group, Outpost Group, or Edge Fleet."""
     estimated_ingest_rate: NotRequired[EstimatedIngestRateOptionsConfigGroup]
@@ -49,10 +53,17 @@ class GroupCreateRequestTypedDict(TypedDict):
 
 
 class GroupCreateRequest(BaseModel):
+    r"""Request body for creating a new Worker Group, Outpost Group, or Edge Fleet. Do not include automatically populated fields."""
+
     id: str
     r"""Unique identifier."""
 
     cloud: Optional[ConfigGroupCloud] = None
+
+    collectors_ha_enabled: Annotated[
+        Optional[bool], pydantic.Field(alias="collectorsHaEnabled")
+    ] = None
+    r"""Keeps Collector jobs running if the Leader Node fails. Applies only to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups. to Stream Worker Groups. Always <code>true</code> for Cribl.Cloud groups; defaults to <code>false</code> for on-prem groups."""
 
     description: Optional[str] = None
     r"""Brief description of the Worker Group, Outpost Group, or Edge Fleet."""
@@ -150,6 +161,7 @@ class GroupCreateRequest(BaseModel):
         optional_fields = set(
             [
                 "cloud",
+                "collectorsHaEnabled",
                 "description",
                 "estimatedIngestRate",
                 "inherits",

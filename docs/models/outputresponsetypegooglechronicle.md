@@ -1,5 +1,7 @@
 # OutputResponseTypeGoogleChronicle
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

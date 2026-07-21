@@ -10,6 +10,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputRouterType(str, Enum):
+    r"""Connector type identifier."""
+
     ROUTER = "router"
 
 
@@ -56,6 +58,7 @@ class OutputRouterRule(BaseModel):
 
 class OutputRouterTypedDict(TypedDict):
     type: OutputRouterType
+    r"""Connector type identifier."""
     rules: List[OutputRouterRuleTypedDict]
     r"""Event routing rules"""
     id: NotRequired[str]
@@ -67,14 +70,16 @@ class OutputRouterTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class OutputRouter(BaseModel):
     type: OutputRouterType
+    r"""Connector type identifier."""
 
     rules: List[OutputRouterRule]
     r"""Event routing rules"""
@@ -94,9 +99,10 @@ class OutputRouter(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

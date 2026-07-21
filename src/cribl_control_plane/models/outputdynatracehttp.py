@@ -29,10 +29,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputDynatraceHTTPType(str, Enum):
+    r"""Connector type identifier."""
+
     DYNATRACE_HTTP = "dynatrace_http"
 
 
 class OutputDynatraceHTTPAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication type"""
+
     # Auth token
     TOKEN = "token"
     # Token (text secret)
@@ -49,6 +53,8 @@ class OutputDynatraceHTTPFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputDynatraceHTTPEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Endpoint"""
+
     # Cloud
     CLOUD = "cloud"
     # ActiveGate
@@ -58,6 +64,8 @@ class OutputDynatraceHTTPEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputDynatraceHTTPTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Telemetry type"""
+
     # Logs
     LOGS = "logs"
     # Metrics
@@ -65,19 +73,22 @@ class OutputDynatraceHTTPTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputDynatraceHTTPPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputDynatraceHTTPPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputDynatraceHTTPTypedDict(TypedDict):
     type: OutputDynatraceHTTPType
+    r"""Connector type identifier."""
     format_: OutputDynatraceHTTPFormat
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
     endpoint: OutputDynatraceHTTPEndpoint
+    r"""Endpoint"""
     telemetry_type: OutputDynatraceHTTPTelemetryType
+    r"""Telemetry type"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -87,7 +98,7 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     method: NotRequired[MethodOptions]
     r"""The method to use when sending events"""
     keep_alive: NotRequired[bool]
@@ -127,9 +138,11 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     auth_type: NotRequired[OutputDynatraceHTTPAuthenticationType]
+    r"""Authentication type"""
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -151,8 +164,9 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     pq_on_backpressure: NotRequired[QueueFullBehaviorOptions]
     r"""How to handle events when the queue is exerting backpressure (full capacity or low disk). 'Block' is the same behavior as non-PQ blocking. 'Drop new data' throws away incoming data, while leaving the contents of the PQ unchanged."""
     pq_max_buffer_size_bytes: NotRequired[str]
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputDynatraceHTTPPqControlsTypedDict]
+    r"""Persistent queue controls."""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     text_secret: NotRequired[str]
@@ -175,15 +189,18 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
 
 class OutputDynatraceHTTP(BaseModel):
     type: OutputDynatraceHTTPType
+    r"""Connector type identifier."""
 
     format_: Annotated[OutputDynatraceHTTPFormat, pydantic.Field(alias="format")]
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
 
     endpoint: OutputDynatraceHTTPEndpoint
+    r"""Endpoint"""
 
     telemetry_type: Annotated[
         OutputDynatraceHTTPTelemetryType, pydantic.Field(alias="telemetryType")
     ]
+    r"""Telemetry type"""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -200,7 +217,7 @@ class OutputDynatraceHTTP(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     method: Optional[MethodOptions] = None
     r"""The method to use when sending events"""
@@ -286,6 +303,7 @@ class OutputDynatraceHTTP(BaseModel):
         Optional[OutputDynatraceHTTPAuthenticationType],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication type"""
 
     total_memory_limit_kb: Annotated[
         Optional[float], pydantic.Field(alias="totalMemoryLimitKB")
@@ -293,6 +311,7 @@ class OutputDynatraceHTTP(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -341,11 +360,12 @@ class OutputDynatraceHTTP(BaseModel):
     pq_max_buffer_size_bytes: Annotated[
         Optional[str], pydantic.Field(alias="pqMaxBufferSizeBytes")
     ] = None
-    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 1MB."""
+    r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
 
     pq_controls: Annotated[
         Optional[OutputDynatraceHTTPPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""

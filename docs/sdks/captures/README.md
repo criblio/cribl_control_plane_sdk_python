@@ -125,6 +125,29 @@ with CriblControlPlane(
             print(event, flush=True)
 
 ```
+### Example Usage: CaptureNdjsonResponseExamplesCapturedEvent
+
+<!-- UsageSnippet language="python" operationID="createSystemCapture" method="post" path="/system/capture" example="CaptureNdjsonResponseExamplesCapturedEvent" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.system.captures.create()
+
+    with res as jsonl_stream:
+        for event in jsonl_stream:
+            # handle event
+            print(event, flush=True)
+
+```
 
 ### Parameters
 
@@ -147,5 +170,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

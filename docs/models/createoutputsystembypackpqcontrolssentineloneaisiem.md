@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsSentinelOneAiSiem
 
+Persistent queue controls.
+
 
 ## Fields
 

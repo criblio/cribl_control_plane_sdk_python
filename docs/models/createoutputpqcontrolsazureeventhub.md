@@ -1,5 +1,7 @@
 # CreateOutputPqControlsAzureEventhub
 
+Persistent queue controls.
+
 
 ## Fields
 

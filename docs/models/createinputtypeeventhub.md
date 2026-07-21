@@ -1,5 +1,7 @@
 # CreateInputTypeEventhub
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

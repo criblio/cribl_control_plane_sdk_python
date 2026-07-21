@@ -1,6 +1,6 @@
 # PipelineFunctionXMLUnrollID
 
-Function ID
+Identifier of the Function. Always <code>xml_unroll</code>
 
 ## Example Usage
 

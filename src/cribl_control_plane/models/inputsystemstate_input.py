@@ -23,6 +23,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputSystemStateType(str, Enum):
+    r"""Connector type identifier."""
+
     SYSTEM_STATE = "system_state"
 
 
@@ -30,12 +32,14 @@ class InputSystemStateHostsFileTypedDict(TypedDict):
     r"""Creates events based on entries collected from the hosts file"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateHostsFile(BaseModel):
     r"""Creates events based on entries collected from the hosts file"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -58,12 +62,14 @@ class InputSystemStateInterfacesTypedDict(TypedDict):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateInterfaces(BaseModel):
     r"""Creates events for each of the host’s network interfaces"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -86,12 +92,14 @@ class InputSystemStateDisksAndFileSystemsTypedDict(TypedDict):
     r"""Creates events for physical disks, partitions, and file systems"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateDisksAndFileSystems(BaseModel):
     r"""Creates events for physical disks, partitions, and file systems"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -114,12 +122,14 @@ class InputSystemStateHostInfoTypedDict(TypedDict):
     r"""Creates events based on the host system’s current state"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateHostInfo(BaseModel):
     r"""Creates events based on the host system’s current state"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -142,12 +152,14 @@ class InputSystemStateRoutesTypedDict(TypedDict):
     r"""Creates events based on entries collected from the host’s network routes"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateRoutes(BaseModel):
     r"""Creates events based on entries collected from the host’s network routes"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -170,12 +182,14 @@ class InputSystemStateDNSTypedDict(TypedDict):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateDNS(BaseModel):
     r"""Creates events for DNS resolvers and search entries"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -198,12 +212,14 @@ class InputSystemStateUsersAndGroupsTypedDict(TypedDict):
     r"""Creates events for local users and groups"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateUsersAndGroups(BaseModel):
     r"""Creates events for local users and groups"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -226,12 +242,14 @@ class InputSystemStateFirewallTypedDict(TypedDict):
     r"""Creates events for Firewall rules entries"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateFirewall(BaseModel):
     r"""Creates events for Firewall rules entries"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -254,12 +272,14 @@ class InputSystemStateServicesTypedDict(TypedDict):
     r"""Creates events from the list of services"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateServices(BaseModel):
     r"""Creates events from the list of services"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -282,12 +302,14 @@ class InputSystemStateListeningPortsTypedDict(TypedDict):
     r"""Creates events from list of listening ports"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateListeningPorts(BaseModel):
     r"""Creates events from list of listening ports"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -310,12 +332,14 @@ class InputSystemStateLoggedInUsersTypedDict(TypedDict):
     r"""Creates events from list of logged-in users"""
 
     enable: NotRequired[bool]
+    r"""Enabled"""
 
 
 class InputSystemStateLoggedInUsers(BaseModel):
     r"""Creates events from list of logged-in users"""
 
     enable: Optional[bool] = None
+    r"""Enabled"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -436,6 +460,7 @@ class InputSystemStatePersistenceTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
 
@@ -454,6 +479,7 @@ class InputSystemStatePersistence(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
@@ -495,9 +521,11 @@ class InputSystemStatePersistence(BaseModel):
 
 class InputSystemStateInputTypedDict(TypedDict):
     type: InputSystemStateType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -507,7 +535,7 @@ class InputSystemStateInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -522,6 +550,7 @@ class InputSystemStateInputTypedDict(TypedDict):
     disable_native_last_log_module: NotRequired[bool]
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -530,11 +559,13 @@ class InputSystemStateInputTypedDict(TypedDict):
 
 class InputSystemStateInput(BaseModel):
     type: InputSystemStateType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -551,7 +582,7 @@ class InputSystemStateInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -579,6 +610,7 @@ class InputSystemStateInput(BaseModel):
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")

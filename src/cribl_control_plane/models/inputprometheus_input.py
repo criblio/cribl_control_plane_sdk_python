@@ -16,10 +16,15 @@ from .metadataconfinputcollection import (
 )
 from .pqtype import PqType, PqTypeTypedDict
 from .recordtypeoptions import RecordTypeOptions
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .searchfilterconfinputprometheus import (
     SearchFilterConfInputPrometheus,
     SearchFilterConfInputPrometheusTypedDict,
 )
+from .typeoptionsprometheus import TypeOptionsPrometheus
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
@@ -27,10 +32,6 @@ import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
-
-
-class InputPrometheusType(str, Enum):
-    PROMETHEUS = "prometheus"
 
 
 class InputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -42,6 +43,8 @@ class InputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
     DNS = "dns"
     # AWS EC2
     EC2 = "ec2"
+    # HTTP SD
+    HTTP_SD = "http_sd"
 
 
 class InputPrometheusMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -52,7 +55,8 @@ class InputPrometheusMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputPrometheusInputTypedDict(TypedDict):
-    type: InputPrometheusType
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
     log_level: LogLevelOptions
@@ -60,6 +64,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -69,7 +74,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -98,6 +103,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsSasl]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     target_list: NotRequired[List[str]]
     r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
     record_type: NotRequired[RecordTypeOptions]
@@ -113,6 +119,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -120,6 +127,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -134,6 +142,16 @@ class InputPrometheusInputTypedDict(TypedDict):
     r"""External ID to use when assuming role"""
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+    http_discovery_url: NotRequired[str]
+    r"""URL to fetch target groups from (must be http or https)"""
+    http_discovery_headers: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
+    ]
+    r"""Extra headers to send with the discovery request"""
+    http_discovery_reject_unauthorized: NotRequired[bool]
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+    max_response_body_size: NotRequired[str]
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
     username: NotRequired[str]
     r"""Username for Prometheus Basic authentication"""
     password: NotRequired[str]
@@ -173,7 +191,8 @@ class InputPrometheusInputTypedDict(TypedDict):
 
 
 class InputPrometheusInput(BaseModel):
-    type: InputPrometheusType
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
 
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
@@ -185,6 +204,7 @@ class InputPrometheusInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -201,7 +221,7 @@ class InputPrometheusInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -261,6 +281,7 @@ class InputPrometheusInput(BaseModel):
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     target_list: Annotated[Optional[List[str]], pydantic.Field(alias="targetList")] = (
         None
@@ -293,6 +314,7 @@ class InputPrometheusInput(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -309,6 +331,7 @@ class InputPrometheusInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""
@@ -340,6 +363,27 @@ class InputPrometheusInput(BaseModel):
         Optional[float], pydantic.Field(alias="durationSeconds")
     ] = None
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
+
+    http_discovery_url: Annotated[
+        Optional[str], pydantic.Field(alias="httpDiscoveryUrl")
+    ] = None
+    r"""URL to fetch target groups from (must be http or https)"""
+
+    http_discovery_headers: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
+        pydantic.Field(alias="httpDiscoveryHeaders"),
+    ] = None
+    r"""Extra headers to send with the discovery request"""
+
+    http_discovery_reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="httpDiscoveryRejectUnauthorized")
+    ] = None
+    r"""Reject TLS certificates that cannot be verified for the discovery endpoint. Falls back to the source-level setting if not specified."""
+
+    max_response_body_size: Annotated[
+        Optional[str], pydantic.Field(alias="maxResponseBodySize")
+    ] = None
+    r"""Maximum size of the HTTP SD response body. Responses exceeding this limit will be rejected. Defaults to 20 MB."""
 
     username: Optional[str] = None
     r"""Username for Prometheus Basic authentication"""
@@ -526,6 +570,10 @@ class InputPrometheusInput(BaseModel):
                 "assumeRoleArn",
                 "assumeRoleExternalId",
                 "durationSeconds",
+                "httpDiscoveryUrl",
+                "httpDiscoveryHeaders",
+                "httpDiscoveryRejectUnauthorized",
+                "maxResponseBodySize",
                 "username",
                 "password",
                 "credentialsSecret",

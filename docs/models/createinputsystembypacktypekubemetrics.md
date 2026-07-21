@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeKubeMetrics
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -125,6 +125,12 @@ value: models.CreateOutputSystemByPackOutputHoneycomb = /* values here */
 value: models.CreateOutputSystemByPackOutputAzureEventhub = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputGoogleBigquery`
+
+```python
+value: models.CreateOutputSystemByPackOutputGoogleBigquery = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputGoogleChronicle`
 
 ```python
@@ -141,6 +147,12 @@ value: models.CreateOutputSystemByPackOutputGoogleCloudStorage = /* values here 
 
 ```python
 value: models.CreateOutputSystemByPackOutputGoogleCloudLogging = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputGoogleCloudObservability`
+
+```python
+value: models.CreateOutputSystemByPackOutputGoogleCloudObservability = /* values here */
 ```
 
 ### `models.CreateOutputSystemByPackOutputGooglePubsub`
@@ -281,6 +293,12 @@ value: models.CreateOutputSystemByPackOutputGrafanaCloudUnion = /* values here *
 value: models.CreateOutputSystemByPackOutputLoki = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputAmazonManagedPrometheus`
+
+```python
+value: models.CreateOutputSystemByPackOutputAmazonManagedPrometheus = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputPrometheus`
 
 ```python
@@ -371,6 +389,12 @@ value: models.CreateOutputSystemByPackOutputDiskSpool = /* values here */
 value: models.CreateOutputSystemByPackOutputClickHouse = /* values here */
 ```
 
+### `models.CreateOutputSystemByPackOutputCustomerMetricsStorage`
+
+```python
+value: models.CreateOutputSystemByPackOutputCustomerMetricsStorage = /* values here */
+```
+
 ### `models.CreateOutputSystemByPackOutputLocalSearchStorage`
 
 ```python
@@ -417,6 +441,12 @@ value: models.CreateOutputSystemByPackOutputChronicle = /* values here */
 
 ```python
 value: models.CreateOutputSystemByPackOutputDatabricks = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputSnowflakeStreaming`
+
+```python
+value: models.CreateOutputSystemByPackOutputSnowflakeStreaming = /* values here */
 ```
 
 ### `models.CreateOutputSystemByPackOutputMicrosoftFabric`
@@ -471,5 +501,11 @@ value: models.CreateOutputSystemByPackOutputScalityS3 = /* values here */
 
 ```python
 value: models.CreateOutputSystemByPackOutputAlibabaCloudS3 = /* values here */
+```
+
+### `models.CreateOutputSystemByPackOutputIbmCloudS3`
+
+```python
+value: models.CreateOutputSystemByPackOutputIbmCloudS3 = /* values here */
 ```
 

@@ -1,5 +1,7 @@
 # OutputChroniclePqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

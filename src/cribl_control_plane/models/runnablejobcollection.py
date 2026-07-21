@@ -3,13 +3,13 @@
 from __future__ import annotations
 from .brokeneventprocessor import BrokenEventProcessor, BrokenEventProcessorTypedDict
 from .collector import Collector, CollectorTypedDict
+from .inputtyperunnablejobcollection import (
+    InputTypeRunnableJobCollection,
+    InputTypeRunnableJobCollectionTypedDict,
+)
 from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
 from .logleveloptionsrunnablejobcollectionschedulerun import (
     LogLevelOptionsRunnableJobCollectionScheduleRun,
-)
-from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
 )
 from .scheduletyperunnablejobcollection import (
     ScheduleTypeRunnableJobCollection,
@@ -33,6 +33,8 @@ class RunnableJobCollectionMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class TimeRange(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Time range"""
+
     ABSOLUTE = "absolute"
     RELATIVE = "relative"
 
@@ -62,6 +64,8 @@ r"""Latest time to collect data for the selected timezone"""
 
 
 class WhereToCapture(int, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Where to capture"""
+
     # 1. Before pre-processing Pipeline
     BEFORE_PRE_PROCESSING_PIPELINE = 0
     # 2. Before the Routes
@@ -73,14 +77,19 @@ class WhereToCapture(int, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class CaptureSettingsTypedDict(TypedDict):
+    r"""Capture Settings"""
+
     duration: NotRequired[float]
     r"""Amount of time to keep capture open, in seconds"""
     max_events: NotRequired[float]
     r"""Maximum number of events to capture"""
     level: NotRequired[WhereToCapture]
+    r"""Where to capture"""
 
 
 class CaptureSettings(BaseModel):
+    r"""Capture Settings"""
+
     duration: Optional[float] = None
     r"""Amount of time to keep capture open, in seconds"""
 
@@ -88,6 +97,7 @@ class CaptureSettings(BaseModel):
     r"""Maximum number of events to capture"""
 
     level: Optional[WhereToCapture] = None
+    r"""Where to capture"""
 
     @field_serializer("level")
     def serialize_level(self, value):
@@ -127,6 +137,7 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
     time_range_type: NotRequired[TimeRange]
+    r"""Time range"""
     earliest: NotRequired[RunnableJobCollectionEarliestTypedDict]
     r"""Earliest time to collect data for the selected timezone"""
     latest: NotRequired[RunnableJobCollectionLatestTypedDict]
@@ -149,6 +160,7 @@ class RunnableJobCollectionRunTypedDict(TypedDict):
     discover_to_routes: NotRequired[bool]
     r"""Send discover results to Routes"""
     capture: NotRequired[CaptureSettingsTypedDict]
+    r"""Capture Settings"""
 
 
 class RunnableJobCollectionRun(BaseModel):
@@ -177,6 +189,7 @@ class RunnableJobCollectionRun(BaseModel):
     time_range_type: Annotated[
         Optional[TimeRange], pydantic.Field(alias="timeRangeType")
     ] = None
+    r"""Time range"""
 
     earliest: Optional[RunnableJobCollectionEarliest] = None
     r"""Earliest time to collect data for the selected timezone"""
@@ -214,6 +227,7 @@ class RunnableJobCollectionRun(BaseModel):
     r"""Send discover results to Routes"""
 
     capture: Optional[CaptureSettings] = None
+    r"""Capture Settings"""
 
     @field_serializer("log_level")
     def serialize_log_level(self, value):
@@ -283,7 +297,9 @@ class RunnableJobCollectionTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
+    r"""Description"""
     type: NotRequired[JobTypeOptionsRunnableJobCollection]
+    r"""Job type"""
     ttl: NotRequired[str]
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
@@ -297,12 +313,10 @@ class RunnableJobCollectionTypedDict(TypedDict):
     schedule: NotRequired[ScheduleTypeRunnableJobCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
-    ]
+    input: NotRequired[InputTypeRunnableJobCollectionTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
@@ -317,8 +331,10 @@ class RunnableJobCollection(BaseModel):
     r"""Unique ID for this Job"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     type: Optional[JobTypeOptionsRunnableJobCollection] = None
+    r"""Job type"""
 
     ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
@@ -345,16 +361,14 @@ class RunnableJobCollection(BaseModel):
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     worker_affinity: Annotated[
         Optional[bool], pydantic.Field(alias="workerAffinity")
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
-    ] = None
+    input: Optional[InputTypeRunnableJobCollection] = None
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

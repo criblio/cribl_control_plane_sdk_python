@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 from .collector import Collector, CollectorTypedDict
-from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
-from .runnablejobcollectiontypecollectionwithbreakerrulesetsconstraint import (
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint,
-    RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict,
+from .inputtyperunnablejobcollection import (
+    InputTypeRunnableJobCollection,
+    InputTypeRunnableJobCollectionTypedDict,
 )
+from .jobtypeoptionsrunnablejobcollection import JobTypeOptionsRunnableJobCollection
 from .scheduletypesavedjobresponsecollection import (
     ScheduleTypeSavedJobResponseCollection,
     ScheduleTypeSavedJobResponseCollectionTypedDict,
@@ -21,11 +21,13 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class SavedJobCollectionTypedDict(TypedDict):
     type: JobTypeOptionsRunnableJobCollection
+    r"""Job type"""
     collector: CollectorTypedDict
     r"""Collector configuration"""
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
+    r"""Description"""
     ttl: NotRequired[str]
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
@@ -39,18 +41,17 @@ class SavedJobCollectionTypedDict(TypedDict):
     schedule: NotRequired[ScheduleTypeSavedJobResponseCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
-    input: NotRequired[
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintTypedDict
-    ]
+    input: NotRequired[InputTypeRunnableJobCollectionTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class SavedJobCollection(BaseModel):
     type: JobTypeOptionsRunnableJobCollection
+    r"""Job type"""
 
     collector: Collector
     r"""Collector configuration"""
@@ -59,6 +60,7 @@ class SavedJobCollection(BaseModel):
     r"""Unique ID for this Job"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
@@ -85,16 +87,14 @@ class SavedJobCollection(BaseModel):
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     worker_affinity: Annotated[
         Optional[bool], pydantic.Field(alias="workerAffinity")
     ] = None
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
-    input: Optional[
-        RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint
-    ] = None
+    input: Optional[InputTypeRunnableJobCollection] = None
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

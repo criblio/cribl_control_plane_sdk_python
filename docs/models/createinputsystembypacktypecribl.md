@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeCribl
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

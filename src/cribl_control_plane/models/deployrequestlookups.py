@@ -8,21 +8,29 @@ from typing_extensions import TypedDict
 
 class DeployRequestLookupsLookupTypedDict(TypedDict):
     file: str
+    r"""Unique identifier (file name) of the lookup to deploy."""
     version: str
+    r"""Version of the lookup file to deploy."""
 
 
 class DeployRequestLookupsLookup(BaseModel):
     file: str
+    r"""Unique identifier (file name) of the lookup to deploy."""
 
     version: str
+    r"""Version of the lookup file to deploy."""
 
 
 class DeployRequestLookupsTypedDict(TypedDict):
     context: str
+    r"""Lookup context to deploy. Use <code>cribl</code> for the default context or a Pack <code>id</code> for Pack lookups."""
     lookups: List[DeployRequestLookupsLookupTypedDict]
+    r"""List of lookup files to deploy in this context."""
 
 
 class DeployRequestLookups(BaseModel):
     context: str
+    r"""Lookup context to deploy. Use <code>cribl</code> for the default context or a Pack <code>id</code> for Pack lookups."""
 
     lookups: List[DeployRequestLookupsLookup]
+    r"""List of lookup files to deploy in this context."""

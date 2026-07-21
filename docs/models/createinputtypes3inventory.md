@@ -1,5 +1,7 @@
 # CreateInputTypeS3Inventory
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

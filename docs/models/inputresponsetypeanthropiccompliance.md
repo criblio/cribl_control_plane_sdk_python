@@ -1,5 +1,7 @@
 # InputResponseTypeAnthropicCompliance
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

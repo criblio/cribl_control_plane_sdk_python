@@ -1,12 +1,14 @@
 # SslTypeSystemSettingsConfAPI
 
+TLS configuration for the API server.
+
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `ca_path`          | *Optional[str]*    | :heavy_minus_sign: | N/A                |
-| `cert_path`        | *str*              | :heavy_check_mark: | N/A                |
-| `disabled`         | *bool*             | :heavy_check_mark: | N/A                |
-| `passphrase`       | *str*              | :heavy_check_mark: | N/A                |
-| `priv_key_path`    | *str*              | :heavy_check_mark: | N/A                |
+| Field                                                                                                | Type                                                                                                 | Required                                                                                             | Description                                                                                          |
+| ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `ca_path`                                                                                            | *Optional[str]*                                                                                      | :heavy_minus_sign:                                                                                   | Filesystem path to the PEM-encoded Certificate Authority (CA) certificate for client authentication. |
+| `cert_path`                                                                                          | *str*                                                                                                | :heavy_check_mark:                                                                                   | Filesystem path to the PEM-encoded TLS certificate.                                                  |
+| `disabled`                                                                                           | *bool*                                                                                               | :heavy_check_mark:                                                                                   | If <code>true</code>, TLS is disabled for the API server. Otherwise, <code>false</code>.             |
+| `passphrase`                                                                                         | *str*                                                                                                | :heavy_check_mark:                                                                                   | Passphrase to decrypt the TLS private key, if encrypted.                                             |
+| `priv_key_path`                                                                                      | *str*                                                                                                | :heavy_check_mark:                                                                                   | Filesystem path to the PEM-encoded TLS private key.                                                  |

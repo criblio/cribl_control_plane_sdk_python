@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeSplunkHec
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

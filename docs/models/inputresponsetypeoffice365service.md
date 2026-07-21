@@ -1,5 +1,7 @@
 # InputResponseTypeOffice365Service
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

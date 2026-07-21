@@ -15,16 +15,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class PipelineGroupsTypedDict(TypedDict):
     name: str
+    r"""Name of the group."""
     description: NotRequired[str]
+    r"""Brief description of the group."""
     disabled: NotRequired[bool]
+    r"""If <code>true</code>, disable all items in the group. Otherwise, <code>false</code>."""
 
 
 class PipelineGroups(BaseModel):
     name: str
+    r"""Name of the group."""
 
     description: Optional[str] = None
+    r"""Brief description of the group."""
 
     disabled: Optional[bool] = None
+    r"""If <code>true</code>, disable all items in the group. Otherwise, <code>false</code>."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -44,38 +50,46 @@ class PipelineGroups(BaseModel):
 
 
 class PipelineConfTypedDict(TypedDict):
+    r"""Configuration for the Pipeline, including functions and settings."""
+
     async_func_timeout: NotRequired[int]
-    r"""Time (in ms) to wait for an async function to complete processing of a data item"""
+    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
     output: NotRequired[str]
-    r"""The output destination for events processed by this Pipeline"""
+    r"""The output destination for events processed by this Pipeline."""
     description: NotRequired[str]
+    r"""Brief description of the Pipeline."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     functions: NotRequired[List[PipelineFunctionConfTypedDict]]
-    r"""List of Functions to pass data through"""
+    r"""List of Functions to pass data through the Pipeline."""
     groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
+    r"""Named groups of Pipeline functions for organizational display in the UI."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class PipelineConf(BaseModel):
+    r"""Configuration for the Pipeline, including functions and settings."""
+
     async_func_timeout: Annotated[
         Optional[int], pydantic.Field(alias="asyncFuncTimeout")
     ] = None
-    r"""Time (in ms) to wait for an async function to complete processing of a data item"""
+    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
 
     output: Optional[str] = None
-    r"""The output destination for events processed by this Pipeline"""
+    r"""The output destination for events processed by this Pipeline."""
 
     description: Optional[str] = None
+    r"""Brief description of the Pipeline."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     functions: Optional[List[PipelineFunctionConf]] = None
-    r"""List of Functions to pass data through"""
+    r"""List of Functions to pass data through the Pipeline."""
 
     groups: Optional[Dict[str, PipelineGroups]] = None
+    r"""Named groups of Pipeline functions for organizational display in the UI."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -111,48 +125,60 @@ class PipelineConf(BaseModel):
 
 class PipelineTypedDict(TypedDict):
     id: str
+    r"""Unique identifier for the Pipeline."""
     conf: PipelineConfTypedDict
+    r"""Configuration for the Pipeline, including functions and settings."""
 
 
 class Pipeline(BaseModel):
     id: str
+    r"""Unique identifier for the Pipeline."""
 
     conf: PipelineConf
+    r"""Configuration for the Pipeline, including functions and settings."""
 
 
 class ConfInputTypedDict(TypedDict):
+    r"""Configuration for the Pipeline, including functions and settings."""
+
     async_func_timeout: NotRequired[int]
-    r"""Time (in ms) to wait for an async function to complete processing of a data item"""
+    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
     output: NotRequired[str]
-    r"""The output destination for events processed by this Pipeline"""
+    r"""The output destination for events processed by this Pipeline."""
     description: NotRequired[str]
+    r"""Brief description of the Pipeline."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     functions: NotRequired[List[PipelineFunctionConfInputTypedDict]]
-    r"""List of Functions to pass data through"""
+    r"""List of Functions to pass data through the Pipeline."""
     groups: NotRequired[Dict[str, PipelineGroupsTypedDict]]
+    r"""Named groups of Pipeline functions for organizational display in the UI."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class ConfInput(BaseModel):
+    r"""Configuration for the Pipeline, including functions and settings."""
+
     async_func_timeout: Annotated[
         Optional[int], pydantic.Field(alias="asyncFuncTimeout")
     ] = None
-    r"""Time (in ms) to wait for an async function to complete processing of a data item"""
+    r"""Timeout (in milliseconds) for asynchronous Pipeline functions."""
 
     output: Optional[str] = None
-    r"""The output destination for events processed by this Pipeline"""
+    r"""The output destination for events processed by this Pipeline."""
 
     description: Optional[str] = None
+    r"""Brief description of the Pipeline."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     functions: Optional[List[PipelineFunctionConfInput]] = None
-    r"""List of Functions to pass data through"""
+    r"""List of Functions to pass data through the Pipeline."""
 
     groups: Optional[Dict[str, PipelineGroups]] = None
+    r"""Named groups of Pipeline functions for organizational display in the UI."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -188,13 +214,17 @@ class ConfInput(BaseModel):
 
 class PipelineInputTypedDict(TypedDict):
     id: str
+    r"""Unique identifier for the Pipeline."""
     conf: ConfInputTypedDict
+    r"""Configuration for the Pipeline, including functions and settings."""
 
 
 class PipelineInput(BaseModel):
     id: str
+    r"""Unique identifier for the Pipeline."""
 
     conf: ConfInput
+    r"""Configuration for the Pipeline, including functions and settings."""
 
 
 try:

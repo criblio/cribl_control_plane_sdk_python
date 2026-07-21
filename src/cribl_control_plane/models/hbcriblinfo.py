@@ -14,6 +14,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class ConfigTypedDict(TypedDict):
     r"""Configuration bundle and policy revision metadata for the node."""
 
+    api_credentials_rev: NotRequired[str]
+    r"""Current API credentials revision string. Only used in leader <> leader universal subscription."""
     features_rev: NotRequired[str]
     r"""Feature flags or feature revision string for the bundle."""
     hb_period_seconds: NotRequired[int]
@@ -22,6 +24,8 @@ class ConfigTypedDict(TypedDict):
     r"""GitOps or LogStream environment label associated with the bundle."""
     policy_rev: NotRequired[str]
     r"""Current policies revision string."""
+    teams_rev: NotRequired[str]
+    r"""Current teams revision string. Only used in leader <> leader universal subscription."""
     users_rev: NotRequired[str]
     r"""Current users revision string. Only used in leader <> leader universal subscription."""
     version: NotRequired[str]
@@ -30,6 +34,11 @@ class ConfigTypedDict(TypedDict):
 
 class Config(BaseModel):
     r"""Configuration bundle and policy revision metadata for the node."""
+
+    api_credentials_rev: Annotated[
+        Optional[str], pydantic.Field(alias="apiCredentialsRev")
+    ] = None
+    r"""Current API credentials revision string. Only used in leader <> leader universal subscription."""
 
     features_rev: Annotated[Optional[str], pydantic.Field(alias="featuresRev")] = None
     r"""Feature flags or feature revision string for the bundle."""
@@ -47,6 +56,9 @@ class Config(BaseModel):
     policy_rev: Annotated[Optional[str], pydantic.Field(alias="policyRev")] = None
     r"""Current policies revision string."""
 
+    teams_rev: Annotated[Optional[str], pydantic.Field(alias="teamsRev")] = None
+    r"""Current teams revision string. Only used in leader <> leader universal subscription."""
+
     users_rev: Annotated[Optional[str], pydantic.Field(alias="usersRev")] = None
     r"""Current users revision string. Only used in leader <> leader universal subscription."""
 
@@ -57,10 +69,12 @@ class Config(BaseModel):
     def serialize_model(self, handler):
         optional_fields = set(
             [
+                "apiCredentialsRev",
                 "featuresRev",
                 "hbPeriodSeconds",
                 "logStreamEnv",
                 "policyRev",
+                "teamsRev",
                 "usersRev",
                 "version",
             ]
@@ -114,6 +128,8 @@ class HBCriblInfoTypedDict(TypedDict):
     r"""Objects that map Lookup files to deployment versions."""
     master: NotRequired[HBLeaderInfoTypedDict]
     r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
+    overlay_id: NotRequired[str]
+    r"""Currently active overlay identifier on the node. Omitted if no overlay is active."""
     pid: NotRequired[int]
     r"""The process ID."""
     socks_enabled: NotRequired[bool]
@@ -162,6 +178,9 @@ class HBCriblInfo(BaseModel):
     master: Optional[HBLeaderInfo] = None
     r"""Connection parameters for the Leader Node, as reported in a Worker heartbeat."""
 
+    overlay_id: Annotated[Optional[str], pydantic.Field(alias="overlayId")] = None
+    r"""Currently active overlay identifier on the node. Omitted if no overlay is active."""
+
     pid: Optional[int] = None
     r"""The process ID."""
 
@@ -195,6 +214,7 @@ class HBCriblInfo(BaseModel):
                 "installType",
                 "lookupVersions",
                 "master",
+                "overlayId",
                 "pid",
                 "socksEnabled",
                 "tags",

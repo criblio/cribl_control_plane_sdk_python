@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsSplunkHec
 
+Persistent queue controls.
+
 
 ## Fields
 

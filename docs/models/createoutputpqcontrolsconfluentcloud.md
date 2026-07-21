@@ -1,5 +1,7 @@
 # CreateOutputPqControlsConfluentCloud
 
+Persistent queue controls.
+
 
 ## Fields
 

@@ -1,5 +1,7 @@
 # OutputResponseTypeElasticCloud
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

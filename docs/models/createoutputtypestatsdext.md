@@ -1,5 +1,7 @@
 # CreateOutputTypeStatsdExt
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

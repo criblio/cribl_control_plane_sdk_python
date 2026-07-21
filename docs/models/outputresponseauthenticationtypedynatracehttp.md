@@ -1,5 +1,7 @@
 # OutputResponseAuthenticationTypeDynatraceHTTP
 
+Authentication type
+
 ## Example Usage
 
 ```python

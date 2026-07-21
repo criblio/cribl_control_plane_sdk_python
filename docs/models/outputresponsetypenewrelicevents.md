@@ -1,5 +1,7 @@
 # OutputResponseTypeNewrelicEvents
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

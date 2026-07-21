@@ -1,5 +1,7 @@
 # OutputSentinelAuthType
 
+Discriminator value.
+
 ## Example Usage
 
 ```python

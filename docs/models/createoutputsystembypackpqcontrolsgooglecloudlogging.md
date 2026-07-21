@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsGoogleCloudLogging
 
+Persistent queue controls.
+
 
 ## Fields
 

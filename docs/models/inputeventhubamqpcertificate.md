@@ -1,0 +1,11 @@
+# InputEventhubAmqpCertificate
+
+
+## Fields
+
+| Field                                                                                  | Type                                                                                   | Required                                                                               | Description                                                                            |
+| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| `certificate_name`                                                                     | *str*                                                                                  | :heavy_check_mark:                                                                     | The certificate you registered as credentials for your app in the Azure portal         |
+| `cert_path`                                                                            | *str*                                                                                  | :heavy_check_mark:                                                                     | Path on server containing certificates to use. PEM format. Can reference $ENV_VARS.    |
+| `priv_key_path`                                                                        | *str*                                                                                  | :heavy_check_mark:                                                                     | Path on server containing the private key to use. PEM format. Can reference $ENV_VARS. |
+| `passphrase`                                                                           | *Optional[str]*                                                                        | :heavy_minus_sign:                                                                     | Passphrase to use to decrypt private key                                               |

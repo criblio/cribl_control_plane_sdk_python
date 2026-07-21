@@ -1,5 +1,7 @@
 # InputResponseTypeSystemState
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

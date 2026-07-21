@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeWindowsMetrics
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

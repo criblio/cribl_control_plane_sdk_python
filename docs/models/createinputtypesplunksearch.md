@@ -1,5 +1,7 @@
 # CreateInputTypeSplunkSearch
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

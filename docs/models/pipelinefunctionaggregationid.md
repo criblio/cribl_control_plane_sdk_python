@@ -1,6 +1,6 @@
 # PipelineFunctionAggregationID
 
-Function ID
+Identifier of the Function. Always <code>aggregation</code>
 
 ## Example Usage
 

@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsSumoLogic
 
+Persistent queue controls.
+
 
 ## Fields
 

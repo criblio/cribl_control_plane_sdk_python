@@ -1,5 +1,7 @@
 # CreateOutputAuthenticationTypeOpenTelemetry
 
+Authentication type
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # OutputResponseTypeDevnull
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

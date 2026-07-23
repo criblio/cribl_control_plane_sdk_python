@@ -1,5 +1,7 @@
 # OutputResponsePqControlsKinesis
 
+Persistent queue controls.
+
 
 ## Fields
 

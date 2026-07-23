@@ -16,9 +16,9 @@ Actions related to Destinations
 
 Get a list of all Destinations.
 
-### Example Usage
+### Example Usage: OutputResponseExamplesS3Destination
 
-<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" -->
+<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" example="OutputResponseExamplesS3Destination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -33,8 +33,79 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: OutputResponseExamplesSnowflakeStreamingDestination
+
+<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" example="OutputResponseExamplesSnowflakeStreamingDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: OutputResponseExamplesSplunkHecDestination
+
+<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" example="OutputResponseExamplesSplunkHecDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
+
+```
+### Example Usage: OutputResponseExamplesSyslogDestination
+
+<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" example="OutputResponseExamplesSyslogDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.list()
+
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -43,16 +114,19 @@ with CriblControlPlane(
 | Parameter                                                                                                                                                        | Type                                                                                                                                                             | Required                                                                                                                                                         | Description                                                                                                                                                      |
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `type`                                                                                                                                                           | [Optional[models.DestinationType]](../../models/destinationtype.md)                                                                                              | :heavy_minus_sign:                                                                                                                                               | Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported. |
+| `offset`                                                                                                                                                         | *Optional[int]*                                                                                                                                                  | :heavy_minus_sign:                                                                                                                                               | Pagination offset                                                                                                                                                |
+| `limit`                                                                                                                                                          | *Optional[int]*                                                                                                                                                  | :heavy_minus_sign:                                                                                                                                               | Maximum number of items to return                                                                                                                                |
 | `retries`                                                                                                                                                        | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                                 | :heavy_minus_sign:                                                                                                                                               | Configuration to override the default retry behavior of the client.                                                                                              |
 
 ### Response
 
-**[models.CountedOutputResponse](../../models/countedoutputresponse.md)**
+**[models.ListOutputResponse](../../models/listoutputresponse.md)**
 
 ### Errors
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -87,6 +161,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesAmazonManagedPrometheus
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesAmazonManagedPrometheus" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "amazon-managed-prometheus-output",
+        "type": models.CreateOutputTypeAmazonManagedPrometheus.AMAZON_MANAGED_PROMETHEUS,
+        "url": "https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-example/api/v1/remote_write",
+        "aws_authentication_method": models.AuthenticationMethodOptionsAutoSecret.AUTO,
+        "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesAzureBlob
 
 <!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesAzureBlob" -->
@@ -104,7 +205,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "azure-blob-output",
-        "type": models.CreateOutputTypeAzureBlob.AZURE_BLOB,
+        "type": models.TypeOptionsAzureblob.AZURE_BLOB,
         "container_name": "my-container",
         "stage_path": "/tmp/staging",
     })
@@ -331,7 +432,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request=models.CreateOutputOutputConfluentCloud(
         id="confluent-cloud-output",
-        type=models.CreateOutputTypeConfluentCloud.CONFLUENT_CLOUD,
+        type=models.TypeOptionsConfluentcloud.CONFLUENT_CLOUD,
         brokers=[
             "pkc-xxxxx.us-east-1.aws.confluent.cloud:9092",
         ],
@@ -518,7 +619,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "cribl-tcp-output",
-        "type": models.CreateOutputTypeCriblTCP.CRIBL_TCP,
+        "type": models.TypeOptionsCribltcp.CRIBL_TCP,
         "host": "localhost",
         "port": 10090,
     })
@@ -549,6 +650,33 @@ with CriblControlPlane(
         "format_": models.RequestFormatOptions.JSON,
         "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
         "token": "your-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesCustomerMetricsStorage
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesCustomerMetricsStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "customer-metrics-storage-output",
+        "type": models.CreateOutputTypeCustomerMetricsStorage.CUSTOMER_METRICS_STORAGE,
+        "url": "http://localhost:8123/",
+        "database": "default",
+        "table_name": "mytable",
     })
 
     # Handle response
@@ -849,6 +977,34 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesGoogleBigQuery
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesGoogleBigQuery" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "google-bigquery-output",
+        "type": models.CreateOutputTypeGoogleBigquery.GOOGLE_BIGQUERY,
+        "project_id": "my-project",
+        "dataset_id": "my-dataset",
+        "table_id": "my-table",
+        "google_auth_method": models.CreateOutputGoogleAuthenticationMethodGoogleBigquery.AUTO,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesGoogleChronicle
 
 <!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesGoogleChronicle" -->
@@ -921,7 +1077,7 @@ with CriblControlPlane(
     res = ccp_client.destinations.create(request={
         "id": "google-cloud-observability-output",
         "type": models.CreateOutputTypeGoogleCloudObservability.GOOGLE_CLOUD_OBSERVABILITY,
-        "google_auth_method": models.CreateOutputGoogleAuthenticationMethod.AUTO,
+        "google_auth_method": models.CreateOutputGoogleAuthenticationMethodGoogleCloudObservability.AUTO,
     })
 
     # Handle response
@@ -973,7 +1129,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "google-pubsub-output",
-        "type": models.CreateOutputTypeGooglePubsub.GOOGLE_PUBSUB,
+        "type": models.TypeOptionsGooglepubsub.GOOGLE_PUBSUB,
         "topic_name": "my-topic",
     })
 
@@ -1129,7 +1285,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request=models.CreateOutputOutputKafka(
         id="kafka-output",
-        type=models.CreateOutputTypeKafka.KAFKA,
+        type=models.TypeOptions.KAFKA,
         brokers=[
             "localhost:9092",
         ],
@@ -1157,7 +1313,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "kinesis-output",
-        "type": models.CreateOutputTypeKinesis.KINESIS,
+        "type": models.TypeOptionsKinesis.KINESIS,
         "stream_name": "my-stream",
         "region": "us-east-1",
     })
@@ -1288,7 +1444,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request=models.CreateOutputOutputMsk(
         id="msk-output",
-        type=models.CreateOutputTypeMsk.MSK,
+        type=models.TypeOptionsMsk.MSK,
         brokers=[
             "b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092",
         ],
@@ -1318,7 +1474,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "netflow-output",
-        "type": models.CreateOutputTypeNetflow.NETFLOW,
+        "type": models.TypeOptionsNetflow.NETFLOW,
         "hosts": [
             {
                 "host": "localhost",
@@ -1452,7 +1608,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "prometheus-output",
-        "type": models.CreateOutputTypePrometheus.PROMETHEUS,
+        "type": models.TypeOptionsPrometheus.PROMETHEUS,
         "url": "http://localhost:9091/api/v1/write",
     })
 
@@ -1531,7 +1687,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "s3-output",
-        "type": models.CreateOutputTypeS3.S3,
+        "type": models.TypeOptionsS3.S3,
         "bucket": "my-bucket",
         "region": "us-east-1",
         "stage_path": "/tmp/staging",
@@ -1558,7 +1714,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "security-lake-output",
-        "type": models.CreateOutputTypeSecurityLake.SECURITY_LAKE,
+        "type": models.TypeOptionsSecuritylake.SECURITY_LAKE,
         "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "bucket": "my-bucket",
         "region": "us-east-1",
@@ -1697,13 +1853,45 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "snmp-output",
-        "type": models.CreateOutputTypeSnmp.SNMP,
+        "type": models.TypeOptionsSnmp.SNMP,
         "hosts": [
             {
                 "host": "192.168.1.1",
                 "port": 161,
             },
         ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputCreateExamplesSnowflakeStreaming
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesSnowflakeStreaming" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "snowflake-streaming-output",
+        "type": models.CreateOutputTypeSnowflakeStreaming.SNOWFLAKE_STREAMING,
+        "account_identifier": "MYORG-MYACCOUNT",
+        "user": "STREAMING_USER",
+        "pem": {
+            "key_name": "my-snowflake-private-key",
+        },
+        "database": "EVENTS_DB",
+        "schema_": "PUBLIC",
+        "table": "RAW_EVENTS",
     })
 
     # Handle response
@@ -1754,7 +1942,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "splunk-output",
-        "type": models.CreateOutputTypeSplunk.SPLUNK,
+        "type": models.TypeOptionsSplunk.SPLUNK,
         "host": "localhost",
         "port": 9997,
     })
@@ -1834,7 +2022,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "sqs-output",
-        "type": models.CreateOutputTypeSqs.SQS,
+        "type": models.TypeOptionsSqs.SQS,
         "queue_name": "my-queue",
         "queue_type": models.CreateOutputQueueType.STANDARD,
         "region": "us-east-1",
@@ -1967,7 +2155,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "syslog-output",
-        "type": models.CreateOutputTypeSyslog.SYSLOG,
+        "type": models.TypeOptionsSyslog.SYSLOG,
         "host": "localhost",
         "port": 514,
     })
@@ -1993,7 +2181,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.create(request={
         "id": "tcpjson-output",
-        "type": models.CreateOutputTypeTcpjson.TCPJSON,
+        "type": models.TypeOptionsTcpjson.TCPJSON,
         "host": "localhost",
         "port": 10090,
     })
@@ -2187,6 +2375,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesibmCloudS3
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesibmCloudS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "ibm-cloud-s3-output",
+        "type": models.CreateOutputTypeIbmCloudS3.IBM_CLOUD_S3,
+        "endpoint": "https://s3.us-south.cloud-object-storage.appdomain.cloud",
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesscalityS3
 
 <!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputCreateExamplesscalityS3" -->
@@ -2214,6 +2429,106 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputResponseExamplesS3Destination
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputResponseExamplesS3Destination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "<id>",
+        "type": models.CreateOutputTypeCriblLake.CRIBL_LAKE,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSnowflakeStreamingDestination
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputResponseExamplesSnowflakeStreamingDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "<id>",
+        "type": models.CreateOutputTypeCloudianS3.CLOUDIAN_S3,
+        "endpoint": "<value>",
+        "bucket": "<value>",
+        "stage_path": "<value>",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSplunkHecDestination
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputResponseExamplesSplunkHecDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "<id>",
+        "type": models.CreateOutputTypeDataset.DATASET,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSyslogDestination
+
+<!-- UsageSnippet language="python" operationID="createOutput" method="post" path="/system/outputs" example="OutputResponseExamplesSyslogDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.create(request={
+        "id": "<id>",
+        "type": models.CreateOutputOutputWebhookType2.WEBHOOK,
+        "urls": [],
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -2230,6 +2545,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -2237,9 +2553,72 @@ with CriblControlPlane(
 
 Get the specified Destination.
 
-### Example Usage
+### Example Usage: OutputResponseExamplesS3Destination
 
-<!-- UsageSnippet language="python" operationID="getOutputById" method="get" path="/system/outputs/{id}" -->
+<!-- UsageSnippet language="python" operationID="getOutputById" method="get" path="/system/outputs/{id}" example="OutputResponseExamplesS3Destination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSnowflakeStreamingDestination
+
+<!-- UsageSnippet language="python" operationID="getOutputById" method="get" path="/system/outputs/{id}" example="OutputResponseExamplesSnowflakeStreamingDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSplunkHecDestination
+
+<!-- UsageSnippet language="python" operationID="getOutputById" method="get" path="/system/outputs/{id}" example="OutputResponseExamplesSplunkHecDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.get(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSyslogDestination
+
+<!-- UsageSnippet language="python" operationID="getOutputById" method="get" path="/system/outputs/{id}" example="OutputResponseExamplesSyslogDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -2274,6 +2653,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -2325,7 +2705,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "azure-blob-output",
-        "type": models.OutputAzureBlobType.AZURE_BLOB,
+        "type": models.TypeOptionsAzureblob.AZURE_BLOB,
         "container_name": "my-container",
         "stage_path": "/tmp/staging",
     })
@@ -2552,7 +2932,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output=models.OutputConfluentCloud(
         id="confluent-cloud-output",
-        type=models.OutputConfluentCloudType.CONFLUENT_CLOUD,
+        type=models.TypeOptionsConfluentcloud.CONFLUENT_CLOUD,
         brokers=[
             "pkc-xxxxx.us-east-1.aws.confluent.cloud:9092",
         ],
@@ -2739,7 +3119,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "cribl-tcp-output",
-        "type": models.OutputCriblTCPType.CRIBL_TCP,
+        "type": models.TypeOptionsCribltcp.CRIBL_TCP,
         "host": "localhost",
         "port": 10090,
     })
@@ -3169,7 +3549,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "google-pubsub-output",
-        "type": models.OutputGooglePubsubType.GOOGLE_PUBSUB,
+        "type": models.TypeOptionsGooglepubsub.GOOGLE_PUBSUB,
         "topic_name": "my-topic",
     })
 
@@ -3325,7 +3705,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output=models.OutputKafka(
         id="kafka-output",
-        type=models.OutputKafkaType.KAFKA,
+        type=models.TypeOptions.KAFKA,
         brokers=[
             "localhost:9092",
         ],
@@ -3353,7 +3733,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "kinesis-output",
-        "type": models.OutputKinesisType.KINESIS,
+        "type": models.TypeOptionsKinesis.KINESIS,
         "stream_name": "my-stream",
         "region": "us-east-1",
     })
@@ -3484,7 +3864,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output=models.OutputMsk(
         id="msk-output",
-        type=models.OutputMskType.MSK,
+        type=models.TypeOptionsMsk.MSK,
         brokers=[
             "b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092",
         ],
@@ -3514,7 +3894,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "netflow-output",
-        "type": models.OutputNetflowType.NETFLOW,
+        "type": models.TypeOptionsNetflow.NETFLOW,
         "hosts": [
             {
                 "host": "localhost",
@@ -3648,7 +4028,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "prometheus-output",
-        "type": models.OutputPrometheusType.PROMETHEUS,
+        "type": models.TypeOptionsPrometheus.PROMETHEUS,
         "url": "http://localhost:9091/api/v1/write",
     })
 
@@ -3727,7 +4107,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "s3-output",
-        "type": models.OutputS3Type.S3,
+        "type": models.TypeOptionsS3.S3,
         "bucket": "my-bucket",
         "region": "us-east-1",
         "stage_path": "/tmp/staging",
@@ -3754,7 +4134,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "security-lake-output",
-        "type": models.OutputSecurityLakeType.SECURITY_LAKE,
+        "type": models.TypeOptionsSecuritylake.SECURITY_LAKE,
         "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "bucket": "my-bucket",
         "region": "us-east-1",
@@ -3893,7 +4273,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "snmp-output",
-        "type": models.OutputSnmpType.SNMP,
+        "type": models.TypeOptionsSnmp.SNMP,
         "hosts": [
             {
                 "host": "192.168.1.1",
@@ -3950,7 +4330,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "splunk-output",
-        "type": models.OutputSplunkType.SPLUNK,
+        "type": models.TypeOptionsSplunk.SPLUNK,
         "host": "localhost",
         "port": 9997,
     })
@@ -4030,7 +4410,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "sqs-output",
-        "type": models.OutputSqsType.SQS,
+        "type": models.TypeOptionsSqs.SQS,
         "queue_name": "my-queue",
         "queue_type": models.OutputSqsQueueType.STANDARD,
         "region": "us-east-1",
@@ -4163,7 +4543,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "syslog-output",
-        "type": models.OutputSyslogType.SYSLOG,
+        "type": models.TypeOptionsSyslog.SYSLOG,
         "host": "localhost",
         "port": 514,
     })
@@ -4189,7 +4569,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "tcpjson-output",
-        "type": models.OutputTcpjsonType.TCPJSON,
+        "type": models.TypeOptionsTcpjson.TCPJSON,
         "host": "localhost",
         "port": 10090,
     })
@@ -4435,6 +4815,108 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputResponseExamplesS3Destination
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="OutputResponseExamplesS3Destination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "type": models.OutputGoogleChronicleType.GOOGLE_CHRONICLE,
+        "log_format_type": models.OutputGoogleChronicleSendEventsAs.UNSTRUCTURED,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSnowflakeStreamingDestination
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="OutputResponseExamplesSnowflakeStreamingDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "type": models.OutputGoogleBigqueryType.GOOGLE_BIGQUERY,
+        "project_id": "<id>",
+        "dataset_id": "<id>",
+        "table_id": "<id>",
+        "google_auth_method": models.OutputGoogleBigqueryGoogleAuthenticationMethod.AUTO,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSplunkHecDestination
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="OutputResponseExamplesSplunkHecDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "type": models.OutputGoogleCloudObservabilityType.GOOGLE_CLOUD_OBSERVABILITY,
+        "google_auth_method": models.OutputGoogleCloudObservabilityGoogleAuthenticationMethod.AUTO,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSyslogDestination
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="OutputResponseExamplesSyslogDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output=models.OutputKafka(
+        type=models.TypeOptions.KAFKA,
+        brokers=[
+            "<value 1>",
+        ],
+        topic="<value>",
+    ))
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateOutputExamplesAlphasocS3
 
 <!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesAlphasocS3" -->
@@ -4462,6 +4944,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateOutputExamplesAmazonManagedPrometheus
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesAmazonManagedPrometheus" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "amazon-managed-prometheus-output",
+        "type": models.OutputAmazonManagedPrometheusType.AMAZON_MANAGED_PROMETHEUS,
+        "url": "https://aps-workspaces.us-east-1.amazonaws.com/workspaces/ws-example/api/v1/remote_write",
+        "aws_authentication_method": models.AuthenticationMethodOptionsAutoSecret.AUTO,
+        "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateOutputExamplesAzureBlob
 
 <!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesAzureBlob" -->
@@ -4479,7 +4988,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "azure-blob-output",
-        "type": models.OutputAzureBlobType.AZURE_BLOB,
+        "type": models.TypeOptionsAzureblob.AZURE_BLOB,
         "container_name": "my-container",
         "stage_path": "/tmp/staging",
     })
@@ -4706,7 +5215,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output=models.OutputConfluentCloud(
         id="confluent-cloud-output",
-        type=models.OutputConfluentCloudType.CONFLUENT_CLOUD,
+        type=models.TypeOptionsConfluentcloud.CONFLUENT_CLOUD,
         brokers=[
             "pkc-xxxxx.us-east-1.aws.confluent.cloud:9092",
         ],
@@ -4893,7 +5402,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "cribl-tcp-output",
-        "type": models.OutputCriblTCPType.CRIBL_TCP,
+        "type": models.TypeOptionsCribltcp.CRIBL_TCP,
         "host": "localhost",
         "port": 10090,
     })
@@ -4924,6 +5433,33 @@ with CriblControlPlane(
         "format_": models.RequestFormatOptions.JSON,
         "auth_type": models.AuthenticationMethodOptionsAuthTokensItems.MANUAL,
         "token": "your-token",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesCustomerMetricsStorage
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesCustomerMetricsStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "customer-metrics-storage-output",
+        "type": models.OutputCustomerMetricsStorageType.CUSTOMER_METRICS_STORAGE,
+        "url": "http://localhost:8123/",
+        "database": "default",
+        "table_name": "mytable",
     })
 
     # Handle response
@@ -5249,6 +5785,34 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateOutputExamplesGoogleBigQuery
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesGoogleBigQuery" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "google-bigquery-output",
+        "type": models.OutputGoogleBigqueryType.GOOGLE_BIGQUERY,
+        "project_id": "my-project",
+        "dataset_id": "my-dataset",
+        "table_id": "my-table",
+        "google_auth_method": models.OutputGoogleBigqueryGoogleAuthenticationMethod.AUTO,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateOutputExamplesGoogleChronicle
 
 <!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesGoogleChronicle" -->
@@ -5373,7 +5937,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "google-pubsub-output",
-        "type": models.OutputGooglePubsubType.GOOGLE_PUBSUB,
+        "type": models.TypeOptionsGooglepubsub.GOOGLE_PUBSUB,
         "topic_name": "my-topic",
     })
 
@@ -5529,7 +6093,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output=models.OutputKafka(
         id="kafka-output",
-        type=models.OutputKafkaType.KAFKA,
+        type=models.TypeOptions.KAFKA,
         brokers=[
             "localhost:9092",
         ],
@@ -5557,7 +6121,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "kinesis-output",
-        "type": models.OutputKinesisType.KINESIS,
+        "type": models.TypeOptionsKinesis.KINESIS,
         "stream_name": "my-stream",
         "region": "us-east-1",
     })
@@ -5688,7 +6252,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output=models.OutputMsk(
         id="msk-output",
-        type=models.OutputMskType.MSK,
+        type=models.TypeOptionsMsk.MSK,
         brokers=[
             "b-1.example.xxxxx.c2.kafka.us-east-1.amazonaws.com:9092",
         ],
@@ -5718,7 +6282,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "netflow-output",
-        "type": models.OutputNetflowType.NETFLOW,
+        "type": models.TypeOptionsNetflow.NETFLOW,
         "hosts": [
             {
                 "host": "localhost",
@@ -5852,7 +6416,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "prometheus-output",
-        "type": models.OutputPrometheusType.PROMETHEUS,
+        "type": models.TypeOptionsPrometheus.PROMETHEUS,
         "url": "http://localhost:9091/api/v1/write",
     })
 
@@ -5931,7 +6495,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "s3-output",
-        "type": models.OutputS3Type.S3,
+        "type": models.TypeOptionsS3.S3,
         "bucket": "my-bucket",
         "region": "us-east-1",
         "stage_path": "/tmp/staging",
@@ -5958,7 +6522,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "security-lake-output",
-        "type": models.OutputSecurityLakeType.SECURITY_LAKE,
+        "type": models.TypeOptionsSecuritylake.SECURITY_LAKE,
         "assume_role_arn": "arn:aws:iam::123456789012:role/my-role",
         "bucket": "my-bucket",
         "region": "us-east-1",
@@ -6097,13 +6661,45 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "snmp-output",
-        "type": models.OutputSnmpType.SNMP,
+        "type": models.TypeOptionsSnmp.SNMP,
         "hosts": [
             {
                 "host": "192.168.1.1",
                 "port": 161,
             },
         ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesSnowflakeStreaming
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesSnowflakeStreaming" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "snowflake-streaming-output",
+        "type": models.OutputSnowflakeStreamingType.SNOWFLAKE_STREAMING,
+        "account_identifier": "MYORG-MYACCOUNT",
+        "user": "STREAMING_USER",
+        "pem": {
+            "key_name": "my-snowflake-private-key",
+        },
+        "database": "EVENTS_DB",
+        "schema_": "PUBLIC",
+        "table": "RAW_EVENTS",
     })
 
     # Handle response
@@ -6154,7 +6750,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "splunk-output",
-        "type": models.OutputSplunkType.SPLUNK,
+        "type": models.TypeOptionsSplunk.SPLUNK,
         "host": "localhost",
         "port": 9997,
     })
@@ -6234,7 +6830,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "sqs-output",
-        "type": models.OutputSqsType.SQS,
+        "type": models.TypeOptionsSqs.SQS,
         "queue_name": "my-queue",
         "queue_type": models.OutputSqsQueueType.STANDARD,
         "region": "us-east-1",
@@ -6367,7 +6963,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "syslog-output",
-        "type": models.OutputSyslogType.SYSLOG,
+        "type": models.TypeOptionsSyslog.SYSLOG,
         "host": "localhost",
         "port": 514,
     })
@@ -6393,7 +6989,7 @@ with CriblControlPlane(
 
     res = ccp_client.destinations.update(id="<id>", output={
         "id": "tcpjson-output",
-        "type": models.OutputTcpjsonType.TCPJSON,
+        "type": models.TypeOptionsTcpjson.TCPJSON,
         "host": "localhost",
         "port": 10090,
     })
@@ -6587,6 +7183,33 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateOutputExamplesibmCloudS3
+
+<!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesibmCloudS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.update(id="<id>", output={
+        "id": "ibm-cloud-s3-output",
+        "type": models.OutputIbmCloudS3Type.IBM_CLOUD_S3,
+        "endpoint": "https://s3.us-south.cloud-object-storage.appdomain.cloud",
+        "bucket": "my-bucket",
+        "stage_path": "/tmp/staging",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateOutputExamplesscalityS3
 
 <!-- UsageSnippet language="python" operationID="updateOutputById" method="patch" path="/system/outputs/{id}" example="UpdateOutputExamplesscalityS3" -->
@@ -6631,6 +7254,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -6638,9 +7262,72 @@ with CriblControlPlane(
 
 Delete the specified Destination.
 
-### Example Usage
+### Example Usage: OutputResponseExamplesS3Destination
 
-<!-- UsageSnippet language="python" operationID="deleteOutputById" method="delete" path="/system/outputs/{id}" -->
+<!-- UsageSnippet language="python" operationID="deleteOutputById" method="delete" path="/system/outputs/{id}" example="OutputResponseExamplesS3Destination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.delete(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSnowflakeStreamingDestination
+
+<!-- UsageSnippet language="python" operationID="deleteOutputById" method="delete" path="/system/outputs/{id}" example="OutputResponseExamplesSnowflakeStreamingDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.delete(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSplunkHecDestination
+
+<!-- UsageSnippet language="python" operationID="deleteOutputById" method="delete" path="/system/outputs/{id}" example="OutputResponseExamplesSplunkHecDestination" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.destinations.delete(id="<id>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: OutputResponseExamplesSyslogDestination
+
+<!-- UsageSnippet language="python" operationID="deleteOutputById" method="delete" path="/system/outputs/{id}" example="OutputResponseExamplesSyslogDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -6675,5 +7362,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

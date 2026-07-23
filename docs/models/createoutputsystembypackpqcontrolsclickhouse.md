@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsClickHouse
 
+Persistent queue controls.
+
 
 ## Fields
 

@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeTCP
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

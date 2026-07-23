@@ -40,19 +40,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputServiceNowType(str, Enum):
+    r"""Connector type identifier."""
+
     SERVICE_NOW = "service_now"
 
 
 class OutputServiceNowPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputServiceNowPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputServiceNowTypedDict(TypedDict):
     type: OutputServiceNowType
+    r"""Connector type identifier."""
     endpoint: str
     r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     token_secret: str
@@ -70,8 +73,9 @@ class OutputServiceNowTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     auth_token_name: NotRequired[str]
+    r"""Auth token name"""
     max_payload_size_kb: NotRequired[float]
     r"""Maximum size, in KB, of the request body"""
     compress: NotRequired[CompressionOptionsDeflateGzip]
@@ -107,6 +111,7 @@ class OutputServiceNowTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates not authorized by a CA in the CA certificate path or by another trusted CA (such as the system's).
     Enabled by default. When this setting is also present in TLS Settings (Client Side),
@@ -126,6 +131,7 @@ class OutputServiceNowTypedDict(TypedDict):
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
+    r"""TLS settings (client side)"""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -149,6 +155,7 @@ class OutputServiceNowTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputServiceNowPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -159,6 +166,7 @@ class OutputServiceNowTypedDict(TypedDict):
 
 class OutputServiceNow(BaseModel):
     type: OutputServiceNowType
+    r"""Connector type identifier."""
 
     endpoint: str
     r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
@@ -187,11 +195,12 @@ class OutputServiceNow(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     auth_token_name: Annotated[Optional[str], pydantic.Field(alias="authTokenName")] = (
         None
     )
+    r"""Auth token name"""
 
     max_payload_size_kb: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
@@ -270,6 +279,7 @@ class OutputServiceNow(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     reject_unauthorized: Annotated[
         Optional[bool], pydantic.Field(alias="rejectUnauthorized")
@@ -311,6 +321,7 @@ class OutputServiceNow(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     tls: Optional[TLSSettingsClientSideTypeExtended] = None
+    r"""TLS settings (client side)"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -364,6 +375,7 @@ class OutputServiceNow(BaseModel):
     pq_controls: Annotated[
         Optional[OutputServiceNowPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

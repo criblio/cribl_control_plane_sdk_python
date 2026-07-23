@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackAuthenticationTypeOpenTelemetry
 
+Authentication type
+
 ## Example Usage
 
 ```python

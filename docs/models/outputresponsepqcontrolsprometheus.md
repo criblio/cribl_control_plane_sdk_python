@@ -1,5 +1,7 @@
 # OutputResponsePqControlsPrometheus
 
+Persistent queue controls.
+
 
 ## Fields
 

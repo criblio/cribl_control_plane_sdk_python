@@ -24,16 +24,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputGoogleCloudObservabilityType(str, Enum):
+    r"""Connector type identifier."""
+
     GOOGLE_CLOUD_OBSERVABILITY = "google_cloud_observability"
 
 
 class OutputGoogleCloudObservabilityProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Discriminator value."""
+
     GRPC = "grpc"
 
 
 class OutputGoogleCloudObservabilityOtlpVersion(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Discriminator value."""
+
     ONE_DOT_3_DOT_1 = "1.3.1"
 
 
@@ -55,15 +61,16 @@ class OutputGoogleCloudObservabilityGoogleAuthenticationMethod(
 
 
 class OutputGoogleCloudObservabilityPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleCloudObservabilityPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     type: OutputGoogleCloudObservabilityType
+    r"""Connector type identifier."""
     google_auth_method: OutputGoogleCloudObservabilityGoogleAuthenticationMethod
     r"""Choose Auto to use Google Application Default Credentials (ADC). Choose Secret to select or create a stored secret that references Google service account credentials."""
     id: NotRequired[str]
@@ -75,9 +82,11 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     protocol: NotRequired[OutputGoogleCloudObservabilityProtocol]
+    r"""Discriminator value."""
     otlp_version: NotRequired[OutputGoogleCloudObservabilityOtlpVersion]
+    r"""Discriminator value."""
     endpoint: NotRequired[OutputGoogleCloudObservabilityEndpoint]
     r"""Fixed Google Cloud Observability gRPC endpoint. All three signals share this transport; the OTLP service path determines whether the call lands on traces, metrics, or logs."""
     metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
@@ -101,11 +110,13 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     keep_alive_time: NotRequired[float]
     r"""How often the sender should ping the peer to keep the connection open"""
     tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
+    r"""TLS settings (client side)"""
     max_payload_events: NotRequired[float]
     r"""Max number of events to include in the request body. Default is 0 (unlimited). Use to keep outgoing data points within GCO request limits. For metrics, combine with the OTLP Metrics function batchSize."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     pq_strict_ordering: NotRequired[bool]
@@ -131,6 +142,7 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputGoogleCloudObservabilityPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -141,6 +153,7 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
 
 class OutputGoogleCloudObservability(BaseModel):
     type: OutputGoogleCloudObservabilityType
+    r"""Connector type identifier."""
 
     google_auth_method: Annotated[
         OutputGoogleCloudObservabilityGoogleAuthenticationMethod,
@@ -163,14 +176,16 @@ class OutputGoogleCloudObservability(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     protocol: Optional[OutputGoogleCloudObservabilityProtocol] = None
+    r"""Discriminator value."""
 
     otlp_version: Annotated[
         Optional[OutputGoogleCloudObservabilityOtlpVersion],
         pydantic.Field(alias="otlpVersion"),
     ] = None
+    r"""Discriminator value."""
 
     endpoint: Optional[OutputGoogleCloudObservabilityEndpoint] = None
     r"""Fixed Google Cloud Observability gRPC endpoint. All three signals share this transport; the OTLP service path determines whether the call lands on traces, metrics, or logs."""
@@ -221,6 +236,7 @@ class OutputGoogleCloudObservability(BaseModel):
     r"""How often the sender should ping the peer to keep the connection open"""
 
     tls: Optional[TLSSettingsClientSideTypeExtended] = None
+    r"""TLS settings (client side)"""
 
     max_payload_events: Annotated[
         Optional[float], pydantic.Field(alias="maxPayloadEvents")
@@ -233,6 +249,7 @@ class OutputGoogleCloudObservability(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     secret: Optional[str] = None
     r"""Select or create a stored text secret"""
@@ -290,6 +307,7 @@ class OutputGoogleCloudObservability(BaseModel):
         Optional[OutputGoogleCloudObservabilityPqControls],
         pydantic.Field(alias="pqControls"),
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

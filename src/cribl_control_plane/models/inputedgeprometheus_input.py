@@ -9,10 +9,6 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollectionTypedDict,
 )
 from .diskspoolingtype import DiskSpoolingType, DiskSpoolingTypeTypedDict
-from .httpdiscoveryheaderconfinputprometheus import (
-    HTTPDiscoveryHeaderConfInputPrometheus,
-    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
-)
 from .metadataconfinputcollection import (
     MetadataConfInputCollection,
     MetadataConfInputCollectionTypedDict,
@@ -20,6 +16,10 @@ from .metadataconfinputcollection import (
 from .pqtype import PqType, PqTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .searchfilterconfinputprometheus import (
     SearchFilterConfInputPrometheus,
     SearchFilterConfInputPrometheusTypedDict,
@@ -34,6 +34,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputEdgePrometheusType(str, Enum):
+    r"""Connector type identifier."""
+
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
@@ -147,6 +149,7 @@ class InputEdgePrometheusPodFilter(BaseModel):
 
 class InputEdgePrometheusInputTypedDict(TypedDict):
     type: InputEdgePrometheusType
+    r"""Connector type identifier."""
     discovery_type: InputEdgePrometheusDiscoveryType
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: float
@@ -154,6 +157,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -163,7 +167,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -174,12 +178,15 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     timeout: NotRequired[float]
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    r"""Disk Spooling"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_type: NotRequired[InputEdgePrometheusAuthenticationMethod]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     targets: NotRequired[List[InputEdgePrometheusTargetTypedDict]]
+    r"""Targets"""
     record_type: NotRequired[RecordTypeOptions]
     r"""DNS record type to resolve"""
     scrape_port: NotRequired[float]
@@ -193,6 +200,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -200,6 +208,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -234,7 +243,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     http_discovery_url: NotRequired[str]
     r"""URL to fetch target groups from (must be http or https)"""
     http_discovery_headers: NotRequired[
-        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Extra headers to send with the discovery request"""
     http_discovery_reject_unauthorized: NotRequired[bool]
@@ -271,6 +280,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
 
 class InputEdgePrometheusInput(BaseModel):
     type: InputEdgePrometheusType
+    r"""Connector type identifier."""
 
     discovery_type: Annotated[
         InputEdgePrometheusDiscoveryType, pydantic.Field(alias="discoveryType")
@@ -284,6 +294,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -300,7 +311,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -321,6 +332,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
 
     persistence: Optional[DiskSpoolingType] = None
+    r"""Disk Spooling"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -332,8 +344,10 @@ class InputEdgePrometheusInput(BaseModel):
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     targets: Optional[List[InputEdgePrometheusTarget]] = None
+    r"""Targets"""
 
     record_type: Annotated[
         Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
@@ -361,6 +375,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -377,6 +392,7 @@ class InputEdgePrometheusInput(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""
@@ -450,7 +466,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""URL to fetch target groups from (must be http or https)"""
 
     http_discovery_headers: Annotated[
-        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
         pydantic.Field(alias="httpDiscoveryHeaders"),
     ] = None
     r"""Extra headers to send with the discovery request"""

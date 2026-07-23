@@ -1,5 +1,7 @@
 # PrivacyProtocolOptionsSnmpTrapSerializeV3UserAuthProtocolNotNone
 
+Privacy protocol
+
 ## Example Usage
 
 ```python

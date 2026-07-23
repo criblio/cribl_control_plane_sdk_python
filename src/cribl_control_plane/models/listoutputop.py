@@ -2,17 +2,25 @@
 
 from __future__ import annotations
 from .destinationtype import DestinationType
+from .paginatedoutputresponse import (
+    PaginatedOutputResponse,
+    PaginatedOutputResponseTypedDict,
+)
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import FieldMetadata, QueryParamMetadata
 from pydantic import field_serializer, model_serializer
-from typing import Optional
+from typing import Awaitable, Callable, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class ListOutputRequestTypedDict(TypedDict):
     type: NotRequired[DestinationType]
     r"""Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported."""
+    offset: NotRequired[int]
+    r"""Pagination offset"""
+    limit: NotRequired[int]
+    r"""Maximum number of items to return"""
 
 
 class ListOutputRequest(BaseModel):
@@ -21,6 +29,18 @@ class ListOutputRequest(BaseModel):
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
     r"""Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported."""
+
+    offset: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Pagination offset"""
+
+    limit: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Maximum number of items to return"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -33,7 +53,7 @@ class ListOutputRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["type"])
+        optional_fields = set(["type", "offset", "limit"])
         serialized = handler(self)
         m = {}
 
@@ -46,3 +66,16 @@ class ListOutputRequest(BaseModel):
                     m[k] = val
 
         return m
+
+
+class ListOutputResponseTypedDict(TypedDict):
+    result: PaginatedOutputResponseTypedDict
+
+
+class ListOutputResponse(BaseModel):
+    next: Union[
+        Callable[[], Optional[ListOutputResponse]],
+        Callable[[], Awaitable[Optional[ListOutputResponse]]],
+    ]
+
+    result: PaginatedOutputResponse

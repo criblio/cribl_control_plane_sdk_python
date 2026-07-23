@@ -1,5 +1,7 @@
 # CreateOutputPqControlsDynatraceOtlp
 
+Persistent queue controls.
+
 
 ## Fields
 

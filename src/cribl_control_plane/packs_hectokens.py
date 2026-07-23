@@ -21,8 +21,8 @@ class PacksHecTokens(BaseSDK):
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                Iterable[models.EventBreakerRuleFields],
-                Iterable[models.EventBreakerRuleFieldsTypedDict],
+                Iterable[models.MetadataConfAddHecTokenRequest],
+                Iterable[models.MetadataConfAddHecTokenRequestTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -66,7 +66,7 @@ class PacksHecTokens(BaseSDK):
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
-                    metadata, Optional[List[models.EventBreakerRuleFields]]
+                    metadata, Optional[List[models.MetadataConfAddHecTokenRequest]]
                 ),
                 token=token,
             ),
@@ -117,6 +117,8 @@ class PacksHecTokens(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -126,10 +128,13 @@ class PacksHecTokens(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputSplunkHec, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -149,8 +154,8 @@ class PacksHecTokens(BaseSDK):
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                Iterable[models.EventBreakerRuleFields],
-                Iterable[models.EventBreakerRuleFieldsTypedDict],
+                Iterable[models.MetadataConfAddHecTokenRequest],
+                Iterable[models.MetadataConfAddHecTokenRequestTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -194,7 +199,7 @@ class PacksHecTokens(BaseSDK):
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
-                    metadata, Optional[List[models.EventBreakerRuleFields]]
+                    metadata, Optional[List[models.MetadataConfAddHecTokenRequest]]
                 ),
                 token=token,
             ),
@@ -245,6 +250,8 @@ class PacksHecTokens(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -254,10 +261,13 @@ class PacksHecTokens(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputSplunkHec, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -277,8 +287,8 @@ class PacksHecTokens(BaseSDK):
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                Iterable[models.EventBreakerRuleFields],
-                Iterable[models.EventBreakerRuleFieldsTypedDict],
+                Iterable[models.MetadataConfAddHecTokenRequest],
+                Iterable[models.MetadataConfAddHecTokenRequestTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -291,7 +301,7 @@ class PacksHecTokens(BaseSDK):
         Update the metadata for the specified HEC token for the specified Splunk HEC Source within the specified Pack.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
-        :param token: The HEC token value to update.
+        :param token: The HEC token value whose metadata you want to update. Must match an existing token on the Source.
         :param pack: The <code>id</code> of the Pack.
         :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
         :param description: Brief description for the HEC token.
@@ -323,7 +333,7 @@ class PacksHecTokens(BaseSDK):
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
-                    metadata, Optional[List[models.EventBreakerRuleFields]]
+                    metadata, Optional[List[models.MetadataConfAddHecTokenRequest]]
                 ),
             ),
         )
@@ -373,6 +383,8 @@ class PacksHecTokens(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -382,10 +394,13 @@ class PacksHecTokens(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputSplunkHec, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -405,8 +420,8 @@ class PacksHecTokens(BaseSDK):
         enabled: Optional[bool] = None,
         metadata: Optional[
             Union[
-                Iterable[models.EventBreakerRuleFields],
-                Iterable[models.EventBreakerRuleFieldsTypedDict],
+                Iterable[models.MetadataConfAddHecTokenRequest],
+                Iterable[models.MetadataConfAddHecTokenRequestTypedDict],
             ]
         ] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
@@ -419,7 +434,7 @@ class PacksHecTokens(BaseSDK):
         Update the metadata for the specified HEC token for the specified Splunk HEC Source within the specified Pack.
 
         :param id: The <code>id</code> of the Splunk HEC Source.
-        :param token: The HEC token value to update.
+        :param token: The HEC token value whose metadata you want to update. Must match an existing token on the Source.
         :param pack: The <code>id</code> of the Pack.
         :param allowed_indexes_at_token: List of index names that the HEC token is allowed to write to.
         :param description: Brief description for the HEC token.
@@ -451,7 +466,7 @@ class PacksHecTokens(BaseSDK):
                 description=description,
                 enabled=enabled,
                 metadata=utils.get_pydantic_model(
-                    metadata, Optional[List[models.EventBreakerRuleFields]]
+                    metadata, Optional[List[models.MetadataConfAddHecTokenRequest]]
                 ),
             ),
         )
@@ -501,6 +516,8 @@ class PacksHecTokens(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -510,10 +527,13 @@ class PacksHecTokens(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputSplunkHec, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["400", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

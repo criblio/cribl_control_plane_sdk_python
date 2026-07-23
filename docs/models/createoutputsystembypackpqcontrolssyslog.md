@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsSyslog
 
+Persistent queue controls.
+
 
 ## Fields
 

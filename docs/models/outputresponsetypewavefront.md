@@ -1,5 +1,7 @@
 # OutputResponseTypeWavefront
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

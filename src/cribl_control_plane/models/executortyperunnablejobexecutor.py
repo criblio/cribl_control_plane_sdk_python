@@ -18,6 +18,7 @@ class ExecutorTypeRunnableJobExecutorTypedDict(TypedDict):
     store_task_results: NotRequired[bool]
     r"""Determines whether or not to write task results to disk"""
     conf: NotRequired[ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict]
+    r"""Executor-specific settings"""
 
 
 class ExecutorTypeRunnableJobExecutor(BaseModel):
@@ -30,6 +31,7 @@ class ExecutorTypeRunnableJobExecutor(BaseModel):
     r"""Determines whether or not to write task results to disk"""
 
     conf: Optional[ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor] = None
+    r"""Executor-specific settings"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

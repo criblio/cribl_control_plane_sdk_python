@@ -47,6 +47,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputOpenTelemetryType(str, Enum):
+    r"""Connector type identifier."""
+
     OPEN_TELEMETRY = "open_telemetry"
 
 
@@ -60,6 +62,8 @@ class OutputOpenTelemetryOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputOpenTelemetryAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication type"""
+
     # None
     NONE = "none"
     # Basic
@@ -75,15 +79,16 @@ class OutputOpenTelemetryAuthenticationType(str, Enum, metaclass=utils.OpenEnumM
 
 
 class OutputOpenTelemetryPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputOpenTelemetryPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputOpenTelemetryTypedDict(TypedDict):
     type: OutputOpenTelemetryType
+    r"""Connector type identifier."""
     endpoint: str
     r"""The endpoint where OTel events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets). Unspecified ports will default to 4317, unless the endpoint is an HTTPS-based URL or TLS is enabled, in which case 443 will be used."""
     id: NotRequired[str]
@@ -95,7 +100,7 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     protocol: NotRequired[ProtocolOptions]
     r"""Select a transport option for OpenTelemetry"""
     otlp_version: NotRequired[OutputOpenTelemetryOTLPVersion]
@@ -105,6 +110,7 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     http_compress: NotRequired[CompressionOptionsMessages]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     auth_type: NotRequired[OutputOpenTelemetryAuthenticationType]
+    r"""Authentication type"""
     http_traces_endpoint_override: NotRequired[str]
     r"""If you want to send traces to the default `{endpoint}/v1/traces` endpoint, leave this field empty; otherwise, specify the desired endpoint"""
     http_metrics_endpoint_override: NotRequired[str]
@@ -136,8 +142,11 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -179,6 +188,7 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     tls: NotRequired[TLSSettingsClientSideTypeExtendedTypedDict]
+    r"""TLS settings (client side)"""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -202,6 +212,7 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputOpenTelemetryPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -214,6 +225,7 @@ class OutputOpenTelemetryTypedDict(TypedDict):
 
 class OutputOpenTelemetry(BaseModel):
     type: OutputOpenTelemetryType
+    r"""Connector type identifier."""
 
     endpoint: str
     r"""The endpoint where OTel events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets). Unspecified ports will default to 4317, unless the endpoint is an HTTPS-based URL or TLS is enabled, in which case 443 will be used."""
@@ -233,7 +245,7 @@ class OutputOpenTelemetry(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     protocol: Optional[ProtocolOptions] = None
     r"""Select a transport option for OpenTelemetry"""
@@ -255,6 +267,7 @@ class OutputOpenTelemetry(BaseModel):
         Optional[OutputOpenTelemetryAuthenticationType],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication type"""
 
     http_traces_endpoint_override: Annotated[
         Optional[str], pydantic.Field(alias="httpTracesEndpointOverride")
@@ -325,10 +338,13 @@ class OutputOpenTelemetry(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -421,6 +437,7 @@ class OutputOpenTelemetry(BaseModel):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
     tls: Optional[TLSSettingsClientSideTypeExtended] = None
+    r"""TLS settings (client side)"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -474,6 +491,7 @@ class OutputOpenTelemetry(BaseModel):
     pq_controls: Annotated[
         Optional[OutputOpenTelemetryPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

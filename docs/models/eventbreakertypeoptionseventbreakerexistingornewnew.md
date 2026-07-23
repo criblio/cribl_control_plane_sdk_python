@@ -1,5 +1,7 @@
 # EventBreakerTypeOptionsEventBreakerExistingOrNewNew
 
+Event Breaker type
+
 ## Example Usage
 
 ```python

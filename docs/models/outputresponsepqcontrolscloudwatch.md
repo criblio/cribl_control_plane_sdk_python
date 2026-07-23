@@ -1,5 +1,7 @@
 # OutputResponsePqControlsCloudwatch
 
+Persistent queue controls.
+
 
 ## Fields
 

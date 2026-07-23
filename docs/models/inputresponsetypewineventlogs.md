@@ -1,5 +1,7 @@
 # InputResponseTypeWinEventLogs
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

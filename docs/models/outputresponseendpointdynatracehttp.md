@@ -1,5 +1,7 @@
 # OutputResponseEndpointDynatraceHTTP
 
+Endpoint
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeOpenaiComplianceLogs
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

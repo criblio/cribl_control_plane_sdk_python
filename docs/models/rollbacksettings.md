@@ -3,8 +3,8 @@
 
 ## Fields
 
-| Field              | Type               | Required           | Description        |
-| ------------------ | ------------------ | ------------------ | ------------------ |
-| `rollback_enabled` | *bool*             | :heavy_check_mark: | N/A                |
-| `rollback_retries` | *Optional[float]*  | :heavy_minus_sign: | N/A                |
-| `rollback_timeout` | *Optional[float]*  | :heavy_minus_sign: | N/A                |
+| Field                                                                                               | Type                                                                                                | Required                                                                                            | Description                                                                                         |
+| --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| `rollback_enabled`                                                                                  | *bool*                                                                                              | :heavy_check_mark:                                                                                  | If <code>true</code>, enable automatic rollback if an upgrade fails. Otherwise, <code>false</code>. |
+| `rollback_retries`                                                                                  | *Optional[int]*                                                                                     | :heavy_minus_sign:                                                                                  | Number of times to retry a rollback before marking it as failed.                                    |
+| `rollback_timeout`                                                                                  | *Optional[int]*                                                                                     | :heavy_minus_sign:                                                                                  | Maximum duration in milliseconds to wait for a rollback to complete before marking it as failed.    |

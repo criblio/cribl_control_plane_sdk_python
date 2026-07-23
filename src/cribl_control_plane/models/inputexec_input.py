@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputExecType(str, Enum):
+    r"""Connector type identifier."""
+
     EXEC = "exec"
 
 
@@ -32,11 +34,13 @@ class ScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputExecInputTypedDict(TypedDict):
     type: InputExecType
+    r"""Connector type identifier."""
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""Disabled"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -46,7 +50,7 @@ class InputExecInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -63,6 +67,7 @@ class InputExecInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     interval: NotRequired[float]
     r"""Interval between command executions in seconds."""
     cron_schedule: NotRequired[str]
@@ -75,6 +80,7 @@ class InputExecInputTypedDict(TypedDict):
 
 class InputExecInput(BaseModel):
     type: InputExecType
+    r"""Connector type identifier."""
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
@@ -83,6 +89,7 @@ class InputExecInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""Disabled"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -99,7 +106,7 @@ class InputExecInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -131,6 +138,7 @@ class InputExecInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     interval: Optional[float] = None
     r"""Interval between command executions in seconds."""

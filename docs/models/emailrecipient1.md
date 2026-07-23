@@ -1,5 +1,7 @@
 # EmailRecipient1
 
+Email recipient settings for the Notification target.
+
 
 ## Fields
 

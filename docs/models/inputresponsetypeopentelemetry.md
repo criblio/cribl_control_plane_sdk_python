@@ -1,5 +1,7 @@
 # InputResponseTypeOpenTelemetry
 
+Source type identifier.
+
 ## Example Usage
 
 ```python

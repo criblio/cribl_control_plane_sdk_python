@@ -377,6 +377,12 @@ value: models.CreateInputSystemByPackInputNetflow = /* values here */
 value: models.CreateInputSystemByPackInputSecurityLake = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputBedrockS3`
+
+```python
+value: models.CreateInputSystemByPackInputBedrockS3 = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputServicenowTable`
 
 ```python
@@ -393,6 +399,18 @@ value: models.CreateInputSystemByPackInputZscalerHec = /* values here */
 
 ```python
 value: models.CreateInputSystemByPackInputCloudflareHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputSysdigHec`
+
+```python
+value: models.CreateInputSystemByPackInputSysdigHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputUpwindHec`
+
+```python
+value: models.CreateInputSystemByPackInputUpwindHec = /* values here */
 ```
 
 ### `models.CreateInputSystemByPackInputOpenaiComplianceLogs`

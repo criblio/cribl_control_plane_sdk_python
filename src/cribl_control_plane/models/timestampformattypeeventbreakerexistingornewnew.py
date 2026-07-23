@@ -17,16 +17,22 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 class EventBreakerExistingOrNewNewTimestampTypeCurrentTypedDict(TypedDict):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+    r"""Timestamp type"""
     length: NotRequired[float]
+    r"""Length"""
     format_: NotRequired[str]
+    r"""Format"""
 
 
 class EventBreakerExistingOrNewNewTimestampTypeCurrent(BaseModel):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+    r"""Timestamp type"""
 
     length: Optional[float] = None
+    r"""Length"""
 
     format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
+    r"""Format"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -58,16 +64,22 @@ class EventBreakerExistingOrNewNewTimestampTypeCurrent(BaseModel):
 
 class EventBreakerExistingOrNewNewTimestampTypeFormatTypedDict(TypedDict):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+    r"""Timestamp type"""
     format_: str
+    r"""Format"""
     length: NotRequired[float]
+    r"""Length"""
 
 
 class EventBreakerExistingOrNewNewTimestampTypeFormat(BaseModel):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+    r"""Timestamp type"""
 
     format_: Annotated[str, pydantic.Field(alias="format")]
+    r"""Format"""
 
     length: Optional[float] = None
+    r"""Length"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -99,16 +111,22 @@ class EventBreakerExistingOrNewNewTimestampTypeFormat(BaseModel):
 
 class EventBreakerExistingOrNewNewTimestampTypeAutoTypedDict(TypedDict):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+    r"""Timestamp type"""
     length: float
+    r"""Length"""
     format_: NotRequired[str]
+    r"""Format"""
 
 
 class EventBreakerExistingOrNewNewTimestampTypeAuto(BaseModel):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
+    r"""Timestamp type"""
 
     length: float
+    r"""Length"""
 
     format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
+    r"""Format"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -146,6 +164,7 @@ TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict = TypeAliasType(
         EventBreakerExistingOrNewNewTimestampTypeCurrentTypedDict,
     ],
 )
+r"""Timestamp format"""
 
 
 class UnknownTimestampFormatTypeEventBreakerExistingOrNewNew(BaseModel):
@@ -182,6 +201,7 @@ TimestampFormatTypeEventBreakerExistingOrNewNew = Annotated[
         )
     ),
 ]
+r"""Timestamp format"""
 
 
 try:

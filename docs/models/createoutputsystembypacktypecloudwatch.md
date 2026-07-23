@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeCloudwatch
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # CreateOutputTypeGoogleCloudObservability
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

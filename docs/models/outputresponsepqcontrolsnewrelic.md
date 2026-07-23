@@ -1,5 +1,7 @@
 # OutputResponsePqControlsNewrelic
 
+Persistent queue controls.
+
 
 ## Fields
 

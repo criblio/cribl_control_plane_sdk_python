@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeDatagen
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

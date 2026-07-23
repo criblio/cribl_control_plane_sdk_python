@@ -1,5 +1,7 @@
 # OutputGoogleChronicleSendEventsAs
 
+Send events as
+
 ## Example Usage
 
 ```python

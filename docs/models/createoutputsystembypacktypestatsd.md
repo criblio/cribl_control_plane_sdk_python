@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeStatsd
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

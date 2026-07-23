@@ -1,5 +1,7 @@
 # OutputResponsePqControlsDynatraceHTTP
 
+Persistent queue controls.
+
 
 ## Fields
 

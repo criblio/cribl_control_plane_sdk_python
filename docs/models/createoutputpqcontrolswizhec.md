@@ -1,5 +1,7 @@
 # CreateOutputPqControlsWizHec
 
+Persistent queue controls.
+
 
 ## Fields
 

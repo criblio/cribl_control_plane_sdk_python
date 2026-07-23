@@ -1,5 +1,7 @@
 # OutputResponsePqControlsSqs
 
+Persistent queue controls.
+
 
 ## Fields
 

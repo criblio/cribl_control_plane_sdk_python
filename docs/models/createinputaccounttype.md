@@ -1,5 +1,7 @@
 # CreateInputAccountType
 
+Account type
+
 ## Example Usage
 
 ```python

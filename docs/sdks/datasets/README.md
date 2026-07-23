@@ -31,8 +31,10 @@ with CriblControlPlane(
 
     res = ccp_client.lakes.datasets.list(lake_id="<id>", storage_location_id="<id>", exclude_ddss=True, exclude_deleted=True, exclude_internal=False, exclude_byos=False)
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -49,16 +51,19 @@ with CriblControlPlane(
 | `exclude_internal`                                                                                                                                         | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.                                                            |
 | `exclude_byos`                                                                                                                                             | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude BYOS (Bring Your Own Storage) datasets from the response.                                                                                          |
 | `include_metrics`                                                                                                                                          | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license. |
+| `offset`                                                                                                                                                   | *Optional[int]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Pagination offset                                                                                                                                          |
+| `limit`                                                                                                                                                    | *Optional[int]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Maximum number of items to return                                                                                                                          |
 | `retries`                                                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                           | :heavy_minus_sign:                                                                                                                                         | Configuration to override the default retry behavior of the client.                                                                                        |
 
 ### Response
 
-**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
+**[models.GetCriblLakeDatasetByLakeIDResponse](../../models/getcribllakedatasetbylakeidresponse.md)**
 
 ### Errors
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -187,6 +192,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -233,6 +239,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -337,6 +344,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -382,5 +390,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

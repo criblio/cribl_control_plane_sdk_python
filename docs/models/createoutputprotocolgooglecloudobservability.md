@@ -1,5 +1,7 @@
 # CreateOutputProtocolGoogleCloudObservability
 
+Discriminator value.
+
 ## Example Usage
 
 ```python

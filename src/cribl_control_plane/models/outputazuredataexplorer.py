@@ -41,10 +41,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputAzureDataExplorerType(str, Enum):
+    r"""Connector type identifier."""
+
     AZURE_DATA_EXPLORER = "azure_data_explorer"
 
 
 class OutputAzureDataExplorerIngestionMode(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Ingestion mode"""
+
     # Batching
     BATCHING = "batching"
     # Streaming
@@ -93,6 +97,8 @@ class OutputAzureDataExplorerCertificate(BaseModel):
 
 
 class OutputAzureDataExplorerPrefixOptional(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Prefix (optional)"""
+
     # drop-by
     DROP_BY = "dropBy"
     # ingest-by
@@ -101,13 +107,17 @@ class OutputAzureDataExplorerPrefixOptional(str, Enum, metaclass=utils.OpenEnumM
 
 class OutputAzureDataExplorerExtentTagTypedDict(TypedDict):
     value: str
+    r"""Value"""
     prefix: NotRequired[OutputAzureDataExplorerPrefixOptional]
+    r"""Prefix (optional)"""
 
 
 class OutputAzureDataExplorerExtentTag(BaseModel):
     value: str
+    r"""Value"""
 
     prefix: Optional[OutputAzureDataExplorerPrefixOptional] = None
+    r"""Prefix (optional)"""
 
     @field_serializer("prefix")
     def serialize_prefix(self, value):
@@ -137,10 +147,12 @@ class OutputAzureDataExplorerExtentTag(BaseModel):
 
 class OutputAzureDataExplorerIngestIfNotExistTypedDict(TypedDict):
     value: str
+    r"""Value"""
 
 
 class OutputAzureDataExplorerIngestIfNotExist(BaseModel):
     value: str
+    r"""Value"""
 
 
 class OutputAzureDataExplorerReportLevel(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -167,25 +179,30 @@ class OutputAzureDataExplorerReportMethod(str, Enum, metaclass=utils.OpenEnumMet
 
 class OutputAzureDataExplorerAdditionalPropertyTypedDict(TypedDict):
     key: str
+    r"""Key"""
     value: str
+    r"""Value"""
 
 
 class OutputAzureDataExplorerAdditionalProperty(BaseModel):
     key: str
+    r"""Key"""
 
     value: str
+    r"""Value"""
 
 
 class OutputAzureDataExplorerPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAzureDataExplorerPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAzureDataExplorerTypedDict(TypedDict):
     type: OutputAzureDataExplorerType
+    r"""Connector type identifier."""
     cluster_url: str
     r"""The base URI for your cluster. Typically, `https://<cluster>.<region>.kusto.windows.net`."""
     database: str
@@ -213,11 +230,13 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     validate_database_settings: NotRequired[bool]
     r"""When saving or starting the Destination, validate the database name and credentials; also validate table name, except when creating a new table. Disable if your Azure app does not have both the Database Viewer and the Table Viewer role."""
     ingest_mode: NotRequired[OutputAzureDataExplorerIngestionMode]
+    r"""Ingestion mode"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""The client secret that you generated for your app in the Azure portal"""
     text_secret: NotRequired[str]
@@ -291,6 +310,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Add the Output ID value to staging location"""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
     flush_immediately: NotRequired[bool]
@@ -358,6 +378,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputAzureDataExplorerPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_cluster_url: NotRequired[str]
@@ -394,6 +415,7 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
 
 class OutputAzureDataExplorer(BaseModel):
     type: OutputAzureDataExplorerType
+    r"""Connector type identifier."""
 
     cluster_url: Annotated[str, pydantic.Field(alias="clusterUrl")]
     r"""The base URI for your cluster. Typically, `https://<cluster>.<region>.kusto.windows.net`."""
@@ -442,7 +464,7 @@ class OutputAzureDataExplorer(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     validate_database_settings: Annotated[
         Optional[bool], pydantic.Field(alias="validateDatabaseSettings")
@@ -453,8 +475,10 @@ class OutputAzureDataExplorer(BaseModel):
         Optional[OutputAzureDataExplorerIngestionMode],
         pydantic.Field(alias="ingestMode"),
     ] = None
+    r"""Ingestion mode"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""The client secret that you generated for your app in the Azure portal"""
@@ -628,6 +652,7 @@ class OutputAzureDataExplorer(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
@@ -773,6 +798,7 @@ class OutputAzureDataExplorer(BaseModel):
     pq_controls: Annotated[
         Optional[OutputAzureDataExplorerPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

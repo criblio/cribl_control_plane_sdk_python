@@ -1,5 +1,7 @@
 # CreateOutputPqControlsCloudwatch
 
+Persistent queue controls.
+
 
 ## Fields
 

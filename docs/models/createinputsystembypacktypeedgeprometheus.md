@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeEdgePrometheus
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

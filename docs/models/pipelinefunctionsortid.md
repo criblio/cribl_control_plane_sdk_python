@@ -1,6 +1,6 @@
 # PipelineFunctionSortID
 
-Function ID
+Identifier of the Function. Always <code>sort</code>
 
 ## Example Usage
 

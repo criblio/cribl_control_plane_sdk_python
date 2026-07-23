@@ -1,5 +1,7 @@
 # CreateOutputTypeSumoLogic
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

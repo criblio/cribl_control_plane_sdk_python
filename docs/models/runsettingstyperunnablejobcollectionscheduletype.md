@@ -1,5 +1,7 @@
 # RunSettingsTypeRunnableJobCollectionScheduleType
 
+Resource type identifier.
+
 ## Example Usage
 
 ```python

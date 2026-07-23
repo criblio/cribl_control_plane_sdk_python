@@ -1,5 +1,7 @@
 # OutputResponseOtlpVersionGoogleCloudObservability
 
+Discriminator value.
+
 ## Example Usage
 
 ```python

@@ -30,19 +30,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputNewrelicEventsType(str, Enum):
+    r"""Connector type identifier."""
+
     NEWRELIC_EVENTS = "newrelic_events"
 
 
 class OutputNewrelicEventsPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputNewrelicEventsPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputNewrelicEventsTypedDict(TypedDict):
     type: OutputNewrelicEventsType
+    r"""Connector type identifier."""
     account_id: str
     r"""New Relic account ID"""
     event_type: str
@@ -56,7 +59,7 @@ class OutputNewrelicEventsTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     region: NotRequired[RegionOptions]
     r"""Which New Relic region endpoint to use."""
     concurrency: NotRequired[float]
@@ -96,6 +99,7 @@ class OutputNewrelicEventsTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAPI]
     r"""Enter API key directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     custom_url: NotRequired[str]
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -120,6 +124,7 @@ class OutputNewrelicEventsTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputNewrelicEventsPqControlsTypedDict]
+    r"""Persistent queue controls."""
     api_key: NotRequired[str]
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""
     text_secret: NotRequired[str]
@@ -142,6 +147,7 @@ class OutputNewrelicEventsTypedDict(TypedDict):
 
 class OutputNewrelicEvents(BaseModel):
     type: OutputNewrelicEventsType
+    r"""Connector type identifier."""
 
     account_id: Annotated[str, pydantic.Field(alias="accountId")]
     r"""New Relic account ID"""
@@ -164,7 +170,7 @@ class OutputNewrelicEvents(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     region: Optional[RegionOptions] = None
     r"""Which New Relic region endpoint to use."""
@@ -249,6 +255,7 @@ class OutputNewrelicEvents(BaseModel):
     r"""Enter API key directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     custom_url: Annotated[Optional[str], pydantic.Field(alias="customUrl")] = None
 
@@ -304,6 +311,7 @@ class OutputNewrelicEvents(BaseModel):
     pq_controls: Annotated[
         Optional[OutputNewrelicEventsPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
     r"""New Relic API key. Can be overridden using __newRelic_apiKey field."""

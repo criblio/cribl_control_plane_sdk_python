@@ -8,6 +8,8 @@ from enum import Enum
 class TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Timestamp type"""
+
     AUTO = "auto"
     FORMAT = "format"
     CURRENT = "current"

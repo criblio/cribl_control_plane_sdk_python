@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackTypeCriblLake
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

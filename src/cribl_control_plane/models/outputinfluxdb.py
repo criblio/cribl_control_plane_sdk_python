@@ -28,6 +28,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputInfluxdbType(str, Enum):
+    r"""Connector type identifier."""
+
     INFLUXDB = "influxdb"
 
 
@@ -64,15 +66,16 @@ class OutputInfluxdbAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputInfluxdbPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputInfluxdbPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputInfluxdbTypedDict(TypedDict):
     type: OutputInfluxdbType
+    r"""Connector type identifier."""
     url: str
     r"""URL of an InfluxDB cluster to send events to, e.g., http://localhost:8086/write"""
     id: NotRequired[str]
@@ -84,7 +87,7 @@ class OutputInfluxdbTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     use_v2_api: NotRequired[bool]
     r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
     timestamp_precision: NotRequired[OutputInfluxdbTimestampPrecision]
@@ -130,6 +133,7 @@ class OutputInfluxdbTypedDict(TypedDict):
     auth_type: NotRequired[OutputInfluxdbAuthenticationType]
     r"""InfluxDB authentication type"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     database: NotRequired[str]
     r"""Database to write to."""
     bucket: NotRequired[str]
@@ -159,8 +163,11 @@ class OutputInfluxdbTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputInfluxdbPqControlsTypedDict]
+    r"""Persistent queue controls."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -183,6 +190,7 @@ class OutputInfluxdbTypedDict(TypedDict):
 
 class OutputInfluxdb(BaseModel):
     type: OutputInfluxdbType
+    r"""Connector type identifier."""
 
     url: str
     r"""URL of an InfluxDB cluster to send events to, e.g., http://localhost:8086/write"""
@@ -202,7 +210,7 @@ class OutputInfluxdb(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     use_v2_api: Annotated[Optional[bool], pydantic.Field(alias="useV2API")] = None
     r"""The v2 API can be enabled with InfluxDB versions 1.8 and later."""
@@ -303,6 +311,7 @@ class OutputInfluxdb(BaseModel):
     r"""InfluxDB authentication type"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     database: Optional[str] = None
     r"""Database to write to."""
@@ -365,10 +374,13 @@ class OutputInfluxdb(BaseModel):
     pq_controls: Annotated[
         Optional[OutputInfluxdbPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""

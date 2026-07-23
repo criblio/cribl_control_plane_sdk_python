@@ -27,11 +27,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputFilesystemType(str, Enum):
+    r"""Connector type identifier."""
+
     FILESYSTEM = "filesystem"
 
 
 class OutputFilesystemTypedDict(TypedDict):
     type: OutputFilesystemType
+    r"""Connector type identifier."""
     dest_path: str
     r"""Final destination for the output files"""
     id: NotRequired[str]
@@ -43,7 +46,7 @@ class OutputFilesystemTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     stage_path: NotRequired[str]
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
     add_id_to_stage_path: NotRequired[bool]
@@ -80,7 +83,9 @@ class OutputFilesystemTypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     compress: NotRequired[CompressionOptionsHTTP]
     r"""Data compression format to apply to HTTP content before it is delivered"""
     compression_level: NotRequired[CompressionLevelOptions]
@@ -135,6 +140,7 @@ class OutputFilesystemTypedDict(TypedDict):
 
 class OutputFilesystem(BaseModel):
     type: OutputFilesystemType
+    r"""Connector type identifier."""
 
     dest_path: Annotated[str, pydantic.Field(alias="destPath")]
     r"""Final destination for the output files"""
@@ -154,7 +160,7 @@ class OutputFilesystem(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     stage_path: Annotated[Optional[str], pydantic.Field(alias="stagePath")] = None
     r"""Filesystem location in which to buffer files, before compressing and moving to final destination. Use performant and stable storage."""
@@ -244,8 +250,10 @@ class OutputFilesystem(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     compress: Optional[CompressionOptionsHTTP] = None
     r"""Data compression format to apply to HTTP content before it is delivered"""

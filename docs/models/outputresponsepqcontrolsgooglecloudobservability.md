@@ -1,5 +1,7 @@
 # OutputResponsePqControlsGoogleCloudObservability
 
+Persistent queue controls.
+
 
 ## Fields
 

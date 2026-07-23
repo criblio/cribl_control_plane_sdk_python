@@ -1,5 +1,7 @@
 # FunctionConfSchemaPublishMetricsMetricType
 
+Metric Type
+
 ## Example Usage
 
 ```python

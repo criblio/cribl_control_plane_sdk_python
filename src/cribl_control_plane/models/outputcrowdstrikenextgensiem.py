@@ -32,19 +32,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputCrowdstrikeNextGenSiemType(str, Enum):
+    r"""Connector type identifier."""
+
     CROWDSTRIKE_NEXT_GEN_SIEM = "crowdstrike_next_gen_siem"
 
 
 class OutputCrowdstrikeNextGenSiemPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCrowdstrikeNextGenSiemPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     type: OutputCrowdstrikeNextGenSiemType
+    r"""Connector type identifier."""
     url: str
     r"""URL provided from a CrowdStrike data connector.
     Example: https://ingest.<region>.crowdstrike.com/api/ingest/hec/<connection-id>/v1/services/collector
@@ -60,7 +63,7 @@ class OutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -98,7 +101,9 @@ class OutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     token: NotRequired[str]
+    r"""Next-Gen SIEM authentication token"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     pq_strict_ordering: NotRequired[bool]
@@ -124,6 +129,7 @@ class OutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputCrowdstrikeNextGenSiemPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -136,6 +142,7 @@ class OutputCrowdstrikeNextGenSiemTypedDict(TypedDict):
 
 class OutputCrowdstrikeNextGenSiem(BaseModel):
     type: OutputCrowdstrikeNextGenSiemType
+    r"""Connector type identifier."""
 
     url: str
     r"""URL provided from a CrowdStrike data connector.
@@ -160,7 +167,7 @@ class OutputCrowdstrikeNextGenSiem(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -243,8 +250,10 @@ class OutputCrowdstrikeNextGenSiem(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     token: Optional[str] = None
+    r"""Next-Gen SIEM authentication token"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -302,6 +311,7 @@ class OutputCrowdstrikeNextGenSiem(BaseModel):
         Optional[OutputCrowdstrikeNextGenSiemPqControls],
         pydantic.Field(alias="pqControls"),
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

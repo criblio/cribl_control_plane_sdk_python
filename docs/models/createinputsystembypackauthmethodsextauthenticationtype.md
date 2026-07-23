@@ -1,5 +1,7 @@
 # CreateInputSystemByPackAuthMethodsExtAuthenticationType
 
+Authentication type
+
 ## Example Usage
 
 ```python

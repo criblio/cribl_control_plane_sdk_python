@@ -39,6 +39,7 @@ class ResourceRecordType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class DNSLookupFieldTypedDict(TypedDict):
     in_field_name: NotRequired[str]
+    r"""Lookup field name"""
     resource_record_type: NotRequired[ResourceRecordType]
     r"""The DNS record type (RR) to return. Defaults to 'A'."""
     out_field_name: NotRequired[str]
@@ -47,6 +48,7 @@ class DNSLookupFieldTypedDict(TypedDict):
 
 class DNSLookupField(BaseModel):
     in_field_name: Annotated[Optional[str], pydantic.Field(alias="inFieldName")] = None
+    r"""Lookup field name"""
 
     resource_record_type: Annotated[
         Optional[ResourceRecordType], pydantic.Field(alias="resourceRecordType")
@@ -118,6 +120,8 @@ class ReverseLookupField(BaseModel):
 
 
 class LogLevelForFailedLookups(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Log level to use when a DNS lookup fails."""
+
     # silly
     SILLY = "silly"
     # debug
@@ -148,6 +152,7 @@ class FunctionConfSchemaDNSLookupTypedDict(TypedDict):
     domain_overrides: NotRequired[List[str]]
     r"""Specify fallback values for the DNS resolver to use when it cannot resolve a DNS short name"""
     lookup_fail_log_level: NotRequired[LogLevelForFailedLookups]
+    r"""Log level to use when a DNS lookup fails."""
 
 
 class FunctionConfSchemaDNSLookup(BaseModel):
@@ -197,6 +202,7 @@ class FunctionConfSchemaDNSLookup(BaseModel):
     lookup_fail_log_level: Annotated[
         Optional[LogLevelForFailedLookups], pydantic.Field(alias="lookupFailLogLevel")
     ] = None
+    r"""Log level to use when a DNS lookup fails."""
 
     @property
     def additional_properties(self):

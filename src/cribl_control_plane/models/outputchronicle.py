@@ -28,25 +28,33 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputChronicleType(str, Enum):
+    r"""Connector type identifier."""
+
     CHRONICLE = "chronicle"
 
 
 class OutputChronicleAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication method"""
+
     SERVICE_ACCOUNT = "serviceAccount"
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
 class OutputChronicleCustomLabelTypedDict(TypedDict):
     key: str
+    r"""Key"""
     value: str
+    r"""Value"""
     rbac_enabled: NotRequired[bool]
     r"""Designate this label for role-based access control and filtering"""
 
 
 class OutputChronicleCustomLabel(BaseModel):
     key: str
+    r"""Key"""
 
     value: str
+    r"""Value"""
 
     rbac_enabled: Annotated[Optional[bool], pydantic.Field(alias="rbacEnabled")] = None
     r"""Designate this label for role-based access control and filtering"""
@@ -69,15 +77,16 @@ class OutputChronicleCustomLabel(BaseModel):
 
 
 class OutputChroniclePqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputChroniclePqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputChronicleTypedDict(TypedDict):
     type: OutputChronicleType
+    r"""Connector type identifier."""
     region: str
     r"""Regional endpoint to send events to"""
     log_type: str
@@ -95,9 +104,11 @@ class OutputChronicleTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     api_version: NotRequired[str]
+    r"""API version"""
     authentication_method: NotRequired[OutputChronicleAuthenticationMethod]
+    r"""Authentication method"""
     response_retry_settings: NotRequired[
         List[ResponseRetrySettingConfOutputWebhookTypedDict]
     ]
@@ -135,6 +146,7 @@ class OutputChronicleTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     ingestion_method: NotRequired[str]
+    r"""Chronicle API ingestion method"""
     namespace: NotRequired[str]
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     log_text_field: NotRequired[str]
@@ -144,6 +156,7 @@ class OutputChronicleTypedDict(TypedDict):
     endpoint: NotRequired[str]
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     service_account_credentials: NotRequired[str]
     r"""Contents of service account credentials (JSON keys) file downloaded from Google Cloud. To upload a file, click the upload button at this field's upper right."""
     service_account_credentials_secret: NotRequired[str]
@@ -171,6 +184,7 @@ class OutputChronicleTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputChroniclePqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
@@ -195,6 +209,7 @@ class OutputChronicleTypedDict(TypedDict):
 
 class OutputChronicle(BaseModel):
     type: OutputChronicleType
+    r"""Connector type identifier."""
 
     region: str
     r"""Regional endpoint to send events to"""
@@ -223,14 +238,16 @@ class OutputChronicle(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     api_version: Annotated[Optional[str], pydantic.Field(alias="apiVersion")] = None
+    r"""API version"""
 
     authentication_method: Annotated[
         Optional[OutputChronicleAuthenticationMethod],
         pydantic.Field(alias="authenticationMethod"),
     ] = None
+    r"""Authentication method"""
 
     response_retry_settings: Annotated[
         Optional[List[ResponseRetrySettingConfOutputWebhook]],
@@ -314,6 +331,7 @@ class OutputChronicle(BaseModel):
     ingestion_method: Annotated[
         Optional[str], pydantic.Field(alias="ingestionMethod")
     ] = None
+    r"""Chronicle API ingestion method"""
 
     namespace: Optional[str] = None
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
@@ -332,6 +350,7 @@ class OutputChronicle(BaseModel):
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")
@@ -395,6 +414,7 @@ class OutputChronicle(BaseModel):
     pq_controls: Annotated[
         Optional[OutputChroniclePqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

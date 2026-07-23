@@ -1,5 +1,7 @@
 # InputResponseTypeTCP
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

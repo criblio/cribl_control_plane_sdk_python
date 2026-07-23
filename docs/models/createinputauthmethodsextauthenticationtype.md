@@ -1,5 +1,7 @@
 # CreateInputAuthMethodsExtAuthenticationType
 
+Authentication type
+
 ## Example Usage
 
 ```python

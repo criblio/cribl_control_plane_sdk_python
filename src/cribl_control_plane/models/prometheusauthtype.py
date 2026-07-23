@@ -16,6 +16,7 @@ class PrometheusAuthTypeTypedDict(TypedDict):
     auth_type: NotRequired[
         AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret
     ]
+    r"""Authentication type"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header. In Grafana Cloud, this is generally built by concatenating the username and the API key, separated by a colon. Example: <your-username>:<your-api-key>"""
     text_secret: NotRequired[str]
@@ -33,6 +34,7 @@ class PrometheusAuthType(BaseModel):
         Optional[AuthenticationTypeOptionsPrometheusAuthBasicCredentialsSecret],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication type"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header. In Grafana Cloud, this is generally built by concatenating the username and the API key, separated by a colon. Example: <your-username>:<your-api-key>"""

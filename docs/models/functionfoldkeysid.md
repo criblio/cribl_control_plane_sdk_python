@@ -1,5 +1,7 @@
 # FunctionFoldkeysID
 
+Identifier of the Function. Always <code>foldkeys</code>
+
 ## Example Usage
 
 ```python

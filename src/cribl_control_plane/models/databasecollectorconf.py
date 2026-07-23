@@ -73,6 +73,7 @@ class DatabaseCollectorConfTypedDict(TypedDict):
     query_validation_enabled: NotRequired[bool]
     r"""Enforces a basic query validation that allows only a single 'select' statement. Disable for more complex queries or when using semicolons. Caution: Disabling query validation allows DDL and DML statements to be executed, which could be destructive to your database."""
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
+    r"""Hidden Default Breakers"""
     scheduling: NotRequired[DatabaseCollectorConfSchedulingTypedDict]
     template_query: NotRequired[str]
     r"""Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime."""
@@ -94,6 +95,7 @@ class DatabaseCollectorConf(BaseModel):
         Optional[HiddenDefaultBreakersOptionsDatabaseCollectorConf],
         pydantic.Field(alias="defaultBreakers"),
     ] = None
+    r"""Hidden Default Breakers"""
 
     scheduling: Annotated[
         Optional[DatabaseCollectorConfScheduling], pydantic.Field(alias="__scheduling")

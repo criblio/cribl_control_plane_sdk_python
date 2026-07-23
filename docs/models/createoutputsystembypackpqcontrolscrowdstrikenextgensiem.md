@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsCrowdstrikeNextGenSiem
 
+Persistent queue controls.
+
 
 ## Fields
 

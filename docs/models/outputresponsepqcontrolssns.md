@@ -1,5 +1,7 @@
 # OutputResponsePqControlsSns
 
+Persistent queue controls.
+
 
 ## Fields
 

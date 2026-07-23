@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputFileType(str, Enum):
+    r"""Connector type identifier."""
+
     FILE = "file"
 
 
@@ -34,9 +36,11 @@ class InputFileMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputFileInputTypedDict(TypedDict):
     type: InputFileType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -46,7 +50,7 @@ class InputFileInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -81,11 +85,13 @@ class InputFileInputTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     path: NotRequired[str]
     r"""Directory path to search for files. Environment variables will be resolved (example: $CRIBL_HOME/log/)."""
     depth: NotRequired[float]
     r"""Set how many subdirectories deep to search. Use 0 to search only files in the given path, 1 to also look in its immediate subdirectories, etc. Leave it empty for unlimited depth."""
     suppress_missing_path_errors: NotRequired[bool]
+    r"""Suppress errors when search path does not exist"""
     delete_files: NotRequired[bool]
     r"""Delete files after they have been collected"""
     salt_hash: NotRequired[bool]
@@ -102,11 +108,13 @@ class InputFileInputTypedDict(TypedDict):
 
 class InputFileInput(BaseModel):
     type: InputFileType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -123,7 +131,7 @@ class InputFileInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -186,6 +194,7 @@ class InputFileInput(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     path: Optional[str] = None
     r"""Directory path to search for files. Environment variables will be resolved (example: $CRIBL_HOME/log/)."""
@@ -196,6 +205,7 @@ class InputFileInput(BaseModel):
     suppress_missing_path_errors: Annotated[
         Optional[bool], pydantic.Field(alias="suppressMissingPathErrors")
     ] = None
+    r"""Suppress errors when search path does not exist"""
 
     delete_files: Annotated[Optional[bool], pydantic.Field(alias="deleteFiles")] = None
     r"""Delete files after they have been collected"""

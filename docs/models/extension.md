@@ -5,5 +5,5 @@
 
 | Field                                                        | Type                                                         | Required                                                     | Description                                                  |
 | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| `name`                                                       | *str*                                                        | :heavy_check_mark:                                           | N/A                                                          |
+| `name`                                                       | *str*                                                        | :heavy_check_mark:                                           | Name                                                         |
 | `value`                                                      | *str*                                                        | :heavy_check_mark:                                           | JavaScript expression to compute the value (can be constant) |

@@ -1,5 +1,7 @@
 # OutputResponseTypeCriblSearchEngine
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

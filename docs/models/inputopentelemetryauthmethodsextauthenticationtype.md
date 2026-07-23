@@ -1,5 +1,7 @@
 # InputOpenTelemetryAuthMethodsExtAuthenticationType
 
+Authentication type
+
 ## Example Usage
 
 ```python

@@ -28,6 +28,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputSumoLogicType(str, Enum):
+    r"""Connector type identifier."""
+
     SUMO_LOGIC = "sumo_logic"
 
 
@@ -41,15 +43,16 @@ class OutputSumoLogicDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class OutputSumoLogicPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSumoLogicPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSumoLogicTypedDict(TypedDict):
     type: OutputSumoLogicType
+    r"""Connector type identifier."""
     url: str
     r"""Sumo Logic HTTP collector URL to which events should be sent"""
     id: NotRequired[str]
@@ -61,7 +64,7 @@ class OutputSumoLogicTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     custom_source: NotRequired[str]
     r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""
     custom_category: NotRequired[str]
@@ -105,6 +108,7 @@ class OutputSumoLogicTypedDict(TypedDict):
     total_memory_limit_kb: NotRequired[float]
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -128,6 +132,7 @@ class OutputSumoLogicTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSumoLogicPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -140,6 +145,7 @@ class OutputSumoLogicTypedDict(TypedDict):
 
 class OutputSumoLogic(BaseModel):
     type: OutputSumoLogicType
+    r"""Connector type identifier."""
 
     url: str
     r"""Sumo Logic HTTP collector URL to which events should be sent"""
@@ -159,7 +165,7 @@ class OutputSumoLogic(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     custom_source: Annotated[Optional[str], pydantic.Field(alias="customSource")] = None
     r"""Override the source name configured on the Sumo Logic HTTP collector. This can also be overridden at the event level with the __sourceName field."""
@@ -254,6 +260,7 @@ class OutputSumoLogic(BaseModel):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -307,6 +314,7 @@ class OutputSumoLogic(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSumoLogicPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

@@ -28,6 +28,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputAzureLogsType(str, Enum):
+    r"""Connector type identifier."""
+
     AZURE_LOGS = "azure_logs"
 
 
@@ -39,15 +41,16 @@ class OutputAzureLogsAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMet
 
 
 class OutputAzureLogsPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAzureLogsPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputAzureLogsTypedDict(TypedDict):
     type: OutputAzureLogsType
+    r"""Connector type identifier."""
     log_type: str
     r"""The Log Type of events sent to this LogAnalytics workspace. Defaults to `Cribl`. Use only letters, numbers, and `_` characters, and can't exceed 100 characters. Can be overwritten by event field __logType."""
     id: NotRequired[str]
@@ -59,7 +62,7 @@ class OutputAzureLogsTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     resource_id: NotRequired[str]
     r"""Optional Resource ID of the Azure resource to associate the data with. Can be overridden by the __resourceId event field. This ID populates the _ResourceId property, allowing the data to be included in resource-centric queries. If the ID is neither specified nor overridden, resource-centric queries will omit the data."""
     concurrency: NotRequired[float]
@@ -100,6 +103,7 @@ class OutputAzureLogsTypedDict(TypedDict):
     auth_type: NotRequired[OutputAzureLogsAuthenticationMethod]
     r"""Enter workspace ID and workspace key directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -123,6 +127,7 @@ class OutputAzureLogsTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputAzureLogsPqControlsTypedDict]
+    r"""Persistent queue controls."""
     workspace_id: NotRequired[str]
     r"""Azure Log Analytics Workspace ID. See Azure Dashboard Workspace > Advanced settings."""
     workspace_key: NotRequired[str]
@@ -143,6 +148,7 @@ class OutputAzureLogsTypedDict(TypedDict):
 
 class OutputAzureLogs(BaseModel):
     type: OutputAzureLogsType
+    r"""Connector type identifier."""
 
     log_type: Annotated[str, pydantic.Field(alias="logType")]
     r"""The Log Type of events sent to this LogAnalytics workspace. Defaults to `Cribl`. Use only letters, numbers, and `_` characters, and can't exceed 100 characters. Can be overwritten by event field __logType."""
@@ -162,7 +168,7 @@ class OutputAzureLogs(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     resource_id: Annotated[Optional[str], pydantic.Field(alias="resourceId")] = None
     r"""Optional Resource ID of the Azure resource to associate the data with. Can be overridden by the __resourceId event field. This ID populates the _ResourceId property, allowing the data to be included in resource-centric queries. If the ID is neither specified nor overridden, resource-centric queries will omit the data."""
@@ -249,6 +255,7 @@ class OutputAzureLogs(BaseModel):
     r"""Enter workspace ID and workspace key directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -302,6 +309,7 @@ class OutputAzureLogs(BaseModel):
     pq_controls: Annotated[
         Optional[OutputAzureLogsPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     workspace_id: Annotated[Optional[str], pydantic.Field(alias="workspaceId")] = None
     r"""Azure Log Analytics Workspace ID. See Azure Dashboard Workspace > Advanced settings."""

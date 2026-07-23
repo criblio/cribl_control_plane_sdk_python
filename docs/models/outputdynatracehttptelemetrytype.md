@@ -1,5 +1,7 @@
 # OutputDynatraceHTTPTelemetryType
 
+Telemetry type
+
 ## Example Usage
 
 ```python

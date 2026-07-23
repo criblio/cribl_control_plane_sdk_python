@@ -1,5 +1,7 @@
 # CreateOutputPqControlsSentinelOneAiSiem
 
+Persistent queue controls.
+
 
 ## Fields
 

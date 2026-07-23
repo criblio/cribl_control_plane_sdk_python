@@ -1,5 +1,7 @@
 # CreateOutputTypeDatabricks
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

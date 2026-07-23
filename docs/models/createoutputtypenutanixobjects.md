@@ -1,5 +1,7 @@
 # CreateOutputTypeNutanixObjects
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

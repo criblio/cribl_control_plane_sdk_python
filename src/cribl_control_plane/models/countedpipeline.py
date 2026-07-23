@@ -2,38 +2,21 @@
 
 from __future__ import annotations
 from .pipeline import Pipeline, PipelineTypedDict
-from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from pydantic import model_serializer
-from typing import List, Optional
-from typing_extensions import NotRequired, TypedDict
+from cribl_control_plane.types import BaseModel
+from typing import List
+from typing_extensions import TypedDict
 
 
 class CountedPipelineTypedDict(TypedDict):
-    count: NotRequired[int]
+    count: int
     r"""number of items present in the items array"""
-    items: NotRequired[List[PipelineTypedDict]]
+    items: List[PipelineTypedDict]
     r"""List of items in this response."""
 
 
 class CountedPipeline(BaseModel):
-    count: Optional[int] = None
+    count: int
     r"""number of items present in the items array"""
 
-    items: Optional[List[Pipeline]] = None
+    items: List[Pipeline]
     r"""List of items in this response."""
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(["count", "items"])
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m

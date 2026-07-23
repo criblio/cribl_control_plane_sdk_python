@@ -1,5 +1,7 @@
 # OutputAzureDataExplorerIngestionMode
 
+Ingestion mode
+
 ## Example Usage
 
 ```python

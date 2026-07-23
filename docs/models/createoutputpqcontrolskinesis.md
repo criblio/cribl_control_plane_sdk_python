@@ -1,5 +1,7 @@
 # CreateOutputPqControlsKinesis
 
+Persistent queue controls.
+
 
 ## Fields
 

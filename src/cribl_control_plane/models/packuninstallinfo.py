@@ -7,10 +7,14 @@ from typing_extensions import TypedDict
 
 class PackUninstallInfoTypedDict(TypedDict):
     id: str
+    r"""Unique identifier for the Pack."""
     source: str
+    r"""Source from which the Pack was originally installed."""
 
 
 class PackUninstallInfo(BaseModel):
     id: str
+    r"""Unique identifier for the Pack."""
 
     source: str
+    r"""Source from which the Pack was originally installed."""

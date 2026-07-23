@@ -14,20 +14,17 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
+from .typeoptionssyslog import TypeOptionsSyslog
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class InputSyslogType2(str, Enum):
-    SYSLOG = "syslog"
-
-
 class InputSyslogSyslogInput2TypedDict(TypedDict):
-    type: InputSyslogType2
+    type: TypeOptionsSyslog
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     tcp_port: float
@@ -35,6 +32,7 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -44,7 +42,7 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -79,6 +77,7 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
     socket_max_lifespan: NotRequired[float]
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
@@ -86,6 +85,7 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
     template_environment: NotRequired[str]
@@ -103,7 +103,8 @@ class InputSyslogSyslogInput2TypedDict(TypedDict):
 
 
 class InputSyslogSyslogInput2(BaseModel):
-    type: InputSyslogType2
+    type: TypeOptionsSyslog
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -115,6 +116,7 @@ class InputSyslogSyslogInput2(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -131,7 +133,7 @@ class InputSyslogSyslogInput2(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -212,6 +214,7 @@ class InputSyslogSyslogInput2(BaseModel):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -227,6 +230,7 @@ class InputSyslogSyslogInput2(BaseModel):
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     enable_enhanced_proxy_header_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableEnhancedProxyHeaderParsing")
@@ -319,12 +323,9 @@ class InputSyslogSyslogInput2(BaseModel):
         return m
 
 
-class InputSyslogType1(str, Enum):
-    SYSLOG = "syslog"
-
-
 class InputSyslogSyslogInput1TypedDict(TypedDict):
-    type: InputSyslogType1
+    type: TypeOptionsSyslog
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
     udp_port: float
@@ -332,6 +333,7 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -341,7 +343,7 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -376,6 +378,7 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
     socket_max_lifespan: NotRequired[float]
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     udp_socket_rx_buf_size: NotRequired[float]
@@ -383,6 +386,7 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
     enable_load_balancing: NotRequired[bool]
     r"""Load balance traffic across all Worker Processes"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     enable_enhanced_proxy_header_parsing: NotRequired[bool]
     r"""When enabled, parses PROXY protocol headers during the TLS handshake. Disable if compatibility issues arise."""
     template_environment: NotRequired[str]
@@ -400,7 +404,8 @@ class InputSyslogSyslogInput1TypedDict(TypedDict):
 
 
 class InputSyslogSyslogInput1(BaseModel):
-    type: InputSyslogType1
+    type: TypeOptionsSyslog
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -412,6 +417,7 @@ class InputSyslogSyslogInput1(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -428,7 +434,7 @@ class InputSyslogSyslogInput1(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -509,6 +515,7 @@ class InputSyslogSyslogInput1(BaseModel):
     r"""The maximum duration a socket can remain open, even if active. This helps manage resources and mitigate issues caused by TCP pinning. Set to 0 to disable."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -524,6 +531,7 @@ class InputSyslogSyslogInput1(BaseModel):
     r"""Load balance traffic across all Worker Processes"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     enable_enhanced_proxy_header_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableEnhancedProxyHeaderParsing")

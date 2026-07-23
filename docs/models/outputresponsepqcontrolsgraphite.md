@@ -1,5 +1,7 @@
 # OutputResponsePqControlsGraphite
 
+Persistent queue controls.
+
 
 ## Fields
 

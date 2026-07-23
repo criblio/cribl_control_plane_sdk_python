@@ -1,5 +1,7 @@
 # InputResponseTypeOpenaiComplianceLogs
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

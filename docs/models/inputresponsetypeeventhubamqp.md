@@ -1,5 +1,7 @@
 # InputResponseTypeEventhubAmqp
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

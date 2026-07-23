@@ -1,5 +1,7 @@
 # CreateOutputPqControlsLocalSearchStorage
 
+Persistent queue controls.
+
 
 ## Fields
 

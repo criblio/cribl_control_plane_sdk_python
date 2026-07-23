@@ -1,5 +1,7 @@
 # CreateOutputPqControlsSplunk
 
+Persistent queue controls.
+
 
 ## Fields
 

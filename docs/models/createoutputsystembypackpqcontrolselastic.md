@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsElastic
 
+Persistent queue controls.
+
 
 ## Fields
 

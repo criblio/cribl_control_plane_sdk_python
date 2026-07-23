@@ -17,6 +17,8 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 class RunSettingsTypeRunnableJobCollectionScheduleType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Resource type identifier."""
+
     COLLECTION = "collection"
 
 
@@ -45,9 +47,12 @@ r"""Latest time to collect data for the selected timezone"""
 
 
 class RunSettingsTypeRunnableJobCollectionScheduleTypedDict(TypedDict):
+    r"""Run settings"""
+
     mode: str
     r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
     type: NotRequired[RunSettingsTypeRunnableJobCollectionScheduleType]
+    r"""Resource type identifier."""
     reschedule_dropped_tasks: NotRequired[bool]
     r"""Reschedule tasks that failed with non-fatal errors"""
     max_task_reschedule: NotRequired[float]
@@ -57,6 +62,7 @@ class RunSettingsTypeRunnableJobCollectionScheduleTypedDict(TypedDict):
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run. Time unit defaults to seconds if not specified (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
     time_range_type: NotRequired[str]
+    r"""Time range"""
     earliest: NotRequired[RunSettingsTypeRunnableJobCollectionScheduleEarliestTypedDict]
     r"""Earliest time to collect data for the selected timezone"""
     latest: NotRequired[RunSettingsTypeRunnableJobCollectionScheduleLatestTypedDict]
@@ -78,10 +84,13 @@ class RunSettingsTypeRunnableJobCollectionScheduleTypedDict(TypedDict):
 
 
 class RunSettingsTypeRunnableJobCollectionSchedule(BaseModel):
+    r"""Run settings"""
+
     mode: str
     r"""Job run mode. Preview will either return up to N matching results, or will run until capture time T is reached. Discovery will gather the list of files to turn into streaming tasks, without running the data collection job. Full Run will run the collection job."""
 
     type: Optional[RunSettingsTypeRunnableJobCollectionScheduleType] = None
+    r"""Resource type identifier."""
 
     reschedule_dropped_tasks: Annotated[
         Optional[bool], pydantic.Field(alias="rescheduleDroppedTasks")
@@ -105,6 +114,7 @@ class RunSettingsTypeRunnableJobCollectionSchedule(BaseModel):
     time_range_type: Annotated[Optional[str], pydantic.Field(alias="timeRangeType")] = (
         None
     )
+    r"""Time range"""
 
     earliest: Optional[RunSettingsTypeRunnableJobCollectionScheduleEarliest] = None
     r"""Earliest time to collect data for the selected timezone"""

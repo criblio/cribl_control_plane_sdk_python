@@ -1,5 +1,7 @@
 # OutputResponseTypeInfluxdb
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

@@ -1,5 +1,7 @@
 # CreateOutputPqControlsSentinel
 
+Persistent queue controls.
+
 
 ## Fields
 

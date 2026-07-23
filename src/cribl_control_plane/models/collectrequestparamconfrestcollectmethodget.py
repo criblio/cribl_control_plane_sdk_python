@@ -7,12 +7,14 @@ from typing_extensions import TypedDict
 
 class CollectRequestParamConfRestCollectMethodGetTypedDict(TypedDict):
     name: str
+    r"""Name"""
     value: str
     r"""JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants."""
 
 
 class CollectRequestParamConfRestCollectMethodGet(BaseModel):
     name: str
+    r"""Name"""
 
     value: str
     r"""JavaScript expression to compute parameter value, usually enclosed in backticks (`${earliest}`). If a constant, use single quotes ('earliest'). Values that aren't successfully evaluated as JavaScript expressions will be treated as string constants."""

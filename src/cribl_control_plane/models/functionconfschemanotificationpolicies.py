@@ -67,11 +67,11 @@ class PolicyTypedDict(TypedDict):
         TemplateTargetPairConfFunctionConfSchemaNotificationPoliciesTypedDict
     ]
     r"""List of targets to route to and the templates to use"""
-    order: float
+    order: int
     r"""Evaluation order of this policy (lower numbers evaluated first)"""
     disabled: NotRequired[bool]
     r"""If true, this policy will be skipped during evaluation"""
-    wait_to_group: NotRequired[float]
+    wait_to_group: NotRequired[int]
     r"""Time to wait (in minutes) to group similar alerts before sending"""
     group_by_labels: NotRequired[List[str]]
     r"""Event fields to use for grouping"""
@@ -91,15 +91,13 @@ class Policy(BaseModel):
     ]
     r"""List of targets to route to and the templates to use"""
 
-    order: float
+    order: int
     r"""Evaluation order of this policy (lower numbers evaluated first)"""
 
     disabled: Optional[bool] = None
     r"""If true, this policy will be skipped during evaluation"""
 
-    wait_to_group: Annotated[Optional[float], pydantic.Field(alias="waitToGroup")] = (
-        None
-    )
+    wait_to_group: Annotated[Optional[int], pydantic.Field(alias="waitToGroup")] = None
     r"""Time to wait (in minutes) to group similar alerts before sending"""
 
     group_by_labels: Annotated[

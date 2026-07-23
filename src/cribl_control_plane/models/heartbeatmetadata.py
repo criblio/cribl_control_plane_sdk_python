@@ -17,6 +17,10 @@ from .kubetypeheartbeatmetadata import (
     KubeTypeHeartbeatMetadata,
     KubeTypeHeartbeatMetadataTypedDict,
 )
+from .ostypeheartbeatmetadata import (
+    OsTypeHeartbeatMetadata,
+    OsTypeHeartbeatMetadataTypedDict,
+)
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 import pydantic
 from pydantic import model_serializer
@@ -29,7 +33,7 @@ class HeartbeatMetadataTypedDict(TypedDict):
     azure: NotRequired[AzureTypeHeartbeatMetadataTypedDict]
     host_os: NotRequired[HostOsTypeHeartbeatMetadataTypedDict]
     kube: NotRequired[KubeTypeHeartbeatMetadataTypedDict]
-    os: NotRequired[HostOsTypeHeartbeatMetadataTypedDict]
+    os: NotRequired[OsTypeHeartbeatMetadataTypedDict]
 
 
 class HeartbeatMetadata(BaseModel):
@@ -43,7 +47,7 @@ class HeartbeatMetadata(BaseModel):
 
     kube: Optional[KubeTypeHeartbeatMetadata] = None
 
-    os: Optional[HostOsTypeHeartbeatMetadata] = None
+    os: Optional[OsTypeHeartbeatMetadata] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

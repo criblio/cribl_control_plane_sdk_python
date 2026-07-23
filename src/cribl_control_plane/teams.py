@@ -43,7 +43,7 @@ class Teams(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetConfigGroupACLTeamsByProductAndIDRequest(
+        request = models.GetProductsGroupsACLTeamsByProductAndIDRequest(
             product=product,
             id=id,
             type=type_,
@@ -82,11 +82,13 @@ class Teams(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getConfigGroupAclTeamsByProductAndId",
+                operation_id="getProductsGroupsAclTeamsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["teams"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -98,10 +100,13 @@ class Teams(BaseSDK):
             return unmarshal_json_response(
                 models.CountedTeamAccessControlList, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -143,7 +148,7 @@ class Teams(BaseSDK):
         else:
             base_url = self._get_url(base_url, url_variables)
 
-        request = models.GetConfigGroupACLTeamsByProductAndIDRequest(
+        request = models.GetProductsGroupsACLTeamsByProductAndIDRequest(
             product=product,
             id=id,
             type=type_,
@@ -182,11 +187,13 @@ class Teams(BaseSDK):
             hook_ctx=HookContext(
                 config=self.sdk_configuration,
                 base_url=base_url or "",
-                operation_id="getConfigGroupAclTeamsByProductAndId",
+                operation_id="getProductsGroupsAclTeamsByProductAndId",
                 oauth2_scopes=[],
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["teams"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -198,10 +205,13 @@ class Teams(BaseSDK):
             return unmarshal_json_response(
                 models.CountedTeamAccessControlList, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

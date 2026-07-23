@@ -1,5 +1,7 @@
 # CreateInputTypeModelDrivenTelemetry
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

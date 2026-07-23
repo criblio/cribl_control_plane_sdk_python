@@ -1,5 +1,7 @@
 # InputResponseTypeAppscope
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

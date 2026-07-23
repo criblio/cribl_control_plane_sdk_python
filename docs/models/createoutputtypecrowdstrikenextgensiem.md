@@ -1,5 +1,7 @@
 # CreateOutputTypeCrowdstrikeNextGenSiem
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

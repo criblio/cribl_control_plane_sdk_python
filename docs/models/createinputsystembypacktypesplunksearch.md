@@ -1,5 +1,7 @@
 # CreateInputSystemByPackTypeSplunkSearch
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

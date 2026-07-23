@@ -25,7 +25,7 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class PipelineFunctionRedisID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>redis</code>"""
 
     REDIS = "redis"
 
@@ -33,6 +33,8 @@ class PipelineFunctionRedisID(str, Enum):
 class RedisAuthTypeTextSecretAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method to use when connecting to Redis."""
+
     # None
     NONE = "none"
     # Manual
@@ -99,7 +101,9 @@ class RedisAuthTypeTextSecretTypedDict(TypedDict):
     text_secret: str
     r"""Secret that references Redis admin password"""
     commands: List[RedisAuthTypeTextSecretCommandTypedDict]
+    r"""List of Redis commands to execute against the specified keys."""
     auth_type: NotRequired[RedisAuthTypeTextSecretAuthenticationMethod]
+    r"""Authentication method to use when connecting to Redis."""
     deployment_type: NotRequired[RedisAuthTypeTextSecretDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     max_block_secs: NotRequired[float]
@@ -118,10 +122,13 @@ class RedisAuthTypeTextSecretTypedDict(TypedDict):
     scale_reads: NotRequired[ScaleReadsOptionsRedisDeploymentTypeCluster]
     r"""Which nodes read commands should be sent to"""
     master_name: NotRequired[str]
+    r"""Name of the Redis Sentinel master group to connect to."""
     username: NotRequired[str]
+    r"""Username for Redis authentication."""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password for Redis authentication."""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
@@ -133,11 +140,13 @@ class RedisAuthTypeTextSecret(BaseModel):
     r"""Secret that references Redis admin password"""
 
     commands: List[RedisAuthTypeTextSecretCommand]
+    r"""List of Redis commands to execute against the specified keys."""
 
     auth_type: Annotated[
         Optional[RedisAuthTypeTextSecretAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method to use when connecting to Redis."""
 
     deployment_type: Annotated[
         Optional[RedisAuthTypeTextSecretDeploymentType],
@@ -184,8 +193,10 @@ class RedisAuthTypeTextSecret(BaseModel):
     r"""Which nodes read commands should be sent to"""
 
     master_name: Annotated[Optional[str], pydantic.Field(alias="masterName")] = None
+    r"""Name of the Redis Sentinel master group to connect to."""
 
     username: Optional[str] = None
+    r"""Username for Redis authentication."""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -193,6 +204,7 @@ class RedisAuthTypeTextSecret(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password for Redis authentication."""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -270,6 +282,8 @@ class RedisAuthTypeTextSecret(BaseModel):
 class RedisAuthTypeCredentialsSecretAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method to use when connecting to Redis."""
+
     # None
     NONE = "none"
     # Manual
@@ -338,7 +352,9 @@ class RedisAuthTypeCredentialsSecretTypedDict(TypedDict):
     credentials_secret: str
     r"""Secret that references Redis username and password"""
     commands: List[RedisAuthTypeCredentialsSecretCommandTypedDict]
+    r"""List of Redis commands to execute against the specified keys."""
     auth_type: NotRequired[RedisAuthTypeCredentialsSecretAuthenticationMethod]
+    r"""Authentication method to use when connecting to Redis."""
     deployment_type: NotRequired[RedisAuthTypeCredentialsSecretDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     max_block_secs: NotRequired[float]
@@ -357,10 +373,13 @@ class RedisAuthTypeCredentialsSecretTypedDict(TypedDict):
     scale_reads: NotRequired[ScaleReadsOptionsRedisDeploymentTypeCluster]
     r"""Which nodes read commands should be sent to"""
     master_name: NotRequired[str]
+    r"""Name of the Redis Sentinel master group to connect to."""
     username: NotRequired[str]
+    r"""Username for Redis authentication."""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password for Redis authentication."""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     text_secret: NotRequired[str]
@@ -372,11 +391,13 @@ class RedisAuthTypeCredentialsSecret(BaseModel):
     r"""Secret that references Redis username and password"""
 
     commands: List[RedisAuthTypeCredentialsSecretCommand]
+    r"""List of Redis commands to execute against the specified keys."""
 
     auth_type: Annotated[
         Optional[RedisAuthTypeCredentialsSecretAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method to use when connecting to Redis."""
 
     deployment_type: Annotated[
         Optional[RedisAuthTypeCredentialsSecretDeploymentType],
@@ -423,8 +444,10 @@ class RedisAuthTypeCredentialsSecret(BaseModel):
     r"""Which nodes read commands should be sent to"""
 
     master_name: Annotated[Optional[str], pydantic.Field(alias="masterName")] = None
+    r"""Name of the Redis Sentinel master group to connect to."""
 
     username: Optional[str] = None
+    r"""Username for Redis authentication."""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -432,6 +455,7 @@ class RedisAuthTypeCredentialsSecret(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password for Redis authentication."""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -505,6 +529,8 @@ class RedisAuthTypeCredentialsSecret(BaseModel):
 
 
 class RedisAuthTypeManualAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication method to use when connecting to Redis."""
+
     # None
     NONE = "none"
     # Manual
@@ -569,9 +595,13 @@ class RedisAuthTypeManualDeploymentType(str, Enum, metaclass=utils.OpenEnumMeta)
 
 class RedisAuthTypeManualTypedDict(TypedDict):
     password: str
+    r"""Password for Redis authentication."""
     commands: List[RedisAuthTypeManualCommandTypedDict]
+    r"""List of Redis commands to execute against the specified keys."""
     auth_type: NotRequired[RedisAuthTypeManualAuthenticationMethod]
+    r"""Authentication method to use when connecting to Redis."""
     username: NotRequired[str]
+    r"""Username for Redis authentication."""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     template_password: NotRequired[str]
@@ -594,6 +624,7 @@ class RedisAuthTypeManualTypedDict(TypedDict):
     scale_reads: NotRequired[ScaleReadsOptionsRedisDeploymentTypeCluster]
     r"""Which nodes read commands should be sent to"""
     master_name: NotRequired[str]
+    r"""Name of the Redis Sentinel master group to connect to."""
     credentials_secret: NotRequired[str]
     r"""Secret that references Redis username and password"""
     text_secret: NotRequired[str]
@@ -602,15 +633,19 @@ class RedisAuthTypeManualTypedDict(TypedDict):
 
 class RedisAuthTypeManual(BaseModel):
     password: str
+    r"""Password for Redis authentication."""
 
     commands: List[RedisAuthTypeManualCommand]
+    r"""List of Redis commands to execute against the specified keys."""
 
     auth_type: Annotated[
         Optional[RedisAuthTypeManualAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method to use when connecting to Redis."""
 
     username: Optional[str] = None
+    r"""Username for Redis authentication."""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -667,6 +702,7 @@ class RedisAuthTypeManual(BaseModel):
     r"""Which nodes read commands should be sent to"""
 
     master_name: Annotated[Optional[str], pydantic.Field(alias="masterName")] = None
+    r"""Name of the Redis Sentinel master group to connect to."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -740,6 +776,8 @@ class RedisAuthTypeManual(BaseModel):
 
 
 class RedisAuthTypeNoneAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication method to use when connecting to Redis."""
+
     # None
     NONE = "none"
     # Manual
@@ -804,7 +842,9 @@ class RedisAuthTypeNoneDeploymentType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class RedisAuthTypeNoneTypedDict(TypedDict):
     commands: List[RedisAuthTypeNoneCommandTypedDict]
+    r"""List of Redis commands to execute against the specified keys."""
     auth_type: NotRequired[RedisAuthTypeNoneAuthenticationMethod]
+    r"""Authentication method to use when connecting to Redis."""
     deployment_type: NotRequired[RedisAuthTypeNoneDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     max_block_secs: NotRequired[float]
@@ -823,10 +863,13 @@ class RedisAuthTypeNoneTypedDict(TypedDict):
     scale_reads: NotRequired[ScaleReadsOptionsRedisDeploymentTypeCluster]
     r"""Which nodes read commands should be sent to"""
     master_name: NotRequired[str]
+    r"""Name of the Redis Sentinel master group to connect to."""
     username: NotRequired[str]
+    r"""Username for Redis authentication."""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password for Redis authentication."""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
@@ -837,11 +880,13 @@ class RedisAuthTypeNoneTypedDict(TypedDict):
 
 class RedisAuthTypeNone(BaseModel):
     commands: List[RedisAuthTypeNoneCommand]
+    r"""List of Redis commands to execute against the specified keys."""
 
     auth_type: Annotated[
         Optional[RedisAuthTypeNoneAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method to use when connecting to Redis."""
 
     deployment_type: Annotated[
         Optional[RedisAuthTypeNoneDeploymentType],
@@ -888,8 +933,10 @@ class RedisAuthTypeNone(BaseModel):
     r"""Which nodes read commands should be sent to"""
 
     master_name: Annotated[Optional[str], pydantic.Field(alias="masterName")] = None
+    r"""Name of the Redis Sentinel master group to connect to."""
 
     username: Optional[str] = None
+    r"""Username for Redis authentication."""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -897,6 +944,7 @@ class RedisAuthTypeNone(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password for Redis authentication."""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -1032,6 +1080,8 @@ class RedisDeploymentTypeSentinelCommand(BaseModel):
 class RedisDeploymentTypeSentinelAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method to use when connecting to Redis."""
+
     # None
     NONE = "none"
     # Manual
@@ -1044,7 +1094,9 @@ class RedisDeploymentTypeSentinelAuthenticationMethod(
 
 class RedisDeploymentTypeSentinelTypedDict(TypedDict):
     master_name: str
+    r"""Name of the Redis Sentinel master group to connect to."""
     commands: List[RedisDeploymentTypeSentinelCommandTypedDict]
+    r"""List of Redis commands to execute against the specified keys."""
     deployment_type: NotRequired[RedisDeploymentTypeSentinelDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
@@ -1053,6 +1105,7 @@ class RedisDeploymentTypeSentinelTypedDict(TypedDict):
     r"""Use TLS for connections to this cluster"""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
     auth_type: NotRequired[RedisDeploymentTypeSentinelAuthenticationMethod]
+    r"""Authentication method to use when connecting to Redis."""
     max_block_secs: NotRequired[float]
     r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
     enable_client_side_caching: NotRequired[bool]
@@ -1064,9 +1117,11 @@ class RedisDeploymentTypeSentinelTypedDict(TypedDict):
     scale_reads: NotRequired[ScaleReadsOptionsRedisDeploymentTypeCluster]
     r"""Which nodes read commands should be sent to"""
     username: NotRequired[str]
+    r"""Username for Redis authentication."""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password for Redis authentication."""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
@@ -1077,8 +1132,10 @@ class RedisDeploymentTypeSentinelTypedDict(TypedDict):
 
 class RedisDeploymentTypeSentinel(BaseModel):
     master_name: Annotated[str, pydantic.Field(alias="masterName")]
+    r"""Name of the Redis Sentinel master group to connect to."""
 
     commands: List[RedisDeploymentTypeSentinelCommand]
+    r"""List of Redis commands to execute against the specified keys."""
 
     deployment_type: Annotated[
         Optional[RedisDeploymentTypeSentinelDeploymentType],
@@ -1104,6 +1161,7 @@ class RedisDeploymentTypeSentinel(BaseModel):
         Optional[RedisDeploymentTypeSentinelAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method to use when connecting to Redis."""
 
     max_block_secs: Annotated[Optional[float], pydantic.Field(alias="maxBlockSecs")] = (
         None
@@ -1130,6 +1188,7 @@ class RedisDeploymentTypeSentinel(BaseModel):
     r"""Which nodes read commands should be sent to"""
 
     username: Optional[str] = None
+    r"""Username for Redis authentication."""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -1137,6 +1196,7 @@ class RedisDeploymentTypeSentinel(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password for Redis authentication."""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -1269,6 +1329,8 @@ class RedisDeploymentTypeClusterCommand(BaseModel):
 class RedisDeploymentTypeClusterAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method to use when connecting to Redis."""
+
     # None
     NONE = "none"
     # Manual
@@ -1281,6 +1343,7 @@ class RedisDeploymentTypeClusterAuthenticationMethod(
 
 class RedisDeploymentTypeClusterTypedDict(TypedDict):
     commands: List[RedisDeploymentTypeClusterCommandTypedDict]
+    r"""List of Redis commands to execute against the specified keys."""
     deployment_type: NotRequired[RedisDeploymentTypeClusterDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
@@ -1291,6 +1354,7 @@ class RedisDeploymentTypeClusterTypedDict(TypedDict):
     r"""Which nodes read commands should be sent to"""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
     auth_type: NotRequired[RedisDeploymentTypeClusterAuthenticationMethod]
+    r"""Authentication method to use when connecting to Redis."""
     max_block_secs: NotRequired[float]
     r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
     enable_client_side_caching: NotRequired[bool]
@@ -1300,10 +1364,13 @@ class RedisDeploymentTypeClusterTypedDict(TypedDict):
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     master_name: NotRequired[str]
+    r"""Name of the Redis Sentinel master group to connect to."""
     username: NotRequired[str]
+    r"""Username for Redis authentication."""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password for Redis authentication."""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
@@ -1314,6 +1381,7 @@ class RedisDeploymentTypeClusterTypedDict(TypedDict):
 
 class RedisDeploymentTypeCluster(BaseModel):
     commands: List[RedisDeploymentTypeClusterCommand]
+    r"""List of Redis commands to execute against the specified keys."""
 
     deployment_type: Annotated[
         Optional[RedisDeploymentTypeClusterDeploymentType],
@@ -1345,6 +1413,7 @@ class RedisDeploymentTypeCluster(BaseModel):
         Optional[RedisDeploymentTypeClusterAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method to use when connecting to Redis."""
 
     max_block_secs: Annotated[Optional[float], pydantic.Field(alias="maxBlockSecs")] = (
         None
@@ -1365,8 +1434,10 @@ class RedisDeploymentTypeCluster(BaseModel):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
     master_name: Annotated[Optional[str], pydantic.Field(alias="masterName")] = None
+    r"""Name of the Redis Sentinel master group to connect to."""
 
     username: Optional[str] = None
+    r"""Username for Redis authentication."""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -1374,6 +1445,7 @@ class RedisDeploymentTypeCluster(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password for Redis authentication."""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -1509,6 +1581,8 @@ class RedisDeploymentTypeStandaloneCommand(BaseModel):
 class RedisDeploymentTypeStandaloneAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method to use when connecting to Redis."""
+
     # None
     NONE = "none"
     # Manual
@@ -1523,12 +1597,14 @@ class RedisDeploymentTypeStandaloneTypedDict(TypedDict):
     url: str
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     commands: List[RedisDeploymentTypeStandaloneCommandTypedDict]
+    r"""List of Redis commands to execute against the specified keys."""
     deployment_type: NotRequired[RedisDeploymentTypeStandaloneDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     auth_type: NotRequired[RedisDeploymentTypeStandaloneAuthenticationMethod]
+    r"""Authentication method to use when connecting to Redis."""
     max_block_secs: NotRequired[float]
     r"""Maximum amount of time (seconds) to wait before assuming that Redis is down and passing events through. Use 0 to disable."""
     enable_client_side_caching: NotRequired[bool]
@@ -1540,10 +1616,13 @@ class RedisDeploymentTypeStandaloneTypedDict(TypedDict):
     scale_reads: NotRequired[ScaleReadsOptionsRedisDeploymentTypeCluster]
     r"""Which nodes read commands should be sent to"""
     master_name: NotRequired[str]
+    r"""Name of the Redis Sentinel master group to connect to."""
     username: NotRequired[str]
+    r"""Username for Redis authentication."""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password for Redis authentication."""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
@@ -1557,6 +1636,7 @@ class RedisDeploymentTypeStandalone(BaseModel):
     r"""Redis URL to connect to. Format: redis[s]://[[user][:password@]][host][:port][/db-number][?db=db-number[&password=bar[&option=value]]]. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
 
     commands: List[RedisDeploymentTypeStandaloneCommand]
+    r"""List of Redis commands to execute against the specified keys."""
 
     deployment_type: Annotated[
         Optional[RedisDeploymentTypeStandaloneDeploymentType],
@@ -1578,6 +1658,7 @@ class RedisDeploymentTypeStandalone(BaseModel):
         Optional[RedisDeploymentTypeStandaloneAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method to use when connecting to Redis."""
 
     max_block_secs: Annotated[Optional[float], pydantic.Field(alias="maxBlockSecs")] = (
         None
@@ -1605,8 +1686,10 @@ class RedisDeploymentTypeStandalone(BaseModel):
     r"""Which nodes read commands should be sent to"""
 
     master_name: Annotated[Optional[str], pydantic.Field(alias="masterName")] = None
+    r"""Name of the Redis Sentinel master group to connect to."""
 
     username: Optional[str] = None
+    r"""Username for Redis authentication."""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -1614,6 +1697,7 @@ class RedisDeploymentTypeStandalone(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password for Redis authentication."""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -1703,6 +1787,7 @@ PipelineFunctionRedisConfTypedDict = TypeAliasType(
         RedisAuthTypeTextSecretTypedDict,
     ],
 )
+r"""Configuration specific to the Pipeline Function."""
 
 
 class UnknownPipelineFunctionRedisConf(BaseModel):
@@ -1741,44 +1826,47 @@ PipelineFunctionRedisConf = Annotated[
         )
     ),
 ]
+r"""Configuration specific to the Pipeline Function."""
 
 
 class PipelineFunctionRedisTypedDict(TypedDict):
     id: PipelineFunctionRedisID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>redis</code>"""
     conf: PipelineFunctionRedisConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionRedis(BaseModel):
     id: PipelineFunctionRedisID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>redis</code>"""
 
     conf: PipelineFunctionRedisConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

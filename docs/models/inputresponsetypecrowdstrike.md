@@ -1,5 +1,7 @@
 # InputResponseTypeCrowdstrike
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

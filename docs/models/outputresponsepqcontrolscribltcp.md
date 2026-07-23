@@ -1,5 +1,7 @@
 # OutputResponsePqControlsCriblTCP
 
+Persistent queue controls.
+
 
 ## Fields
 

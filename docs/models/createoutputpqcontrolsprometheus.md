@@ -1,5 +1,7 @@
 # CreateOutputPqControlsPrometheus
 
+Persistent queue controls.
+
 
 ## Fields
 

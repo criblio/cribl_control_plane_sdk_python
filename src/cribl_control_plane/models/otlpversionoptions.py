@@ -6,6 +6,8 @@ from enum import Enum
 
 
 class OtlpVersionOptions(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""OTLP version"""
+
     # 0.10.0
     ZERO_DOT_10_DOT_0 = "0.10.0"
     # 1.3.1

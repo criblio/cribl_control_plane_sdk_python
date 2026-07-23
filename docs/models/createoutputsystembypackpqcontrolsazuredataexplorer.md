@@ -1,5 +1,7 @@
 # CreateOutputSystemByPackPqControlsAzureDataExplorer
 
+Persistent queue controls.
+
 
 ## Fields
 

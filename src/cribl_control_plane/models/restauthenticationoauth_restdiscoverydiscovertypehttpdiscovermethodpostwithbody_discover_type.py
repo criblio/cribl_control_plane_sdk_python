@@ -15,6 +15,10 @@ from .paginationtyperestdiscoverydiscovertypehttp import (
     PaginationTypeRestDiscoveryDiscoverTypeHTTP,
     PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict,
 )
+from .refreshrequestparamconfhealthcheckauthenticationoauth import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauth,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict,
+)
 from .retrytypeoptionshealthcheckcollectorconfretryrules import (
     RetryTypeOptionsHealthCheckCollectorConfRetryRules,
 )
@@ -64,15 +68,18 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     item_list: NotRequired[List[str]]
@@ -98,11 +105,13 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeNone(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -119,6 +128,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeNone(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -199,15 +209,18 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
 
@@ -234,11 +247,13 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeList(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -255,6 +270,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeList(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -333,13 +349,16 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
 
@@ -371,11 +390,13 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeJSON(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -387,6 +408,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeJSON(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
@@ -455,6 +477,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_verb: str
     r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
@@ -466,9 +489,11 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -477,6 +502,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -492,6 +518,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
     r"""Custom HTTP method to use for the Discover operation"""
@@ -512,11 +539,13 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -538,6 +567,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -624,6 +654,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_body: str
     r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
@@ -633,6 +664,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -641,6 +673,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -658,6 +691,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
     r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
@@ -675,6 +709,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -696,6 +731,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -780,6 +816,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_type: RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -787,9 +824,11 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -798,6 +837,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -813,6 +853,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_type: Annotated[
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
@@ -827,11 +868,13 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -853,6 +896,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -938,6 +982,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_type: (
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
     )
@@ -947,9 +992,11 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -958,6 +1005,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -973,6 +1021,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_type: Annotated[
         RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
@@ -987,11 +1036,13 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -1013,6 +1064,7 @@ class RestAuthenticationHmacRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -1182,6 +1234,8 @@ RestAuthenticationHmacDiscovery = Annotated[
 
 
 class RestAuthenticationHmacCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Collect method"""
+
     # GET
     GET = "get"
     # POST
@@ -1194,6 +1248,7 @@ class RestAuthenticationHmacCollectMethod(str, Enum, metaclass=utils.OpenEnumMet
 
 class RestAuthenticationHmacRestPaginationTypeRequestPageTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     page_field: str
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     size_field: str
@@ -1228,6 +1283,7 @@ class RestAuthenticationHmacRestPaginationTypeRequestPageTypedDict(TypedDict):
 
 class RestAuthenticationHmacRestPaginationTypeRequestPage(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     page_field: Annotated[str, pydantic.Field(alias="pageField")]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
@@ -1327,6 +1383,7 @@ class RestAuthenticationHmacRestPaginationTypeRequestPage(BaseModel):
 
 class RestAuthenticationHmacRestPaginationTypeRequestOffsetTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     offset_field: str
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit_field: str
@@ -1361,6 +1418,7 @@ class RestAuthenticationHmacRestPaginationTypeRequestOffsetTypedDict(TypedDict):
 
 class RestAuthenticationHmacRestPaginationTypeRequestOffset(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     offset_field: Annotated[str, pydantic.Field(alias="offsetField")]
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
@@ -1460,6 +1518,7 @@ class RestAuthenticationHmacRestPaginationTypeRequestOffset(BaseModel):
 
 class RestAuthenticationHmacRestPaginationTypeResponseHeaderLinkTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     next_relation_attribute: str
     r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
     max_pages: float
@@ -1494,6 +1553,7 @@ class RestAuthenticationHmacRestPaginationTypeResponseHeaderLinkTypedDict(TypedD
 
 class RestAuthenticationHmacRestPaginationTypeResponseHeaderLink(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     next_relation_attribute: Annotated[
         str, pydantic.Field(alias="nextRelationAttribute")
@@ -1612,6 +1672,7 @@ r"""Names of attributes within the response that contain next-page information""
 
 class RestAuthenticationHmacRestPaginationTypeResponseHeaderTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: RestAuthenticationHmacRestPaginationTypeResponseHeaderResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
@@ -1648,6 +1709,7 @@ class RestAuthenticationHmacRestPaginationTypeResponseHeaderTypedDict(TypedDict)
 
 class RestAuthenticationHmacRestPaginationTypeResponseHeader(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: RestAuthenticationHmacRestPaginationTypeResponseHeaderResponseAttributes
     r"""Names of attributes within the response that contain next-page information"""
@@ -1768,6 +1830,7 @@ r"""Names of attributes within the response that contain next-page information""
 
 class RestAuthenticationHmacRestPaginationTypeResponseBodyTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: (
         RestAuthenticationHmacRestPaginationTypeResponseBodyResponseAttributesTypedDict
     )
@@ -1806,6 +1869,7 @@ class RestAuthenticationHmacRestPaginationTypeResponseBodyTypedDict(TypedDict):
 
 class RestAuthenticationHmacRestPaginationTypeResponseBody(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: RestAuthenticationHmacRestPaginationTypeResponseBodyResponseAttributes
     r"""Names of attributes within the response that contain next-page information"""
@@ -1912,6 +1976,7 @@ class RestAuthenticationHmacRestPaginationTypeResponseBody(BaseModel):
 
 class RestAuthenticationHmacRestPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     max_pages: NotRequired[float]
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
@@ -1946,6 +2011,7 @@ class RestAuthenticationHmacRestPaginationTypeNoneTypedDict(TypedDict):
 
 class RestAuthenticationHmacRestPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
@@ -2113,6 +2179,7 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoffTypedDict(TypedDict):
     multiplier: NotRequired[float]
     r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
     max_interval_ms: NotRequired[float]
+    r"""Longest interval between retries (ms)"""
     codes: NotRequired[List[float]]
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
@@ -2122,6 +2189,7 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoffTypedDict(TypedDict):
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
     retry_header_name: NotRequired[str]
+    r"""Retry-After header name"""
 
 
 class RestAuthenticationHmacRestRetryRulesTypeBackoff(BaseModel):
@@ -2140,6 +2208,7 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoff(BaseModel):
     max_interval_ms: Annotated[
         Optional[float], pydantic.Field(alias="maxIntervalMs")
     ] = None
+    r"""Longest interval between retries (ms)"""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
@@ -2162,6 +2231,7 @@ class RestAuthenticationHmacRestRetryRulesTypeBackoff(BaseModel):
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
+    r"""Retry-After header name"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2217,6 +2287,7 @@ class RestAuthenticationHmacRestRetryRulesTypeStaticTypedDict(TypedDict):
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
     retry_header_name: NotRequired[str]
+    r"""Retry-After header name"""
 
 
 class RestAuthenticationHmacRestRetryRulesTypeStatic(BaseModel):
@@ -2250,6 +2321,7 @@ class RestAuthenticationHmacRestRetryRulesTypeStatic(BaseModel):
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
+    r"""Retry-After header name"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -2445,10 +2517,12 @@ class RestAuthenticationHmacTypedDict(TypedDict):
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationHmacCollectMethod
+    r"""Collect method"""
     discovery: NotRequired[RestAuthenticationHmacDiscoveryTypedDict]
     collect_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Collect headers"""
     pagination: NotRequired[RestAuthenticationHmacPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -2475,9 +2549,11 @@ class RestAuthenticationHmacTypedDict(TypedDict):
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestAuthenticationHmacSchedulingTypedDict]
     username: NotRequired[str]
+    r"""Username"""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password"""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
@@ -2497,6 +2573,7 @@ class RestAuthenticationHmacTypedDict(TypedDict):
     auth_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Authentication headers"""
     token_resp_attribute: NotRequired[str]
     r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
     client_secret_param_name: NotRequired[str]
@@ -2509,6 +2586,18 @@ class RestAuthenticationHmacTypedDict(TypedDict):
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value"""
     scopes: NotRequired[List[str]]
@@ -2538,6 +2627,7 @@ class RestAuthenticationHmac(BaseModel):
     collect_method: Annotated[
         RestAuthenticationHmacCollectMethod, pydantic.Field(alias="collectMethod")
     ]
+    r"""Collect method"""
 
     discovery: Optional[RestAuthenticationHmacDiscovery] = None
 
@@ -2545,6 +2635,7 @@ class RestAuthenticationHmac(BaseModel):
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
+    r"""Collect headers"""
 
     pagination: Optional[RestAuthenticationHmacPagination] = None
 
@@ -2604,6 +2695,7 @@ class RestAuthenticationHmac(BaseModel):
     ] = None
 
     username: Optional[str] = None
+    r"""Username"""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -2611,6 +2703,7 @@ class RestAuthenticationHmac(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password"""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -2652,6 +2745,7 @@ class RestAuthenticationHmac(BaseModel):
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
+    r"""Authentication headers"""
 
     token_resp_attribute: Annotated[
         Optional[str], pydantic.Field(alias="tokenRespAttribute")
@@ -2678,6 +2772,30 @@ class RestAuthenticationHmac(BaseModel):
         pydantic.Field(alias="authRequestParams"),
     ] = None
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value"""
@@ -2762,6 +2880,11 @@ class RestAuthenticationHmac(BaseModel):
                 "clientSecretParamValue",
                 "__template_clientSecretParamValue",
                 "authRequestParams",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "__template_refreshUrl",
+                "refreshRequestParams",
                 "textSecret",
                 "scopes",
                 "serviceAccountCredentials",
@@ -2825,15 +2948,18 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeNoneTypedDict(
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     item_list: NotRequired[List[str]]
@@ -2859,11 +2985,13 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeNone(BaseModel
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -2880,6 +3008,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeNone(BaseModel
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -2964,15 +3093,18 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeListTypedDict(
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
 
@@ -2999,11 +3131,13 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeList(BaseModel
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -3020,6 +3154,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeList(BaseModel
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -3102,13 +3237,16 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeJSONTypedDict(
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
 
@@ -3140,11 +3278,13 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeJSON(BaseModel
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -3156,6 +3296,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeJSON(BaseModel
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
@@ -3224,6 +3365,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_verb: str
     r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
@@ -3235,9 +3377,11 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -3246,6 +3390,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -3263,6 +3408,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
     r"""Custom HTTP method to use for the Discover operation"""
@@ -3283,11 +3429,13 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -3309,6 +3457,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -3395,6 +3544,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_body: str
     r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
@@ -3404,6 +3554,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -3412,6 +3563,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -3429,6 +3581,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
     r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
@@ -3446,6 +3599,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -3467,6 +3621,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -3551,6 +3706,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -3558,9 +3714,11 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -3569,6 +3727,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -3586,6 +3745,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
@@ -3600,11 +3760,13 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -3626,6 +3788,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -3711,6 +3874,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_type: RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -3718,9 +3882,11 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -3729,6 +3895,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -3746,6 +3913,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
@@ -3760,11 +3928,13 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -3786,6 +3956,7 @@ class RestAuthenticationGoogleOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMe
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -3961,6 +4132,8 @@ RestAuthenticationGoogleOauthSecretDiscovery = Annotated[
 class RestAuthenticationGoogleOauthSecretCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Collect method"""
+
     # GET
     GET = "get"
     # POST
@@ -3975,6 +4148,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestPageTypedDict(
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     page_field: str
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     size_field: str
@@ -4009,6 +4183,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestPageTypedDict(
 
 class RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestPage(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     page_field: Annotated[str, pydantic.Field(alias="pageField")]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
@@ -4110,6 +4285,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestOffsetTypedDic
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     offset_field: str
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit_field: str
@@ -4144,6 +4320,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestOffsetTypedDic
 
 class RestAuthenticationGoogleOauthSecretRestPaginationTypeRequestOffset(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     offset_field: Annotated[str, pydantic.Field(alias="offsetField")]
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
@@ -4245,6 +4422,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeaderLinkTyp
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     next_relation_attribute: str
     r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
     max_pages: float
@@ -4281,6 +4459,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeaderLink(
     BaseModel
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     next_relation_attribute: Annotated[
         str, pydantic.Field(alias="nextRelationAttribute")
@@ -4399,6 +4578,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeaderTypedDi
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeaderResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
@@ -4435,6 +4615,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeaderTypedDi
 
 class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeader(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseHeaderResponseAttributes
     r"""Names of attributes within the response that contain next-page information"""
@@ -4557,6 +4738,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseBodyTypedDict
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseBodyResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
@@ -4593,6 +4775,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseBodyTypedDict
 
 class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseBody(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseBodyResponseAttributes
     r"""Names of attributes within the response that contain next-page information"""
@@ -4699,6 +4882,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeResponseBody(BaseMode
 
 class RestAuthenticationGoogleOauthSecretRestPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     max_pages: NotRequired[float]
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
@@ -4733,6 +4917,7 @@ class RestAuthenticationGoogleOauthSecretRestPaginationTypeNoneTypedDict(TypedDi
 
 class RestAuthenticationGoogleOauthSecretRestPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
@@ -4900,6 +5085,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffTypedDict(Type
     multiplier: NotRequired[float]
     r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
     max_interval_ms: NotRequired[float]
+    r"""Longest interval between retries (ms)"""
     codes: NotRequired[List[float]]
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
@@ -4909,6 +5095,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoffTypedDict(Type
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
     retry_header_name: NotRequired[str]
+    r"""Retry-After header name"""
 
 
 class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff(BaseModel):
@@ -4927,6 +5114,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff(BaseModel):
     max_interval_ms: Annotated[
         Optional[float], pydantic.Field(alias="maxIntervalMs")
     ] = None
+    r"""Longest interval between retries (ms)"""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
@@ -4949,6 +5137,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeBackoff(BaseModel):
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
+    r"""Retry-After header name"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -5004,6 +5193,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStaticTypedDict(Typed
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
     retry_header_name: NotRequired[str]
+    r"""Retry-After header name"""
 
 
 class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStatic(BaseModel):
@@ -5037,6 +5227,7 @@ class RestAuthenticationGoogleOauthSecretRestRetryRulesTypeStatic(BaseModel):
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
+    r"""Retry-After header name"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -5238,12 +5429,14 @@ class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationGoogleOauthSecretCollectMethod
+    r"""Collect method"""
     template_subject: NotRequired[str]
     r"""Binds 'subject' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'subject' at runtime."""
     discovery: NotRequired[RestAuthenticationGoogleOauthSecretDiscoveryTypedDict]
     collect_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Collect headers"""
     pagination: NotRequired[RestAuthenticationGoogleOauthSecretPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -5270,9 +5463,11 @@ class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestAuthenticationGoogleOauthSecretSchedulingTypedDict]
     username: NotRequired[str]
+    r"""Username"""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password"""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
@@ -5292,6 +5487,7 @@ class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
     auth_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Authentication headers"""
     token_resp_attribute: NotRequired[str]
     r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
     client_secret_param_name: NotRequired[str]
@@ -5304,6 +5500,18 @@ class RestAuthenticationGoogleOauthSecretTypedDict(TypedDict):
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
     service_account_credentials: NotRequired[str]
     r"""Contents of Google Cloud service account credentials (JSON keys) file. To upload a file, click the upload icon in this field's upper right."""
     template_service_account_credentials: NotRequired[str]
@@ -5334,6 +5542,7 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
         RestAuthenticationGoogleOauthSecretCollectMethod,
         pydantic.Field(alias="collectMethod"),
     ]
+    r"""Collect method"""
 
     template_subject: Annotated[
         Optional[str], pydantic.Field(alias="__template_subject")
@@ -5346,6 +5555,7 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
+    r"""Collect headers"""
 
     pagination: Optional[RestAuthenticationGoogleOauthSecretPagination] = None
 
@@ -5407,6 +5617,7 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
     ] = None
 
     username: Optional[str] = None
+    r"""Username"""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -5414,6 +5625,7 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password"""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -5455,6 +5667,7 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
+    r"""Authentication headers"""
 
     token_resp_attribute: Annotated[
         Optional[str], pydantic.Field(alias="tokenRespAttribute")
@@ -5481,6 +5694,30 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
         pydantic.Field(alias="authRequestParams"),
     ] = None
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
 
     service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="serviceAccountCredentials")
@@ -5557,6 +5794,11 @@ class RestAuthenticationGoogleOauthSecret(BaseModel):
                 "clientSecretParamValue",
                 "__template_clientSecretParamValue",
                 "authRequestParams",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "__template_refreshUrl",
+                "refreshRequestParams",
                 "serviceAccountCredentials",
                 "__template_serviceAccountCredentials",
                 "hmacFunctionId",
@@ -5615,15 +5857,18 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeNoneTypedDict(TypedD
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     item_list: NotRequired[List[str]]
@@ -5649,11 +5894,13 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeNone(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -5670,6 +5917,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeNone(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -5752,15 +6000,18 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeListTypedDict(TypedD
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
 
@@ -5787,11 +6038,13 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeList(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -5808,6 +6061,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeList(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -5888,13 +6142,16 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeJSONTypedDict(TypedD
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
 
@@ -5926,11 +6183,13 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeJSON(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -5942,6 +6201,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeJSON(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
@@ -6010,6 +6270,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_verb: str
     r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
@@ -6021,9 +6282,11 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -6032,6 +6295,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -6049,6 +6313,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
     r"""Custom HTTP method to use for the Discover operation"""
@@ -6069,11 +6334,13 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -6095,6 +6362,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -6181,6 +6449,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_body: str
     r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
@@ -6190,6 +6459,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -6198,6 +6468,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -6215,6 +6486,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
     r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
@@ -6232,6 +6504,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -6253,6 +6526,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -6337,6 +6611,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -6344,9 +6619,11 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -6355,6 +6632,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -6372,6 +6650,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
@@ -6386,11 +6665,13 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -6412,6 +6693,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -6497,6 +6779,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_type: RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -6504,9 +6787,11 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -6515,6 +6800,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -6532,6 +6818,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_type: Annotated[
         RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
@@ -6546,11 +6833,13 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -6572,6 +6861,7 @@ class RestAuthenticationGoogleOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -6745,6 +7035,8 @@ RestAuthenticationGoogleOauthDiscovery = Annotated[
 class RestAuthenticationGoogleOauthCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Collect method"""
+
     # GET
     GET = "get"
     # POST
@@ -6757,6 +7049,7 @@ class RestAuthenticationGoogleOauthCollectMethod(
 
 class RestAuthenticationGoogleOauthRestPaginationTypeRequestPageTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     page_field: str
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     size_field: str
@@ -6791,6 +7084,7 @@ class RestAuthenticationGoogleOauthRestPaginationTypeRequestPageTypedDict(TypedD
 
 class RestAuthenticationGoogleOauthRestPaginationTypeRequestPage(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     page_field: Annotated[str, pydantic.Field(alias="pageField")]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
@@ -6890,6 +7184,7 @@ class RestAuthenticationGoogleOauthRestPaginationTypeRequestPage(BaseModel):
 
 class RestAuthenticationGoogleOauthRestPaginationTypeRequestOffsetTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     offset_field: str
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit_field: str
@@ -6924,6 +7219,7 @@ class RestAuthenticationGoogleOauthRestPaginationTypeRequestOffsetTypedDict(Type
 
 class RestAuthenticationGoogleOauthRestPaginationTypeRequestOffset(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     offset_field: Annotated[str, pydantic.Field(alias="offsetField")]
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
@@ -7025,6 +7321,7 @@ class RestAuthenticationGoogleOauthRestPaginationTypeResponseHeaderLinkTypedDict
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     next_relation_attribute: str
     r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
     max_pages: float
@@ -7059,6 +7356,7 @@ class RestAuthenticationGoogleOauthRestPaginationTypeResponseHeaderLinkTypedDict
 
 class RestAuthenticationGoogleOauthRestPaginationTypeResponseHeaderLink(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     next_relation_attribute: Annotated[
         str, pydantic.Field(alias="nextRelationAttribute")
@@ -7175,6 +7473,7 @@ r"""Names of attributes within the response that contain next-page information""
 
 class RestAuthenticationGoogleOauthRestPaginationTypeResponseHeaderTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: RestAuthenticationGoogleOauthRestPaginationTypeResponseHeaderResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
@@ -7211,6 +7510,7 @@ class RestAuthenticationGoogleOauthRestPaginationTypeResponseHeaderTypedDict(Typ
 
 class RestAuthenticationGoogleOauthRestPaginationTypeResponseHeader(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: (
         RestAuthenticationGoogleOauthRestPaginationTypeResponseHeaderResponseAttributes
@@ -7335,6 +7635,7 @@ r"""Names of attributes within the response that contain next-page information""
 
 class RestAuthenticationGoogleOauthRestPaginationTypeResponseBodyTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: RestAuthenticationGoogleOauthRestPaginationTypeResponseBodyResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
@@ -7371,6 +7672,7 @@ class RestAuthenticationGoogleOauthRestPaginationTypeResponseBodyTypedDict(Typed
 
 class RestAuthenticationGoogleOauthRestPaginationTypeResponseBody(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: (
         RestAuthenticationGoogleOauthRestPaginationTypeResponseBodyResponseAttributes
@@ -7479,6 +7781,7 @@ class RestAuthenticationGoogleOauthRestPaginationTypeResponseBody(BaseModel):
 
 class RestAuthenticationGoogleOauthRestPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     max_pages: NotRequired[float]
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
@@ -7513,6 +7816,7 @@ class RestAuthenticationGoogleOauthRestPaginationTypeNoneTypedDict(TypedDict):
 
 class RestAuthenticationGoogleOauthRestPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
@@ -7680,6 +7984,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffTypedDict(TypedDict)
     multiplier: NotRequired[float]
     r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
     max_interval_ms: NotRequired[float]
+    r"""Longest interval between retries (ms)"""
     codes: NotRequired[List[float]]
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
@@ -7689,6 +7994,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoffTypedDict(TypedDict)
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
     retry_header_name: NotRequired[str]
+    r"""Retry-After header name"""
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff(BaseModel):
@@ -7707,6 +8013,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff(BaseModel):
     max_interval_ms: Annotated[
         Optional[float], pydantic.Field(alias="maxIntervalMs")
     ] = None
+    r"""Longest interval between retries (ms)"""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
@@ -7729,6 +8036,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeBackoff(BaseModel):
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
+    r"""Retry-After header name"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -7784,6 +8092,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStaticTypedDict(TypedDict):
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
     retry_header_name: NotRequired[str]
+    r"""Retry-After header name"""
 
 
 class RestAuthenticationGoogleOauthRestRetryRulesTypeStatic(BaseModel):
@@ -7817,6 +8126,7 @@ class RestAuthenticationGoogleOauthRestRetryRulesTypeStatic(BaseModel):
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
+    r"""Retry-After header name"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -8016,6 +8326,7 @@ class RestAuthenticationGoogleOauthTypedDict(TypedDict):
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationGoogleOauthCollectMethod
+    r"""Collect method"""
     template_service_account_credentials: NotRequired[str]
     r"""Binds 'serviceAccountCredentials' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'serviceAccountCredentials' at runtime."""
     template_subject: NotRequired[str]
@@ -8024,6 +8335,7 @@ class RestAuthenticationGoogleOauthTypedDict(TypedDict):
     collect_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Collect headers"""
     pagination: NotRequired[RestAuthenticationGoogleOauthPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -8050,9 +8362,11 @@ class RestAuthenticationGoogleOauthTypedDict(TypedDict):
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestAuthenticationGoogleOauthSchedulingTypedDict]
     username: NotRequired[str]
+    r"""Username"""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password"""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
@@ -8072,6 +8386,7 @@ class RestAuthenticationGoogleOauthTypedDict(TypedDict):
     auth_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Authentication headers"""
     token_resp_attribute: NotRequired[str]
     r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
     client_secret_param_name: NotRequired[str]
@@ -8084,6 +8399,18 @@ class RestAuthenticationGoogleOauthTypedDict(TypedDict):
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
     text_secret: NotRequired[str]
     r"""Select or create a text secret that contains the client secret's value"""
     hmac_function_id: NotRequired[str]
@@ -8114,6 +8441,7 @@ class RestAuthenticationGoogleOauth(BaseModel):
         RestAuthenticationGoogleOauthCollectMethod,
         pydantic.Field(alias="collectMethod"),
     ]
+    r"""Collect method"""
 
     template_service_account_credentials: Annotated[
         Optional[str], pydantic.Field(alias="__template_serviceAccountCredentials")
@@ -8131,6 +8459,7 @@ class RestAuthenticationGoogleOauth(BaseModel):
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
+    r"""Collect headers"""
 
     pagination: Optional[RestAuthenticationGoogleOauthPagination] = None
 
@@ -8192,6 +8521,7 @@ class RestAuthenticationGoogleOauth(BaseModel):
     ] = None
 
     username: Optional[str] = None
+    r"""Username"""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -8199,6 +8529,7 @@ class RestAuthenticationGoogleOauth(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password"""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -8240,6 +8571,7 @@ class RestAuthenticationGoogleOauth(BaseModel):
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
+    r"""Authentication headers"""
 
     token_resp_attribute: Annotated[
         Optional[str], pydantic.Field(alias="tokenRespAttribute")
@@ -8266,6 +8598,30 @@ class RestAuthenticationGoogleOauth(BaseModel):
         pydantic.Field(alias="authRequestParams"),
     ] = None
     r"""OAuth request parameters added to the POST body. The Content-Type header will automatically be set to application/x-www-form-urlencoded."""
+
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a text secret that contains the client secret's value"""
@@ -8336,6 +8692,11 @@ class RestAuthenticationGoogleOauth(BaseModel):
                 "clientSecretParamValue",
                 "__template_clientSecretParamValue",
                 "authRequestParams",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "__template_refreshUrl",
+                "refreshRequestParams",
                 "textSecret",
                 "hmacFunctionId",
                 "__template_collectUrl",
@@ -8393,15 +8754,18 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeNoneTypedDict(TypedD
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     item_list: NotRequired[List[str]]
@@ -8427,11 +8791,13 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeNone(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -8448,6 +8814,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeNone(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -8530,15 +8897,18 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeListTypedDict(TypedD
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
 
@@ -8565,11 +8935,13 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeList(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -8586,6 +8958,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeList(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -8666,13 +9039,16 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeJSONTypedDict(TypedD
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
 
@@ -8704,11 +9080,13 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeJSON(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -8720,6 +9098,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeJSON(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
@@ -8788,6 +9167,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_verb: str
     r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
@@ -8799,9 +9179,11 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -8810,6 +9192,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -8827,6 +9210,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
     r"""Custom HTTP method to use for the Discover operation"""
@@ -8847,11 +9231,13 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -8873,6 +9259,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -8959,6 +9346,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_body: str
     r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
     discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBodyDiscoverType
@@ -8968,6 +9356,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -8976,6 +9365,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -8993,6 +9383,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_body: Annotated[str, pydantic.Field(alias="discoverBody")]
     r"""Template for POST body to send with the discover request. To reference global variables or functions, use template parameters: `{ myVar: ${C.vars.myVar}, secret: ${C.Secret('mySecret','text').value} }`"""
@@ -9010,6 +9401,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -9031,6 +9423,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -9115,6 +9508,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -9122,9 +9516,11 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -9133,6 +9529,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -9150,6 +9547,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_type: Annotated[
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostDiscoverType,
@@ -9164,11 +9562,13 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -9190,6 +9590,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -9275,6 +9676,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_type: RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType
     r"""Defines how task discovery will be performed. Each entry returned by the Discover operation will result in a Collect task."""
     discover_url: str
@@ -9282,9 +9684,11 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -9293,6 +9697,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -9310,6 +9715,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_type: Annotated[
         RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetDiscoverType,
@@ -9324,11 +9730,13 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -9350,6 +9758,7 @@ class RestAuthenticationOauthSecretRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")
@@ -9523,6 +9932,8 @@ RestAuthenticationOauthSecretDiscovery = Annotated[
 class RestAuthenticationOauthSecretCollectMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Collect method"""
+
     # GET
     GET = "get"
     # POST
@@ -9535,6 +9946,7 @@ class RestAuthenticationOauthSecretCollectMethod(
 
 class RestAuthenticationOauthSecretRestPaginationTypeRequestPageTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     page_field: str
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     size_field: str
@@ -9569,6 +9981,7 @@ class RestAuthenticationOauthSecretRestPaginationTypeRequestPageTypedDict(TypedD
 
 class RestAuthenticationOauthSecretRestPaginationTypeRequestPage(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     page_field: Annotated[str, pydantic.Field(alias="pageField")]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
@@ -9668,6 +10081,7 @@ class RestAuthenticationOauthSecretRestPaginationTypeRequestPage(BaseModel):
 
 class RestAuthenticationOauthSecretRestPaginationTypeRequestOffsetTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     offset_field: str
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit_field: str
@@ -9702,6 +10116,7 @@ class RestAuthenticationOauthSecretRestPaginationTypeRequestOffsetTypedDict(Type
 
 class RestAuthenticationOauthSecretRestPaginationTypeRequestOffset(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     offset_field: Annotated[str, pydantic.Field(alias="offsetField")]
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
@@ -9803,6 +10218,7 @@ class RestAuthenticationOauthSecretRestPaginationTypeResponseHeaderLinkTypedDict
     TypedDict
 ):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     next_relation_attribute: str
     r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
     max_pages: float
@@ -9837,6 +10253,7 @@ class RestAuthenticationOauthSecretRestPaginationTypeResponseHeaderLinkTypedDict
 
 class RestAuthenticationOauthSecretRestPaginationTypeResponseHeaderLink(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     next_relation_attribute: Annotated[
         str, pydantic.Field(alias="nextRelationAttribute")
@@ -9953,6 +10370,7 @@ r"""Names of attributes within the response that contain next-page information""
 
 class RestAuthenticationOauthSecretRestPaginationTypeResponseHeaderTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: RestAuthenticationOauthSecretRestPaginationTypeResponseHeaderResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
@@ -9989,6 +10407,7 @@ class RestAuthenticationOauthSecretRestPaginationTypeResponseHeaderTypedDict(Typ
 
 class RestAuthenticationOauthSecretRestPaginationTypeResponseHeader(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: (
         RestAuthenticationOauthSecretRestPaginationTypeResponseHeaderResponseAttributes
@@ -10113,6 +10532,7 @@ r"""Names of attributes within the response that contain next-page information""
 
 class RestAuthenticationOauthSecretRestPaginationTypeResponseBodyTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: RestAuthenticationOauthSecretRestPaginationTypeResponseBodyResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
@@ -10149,6 +10569,7 @@ class RestAuthenticationOauthSecretRestPaginationTypeResponseBodyTypedDict(Typed
 
 class RestAuthenticationOauthSecretRestPaginationTypeResponseBody(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: (
         RestAuthenticationOauthSecretRestPaginationTypeResponseBodyResponseAttributes
@@ -10257,6 +10678,7 @@ class RestAuthenticationOauthSecretRestPaginationTypeResponseBody(BaseModel):
 
 class RestAuthenticationOauthSecretRestPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     max_pages: NotRequired[float]
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
@@ -10291,6 +10713,7 @@ class RestAuthenticationOauthSecretRestPaginationTypeNoneTypedDict(TypedDict):
 
 class RestAuthenticationOauthSecretRestPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
     r"""Maximum number of pages to retrieve per collection task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
@@ -10458,6 +10881,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffTypedDict(TypedDict)
     multiplier: NotRequired[float]
     r"""Base for exponential backoff. Example: base 2 means that retries will occur after 2, then 4, then 8 seconds, and so on."""
     max_interval_ms: NotRequired[float]
+    r"""Longest interval between retries (ms)"""
     codes: NotRequired[List[float]]
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
     enable_header: NotRequired[bool]
@@ -10467,6 +10891,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoffTypedDict(TypedDict)
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
     retry_header_name: NotRequired[str]
+    r"""Retry-After header name"""
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeBackoff(BaseModel):
@@ -10485,6 +10910,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoff(BaseModel):
     max_interval_ms: Annotated[
         Optional[float], pydantic.Field(alias="maxIntervalMs")
     ] = None
+    r"""Longest interval between retries (ms)"""
 
     codes: Optional[List[float]] = None
     r"""List of HTTP codes that trigger a retry. Leave empty to use the default list of 429 and 503."""
@@ -10507,6 +10933,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeBackoff(BaseModel):
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
+    r"""Retry-After header name"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -10562,6 +10989,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStaticTypedDict(TypedDict):
     retry_connect_reset: NotRequired[bool]
     r"""Retry request when a connection reset (ECONNRESET) error occurs"""
     retry_header_name: NotRequired[str]
+    r"""Retry-After header name"""
 
 
 class RestAuthenticationOauthSecretRestRetryRulesTypeStatic(BaseModel):
@@ -10595,6 +11023,7 @@ class RestAuthenticationOauthSecretRestRetryRulesTypeStatic(BaseModel):
     retry_header_name: Annotated[
         Optional[str], pydantic.Field(alias="retryHeaderName")
     ] = None
+    r"""Retry-After header name"""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -10796,6 +11225,7 @@ class RestAuthenticationOauthSecretTypedDict(TypedDict):
     collect_url: str
     r"""URL (constant or JavaScript expression) to use for the Collect operation"""
     collect_method: RestAuthenticationOauthSecretCollectMethod
+    r"""Collect method"""
     token_resp_attribute: NotRequired[str]
     r"""Path to token attribute in login response body. Nested attributes are OK. Leave blank if the response content type is text/plain; the entire response body will be used to derive the authorization header."""
     auth_header_key: NotRequired[str]
@@ -10807,10 +11237,24 @@ class RestAuthenticationOauthSecretTypedDict(TypedDict):
     auth_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Authentication headers"""
+    refresh_token_field: NotRequired[str]
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+    rotate_refresh_token: NotRequired[bool]
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+    refresh_url: NotRequired[str]
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+    refresh_request_params: NotRequired[
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthTypedDict]
+    ]
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
+    template_refresh_url: NotRequired[str]
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
     discovery: NotRequired[RestAuthenticationOauthSecretDiscoveryTypedDict]
     collect_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Collect headers"""
     pagination: NotRequired[RestAuthenticationOauthSecretPaginationTypedDict]
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -10837,9 +11281,11 @@ class RestAuthenticationOauthSecretTypedDict(TypedDict):
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestAuthenticationOauthSecretSchedulingTypedDict]
     username: NotRequired[str]
+    r"""Username"""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     password: NotRequired[str]
+    r"""Password"""
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     credentials_secret: NotRequired[str]
@@ -10895,6 +11341,7 @@ class RestAuthenticationOauthSecret(BaseModel):
         RestAuthenticationOauthSecretCollectMethod,
         pydantic.Field(alias="collectMethod"),
     ]
+    r"""Collect method"""
 
     token_resp_attribute: Annotated[
         Optional[str], pydantic.Field(alias="tokenRespAttribute")
@@ -10916,6 +11363,31 @@ class RestAuthenticationOauthSecret(BaseModel):
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="authRequestHeaders"),
     ] = None
+    r"""Authentication headers"""
+
+    refresh_token_field: Annotated[
+        Optional[str], pydantic.Field(alias="refreshTokenField")
+    ] = None
+    r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, the Collector uses the refresh token to obtain new access tokens without re-sending credentials."""
+
+    rotate_refresh_token: Annotated[
+        Optional[bool], pydantic.Field(alias="rotateRefreshToken")
+    ] = None
+    r"""The Collector will update its stored value on each successful refresh. Enable if the server issues a new refresh token on every use."""
+
+    refresh_url: Annotated[Optional[str], pydantic.Field(alias="refreshUrl")] = None
+    r"""Override the refresh endpoint URL if it differs from the Login URL. Defaults to Login URL."""
+
+    refresh_request_params: Annotated[
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauth]],
+        pydantic.Field(alias="refreshRequestParams"),
+    ] = None
+    r"""Parameters to include in the refresh token request body. Most servers require 'client_id' here. If not set, the Collector sends only grant_type, refresh_token, and client_secret."""
+
+    template_refresh_url: Annotated[
+        Optional[str], pydantic.Field(alias="__template_refreshUrl")
+    ] = None
+    r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
 
     discovery: Optional[RestAuthenticationOauthSecretDiscovery] = None
 
@@ -10923,6 +11395,7 @@ class RestAuthenticationOauthSecret(BaseModel):
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
+    r"""Collect headers"""
 
     pagination: Optional[RestAuthenticationOauthSecretPagination] = None
 
@@ -10984,6 +11457,7 @@ class RestAuthenticationOauthSecret(BaseModel):
     ] = None
 
     username: Optional[str] = None
+    r"""Username"""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -10991,6 +11465,7 @@ class RestAuthenticationOauthSecret(BaseModel):
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
 
     password: Optional[str] = None
+    r"""Password"""
 
     template_password: Annotated[
         Optional[str], pydantic.Field(alias="__template_password")
@@ -11082,6 +11557,11 @@ class RestAuthenticationOauthSecret(BaseModel):
                 "authHeaderKey",
                 "authRequestParams",
                 "authRequestHeaders",
+                "refreshTokenField",
+                "rotateRefreshToken",
+                "refreshUrl",
+                "refreshRequestParams",
+                "__template_refreshUrl",
                 "discovery",
                 "collectRequestHeaders",
                 "pagination",
@@ -11164,15 +11644,18 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
     item_list: NotRequired[List[str]]
@@ -11198,11 +11681,13 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeNone(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -11219,6 +11704,7 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeNone(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -11299,15 +11785,18 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     manual_discover_result: NotRequired[str]
     r"""Allows hard-coding the Discover result. Must be a JSON object or array. Works with Discover data field."""
 
@@ -11334,11 +11823,13 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeList(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -11355,6 +11846,7 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeList(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     manual_discover_result: Annotated[
         Optional[str], pydantic.Field(alias="manualDiscoverResult")
@@ -11433,13 +11925,16 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     template_discover_url: NotRequired[str]
     r"""Binds 'discoverUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'discoverUrl' at runtime."""
     discover_method: NotRequired[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP]
+    r"""Discover method"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     item_list: NotRequired[List[str]]
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
 
@@ -11471,11 +11966,13 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeJSON(BaseModel):
         Optional[DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP],
         pydantic.Field(alias="discoverMethod"),
     ] = None
+    r"""Discover method"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -11487,6 +11984,7 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeJSON(BaseModel):
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     item_list: Annotated[Optional[List[str]], pydantic.Field(alias="itemList")] = None
     r"""Comma-separated list of items to return from the Discover task. Each item returned generates a Collect task and can be referenced using `${id}` in the Collect URL, headers, or parameters."""
@@ -11555,6 +12053,7 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyp
     TypedDict
 ):
     discover_method: DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP
+    r"""Discover method"""
     discover_verb: str
     r"""Custom HTTP method to use for the Discover operation"""
     discover_type: RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherDiscoverType
@@ -11566,9 +12065,11 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyp
     discover_request_params: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover parameters"""
     discover_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
+    r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
@@ -11577,6 +12078,7 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyp
     discover_response_format: NotRequired[str]
     r"""If 'Strict discover response parsing' parsing is enabled, provide the response format"""
     enable_discover_code: NotRequired[bool]
+    r"""Format discover result with custom code"""
     format_result_code: NotRequired[str]
     r"""Custom JavaScript code to format the discover result through the __e variable which is a JSON object or array containing the original discover results. The object or array passed should be manipulated to contain the desired discover results, i.e.: __e['myResult'] = [{lat: -1.1234, long: 2.345, zip: 11111},{lat: -1.235, long 2.346, zip: 22222}] or ['11111','22222']. Caution: This function is evaluated in an unprotected context, allowing you to execute almost any JavaScript code."""
     template_discover_url: NotRequired[str]
@@ -11594,6 +12096,7 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
         DiscoverMethodOptionsRestDiscoveryDiscoverTypeHTTP,
         pydantic.Field(alias="discoverMethod"),
     ]
+    r"""Discover method"""
 
     discover_verb: Annotated[str, pydantic.Field(alias="discoverVerb")]
     r"""Custom HTTP method to use for the Discover operation"""
@@ -11614,11 +12117,13 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestParams"),
     ] = None
+    r"""Discover parameters"""
 
     discover_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="discoverRequestHeaders"),
     ] = None
+    r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
 
@@ -11640,6 +12145,7 @@ class RestAuthenticationOauthRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(
     enable_discover_code: Annotated[
         Optional[bool], pydantic.Field(alias="enableDiscoverCode")
     ] = None
+    r"""Format discover result with custom code"""
 
     format_result_code: Annotated[
         Optional[str], pydantic.Field(alias="formatResultCode")

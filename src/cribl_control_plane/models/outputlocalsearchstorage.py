@@ -33,6 +33,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputLocalSearchStorageType(str, Enum):
+    r"""Connector type identifier."""
+
     LOCAL_SEARCH_STORAGE = "local_search_storage"
 
 
@@ -155,18 +157,20 @@ class OutputLocalSearchStorageColumnMapping(BaseModel):
 
 
 class OutputLocalSearchStoragePqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputLocalSearchStoragePqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputLocalSearchStorageTypedDict(TypedDict):
     type: OutputLocalSearchStorageType
+    r"""Connector type identifier."""
     url: str
     r"""URL of the database instance. Example: http://localhost:8123/"""
     database: str
+    r"""Database"""
     table_name: str
     r"""Name of the table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
     id: NotRequired[str]
@@ -178,8 +182,9 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     auth_type: NotRequired[AuthenticationTypeOptions]
+    r"""Authentication type"""
     format_: NotRequired[OutputLocalSearchStorageFormat]
     r"""Data format to use when sending data. Defaults to JSON Compact."""
     mapping_type: NotRequired[OutputLocalSearchStorageMappingType]
@@ -187,6 +192,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a table immediately."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict]
+    r"""TLS settings (client side)"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
     max_payload_size_kb: NotRequired[float]
@@ -227,8 +233,11 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     r"""How to handle events when all receivers are exerting backpressure"""
     stats_destination: NotRequired[OutputLocalSearchStorageStatsDestinationTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     sql_username: NotRequired[str]
@@ -240,6 +249,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     describe_table: NotRequired[str]
     r"""Retrieves the table schema and populates the Column Mapping table"""
     column_mappings: NotRequired[List[OutputLocalSearchStorageColumnMappingTypedDict]]
+    r"""Column Mapping"""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -263,6 +273,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputLocalSearchStoragePqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_url: NotRequired[str]
@@ -279,11 +290,13 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
 
 class OutputLocalSearchStorage(BaseModel):
     type: OutputLocalSearchStorageType
+    r"""Connector type identifier."""
 
     url: str
     r"""URL of the database instance. Example: http://localhost:8123/"""
 
     database: str
+    r"""Database"""
 
     table_name: Annotated[str, pydantic.Field(alias="tableName")]
     r"""Name of the table where data will be inserted. Name can contain letters (A-Z, a-z), numbers (0-9), and the character \"_\", and must start with either a letter or the character \"_\"."""
@@ -303,11 +316,12 @@ class OutputLocalSearchStorage(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     auth_type: Annotated[
         Optional[AuthenticationTypeOptions], pydantic.Field(alias="authType")
     ] = None
+    r"""Authentication type"""
 
     format_: Annotated[
         Optional[OutputLocalSearchStorageFormat], pydantic.Field(alias="format")
@@ -326,6 +340,7 @@ class OutputLocalSearchStorage(BaseModel):
     r"""Collect data into batches for later processing. Disable to write to a table immediately."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPathExtended] = None
+    r"""TLS settings (client side)"""
 
     concurrency: Optional[float] = None
     r"""Maximum number of ongoing requests before blocking"""
@@ -415,10 +430,13 @@ class OutputLocalSearchStorage(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -447,6 +465,7 @@ class OutputLocalSearchStorage(BaseModel):
         Optional[List[OutputLocalSearchStorageColumnMapping]],
         pydantic.Field(alias="columnMappings"),
     ] = None
+    r"""Column Mapping"""
 
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
@@ -500,6 +519,7 @@ class OutputLocalSearchStorage(BaseModel):
     pq_controls: Annotated[
         Optional[OutputLocalSearchStoragePqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

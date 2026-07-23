@@ -1,5 +1,7 @@
 # CreateOutputTypeWizHec
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

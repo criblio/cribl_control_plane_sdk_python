@@ -51,6 +51,12 @@ value: models.FunctionCode = /* values here */
 value: models.FunctionComment = /* values here */
 ```
 
+### `models.FunctionDetectionRules`
+
+```python
+value: models.FunctionDetectionRules = /* values here */
+```
+
 ### `models.FunctionDistinct`
 
 ```python
@@ -157,6 +163,12 @@ value: models.FunctionJSONUnroll = /* values here */
 
 ```python
 value: models.FunctionLakeExport = /* values here */
+```
+
+### `models.FunctionLakehouseEngineMetricsNormalizer`
+
+```python
+value: models.FunctionLakehouseEngineMetricsNormalizer = /* values here */
 ```
 
 ### `models.FunctionLimit`
@@ -355,12 +367,6 @@ value: models.FunctionSerialize = /* values here */
 
 ```python
 value: models.FunctionSidlookup = /* values here */
-```
-
-### `models.FunctionSignalFilter`
-
-```python
-value: models.FunctionSignalFilter = /* values here */
 ```
 
 ### `models.FunctionSnmpTrapSerialize`

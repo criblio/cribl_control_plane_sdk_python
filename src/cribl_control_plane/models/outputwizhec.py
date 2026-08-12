@@ -25,7 +25,7 @@ from .tlssettingsclientsidetypecapathcertpathextended import (
     TLSSettingsClientSideTypeCaPathCertPathExtended,
     TLSSettingsClientSideTypeCaPathCertPathExtendedTypedDict,
 )
-from cribl_control_plane import models
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -38,6 +38,26 @@ class OutputWizHecType(str, Enum):
     r"""Connector type identifier."""
 
     WIZ_HEC = "wiz_hec"
+
+
+class WizDefendSourceType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The Wiz log source type. Select a predefined type or enter a custom value."""
+
+    AWS_CLOUDTRAIL = "AWS_CLOUDTRAIL"
+    AWS_EKS_AUDIT_LOGS = "AWS_EKS_AUDIT_LOGS"
+    AWS_RESOLVER_QUERY_LOGS = "AWS_RESOLVER_QUERY_LOGS"
+    AZURE_ACTIVITY_LOGS = "AZURE_ACTIVITY_LOGS"
+    GCP_AUDIT_LOGS = "GCP_AUDIT_LOGS"
+    GITHUB_AUDIT_LOGS = "GITHUB_AUDIT_LOGS"
+    OCI_AUDIT_LOGS = "OCI_AUDIT_LOGS"
+    AWS_VPC_FLOW_LOGS = "AWS_VPC_FLOW_LOGS"
+
+
+class OutputWizHecEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""The format of the VPC Flow Log events"""
+
+    JSON = "json"
+    CSV_ROW = "csv_row"
 
 
 class OutputWizHecPqControlsTypedDict(TypedDict):
@@ -57,8 +77,8 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Your Wiz deployment environment"""
     data_center: str
     r"""Your Wiz deployment data center (such as us1, us8, or eu1). From Tenant Info → Data Center and Regions → Tenant Data Center in your Wiz console."""
-    wiz_sourcetype: str
-    r"""Wiz Defend Source type"""
+    wiz_sourcetype: WizDefendSourceType
+    r"""The Wiz log source type. Select a predefined type or enter a custom value."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -111,6 +131,10 @@ class OutputWizHecTypedDict(TypedDict):
     r"""Wiz Defend Auth token"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
+    wiz_vpc_event_format: NotRequired[OutputWizHecEventFormat]
+    r"""The format of the VPC Flow Log events"""
+    wiz_vpc_flow_log_format: NotRequired[str]
+    r"""The format string for VPC Flow Log fields"""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
     pq_rate_per_sec: NotRequired[float]
@@ -162,8 +186,8 @@ class OutputWizHec(BaseModel):
     data_center: str
     r"""Your Wiz deployment data center (such as us1, us8, or eu1). From Tenant Info → Data Center and Regions → Tenant Data Center in your Wiz console."""
 
-    wiz_sourcetype: str
-    r"""Wiz Defend Source type"""
+    wiz_sourcetype: WizDefendSourceType
+    r"""The Wiz log source type. Select a predefined type or enter a custom value."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -269,6 +293,12 @@ class OutputWizHec(BaseModel):
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
 
+    wiz_vpc_event_format: Optional[OutputWizHecEventFormat] = None
+    r"""The format of the VPC Flow Log events"""
+
+    wiz_vpc_flow_log_format: Optional[str] = None
+    r"""The format string for VPC Flow Log fields"""
+
     pq_strict_ordering: Annotated[
         Optional[bool], pydantic.Field(alias="pqStrictOrdering")
     ] = None
@@ -371,11 +401,29 @@ class OutputWizHec(BaseModel):
                 return value
         return value
 
+    @field_serializer("wiz_sourcetype")
+    def serialize_wiz_sourcetype(self, value):
+        if isinstance(value, str):
+            try:
+                return models.WizDefendSourceType(value)
+            except ValueError:
+                return value
+        return value
+
     @field_serializer("on_backpressure")
     def serialize_on_backpressure(self, value):
         if isinstance(value, str):
             try:
                 return models.BackpressureBehaviorOptions(value)
+            except ValueError:
+                return value
+        return value
+
+    @field_serializer("wiz_vpc_event_format")
+    def serialize_wiz_vpc_event_format(self, value):
+        if isinstance(value, str):
+            try:
+                return models.OutputWizHecEventFormat(value)
             except ValueError:
                 return value
         return value
@@ -435,6 +483,8 @@ class OutputWizHec(BaseModel):
                 "description",
                 "token",
                 "textSecret",
+                "wiz_vpc_event_format",
+                "wiz_vpc_flow_log_format",
                 "pqStrictOrdering",
                 "pqRatePerSec",
                 "pqMode",

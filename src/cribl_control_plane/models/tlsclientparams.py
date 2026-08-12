@@ -19,6 +19,8 @@ class TLSClientParamsTypedDict(TypedDict):
     r"""Path to the Certificate Authority (CA) certificate file in PEM format."""
     cert_path: NotRequired[str]
     r"""Path to the client certificate file in PEM format."""
+    certificate_name: NotRequired[str]
+    r"""Name of a certificate stored in Cribl."""
     max_version: NotRequired[SecureVersion]
     min_version: NotRequired[SecureVersion]
     passphrase: NotRequired[str]
@@ -42,6 +44,11 @@ class TLSClientParams(BaseModel):
 
     cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
     r"""Path to the client certificate file in PEM format."""
+
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""Name of a certificate stored in Cribl."""
 
     max_version: Annotated[
         Optional[SecureVersion], pydantic.Field(alias="maxVersion")
@@ -89,6 +96,7 @@ class TLSClientParams(BaseModel):
             [
                 "caPath",
                 "certPath",
+                "certificateName",
                 "maxVersion",
                 "minVersion",
                 "passphrase",

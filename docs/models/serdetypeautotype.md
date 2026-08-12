@@ -1,13 +1,13 @@
 # SerdeTypeAutoType
 
-Parser or formatter type to use
+Parser or formatter type to use.
 
 ## Example Usage
 
 ```python
 from cribl_control_plane.models import SerdeTypeAutoType
 
-value = SerdeTypeAutoType.CSV
+value = SerdeTypeAutoType.AUTO
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```
@@ -17,6 +17,7 @@ value = SerdeTypeAutoType.CSV
 
 | Name    | Value   |
 | ------- | ------- |
+| `AUTO`  | auto    |
 | `CSV`   | csv     |
 | `ELFF`  | elff    |
 | `CLF`   | clf     |
@@ -25,4 +26,3 @@ value = SerdeTypeAutoType.CSV
 | `DELIM` | delim   |
 | `REGEX` | regex   |
 | `GROK`  | grok    |
-| `AUTO`  | auto    |

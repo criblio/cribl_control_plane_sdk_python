@@ -114,7 +114,7 @@ Get detailed metadata for the specified Worker, Edge, or Outpost Node for the sp
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getProductsWorkersByProductAndId" method="get" path="/products/{product}/workers/{id}" -->
+<!-- UsageSnippet language="python" operationID="getProductsWorkersByProductAndId" method="get" path="/products/{product}/workers/{id}" example="GetProductWorkerByIdResponseExamplesOneWorker" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -127,7 +127,7 @@ with CriblControlPlane(
     ),
 ) as ccp_client:
 
-    res = ccp_client.nodes.get(product=models.ProductsCore.STREAM, id="<id>")
+    res = ccp_client.nodes.get(product=models.ProductsCore.EDGE, id="<id>")
 
     # Handle response
     print(res)
@@ -158,7 +158,55 @@ with CriblControlPlane(
 
 Restart all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
-### Example Usage
+### Example Usage: RestartProductWorkersResponseExamplesRestartingWorkers
+
+<!-- UsageSnippet language="python" operationID="updateProductsWorkersRestartByProduct" method="patch" path="/products/{product}/workers/restart" example="RestartProductWorkersResponseExamplesRestartingWorkers" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.nodes.restart(product=models.ProductsCore.STREAM, guids=[
+        "<value 1>",
+        "<value 2>",
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RestartProductWorkersResponseExamplesRestartingWorkersWithError
+
+<!-- UsageSnippet language="python" operationID="updateProductsWorkersRestartByProduct" method="patch" path="/products/{product}/workers/restart" example="RestartProductWorkersResponseExamplesRestartingWorkersWithError" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.nodes.restart(product=models.ProductsCore.EDGE, guids=[
+        "<value 1>",
+        "<value 2>",
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: RestartWorkersExamplesRestartWorkers
 
 <!-- UsageSnippet language="python" operationID="updateProductsWorkersRestartByProduct" method="patch" path="/products/{product}/workers/restart" example="RestartWorkersExamplesRestartWorkers" -->
 ```python
@@ -177,6 +225,30 @@ with CriblControlPlane(
         "guid-12345678-abcd-1234-abcd-123456789abc",
         "guid-87654321-dcba-4321-dcba-cba987654321",
         "guid-11111111-2222-3333-4444-555555555555",
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateProductsWorkersRestartByProduct" method="patch" path="/products/{product}/workers/restart" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.nodes.restart(product=models.ProductsCore.OUTPOST, guids=[
+        "<value 1>",
+        "<value 2>",
     ])
 
     # Handle response

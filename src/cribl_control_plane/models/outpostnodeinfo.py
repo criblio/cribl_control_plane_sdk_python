@@ -8,6 +8,8 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class OutpostNodeInfoTypedDict(TypedDict):
+    r"""Node information for the Outpost through which a Worker connects to the Leader."""
+
     guid: str
     r"""Unique identifier for the Outpost Node."""
     host: str
@@ -17,6 +19,8 @@ class OutpostNodeInfoTypedDict(TypedDict):
 
 
 class OutpostNodeInfo(BaseModel):
+    r"""Node information for the Outpost through which a Worker connects to the Leader."""
+
     guid: str
     r"""Unique identifier for the Outpost Node."""
 

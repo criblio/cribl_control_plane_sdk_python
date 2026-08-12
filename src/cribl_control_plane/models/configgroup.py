@@ -55,6 +55,8 @@ class Git(BaseModel):
 
 
 class ConfigGroupTypedDict(TypedDict):
+    r"""Configuration settings and dynamic status for a Worker Group, Outpost Group, or Edge Fleet."""
+
     id: str
     r"""Unique identifier."""
     cloud: NotRequired[ConfigGroupCloudTypedDict]
@@ -103,6 +105,8 @@ class ConfigGroupTypedDict(TypedDict):
 
 
 class ConfigGroup(BaseModel):
+    r"""Configuration settings and dynamic status for a Worker Group, Outpost Group, or Edge Fleet."""
+
     id: str
     r"""Unique identifier."""
 

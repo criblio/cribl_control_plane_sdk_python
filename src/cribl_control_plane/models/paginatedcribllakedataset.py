@@ -15,11 +15,11 @@ class PaginatedCriblLakeDatasetTypedDict(TypedDict):
     count: int
     r"""Number of items present in the items array"""
     offset: NotRequired[int]
-    r"""Pagination offset"""
+    r"""Pagination offset. Returned when offset/limit query parameters are provided."""
     limit: NotRequired[int]
-    r"""Pagination limit"""
+    r"""Pagination limit. Returned when offset/limit query parameters are provided."""
     total_count: NotRequired[int]
-    r"""Total number of items available (present when limit is set)"""
+    r"""Total number of items available. Returned when offset/limit query parameters are provided."""
 
 
 class PaginatedCriblLakeDataset(BaseModel):
@@ -30,13 +30,13 @@ class PaginatedCriblLakeDataset(BaseModel):
     r"""Number of items present in the items array"""
 
     offset: Optional[int] = None
-    r"""Pagination offset"""
+    r"""Pagination offset. Returned when offset/limit query parameters are provided."""
 
     limit: Optional[int] = None
-    r"""Pagination limit"""
+    r"""Pagination limit. Returned when offset/limit query parameters are provided."""
 
     total_count: Annotated[Optional[int], pydantic.Field(alias="totalCount")] = None
-    r"""Total number of items available (present when limit is set)"""
+    r"""Total number of items available. Returned when offset/limit query parameters are provided."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

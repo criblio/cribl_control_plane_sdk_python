@@ -85,6 +85,8 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     r"""Optional description for this configuration."""
     disable_json_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
+    include_empty_json_fields: NotRequired[bool]
+    r"""Preserve fields with empty values (such as '-') in the JSON output instead of omitting them"""
     disable_xml_rendering: NotRequired[bool]
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
     template_environment: NotRequired[str]
@@ -170,6 +172,11 @@ class InputWinEventLogsInput(BaseModel):
     ] = None
     r"""Enable/disable the rendering of localized event message strings (Applicable for 4.8.0 nodes and newer that use the Native API)"""
 
+    include_empty_json_fields: Annotated[
+        Optional[bool], pydantic.Field(alias="includeEmptyJsonFields")
+    ] = None
+    r"""Preserve fields with empty values (such as '-') in the JSON output instead of omitting them"""
+
     disable_xml_rendering: Annotated[
         Optional[bool], pydantic.Field(alias="disableXmlRendering")
     ] = None
@@ -226,6 +233,7 @@ class InputWinEventLogsInput(BaseModel):
                 "maxEventBytes",
                 "description",
                 "disableJsonRendering",
+                "includeEmptyJsonFields",
                 "disableXmlRendering",
                 "__template_environment",
                 "__template_streamtags",

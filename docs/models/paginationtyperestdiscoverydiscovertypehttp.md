@@ -1,5 +1,7 @@
 # PaginationTypeRestDiscoveryDiscoverTypeHTTP
 
+Settings that control how the Collector paginates through Discover results.
+
 
 ## Supported Types
 

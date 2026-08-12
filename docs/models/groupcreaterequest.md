@@ -1,5 +1,7 @@
 # GroupCreateRequest
 
+Request body for creating a new Worker Group, Outpost Group, or Edge Fleet. Do not include automatically populated fields.
+
 
 ## Fields
 

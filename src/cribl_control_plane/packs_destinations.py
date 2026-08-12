@@ -116,7 +116,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -253,7 +257,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -317,8 +325,8 @@ class PacksDestinations(BaseSDK):
         *,
         pack: str,
         request_body: Union[
-            models.CreateOutputSystemByPackRequestBody,
-            models.CreateOutputSystemByPackRequestBodyTypedDict,
+            models.CreateOutputSystemByPackOutput,
+            models.CreateOutputSystemByPackOutputTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -349,7 +357,7 @@ class PacksDestinations(BaseSDK):
         request = models.CreateOutputSystemByPackRequest(
             pack=pack,
             request_body=utils.get_pydantic_model(
-                request_body, models.CreateOutputSystemByPackRequestBody
+                request_body, models.CreateOutputSystemByPackOutput
             ),
         )
 
@@ -371,7 +379,7 @@ class PacksDestinations(BaseSDK):
                 False,
                 False,
                 "json",
-                models.CreateOutputSystemByPackRequestBody,
+                models.CreateOutputSystemByPackOutput,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -399,7 +407,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -429,8 +441,8 @@ class PacksDestinations(BaseSDK):
         *,
         pack: str,
         request_body: Union[
-            models.CreateOutputSystemByPackRequestBody,
-            models.CreateOutputSystemByPackRequestBodyTypedDict,
+            models.CreateOutputSystemByPackOutput,
+            models.CreateOutputSystemByPackOutputTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -461,7 +473,7 @@ class PacksDestinations(BaseSDK):
         request = models.CreateOutputSystemByPackRequest(
             pack=pack,
             request_body=utils.get_pydantic_model(
-                request_body, models.CreateOutputSystemByPackRequestBody
+                request_body, models.CreateOutputSystemByPackOutput
             ),
         )
 
@@ -483,7 +495,7 @@ class PacksDestinations(BaseSDK):
                 False,
                 False,
                 "json",
-                models.CreateOutputSystemByPackRequestBody,
+                models.CreateOutputSystemByPackOutput,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -511,7 +523,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -611,7 +627,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -711,7 +731,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -817,7 +841,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -923,7 +951,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1023,7 +1055,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1123,7 +1159,11 @@ class PacksDestinations(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["destinations"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

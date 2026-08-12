@@ -55,7 +55,7 @@ class InputSplunkAuthToken(BaseModel):
         return m
 
 
-class InputSplunkMaxS2SVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class MaxS2SVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The highest S2S protocol version to advertise during handshake"""
 
     # v3
@@ -121,7 +121,7 @@ class InputSplunkInputTypedDict(TypedDict):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     auth_tokens: NotRequired[List[InputSplunkAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
-    max_s2_sversion: NotRequired[InputSplunkMaxS2SVersion]
+    max_s2_sversion: NotRequired[MaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -237,7 +237,7 @@ class InputSplunkInput(BaseModel):
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     max_s2_sversion: Annotated[
-        Optional[InputSplunkMaxS2SVersion], pydantic.Field(alias="maxS2Sversion")
+        Optional[MaxS2SVersion], pydantic.Field(alias="maxS2Sversion")
     ] = None
     r"""The highest S2S protocol version to advertise during handshake"""
 
@@ -296,7 +296,7 @@ class InputSplunkInput(BaseModel):
     def serialize_max_s2_sversion(self, value):
         if isinstance(value, str):
             try:
-                return models.InputSplunkMaxS2SVersion(value)
+                return models.MaxS2SVersion(value)
             except ValueError:
                 return value
         return value

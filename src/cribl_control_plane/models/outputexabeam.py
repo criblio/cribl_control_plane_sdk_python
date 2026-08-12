@@ -89,6 +89,14 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Exabeam site ID. If left blank, @{product} will use the value of the Exabeam site name."""
     timezone_offset: NotRequired[str]
     r"""Timezone offset"""
+    hostname: NotRequired[str]
+    r"""JavaScript expression for the host from which the log was ingested into the SIEM, evaluated per event. Static values must be quoted or backticked (for example, 'collector-1.example.com'); unquoted text is evaluated as JavaScript, not as a literal. To reference an event field use an expression, such as `${host}`. Emitted as the \"hostname\" metadata field; omitted when empty or not a usable scalar."""
+    forwarder: NotRequired[str]
+    r"""JavaScript expression for the host that forwarded the log, evaluated per event. Static values must be quoted or backticked (for example, 'fwd-1'); unquoted text is evaluated as JavaScript, not as a literal. To reference an event field use an expression, such as `${__forwarder}`. Emitted as the \"forwarder\" metadata field; omitted when empty or not a usable scalar."""
+    origin: NotRequired[str]
+    r"""JavaScript expression that must resolve to an object describing the interim agent collector, such as {hostname: origin_host, '@timestamp': _time, path: source}. Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"origin\" metadata field; omitted when the result is not a non-empty object."""
+    logtags: NotRequired[str]
+    r"""JavaScript expression that must resolve to an object of custom metadata key/value pairs (searchable in Exabeam as m_c_logtags_<name>). Assemble the object upstream and reference it here (example: __exabeam_logtags), or build it inline (example: {department: dept, servertype: stype}). Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"logtags\" metadata field; omitted when the result is not a non-empty object."""
     aws_api_key: NotRequired[str]
     r"""HMAC access key. Can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""
     aws_secret_key: NotRequired[str]
@@ -247,6 +255,18 @@ class OutputExabeam(BaseModel):
     ] = None
     r"""Timezone offset"""
 
+    hostname: Optional[str] = None
+    r"""JavaScript expression for the host from which the log was ingested into the SIEM, evaluated per event. Static values must be quoted or backticked (for example, 'collector-1.example.com'); unquoted text is evaluated as JavaScript, not as a literal. To reference an event field use an expression, such as `${host}`. Emitted as the \"hostname\" metadata field; omitted when empty or not a usable scalar."""
+
+    forwarder: Optional[str] = None
+    r"""JavaScript expression for the host that forwarded the log, evaluated per event. Static values must be quoted or backticked (for example, 'fwd-1'); unquoted text is evaluated as JavaScript, not as a literal. To reference an event field use an expression, such as `${__forwarder}`. Emitted as the \"forwarder\" metadata field; omitted when empty or not a usable scalar."""
+
+    origin: Optional[str] = None
+    r"""JavaScript expression that must resolve to an object describing the interim agent collector, such as {hostname: origin_host, '@timestamp': _time, path: source}. Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"origin\" metadata field; omitted when the result is not a non-empty object."""
+
+    logtags: Optional[str] = None
+    r"""JavaScript expression that must resolve to an object of custom metadata key/value pairs (searchable in Exabeam as m_c_logtags_<name>). Assemble the object upstream and reference it here (example: __exabeam_logtags), or build it inline (example: {department: dept, servertype: stype}). Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"logtags\" metadata field; omitted when the result is not a non-empty object."""
+
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""HMAC access key. Can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""
 
@@ -374,6 +394,10 @@ class OutputExabeam(BaseModel):
                 "siteName",
                 "siteId",
                 "timezoneOffset",
+                "hostname",
+                "forwarder",
+                "origin",
+                "logtags",
                 "awsApiKey",
                 "awsSecretKey",
                 "description",

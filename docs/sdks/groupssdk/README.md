@@ -175,6 +175,27 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createProductsGroupsByProduct" method="post" path="/products/{product}/groups" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.groups.create(product=models.ProductsCore.STREAM, id="<id>", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC)
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -203,15 +224,16 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.CountedConfigGroup](../../models/countedconfiggroup.md)**
+**[models.CreateProductsGroupsByProductResponse](../../models/createproductsgroupsbyproductresponse.md)**
 
 ### Errors
 
-| Error Type       | Status Code      | Content Type     |
-| ---------------- | ---------------- | ---------------- |
-| errors.Error     | 401              | application/json |
-| errors.Error     | 500              | application/json |
-| errors.APIError  | 4XX, 5XX         | \*/\*            |
+| Error Type              | Status Code             | Content Type            |
+| ----------------------- | ----------------------- | ----------------------- |
+| errors.Error            | 401                     | application/json        |
+| errors.RestAPIJSONError | 429                     | application/json        |
+| errors.Error            | 500                     | application/json        |
+| errors.APIError         | 4XX, 5XX                | \*/\*                   |
 
 ## get
 
@@ -325,6 +347,27 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.groups.update(product=models.ProductsCore.STREAM, id_param="<value>", id="goatOnPremIanWg", config_version="abc1234", deploying_worker_count=0, description="Updated customer-managed Worker Group with remote access enabled", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC, incompatible_worker_count=0, lookup_deployments=[], name="goatonpremianwg", on_prem=True, type_=models.TypeOptionsConfigGroup.STREAM, worker_count=5, worker_remote_access=True)
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateProductsGroupsByProductAndId" method="patch" path="/products/{product}/groups/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.groups.update(product=models.ProductsCore.STREAM, id_param="<value>", id="<id>", estimated_ingest_rate=models.EstimatedIngestRateOptionsConfigGroup.RATE48_MB_PER_SEC)
 
     # Handle response
     print(res)
@@ -471,6 +514,27 @@ with CriblControlPlane(
 ) as ccp_client:
 
     res = ccp_client.groups.deploy(product=models.ProductsCore.OUTPOST, id="<id>", version="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateProductsGroupsDeployByProductAndId" method="patch" path="/products/{product}/groups/{id}/deploy" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.groups.deploy(product=models.ProductsCore.EDGE, id="<id>", version="<value>")
 
     # Handle response
     print(res)

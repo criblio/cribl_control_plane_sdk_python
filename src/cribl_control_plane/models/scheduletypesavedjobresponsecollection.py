@@ -26,7 +26,7 @@ class ScheduleTypeSavedJobResponseCollectionTypedDict(TypedDict):
     max_concurrent_runs: NotRequired[float]
     r"""The maximum number of instances of this scheduled job that may be running at any time"""
     run: NotRequired[RunSettingsTypeSavedJobResponseCollectionScheduleTypedDict]
-    r"""Run settings"""
+    r"""Run settings that control how the scheduled job executes, including log level, task sizing, and timeout."""
 
 
 class ScheduleTypeSavedJobResponseCollection(BaseModel):
@@ -52,7 +52,7 @@ class ScheduleTypeSavedJobResponseCollection(BaseModel):
     r"""The maximum number of instances of this scheduled job that may be running at any time"""
 
     run: Optional[RunSettingsTypeSavedJobResponseCollectionSchedule] = None
-    r"""Run settings"""
+    r"""Run settings that control how the scheduled job executes, including log level, task sizing, and timeout."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

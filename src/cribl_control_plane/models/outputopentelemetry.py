@@ -105,6 +105,8 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     r"""Select a transport option for OpenTelemetry"""
     otlp_version: NotRequired[OutputOpenTelemetryOTLPVersion]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
+    preserve_native_any_value: NotRequired[bool]
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
     compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_compress: NotRequired[CompressionOptionsMessages]
@@ -254,6 +256,11 @@ class OutputOpenTelemetry(BaseModel):
         Optional[OutputOpenTelemetryOTLPVersion], pydantic.Field(alias="otlpVersion")
     ] = None
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
+
+    preserve_native_any_value: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveNativeAnyValue")
+    ] = None
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
 
     compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
@@ -614,6 +621,7 @@ class OutputOpenTelemetry(BaseModel):
                 "streamtags",
                 "protocol",
                 "otlpVersion",
+                "preserveNativeAnyValue",
                 "compress",
                 "httpCompress",
                 "authType",

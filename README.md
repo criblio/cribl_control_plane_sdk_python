@@ -292,7 +292,7 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 ### [Lakes.Datasets](docs/sdks/datasets/README.md)
 
 * [list](docs/sdks/datasets/README.md#list) - List all Lake Datasets (Cribl.Cloud only)
-* [create](docs/sdks/datasets/README.md#create) - Create a Lake Dataset (Cribl.Cloud only)
+* [create](docs/sdks/datasets/README.md#create) - Create Lake Datasets (Cribl.Cloud only)
 * [get](docs/sdks/datasets/README.md#get) - Get a Lake Dataset (Cribl.Cloud only)
 * [update](docs/sdks/datasets/README.md#update) - Update a Lake Dataset (Cribl.Cloud only)
 * [delete](docs/sdks/datasets/README.md#delete) - Delete a Lake Dataset (Cribl.Cloud only)

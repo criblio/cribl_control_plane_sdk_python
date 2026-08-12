@@ -1,13 +1,13 @@
 # SerdeTypeDelimType
 
-Parser or formatter type to use
+Parser or formatter type to use.
 
 ## Example Usage
 
 ```python
 from cribl_control_plane.models import SerdeTypeDelimType
 
-value = SerdeTypeDelimType.CSV
+value = SerdeTypeDelimType.AUTO
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```
@@ -17,6 +17,7 @@ value = SerdeTypeDelimType.CSV
 
 | Name    | Value   |
 | ------- | ------- |
+| `AUTO`  | auto    |
 | `CSV`   | csv     |
 | `ELFF`  | elff    |
 | `CLF`   | clf     |
@@ -25,4 +26,3 @@ value = SerdeTypeDelimType.CSV
 | `DELIM` | delim   |
 | `REGEX` | regex   |
 | `GROK`  | grok    |
-| `AUTO`  | auto    |

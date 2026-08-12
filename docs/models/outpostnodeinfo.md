@@ -1,5 +1,7 @@
 # OutpostNodeInfo
 
+Node information for the Outpost through which a Worker connects to the Leader.
+
 
 ## Fields
 

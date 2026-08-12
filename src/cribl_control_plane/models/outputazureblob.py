@@ -3,10 +3,7 @@
 from __future__ import annotations
 from .authenticationmethodoptions import AuthenticationMethodOptions
 from .backpressurebehavioroptionsblockdrop import BackpressureBehaviorOptionsBlockDrop
-from .certificatetypeazureblobauthtypeclientcert import (
-    CertificateTypeAzureBlobAuthTypeClientCert,
-    CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
-)
+from .certificatetype import CertificateType, CertificateTypeTypedDict
 from .compressionleveloptions import CompressionLevelOptions
 from .compressionoptionshttp import CompressionOptionsHTTP
 from .dataformatoptions import DataFormatOptions
@@ -32,7 +29,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class OutputAzureBlobBlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
+class BlobAccessTier(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Blob access tier"""
 
     # Default account access tier
@@ -107,7 +104,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Orphan file recovery"""
     auth_type: NotRequired[AuthenticationMethodOptions]
     r"""Authentication method"""
-    storage_class: NotRequired[OutputAzureBlobBlobAccessTier]
+    storage_class: NotRequired[BlobAccessTier]
     r"""Blob access tier"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -161,7 +158,7 @@ class OutputAzureBlobTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_container_name: NotRequired[str]
@@ -327,7 +324,7 @@ class OutputAzureBlob(BaseModel):
     r"""Authentication method"""
 
     storage_class: Annotated[
-        Optional[OutputAzureBlobBlobAccessTier], pydantic.Field(alias="storageClass")
+        Optional[BlobAccessTier], pydantic.Field(alias="storageClass")
     ] = None
     r"""Blob access tier"""
 
@@ -450,7 +447,7 @@ class OutputAzureBlob(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -567,7 +564,7 @@ class OutputAzureBlob(BaseModel):
     def serialize_storage_class(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputAzureBlobBlobAccessTier(value)
+                return models.BlobAccessTier(value)
             except ValueError:
                 return value
         return value

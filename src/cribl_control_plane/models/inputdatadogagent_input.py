@@ -28,7 +28,7 @@ class InputDatadogAgentType(str, Enum):
     DATADOG_AGENT = "datadog_agent"
 
 
-class InputDatadogAgentSamplingRuleTypedDict(TypedDict):
+class SamplingRuleTypedDict(TypedDict):
     service: str
     r"""Datadog service name"""
     environment: str
@@ -37,7 +37,7 @@ class InputDatadogAgentSamplingRuleTypedDict(TypedDict):
     r"""Sampling rate for this service/environment combination (0.0–1.0)"""
 
 
-class InputDatadogAgentSamplingRule(BaseModel):
+class SamplingRule(BaseModel):
     service: str
     r"""Datadog service name"""
 
@@ -133,7 +133,7 @@ class InputDatadogAgentInputTypedDict(TypedDict):
     r"""Extract each incoming metric to multiple events, one per data point. Recommended when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave disabled."""
     sampling_rate: NotRequired[float]
     r"""The rate_by_service hint sent to connected tracers as the catch-all sampling rate. Applies to any service/environment not explicitly listed in Per-Service Sampling Rules. 1.0 = keep all traces (default); 0.0 = suggest dropping all."""
-    sampling_rules: NotRequired[List[InputDatadogAgentSamplingRuleTypedDict]]
+    sampling_rules: NotRequired[List[SamplingRuleTypedDict]]
     r"""Per-service sampling rate hints. Each row maps to a \"service:<s>,env:<e>\" key in the rate_by_service response sent to tracers."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
@@ -257,8 +257,7 @@ class InputDatadogAgentInput(BaseModel):
     r"""The rate_by_service hint sent to connected tracers as the catch-all sampling rate. Applies to any service/environment not explicitly listed in Per-Service Sampling Rules. 1.0 = keep all traces (default); 0.0 = suggest dropping all."""
 
     sampling_rules: Annotated[
-        Optional[List[InputDatadogAgentSamplingRule]],
-        pydantic.Field(alias="samplingRules"),
+        Optional[List[SamplingRule]], pydantic.Field(alias="samplingRules")
     ] = None
     r"""Per-service sampling rate hints. Each row maps to a \"service:<s>,env:<e>\" key in the rate_by_service response sent to tracers."""
 

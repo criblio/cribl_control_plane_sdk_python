@@ -35,7 +35,7 @@ class InputServicenowTableType(str, Enum):
     SERVICENOW_TABLE = "servicenow_table"
 
 
-class InputServicenowTableSortDirection(str, Enum, metaclass=utils.OpenEnumMeta):
+class SortDirection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Used only when Sort by field is set."""
 
     # Ascending
@@ -55,7 +55,7 @@ class InputServicenowTableAuthenticationType(str, Enum, metaclass=utils.OpenEnum
     OAUTH_SECRET = "oauthSecret"
 
 
-class InputServicenowTableGrantType(str, Enum, metaclass=utils.OpenEnumMeta):
+class GrantType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""ServiceNow OAuth grant type used for token requests"""
 
     # Password
@@ -106,7 +106,7 @@ class InputServicenowTableInputTypedDict(TypedDict):
     r"""Field names to return from the Table API (sysparm_fields). Leave empty to return all fields."""
     order_by_field: NotRequired[str]
     r"""Optional. Sort results by this field (for example sys_created_on or parent.name). Leave empty to use the server default order."""
-    order_by_direction: NotRequired[InputServicenowTableSortDirection]
+    order_by_direction: NotRequired[SortDirection]
     r"""Used only when Sort by field is set."""
     query: NotRequired[str]
     r"""Optional ServiceNow encoded query for sysparm_query (for example active=true or sys_updated_onRELATIVEGT@hour@ago@1). Enter a literal or a Cribl expression. When combined with Sort by field, the filter and sort are joined with ^. See ServiceNow Table API documentation for encoded query syntax."""
@@ -143,7 +143,7 @@ class InputServicenowTableInputTypedDict(TypedDict):
     r"""Optional description for this configuration."""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
-    oauth_grant_type: NotRequired[InputServicenowTableGrantType]
+    oauth_grant_type: NotRequired[GrantType]
     r"""ServiceNow OAuth grant type used for token requests"""
     username: NotRequired[str]
     r"""ServiceNow username for the password grant type"""
@@ -236,8 +236,7 @@ class InputServicenowTableInput(BaseModel):
     r"""Optional. Sort results by this field (for example sys_created_on or parent.name). Leave empty to use the server default order."""
 
     order_by_direction: Annotated[
-        Optional[InputServicenowTableSortDirection],
-        pydantic.Field(alias="orderByDirection"),
+        Optional[SortDirection], pydantic.Field(alias="orderByDirection")
     ] = None
     r"""Used only when Sort by field is set."""
 
@@ -318,7 +317,7 @@ class InputServicenowTableInput(BaseModel):
     r"""Select or create a secret that references your credentials"""
 
     oauth_grant_type: Annotated[
-        Optional[InputServicenowTableGrantType], pydantic.Field(alias="oauthGrantType")
+        Optional[GrantType], pydantic.Field(alias="oauthGrantType")
     ] = None
     r"""ServiceNow OAuth grant type used for token requests"""
 
@@ -406,7 +405,7 @@ class InputServicenowTableInput(BaseModel):
     def serialize_order_by_direction(self, value):
         if isinstance(value, str):
             try:
-                return models.InputServicenowTableSortDirection(value)
+                return models.SortDirection(value)
             except ValueError:
                 return value
         return value
@@ -433,7 +432,7 @@ class InputServicenowTableInput(BaseModel):
     def serialize_oauth_grant_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputServicenowTableGrantType(value)
+                return models.GrantType(value)
             except ValueError:
                 return value
         return value

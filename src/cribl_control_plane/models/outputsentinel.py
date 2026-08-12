@@ -37,13 +37,13 @@ class OutputSentinelType(str, Enum):
     SENTINEL = "sentinel"
 
 
-class OutputSentinelAuthType(str, Enum, metaclass=utils.OpenEnumMeta):
+class AuthTypeEnum(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Discriminator value."""
 
     OAUTH = "oauth"
 
 
-class OutputSentinelEndpointConfiguration(str, Enum, metaclass=utils.OpenEnumMeta):
+class EndpointConfiguration(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Enter the data collection endpoint URL or the individual ID"""
 
     # URL
@@ -76,7 +76,7 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Secret parameter value to pass in request body"""
     client_id: str
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
-    endpoint_url_configuration: OutputSentinelEndpointConfiguration
+    endpoint_url_configuration: EndpointConfiguration
     r"""Enter the data collection endpoint URL or the individual ID"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -124,7 +124,7 @@ class OutputSentinelTypedDict(TypedDict):
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    auth_type: NotRequired[OutputSentinelAuthType]
+    auth_type: NotRequired[AuthTypeEnum]
     r"""Discriminator value."""
     refresh_token_field: NotRequired[str]
     r"""Field name in the token response that contains a refresh token (example: 'refresh_token'). When set, @{product} will use the refresh token to obtain new access tokens without re-sending credentials."""
@@ -231,8 +231,7 @@ class OutputSentinel(BaseModel):
     r"""JavaScript expression to compute the Client ID for the Azure application. Can be a constant."""
 
     endpoint_url_configuration: Annotated[
-        OutputSentinelEndpointConfiguration,
-        pydantic.Field(alias="endpointURLConfiguration"),
+        EndpointConfiguration, pydantic.Field(alias="endpointURLConfiguration")
     ]
     r"""Enter the data collection endpoint URL or the individual ID"""
 
@@ -330,9 +329,9 @@ class OutputSentinel(BaseModel):
     ] = None
     r"""How to handle events when all receivers are exerting backpressure"""
 
-    auth_type: Annotated[
-        Optional[OutputSentinelAuthType], pydantic.Field(alias="authType")
-    ] = None
+    auth_type: Annotated[Optional[AuthTypeEnum], pydantic.Field(alias="authType")] = (
+        None
+    )
     r"""Discriminator value."""
 
     refresh_token_field: Annotated[
@@ -557,7 +556,7 @@ class OutputSentinel(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputSentinelAuthType(value)
+                return models.AuthTypeEnum(value)
             except ValueError:
                 return value
         return value
@@ -566,7 +565,7 @@ class OutputSentinel(BaseModel):
     def serialize_endpoint_url_configuration(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputSentinelEndpointConfiguration(value)
+                return models.EndpointConfiguration(value)
             except ValueError:
                 return value
         return value

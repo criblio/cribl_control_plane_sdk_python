@@ -13,11 +13,15 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class DatabaseCollectorConfStateTrackingTypedDict(TypedDict):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: NotRequired[bool]
     r"""Enable tracking of collection progress between consecutive scheduled executions."""
 
 
 class DatabaseCollectorConfStateTracking(BaseModel):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: Optional[bool] = None
     r"""Enable tracking of collection progress between consecutive scheduled executions."""
 
@@ -39,14 +43,20 @@ class DatabaseCollectorConfStateTracking(BaseModel):
 
 
 class DatabaseCollectorConfSchedulingTypedDict(TypedDict):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: NotRequired[DatabaseCollectorConfStateTrackingTypedDict]
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
 
 class DatabaseCollectorConfScheduling(BaseModel):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: Annotated[
         Optional[DatabaseCollectorConfStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -75,6 +85,7 @@ class DatabaseCollectorConfTypedDict(TypedDict):
     default_breakers: NotRequired[HiddenDefaultBreakersOptionsDatabaseCollectorConf]
     r"""Hidden Default Breakers"""
     scheduling: NotRequired[DatabaseCollectorConfSchedulingTypedDict]
+    r"""Internal settings for scheduled execution of this Collector."""
     template_query: NotRequired[str]
     r"""Binds 'query' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'query' at runtime."""
 
@@ -100,6 +111,7 @@ class DatabaseCollectorConf(BaseModel):
     scheduling: Annotated[
         Optional[DatabaseCollectorConfScheduling], pydantic.Field(alias="__scheduling")
     ] = None
+    r"""Internal settings for scheduled execution of this Collector."""
 
     template_query: Annotated[
         Optional[str], pydantic.Field(alias="__template_query")

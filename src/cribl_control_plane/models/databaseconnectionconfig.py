@@ -25,6 +25,8 @@ class DatabaseConnectionConfigTypedDict(TypedDict):
     r"""Database connection string with embedded credentials or server information."""
     connection_timeout: NotRequired[int]
     r"""Maximum time (in milliseconds) to wait when establishing the database connection."""
+    credentials_secret: NotRequired[str]
+    r"""Name of the stored credentials secret containing username and password for SQL Server configObj authentication."""
     creds_secrets: NotRequired[str]
     r"""Name of the stored credentials secret containing username and password. Used with Oracle connections."""
     password: NotRequired[str]
@@ -66,6 +68,11 @@ class DatabaseConnectionConfig(BaseModel):
         Optional[int], pydantic.Field(alias="connectionTimeout")
     ] = None
     r"""Maximum time (in milliseconds) to wait when establishing the database connection."""
+
+    credentials_secret: Annotated[
+        Optional[str], pydantic.Field(alias="credentialsSecret")
+    ] = None
+    r"""Name of the stored credentials secret containing username and password for SQL Server configObj authentication."""
 
     creds_secrets: Annotated[Optional[str], pydantic.Field(alias="credsSecrets")] = None
     r"""Name of the stored credentials secret containing username and password. Used with Oracle connections."""
@@ -115,6 +122,7 @@ class DatabaseConnectionConfig(BaseModel):
                 "configObj",
                 "connectionString",
                 "connectionTimeout",
+                "credentialsSecret",
                 "credsSecrets",
                 "password",
                 "requestTimeout",

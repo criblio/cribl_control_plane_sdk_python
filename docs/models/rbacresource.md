@@ -16,6 +16,7 @@ value = RbacResource.GROUPS
 | Name                 | Value                |
 | -------------------- | -------------------- |
 | `GROUPS`             | groups               |
+| `INSIGHTS_APPS`      | insights-apps        |
 | `DATASETS`           | datasets             |
 | `DATASET_PROVIDERS`  | dataset-providers    |
 | `PROJECTS`           | projects             |

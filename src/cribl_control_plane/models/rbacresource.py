@@ -7,6 +7,7 @@ from enum import Enum
 
 class RbacResource(str, Enum, metaclass=utils.OpenEnumMeta):
     GROUPS = "groups"
+    INSIGHTS_APPS = "insights-apps"
     DATASETS = "datasets"
     DATASET_PROVIDERS = "dataset-providers"
     PROJECTS = "projects"

@@ -62,9 +62,7 @@ class InputOpenTelemetryAuthenticationType(str, Enum, metaclass=utils.OpenEnumMe
     TEXT_SECRET = "textSecret"
 
 
-class InputOpenTelemetryAuthMethodsExtAuthenticationType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthMethodsExtAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication type"""
 
     # Token
@@ -77,8 +75,8 @@ class InputOpenTelemetryAuthMethodsExtAuthenticationType(
     BASIC_SECRET = "basicSecret"
 
 
-class InputOpenTelemetryAuthMethodsExtTypedDict(TypedDict):
-    auth_type: InputOpenTelemetryAuthMethodsExtAuthenticationType
+class AuthMethodsExtTypedDict(TypedDict):
+    auth_type: AuthMethodsExtAuthenticationType
     r"""Authentication type"""
     token: NotRequired[str]
     r"""Bearer token for Authorization header"""
@@ -98,10 +96,9 @@ class InputOpenTelemetryAuthMethodsExtTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
 
 
-class InputOpenTelemetryAuthMethodsExt(BaseModel):
+class AuthMethodsExt(BaseModel):
     auth_type: Annotated[
-        InputOpenTelemetryAuthMethodsExtAuthenticationType,
-        pydantic.Field(alias="authType"),
+        AuthMethodsExtAuthenticationType, pydantic.Field(alias="authType")
     ]
     r"""Authentication type"""
 
@@ -135,7 +132,7 @@ class InputOpenTelemetryAuthMethodsExt(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputOpenTelemetryAuthMethodsExtAuthenticationType(value)
+                return models.AuthMethodsExtAuthenticationType(value)
             except ValueError:
                 return value
         return value
@@ -220,7 +217,7 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
     auth_type: NotRequired[InputOpenTelemetryAuthenticationType]
     r"""OpenTelemetry authentication type"""
-    auth_methods_ext: NotRequired[List[InputOpenTelemetryAuthMethodsExtTypedDict]]
+    auth_methods_ext: NotRequired[List[AuthMethodsExtTypedDict]]
     r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
@@ -359,8 +356,7 @@ class InputOpenTelemetryInput(BaseModel):
     r"""OpenTelemetry authentication type"""
 
     auth_methods_ext: Annotated[
-        Optional[List[InputOpenTelemetryAuthMethodsExt]],
-        pydantic.Field(alias="authMethodsExt"),
+        Optional[List[AuthMethodsExt]], pydantic.Field(alias="authMethodsExt")
     ] = None
     r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
 
@@ -512,7 +508,7 @@ class InputOpenTelemetryInput(BaseModel):
 
 
 try:
-    InputOpenTelemetryAuthMethodsExt.model_rebuild()
+    AuthMethodsExt.model_rebuild()
 except NameError:
     pass
 try:

@@ -52,7 +52,7 @@ class DistributedSummaryGroups(BaseModel):
     r"""Total number of Sources."""
 
 
-class WorkersTypedDict(TypedDict):
+class DistributedSummaryWorkersTypedDict(TypedDict):
     r"""Worker or Edge Node counts and health statistics in the deployment summary."""
 
     alive: int
@@ -71,7 +71,7 @@ class WorkersTypedDict(TypedDict):
     r"""Total number of Worker or Edge Nodes that are connected with a status other than <code>healthy</code>."""
 
 
-class Workers(BaseModel):
+class DistributedSummaryWorkers(BaseModel):
     r"""Worker or Edge Node counts and health statistics in the deployment summary."""
 
     alive: int
@@ -101,7 +101,7 @@ class DistributedSummaryTypedDict(TypedDict):
 
     groups: DistributedSummaryGroupsTypedDict
     r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
-    workers: NotRequired[WorkersTypedDict]
+    workers: NotRequired[DistributedSummaryWorkersTypedDict]
     r"""Worker or Edge Node counts and health statistics in the deployment summary."""
 
 
@@ -111,7 +111,7 @@ class DistributedSummary(BaseModel):
     groups: DistributedSummaryGroups
     r"""Resource counts for Worker Groups or Edge Fleets in the deployment summary."""
 
-    workers: Optional[Workers] = None
+    workers: Optional[DistributedSummaryWorkers] = None
     r"""Worker or Edge Node counts and health statistics in the deployment summary."""
 
     @model_serializer(mode="wrap")
@@ -136,6 +136,6 @@ try:
 except NameError:
     pass
 try:
-    Workers.model_rebuild()
+    DistributedSummaryWorkers.model_rebuild()
 except NameError:
     pass

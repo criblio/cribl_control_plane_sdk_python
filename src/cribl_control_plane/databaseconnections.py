@@ -91,7 +91,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -224,7 +228,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -294,6 +302,7 @@ class DatabaseConnections(BaseSDK):
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
         connection_timeout: Optional[int] = None,
+        credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
         password: Optional[str] = None,
         request_timeout: Optional[int] = None,
@@ -319,6 +328,7 @@ class DatabaseConnections(BaseSDK):
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
+        :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
         :param password: Database password for authentication. Used with Oracle connections.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
@@ -346,6 +356,7 @@ class DatabaseConnections(BaseSDK):
             config_obj=config_obj,
             connection_string=connection_string,
             connection_timeout=connection_timeout,
+            credentials_secret=credentials_secret,
             creds_secrets=creds_secrets,
             database_type=database_type,
             description=description,
@@ -400,7 +411,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -442,6 +457,7 @@ class DatabaseConnections(BaseSDK):
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
         connection_timeout: Optional[int] = None,
+        credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
         password: Optional[str] = None,
         request_timeout: Optional[int] = None,
@@ -467,6 +483,7 @@ class DatabaseConnections(BaseSDK):
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
+        :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
         :param password: Database password for authentication. Used with Oracle connections.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
@@ -494,6 +511,7 @@ class DatabaseConnections(BaseSDK):
             config_obj=config_obj,
             connection_string=connection_string,
             connection_timeout=connection_timeout,
+            credentials_secret=credentials_secret,
             creds_secrets=creds_secrets,
             database_type=database_type,
             description=description,
@@ -548,7 +566,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -652,7 +674,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -756,7 +782,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -799,6 +829,7 @@ class DatabaseConnections(BaseSDK):
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
         connection_timeout: Optional[int] = None,
+        credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
         password: Optional[str] = None,
         request_timeout: Optional[int] = None,
@@ -825,6 +856,7 @@ class DatabaseConnections(BaseSDK):
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
+        :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
         :param password: Database password for authentication. Used with Oracle connections.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
@@ -854,6 +886,7 @@ class DatabaseConnections(BaseSDK):
                 config_obj=config_obj,
                 connection_string=connection_string,
                 connection_timeout=connection_timeout,
+                credentials_secret=credentials_secret,
                 creds_secrets=creds_secrets,
                 database_type=database_type,
                 description=description,
@@ -913,7 +946,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -956,6 +993,7 @@ class DatabaseConnections(BaseSDK):
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
         connection_timeout: Optional[int] = None,
+        credentials_secret: Optional[str] = None,
         creds_secrets: Optional[str] = None,
         password: Optional[str] = None,
         request_timeout: Optional[int] = None,
@@ -982,6 +1020,7 @@ class DatabaseConnections(BaseSDK):
         :param config_obj: JSON configuration object for advanced SQL Server connection settings.
         :param connection_string: Database connection string with embedded credentials or server information.
         :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
+        :param credentials_secret: Name of the stored credentials secret containing username and password for SQL Server configObj authentication.
         :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
         :param password: Database password for authentication. Used with Oracle connections.
         :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
@@ -1011,6 +1050,7 @@ class DatabaseConnections(BaseSDK):
                 config_obj=config_obj,
                 connection_string=connection_string,
                 connection_timeout=connection_timeout,
+                credentials_secret=credentials_secret,
                 creds_secrets=creds_secrets,
                 database_type=database_type,
                 description=description,
@@ -1070,7 +1110,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1174,7 +1218,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1278,7 +1326,11 @@ class DatabaseConnections(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["databaseConnections"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

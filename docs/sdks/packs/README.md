@@ -188,6 +188,40 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createPacks" method="post" path="/packs" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.install(request={
+        "version": "1.0.0",
+        "source": "<value>",
+        "tags": {
+            "domain": [
+                "security",
+                "observability",
+            ],
+            "technology": [
+                "aws",
+                "splunk",
+            ],
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -261,9 +295,30 @@ with CriblControlPlane(
 
 Upload a Pack file. Returns the <code>source</code> ID needed to install the Pack with <code>POST /packs</code>, which you must call separately.
 
-### Example Usage
+### Example Usage: PackUploadResponseExamplesUploadedPack
 
 <!-- UsageSnippet language="python" operationID="updatePacks" method="put" path="/packs" example="PackUploadResponseExamplesUploadedPack" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.upload(filename="example.file", request_body=open("example.file", "rb"))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updatePacks" method="put" path="/packs" example="authenticationFailed" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -397,6 +452,27 @@ with CriblControlPlane(
 ### Example Usage: PackUpgradeResponseExamplesUpgraded
 
 <!-- UsageSnippet language="python" operationID="updatePacksById" method="patch" path="/packs/{id}" example="PackUpgradeResponseExamplesUpgraded" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.update(id="<id>", source="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updatePacksById" method="patch" path="/packs/{id}" example="authenticationFailed" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

@@ -53,6 +53,12 @@ value: models.InputResponseInputSplunkHec = /* values here */
 value: models.InputResponseInputAzureBlob = /* values here */
 ```
 
+### `models.InputResponseInputAzureVnetFlowLog`
+
+```python
+value: models.InputResponseInputAzureVnetFlowLog = /* values here */
+```
+
 ### `models.InputResponseInputElastic`
 
 ```python

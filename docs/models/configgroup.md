@@ -1,5 +1,7 @@
 # ConfigGroup
 
+Configuration settings and dynamic status for a Worker Group, Outpost Group, or Edge Fleet.
+
 
 ## Fields
 

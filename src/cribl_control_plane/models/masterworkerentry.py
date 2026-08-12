@@ -24,6 +24,8 @@ class MasterWorkerEntryType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class MasterWorkerEntryTypedDict(TypedDict):
+    r"""Worker or Edge Node entry returned by Distributed Management worker and outpost endpoints."""
+
     first_msg_time: int
     r"""Timestamp (in Unix time) when the Leader first received a message from the node."""
     group: str
@@ -45,7 +47,7 @@ class MasterWorkerEntryTypedDict(TypedDict):
     metadata: NotRequired[HeartbeatMetadataTypedDict]
     node_upgrade_status: NotRequired[NodeUpgradeStatusTypedDict]
     offline_duration_ms: NotRequired[int]
-    r"""Configured ephemeral offline duration, in milliseconds."""
+    r"""Maximum configured ephemeral offline duration, in milliseconds (base + jitter cap)."""
     provisioning_token_id: NotRequired[str]
     r"""The <code>id</code> of the provisioning token used to authenticate the node, if used."""
     status: NotRequired[str]
@@ -56,6 +58,8 @@ class MasterWorkerEntryTypedDict(TypedDict):
 
 
 class MasterWorkerEntry(BaseModel):
+    r"""Worker or Edge Node entry returned by Distributed Management worker and outpost endpoints."""
+
     first_msg_time: Annotated[int, pydantic.Field(alias="firstMsgTime")]
     r"""Timestamp (in Unix time) when the Leader first received a message from the node."""
 
@@ -97,7 +101,7 @@ class MasterWorkerEntry(BaseModel):
     offline_duration_ms: Annotated[
         Optional[int], pydantic.Field(alias="offlineDurationMs")
     ] = None
-    r"""Configured ephemeral offline duration, in milliseconds."""
+    r"""Maximum configured ephemeral offline duration, in milliseconds (base + jitter cap)."""
 
     provisioning_token_id: Annotated[
         Optional[str], pydantic.Field(alias="provisioningTokenId")

@@ -1,6 +1,6 @@
 # InputCollectionType
 
-Connector type identifier.
+Resource type identifier.
 
 ## Example Usage
 

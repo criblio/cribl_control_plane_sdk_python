@@ -89,6 +89,8 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     r"""Discriminator value."""
     endpoint: NotRequired[OutputGoogleCloudObservabilityEndpoint]
     r"""Fixed Google Cloud Observability gRPC endpoint. All three signals share this transport; the OTLP service path determines whether the call lands on traces, metrics, or logs."""
+    preserve_native_any_value: NotRequired[bool]
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
     metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
     dynamic_headers_enabled: NotRequired[bool]
@@ -189,6 +191,11 @@ class OutputGoogleCloudObservability(BaseModel):
 
     endpoint: Optional[OutputGoogleCloudObservabilityEndpoint] = None
     r"""Fixed Google Cloud Observability gRPC endpoint. All three signals share this transport; the OTLP service path determines whether the call lands on traces, metrics, or logs."""
+
+    preserve_native_any_value: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveNativeAnyValue")
+    ] = None
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
 
     metadata: Optional[List[KeyValueMetadataConfOutputFilesystem]] = None
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
@@ -419,6 +426,7 @@ class OutputGoogleCloudObservability(BaseModel):
                 "protocol",
                 "otlpVersion",
                 "endpoint",
+                "preserveNativeAnyValue",
                 "metadata",
                 "dynamicHeadersEnabled",
                 "dynamicHeadersField",

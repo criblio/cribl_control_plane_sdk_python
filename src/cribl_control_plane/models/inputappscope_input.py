@@ -35,7 +35,7 @@ class InputAppscopeType(str, Enum):
     APPSCOPE = "appscope"
 
 
-class InputAppscopeAllowTypedDict(TypedDict):
+class AllowTypedDict(TypedDict):
     procname: str
     r"""Specify the name of a process or family of processes."""
     config: str
@@ -44,7 +44,7 @@ class InputAppscopeAllowTypedDict(TypedDict):
     r"""Specify a string to substring-match against process command-line."""
 
 
-class InputAppscopeAllow(BaseModel):
+class Allow(BaseModel):
     procname: str
     r"""Specify the name of a process or family of processes."""
 
@@ -72,14 +72,14 @@ class InputAppscopeAllow(BaseModel):
 
 
 class InputAppscopeFilterTypedDict(TypedDict):
-    allow: NotRequired[List[InputAppscopeAllowTypedDict]]
+    allow: NotRequired[List[AllowTypedDict]]
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
     transport_url: NotRequired[str]
     r"""To override the UNIX domain socket or address/port specified in General Settings (while leaving Authentication settings as is), enter a URL."""
 
 
 class InputAppscopeFilter(BaseModel):
-    allow: Optional[List[InputAppscopeAllow]] = None
+    allow: Optional[List[Allow]] = None
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
 
     transport_url: Annotated[Optional[str], pydantic.Field(alias="transportURL")] = None
@@ -175,15 +175,13 @@ class InputAppscopePersistence(BaseModel):
         return m
 
 
-InputAppscopeUNIXSocketPermissionsTypedDict = TypeAliasType(
-    "InputAppscopeUNIXSocketPermissionsTypedDict", Union[str, float]
+UNIXSocketPermissionsTypedDict = TypeAliasType(
+    "UNIXSocketPermissionsTypedDict", Union[str, float]
 )
 r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
 
-InputAppscopeUNIXSocketPermissions = TypeAliasType(
-    "InputAppscopeUNIXSocketPermissions", Union[str, float]
-)
+UNIXSocketPermissions = TypeAliasType("UNIXSocketPermissions", Union[str, float])
 r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
 
@@ -242,7 +240,7 @@ class InputAppscopeInputTypedDict(TypedDict):
     r"""TLS settings (server side)"""
     unix_socket_path: NotRequired[str]
     r"""Path to the UNIX domain socket to listen on."""
-    unix_socket_perms: NotRequired[InputAppscopeUNIXSocketPermissionsTypedDict]
+    unix_socket_perms: NotRequired[UNIXSocketPermissionsTypedDict]
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -369,8 +367,7 @@ class InputAppscopeInput(BaseModel):
     r"""Path to the UNIX domain socket to listen on."""
 
     unix_socket_perms: Annotated[
-        Optional[InputAppscopeUNIXSocketPermissions],
-        pydantic.Field(alias="unixSocketPerms"),
+        Optional[UNIXSocketPermissions], pydantic.Field(alias="unixSocketPerms")
     ] = None
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 

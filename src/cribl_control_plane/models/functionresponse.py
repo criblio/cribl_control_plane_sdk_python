@@ -12,6 +12,10 @@ from .functionchain import FunctionChain, FunctionChainTypedDict
 from .functionclone import FunctionClone, FunctionCloneTypedDict
 from .functioncode import FunctionCode, FunctionCodeTypedDict
 from .functioncomment import FunctionComment, FunctionCommentTypedDict
+from .functiondetectionrules import (
+    FunctionDetectionRules,
+    FunctionDetectionRulesTypedDict,
+)
 from .functiondistinct import FunctionDistinct, FunctionDistinctTypedDict
 from .functiondnslookup import FunctionDNSLookup, FunctionDNSLookupTypedDict
 from .functiondrop import FunctionDrop, FunctionDropTypedDict
@@ -36,6 +40,10 @@ from .functionhandlebars import FunctionHandlebars, FunctionHandlebarsTypedDict
 from .functionjoin import FunctionJoin, FunctionJoinTypedDict
 from .functionjsonunroll import FunctionJSONUnroll, FunctionJSONUnrollTypedDict
 from .functionlakeexport import FunctionLakeExport, FunctionLakeExportTypedDict
+from .functionlakehouseenginemetricsnormalizer import (
+    FunctionLakehouseEngineMetricsNormalizer,
+    FunctionLakehouseEngineMetricsNormalizerTypedDict,
+)
 from .functionlimit import FunctionLimit, FunctionLimitTypedDict
 from .functionlocalsearchdatatypeparser import (
     FunctionLocalSearchDatatypeParser,
@@ -96,7 +104,6 @@ from .functionsensitivedatascanner import (
 from .functionserde import FunctionSerde, FunctionSerdeTypedDict
 from .functionserialize import FunctionSerialize, FunctionSerializeTypedDict
 from .functionsidlookup import FunctionSidlookup, FunctionSidlookupTypedDict
-from .functionsignalfilter import FunctionSignalFilter, FunctionSignalFilterTypedDict
 from .functionsnmptrapserialize import (
     FunctionSnmpTrapSerialize,
     FunctionSnmpTrapSerializeTypedDict,
@@ -130,6 +137,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionCloneTypedDict,
         FunctionCodeTypedDict,
         FunctionCommentTypedDict,
+        FunctionDetectionRulesTypedDict,
         FunctionDistinctTypedDict,
         FunctionDNSLookupTypedDict,
         FunctionDropTypedDict,
@@ -148,6 +156,7 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionJoinTypedDict,
         FunctionJSONUnrollTypedDict,
         FunctionLakeExportTypedDict,
+        FunctionLakehouseEngineMetricsNormalizerTypedDict,
         FunctionLimitTypedDict,
         FunctionLocalSearchDatatypeParserTypedDict,
         FunctionLocalSearchRulesetRunnerTypedDict,
@@ -181,7 +190,6 @@ FunctionResponseTypedDict = TypeAliasType(
         FunctionSerdeTypedDict,
         FunctionSerializeTypedDict,
         FunctionSidlookupTypedDict,
-        FunctionSignalFilterTypedDict,
         FunctionSnmpTrapSerializeTypedDict,
         FunctionSortTypedDict,
         FunctionStoreTypedDict,
@@ -215,6 +223,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "clone": FunctionClone,
     "code": FunctionCode,
     "comment": FunctionComment,
+    "detection_rules": FunctionDetectionRules,
     "distinct": FunctionDistinct,
     "dns_lookup": FunctionDNSLookup,
     "drop": FunctionDrop,
@@ -233,6 +242,7 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "join": FunctionJoin,
     "json_unroll": FunctionJSONUnroll,
     "lake_export": FunctionLakeExport,
+    "lakehouse_engine_metrics_normalizer": FunctionLakehouseEngineMetricsNormalizer,
     "limit": FunctionLimit,
     "local_search_datatype_parser": FunctionLocalSearchDatatypeParser,
     "local_search_ruleset_runner": FunctionLocalSearchRulesetRunner,
@@ -266,7 +276,6 @@ _FUNCTION_RESPONSE_VARIANTS: dict[str, Any] = {
     "serde": FunctionSerde,
     "serialize": FunctionSerialize,
     "sidlookup": FunctionSidlookup,
-    "signal_filter": FunctionSignalFilter,
     "snmp_trap_serialize": FunctionSnmpTrapSerialize,
     "sort": FunctionSort,
     "store": FunctionStore,
@@ -290,6 +299,7 @@ FunctionResponse = Annotated[
         FunctionClone,
         FunctionCode,
         FunctionComment,
+        FunctionDetectionRules,
         FunctionDistinct,
         FunctionDNSLookup,
         FunctionDrop,
@@ -308,6 +318,7 @@ FunctionResponse = Annotated[
         FunctionJoin,
         FunctionJSONUnroll,
         FunctionLakeExport,
+        FunctionLakehouseEngineMetricsNormalizer,
         FunctionLimit,
         FunctionLocalSearchDatatypeParser,
         FunctionLocalSearchRulesetRunner,
@@ -341,7 +352,6 @@ FunctionResponse = Annotated[
         FunctionSerde,
         FunctionSerialize,
         FunctionSidlookup,
-        FunctionSignalFilter,
         FunctionSnmpTrapSerialize,
         FunctionSort,
         FunctionStore,

@@ -63,7 +63,7 @@ class OutputDynatraceHTTPEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
     MANUAL = "manual"
 
 
-class OutputDynatraceHTTPTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class TelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Telemetry type"""
 
     # Logs
@@ -87,7 +87,7 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
     endpoint: OutputDynatraceHTTPEndpoint
     r"""Endpoint"""
-    telemetry_type: OutputDynatraceHTTPTelemetryType
+    telemetry_type: TelemetryType
     r"""Telemetry type"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -197,9 +197,7 @@ class OutputDynatraceHTTP(BaseModel):
     endpoint: OutputDynatraceHTTPEndpoint
     r"""Endpoint"""
 
-    telemetry_type: Annotated[
-        OutputDynatraceHTTPTelemetryType, pydantic.Field(alias="telemetryType")
-    ]
+    telemetry_type: Annotated[TelemetryType, pydantic.Field(alias="telemetryType")]
     r"""Telemetry type"""
 
     id: Optional[str] = None
@@ -464,7 +462,7 @@ class OutputDynatraceHTTP(BaseModel):
     def serialize_telemetry_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputDynatraceHTTPTelemetryType(value)
+                return models.TelemetryType(value)
             except ValueError:
                 return value
         return value

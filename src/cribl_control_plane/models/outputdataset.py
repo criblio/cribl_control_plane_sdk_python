@@ -53,7 +53,7 @@ class OutputDatasetSeverity(str, Enum, metaclass=utils.OpenEnumMeta):
     FATAL = "fatal"
 
 
-class OutputDatasetDataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class DataSetSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""DataSet site to which events should be sent"""
 
     # US
@@ -102,7 +102,7 @@ class OutputDatasetTypedDict(TypedDict):
     timeout_retry_settings: NotRequired[TimeoutRetrySettingsTypeTypedDict]
     response_honor_retry_after_header: NotRequired[bool]
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
-    site: NotRequired[OutputDatasetDataSetSite]
+    site: NotRequired[DataSetSite]
     r"""DataSet site to which events should be sent"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -235,7 +235,7 @@ class OutputDataset(BaseModel):
     ] = None
     r"""Honor any Retry-After header that specifies a delay (in seconds) no longer than 180 seconds after the retry request. @{product} limits the delay to 180 seconds, even if the Retry-After header specifies a longer delay. When enabled, takes precedence over user-configured retry options. When disabled, all Retry-After headers are ignored."""
 
-    site: Optional[OutputDatasetDataSetSite] = None
+    site: Optional[DataSetSite] = None
     r"""DataSet site to which events should be sent"""
 
     concurrency: Optional[float] = None
@@ -405,7 +405,7 @@ class OutputDataset(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputDatasetDataSetSite(value)
+                return models.DataSetSite(value)
             except ValueError:
                 return value
         return value

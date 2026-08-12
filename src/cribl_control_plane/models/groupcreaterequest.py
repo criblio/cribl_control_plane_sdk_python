@@ -13,6 +13,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class GroupCreateRequestTypedDict(TypedDict):
+    r"""Request body for creating a new Worker Group, Outpost Group, or Edge Fleet. Do not include automatically populated fields."""
+
     id: str
     r"""Unique identifier."""
     cloud: NotRequired[ConfigGroupCloudTypedDict]
@@ -51,6 +53,8 @@ class GroupCreateRequestTypedDict(TypedDict):
 
 
 class GroupCreateRequest(BaseModel):
+    r"""Request body for creating a new Worker Group, Outpost Group, or Edge Fleet. Do not include automatically populated fields."""
+
     id: str
     r"""Unique identifier."""
 

@@ -1,9 +1,0 @@
-# TargetConfig2
-
-
-## Fields
-
-| Field                                                                                              | Type                                                                                               | Required                                                                                           | Description                                                                                        |
-| -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| `conf`                                                                                             | [Optional[models.NotificationConfigForSMTPTarget2]](../models/notificationconfigforsmtptarget2.md) | :heavy_minus_sign:                                                                                 | Simple Mail Transfer Protocol (SMTP) configuration for the Notification target.                    |
-| `id`                                                                                               | *str*                                                                                              | :heavy_check_mark:                                                                                 | The <code>id</code> of the Notification target.                                                    |

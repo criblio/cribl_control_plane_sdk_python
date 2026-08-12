@@ -33,14 +33,14 @@ class OutputSnowflakeStreamingType(str, Enum):
     SNOWFLAKE_STREAMING = "snowflake_streaming"
 
 
-class OutputSnowflakeStreamingPrivateKeyTypedDict(TypedDict):
+class PrivateKeyTypedDict(TypedDict):
     r"""Private key"""
 
     key_name: str
     r"""Select the stored secret containing the RSA private key (PEM format) for Snowflake key-pair authentication"""
 
 
-class OutputSnowflakeStreamingPrivateKey(BaseModel):
+class PrivateKey(BaseModel):
     r"""Private key"""
 
     key_name: Annotated[str, pydantic.Field(alias="keyName")]
@@ -62,7 +62,7 @@ class OutputSnowflakeStreamingTypedDict(TypedDict):
     r"""Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT)"""
     user: str
     r"""Snowflake user with key-pair authentication configured"""
-    pem: OutputSnowflakeStreamingPrivateKeyTypedDict
+    pem: PrivateKeyTypedDict
     r"""Private key"""
     database: str
     r"""Target database"""
@@ -178,7 +178,7 @@ class OutputSnowflakeStreaming(BaseModel):
     user: str
     r"""Snowflake user with key-pair authentication configured"""
 
-    pem: OutputSnowflakeStreamingPrivateKey
+    pem: PrivateKey
     r"""Private key"""
 
     database: str
@@ -509,7 +509,7 @@ class OutputSnowflakeStreaming(BaseModel):
 
 
 try:
-    OutputSnowflakeStreamingPrivateKey.model_rebuild()
+    PrivateKey.model_rebuild()
 except NameError:
     pass
 try:

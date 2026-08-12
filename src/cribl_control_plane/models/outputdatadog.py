@@ -34,7 +34,7 @@ class OutputDatadogType(str, Enum):
     DATADOG = "datadog"
 
 
-class OutputDatadogSendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+class SendLogsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The content type to use when sending logs"""
 
     # text/plain
@@ -64,7 +64,7 @@ class OutputDatadogSeverity(str, Enum, metaclass=utils.OpenEnumMeta):
     DEBUG = "debug"
 
 
-class OutputDatadogDatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
+class DatadogSite(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Datadog site to which events should be sent"""
 
     # US
@@ -104,7 +104,7 @@ class OutputDatadogTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
-    content_type: NotRequired[OutputDatadogSendLogsAs]
+    content_type: NotRequired[SendLogsAs]
     r"""The content type to use when sending logs"""
     message: NotRequired[str]
     r"""Name of the event field that contains the message to send. If not specified, Stream sends a JSON representation of the whole event."""
@@ -122,7 +122,7 @@ class OutputDatadogTypedDict(TypedDict):
     r"""Allow API key to be set from the event's '__agent_api_key' field"""
     severity: NotRequired[OutputDatadogSeverity]
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
-    site: NotRequired[OutputDatadogDatadogSite]
+    site: NotRequired[DatadogSite]
     r"""Datadog site to which events should be sent"""
     send_counters_as_count: NotRequired[bool]
     r"""If not enabled, Datadog will transform 'counter' metrics to 'gauge'. [Learn more about Datadog metrics types.](https://docs.datadoghq.com/metrics/types/?tab=count)"""
@@ -227,7 +227,7 @@ class OutputDatadog(BaseModel):
     r"""Metadata tags used for categorization and filtering."""
 
     content_type: Annotated[
-        Optional[OutputDatadogSendLogsAs], pydantic.Field(alias="contentType")
+        Optional[SendLogsAs], pydantic.Field(alias="contentType")
     ] = None
     r"""The content type to use when sending logs"""
 
@@ -257,7 +257,7 @@ class OutputDatadog(BaseModel):
     severity: Optional[OutputDatadogSeverity] = None
     r"""Default value for message severity. When you send logs as JSON objects, the event's '__severity' field (if set) will override this value."""
 
-    site: Optional[OutputDatadogDatadogSite] = None
+    site: Optional[DatadogSite] = None
     r"""Datadog site to which events should be sent"""
 
     send_counters_as_count: Annotated[
@@ -438,7 +438,7 @@ class OutputDatadog(BaseModel):
     def serialize_content_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputDatadogSendLogsAs(value)
+                return models.SendLogsAs(value)
             except ValueError:
                 return value
         return value
@@ -456,7 +456,7 @@ class OutputDatadog(BaseModel):
     def serialize_site(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputDatadogDatadogSite(value)
+                return models.DatadogSite(value)
             except ValueError:
                 return value
         return value

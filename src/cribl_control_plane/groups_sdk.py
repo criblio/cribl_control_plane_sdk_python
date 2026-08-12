@@ -111,7 +111,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -246,7 +250,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -335,7 +343,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedConfigGroup:
+    ) -> models.CreateProductsGroupsByProductResponse:
         r"""Create a Worker Group, Outpost Group, or Edge Fleet
 
         Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
@@ -446,7 +454,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -455,10 +467,18 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedConfigGroup, http_res)
+            return models.CreateProductsGroupsByProductResponse(
+                result=unmarshal_json_response(models.CountedConfigGroup, http_res),
+                headers={},
+            )
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, "429", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -501,7 +521,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedConfigGroup:
+    ) -> models.CreateProductsGroupsByProductResponse:
         r"""Create a Worker Group, Outpost Group, or Edge Fleet
 
         Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
@@ -612,7 +632,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -621,10 +645,18 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedConfigGroup, http_res)
+            return models.CreateProductsGroupsByProductResponse(
+                result=unmarshal_json_response(models.CountedConfigGroup, http_res),
+                headers={},
+            )
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, "429", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -715,7 +747,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -818,7 +854,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1005,7 +1045,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1192,7 +1236,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1292,7 +1340,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1392,7 +1444,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1510,7 +1566,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1628,7 +1688,11 @@ class GroupsSDK(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["groups"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["leader"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

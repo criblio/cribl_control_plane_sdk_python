@@ -31,7 +31,7 @@ class InputCloudflareHecType(str, Enum):
     CLOUDFLARE_HEC = "cloudflare_hec"
 
 
-class InputCloudflareHecTLSSettingsServerSideTypedDict(TypedDict):
+class TLSSettingsServerSideTypedDict(TypedDict):
     r"""TLS settings (server side)"""
 
     disabled: NotRequired[bool]
@@ -58,7 +58,7 @@ class InputCloudflareHecTLSSettingsServerSideTypedDict(TypedDict):
     r"""Maximum TLS version"""
 
 
-class InputCloudflareHecTLSSettingsServerSide(BaseModel):
+class TLSSettingsServerSide(BaseModel):
     r"""TLS settings (server side)"""
 
     disabled: Optional[bool] = None
@@ -181,7 +181,7 @@ class InputCloudflareHecInputTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[AuthTokenConfInputCloudflareHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[InputCloudflareHecTLSSettingsServerSideTypedDict]
+    tls: NotRequired[TLSSettingsServerSideTypedDict]
     r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -284,7 +284,7 @@ class InputCloudflareHecInput(BaseModel):
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[InputCloudflareHecTLSSettingsServerSide] = None
+    tls: Optional[TLSSettingsServerSide] = None
     r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
@@ -471,7 +471,7 @@ class InputCloudflareHecInput(BaseModel):
 
 
 try:
-    InputCloudflareHecTLSSettingsServerSide.model_rebuild()
+    TLSSettingsServerSide.model_rebuild()
 except NameError:
     pass
 try:

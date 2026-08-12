@@ -1,0 +1,12 @@
+# Apps
+
+App configuration.
+
+
+## Fields
+
+| Field                                                                                                               | Type                                                                                                                | Required                                                                                                            | Description                                                                                                         |
+| ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `app_backend_broker_origin`                                                                                         | *Optional[str]*                                                                                                     | :heavy_minus_sign:                                                                                                  | Public origin for App Platform backend broker callbacks (standalone/on-prem only). Must be an absolute HTTP(S) URL. |
+| `app_backend_max_in_flight`                                                                                         | *Optional[int]*                                                                                                     | :heavy_minus_sign:                                                                                                  | Maximum number of concurrent App Platform backend invocations across all apps on this Leader.                       |
+| `enabled`                                                                                                           | *Optional[bool]*                                                                                                    | :heavy_minus_sign:                                                                                                  | If <code>true</code>, enable Apps. Otherwise, <code>false</code>.                                                   |

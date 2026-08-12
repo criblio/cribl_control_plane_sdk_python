@@ -96,9 +96,11 @@ class Config(BaseModel):
 class DistMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Distributed deployment mode for the instance."""
 
+    DEDICATED_ORG_LEADER = "dedicated-org-leader"
     EDGE = "edge"
     MANAGED_EDGE = "managed-edge"
     MASTER = "master"
+    ORG_LEADER = "org-leader"
     OUTPOST = "outpost"
     SEARCH_SUPERVISOR = "search-supervisor"
     SINGLE = "single"

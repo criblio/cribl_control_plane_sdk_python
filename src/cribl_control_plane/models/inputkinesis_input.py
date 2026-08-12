@@ -23,7 +23,7 @@ from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputKinesisShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
+class ShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Location at which to start reading a shard for the first time"""
 
     # Earliest record
@@ -32,7 +32,7 @@ class InputKinesisShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
     LATEST = "LATEST"
 
 
-class InputKinesisRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class RecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
     # Cribl
@@ -45,7 +45,7 @@ class InputKinesisRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     LINE = "line"
 
 
-class InputKinesisShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
+class ShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     # Consistent Hashing
@@ -82,15 +82,15 @@ class InputKinesisInputTypedDict(TypedDict):
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-    shard_iterator_type: NotRequired[InputKinesisShardIteratorStart]
+    shard_iterator_type: NotRequired[ShardIteratorStart]
     r"""Location at which to start reading a shard for the first time"""
-    payload_format: NotRequired[InputKinesisRecordDataFormat]
+    payload_format: NotRequired[RecordDataFormat]
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
     get_records_limit: NotRequired[float]
     r"""Maximum number of records per getRecords call"""
     get_records_limit_total: NotRequired[float]
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-    load_balancing_algorithm: NotRequired[InputKinesisShardLoadBalancing]
+    load_balancing_algorithm: NotRequired[ShardLoadBalancing]
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -193,13 +193,12 @@ class InputKinesisInput(BaseModel):
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
 
     shard_iterator_type: Annotated[
-        Optional[InputKinesisShardIteratorStart],
-        pydantic.Field(alias="shardIteratorType"),
+        Optional[ShardIteratorStart], pydantic.Field(alias="shardIteratorType")
     ] = None
     r"""Location at which to start reading a shard for the first time"""
 
     payload_format: Annotated[
-        Optional[InputKinesisRecordDataFormat], pydantic.Field(alias="payloadFormat")
+        Optional[RecordDataFormat], pydantic.Field(alias="payloadFormat")
     ] = None
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
@@ -214,8 +213,7 @@ class InputKinesisInput(BaseModel):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
 
     load_balancing_algorithm: Annotated[
-        Optional[InputKinesisShardLoadBalancing],
-        pydantic.Field(alias="loadBalancingAlgorithm"),
+        Optional[ShardLoadBalancing], pydantic.Field(alias="loadBalancingAlgorithm")
     ] = None
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
@@ -344,7 +342,7 @@ class InputKinesisInput(BaseModel):
     def serialize_shard_iterator_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputKinesisShardIteratorStart(value)
+                return models.ShardIteratorStart(value)
             except ValueError:
                 return value
         return value
@@ -353,7 +351,7 @@ class InputKinesisInput(BaseModel):
     def serialize_payload_format(self, value):
         if isinstance(value, str):
             try:
-                return models.InputKinesisRecordDataFormat(value)
+                return models.RecordDataFormat(value)
             except ValueError:
                 return value
         return value
@@ -362,7 +360,7 @@ class InputKinesisInput(BaseModel):
     def serialize_load_balancing_algorithm(self, value):
         if isinstance(value, str):
             try:
-                return models.InputKinesisShardLoadBalancing(value)
+                return models.ShardLoadBalancing(value)
             except ValueError:
                 return value
         return value

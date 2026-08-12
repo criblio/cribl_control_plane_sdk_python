@@ -25,7 +25,7 @@ class OutputGoogleCloudLoggingType(str, Enum):
     GOOGLE_CLOUD_LOGGING = "google_cloud_logging"
 
 
-class OutputGoogleCloudLoggingLogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class LogLocationType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Log location type"""
 
     # Project
@@ -38,7 +38,7 @@ class OutputGoogleCloudLoggingLogLocationType(str, Enum, metaclass=utils.OpenEnu
     FOLDER = "folder"
 
 
-class OutputGoogleCloudLoggingPayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class PayloadFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format to use when sending payload. Defaults to Text."""
 
     # Text
@@ -58,7 +58,7 @@ class OutputGoogleCloudLoggingPqControls(BaseModel):
 class OutputGoogleCloudLoggingTypedDict(TypedDict):
     type: OutputGoogleCloudLoggingType
     r"""Connector type identifier."""
-    log_location_type: OutputGoogleCloudLoggingLogLocationType
+    log_location_type: LogLocationType
     r"""Log location type"""
     log_name_expression: str
     r"""JavaScript expression to compute the value of the log name. If Validate and correct log name is enabled, invalid characters (characters other than alphanumerics, forward-slashes, underscores, hyphens, and periods) will be replaced with an underscore."""
@@ -76,7 +76,7 @@ class OutputGoogleCloudLoggingTypedDict(TypedDict):
     r"""Metadata tags used for categorization and filtering."""
     sanitize_log_names: NotRequired[bool]
     r"""Validate and correct log name"""
-    payload_format: NotRequired[OutputGoogleCloudLoggingPayloadFormat]
+    payload_format: NotRequired[PayloadFormat]
     r"""Format to use when sending payload. Defaults to Text."""
     log_labels: NotRequired[List[LogLabelConfOutputGoogleCloudLoggingTypedDict]]
     r"""Labels to apply to the log entry"""
@@ -231,7 +231,7 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""Connector type identifier."""
 
     log_location_type: Annotated[
-        OutputGoogleCloudLoggingLogLocationType, pydantic.Field(alias="logLocationType")
+        LogLocationType, pydantic.Field(alias="logLocationType")
     ]
     r"""Log location type"""
 
@@ -266,8 +266,7 @@ class OutputGoogleCloudLogging(BaseModel):
     r"""Validate and correct log name"""
 
     payload_format: Annotated[
-        Optional[OutputGoogleCloudLoggingPayloadFormat],
-        pydantic.Field(alias="payloadFormat"),
+        Optional[PayloadFormat], pydantic.Field(alias="payloadFormat")
     ] = None
     r"""Format to use when sending payload. Defaults to Text."""
 
@@ -622,7 +621,7 @@ class OutputGoogleCloudLogging(BaseModel):
     def serialize_log_location_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputGoogleCloudLoggingLogLocationType(value)
+                return models.LogLocationType(value)
             except ValueError:
                 return value
         return value
@@ -631,7 +630,7 @@ class OutputGoogleCloudLogging(BaseModel):
     def serialize_payload_format(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputGoogleCloudLoggingPayloadFormat(value)
+                return models.PayloadFormat(value)
             except ValueError:
                 return value
         return value

@@ -115,6 +115,7 @@ class RedisAuthTypeTextSecretTypedDict(TypedDict):
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
+    r"""TLS settings for encrypting the connection to Redis."""
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
     r"""Root nodes to which the cluster connection should be initiated"""
     tls: NotRequired[bool]
@@ -176,6 +177,7 @@ class RedisAuthTypeTextSecret(BaseModel):
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
     ] = None
+    r"""TLS settings for encrypting the connection to Redis."""
 
     root_nodes: Annotated[
         Optional[List[RootNodeConfRedisDeploymentTypeCluster]],
@@ -366,6 +368,7 @@ class RedisAuthTypeCredentialsSecretTypedDict(TypedDict):
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
+    r"""TLS settings for encrypting the connection to Redis."""
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
     r"""Root nodes to which the cluster connection should be initiated"""
     tls: NotRequired[bool]
@@ -427,6 +430,7 @@ class RedisAuthTypeCredentialsSecret(BaseModel):
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
     ] = None
+    r"""TLS settings for encrypting the connection to Redis."""
 
     root_nodes: Annotated[
         Optional[List[RootNodeConfRedisDeploymentTypeCluster]],
@@ -617,6 +621,7 @@ class RedisAuthTypeManualTypedDict(TypedDict):
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
+    r"""TLS settings for encrypting the connection to Redis."""
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
     r"""Root nodes to which the cluster connection should be initiated"""
     tls: NotRequired[bool]
@@ -685,6 +690,7 @@ class RedisAuthTypeManual(BaseModel):
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
     ] = None
+    r"""TLS settings for encrypting the connection to Redis."""
 
     root_nodes: Annotated[
         Optional[List[RootNodeConfRedisDeploymentTypeCluster]],
@@ -856,6 +862,7 @@ class RedisAuthTypeNoneTypedDict(TypedDict):
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
+    r"""TLS settings for encrypting the connection to Redis."""
     root_nodes: NotRequired[List[RootNodeConfRedisDeploymentTypeClusterTypedDict]]
     r"""Root nodes to which the cluster connection should be initiated"""
     tls: NotRequired[bool]
@@ -916,6 +923,7 @@ class RedisAuthTypeNone(BaseModel):
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
     ] = None
+    r"""TLS settings for encrypting the connection to Redis."""
 
     root_nodes: Annotated[
         Optional[List[RootNodeConfRedisDeploymentTypeCluster]],
@@ -1104,6 +1112,7 @@ class RedisDeploymentTypeSentinelTypedDict(TypedDict):
     tls: NotRequired[bool]
     r"""Use TLS for connections to this cluster"""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
+    r"""TLS settings for encrypting the connection to Redis."""
     auth_type: NotRequired[RedisDeploymentTypeSentinelAuthenticationMethod]
     r"""Authentication method to use when connecting to Redis."""
     max_block_secs: NotRequired[float]
@@ -1156,6 +1165,7 @@ class RedisDeploymentTypeSentinel(BaseModel):
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
     ] = None
+    r"""TLS settings for encrypting the connection to Redis."""
 
     auth_type: Annotated[
         Optional[RedisDeploymentTypeSentinelAuthenticationMethod],
@@ -1353,6 +1363,7 @@ class RedisDeploymentTypeClusterTypedDict(TypedDict):
     scale_reads: NotRequired[ScaleReadsOptionsRedisDeploymentTypeCluster]
     r"""Which nodes read commands should be sent to"""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
+    r"""TLS settings for encrypting the connection to Redis."""
     auth_type: NotRequired[RedisDeploymentTypeClusterAuthenticationMethod]
     r"""Authentication method to use when connecting to Redis."""
     max_block_secs: NotRequired[float]
@@ -1408,6 +1419,7 @@ class RedisDeploymentTypeCluster(BaseModel):
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
     ] = None
+    r"""TLS settings for encrypting the connection to Redis."""
 
     auth_type: Annotated[
         Optional[RedisDeploymentTypeClusterAuthenticationMethod],
@@ -1601,6 +1613,7 @@ class RedisDeploymentTypeStandaloneTypedDict(TypedDict):
     deployment_type: NotRequired[RedisDeploymentTypeStandaloneDeploymentType]
     r"""How the Redis server is configured. Defaults to Standalone"""
     tls_options: NotRequired[TLSOptionsTypeRedisDeploymentTypeStandaloneTypedDict]
+    r"""TLS settings for encrypting the connection to Redis."""
     template_url: NotRequired[str]
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
     auth_type: NotRequired[RedisDeploymentTypeStandaloneAuthenticationMethod]
@@ -1648,6 +1661,7 @@ class RedisDeploymentTypeStandalone(BaseModel):
         Optional[TLSOptionsTypeRedisDeploymentTypeStandalone],
         pydantic.Field(alias="tlsOptions"),
     ] = None
+    r"""TLS settings for encrypting the connection to Redis."""
 
     template_url: Annotated[Optional[str], pydantic.Field(alias="__template_url")] = (
         None

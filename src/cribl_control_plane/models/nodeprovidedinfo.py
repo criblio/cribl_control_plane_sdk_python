@@ -83,6 +83,7 @@ class NodeProvidedInfoTypedDict(TypedDict):
     os: NotRequired[OsTypedDict]
     r"""Operating system metadata collected from the node."""
     outpost: NotRequired[OutpostNodeInfoTypedDict]
+    r"""Node information for the Outpost through which a Worker connects to the Leader."""
     total_disk_space: NotRequired[int]
     r"""Total disk space on the node, in bytes."""
 
@@ -154,6 +155,7 @@ class NodeProvidedInfo(BaseModel):
     r"""Operating system metadata collected from the node."""
 
     outpost: Optional[OutpostNodeInfo] = None
+    r"""Node information for the Outpost through which a Worker connects to the Leader."""
 
     total_disk_space: Annotated[
         Optional[int], pydantic.Field(alias="totalDiskSpace")

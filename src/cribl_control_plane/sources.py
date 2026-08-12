@@ -113,7 +113,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -244,7 +248,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -303,7 +311,7 @@ class Sources(BaseSDK):
     def create(
         self,
         *,
-        request: Union[models.CreateInputRequest, models.CreateInputRequestTypedDict],
+        request: Union[models.CreateInputInput, models.CreateInputInputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -330,8 +338,8 @@ class Sources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.CreateInputRequest)
-        request = cast(models.CreateInputRequest, request)
+            request = utils.unmarshal(request, models.CreateInputInput)
+        request = cast(models.CreateInputInput, request)
 
         req = self._build_request(
             method="POST",
@@ -347,7 +355,7 @@ class Sources(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateInputRequest
+                request, False, False, "json", models.CreateInputInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -375,7 +383,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -403,7 +415,7 @@ class Sources(BaseSDK):
     async def create_async(
         self,
         *,
-        request: Union[models.CreateInputRequest, models.CreateInputRequestTypedDict],
+        request: Union[models.CreateInputInput, models.CreateInputInputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -430,8 +442,8 @@ class Sources(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.CreateInputRequest)
-        request = cast(models.CreateInputRequest, request)
+            request = utils.unmarshal(request, models.CreateInputInput)
+        request = cast(models.CreateInputInput, request)
 
         req = self._build_request_async(
             method="POST",
@@ -447,7 +459,7 @@ class Sources(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateInputRequest
+                request, False, False, "json", models.CreateInputInput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -475,7 +487,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -572,7 +588,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -669,7 +689,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -772,7 +796,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -875,7 +903,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -972,7 +1004,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1069,7 +1105,11 @@ class Sources(BaseSDK):
                     self.sdk_configuration.security, models.Security
                 ),
                 tags=["sources"],
-                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
+                extensions={
+                    "x-cribl-api-context": ["group", "node", "single"],
+                    "x-cribl-availability": "both",
+                    "x-cribl-internal": False,
+                },
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),

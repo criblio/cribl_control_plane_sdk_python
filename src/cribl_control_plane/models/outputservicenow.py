@@ -15,7 +15,7 @@ from .keyvaluemetadataconfoutputfilesystem import (
     KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .modeoptions import ModeOptions
-from .otlpversionoptions131 import OtlpVersionOptions131
+from .otlpversionoptions import OtlpVersionOptions
 from .protocoloptions import ProtocolOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .responseretrysettingconfoutputwebhook import (
@@ -60,7 +60,7 @@ class OutputServiceNowTypedDict(TypedDict):
     r"""The endpoint where ServiceNow events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
     token_secret: str
     r"""Select or create a stored text secret"""
-    otlp_version: OtlpVersionOptions131
+    otlp_version: OtlpVersionOptions
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
     protocol: ProtocolOptions
     r"""Select a transport option for OpenTelemetry"""
@@ -78,6 +78,8 @@ class OutputServiceNowTypedDict(TypedDict):
     r"""Auth token name"""
     max_payload_size_kb: NotRequired[float]
     r"""Maximum size, in KB, of the request body"""
+    preserve_native_any_value: NotRequired[bool]
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
     compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_compress: NotRequired[CompressionOptionsMessages]
@@ -174,7 +176,7 @@ class OutputServiceNow(BaseModel):
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
     r"""Select or create a stored text secret"""
 
-    otlp_version: Annotated[OtlpVersionOptions131, pydantic.Field(alias="otlpVersion")]
+    otlp_version: Annotated[OtlpVersionOptions, pydantic.Field(alias="otlpVersion")]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
     protocol: ProtocolOptions
@@ -206,6 +208,11 @@ class OutputServiceNow(BaseModel):
         Optional[float], pydantic.Field(alias="maxPayloadSizeKB")
     ] = None
     r"""Maximum size, in KB, of the request body"""
+
+    preserve_native_any_value: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveNativeAnyValue")
+    ] = None
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
 
     compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
@@ -396,7 +403,7 @@ class OutputServiceNow(BaseModel):
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.OtlpVersionOptions131(value)
+                return models.OtlpVersionOptions(value)
             except ValueError:
                 return value
         return value
@@ -484,6 +491,7 @@ class OutputServiceNow(BaseModel):
                 "streamtags",
                 "authTokenName",
                 "maxPayloadSizeKB",
+                "preserveNativeAnyValue",
                 "compress",
                 "httpCompress",
                 "httpTracesEndpointOverride",

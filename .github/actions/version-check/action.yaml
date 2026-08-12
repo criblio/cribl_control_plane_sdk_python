@@ -48,8 +48,11 @@ runs:
         LOCAL_VERSION=$(ruby -r yaml -e "puts YAML.load_file('.speakeasy/out.openapi.yaml').dig('info', 'version')")
         echo "Local version (out.openapi.yaml): ${LOCAL_VERSION:-}"
 
-        REMOTE_SPEC=$(curl -sfL "${SPEC_URL}") || { echo "Failed to fetch ${SPEC_URL}"; echo "up_to_date=false" >> "$GITHUB_OUTPUT"; exit 0; }
-        REMOTE_VERSION=$(echo "$REMOTE_SPEC" | ruby -r yaml -e "puts YAML.safe_load(STDIN.read).dig('info', 'version')")
+        # curl to a file + load_file — echo pipes corrupt YAML backslash escapes
+        REMOTE_SPEC_FILE=$(mktemp)
+        trap 'rm -f "$REMOTE_SPEC_FILE"' EXIT
+        curl -sfL "${SPEC_URL}" -o "$REMOTE_SPEC_FILE" || { echo "Failed to fetch ${SPEC_URL}"; echo "up_to_date=false" >> "$GITHUB_OUTPUT"; exit 0; }
+        REMOTE_VERSION=$(ruby -r yaml -e "puts YAML.load_file(ARGV[0]).dig('info', 'version')" "$REMOTE_SPEC_FILE")
         echo "Remote version (${SPEC_URL}): ${REMOTE_VERSION:-}"
 
         echo "local_version=${LOCAL_VERSION}" >> "$GITHUB_OUTPUT"

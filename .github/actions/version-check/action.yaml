@@ -29,6 +29,19 @@ runs:
           exit 0
         fi
 
+        # info.version only — full Psych parse fails on OpenAPI (Time / escapes) under Ruby 3.2
+        openapi_info_version() {
+          awk '
+            /^info:/ { in_info=1; next }
+            in_info && /^[^ \t]/ { exit }
+            in_info && /^[ \t]+version:[ \t]*/ {
+              sub(/^[ \t]+version:[ \t]*/, "")
+              print
+              exit
+            }
+          ' "$1"
+        }
+
         # Read spec URL from workflow.yaml (varies per branch)
         SPEC_URL=$(ruby -r yaml -e "puts YAML.load_file('.speakeasy/workflow.yaml').dig('sources', 'Cribl API Reference', 'inputs', 0, 'location')")
         if [[ -z "${SPEC_URL}" ]]; then
@@ -45,14 +58,13 @@ runs:
           exit 0
         fi
 
-        LOCAL_VERSION=$(ruby -r yaml -e "puts YAML.load_file('.speakeasy/out.openapi.yaml').dig('info', 'version')")
+        LOCAL_VERSION=$(openapi_info_version .speakeasy/out.openapi.yaml)
         echo "Local version (out.openapi.yaml): ${LOCAL_VERSION:-}"
 
-        # curl to a file + load_file — echo pipes corrupt YAML backslash escapes
         REMOTE_SPEC_FILE=$(mktemp)
         trap 'rm -f "$REMOTE_SPEC_FILE"' EXIT
         curl -sfL "${SPEC_URL}" -o "$REMOTE_SPEC_FILE" || { echo "Failed to fetch ${SPEC_URL}"; echo "up_to_date=false" >> "$GITHUB_OUTPUT"; exit 0; }
-        REMOTE_VERSION=$(ruby -r yaml -e "puts YAML.load_file(ARGV[0]).dig('info', 'version')" "$REMOTE_SPEC_FILE")
+        REMOTE_VERSION=$(openapi_info_version "$REMOTE_SPEC_FILE")
         echo "Remote version (${SPEC_URL}): ${REMOTE_VERSION:-}"
 
         echo "local_version=${LOCAL_VERSION}" >> "$GITHUB_OUTPUT"

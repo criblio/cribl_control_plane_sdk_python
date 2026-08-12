@@ -29,7 +29,7 @@ runs:
           exit 0
         fi
 
-        # info.version only — full Psych parse fails on OpenAPI (Time / escapes) under Ruby 3.2
+        # info.version only — avoid full YAML parsers on large OpenAPI docs
         openapi_info_version() {
           awk '
             /^info:/ { in_info=1; next }
@@ -42,8 +42,8 @@ runs:
           ' "$1"
         }
 
-        # Read spec URL from workflow.yaml (varies per branch)
-        SPEC_URL=$(ruby -r yaml -e "puts YAML.load_file('.speakeasy/workflow.yaml').dig('sources', 'Cribl API Reference', 'inputs', 0, 'location')")
+        # First "- location:" under sources.inputs in workflow.yaml
+        SPEC_URL=$(awk '/^[ \t]*- location:/{ sub(/^[ \t]*- location:[ \t]*/, ""); print; exit }' .speakeasy/workflow.yaml)
         if [[ -z "${SPEC_URL}" ]]; then
           echo "Failed to read spec URL from workflow.yaml"
           echo "up_to_date=false" >> "$GITHUB_OUTPUT"

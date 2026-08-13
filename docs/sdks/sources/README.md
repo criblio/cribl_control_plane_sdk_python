@@ -18,7 +18,7 @@ Get a list of all Sources.
 
 ### Example Usage: InputResponseExamplesHttpSource
 
-<!-- UsageSnippet language="python" operationID="listInput" method="get" path="/system/inputs" example="InputResponseExamplesHttpSource" -->
+<!-- UsageSnippet language="python" operationID="getInput" method="get" path="/system/inputs" example="InputResponseExamplesHttpSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -41,7 +41,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: InputResponseExamplesSplunkHecSource
 
-<!-- UsageSnippet language="python" operationID="listInput" method="get" path="/system/inputs" example="InputResponseExamplesSplunkHecSource" -->
+<!-- UsageSnippet language="python" operationID="getInput" method="get" path="/system/inputs" example="InputResponseExamplesSplunkHecSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -64,7 +64,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: InputResponseExamplesSyslogSource
 
-<!-- UsageSnippet language="python" operationID="listInput" method="get" path="/system/inputs" example="InputResponseExamplesSyslogSource" -->
+<!-- UsageSnippet language="python" operationID="getInput" method="get" path="/system/inputs" example="InputResponseExamplesSyslogSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -87,7 +87,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: InputResponseExamplesSyslogWithPQSource
 
-<!-- UsageSnippet language="python" operationID="listInput" method="get" path="/system/inputs" example="InputResponseExamplesSyslogWithPQSource" -->
+<!-- UsageSnippet language="python" operationID="getInput" method="get" path="/system/inputs" example="InputResponseExamplesSyslogWithPQSource" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -120,7 +120,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListInputResponse](../../models/listinputresponse.md)**
+**[models.GetInputResponse](../../models/getinputresponse.md)**
 
 ### Errors
 

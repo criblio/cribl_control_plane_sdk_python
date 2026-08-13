@@ -1,4 +1,4 @@
-# ListOutputResponse
+# GetOutputResponse
 
 
 ## Fields

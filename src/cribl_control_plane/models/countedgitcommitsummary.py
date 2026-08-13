@@ -9,14 +9,14 @@ from typing_extensions import TypedDict
 
 class CountedGitCommitSummaryTypedDict(TypedDict):
     count: int
-    r"""number of items present in the items array"""
+    r"""Number of items returned in the items array."""
     items: List[GitCommitSummaryTypedDict]
-    r"""List of items in this response."""
+    r"""The list of items returned in this response."""
 
 
 class CountedGitCommitSummary(BaseModel):
     count: int
-    r"""number of items present in the items array"""
+    r"""Number of items returned in the items array."""
 
     items: List[GitCommitSummary]
-    r"""List of items in this response."""
+    r"""The list of items returned in this response."""

@@ -18,7 +18,7 @@ Get a list of all Destinations.
 
 ### Example Usage: OutputResponseExamplesS3Destination
 
-<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" example="OutputResponseExamplesS3Destination" -->
+<!-- UsageSnippet language="python" operationID="getOutput" method="get" path="/system/outputs" example="OutputResponseExamplesS3Destination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -41,7 +41,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: OutputResponseExamplesSnowflakeStreamingDestination
 
-<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" example="OutputResponseExamplesSnowflakeStreamingDestination" -->
+<!-- UsageSnippet language="python" operationID="getOutput" method="get" path="/system/outputs" example="OutputResponseExamplesSnowflakeStreamingDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -64,7 +64,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: OutputResponseExamplesSplunkHecDestination
 
-<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" example="OutputResponseExamplesSplunkHecDestination" -->
+<!-- UsageSnippet language="python" operationID="getOutput" method="get" path="/system/outputs" example="OutputResponseExamplesSplunkHecDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -87,7 +87,7 @@ with CriblControlPlane(
 ```
 ### Example Usage: OutputResponseExamplesSyslogDestination
 
-<!-- UsageSnippet language="python" operationID="listOutput" method="get" path="/system/outputs" example="OutputResponseExamplesSyslogDestination" -->
+<!-- UsageSnippet language="python" operationID="getOutput" method="get" path="/system/outputs" example="OutputResponseExamplesSyslogDestination" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -120,7 +120,7 @@ with CriblControlPlane(
 
 ### Response
 
-**[models.ListOutputResponse](../../models/listoutputresponse.md)**
+**[models.GetOutputResponse](../../models/getoutputresponse.md)**
 
 ### Errors
 

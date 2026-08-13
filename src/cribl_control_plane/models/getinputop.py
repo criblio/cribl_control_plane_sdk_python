@@ -12,7 +12,7 @@ from typing import Awaitable, Callable, List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ListInputRequestTypedDict(TypedDict):
+class GetInputRequestTypedDict(TypedDict):
     type: NotRequired[List[str]]
     r"""Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported."""
     offset: NotRequired[int]
@@ -21,7 +21,7 @@ class ListInputRequestTypedDict(TypedDict):
     r"""Maximum number of items to return"""
 
 
-class ListInputRequest(BaseModel):
+class GetInputRequest(BaseModel):
     type: Annotated[
         Optional[List[str]],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
@@ -57,14 +57,14 @@ class ListInputRequest(BaseModel):
         return m
 
 
-class ListInputResponseTypedDict(TypedDict):
+class GetInputResponseTypedDict(TypedDict):
     result: PaginatedInputResponseTypedDict
 
 
-class ListInputResponse(BaseModel):
+class GetInputResponse(BaseModel):
     next: Union[
-        Callable[[], Optional[ListInputResponse]],
-        Callable[[], Awaitable[Optional[ListInputResponse]]],
+        Callable[[], Optional[GetInputResponse]],
+        Callable[[], Awaitable[Optional[GetInputResponse]]],
     ]
 
     result: PaginatedInputResponse

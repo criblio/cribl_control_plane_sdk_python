@@ -11,9 +11,9 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class PaginatedInputStatusTypedDict(TypedDict):
     items: List[InputStatusTypedDict]
-    r"""The pre-limited items in the list of results"""
+    r"""The items returned in this response, after any offset/limit pagination has been applied."""
     count: int
-    r"""Number of items present in the items array"""
+    r"""Number of items returned in the items array."""
     offset: NotRequired[int]
     r"""Pagination offset. Returned when offset/limit query parameters are provided."""
     limit: NotRequired[int]
@@ -24,10 +24,10 @@ class PaginatedInputStatusTypedDict(TypedDict):
 
 class PaginatedInputStatus(BaseModel):
     items: List[InputStatus]
-    r"""The pre-limited items in the list of results"""
+    r"""The items returned in this response, after any offset/limit pagination has been applied."""
 
     count: int
-    r"""Number of items present in the items array"""
+    r"""Number of items returned in the items array."""
 
     offset: Optional[int] = None
     r"""Pagination offset. Returned when offset/limit query parameters are provided."""

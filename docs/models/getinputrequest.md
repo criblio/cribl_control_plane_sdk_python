@@ -1,4 +1,4 @@
-# ListInputRequest
+# GetInputRequest
 
 
 ## Fields

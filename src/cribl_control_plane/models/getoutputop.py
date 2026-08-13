@@ -14,7 +14,7 @@ from typing import Awaitable, Callable, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class ListOutputRequestTypedDict(TypedDict):
+class GetOutputRequestTypedDict(TypedDict):
     type: NotRequired[DestinationType]
     r"""Type of Destination to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported."""
     offset: NotRequired[int]
@@ -23,7 +23,7 @@ class ListOutputRequestTypedDict(TypedDict):
     r"""Maximum number of items to return"""
 
 
-class ListOutputRequest(BaseModel):
+class GetOutputRequest(BaseModel):
     type: Annotated[
         Optional[DestinationType],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
@@ -68,14 +68,14 @@ class ListOutputRequest(BaseModel):
         return m
 
 
-class ListOutputResponseTypedDict(TypedDict):
+class GetOutputResponseTypedDict(TypedDict):
     result: PaginatedOutputResponseTypedDict
 
 
-class ListOutputResponse(BaseModel):
+class GetOutputResponse(BaseModel):
     next: Union[
-        Callable[[], Optional[ListOutputResponse]],
-        Callable[[], Awaitable[Optional[ListOutputResponse]]],
+        Callable[[], Optional[GetOutputResponse]],
+        Callable[[], Awaitable[Optional[GetOutputResponse]]],
     ]
 
     result: PaginatedOutputResponse

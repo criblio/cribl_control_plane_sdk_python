@@ -2952,6 +2952,12 @@ if TYPE_CHECKING:
         GetFunctionsResponseTypedDict,
     )
     from .getinputbyidop import GetInputByIDRequest, GetInputByIDRequestTypedDict
+    from .getinputop import (
+        GetInputRequest,
+        GetInputRequestTypedDict,
+        GetInputResponse,
+        GetInputResponseTypedDict,
+    )
     from .getinputpqbyidop import GetInputPqByIDRequest, GetInputPqByIDRequestTypedDict
     from .getinputstatusbyidop import (
         GetInputStatusByIDRequest,
@@ -2988,6 +2994,12 @@ if TYPE_CHECKING:
         GetInputSystemPqByPackAndIDRequestTypedDict,
     )
     from .getoutputbyidop import GetOutputByIDRequest, GetOutputByIDRequestTypedDict
+    from .getoutputop import (
+        GetOutputRequest,
+        GetOutputRequestTypedDict,
+        GetOutputResponse,
+        GetOutputResponseTypedDict,
+    )
     from .getoutputpqbyidop import (
         GetOutputPqByIDRequest,
         GetOutputPqByIDRequestTypedDict,
@@ -4652,18 +4664,6 @@ if TYPE_CHECKING:
         LakeDatasetSearchConfigTypedDict,
     )
     from .lakehouseconnectiontype import LakehouseConnectionType
-    from .listinputop import (
-        ListInputRequest,
-        ListInputRequestTypedDict,
-        ListInputResponse,
-        ListInputResponseTypedDict,
-    )
-    from .listoutputop import (
-        ListOutputRequest,
-        ListOutputRequestTypedDict,
-        ListOutputResponse,
-        ListOutputResponseTypedDict,
-    )
     from .logininfo import LoginInfo, LoginInfoTypedDict
     from .loglabelconfoutputgooglecloudlogging import (
         LogLabelConfOutputGoogleCloudLogging,
@@ -10729,6 +10729,10 @@ __all__ = [
     "GetInputByIDRequestTypedDict",
     "GetInputPqByIDRequest",
     "GetInputPqByIDRequestTypedDict",
+    "GetInputRequest",
+    "GetInputRequestTypedDict",
+    "GetInputResponse",
+    "GetInputResponseTypedDict",
     "GetInputStatusByIDRequest",
     "GetInputStatusByIDRequestTypedDict",
     "GetInputStatusRequest",
@@ -10753,6 +10757,10 @@ __all__ = [
     "GetOutputByIDRequestTypedDict",
     "GetOutputPqByIDRequest",
     "GetOutputPqByIDRequestTypedDict",
+    "GetOutputRequest",
+    "GetOutputRequestTypedDict",
+    "GetOutputResponse",
+    "GetOutputResponseTypedDict",
     "GetOutputSamplesByIDRequest",
     "GetOutputSamplesByIDRequestTypedDict",
     "GetOutputStatusByIDRequest",
@@ -12102,14 +12110,6 @@ __all__ = [
     "LakeExportConfiguration",
     "LakeExportConfigurationTypedDict",
     "LakehouseConnectionType",
-    "ListInputRequest",
-    "ListInputRequestTypedDict",
-    "ListInputResponse",
-    "ListInputResponseTypedDict",
-    "ListOutputRequest",
-    "ListOutputRequestTypedDict",
-    "ListOutputResponse",
-    "ListOutputResponseTypedDict",
     "ListeningPorts",
     "ListeningPortsTypedDict",
     "LocalOverrides",
@@ -17677,6 +17677,10 @@ _dynamic_imports: dict[str, str] = {
     "GetFunctionsResponseTypedDict": ".getfunctionsop",
     "GetInputByIDRequest": ".getinputbyidop",
     "GetInputByIDRequestTypedDict": ".getinputbyidop",
+    "GetInputRequest": ".getinputop",
+    "GetInputRequestTypedDict": ".getinputop",
+    "GetInputResponse": ".getinputop",
+    "GetInputResponseTypedDict": ".getinputop",
     "GetInputPqByIDRequest": ".getinputpqbyidop",
     "GetInputPqByIDRequestTypedDict": ".getinputpqbyidop",
     "GetInputStatusByIDRequest": ".getinputstatusbyidop",
@@ -17701,6 +17705,10 @@ _dynamic_imports: dict[str, str] = {
     "GetInputSystemPqByPackAndIDRequestTypedDict": ".getinputsystempqbypackandidop",
     "GetOutputByIDRequest": ".getoutputbyidop",
     "GetOutputByIDRequestTypedDict": ".getoutputbyidop",
+    "GetOutputRequest": ".getoutputop",
+    "GetOutputRequestTypedDict": ".getoutputop",
+    "GetOutputResponse": ".getoutputop",
+    "GetOutputResponseTypedDict": ".getoutputop",
     "GetOutputPqByIDRequest": ".getoutputpqbyidop",
     "GetOutputPqByIDRequestTypedDict": ".getoutputpqbyidop",
     "GetOutputSamplesByIDRequest": ".getoutputsamplesbyidop",
@@ -19188,14 +19196,6 @@ _dynamic_imports: dict[str, str] = {
     "LakeDatasetSearchConfig": ".lakedatasetsearchconfig",
     "LakeDatasetSearchConfigTypedDict": ".lakedatasetsearchconfig",
     "LakehouseConnectionType": ".lakehouseconnectiontype",
-    "ListInputRequest": ".listinputop",
-    "ListInputRequestTypedDict": ".listinputop",
-    "ListInputResponse": ".listinputop",
-    "ListInputResponseTypedDict": ".listinputop",
-    "ListOutputRequest": ".listoutputop",
-    "ListOutputRequestTypedDict": ".listoutputop",
-    "ListOutputResponse": ".listoutputop",
-    "ListOutputResponseTypedDict": ".listoutputop",
     "LoginInfo": ".logininfo",
     "LoginInfoTypedDict": ".logininfo",
     "LogLabelConfOutputGoogleCloudLogging": ".loglabelconfoutputgooglecloudlogging",

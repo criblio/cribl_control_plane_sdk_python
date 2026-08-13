@@ -1,4 +1,4 @@
-# ListInputResponse
+# GetInputResponse
 
 
 ## Fields

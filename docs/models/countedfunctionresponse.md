@@ -5,5 +5,5 @@
 
 | Field                                                          | Type                                                           | Required                                                       | Description                                                    |
 | -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- | -------------------------------------------------------------- |
-| `count`                                                        | *int*                                                          | :heavy_check_mark:                                             | number of items present in the items array                     |
-| `items`                                                        | List[[models.FunctionResponse](../models/functionresponse.md)] | :heavy_check_mark:                                             | List of items in this response.                                |
+| `count`                                                        | *int*                                                          | :heavy_check_mark:                                             | Number of items returned in the items array.                   |
+| `items`                                                        | List[[models.FunctionResponse](../models/functionresponse.md)] | :heavy_check_mark:                                             | The list of items returned in this response.                   |

@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.20.0-alpha.1786403231236-050f41c9
+  version: 4.20.0-alpha.1786576065788-5d910756
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -16428,8 +16428,11 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/ResourcePolicy"
+          description: List of resource policies that define the access permissions for
+            this member.
         user:
           type: string
+          description: Username of the member whose access control entries are listed.
       required:
         - perms
         - user
@@ -16659,10 +16662,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/FunctionResponse"
     PaginatedFunctionResponse:
@@ -16673,12 +16676,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/FunctionResponse"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -33935,10 +33939,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/InputSplunkHec"
     AddHecTokenRequest:
@@ -33978,10 +33982,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             type: string
     CountedJobInfo:
@@ -33992,10 +33996,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/JobInfo"
     RunnableJobCollection:
@@ -34494,10 +34498,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/InputResponse"
     MetadataItem:
@@ -34720,12 +34724,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/InputResponse"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -59715,10 +59720,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/OutputResponse"
     OutputResponse:
@@ -59834,12 +59839,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/OutputResponse"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -59860,10 +59866,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/OutputSamplesResponse"
     OutputSamplesResponse:
@@ -59887,10 +59893,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/OutputTestResponse"
     OutputTestResponse:
@@ -59939,10 +59945,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/Pipeline"
     Pipeline:
@@ -60023,12 +60029,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/Pipeline"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -60049,10 +60056,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/Routes"
     RouteComment:
@@ -60226,10 +60233,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/InputStatus"
     HealthCountType:
@@ -60342,12 +60349,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/InputStatus"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -60368,10 +60376,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/OutputStatus"
     OutputStatus:
@@ -60400,12 +60408,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/OutputStatus"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -60426,10 +60435,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/SavedJobResponse"
     SavedJobResponseEnrichedFields:
@@ -60931,12 +60940,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/SavedJobResponse"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -61180,12 +61190,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/ConfigGroup"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -61206,10 +61217,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/ConfigGroup"
     GroupCreateRequest:
@@ -61353,10 +61364,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/UserAccessControlList"
     ProductsCore:
@@ -61375,10 +61386,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/TeamAccessControlList"
     ProductsBase:
@@ -61404,10 +61415,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/CriblLakeDataset"
     LakehouseConnectionType:
@@ -61660,12 +61671,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/CriblLakeDataset"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -61854,10 +61866,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             type: number
     CountedMasterWorkerEntry:
@@ -61868,10 +61880,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/MasterWorkerEntry"
     ConnectionProtocol:
@@ -62526,12 +62538,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/MasterWorkerEntry"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -62552,10 +62565,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/RestartResponse"
     RestartResponse:
@@ -62599,12 +62612,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/DistributedSummary"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -62770,10 +62784,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/PackInstallInfo"
     TagsTypePackInstallInfo:
@@ -62966,10 +62980,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/PackUninstallInfo"
     PackUninstallInfo:
@@ -62993,10 +63007,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/PackInfo"
     PackInfo:
@@ -63072,12 +63086,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/PackInfo"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -63134,10 +63149,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/GitCommitSummary"
     GitFileRename:
@@ -63230,10 +63245,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/GitCountResult"
     GitCountResult:
@@ -63253,10 +63268,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/GitDiffResult"
     GitDiffLines:
@@ -63412,10 +63427,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/GitFilesResponse"
     GitFile:
@@ -63469,10 +63484,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/GitRevertResult"
     GitRevertResult:
@@ -63549,10 +63564,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/GitShowResult"
     GitShowResult:
@@ -63576,10 +63591,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/SystemSettingsConf"
     BackupsSettings:
@@ -63812,10 +63827,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/SystemSettingsConfResponse"
     SystemSettingsConfResponse:
@@ -64205,10 +64220,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/SystemRestartResponse"
     SystemRestartResponse:
@@ -64229,10 +64244,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/BranchInfo"
     BranchInfo:
@@ -64281,10 +64296,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/GitInfo"
     GitInfo:
@@ -64314,12 +64329,13 @@ components:
       properties:
         items:
           type: array
-          description: The pre-limited items in the list of results
+          description: The items returned in this response, after any offset/limit
+            pagination has been applied.
           items:
             $ref: "#/components/schemas/GitLogResult"
         count:
           type: integer
-          description: Number of items present in the items array
+          description: Number of items returned in the items array.
         offset:
           type: integer
           description: Pagination offset. Returned when offset/limit query parameters are
@@ -64365,10 +64381,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             $ref: "#/components/schemas/GitStatusResult"
     GitStatusResult:
@@ -64475,10 +64491,10 @@ components:
       properties:
         count:
           type: integer
-          description: number of items present in the items array
+          description: Number of items returned in the items array.
         items:
           type: array
-          description: List of items in this response.
+          description: The list of items returned in this response.
           items:
             type: boolean
     AdditionalPropertiesTypeEnrichedFieldsSavedState:
@@ -78742,7 +78758,6 @@ paths:
           description: The <code>id</code> of the Pack.
   /p/{pack}/system/inputs:
     get:
-      operationId: getInputSystemByPack
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -78792,6 +78807,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: getInputSystemByPack
       parameters:
         - name: type
           in: query
@@ -78833,7 +78849,6 @@ paths:
         outputs:
           results: $.items
     post:
-      operationId: createInputSystemByPack
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -79042,6 +79057,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: createInputSystemByPack
       parameters:
         - name: pack
           in: path
@@ -79051,7 +79067,6 @@ paths:
           description: The <code>id</code> of the Pack.
   /p/{pack}/system/inputs/{id}:
     get:
-      operationId: getInputSystemByPackAndId
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -79103,6 +79118,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: getInputSystemByPackAndId
       parameters:
         - name: id
           in: path
@@ -79117,7 +79133,6 @@ paths:
             type: string
           description: The <code>id</code> of the Pack.
     patch:
-      operationId: updateInputSystemByPackAndId
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -79330,6 +79345,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: updateInputSystemByPackAndId
       parameters:
         - name: id
           in: path
@@ -79344,7 +79360,6 @@ paths:
             type: string
           description: The <code>id</code> of the Pack.
     delete:
-      operationId: deleteInputSystemByPackAndId
       x-speakeasy-group: packs.sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -79394,6 +79409,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: deleteInputSystemByPackAndId
       parameters:
         - name: id
           in: path
@@ -79688,7 +79704,6 @@ paths:
           description: The <code>id</code> of the Pack.
   /p/{pack}/system/outputs:
     get:
-      operationId: getOutputSystemByPack
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -79739,6 +79754,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: getOutputSystemByPack
       parameters:
         - name: type
           in: query
@@ -79780,7 +79796,6 @@ paths:
         outputs:
           results: $.items
     post:
-      operationId: createOutputSystemByPack
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -80012,6 +80027,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: createOutputSystemByPack
       parameters:
         - name: pack
           in: path
@@ -80021,7 +80037,6 @@ paths:
           description: The <code>id</code> of the Pack.
   /p/{pack}/system/outputs/{id}:
     get:
-      operationId: getOutputSystemByPackAndId
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -80074,6 +80089,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: getOutputSystemByPackAndId
       parameters:
         - name: id
           in: path
@@ -80088,7 +80104,6 @@ paths:
             type: string
           description: The <code>id</code> of the Pack.
     patch:
-      operationId: updateOutputSystemByPackAndId
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -80323,6 +80338,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: updateOutputSystemByPackAndId
       parameters:
         - name: id
           in: path
@@ -80337,7 +80353,6 @@ paths:
             type: string
           description: The <code>id</code> of the Pack.
     delete:
-      operationId: deleteOutputSystemByPackAndId
       x-speakeasy-group: packs.destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -80393,6 +80408,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: deleteOutputSystemByPackAndId
       parameters:
         - name: id
           in: path
@@ -83666,7 +83682,6 @@ paths:
                 $ref: "#/components/examples/CaptureExamplesComplexFilter"
   /system/inputs:
     get:
-      operationId: listInput
       x-speakeasy-group: sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -83716,6 +83731,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: getInput
       parameters:
         - name: type
           in: query
@@ -83751,7 +83767,6 @@ paths:
         outputs:
           results: $.items
     post:
-      operationId: createInput
       x-speakeasy-group: sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -83960,9 +83975,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: createInput
   /system/inputs/{id}:
     get:
-      operationId: getInputById
       x-speakeasy-group: sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -84014,6 +84029,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: getInputById
       parameters:
         - name: id
           in: path
@@ -84022,7 +84038,6 @@ paths:
             type: string
           description: The <code>id</code> of the Source to get.
     patch:
-      operationId: updateInputById
       x-speakeasy-group: sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -84234,6 +84249,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: updateInputById
       parameters:
         - name: id
           in: path
@@ -84242,7 +84258,6 @@ paths:
             type: string
           description: The <code>id</code> of the Source to update.
     delete:
-      operationId: deleteInputById
       x-speakeasy-group: sources
       x-cribl-internal: false
       x-cribl-availability: both
@@ -84292,6 +84307,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: deleteInputById
       parameters:
         - name: id
           in: path
@@ -84554,7 +84570,6 @@ paths:
           description: The <code>id</code> of the Source to clear the PQ for.
   /system/outputs:
     get:
-      operationId: listOutput
       x-speakeasy-group: destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -84605,6 +84620,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: getOutput
       parameters:
         - name: type
           in: query
@@ -84640,7 +84656,6 @@ paths:
         outputs:
           results: $.items
     post:
-      operationId: createOutput
       x-speakeasy-group: destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -84872,9 +84887,9 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: createOutput
   /system/outputs/{id}:
     get:
-      operationId: getOutputById
       x-speakeasy-group: destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -84927,6 +84942,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: getOutputById
       parameters:
         - name: id
           in: path
@@ -84935,7 +84951,6 @@ paths:
             type: string
           description: The <code>id</code> of the Destination to get.
     patch:
-      operationId: updateOutputById
       x-speakeasy-group: destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -85170,6 +85185,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: updateOutputById
       parameters:
         - name: id
           in: path
@@ -85178,7 +85194,6 @@ paths:
             type: string
           description: The <code>id</code> of the Destination to update.
     delete:
-      operationId: deleteOutputById
       x-speakeasy-group: destinations
       x-cribl-internal: false
       x-cribl-availability: both
@@ -85234,6 +85249,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+      operationId: deleteOutputById
       parameters:
         - name: id
           in: path

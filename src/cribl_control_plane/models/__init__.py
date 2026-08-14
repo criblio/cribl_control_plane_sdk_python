@@ -245,6 +245,7 @@ if TYPE_CHECKING:
         ConfigGroupLookupsLookup,
         ConfigGroupLookupsLookupTypedDict,
         ConfigGroupLookupsTypedDict,
+        DeployMode,
     )
     from .connectionconfinputcollection import (
         ConnectionConfInputCollection,
@@ -10296,6 +10297,7 @@ __all__ = [
     "DeleteProductsGroupsByProductAndIDRequestTypedDict",
     "DeleteSavedJobByIDRequest",
     "DeleteSavedJobByIDRequestTypedDict",
+    "DeployMode",
     "DeployRequest",
     "DeployRequestLookups",
     "DeployRequestLookupsLookup",
@@ -15256,6 +15258,7 @@ _dynamic_imports: dict[str, str] = {
     "ConfigGroupLookupsLookup": ".configgrouplookups",
     "ConfigGroupLookupsLookupTypedDict": ".configgrouplookups",
     "ConfigGroupLookupsTypedDict": ".configgrouplookups",
+    "DeployMode": ".configgrouplookups",
     "ConnectionConfInputCollection": ".connectionconfinputcollection",
     "ConnectionConfInputCollectionTypedDict": ".connectionconfinputcollection",
     "ConnectionProtocol": ".connectionprotocol",

@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.20.0-alpha.1786576065788-5d910756
+  version: 4.20.0-alpha.1786662464314-21668698
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -61020,6 +61020,13 @@ components:
           items:
             type: object
             properties:
+              deployMode:
+                type: string
+                enum:
+                  - auto
+                  - manual
+                description: Deploy mode configured on the lookup file.
+                x-speakeasy-unknown-values: allow
               deployedVersion:
                 type: string
                 description: Version of the lookup file currently deployed on the Worker or

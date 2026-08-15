@@ -33,6 +33,8 @@ class SslTypedDict(TypedDict):
     r"""Filesystem path to the PEM-encoded Certificate Authority (CA) certificate for client authentication."""
     cert_path: NotRequired[str]
     r"""Filesystem path to the PEM-encoded TLS certificate."""
+    certificate_name: NotRequired[str]
+    r"""Name of a predefined Certificate stored in Cribl."""
     disabled: NotRequired[bool]
     r"""If <code>true</code>, TLS is disabled for the API server. Otherwise, <code>false</code>."""
     passphrase: NotRequired[str]
@@ -50,6 +52,11 @@ class Ssl(BaseModel):
     cert_path: Annotated[Optional[str], pydantic.Field(alias="certPath")] = None
     r"""Filesystem path to the PEM-encoded TLS certificate."""
 
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""Name of a predefined Certificate stored in Cribl."""
+
     disabled: Optional[bool] = None
     r"""If <code>true</code>, TLS is disabled for the API server. Otherwise, <code>false</code>."""
 
@@ -62,7 +69,14 @@ class Ssl(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            ["caPath", "certPath", "disabled", "passphrase", "privKeyPath"]
+            [
+                "caPath",
+                "certPath",
+                "certificateName",
+                "disabled",
+                "passphrase",
+                "privKeyPath",
+            ]
         )
         serialized = handler(self)
         m = {}

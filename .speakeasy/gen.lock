@@ -1,19 +1,19 @@
 lockVersion: 2.0.0
 id: cfa345be-20bc-4980-a260-c3fa74040ac2
 management:
-  docChecksum: c1f462041521d626125c298401455658
-  docVersion: 4.20.0-alpha.1786662464314-21668698
+  docChecksum: e25e64258310218d691221b8eb29c943
+  docVersion: 4.20.0-alpha.1786748893152-3ccb594d
   speakeasyVersion: 1.793.1
   generationVersion: 2.928.0
-  releaseVersion: 0.11.0b3
-  configChecksum: 2219370b8ae6d4fd629e53baed4f8a84
+  releaseVersion: 0.11.0b4
+  configChecksum: 327079fac782b853e3d83a3d12a48e45
   repoURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   installationURL: https://github.com/criblio/cribl_control_plane_sdk_python.git
   published: true
 persistentEdits:
-  generation_id: bcd51524-7499-4839-b39a-72d3a5838641
-  pristine_commit_hash: b578712f1e01cd5c7a58a5ac3b78f33388c07eb6
-  pristine_tree_hash: 2e8b86661ad5e425b505d754e493b7b13dc13673
+  generation_id: 72e7c6ca-fb51-4477-8a9b-055eb0af20dd
+  pristine_commit_hash: 254727b7213ecfe6aa8d56a8ee241c5ae965fc15
+  pristine_tree_hash: df3a1b219a805f456819840183cf5ec2ad1d7a1f
 features:
   python:
     additionalDependencies: 1.1.0
@@ -16560,12 +16560,12 @@ trackedFiles:
     pristine_git_object: 2107976725f946533889c40cdd848df8dca2537c
   docs/models/ssl.md:
     id: 0f02176dd9fa
-    last_write_checksum: sha1:41438393d364f36f7683c2127bc11ec291079083
-    pristine_git_object: 551f200fb26f08c7a5422426ec45464750c46147
+    last_write_checksum: sha1:c36e86f72db881ee21453321e994d4a162e0f770
+    pristine_git_object: 7309769f81ad97e3bf23c262de8b60a070e0b06e
   docs/models/ssltypesystemsettingsconfapi.md:
     id: 8e17f20d2cd5
-    last_write_checksum: sha1:c62d6da91a098815ebba17466e74e993d3092fe7
-    pristine_git_object: e8df7e642cbea4dd4b06b780b293ece5774384d6
+    last_write_checksum: sha1:4083bdf459b495545525e884eb4c5d14ca30993b
+    pristine_git_object: b0c1809c163c7693acf3c1135533dd6c588f459a
   docs/models/state.md:
     id: e560b4e72643
     last_write_checksum: sha1:36047915fd0b341ff412b9e08bdee5568582f3b7
@@ -17044,8 +17044,8 @@ trackedFiles:
     pristine_git_object: 7f4acccf4aa3d0ab3ff0feeadf6c29f375bc8979
   docs/sdks/cribl/README.md:
     id: 18ac8b824441
-    last_write_checksum: sha1:e5a22e19eccf970affb45f6fad03bb061ea7a1d2
-    pristine_git_object: df9f158a362be234d27741b332e61197040067eb
+    last_write_checksum: sha1:26ecb86758894954b042a75a1e57f914df4f34f2
+    pristine_git_object: e97a001a58bf3243ff2d6c0ab57d5e9e9bca4201
   docs/sdks/databaseconnections/README.md:
     id: ef33daf326f1
     last_write_checksum: sha1:8c8ba2e962ef3ea737bb6b05e08549cb0aaade42
@@ -17192,8 +17192,8 @@ trackedFiles:
     pristine_git_object: 1b74b5fc91dcf2b9df16949b77bcec9b03c49e2b
   pyproject.toml:
     id: 5d07e7d72637
-    last_write_checksum: sha1:93305ea06ffc99bac8be75f83278b93533e8679a
-    pristine_git_object: b4bc6835d36311b245544e6531678b6e0d5782e1
+    last_write_checksum: sha1:6696b47c6b52fa22a7049da56f53b73930254510
+    pristine_git_object: 4c5126e91b2e8f5947865493d3bc493caf4f5ed7
   scripts/prepare_readme.py:
     id: e0c5957a6035
     last_write_checksum: sha1:a2e0d08bb2b147a5bab939d676620d1686f3b024
@@ -17224,8 +17224,8 @@ trackedFiles:
     pristine_git_object: faaf4fb816e5dcaf59ae8e6927e853aa7218a3df
   src/cribl_control_plane/_version.py:
     id: 9c8e5f14504b
-    last_write_checksum: sha1:5789efd212421cc0bf9f24654aab8a386d795b79
-    pristine_git_object: 7bc0f498e95c2adba74a7d50d6d1d7aa33c9887d
+    last_write_checksum: sha1:64b668a73a143d4b62cf73576d059b1b1fe71024
+    pristine_git_object: 0d5ce1021705d6a73f1eea7e79b654db6ba45fcc
   src/cribl_control_plane/acl.py:
     id: 0e865a719763
     last_write_checksum: sha1:8d655579cf3675a86d05897a9866d699fc2fab42
@@ -20504,8 +20504,8 @@ trackedFiles:
     pristine_git_object: 99f333647bd9a699af26ed053986af949e245bef
   src/cribl_control_plane/models/ssltypesystemsettingsconfapi.py:
     id: 7cb4b7040f29
-    last_write_checksum: sha1:443119069bc72c811453af18f7192c77f98b9d97
-    pristine_git_object: df804aca440eb41a06ff6a7e7c4ff364b50ebbec
+    last_write_checksum: sha1:f07ca7403c00ec6e0b954d874a46a5d55c07896f
+    pristine_git_object: 1bf02595c6f9178666bd94f625da57ed1ebec7d0
   src/cribl_control_plane/models/statuserror.py:
     id: ba0fc3f8601b
     last_write_checksum: sha1:1b6205e2537d45d75630aa9a24cc150878c96a4a
@@ -20552,8 +20552,8 @@ trackedFiles:
     pristine_git_object: 878f7718104acc7ff878a2464e01de23352e40ac
   src/cribl_control_plane/models/systemsettingsconfupdate.py:
     id: fde6f02e446a
-    last_write_checksum: sha1:b3019291adddae25efc23720e8fed3b20b1bcc7c
-    pristine_git_object: 30669ec308f1afdd4db4e31e48ab668a4f92cf14
+    last_write_checksum: sha1:a5dae62d4bd35ede4a07a5492553cc42f53487d8
+    pristine_git_object: 16c8e8ef40922f6b285d819cec965277ff36ab4b
   src/cribl_control_plane/models/systemtypesystemsettingsconf.py:
     id: 2a279644220d
     last_write_checksum: sha1:8d060059092c56a1f56c52f586a6f3cad1b6058a
@@ -29463,7 +29463,7 @@ examples:
     GetSystemSettingsConfExamplesDefault:
       responses:
         "200":
-          application/json: {"count": 1, "items": [{"api": {"disabled": false, "host": "0.0.0.0", "port": 9000, "ssl": {"certPath": "/opt/cribl/local/cribl/auth/cribl.crt", "disabled": false, "passphrase": "", "privKeyPath": "/opt/cribl/local/cribl/auth/cribl.key"}}, "apps": {"enabled": true}, "backups": {}, "pii": {}, "proxy": {"useEnvVars": false}, "rollback": {}, "shutdown": {"drainTimeout": 10000}, "sni": {}, "system": {"intercom": true, "upgrade": "api"}, "tls": {"defaultCipherList": "DEFAULT", "defaultEcdhCurve": "auto", "maxVersion": "TLSv1.3", "minVersion": "TLSv1.2", "rejectUnauthorized": true}, "upgradeGroupSettings": {}, "upgradeSettings": {}, "workers": {"count": 0, "memory": 0, "minimum": 1}}]}
+          application/json: {"count": 1, "items": [{"api": {"disabled": false, "host": "0.0.0.0", "port": 9000, "ssl": {"certPath": "/opt/cribl/local/cribl/auth/myApiCert.crt", "certificateName": "myApiCert", "disabled": false, "passphrase": "", "privKeyPath": "/opt/cribl/local/cribl/auth/myApiCert.key"}}, "apps": {"enabled": true}, "backups": {}, "pii": {}, "proxy": {"useEnvVars": false}, "rollback": {}, "shutdown": {"drainTimeout": 10000}, "sni": {}, "system": {"intercom": true, "upgrade": "api"}, "tls": {"defaultCipherList": "DEFAULT", "defaultEcdhCurve": "auto", "maxVersion": "TLSv1.3", "minVersion": "TLSv1.2", "rejectUnauthorized": true}, "upgradeGroupSettings": {}, "upgradeSettings": {}, "workers": {"count": 0, "memory": 0, "minimum": 1}}]}
     authenticationFailed:
       responses:
         "401":
@@ -29483,7 +29483,7 @@ examples:
           application/json: {"status": "error", "message": "<value>"}
     UpdateSystemSettingsExamplesUpdateApiSettings:
       requestBody:
-        application/json: {"api": {"disabled": false, "host": "0.0.0.0", "port": 9000, "ssl": {"certPath": "/opt/cribl/local/cribl/auth/cribl.crt", "disabled": false, "passphrase": "", "privKeyPath": "/opt/cribl/local/cribl/auth/cribl.key"}}, "backups": {"backupPersistence": "24h", "backupsDirectory": "$CRIBL_STATE_DIR/backups"}, "pii": {"enablePiiDetection": false}, "proxy": {"useEnvVars": false}, "rollback": {"rollbackEnabled": true}, "shutdown": {"drainTimeout": 10000}, "sni": {"disableSNIRouting": false}, "system": {"intercom": true, "upgrade": "api"}, "tls": {"defaultCipherList": "DEFAULT", "defaultEcdhCurve": "auto", "maxVersion": "TLSv1.3", "minVersion": "TLSv1.2", "rejectUnauthorized": true}, "upgradeGroupSettings": {"isRolling": true, "quantity": 100, "retryCount": 5, "retryDelay": 1000}, "upgradeSettings": {}, "workers": {"count": 0, "memory": 0, "minimum": 1}}
+        application/json: {"api": {"disabled": false, "host": "0.0.0.0", "port": 9000, "ssl": {"certPath": "/opt/cribl/local/cribl/auth/myApiCert.crt", "certificateName": "myApiCert", "disabled": false, "passphrase": "", "privKeyPath": "/opt/cribl/local/cribl/auth/myApiCert.key"}}, "backups": {"backupPersistence": "24h", "backupsDirectory": "$CRIBL_STATE_DIR/backups"}, "pii": {"enablePiiDetection": false}, "proxy": {"useEnvVars": false}, "rollback": {"rollbackEnabled": true}, "shutdown": {"drainTimeout": 10000}, "sni": {"disableSNIRouting": false}, "system": {"intercom": true, "upgrade": "api"}, "tls": {"defaultCipherList": "DEFAULT", "defaultEcdhCurve": "auto", "maxVersion": "TLSv1.3", "minVersion": "TLSv1.2", "rejectUnauthorized": true}, "upgradeGroupSettings": {"isRolling": true, "quantity": 100, "retryCount": 5, "retryDelay": 1000}, "upgradeSettings": {}, "workers": {"count": 0, "memory": 0, "minimum": 1}}
       responses:
         "200":
           application/json: {"count": 199199, "items": [{"api": {"disabled": true, "host": "both-draw.com", "port": 3795.06}, "backups": {}, "pii": {}, "proxy": {"useEnvVars": false}, "rollback": {}, "shutdown": {"drainTimeout": 5067.58}, "sni": {}, "system": {"intercom": false, "upgrade": "false"}, "tls": {}, "upgradeGroupSettings": {}, "upgradeSettings": {}, "workers": {"count": 89.27, "memory": 1420.72, "minimum": 2424.38}}]}
@@ -29496,7 +29496,7 @@ examples:
         application/json: {"backups": {}, "pii": {}, "rollback": {}, "sni": {}, "tls": {}}
       responses:
         "200":
-          application/json: {"count": 1, "items": [{"api": {"disabled": false, "host": "0.0.0.0", "port": 9000, "ssl": {"certPath": "/opt/cribl/local/cribl/auth/cribl.crt", "disabled": false, "passphrase": "", "privKeyPath": "/opt/cribl/local/cribl/auth/cribl.key"}}, "apps": {"enabled": true}, "backups": {}, "pii": {}, "proxy": {"useEnvVars": false}, "rollback": {}, "shutdown": {"drainTimeout": 10000}, "sni": {}, "system": {"intercom": true, "upgrade": "api"}, "tls": {"defaultCipherList": "DEFAULT", "defaultEcdhCurve": "auto", "maxVersion": "TLSv1.3", "minVersion": "TLSv1.2", "rejectUnauthorized": true}, "upgradeGroupSettings": {}, "upgradeSettings": {}, "workers": {"count": 0, "memory": 0, "minimum": 1}}]}
+          application/json: {"count": 1, "items": [{"api": {"disabled": false, "host": "0.0.0.0", "port": 9000, "ssl": {"certPath": "/opt/cribl/local/cribl/auth/myApiCert.crt", "certificateName": "myApiCert", "disabled": false, "passphrase": "", "privKeyPath": "/opt/cribl/local/cribl/auth/myApiCert.key"}}, "apps": {"enabled": true}, "backups": {}, "pii": {}, "proxy": {"useEnvVars": false}, "rollback": {}, "shutdown": {"drainTimeout": 10000}, "sni": {}, "system": {"intercom": true, "upgrade": "api"}, "tls": {"defaultCipherList": "DEFAULT", "defaultEcdhCurve": "auto", "maxVersion": "TLSv1.3", "minVersion": "TLSv1.2", "rejectUnauthorized": true}, "upgradeGroupSettings": {}, "upgradeSettings": {}, "workers": {"count": 0, "memory": 0, "minimum": 1}}]}
     authenticationFailed:
       requestBody:
         application/json: {"backups": {}, "pii": {}, "rollback": {}, "sni": {}, "tls": {}}
@@ -42524,7 +42524,7 @@ generatedTests:
   updatePacksById: "2025-08-01T02:34:48Z"
   deleteGroupsById: "2025-08-04T02:32:44Z"
   updateGroupsById: "2025-08-04T02:32:44Z"
-releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.groups.list()`:  `response.items[].lookup_deployments[].lookups[].deploy_mode` **Added**\n* `cribl_control_plane.groups.create()`:  `response.items[].lookup_deployments[].lookups[].deploy_mode` **Added**\n* `cribl_control_plane.groups.get()`:  `response.items[].lookup_deployments[].lookups[].deploy_mode` **Added**\n* `cribl_control_plane.groups.update()`: \n  *  `request.lookup_deployments[].lookups[].deploy_mode` **Added**\n  *  `response.items[].lookup_deployments[].lookups[].deploy_mode` **Added**\n* `cribl_control_plane.groups.delete()`:  `response.items[].lookup_deployments[].lookups[].deploy_mode` **Added**\n* `cribl_control_plane.groups.deploy()`:  `response.items[].lookup_deployments[].lookups[].deploy_mode` **Added**\n"
+releaseNotes: "## Python SDK Changes:\n* `cribl_control_plane.system.settings.cribl.list()`:  `response.items[].api.ssl.certificate_name` **Added**\n* `cribl_control_plane.system.settings.cribl.update()`: \n  *  `request.api.ssl.certificate_name` **Added**\n  *  `response.items[].api.ssl.certificate_name` **Added**\n"
 generatedFiles:
   - .devcontainer/README.md
   - .devcontainer/devcontainer.json

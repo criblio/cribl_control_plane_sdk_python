@@ -75,10 +75,11 @@ with CriblControlPlane(
         "host": "0.0.0.0",
         "port": 9000,
         "ssl": {
-            "cert_path": "/opt/cribl/local/cribl/auth/cribl.crt",
+            "cert_path": "/opt/cribl/local/cribl/auth/myApiCert.crt",
+            "certificate_name": "myApiCert",
             "disabled": False,
             "passphrase": "",
-            "priv_key_path": "/opt/cribl/local/cribl/auth/cribl.key",
+            "priv_key_path": "/opt/cribl/local/cribl/auth/myApiCert.key",
         },
     }, backups={
         "backup_persistence": "24h",

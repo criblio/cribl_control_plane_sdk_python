@@ -21,6 +21,8 @@ class SslTypeSystemSettingsConfAPITypedDict(TypedDict):
     r"""Filesystem path to the PEM-encoded TLS private key."""
     ca_path: NotRequired[str]
     r"""Filesystem path to the PEM-encoded Certificate Authority (CA) certificate for client authentication."""
+    certificate_name: NotRequired[str]
+    r"""Name of a predefined Certificate stored in Cribl."""
 
 
 class SslTypeSystemSettingsConfAPI(BaseModel):
@@ -41,9 +43,14 @@ class SslTypeSystemSettingsConfAPI(BaseModel):
     ca_path: Annotated[Optional[str], pydantic.Field(alias="caPath")] = None
     r"""Filesystem path to the PEM-encoded Certificate Authority (CA) certificate for client authentication."""
 
+    certificate_name: Annotated[
+        Optional[str], pydantic.Field(alias="certificateName")
+    ] = None
+    r"""Name of a predefined Certificate stored in Cribl."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["caPath"])
+        optional_fields = set(["caPath", "certificateName"])
         serialized = handler(self)
         m = {}
 

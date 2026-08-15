@@ -17,7 +17,7 @@ info:
     - Host (Worker or Edge Node) context: /api/v1/w/{nodeId}
 
     - Search context: /api/v1/m/default_search
-  version: 4.20.0-alpha.1786662464314-21668698
+  version: 4.20.0-alpha.1786748893152-3ccb594d
   contact:
     name: Support
     url: https://portal.support.cribl.io
@@ -64037,6 +64037,9 @@ components:
                 certPath:
                   type: string
                   description: Filesystem path to the PEM-encoded TLS certificate.
+                certificateName:
+                  type: string
+                  description: Name of a predefined Certificate stored in Cribl.
                 disabled:
                   type: boolean
                   description: If <code>true</code>, TLS is disabled for the API server.
@@ -66775,6 +66778,9 @@ components:
         certPath:
           type: string
           description: Filesystem path to the PEM-encoded TLS certificate.
+        certificateName:
+          type: string
+          description: Name of a predefined Certificate stored in Cribl.
         disabled:
           type: boolean
           description: If <code>true</code>, TLS is disabled for the API server.
@@ -76511,8 +76517,9 @@ components:
               disabled: false
               ssl:
                 disabled: false
-                privKeyPath: /opt/cribl/local/cribl/auth/cribl.key
-                certPath: /opt/cribl/local/cribl/auth/cribl.crt
+                certificateName: myApiCert
+                privKeyPath: /opt/cribl/local/cribl/auth/myApiCert.key
+                certPath: /opt/cribl/local/cribl/auth/myApiCert.crt
                 passphrase: ""
             system:
               upgrade: api
@@ -76552,8 +76559,9 @@ components:
               disabled: false
               ssl:
                 disabled: false
-                privKeyPath: /opt/cribl/local/cribl/auth/cribl.key
-                certPath: /opt/cribl/local/cribl/auth/cribl.crt
+                certificateName: myApiCert
+                privKeyPath: /opt/cribl/local/cribl/auth/myApiCert.key
+                certPath: /opt/cribl/local/cribl/auth/myApiCert.crt
                 passphrase: ""
             system:
               upgrade: api
@@ -76592,8 +76600,9 @@ components:
           disabled: false
           ssl:
             disabled: false
-            privKeyPath: /opt/cribl/local/cribl/auth/cribl.key
-            certPath: /opt/cribl/local/cribl/auth/cribl.crt
+            certificateName: myApiCert
+            privKeyPath: /opt/cribl/local/cribl/auth/myApiCert.key
+            certPath: /opt/cribl/local/cribl/auth/myApiCert.crt
             passphrase: ""
         system:
           upgrade: api

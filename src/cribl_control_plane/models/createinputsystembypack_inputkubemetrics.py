@@ -81,16 +81,24 @@ from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
-class CreateInputInputOktaType(str, Enum):
+class CreateInputSystemByPackInputOktaType(str, Enum):
     r"""Connector type identifier."""
 
     OKTA = "okta"
 
 
-class CreateInputInputOktaTypedDict(TypedDict):
+class CreateInputSystemByPackInputOktaManageStateTypedDict(TypedDict):
+    pass
+
+
+class CreateInputSystemByPackInputOktaManageState(BaseModel):
+    pass
+
+
+class CreateInputSystemByPackInputOktaTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputOktaType
+    type: CreateInputSystemByPackInputOktaType
     r"""Connector type identifier."""
     okta_domain: str
     r"""Your Okta domain (example: your-org). Do not include .okta.com, https://, or trailing slashes."""
@@ -119,6 +127,7 @@ class CreateInputInputOktaTypedDict(TypedDict):
     r"""Earliest time for data collection, relative to now"""
     latest: NotRequired[str]
     r"""Latest time for data collection, relative to now"""
+    manage_state: NotRequired[CreateInputSystemByPackInputOktaManageStateTypedDict]
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
     request_timeout: NotRequired[float]
@@ -144,11 +153,11 @@ class CreateInputInputOktaTypedDict(TypedDict):
     r"""Binds 'oktaDomain' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'oktaDomain' at runtime."""
 
 
-class CreateInputInputOkta(BaseModel):
+class CreateInputSystemByPackInputOkta(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputOktaType
+    type: CreateInputSystemByPackInputOktaType
     r"""Connector type identifier."""
 
     okta_domain: Annotated[str, pydantic.Field(alias="oktaDomain")]
@@ -193,6 +202,11 @@ class CreateInputInputOkta(BaseModel):
 
     latest: Optional[str] = None
     r"""Latest time for data collection, relative to now"""
+
+    manage_state: Annotated[
+        Optional[CreateInputSystemByPackInputOktaManageState],
+        pydantic.Field(alias="manageState"),
+    ] = None
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
@@ -261,6 +275,7 @@ class CreateInputInputOkta(BaseModel):
                 "cronSchedule",
                 "earliest",
                 "latest",
+                "manageState",
                 "jobTimeout",
                 "requestTimeout",
                 "keepAliveTime",
@@ -289,21 +304,21 @@ class CreateInputInputOkta(BaseModel):
         return m
 
 
-class CreateInputInputAnthropicComplianceType(str, Enum):
+class CreateInputSystemByPackInputAnthropicComplianceType(str, Enum):
     r"""Connector type identifier."""
 
     ANTHROPIC_COMPLIANCE = "anthropic_compliance"
 
 
-class CreateInputActivitiesManageStateTypedDict(TypedDict):
+class CreateInputSystemByPackActivitiesManageStateTypedDict(TypedDict):
     pass
 
 
-class CreateInputActivitiesManageState(BaseModel):
+class CreateInputSystemByPackActivitiesManageState(BaseModel):
     pass
 
 
-class CreateInputActivitiesTypedDict(TypedDict):
+class CreateInputSystemByPackActivitiesTypedDict(TypedDict):
     r"""Activities"""
 
     enabled: NotRequired[bool]
@@ -322,10 +337,10 @@ class CreateInputActivitiesTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputActivitiesManageStateTypedDict]
+    manage_state: NotRequired[CreateInputSystemByPackActivitiesManageStateTypedDict]
 
 
-class CreateInputActivities(BaseModel):
+class CreateInputSystemByPackActivities(BaseModel):
     r"""Activities"""
 
     enabled: Optional[bool] = None
@@ -359,295 +374,7 @@ class CreateInputActivities(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[CreateInputActivitiesManageState], pydantic.Field(alias="manageState")
-    ] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "enabled",
-                "cronSchedule",
-                "earliest",
-                "latest",
-                "jobTimeout",
-                "stateTracking",
-                "stateUpdateExpression",
-                "stateMergeExpression",
-                "manageState",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class CreateInputChatsManageStateTypedDict(TypedDict):
-    pass
-
-
-class CreateInputChatsManageState(BaseModel):
-    pass
-
-
-class CreateInputChatsTypedDict(TypedDict):
-    r"""Chats"""
-
-    enabled: NotRequired[bool]
-    r"""Enabled"""
-    cron_schedule: NotRequired[str]
-    r"""Schedule on which to run this collection job"""
-    earliest: NotRequired[str]
-    r"""Earliest time for data collection, relative to now"""
-    latest: NotRequired[str]
-    r"""Latest time for data collection, relative to now"""
-    job_timeout: NotRequired[str]
-    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-    state_tracking: NotRequired[bool]
-    r"""Track collection progress between consecutive scheduled executions"""
-    state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
-    state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputChatsManageStateTypedDict]
-
-
-class CreateInputChats(BaseModel):
-    r"""Chats"""
-
-    enabled: Optional[bool] = None
-    r"""Enabled"""
-
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
-    r"""Schedule on which to run this collection job"""
-
-    earliest: Optional[str] = None
-    r"""Earliest time for data collection, relative to now"""
-
-    latest: Optional[str] = None
-    r"""Latest time for data collection, relative to now"""
-
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
-    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-
-    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
-        None
-    )
-    r"""Track collection progress between consecutive scheduled executions"""
-
-    state_update_expression: Annotated[
-        Optional[str], pydantic.Field(alias="stateUpdateExpression")
-    ] = None
-    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
-
-    state_merge_expression: Annotated[
-        Optional[str], pydantic.Field(alias="stateMergeExpression")
-    ] = None
-    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-
-    manage_state: Annotated[
-        Optional[CreateInputChatsManageState], pydantic.Field(alias="manageState")
-    ] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "enabled",
-                "cronSchedule",
-                "earliest",
-                "latest",
-                "jobTimeout",
-                "stateTracking",
-                "stateUpdateExpression",
-                "stateMergeExpression",
-                "manageState",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class CreateInputProjectsManageStateTypedDict(TypedDict):
-    pass
-
-
-class CreateInputProjectsManageState(BaseModel):
-    pass
-
-
-class CreateInputProjectsTypedDict(TypedDict):
-    r"""Projects"""
-
-    enabled: NotRequired[bool]
-    r"""Enabled"""
-    cron_schedule: NotRequired[str]
-    r"""Schedule on which to run this collection job"""
-    earliest: NotRequired[str]
-    r"""Earliest time for data collection, relative to now"""
-    latest: NotRequired[str]
-    r"""Latest time for data collection, relative to now"""
-    job_timeout: NotRequired[str]
-    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-    state_tracking: NotRequired[bool]
-    r"""Track collection progress between consecutive scheduled executions"""
-    state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
-    state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputProjectsManageStateTypedDict]
-
-
-class CreateInputProjects(BaseModel):
-    r"""Projects"""
-
-    enabled: Optional[bool] = None
-    r"""Enabled"""
-
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
-    r"""Schedule on which to run this collection job"""
-
-    earliest: Optional[str] = None
-    r"""Earliest time for data collection, relative to now"""
-
-    latest: Optional[str] = None
-    r"""Latest time for data collection, relative to now"""
-
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
-    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-
-    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
-        None
-    )
-    r"""Track collection progress between consecutive scheduled executions"""
-
-    state_update_expression: Annotated[
-        Optional[str], pydantic.Field(alias="stateUpdateExpression")
-    ] = None
-    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
-
-    state_merge_expression: Annotated[
-        Optional[str], pydantic.Field(alias="stateMergeExpression")
-    ] = None
-    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-
-    manage_state: Annotated[
-        Optional[CreateInputProjectsManageState], pydantic.Field(alias="manageState")
-    ] = None
-
-    @model_serializer(mode="wrap")
-    def serialize_model(self, handler):
-        optional_fields = set(
-            [
-                "enabled",
-                "cronSchedule",
-                "earliest",
-                "latest",
-                "jobTimeout",
-                "stateTracking",
-                "stateUpdateExpression",
-                "stateMergeExpression",
-                "manageState",
-            ]
-        )
-        serialized = handler(self)
-        m = {}
-
-        for n, f in type(self).model_fields.items():
-            k = f.alias or n
-            val = serialized.get(k, serialized.get(n))
-
-            if val != UNSET_SENTINEL:
-                if val is not None or k not in optional_fields:
-                    m[k] = val
-
-        return m
-
-
-class CreateInputChatMessagesManageStateTypedDict(TypedDict):
-    pass
-
-
-class CreateInputChatMessagesManageState(BaseModel):
-    pass
-
-
-class CreateInputChatMessagesTypedDict(TypedDict):
-    r"""Chat Messages"""
-
-    enabled: NotRequired[bool]
-    r"""Enabled"""
-    cron_schedule: NotRequired[str]
-    r"""Schedule on which to run this collection job"""
-    earliest: NotRequired[str]
-    r"""Earliest time for data collection, relative to now"""
-    latest: NotRequired[str]
-    r"""Latest time for data collection, relative to now"""
-    job_timeout: NotRequired[str]
-    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-    state_tracking: NotRequired[bool]
-    r"""Track collection progress between consecutive scheduled executions"""
-    state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
-    state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputChatMessagesManageStateTypedDict]
-
-
-class CreateInputChatMessages(BaseModel):
-    r"""Chat Messages"""
-
-    enabled: Optional[bool] = None
-    r"""Enabled"""
-
-    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
-    r"""Schedule on which to run this collection job"""
-
-    earliest: Optional[str] = None
-    r"""Earliest time for data collection, relative to now"""
-
-    latest: Optional[str] = None
-    r"""Latest time for data collection, relative to now"""
-
-    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
-    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-
-    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
-        None
-    )
-    r"""Track collection progress between consecutive scheduled executions"""
-
-    state_update_expression: Annotated[
-        Optional[str], pydantic.Field(alias="stateUpdateExpression")
-    ] = None
-    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
-
-    state_merge_expression: Annotated[
-        Optional[str], pydantic.Field(alias="stateMergeExpression")
-    ] = None
-    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-
-    manage_state: Annotated[
-        Optional[CreateInputChatMessagesManageState],
+        Optional[CreateInputSystemByPackActivitiesManageState],
         pydantic.Field(alias="manageState"),
     ] = None
 
@@ -680,15 +407,306 @@ class CreateInputChatMessages(BaseModel):
         return m
 
 
-class CreateInputProjectDetailsManageStateTypedDict(TypedDict):
+class CreateInputSystemByPackChatsManageStateTypedDict(TypedDict):
     pass
 
 
-class CreateInputProjectDetailsManageState(BaseModel):
+class CreateInputSystemByPackChatsManageState(BaseModel):
     pass
 
 
-class CreateInputProjectDetailsTypedDict(TypedDict):
+class CreateInputSystemByPackChatsTypedDict(TypedDict):
+    r"""Chats"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    earliest: NotRequired[str]
+    r"""Earliest time for data collection, relative to now"""
+    latest: NotRequired[str]
+    r"""Latest time for data collection, relative to now"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+    manage_state: NotRequired[CreateInputSystemByPackChatsManageStateTypedDict]
+
+
+class CreateInputSystemByPackChats(BaseModel):
+    r"""Chats"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    earliest: Optional[str] = None
+    r"""Earliest time for data collection, relative to now"""
+
+    latest: Optional[str] = None
+    r"""Latest time for data collection, relative to now"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        None
+    )
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = None
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = None
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+
+    manage_state: Annotated[
+        Optional[CreateInputSystemByPackChatsManageState],
+        pydantic.Field(alias="manageState"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enabled",
+                "cronSchedule",
+                "earliest",
+                "latest",
+                "jobTimeout",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackProjectsManageStateTypedDict(TypedDict):
+    pass
+
+
+class CreateInputSystemByPackProjectsManageState(BaseModel):
+    pass
+
+
+class CreateInputSystemByPackProjectsTypedDict(TypedDict):
+    r"""Projects"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    earliest: NotRequired[str]
+    r"""Earliest time for data collection, relative to now"""
+    latest: NotRequired[str]
+    r"""Latest time for data collection, relative to now"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+    manage_state: NotRequired[CreateInputSystemByPackProjectsManageStateTypedDict]
+
+
+class CreateInputSystemByPackProjects(BaseModel):
+    r"""Projects"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    earliest: Optional[str] = None
+    r"""Earliest time for data collection, relative to now"""
+
+    latest: Optional[str] = None
+    r"""Latest time for data collection, relative to now"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        None
+    )
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = None
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = None
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+
+    manage_state: Annotated[
+        Optional[CreateInputSystemByPackProjectsManageState],
+        pydantic.Field(alias="manageState"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enabled",
+                "cronSchedule",
+                "earliest",
+                "latest",
+                "jobTimeout",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackChatMessagesManageStateTypedDict(TypedDict):
+    pass
+
+
+class CreateInputSystemByPackChatMessagesManageState(BaseModel):
+    pass
+
+
+class CreateInputSystemByPackChatMessagesTypedDict(TypedDict):
+    r"""Chat Messages"""
+
+    enabled: NotRequired[bool]
+    r"""Enabled"""
+    cron_schedule: NotRequired[str]
+    r"""Schedule on which to run this collection job"""
+    earliest: NotRequired[str]
+    r"""Earliest time for data collection, relative to now"""
+    latest: NotRequired[str]
+    r"""Latest time for data collection, relative to now"""
+    job_timeout: NotRequired[str]
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+    state_tracking: NotRequired[bool]
+    r"""Track collection progress between consecutive scheduled executions"""
+    state_update_expression: NotRequired[str]
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+    state_merge_expression: NotRequired[str]
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+    manage_state: NotRequired[CreateInputSystemByPackChatMessagesManageStateTypedDict]
+
+
+class CreateInputSystemByPackChatMessages(BaseModel):
+    r"""Chat Messages"""
+
+    enabled: Optional[bool] = None
+    r"""Enabled"""
+
+    cron_schedule: Annotated[Optional[str], pydantic.Field(alias="cronSchedule")] = None
+    r"""Schedule on which to run this collection job"""
+
+    earliest: Optional[str] = None
+    r"""Earliest time for data collection, relative to now"""
+
+    latest: Optional[str] = None
+    r"""Latest time for data collection, relative to now"""
+
+    job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
+    r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
+
+    state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
+        None
+    )
+    r"""Track collection progress between consecutive scheduled executions"""
+
+    state_update_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateUpdateExpression")
+    ] = None
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
+
+    state_merge_expression: Annotated[
+        Optional[str], pydantic.Field(alias="stateMergeExpression")
+    ] = None
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
+
+    manage_state: Annotated[
+        Optional[CreateInputSystemByPackChatMessagesManageState],
+        pydantic.Field(alias="manageState"),
+    ] = None
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enabled",
+                "cronSchedule",
+                "earliest",
+                "latest",
+                "jobTimeout",
+                "stateTracking",
+                "stateUpdateExpression",
+                "stateMergeExpression",
+                "manageState",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackProjectDetailsManageStateTypedDict(TypedDict):
+    pass
+
+
+class CreateInputSystemByPackProjectDetailsManageState(BaseModel):
+    pass
+
+
+class CreateInputSystemByPackProjectDetailsTypedDict(TypedDict):
     r"""Project Details"""
 
     enabled: NotRequired[bool]
@@ -707,10 +725,10 @@ class CreateInputProjectDetailsTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputProjectDetailsManageStateTypedDict]
+    manage_state: NotRequired[CreateInputSystemByPackProjectDetailsManageStateTypedDict]
 
 
-class CreateInputProjectDetails(BaseModel):
+class CreateInputSystemByPackProjectDetails(BaseModel):
     r"""Project Details"""
 
     enabled: Optional[bool] = None
@@ -744,7 +762,7 @@ class CreateInputProjectDetails(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[CreateInputProjectDetailsManageState],
+        Optional[CreateInputSystemByPackProjectDetailsManageState],
         pydantic.Field(alias="manageState"),
     ] = None
 
@@ -777,7 +795,7 @@ class CreateInputProjectDetails(BaseModel):
         return m
 
 
-class CreateInputGroupsTypedDict(TypedDict):
+class CreateInputSystemByPackGroupsTypedDict(TypedDict):
     r"""Groups"""
 
     enabled: NotRequired[bool]
@@ -788,7 +806,7 @@ class CreateInputGroupsTypedDict(TypedDict):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
 
-class CreateInputGroups(BaseModel):
+class CreateInputSystemByPackGroups(BaseModel):
     r"""Groups"""
 
     enabled: Optional[bool] = None
@@ -817,7 +835,7 @@ class CreateInputGroups(BaseModel):
         return m
 
 
-class CreateInputOrganizationsTypedDict(TypedDict):
+class CreateInputSystemByPackOrganizationsTypedDict(TypedDict):
     r"""Organizations"""
 
     enabled: NotRequired[bool]
@@ -828,7 +846,7 @@ class CreateInputOrganizationsTypedDict(TypedDict):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
 
-class CreateInputOrganizations(BaseModel):
+class CreateInputSystemByPackOrganizations(BaseModel):
     r"""Organizations"""
 
     enabled: Optional[bool] = None
@@ -857,7 +875,7 @@ class CreateInputOrganizations(BaseModel):
         return m
 
 
-class CreateInputOrganizationUsersTypedDict(TypedDict):
+class CreateInputSystemByPackOrganizationUsersTypedDict(TypedDict):
     r"""Organization Users"""
 
     enabled: NotRequired[bool]
@@ -868,7 +886,7 @@ class CreateInputOrganizationUsersTypedDict(TypedDict):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
 
-class CreateInputOrganizationUsers(BaseModel):
+class CreateInputSystemByPackOrganizationUsers(BaseModel):
     r"""Organization Users"""
 
     enabled: Optional[bool] = None
@@ -897,7 +915,7 @@ class CreateInputOrganizationUsers(BaseModel):
         return m
 
 
-class CreateInputOrganizationRolesTypedDict(TypedDict):
+class CreateInputSystemByPackOrganizationRolesTypedDict(TypedDict):
     r"""Organization Roles"""
 
     enabled: NotRequired[bool]
@@ -908,7 +926,7 @@ class CreateInputOrganizationRolesTypedDict(TypedDict):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
 
-class CreateInputOrganizationRoles(BaseModel):
+class CreateInputSystemByPackOrganizationRoles(BaseModel):
     r"""Organization Roles"""
 
     enabled: Optional[bool] = None
@@ -937,10 +955,10 @@ class CreateInputOrganizationRoles(BaseModel):
         return m
 
 
-class CreateInputInputAnthropicComplianceTypedDict(TypedDict):
+class CreateInputSystemByPackInputAnthropicComplianceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputAnthropicComplianceType
+    type: CreateInputSystemByPackInputAnthropicComplianceType
     r"""Connector type identifier."""
     text_secret: str
     r"""Select or create a stored Anthropic API key"""
@@ -961,23 +979,23 @@ class CreateInputInputAnthropicComplianceTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     api_key: NotRequired[str]
     r"""API key"""
-    activities: NotRequired[CreateInputActivitiesTypedDict]
+    activities: NotRequired[CreateInputSystemByPackActivitiesTypedDict]
     r"""Activities"""
-    chats: NotRequired[CreateInputChatsTypedDict]
+    chats: NotRequired[CreateInputSystemByPackChatsTypedDict]
     r"""Chats"""
-    projects: NotRequired[CreateInputProjectsTypedDict]
+    projects: NotRequired[CreateInputSystemByPackProjectsTypedDict]
     r"""Projects"""
-    chat_messages: NotRequired[CreateInputChatMessagesTypedDict]
+    chat_messages: NotRequired[CreateInputSystemByPackChatMessagesTypedDict]
     r"""Chat Messages"""
-    project_details: NotRequired[CreateInputProjectDetailsTypedDict]
+    project_details: NotRequired[CreateInputSystemByPackProjectDetailsTypedDict]
     r"""Project Details"""
-    groups: NotRequired[CreateInputGroupsTypedDict]
+    groups: NotRequired[CreateInputSystemByPackGroupsTypedDict]
     r"""Groups"""
-    organizations: NotRequired[CreateInputOrganizationsTypedDict]
+    organizations: NotRequired[CreateInputSystemByPackOrganizationsTypedDict]
     r"""Organizations"""
-    org_users: NotRequired[CreateInputOrganizationUsersTypedDict]
+    org_users: NotRequired[CreateInputSystemByPackOrganizationUsersTypedDict]
     r"""Organization Users"""
-    org_roles: NotRequired[CreateInputOrganizationRolesTypedDict]
+    org_roles: NotRequired[CreateInputSystemByPackOrganizationRolesTypedDict]
     r"""Organization Roles"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -1004,11 +1022,11 @@ class CreateInputInputAnthropicComplianceTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputAnthropicCompliance(BaseModel):
+class CreateInputSystemByPackInputAnthropicCompliance(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputAnthropicComplianceType
+    type: CreateInputSystemByPackInputAnthropicComplianceType
     r"""Connector type identifier."""
 
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
@@ -1042,31 +1060,31 @@ class CreateInputInputAnthropicCompliance(BaseModel):
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
     r"""API key"""
 
-    activities: Optional[CreateInputActivities] = None
+    activities: Optional[CreateInputSystemByPackActivities] = None
     r"""Activities"""
 
-    chats: Optional[CreateInputChats] = None
+    chats: Optional[CreateInputSystemByPackChats] = None
     r"""Chats"""
 
-    projects: Optional[CreateInputProjects] = None
+    projects: Optional[CreateInputSystemByPackProjects] = None
     r"""Projects"""
 
-    chat_messages: Optional[CreateInputChatMessages] = None
+    chat_messages: Optional[CreateInputSystemByPackChatMessages] = None
     r"""Chat Messages"""
 
-    project_details: Optional[CreateInputProjectDetails] = None
+    project_details: Optional[CreateInputSystemByPackProjectDetails] = None
     r"""Project Details"""
 
-    groups: Optional[CreateInputGroups] = None
+    groups: Optional[CreateInputSystemByPackGroups] = None
     r"""Groups"""
 
-    organizations: Optional[CreateInputOrganizations] = None
+    organizations: Optional[CreateInputSystemByPackOrganizations] = None
     r"""Organizations"""
 
-    org_users: Optional[CreateInputOrganizationUsers] = None
+    org_users: Optional[CreateInputSystemByPackOrganizationUsers] = None
     r"""Organization Users"""
 
-    org_roles: Optional[CreateInputOrganizationRoles] = None
+    org_roles: Optional[CreateInputSystemByPackOrganizationRoles] = None
     r"""Organization Roles"""
 
     request_timeout: Annotated[
@@ -1172,13 +1190,13 @@ class CreateInputInputAnthropicCompliance(BaseModel):
         return m
 
 
-class CreateInputInputOpenaiComplianceLogsType(str, Enum):
+class CreateInputSystemByPackInputOpenaiComplianceLogsType(str, Enum):
     r"""Connector type identifier."""
 
     OPENAI_COMPLIANCE_LOGS = "openai_compliance_logs"
 
 
-class CreateInputAccountType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackAccountType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Account type"""
 
     # Workspace
@@ -1187,22 +1205,22 @@ class CreateInputAccountType(str, Enum, metaclass=utils.OpenEnumMeta):
     ORGANIZATION = "organization"
 
 
-class CreateInputInputOpenaiComplianceLogsManageStateTypedDict(TypedDict):
+class CreateInputSystemByPackInputOpenaiComplianceLogsManageStateTypedDict(TypedDict):
     pass
 
 
-class CreateInputInputOpenaiComplianceLogsManageState(BaseModel):
+class CreateInputSystemByPackInputOpenaiComplianceLogsManageState(BaseModel):
     pass
 
 
-class CreateInputInputOpenaiComplianceLogsTypedDict(TypedDict):
+class CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputOpenaiComplianceLogsType
+    type: CreateInputSystemByPackInputOpenaiComplianceLogsType
     r"""Connector type identifier."""
     text_secret: str
     r"""Select or create a stored text secret"""
-    account_type: CreateInputAccountType
+    account_type: CreateInputSystemByPackAccountType
     r"""Account type"""
     cron_schedule: str
     r"""Cron schedule"""
@@ -1266,7 +1284,9 @@ class CreateInputInputOpenaiComplianceLogsTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputInputOpenaiComplianceLogsManageStateTypedDict]
+    manage_state: NotRequired[
+        CreateInputSystemByPackInputOpenaiComplianceLogsManageStateTypedDict
+    ]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1277,17 +1297,19 @@ class CreateInputInputOpenaiComplianceLogsTypedDict(TypedDict):
     r"""Binds 'organizationId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'organizationId' at runtime."""
 
 
-class CreateInputInputOpenaiComplianceLogs(BaseModel):
+class CreateInputSystemByPackInputOpenaiComplianceLogs(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputOpenaiComplianceLogsType
+    type: CreateInputSystemByPackInputOpenaiComplianceLogsType
     r"""Connector type identifier."""
 
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
     r"""Select or create a stored text secret"""
 
-    account_type: Annotated[CreateInputAccountType, pydantic.Field(alias="accountType")]
+    account_type: Annotated[
+        CreateInputSystemByPackAccountType, pydantic.Field(alias="accountType")
+    ]
     r"""Account type"""
 
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
@@ -1416,7 +1438,7 @@ class CreateInputInputOpenaiComplianceLogs(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[CreateInputInputOpenaiComplianceLogsManageState],
+        Optional[CreateInputSystemByPackInputOpenaiComplianceLogsManageState],
         pydantic.Field(alias="manageState"),
     ] = None
 
@@ -1444,7 +1466,7 @@ class CreateInputInputOpenaiComplianceLogs(BaseModel):
     def serialize_account_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputAccountType(value)
+                return models.CreateInputSystemByPackAccountType(value)
             except ValueError:
                 return value
         return value
@@ -1514,16 +1536,16 @@ class CreateInputInputOpenaiComplianceLogs(BaseModel):
         return m
 
 
-class CreateInputInputUpwindHecType(str, Enum):
+class CreateInputSystemByPackInputUpwindHecType(str, Enum):
     r"""Source type identifier."""
 
     UPWIND_HEC = "upwind_hec"
 
 
-class CreateInputInputUpwindHecTypedDict(TypedDict):
+class CreateInputSystemByPackInputUpwindHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputUpwindHecType
+    type: CreateInputSystemByPackInputUpwindHecType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1600,11 +1622,11 @@ class CreateInputInputUpwindHecTypedDict(TypedDict):
     r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
-class CreateInputInputUpwindHec(BaseModel):
+class CreateInputSystemByPackInputUpwindHec(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputUpwindHecType
+    type: CreateInputSystemByPackInputUpwindHecType
     r"""Source type identifier."""
 
     host: str
@@ -1820,16 +1842,16 @@ class CreateInputInputUpwindHec(BaseModel):
         return m
 
 
-class CreateInputInputSysdigHecType(str, Enum):
+class CreateInputSystemByPackInputSysdigHecType(str, Enum):
     r"""Source type identifier."""
 
     SYSDIG_HEC = "sysdig_hec"
 
 
-class CreateInputInputSysdigHecTypedDict(TypedDict):
+class CreateInputSystemByPackInputSysdigHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputSysdigHecType
+    type: CreateInputSystemByPackInputSysdigHecType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1906,11 +1928,11 @@ class CreateInputInputSysdigHecTypedDict(TypedDict):
     r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
-class CreateInputInputSysdigHec(BaseModel):
+class CreateInputSystemByPackInputSysdigHec(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputSysdigHecType
+    type: CreateInputSystemByPackInputSysdigHecType
     r"""Source type identifier."""
 
     host: str
@@ -2126,13 +2148,13 @@ class CreateInputInputSysdigHec(BaseModel):
         return m
 
 
-class CreateInputInputCloudflareHecType(str, Enum):
+class CreateInputSystemByPackInputCloudflareHecType(str, Enum):
     r"""Source type identifier."""
 
     CLOUDFLARE_HEC = "cloudflare_hec"
 
 
-class CreateInputTLSSettingsServerSideTypedDict(TypedDict):
+class CreateInputSystemByPackTLSSettingsServerSideTypedDict(TypedDict):
     r"""TLS settings (server side)"""
 
     disabled: NotRequired[bool]
@@ -2159,7 +2181,7 @@ class CreateInputTLSSettingsServerSideTypedDict(TypedDict):
     r"""Maximum TLS version"""
 
 
-class CreateInputTLSSettingsServerSide(BaseModel):
+class CreateInputSystemByPackTLSSettingsServerSide(BaseModel):
     r"""TLS settings (server side)"""
 
     disabled: Optional[bool] = None
@@ -2254,10 +2276,10 @@ class CreateInputTLSSettingsServerSide(BaseModel):
         return m
 
 
-class CreateInputInputCloudflareHecTypedDict(TypedDict):
+class CreateInputSystemByPackInputCloudflareHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputCloudflareHecType
+    type: CreateInputSystemByPackInputCloudflareHecType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2282,7 +2304,7 @@ class CreateInputInputCloudflareHecTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[AuthTokenConfInputCloudflareHecTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
-    tls: NotRequired[CreateInputTLSSettingsServerSideTypedDict]
+    tls: NotRequired[CreateInputSystemByPackTLSSettingsServerSideTypedDict]
     r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -2338,11 +2360,11 @@ class CreateInputInputCloudflareHecTypedDict(TypedDict):
     r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
-class CreateInputInputCloudflareHec(BaseModel):
+class CreateInputSystemByPackInputCloudflareHec(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputCloudflareHecType
+    type: CreateInputSystemByPackInputCloudflareHecType
     r"""Source type identifier."""
 
     host: str
@@ -2385,7 +2407,7 @@ class CreateInputInputCloudflareHec(BaseModel):
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
-    tls: Optional[CreateInputTLSSettingsServerSide] = None
+    tls: Optional[CreateInputSystemByPackTLSSettingsServerSide] = None
     r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
@@ -2570,13 +2592,13 @@ class CreateInputInputCloudflareHec(BaseModel):
         return m
 
 
-class CreateInputInputZscalerHecType(str, Enum):
+class CreateInputSystemByPackInputZscalerHecType(str, Enum):
     r"""Source type identifier."""
 
     ZSCALER_HEC = "zscaler_hec"
 
 
-class CreateInputInputZscalerHecAuthTokenTypedDict(TypedDict):
+class CreateInputSystemByPackInputZscalerHecAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -2593,7 +2615,7 @@ class CreateInputInputZscalerHecAuthTokenTypedDict(TypedDict):
     r"""Fields to add to events referencing this token"""
 
 
-class CreateInputInputZscalerHecAuthToken(BaseModel):
+class CreateInputSystemByPackInputZscalerHecAuthToken(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
@@ -2655,10 +2677,10 @@ class CreateInputInputZscalerHecAuthToken(BaseModel):
         return m
 
 
-class CreateInputInputZscalerHecTypedDict(TypedDict):
+class CreateInputSystemByPackInputZscalerHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputZscalerHecType
+    type: CreateInputSystemByPackInputZscalerHecType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2681,7 +2703,9 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[CreateInputInputZscalerHecAuthTokenTypedDict]]
+    auth_tokens: NotRequired[
+        List[CreateInputSystemByPackInputZscalerHecAuthTokenTypedDict]
+    ]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
@@ -2737,11 +2761,11 @@ class CreateInputInputZscalerHecTypedDict(TypedDict):
     r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
-class CreateInputInputZscalerHec(BaseModel):
+class CreateInputSystemByPackInputZscalerHec(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputZscalerHecType
+    type: CreateInputSystemByPackInputZscalerHecType
     r"""Source type identifier."""
 
     host: str
@@ -2779,7 +2803,7 @@ class CreateInputInputZscalerHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[CreateInputInputZscalerHecAuthToken]],
+        Optional[List[CreateInputSystemByPackInputZscalerHecAuthToken]],
         pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
@@ -2961,13 +2985,13 @@ class CreateInputInputZscalerHec(BaseModel):
         return m
 
 
-class CreateInputInputServicenowTableType(str, Enum):
+class CreateInputSystemByPackInputServicenowTableType(str, Enum):
     r"""Connector type identifier."""
 
     SERVICENOW_TABLE = "servicenow_table"
 
 
-class CreateInputSortDirection(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackSortDirection(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Used only when Sort by field is set."""
 
     # Ascending
@@ -2976,7 +3000,7 @@ class CreateInputSortDirection(str, Enum, metaclass=utils.OpenEnumMeta):
     DESC = "desc"
 
 
-class CreateInputInputServicenowTableAuthenticationType(
+class CreateInputSystemByPackInputServicenowTableAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""ServiceNow Table API authentication method"""
@@ -2989,7 +3013,7 @@ class CreateInputInputServicenowTableAuthenticationType(
     OAUTH_SECRET = "oauthSecret"
 
 
-class CreateInputGrantType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackGrantType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""ServiceNow OAuth grant type used for token requests"""
 
     # Password
@@ -2998,18 +3022,18 @@ class CreateInputGrantType(str, Enum, metaclass=utils.OpenEnumMeta):
     PASSWORD = "password"
 
 
-class CreateInputInputServicenowTableManageStateTypedDict(TypedDict):
+class CreateInputSystemByPackInputServicenowTableManageStateTypedDict(TypedDict):
     pass
 
 
-class CreateInputInputServicenowTableManageState(BaseModel):
+class CreateInputSystemByPackInputServicenowTableManageState(BaseModel):
     pass
 
 
-class CreateInputInputServicenowTableTypedDict(TypedDict):
+class CreateInputSystemByPackInputServicenowTableTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputServicenowTableType
+    type: CreateInputSystemByPackInputServicenowTableType
     r"""Connector type identifier."""
     instance: str
     r"""ServiceNow instance base URL for Table API requests. Enter a literal URL (http or https and the instance host, for example a hostname ending in .service-now.com) or a Cribl expression that resolves to a URL."""
@@ -3040,7 +3064,7 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     r"""Field names to return from the Table API (sysparm_fields). Leave empty to return all fields."""
     order_by_field: NotRequired[str]
     r"""Optional. Sort results by this field (for example sys_created_on or parent.name). Leave empty to use the server default order."""
-    order_by_direction: NotRequired[CreateInputSortDirection]
+    order_by_direction: NotRequired[CreateInputSystemByPackSortDirection]
     r"""Used only when Sort by field is set."""
     query: NotRequired[str]
     r"""Optional ServiceNow encoded query for sysparm_query (for example active=true or sys_updated_onRELATIVEGT@hour@ago@1). Enter a literal or a Cribl expression. When combined with Sort by field, the filter and sort are joined with ^. See ServiceNow Table API documentation for encoded query syntax."""
@@ -3050,7 +3074,9 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
-    auth_type: NotRequired[CreateInputInputServicenowTableAuthenticationType]
+    auth_type: NotRequired[
+        CreateInputSystemByPackInputServicenowTableAuthenticationType
+    ]
     r"""ServiceNow Table API authentication method"""
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
@@ -3077,7 +3103,7 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     r"""Optional description for this configuration."""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
-    oauth_grant_type: NotRequired[CreateInputGrantType]
+    oauth_grant_type: NotRequired[CreateInputSystemByPackGrantType]
     r"""ServiceNow OAuth grant type used for token requests"""
     username: NotRequired[str]
     r"""ServiceNow username for the password grant type"""
@@ -3097,7 +3123,9 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. This source defaults to checking that `_time` is a finite number (not only `__timestampExtracted`), so state still advances when the event breaker assigns a fallback time. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields)."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputInputServicenowTableManageStateTypedDict]
+    manage_state: NotRequired[
+        CreateInputSystemByPackInputServicenowTableManageStateTypedDict
+    ]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -3114,11 +3142,11 @@ class CreateInputInputServicenowTableTypedDict(TypedDict):
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
 
-class CreateInputInputServicenowTable(BaseModel):
+class CreateInputSystemByPackInputServicenowTable(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputServicenowTableType
+    type: CreateInputSystemByPackInputServicenowTableType
     r"""Connector type identifier."""
 
     instance: str
@@ -3170,7 +3198,8 @@ class CreateInputInputServicenowTable(BaseModel):
     r"""Optional. Sort results by this field (for example sys_created_on or parent.name). Leave empty to use the server default order."""
 
     order_by_direction: Annotated[
-        Optional[CreateInputSortDirection], pydantic.Field(alias="orderByDirection")
+        Optional[CreateInputSystemByPackSortDirection],
+        pydantic.Field(alias="orderByDirection"),
     ] = None
     r"""Used only when Sort by field is set."""
 
@@ -3189,7 +3218,7 @@ class CreateInputInputServicenowTable(BaseModel):
     r"""Reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
     auth_type: Annotated[
-        Optional[CreateInputInputServicenowTableAuthenticationType],
+        Optional[CreateInputSystemByPackInputServicenowTableAuthenticationType],
         pydantic.Field(alias="authType"),
     ] = None
     r"""ServiceNow Table API authentication method"""
@@ -3251,7 +3280,8 @@ class CreateInputInputServicenowTable(BaseModel):
     r"""Select or create a secret that references your credentials"""
 
     oauth_grant_type: Annotated[
-        Optional[CreateInputGrantType], pydantic.Field(alias="oauthGrantType")
+        Optional[CreateInputSystemByPackGrantType],
+        pydantic.Field(alias="oauthGrantType"),
     ] = None
     r"""ServiceNow OAuth grant type used for token requests"""
 
@@ -3297,7 +3327,7 @@ class CreateInputInputServicenowTable(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[CreateInputInputServicenowTableManageState],
+        Optional[CreateInputSystemByPackInputServicenowTableManageState],
         pydantic.Field(alias="manageState"),
     ] = None
 
@@ -3340,7 +3370,7 @@ class CreateInputInputServicenowTable(BaseModel):
     def serialize_order_by_direction(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSortDirection(value)
+                return models.CreateInputSystemByPackSortDirection(value)
             except ValueError:
                 return value
         return value
@@ -3349,7 +3379,9 @@ class CreateInputInputServicenowTable(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputServicenowTableAuthenticationType(value)
+                return models.CreateInputSystemByPackInputServicenowTableAuthenticationType(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -3367,7 +3399,7 @@ class CreateInputInputServicenowTable(BaseModel):
     def serialize_oauth_grant_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputGrantType(value)
+                return models.CreateInputSystemByPackGrantType(value)
             except ValueError:
                 return value
         return value
@@ -3439,16 +3471,16 @@ class CreateInputInputServicenowTable(BaseModel):
         return m
 
 
-class CreateInputInputBedrockS3Type(str, Enum):
+class CreateInputSystemByPackInputBedrockS3Type(str, Enum):
     r"""Connector type identifier."""
 
     BEDROCK_S3 = "bedrock_s3"
 
 
-class CreateInputInputBedrockS3TypedDict(TypedDict):
+class CreateInputSystemByPackInputBedrockS3TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputBedrockS3Type
+    type: CreateInputSystemByPackInputBedrockS3Type
     r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -3577,11 +3609,11 @@ class CreateInputInputBedrockS3TypedDict(TypedDict):
     r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
 
 
-class CreateInputInputBedrockS3(BaseModel):
+class CreateInputSystemByPackInputBedrockS3(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputBedrockS3Type
+    type: CreateInputSystemByPackInputBedrockS3Type
     r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -3971,7 +4003,7 @@ class CreateInputInputBedrockS3(BaseModel):
         return m
 
 
-class CreateInputInputSecurityLakeTypedDict(TypedDict):
+class CreateInputSystemByPackInputSecurityLakeTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: TypeOptionsSecuritylake
@@ -4103,7 +4135,7 @@ class CreateInputInputSecurityLakeTypedDict(TypedDict):
     r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
 
 
-class CreateInputInputSecurityLake(BaseModel):
+class CreateInputSystemByPackInputSecurityLake(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -4497,7 +4529,7 @@ class CreateInputInputSecurityLake(BaseModel):
         return m
 
 
-class CreateInputInputNetflowTypedDict(TypedDict):
+class CreateInputSystemByPackInputNetflowTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: TypeOptionsNetflow
@@ -4551,7 +4583,7 @@ class CreateInputInputNetflowTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateInputInputNetflow(BaseModel):
+class CreateInputSystemByPackInputNetflow(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -4693,16 +4725,16 @@ class CreateInputInputNetflow(BaseModel):
         return m
 
 
-class CreateInputInputWizWebhookType(str, Enum):
+class CreateInputSystemByPackInputWizWebhookType(str, Enum):
     r"""Source type identifier."""
 
     WIZ_WEBHOOK = "wiz_webhook"
 
 
-class CreateInputInputWizWebhookTypedDict(TypedDict):
+class CreateInputSystemByPackInputWizWebhookTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputWizWebhookType
+    type: CreateInputSystemByPackInputWizWebhookType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -4777,11 +4809,11 @@ class CreateInputInputWizWebhookTypedDict(TypedDict):
     r"""Binds 'allowedPaths' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedPaths' at runtime."""
 
 
-class CreateInputInputWizWebhook(BaseModel):
+class CreateInputSystemByPackInputWizWebhook(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputWizWebhookType
+    type: CreateInputSystemByPackInputWizWebhookType
     r"""Source type identifier."""
 
     host: str
@@ -4994,21 +5026,21 @@ class CreateInputInputWizWebhook(BaseModel):
         return m
 
 
-class CreateInputInputOpenaiType(str, Enum):
+class CreateInputSystemByPackInputOpenaiType(str, Enum):
     r"""Connector type identifier."""
 
     OPENAI = "openai"
 
 
-class CreateInputInputOpenaiManageStateTypedDict(TypedDict):
+class CreateInputSystemByPackInputOpenaiManageStateTypedDict(TypedDict):
     pass
 
 
-class CreateInputInputOpenaiManageState(BaseModel):
+class CreateInputSystemByPackInputOpenaiManageState(BaseModel):
     pass
 
 
-class CreateInputPaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackPaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Pagination type"""
 
     # None
@@ -5021,7 +5053,9 @@ class CreateInputPaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
     RESPONSE_HEADER_LINK = "response_header_link"
 
 
-class CreateInputInputOpenaiLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackInputOpenaiLogLevel(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Collector runtime log level."""
 
     ERROR = "error"
@@ -5031,12 +5065,12 @@ class CreateInputInputOpenaiLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     SILLY = "silly"
 
 
-class CreateInputInputOpenaiContentConfigTypedDict(TypedDict):
+class CreateInputSystemByPackInputOpenaiContentConfigTypedDict(TypedDict):
     request_params: List[
         RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict
     ]
     r"""Query-string parameters to send with this endpoint"""
-    pagination_type: CreateInputPaginationType
+    pagination_type: CreateInputSystemByPackPaginationType
     r"""Pagination type"""
     cron_schedule: str
     r"""A cron schedule on which to run this job"""
@@ -5052,7 +5086,7 @@ class CreateInputInputOpenaiContentConfigTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputInputOpenaiManageStateTypedDict]
+    manage_state: NotRequired[CreateInputSystemByPackInputOpenaiManageStateTypedDict]
     pagination_attribute: NotRequired[List[str]]
     r"""Pagination attributes"""
     pagination_last_page_expr: NotRequired[str]
@@ -5065,13 +5099,13 @@ class CreateInputInputOpenaiContentConfigTypedDict(TypedDict):
     r"""Optional relation that represents the current page"""
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
-    log_level: NotRequired[CreateInputInputOpenaiLogLevel]
+    log_level: NotRequired[CreateInputSystemByPackInputOpenaiLogLevel]
     r"""Collector runtime log level."""
     endpoint_metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields automatically added to events from this Content Type"""
 
 
-class CreateInputInputOpenaiContentConfig(BaseModel):
+class CreateInputSystemByPackInputOpenaiContentConfig(BaseModel):
     request_params: Annotated[
         List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret],
         pydantic.Field(alias="requestParams"),
@@ -5079,7 +5113,7 @@ class CreateInputInputOpenaiContentConfig(BaseModel):
     r"""Query-string parameters to send with this endpoint"""
 
     pagination_type: Annotated[
-        CreateInputPaginationType, pydantic.Field(alias="paginationType")
+        CreateInputSystemByPackPaginationType, pydantic.Field(alias="paginationType")
     ]
     r"""Pagination type"""
 
@@ -5111,7 +5145,8 @@ class CreateInputInputOpenaiContentConfig(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[CreateInputInputOpenaiManageState], pydantic.Field(alias="manageState")
+        Optional[CreateInputSystemByPackInputOpenaiManageState],
+        pydantic.Field(alias="manageState"),
     ] = None
 
     pagination_attribute: Annotated[
@@ -5141,7 +5176,8 @@ class CreateInputInputOpenaiContentConfig(BaseModel):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
     log_level: Annotated[
-        Optional[CreateInputInputOpenaiLogLevel], pydantic.Field(alias="logLevel")
+        Optional[CreateInputSystemByPackInputOpenaiLogLevel],
+        pydantic.Field(alias="logLevel"),
     ] = None
     r"""Collector runtime log level."""
 
@@ -5155,7 +5191,7 @@ class CreateInputInputOpenaiContentConfig(BaseModel):
     def serialize_pagination_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputPaginationType(value)
+                return models.CreateInputSystemByPackPaginationType(value)
             except ValueError:
                 return value
         return value
@@ -5164,7 +5200,7 @@ class CreateInputInputOpenaiContentConfig(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputOpenaiLogLevel(value)
+                return models.CreateInputSystemByPackInputOpenaiLogLevel(value)
             except ValueError:
                 return value
         return value
@@ -5202,12 +5238,12 @@ class CreateInputInputOpenaiContentConfig(BaseModel):
         return m
 
 
-class CreateInputInputOpenaiTypedDict(TypedDict):
+class CreateInputSystemByPackInputOpenaiTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputOpenaiType
+    type: CreateInputSystemByPackInputOpenaiType
     r"""Connector type identifier."""
-    content_config: List[CreateInputInputOpenaiContentConfigTypedDict]
+    content_config: List[CreateInputSystemByPackInputOpenaiContentConfigTypedDict]
     r"""Content Types"""
     text_secret: str
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
@@ -5257,15 +5293,16 @@ class CreateInputInputOpenaiTypedDict(TypedDict):
     r"""Binds 'openaiProject' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'openaiProject' at runtime."""
 
 
-class CreateInputInputOpenai(BaseModel):
+class CreateInputSystemByPackInputOpenai(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputOpenaiType
+    type: CreateInputSystemByPackInputOpenaiType
     r"""Connector type identifier."""
 
     content_config: Annotated[
-        List[CreateInputInputOpenaiContentConfig], pydantic.Field(alias="contentConfig")
+        List[CreateInputSystemByPackInputOpenaiContentConfig],
+        pydantic.Field(alias="contentConfig"),
     ]
     r"""Content Types"""
 
@@ -5406,21 +5443,21 @@ class CreateInputInputOpenai(BaseModel):
         return m
 
 
-class CreateInputInputWizType(str, Enum):
+class CreateInputSystemByPackInputWizType(str, Enum):
     r"""Connector type identifier."""
 
     WIZ = "wiz"
 
 
-class CreateInputInputWizManageStateTypedDict(TypedDict):
+class CreateInputSystemByPackInputWizManageStateTypedDict(TypedDict):
     pass
 
 
-class CreateInputInputWizManageState(BaseModel):
+class CreateInputSystemByPackInputWizManageState(BaseModel):
     pass
 
 
-class CreateInputInputWizContentConfigTypedDict(TypedDict):
+class CreateInputSystemByPackInputWizContentConfigTypedDict(TypedDict):
     content_type: str
     r"""The name of the Wiz query"""
     content_query: str
@@ -5441,7 +5478,7 @@ class CreateInputInputWizContentConfigTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
-    manage_state: NotRequired[CreateInputInputWizManageStateTypedDict]
+    manage_state: NotRequired[CreateInputSystemByPackInputWizManageStateTypedDict]
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Units default to seconds if not specified. Enter 0 for unlimited time."""
     log_level: NotRequired[LogLevelOptionsContentConfigItemsDebugError]
@@ -5450,7 +5487,7 @@ class CreateInputInputWizContentConfigTypedDict(TypedDict):
     r"""Maximum number of pages to retrieve per collection task. Defaults to 0. Set to 0 to retrieve all pages."""
 
 
-class CreateInputInputWizContentConfig(BaseModel):
+class CreateInputSystemByPackInputWizContentConfig(BaseModel):
     content_type: Annotated[str, pydantic.Field(alias="contentType")]
     r"""The name of the Wiz query"""
 
@@ -5490,7 +5527,8 @@ class CreateInputInputWizContentConfig(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
-        Optional[CreateInputInputWizManageState], pydantic.Field(alias="manageState")
+        Optional[CreateInputSystemByPackInputWizManageState],
+        pydantic.Field(alias="manageState"),
     ] = None
 
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
@@ -5543,10 +5581,10 @@ class CreateInputInputWizContentConfig(BaseModel):
         return m
 
 
-class CreateInputInputWizTypedDict(TypedDict):
+class CreateInputSystemByPackInputWizTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputWizType
+    type: CreateInputSystemByPackInputWizType
     r"""Connector type identifier."""
     endpoint: str
     r"""The Wiz GraphQL API endpoint. Example: https://api.us1.app.wiz.io/graphql"""
@@ -5554,7 +5592,7 @@ class CreateInputInputWizTypedDict(TypedDict):
     r"""The authentication URL to generate an OAuth token"""
     client_id: str
     r"""The client ID of the Wiz application"""
-    content_config: List[CreateInputInputWizContentConfigTypedDict]
+    content_config: List[CreateInputSystemByPackInputWizContentConfigTypedDict]
     r"""Content types"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -5610,11 +5648,11 @@ class CreateInputInputWizTypedDict(TypedDict):
     r"""Binds 'clientId' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'clientId' at runtime."""
 
 
-class CreateInputInputWiz(BaseModel):
+class CreateInputSystemByPackInputWiz(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputWizType
+    type: CreateInputSystemByPackInputWizType
     r"""Connector type identifier."""
 
     endpoint: str
@@ -5627,7 +5665,8 @@ class CreateInputInputWiz(BaseModel):
     r"""The client ID of the Wiz application"""
 
     content_config: Annotated[
-        List[CreateInputInputWizContentConfig], pydantic.Field(alias="contentConfig")
+        List[CreateInputSystemByPackInputWizContentConfig],
+        pydantic.Field(alias="contentConfig"),
     ]
     r"""Content types"""
 
@@ -5797,20 +5836,20 @@ class CreateInputInputWiz(BaseModel):
         return m
 
 
-class CreateInputInputJournalFilesType(str, Enum):
+class CreateInputSystemByPackInputJournalFilesType(str, Enum):
     r"""Connector type identifier."""
 
     JOURNAL_FILES = "journal_files"
 
 
-class CreateInputInputJournalFilesRuleTypedDict(TypedDict):
+class CreateInputSystemByPackInputJournalFilesRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class CreateInputInputJournalFilesRule(BaseModel):
+class CreateInputSystemByPackInputJournalFilesRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to Journal objects. Return 'true' to include it."""
 
@@ -5834,10 +5873,10 @@ class CreateInputInputJournalFilesRule(BaseModel):
         return m
 
 
-class CreateInputInputJournalFilesTypedDict(TypedDict):
+class CreateInputSystemByPackInputJournalFilesTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputJournalFilesType
+    type: CreateInputSystemByPackInputJournalFilesType
     r"""Connector type identifier."""
     path: str
     r"""Directory path to search for journals. Environment variables will be resolved, e.g. $CRIBL_EDGE_FS_ROOT/var/log/journal/$MACHINE_ID."""
@@ -5860,7 +5899,7 @@ class CreateInputInputJournalFilesTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for journals."""
-    rules: NotRequired[List[CreateInputInputJournalFilesRuleTypedDict]]
+    rules: NotRequired[List[CreateInputSystemByPackInputJournalFilesRuleTypedDict]]
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
     current_boot: NotRequired[bool]
     r"""Skip log messages that are not part of the current boot session"""
@@ -5878,11 +5917,11 @@ class CreateInputInputJournalFilesTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputJournalFiles(BaseModel):
+class CreateInputSystemByPackInputJournalFiles(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputJournalFilesType
+    type: CreateInputSystemByPackInputJournalFilesType
     r"""Connector type identifier."""
 
     path: str
@@ -5919,7 +5958,7 @@ class CreateInputInputJournalFiles(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between scanning for journals."""
 
-    rules: Optional[List[CreateInputInputJournalFilesRule]] = None
+    rules: Optional[List[CreateInputSystemByPackInputJournalFilesRule]] = None
     r"""Add rules to decide which journal objects to allow. Events are generated if no rules are given or if all the rules' expressions evaluate to true."""
 
     current_boot: Annotated[Optional[bool], pydantic.Field(alias="currentBoot")] = None
@@ -5986,16 +6025,16 @@ class CreateInputInputJournalFiles(BaseModel):
         return m
 
 
-class CreateInputInputRawUDPType(str, Enum):
+class CreateInputSystemByPackInputRawUDPType(str, Enum):
     r"""Connector type identifier."""
 
     RAW_UDP = "raw_udp"
 
 
-class CreateInputInputRawUDPTypedDict(TypedDict):
+class CreateInputSystemByPackInputRawUDPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputRawUDPType
+    type: CreateInputSystemByPackInputRawUDPType
     r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -6040,11 +6079,11 @@ class CreateInputInputRawUDPTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateInputInputRawUDP(BaseModel):
+class CreateInputSystemByPackInputRawUDP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputRawUDPType
+    type: CreateInputSystemByPackInputRawUDPType
     r"""Connector type identifier."""
 
     host: str
@@ -6168,13 +6207,15 @@ class CreateInputInputRawUDP(BaseModel):
         return m
 
 
-class CreateInputInputAppleUnifiedLogsType(str, Enum):
+class CreateInputSystemByPackInputAppleUnifiedLogsType(str, Enum):
     r"""Connector type identifier."""
 
     APPLE_UNIFIED_LOGS = "apple_unified_logs"
 
 
-class CreateInputInputAppleUnifiedLogsReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackInputAppleUnifiedLogsReadMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Read all log entries (historical and upcoming), or only upcoming, from the last entry"""
 
     # Entire log
@@ -6183,10 +6224,10 @@ class CreateInputInputAppleUnifiedLogsReadMode(str, Enum, metaclass=utils.OpenEn
     NEWEST = "newest"
 
 
-class CreateInputInputAppleUnifiedLogsTypedDict(TypedDict):
+class CreateInputSystemByPackInputAppleUnifiedLogsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputAppleUnifiedLogsType
+    type: CreateInputSystemByPackInputAppleUnifiedLogsType
     r"""Connector type identifier."""
     predicate: str
     r"""String to filter log entries, in NSPredicate format (e.g., subsystem == \"com.apple.security\" or process == \"kernel\"). See [Common Log Types and Predicates](https://docs.cribl.io/edge/sources-apple-unified-logs/#examples) for more information."""
@@ -6205,7 +6246,7 @@ class CreateInputInputAppleUnifiedLogsTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    read_mode: NotRequired[CreateInputInputAppleUnifiedLogsReadMode]
+    read_mode: NotRequired[CreateInputSystemByPackInputAppleUnifiedLogsReadMode]
     r"""Read all log entries (historical and upcoming), or only upcoming, from the last entry"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
@@ -6217,11 +6258,11 @@ class CreateInputInputAppleUnifiedLogsTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputAppleUnifiedLogs(BaseModel):
+class CreateInputSystemByPackInputAppleUnifiedLogs(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputAppleUnifiedLogsType
+    type: CreateInputSystemByPackInputAppleUnifiedLogsType
     r"""Connector type identifier."""
 
     predicate: str
@@ -6253,7 +6294,7 @@ class CreateInputInputAppleUnifiedLogs(BaseModel):
     pq: Optional[PqType] = None
 
     read_mode: Annotated[
-        Optional[CreateInputInputAppleUnifiedLogsReadMode],
+        Optional[CreateInputSystemByPackInputAppleUnifiedLogsReadMode],
         pydantic.Field(alias="readMode"),
     ] = None
     r"""Read all log entries (historical and upcoming), or only upcoming, from the last entry"""
@@ -6278,7 +6319,9 @@ class CreateInputInputAppleUnifiedLogs(BaseModel):
     def serialize_read_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputAppleUnifiedLogsReadMode(value)
+                return models.CreateInputSystemByPackInputAppleUnifiedLogsReadMode(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -6316,13 +6359,15 @@ class CreateInputInputAppleUnifiedLogs(BaseModel):
         return m
 
 
-class CreateInputInputWinEventLogsType(str, Enum):
+class CreateInputSystemByPackInputWinEventLogsType(str, Enum):
     r"""Connector type identifier."""
 
     WIN_EVENT_LOGS = "win_event_logs"
 
 
-class CreateInputInputWinEventLogsReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackInputWinEventLogsReadMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Read all stored and future event logs, or only future events"""
 
     # Entire log
@@ -6331,7 +6376,7 @@ class CreateInputInputWinEventLogsReadMode(str, Enum, metaclass=utils.OpenEnumMe
     NEWEST = "newest"
 
 
-class CreateInputEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of individual events"""
 
     # JSON
@@ -6340,10 +6385,10 @@ class CreateInputEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     XML = "xml"
 
 
-class CreateInputInputWinEventLogsTypedDict(TypedDict):
+class CreateInputSystemByPackInputWinEventLogsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputWinEventLogsType
+    type: CreateInputSystemByPackInputWinEventLogsType
     r"""Connector type identifier."""
     log_names: List[str]
     r"""Enter the event logs to collect. Run \"Get-WinEvent -ListLog *\" in PowerShell to see the available logs."""
@@ -6364,9 +6409,9 @@ class CreateInputInputWinEventLogsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     suppress_missing_log_errors: NotRequired[bool]
     r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
-    read_mode: NotRequired[CreateInputInputWinEventLogsReadMode]
+    read_mode: NotRequired[CreateInputSystemByPackInputWinEventLogsReadMode]
     r"""Read all stored and future event logs, or only future events"""
-    event_format: NotRequired[CreateInputEventFormat]
+    event_format: NotRequired[CreateInputSystemByPackEventFormat]
     r"""Format of individual events"""
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
@@ -6392,11 +6437,11 @@ class CreateInputInputWinEventLogsTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputWinEventLogs(BaseModel):
+class CreateInputSystemByPackInputWinEventLogs(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputWinEventLogsType
+    type: CreateInputSystemByPackInputWinEventLogsType
     r"""Connector type identifier."""
 
     log_names: Annotated[List[str], pydantic.Field(alias="logNames")]
@@ -6433,12 +6478,14 @@ class CreateInputInputWinEventLogs(BaseModel):
     r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
 
     read_mode: Annotated[
-        Optional[CreateInputInputWinEventLogsReadMode], pydantic.Field(alias="readMode")
+        Optional[CreateInputSystemByPackInputWinEventLogsReadMode],
+        pydantic.Field(alias="readMode"),
     ] = None
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
-        Optional[CreateInputEventFormat], pydantic.Field(alias="eventFormat")
+        Optional[CreateInputSystemByPackEventFormat],
+        pydantic.Field(alias="eventFormat"),
     ] = None
     r"""Format of individual events"""
 
@@ -6493,7 +6540,7 @@ class CreateInputInputWinEventLogs(BaseModel):
     def serialize_read_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputWinEventLogsReadMode(value)
+                return models.CreateInputSystemByPackInputWinEventLogsReadMode(value)
             except ValueError:
                 return value
         return value
@@ -6502,7 +6549,7 @@ class CreateInputInputWinEventLogs(BaseModel):
     def serialize_event_format(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputEventFormat(value)
+                return models.CreateInputSystemByPackEventFormat(value)
             except ValueError:
                 return value
         return value
@@ -6549,13 +6596,15 @@ class CreateInputInputWinEventLogs(BaseModel):
         return m
 
 
-class CreateInputInputWefType(str, Enum):
+class CreateInputSystemByPackInputWefType(str, Enum):
     r"""Connector type identifier."""
 
     WEF = "wef"
 
 
-class CreateInputInputWefAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackInputWefAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""How to authenticate incoming client connections"""
 
     # Client certificate
@@ -6564,7 +6613,7 @@ class CreateInputInputWefAuthenticationMethod(str, Enum, metaclass=utils.OpenEnu
     KERBEROS = "kerberos"
 
 
-class CreateInputMTLSSettingsTypedDict(TypedDict):
+class CreateInputSystemByPackMTLSSettingsTypedDict(TypedDict):
     r"""mTLS settings"""
 
     priv_key_path: str
@@ -6595,7 +6644,7 @@ class CreateInputMTLSSettingsTypedDict(TypedDict):
     r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
 
 
-class CreateInputMTLSSettings(BaseModel):
+class CreateInputSystemByPackMTLSSettings(BaseModel):
     r"""mTLS settings"""
 
     priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
@@ -6697,28 +6746,28 @@ class CreateInputMTLSSettings(BaseModel):
         return m
 
 
-class CreateInputFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Content format in which the endpoint should deliver events"""
 
     RAW = "Raw"
     RENDERED_TEXT = "RenderedText"
 
 
-class CreateInputQueryBuilderMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackQueryBuilderMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Query builder mode"""
 
     SIMPLE = "simple"
     XML = "xml"
 
 
-class CreateInputQueryTypedDict(TypedDict):
+class CreateInputSystemByPackQueryTypedDict(TypedDict):
     path: str
     r"""The Path attribute from the relevant XML Select element"""
     query_expression: str
     r"""The XPath query inside the relevant XML Select element"""
 
 
-class CreateInputQuery(BaseModel):
+class CreateInputSystemByPackQuery(BaseModel):
     path: str
     r"""The Path attribute from the relevant XML Select element"""
 
@@ -6726,10 +6775,10 @@ class CreateInputQuery(BaseModel):
     r"""The XPath query inside the relevant XML Select element"""
 
 
-class CreateInputSubscriptionTypedDict(TypedDict):
+class CreateInputSystemByPackSubscriptionTypedDict(TypedDict):
     subscription_name: str
     r"""Subscription name"""
-    content_format: CreateInputFormat
+    content_format: CreateInputSystemByPackFormat
     r"""Content format in which the endpoint should deliver events"""
     heartbeat_interval: float
     r"""Maximum time (in seconds) between endpoint checkins before considering it unavailable"""
@@ -6747,21 +6796,23 @@ class CreateInputSubscriptionTypedDict(TypedDict):
     r"""Receive compressed events from the source"""
     locale: NotRequired[str]
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
-    query_selector: NotRequired[CreateInputQueryBuilderMode]
+    query_selector: NotRequired[CreateInputSystemByPackQueryBuilderMode]
     r"""Query builder mode"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events ingested under this subscription"""
-    queries: NotRequired[List[CreateInputQueryTypedDict]]
+    queries: NotRequired[List[CreateInputSystemByPackQueryTypedDict]]
     r"""Queries"""
     xml_query: NotRequired[str]
     r"""The XPath query to use for selecting events"""
 
 
-class CreateInputSubscription(BaseModel):
+class CreateInputSystemByPackSubscription(BaseModel):
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
     r"""Subscription name"""
 
-    content_format: Annotated[CreateInputFormat, pydantic.Field(alias="contentFormat")]
+    content_format: Annotated[
+        CreateInputSystemByPackFormat, pydantic.Field(alias="contentFormat")
+    ]
     r"""Content format in which the endpoint should deliver events"""
 
     heartbeat_interval: Annotated[float, pydantic.Field(alias="heartbeatInterval")]
@@ -6793,14 +6844,15 @@ class CreateInputSubscription(BaseModel):
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
 
     query_selector: Annotated[
-        Optional[CreateInputQueryBuilderMode], pydantic.Field(alias="querySelector")
+        Optional[CreateInputSystemByPackQueryBuilderMode],
+        pydantic.Field(alias="querySelector"),
     ] = None
     r"""Query builder mode"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events ingested under this subscription"""
 
-    queries: Optional[List[CreateInputQuery]] = None
+    queries: Optional[List[CreateInputSystemByPackQuery]] = None
     r"""Queries"""
 
     xml_query: Annotated[Optional[str], pydantic.Field(alias="xmlQuery")] = None
@@ -6810,7 +6862,7 @@ class CreateInputSubscription(BaseModel):
     def serialize_content_format(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputFormat(value)
+                return models.CreateInputSystemByPackFormat(value)
             except ValueError:
                 return value
         return value
@@ -6819,7 +6871,7 @@ class CreateInputSubscription(BaseModel):
     def serialize_query_selector(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputQueryBuilderMode(value)
+                return models.CreateInputSystemByPackQueryBuilderMode(value)
             except ValueError:
                 return value
         return value
@@ -6853,16 +6905,16 @@ class CreateInputSubscription(BaseModel):
         return m
 
 
-class CreateInputInputWefTypedDict(TypedDict):
+class CreateInputSystemByPackInputWefTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputWefType
+    type: CreateInputSystemByPackInputWefType
     r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    subscriptions: List[CreateInputSubscriptionTypedDict]
+    subscriptions: List[CreateInputSystemByPackSubscriptionTypedDict]
     r"""Subscriptions to events on forwarding endpoints"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -6879,9 +6931,9 @@ class CreateInputInputWefTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_method: NotRequired[CreateInputInputWefAuthenticationMethod]
+    auth_method: NotRequired[CreateInputSystemByPackInputWefAuthenticationMethod]
     r"""How to authenticate incoming client connections"""
-    tls: NotRequired[CreateInputMTLSSettingsTypedDict]
+    tls: NotRequired[CreateInputSystemByPackMTLSSettingsTypedDict]
     r"""mTLS settings"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -6929,11 +6981,11 @@ class CreateInputInputWefTypedDict(TypedDict):
     r"""Binds 'principal' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'principal' at runtime."""
 
 
-class CreateInputInputWef(BaseModel):
+class CreateInputSystemByPackInputWef(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputWefType
+    type: CreateInputSystemByPackInputWefType
     r"""Connector type identifier."""
 
     host: str
@@ -6942,7 +6994,7 @@ class CreateInputInputWef(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    subscriptions: List[CreateInputSubscription]
+    subscriptions: List[CreateInputSystemByPackSubscription]
     r"""Subscriptions to events on forwarding endpoints"""
 
     disabled: Optional[bool] = None
@@ -6971,12 +7023,12 @@ class CreateInputInputWef(BaseModel):
     pq: Optional[PqType] = None
 
     auth_method: Annotated[
-        Optional[CreateInputInputWefAuthenticationMethod],
+        Optional[CreateInputSystemByPackInputWefAuthenticationMethod],
         pydantic.Field(alias="authMethod"),
     ] = None
     r"""How to authenticate incoming client connections"""
 
-    tls: Optional[CreateInputMTLSSettings] = None
+    tls: Optional[CreateInputSystemByPackMTLSSettings] = None
     r"""mTLS settings"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
@@ -7085,7 +7137,7 @@ class CreateInputInputWef(BaseModel):
     def serialize_auth_method(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputWefAuthenticationMethod(value)
+                return models.CreateInputSystemByPackInputWefAuthenticationMethod(value)
             except ValueError:
                 return value
         return value
@@ -7142,13 +7194,13 @@ class CreateInputInputWef(BaseModel):
         return m
 
 
-class CreateInputInputAppscopeType(str, Enum):
+class CreateInputSystemByPackInputAppscopeType(str, Enum):
     r"""Connector type identifier."""
 
     APPSCOPE = "appscope"
 
 
-class CreateInputAllowTypedDict(TypedDict):
+class CreateInputSystemByPackAllowTypedDict(TypedDict):
     procname: str
     r"""Specify the name of a process or family of processes."""
     config: str
@@ -7157,7 +7209,7 @@ class CreateInputAllowTypedDict(TypedDict):
     r"""Specify a string to substring-match against process command-line."""
 
 
-class CreateInputAllow(BaseModel):
+class CreateInputSystemByPackAllow(BaseModel):
     procname: str
     r"""Specify the name of a process or family of processes."""
 
@@ -7184,15 +7236,15 @@ class CreateInputAllow(BaseModel):
         return m
 
 
-class CreateInputInputAppscopeFilterTypedDict(TypedDict):
-    allow: NotRequired[List[CreateInputAllowTypedDict]]
+class CreateInputSystemByPackInputAppscopeFilterTypedDict(TypedDict):
+    allow: NotRequired[List[CreateInputSystemByPackAllowTypedDict]]
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
     transport_url: NotRequired[str]
     r"""To override the UNIX domain socket or address/port specified in General Settings (while leaving Authentication settings as is), enter a URL."""
 
 
-class CreateInputInputAppscopeFilter(BaseModel):
-    allow: Optional[List[CreateInputAllow]] = None
+class CreateInputSystemByPackInputAppscopeFilter(BaseModel):
+    allow: Optional[List[CreateInputSystemByPackAllow]] = None
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
 
     transport_url: Annotated[Optional[str], pydantic.Field(alias="transportURL")] = None
@@ -7215,7 +7267,7 @@ class CreateInputInputAppscopeFilter(BaseModel):
         return m
 
 
-class CreateInputInputAppscopePersistenceTypedDict(TypedDict):
+class CreateInputSystemByPackInputAppscopePersistenceTypedDict(TypedDict):
     r"""Persistence"""
 
     enable: NotRequired[bool]
@@ -7232,7 +7284,7 @@ class CreateInputInputAppscopePersistenceTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/appscope"""
 
 
-class CreateInputInputAppscopePersistence(BaseModel):
+class CreateInputSystemByPackInputAppscopePersistence(BaseModel):
     r"""Persistence"""
 
     enable: Optional[bool] = None
@@ -7288,22 +7340,22 @@ class CreateInputInputAppscopePersistence(BaseModel):
         return m
 
 
-CreateInputUNIXSocketPermissionsTypedDict = TypeAliasType(
-    "CreateInputUNIXSocketPermissionsTypedDict", Union[str, float]
+CreateInputSystemByPackUNIXSocketPermissionsTypedDict = TypeAliasType(
+    "CreateInputSystemByPackUNIXSocketPermissionsTypedDict", Union[str, float]
 )
 r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
 
-CreateInputUNIXSocketPermissions = TypeAliasType(
-    "CreateInputUNIXSocketPermissions", Union[str, float]
+CreateInputSystemByPackUNIXSocketPermissions = TypeAliasType(
+    "CreateInputSystemByPackUNIXSocketPermissions", Union[str, float]
 )
 r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
 
-class CreateInputInputAppscopeTypedDict(TypedDict):
+class CreateInputSystemByPackInputAppscopeTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputAppscopeType
+    type: CreateInputSystemByPackInputAppscopeType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -7340,8 +7392,8 @@ class CreateInputInputAppscopeTypedDict(TypedDict):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     enable_unix_path: NotRequired[bool]
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
-    filter_: NotRequired[CreateInputInputAppscopeFilterTypedDict]
-    persistence: NotRequired[CreateInputInputAppscopePersistenceTypedDict]
+    filter_: NotRequired[CreateInputSystemByPackInputAppscopeFilterTypedDict]
+    persistence: NotRequired[CreateInputSystemByPackInputAppscopePersistenceTypedDict]
     r"""Persistence"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
@@ -7355,7 +7407,9 @@ class CreateInputInputAppscopeTypedDict(TypedDict):
     r"""TLS settings (server side)"""
     unix_socket_path: NotRequired[str]
     r"""Path to the UNIX domain socket to listen on."""
-    unix_socket_perms: NotRequired[CreateInputUNIXSocketPermissionsTypedDict]
+    unix_socket_perms: NotRequired[
+        CreateInputSystemByPackUNIXSocketPermissionsTypedDict
+    ]
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -7371,11 +7425,11 @@ class CreateInputInputAppscopeTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateInputInputAppscope(BaseModel):
+class CreateInputSystemByPackInputAppscope(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputAppscopeType
+    type: CreateInputSystemByPackInputAppscopeType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -7452,10 +7506,11 @@ class CreateInputInputAppscope(BaseModel):
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
 
     filter_: Annotated[
-        Optional[CreateInputInputAppscopeFilter], pydantic.Field(alias="filter")
+        Optional[CreateInputSystemByPackInputAppscopeFilter],
+        pydantic.Field(alias="filter"),
     ] = None
 
-    persistence: Optional[CreateInputInputAppscopePersistence] = None
+    persistence: Optional[CreateInputSystemByPackInputAppscopePersistence] = None
     r"""Persistence"""
 
     auth_type: Annotated[
@@ -7482,7 +7537,7 @@ class CreateInputInputAppscope(BaseModel):
     r"""Path to the UNIX domain socket to listen on."""
 
     unix_socket_perms: Annotated[
-        Optional[CreateInputUNIXSocketPermissions],
+        Optional[CreateInputSystemByPackUNIXSocketPermissions],
         pydantic.Field(alias="unixSocketPerms"),
     ] = None
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
@@ -7575,16 +7630,16 @@ class CreateInputInputAppscope(BaseModel):
         return m
 
 
-class CreateInputInputTCPType(str, Enum):
+class CreateInputSystemByPackInputTCPType(str, Enum):
     r"""Connector type identifier."""
 
     TCP = "tcp"
 
 
-class CreateInputInputTCPTypedDict(TypedDict):
+class CreateInputSystemByPackInputTCPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputTCPType
+    type: CreateInputSystemByPackInputTCPType
     r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7647,11 +7702,11 @@ class CreateInputInputTCPTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateInputInputTCP(BaseModel):
+class CreateInputSystemByPackInputTCP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputTCPType
+    type: CreateInputSystemByPackInputTCPType
     r"""Connector type identifier."""
 
     host: str
@@ -7831,13 +7886,13 @@ class CreateInputInputTCP(BaseModel):
         return m
 
 
-class CreateInputInputFileType(str, Enum):
+class CreateInputSystemByPackInputFileType(str, Enum):
     r"""Connector type identifier."""
 
     FILE = "file"
 
 
-class CreateInputInputFileMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackInputFileMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Choose how to discover files to monitor"""
 
     # Manual
@@ -7846,10 +7901,10 @@ class CreateInputInputFileMode(str, Enum, metaclass=utils.OpenEnumMeta):
     AUTO = "auto"
 
 
-class CreateInputInputFileTypedDict(TypedDict):
+class CreateInputSystemByPackInputFileTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputFileType
+    type: CreateInputSystemByPackInputFileType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -7866,7 +7921,7 @@ class CreateInputInputFileTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    mode: NotRequired[CreateInputInputFileMode]
+    mode: NotRequired[CreateInputSystemByPackInputFileMode]
     r"""Choose how to discover files to monitor"""
     interval: NotRequired[float]
     r"""Time, in seconds, between scanning for files"""
@@ -7918,11 +7973,11 @@ class CreateInputInputFileTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputFile(BaseModel):
+class CreateInputSystemByPackInputFile(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputFileType
+    type: CreateInputSystemByPackInputFileType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -7950,7 +8005,7 @@ class CreateInputInputFile(BaseModel):
 
     pq: Optional[PqType] = None
 
-    mode: Optional[CreateInputInputFileMode] = None
+    mode: Optional[CreateInputSystemByPackInputFileMode] = None
     r"""Choose how to discover files to monitor"""
 
     interval: Optional[float] = None
@@ -8049,7 +8104,7 @@ class CreateInputInputFile(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputFileMode(value)
+                return models.CreateInputSystemByPackInputFileMode(value)
             except ValueError:
                 return value
         return value
@@ -8107,7 +8162,7 @@ class CreateInputInputFile(BaseModel):
         return m
 
 
-class CreateInputInputSyslogSyslog2TypedDict(TypedDict):
+class CreateInputSystemByPackInputSyslogSyslog2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: TypeOptionsSyslog
@@ -8187,7 +8242,7 @@ class CreateInputInputSyslogSyslog2TypedDict(TypedDict):
     r"""Binds 'timestampTimezone' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'timestampTimezone' at runtime."""
 
 
-class CreateInputInputSyslogSyslog2(BaseModel):
+class CreateInputSystemByPackInputSyslogSyslog2(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -8407,7 +8462,7 @@ class CreateInputInputSyslogSyslog2(BaseModel):
         return m
 
 
-class CreateInputInputSyslogSyslog1TypedDict(TypedDict):
+class CreateInputSystemByPackInputSyslogSyslog1TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: TypeOptionsSyslog
@@ -8487,7 +8542,7 @@ class CreateInputInputSyslogSyslog1TypedDict(TypedDict):
     r"""Binds 'timestampTimezone' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'timestampTimezone' at runtime."""
 
 
-class CreateInputInputSyslogSyslog1(BaseModel):
+class CreateInputSystemByPackInputSyslogSyslog1(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -8707,21 +8762,25 @@ class CreateInputInputSyslogSyslog1(BaseModel):
         return m
 
 
-CreateInputInputSyslogUnionTypedDict = TypeAliasType(
-    "CreateInputInputSyslogUnionTypedDict",
+CreateInputSystemByPackInputSyslogUnionTypedDict = TypeAliasType(
+    "CreateInputSystemByPackInputSyslogUnionTypedDict",
     Union[
-        CreateInputInputSyslogSyslog1TypedDict, CreateInputInputSyslogSyslog2TypedDict
+        CreateInputSystemByPackInputSyslogSyslog1TypedDict,
+        CreateInputSystemByPackInputSyslogSyslog2TypedDict,
     ],
 )
 
 
-CreateInputInputSyslogUnion = TypeAliasType(
-    "CreateInputInputSyslogUnion",
-    Union[CreateInputInputSyslogSyslog1, CreateInputInputSyslogSyslog2],
+CreateInputSystemByPackInputSyslogUnion = TypeAliasType(
+    "CreateInputSystemByPackInputSyslogUnion",
+    Union[
+        CreateInputSystemByPackInputSyslogSyslog1,
+        CreateInputSystemByPackInputSyslogSyslog2,
+    ],
 )
 
 
-class CreateInputQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The queue type used (or created)"""
 
     # Standard
@@ -8730,14 +8789,14 @@ class CreateInputQueueType(str, Enum, metaclass=utils.OpenEnumMeta):
     FIFO = "fifo"
 
 
-class CreateInputInputSqsTypedDict(TypedDict):
+class CreateInputSystemByPackInputSqsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: TypeOptionsSqs
     r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
-    queue_type: CreateInputQueueType
+    queue_type: CreateInputSystemByPackQueueType
     r"""The queue type used (or created)"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -8818,7 +8877,7 @@ class CreateInputInputSqsTypedDict(TypedDict):
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
-class CreateInputInputSqs(BaseModel):
+class CreateInputSystemByPackInputSqs(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -8828,7 +8887,9 @@ class CreateInputInputSqs(BaseModel):
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The name, URL, or ARN of the SQS queue to read events from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can only be evaluated at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
 
-    queue_type: Annotated[CreateInputQueueType, pydantic.Field(alias="queueType")]
+    queue_type: Annotated[
+        CreateInputSystemByPackQueueType, pydantic.Field(alias="queueType")
+    ]
     r"""The queue type used (or created)"""
 
     disabled: Optional[bool] = None
@@ -8998,7 +9059,7 @@ class CreateInputInputSqs(BaseModel):
     def serialize_queue_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputQueueType(value)
+                return models.CreateInputSystemByPackQueueType(value)
             except ValueError:
                 return value
         return value
@@ -9071,16 +9132,16 @@ class CreateInputInputSqs(BaseModel):
         return m
 
 
-class CreateInputInputModelDrivenTelemetryType(str, Enum):
+class CreateInputSystemByPackInputModelDrivenTelemetryType(str, Enum):
     r"""Connector type identifier."""
 
     MODEL_DRIVEN_TELEMETRY = "model_driven_telemetry"
 
 
-class CreateInputInputModelDrivenTelemetryTypedDict(TypedDict):
+class CreateInputSystemByPackInputModelDrivenTelemetryTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputModelDrivenTelemetryType
+    type: CreateInputSystemByPackInputModelDrivenTelemetryType
     r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9121,11 +9182,11 @@ class CreateInputInputModelDrivenTelemetryTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateInputInputModelDrivenTelemetry(BaseModel):
+class CreateInputSystemByPackInputModelDrivenTelemetry(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputModelDrivenTelemetryType
+    type: CreateInputSystemByPackInputModelDrivenTelemetryType
     r"""Connector type identifier."""
 
     host: str
@@ -9235,13 +9296,13 @@ class CreateInputInputModelDrivenTelemetry(BaseModel):
         return m
 
 
-class CreateInputInputOpenTelemetryType(str, Enum):
+class CreateInputSystemByPackInputOpenTelemetryType(str, Enum):
     r"""Source type identifier."""
 
     OPEN_TELEMETRY = "open_telemetry"
 
 
-class CreateInputProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
 
     # gRPC
@@ -9250,7 +9311,7 @@ class CreateInputProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     HTTP = "http"
 
 
-class CreateInputOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
 
     # 0.10.0
@@ -9259,7 +9320,7 @@ class CreateInputOTLPVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     ONE_DOT_3_DOT_1 = "1.3.1"
 
 
-class CreateInputInputOpenTelemetryAuthenticationType(
+class CreateInputSystemByPackInputOpenTelemetryAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""OpenTelemetry authentication type"""
@@ -9276,7 +9337,7 @@ class CreateInputInputOpenTelemetryAuthenticationType(
     TEXT_SECRET = "textSecret"
 
 
-class CreateInputAuthMethodsExtAuthenticationType(
+class CreateInputSystemByPackAuthMethodsExtAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Authentication type"""
@@ -9291,8 +9352,8 @@ class CreateInputAuthMethodsExtAuthenticationType(
     BASIC_SECRET = "basicSecret"
 
 
-class CreateInputAuthMethodsExtTypedDict(TypedDict):
-    auth_type: CreateInputAuthMethodsExtAuthenticationType
+class CreateInputSystemByPackAuthMethodsExtTypedDict(TypedDict):
+    auth_type: CreateInputSystemByPackAuthMethodsExtAuthenticationType
     r"""Authentication type"""
     token: NotRequired[str]
     r"""Bearer token for Authorization header"""
@@ -9312,9 +9373,10 @@ class CreateInputAuthMethodsExtTypedDict(TypedDict):
     r"""Select or create a secret that references your credentials"""
 
 
-class CreateInputAuthMethodsExt(BaseModel):
+class CreateInputSystemByPackAuthMethodsExt(BaseModel):
     auth_type: Annotated[
-        CreateInputAuthMethodsExtAuthenticationType, pydantic.Field(alias="authType")
+        CreateInputSystemByPackAuthMethodsExtAuthenticationType,
+        pydantic.Field(alias="authType"),
     ]
     r"""Authentication type"""
 
@@ -9348,7 +9410,9 @@ class CreateInputAuthMethodsExt(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputAuthMethodsExtAuthenticationType(value)
+                return models.CreateInputSystemByPackAuthMethodsExtAuthenticationType(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -9381,10 +9445,10 @@ class CreateInputAuthMethodsExt(BaseModel):
         return m
 
 
-class CreateInputInputOpenTelemetryTypedDict(TypedDict):
+class CreateInputSystemByPackInputOpenTelemetryTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputOpenTelemetryType
+    type: CreateInputSystemByPackInputOpenTelemetryType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9423,17 +9487,17 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist."""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    protocol: NotRequired[CreateInputProtocol]
+    protocol: NotRequired[CreateInputSystemByPackProtocol]
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
     extract_spans: NotRequired[bool]
     r"""Enable to extract each incoming span to a separate event"""
     extract_metrics: NotRequired[bool]
     r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
-    otlp_version: NotRequired[CreateInputOTLPVersion]
+    otlp_version: NotRequired[CreateInputSystemByPackOTLPVersion]
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
-    auth_type: NotRequired[CreateInputInputOpenTelemetryAuthenticationType]
+    auth_type: NotRequired[CreateInputSystemByPackInputOpenTelemetryAuthenticationType]
     r"""OpenTelemetry authentication type"""
-    auth_methods_ext: NotRequired[List[CreateInputAuthMethodsExtTypedDict]]
+    auth_methods_ext: NotRequired[List[CreateInputSystemByPackAuthMethodsExtTypedDict]]
     r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
@@ -9467,11 +9531,11 @@ class CreateInputInputOpenTelemetryTypedDict(TypedDict):
     r"""Binds 'otlpVersion' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'otlpVersion' at runtime."""
 
 
-class CreateInputInputOpenTelemetry(BaseModel):
+class CreateInputSystemByPackInputOpenTelemetry(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputOpenTelemetryType
+    type: CreateInputSystemByPackInputOpenTelemetryType
     r"""Source type identifier."""
 
     host: str
@@ -9548,7 +9612,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
     ] = None
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
-    protocol: Optional[CreateInputProtocol] = None
+    protocol: Optional[CreateInputSystemByPackProtocol] = None
     r"""Select whether to leverage gRPC or HTTP for OpenTelemetry"""
 
     extract_spans: Annotated[Optional[bool], pydantic.Field(alias="extractSpans")] = (
@@ -9562,18 +9626,19 @@ class CreateInputInputOpenTelemetry(BaseModel):
     r"""Enable to extract each incoming Gauge or IntGauge metric to multiple events, one per data point"""
 
     otlp_version: Annotated[
-        Optional[CreateInputOTLPVersion], pydantic.Field(alias="otlpVersion")
+        Optional[CreateInputSystemByPackOTLPVersion],
+        pydantic.Field(alias="otlpVersion"),
     ] = None
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
 
     auth_type: Annotated[
-        Optional[CreateInputInputOpenTelemetryAuthenticationType],
+        Optional[CreateInputSystemByPackInputOpenTelemetryAuthenticationType],
         pydantic.Field(alias="authType"),
     ] = None
     r"""OpenTelemetry authentication type"""
 
     auth_methods_ext: Annotated[
-        Optional[List[CreateInputAuthMethodsExt]],
+        Optional[List[CreateInputSystemByPackAuthMethodsExt]],
         pydantic.Field(alias="authMethodsExt"),
     ] = None
     r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
@@ -9643,7 +9708,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
     def serialize_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputProtocol(value)
+                return models.CreateInputSystemByPackProtocol(value)
             except ValueError:
                 return value
         return value
@@ -9652,7 +9717,7 @@ class CreateInputInputOpenTelemetry(BaseModel):
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputOTLPVersion(value)
+                return models.CreateInputSystemByPackOTLPVersion(value)
             except ValueError:
                 return value
         return value
@@ -9661,7 +9726,11 @@ class CreateInputInputOpenTelemetry(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputOpenTelemetryAuthenticationType(value)
+                return (
+                    models.CreateInputSystemByPackInputOpenTelemetryAuthenticationType(
+                        value
+                    )
+                )
             except ValueError:
                 return value
         return value
@@ -9724,7 +9793,9 @@ class CreateInputInputOpenTelemetry(BaseModel):
         return m
 
 
-class CreateInputAuthenticationProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackAuthenticationProtocol(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Authentication protocol"""
 
     # None
@@ -9743,7 +9814,7 @@ class CreateInputAuthenticationProtocol(str, Enum, metaclass=utils.OpenEnumMeta)
     SHA512 = "sha512"
 
 
-class CreateInputPrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackPrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Privacy protocol"""
 
     # None
@@ -9758,25 +9829,25 @@ class CreateInputPrivacyProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     AES256R = "aes256r"
 
 
-class CreateInputV3UserTypedDict(TypedDict):
+class CreateInputSystemByPackV3UserTypedDict(TypedDict):
     name: str
     r"""V3 name"""
-    auth_protocol: NotRequired[CreateInputAuthenticationProtocol]
+    auth_protocol: NotRequired[CreateInputSystemByPackAuthenticationProtocol]
     r"""Authentication protocol"""
     auth_key: NotRequired[str]
     r"""V3 authentication key"""
-    priv_protocol: NotRequired[CreateInputPrivacyProtocol]
+    priv_protocol: NotRequired[CreateInputSystemByPackPrivacyProtocol]
     r"""Privacy protocol"""
     priv_key: NotRequired[str]
     r"""V3 privacy key"""
 
 
-class CreateInputV3User(BaseModel):
+class CreateInputSystemByPackV3User(BaseModel):
     name: str
     r"""V3 name"""
 
     auth_protocol: Annotated[
-        Optional[CreateInputAuthenticationProtocol],
+        Optional[CreateInputSystemByPackAuthenticationProtocol],
         pydantic.Field(alias="authProtocol"),
     ] = None
     r"""Authentication protocol"""
@@ -9785,7 +9856,8 @@ class CreateInputV3User(BaseModel):
     r"""V3 authentication key"""
 
     priv_protocol: Annotated[
-        Optional[CreateInputPrivacyProtocol], pydantic.Field(alias="privProtocol")
+        Optional[CreateInputSystemByPackPrivacyProtocol],
+        pydantic.Field(alias="privProtocol"),
     ] = None
     r"""Privacy protocol"""
 
@@ -9796,7 +9868,7 @@ class CreateInputV3User(BaseModel):
     def serialize_auth_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputAuthenticationProtocol(value)
+                return models.CreateInputSystemByPackAuthenticationProtocol(value)
             except ValueError:
                 return value
         return value
@@ -9805,7 +9877,7 @@ class CreateInputV3User(BaseModel):
     def serialize_priv_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputPrivacyProtocol(value)
+                return models.CreateInputSystemByPackPrivacyProtocol(value)
             except ValueError:
                 return value
         return value
@@ -9827,18 +9899,18 @@ class CreateInputV3User(BaseModel):
         return m
 
 
-class CreateInputSNMPv3AuthenticationTypedDict(TypedDict):
+class CreateInputSystemByPackSNMPv3AuthenticationTypedDict(TypedDict):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
     v3_auth_enabled: bool
     r"""Enabled"""
     allow_unmatched_trap: NotRequired[bool]
     r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
-    v3_users: NotRequired[List[CreateInputV3UserTypedDict]]
+    v3_users: NotRequired[List[CreateInputSystemByPackV3UserTypedDict]]
     r"""User credentials for receiving v3 traps"""
 
 
-class CreateInputSNMPv3Authentication(BaseModel):
+class CreateInputSystemByPackSNMPv3Authentication(BaseModel):
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
     v3_auth_enabled: Annotated[bool, pydantic.Field(alias="v3AuthEnabled")]
@@ -9850,7 +9922,7 @@ class CreateInputSNMPv3Authentication(BaseModel):
     r"""Pass through traps that don't match any of the configured users. @{product} will not attempt to decrypt these traps."""
 
     v3_users: Annotated[
-        Optional[List[CreateInputV3User]], pydantic.Field(alias="v3Users")
+        Optional[List[CreateInputSystemByPackV3User]], pydantic.Field(alias="v3Users")
     ] = None
     r"""User credentials for receiving v3 traps"""
 
@@ -9871,7 +9943,7 @@ class CreateInputSNMPv3Authentication(BaseModel):
         return m
 
 
-class CreateInputInputSnmpTypedDict(TypedDict):
+class CreateInputSystemByPackInputSnmpTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: TypeOptionsSnmp
@@ -9895,7 +9967,7 @@ class CreateInputInputSnmpTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    snmp_v3_auth: NotRequired[CreateInputSNMPv3AuthenticationTypedDict]
+    snmp_v3_auth: NotRequired[CreateInputSystemByPackSNMPv3AuthenticationTypedDict]
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
     max_buffer_size: NotRequired[float]
     r"""Maximum number of events to buffer when downstream is blocking."""
@@ -9921,7 +9993,7 @@ class CreateInputInputSnmpTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateInputInputSnmp(BaseModel):
+class CreateInputSystemByPackInputSnmp(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -9960,7 +10032,8 @@ class CreateInputInputSnmp(BaseModel):
     pq: Optional[PqType] = None
 
     snmp_v3_auth: Annotated[
-        Optional[CreateInputSNMPv3Authentication], pydantic.Field(alias="snmpV3Auth")
+        Optional[CreateInputSystemByPackSNMPv3Authentication],
+        pydantic.Field(alias="snmpV3Auth"),
     ] = None
     r"""Authentication parameters for SNMPv3 trap. Set the log level to debug if you are experiencing authentication or decryption issues."""
 
@@ -10055,16 +10128,16 @@ class CreateInputInputSnmp(BaseModel):
         return m
 
 
-class CreateInputInputS3InventoryType(str, Enum):
+class CreateInputSystemByPackInputS3InventoryType(str, Enum):
     r"""Connector type identifier."""
 
     S3_INVENTORY = "s3_inventory"
 
 
-class CreateInputInputS3InventoryTypedDict(TypedDict):
+class CreateInputSystemByPackInputS3InventoryTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputS3InventoryType
+    type: CreateInputSystemByPackInputS3InventoryType
     r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -10197,11 +10270,11 @@ class CreateInputInputS3InventoryTypedDict(TypedDict):
     r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
 
 
-class CreateInputInputS3Inventory(BaseModel):
+class CreateInputSystemByPackInputS3Inventory(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputS3InventoryType
+    type: CreateInputSystemByPackInputS3InventoryType
     r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -10605,7 +10678,7 @@ class CreateInputInputS3Inventory(BaseModel):
         return m
 
 
-class CreateInputInputS3TypedDict(TypedDict):
+class CreateInputSystemByPackInputS3TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: TypeOptionsS3
@@ -10738,7 +10811,7 @@ class CreateInputInputS3TypedDict(TypedDict):
     r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
 
 
-class CreateInputInputS3(BaseModel):
+class CreateInputSystemByPackInputS3(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -11124,16 +11197,16 @@ class CreateInputInputS3(BaseModel):
         return m
 
 
-class CreateInputInputMetricsType(str, Enum):
+class CreateInputSystemByPackInputMetricsType(str, Enum):
     r"""Connector type identifier."""
 
     METRICS = "metrics"
 
 
-class CreateInputInputMetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputMetricsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputMetricsType
+    type: CreateInputSystemByPackInputMetricsType
     r"""Connector type identifier."""
     host: str
     r"""Address to bind on. For IPv4 (all addresses), use the default '0.0.0.0'. For IPv6, enter '::' (all addresses) or specify an IP address."""
@@ -11182,11 +11255,11 @@ class CreateInputInputMetricsTypedDict(TypedDict):
     r"""Binds 'tcpPort' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tcpPort' at runtime."""
 
 
-class CreateInputInputMetrics(BaseModel):
+class CreateInputSystemByPackInputMetrics(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputMetricsType
+    type: CreateInputSystemByPackInputMetricsType
     r"""Connector type identifier."""
 
     host: str
@@ -11319,16 +11392,16 @@ class CreateInputInputMetrics(BaseModel):
         return m
 
 
-class CreateInputInputCriblmetricsType(str, Enum):
+class CreateInputSystemByPackInputCriblmetricsType(str, Enum):
     r"""Connector type identifier."""
 
     CRIBLMETRICS = "criblmetrics"
 
 
-class CreateInputInputCriblmetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputCriblmetricsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputCriblmetricsType
+    type: CreateInputSystemByPackInputCriblmetricsType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -11359,11 +11432,11 @@ class CreateInputInputCriblmetricsTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputCriblmetrics(BaseModel):
+class CreateInputSystemByPackInputCriblmetrics(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputCriblmetricsType
+    type: CreateInputSystemByPackInputCriblmetricsType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -11449,7 +11522,9 @@ class CreateInputInputCriblmetrics(BaseModel):
         return m
 
 
-class CreateInputShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackShardIteratorStart(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Location at which to start reading a shard for the first time"""
 
     # Earliest record
@@ -11458,7 +11533,7 @@ class CreateInputShardIteratorStart(str, Enum, metaclass=utils.OpenEnumMeta):
     LATEST = "LATEST"
 
 
-class CreateInputRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
     # Cribl
@@ -11471,7 +11546,9 @@ class CreateInputRecordDataFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     LINE = "line"
 
 
-class CreateInputShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackShardLoadBalancing(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
 
     # Consistent Hashing
@@ -11480,7 +11557,7 @@ class CreateInputShardLoadBalancing(str, Enum, metaclass=utils.OpenEnumMeta):
     ROUND_ROBIN = "RoundRobin"
 
 
-class CreateInputInputKinesisTypedDict(TypedDict):
+class CreateInputSystemByPackInputKinesisTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: TypeOptionsKinesis
@@ -11508,15 +11585,15 @@ class CreateInputInputKinesisTypedDict(TypedDict):
     r"""Time interval in minutes between consecutive service calls"""
     shard_expr: NotRequired[str]
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
-    shard_iterator_type: NotRequired[CreateInputShardIteratorStart]
+    shard_iterator_type: NotRequired[CreateInputSystemByPackShardIteratorStart]
     r"""Location at which to start reading a shard for the first time"""
-    payload_format: NotRequired[CreateInputRecordDataFormat]
+    payload_format: NotRequired[CreateInputSystemByPackRecordDataFormat]
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
     get_records_limit: NotRequired[float]
     r"""Maximum number of records per getRecords call"""
     get_records_limit_total: NotRequired[float]
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
-    load_balancing_algorithm: NotRequired[CreateInputShardLoadBalancing]
+    load_balancing_algorithm: NotRequired[CreateInputSystemByPackShardLoadBalancing]
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
@@ -11572,7 +11649,7 @@ class CreateInputInputKinesisTypedDict(TypedDict):
     r"""Binds 'awsApiKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'awsApiKey' at runtime."""
 
 
-class CreateInputInputKinesis(BaseModel):
+class CreateInputSystemByPackInputKinesis(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
@@ -11619,13 +11696,14 @@ class CreateInputInputKinesis(BaseModel):
     r"""A JavaScript expression to be called with each shardId for the stream. If the expression evaluates to a truthy value, the shard will be processed."""
 
     shard_iterator_type: Annotated[
-        Optional[CreateInputShardIteratorStart],
+        Optional[CreateInputSystemByPackShardIteratorStart],
         pydantic.Field(alias="shardIteratorType"),
     ] = None
     r"""Location at which to start reading a shard for the first time"""
 
     payload_format: Annotated[
-        Optional[CreateInputRecordDataFormat], pydantic.Field(alias="payloadFormat")
+        Optional[CreateInputSystemByPackRecordDataFormat],
+        pydantic.Field(alias="payloadFormat"),
     ] = None
     r"""Format of data inside the Kinesis Stream records. Gzip compression is automatically detected."""
 
@@ -11640,7 +11718,7 @@ class CreateInputInputKinesis(BaseModel):
     r"""Maximum number of records, across all shards, to pull down at once per Worker Process"""
 
     load_balancing_algorithm: Annotated[
-        Optional[CreateInputShardLoadBalancing],
+        Optional[CreateInputSystemByPackShardLoadBalancing],
         pydantic.Field(alias="loadBalancingAlgorithm"),
     ] = None
     r"""The load-balancing algorithm to use for spreading out shards across Workers and Worker Processes"""
@@ -11770,7 +11848,7 @@ class CreateInputInputKinesis(BaseModel):
     def serialize_shard_iterator_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputShardIteratorStart(value)
+                return models.CreateInputSystemByPackShardIteratorStart(value)
             except ValueError:
                 return value
         return value
@@ -11779,7 +11857,7 @@ class CreateInputInputKinesis(BaseModel):
     def serialize_payload_format(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputRecordDataFormat(value)
+                return models.CreateInputSystemByPackRecordDataFormat(value)
             except ValueError:
                 return value
         return value
@@ -11788,7 +11866,7 @@ class CreateInputInputKinesis(BaseModel):
     def serialize_load_balancing_algorithm(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputShardLoadBalancing(value)
+                return models.CreateInputSystemByPackShardLoadBalancing(value)
             except ValueError:
                 return value
         return value
@@ -11863,16 +11941,16 @@ class CreateInputInputKinesis(BaseModel):
         return m
 
 
-class CreateInputInputHTTPRawType(str, Enum):
+class CreateInputSystemByPackInputHTTPRawType(str, Enum):
     r"""Source type identifier."""
 
     HTTP_RAW = "http_raw"
 
 
-class CreateInputInputHTTPRawTypedDict(TypedDict):
+class CreateInputSystemByPackInputHTTPRawTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputHTTPRawType
+    type: CreateInputSystemByPackInputHTTPRawType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -11963,11 +12041,11 @@ class CreateInputInputHTTPRawTypedDict(TypedDict):
     r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
-class CreateInputInputHTTPRaw(BaseModel):
+class CreateInputSystemByPackInputHTTPRaw(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputHTTPRawType
+    type: CreateInputSystemByPackInputHTTPRawType
     r"""Source type identifier."""
 
     host: str
@@ -12228,20 +12306,20 @@ class CreateInputInputHTTPRaw(BaseModel):
         return m
 
 
-class CreateInputInputDatagenType(str, Enum):
+class CreateInputSystemByPackInputDatagenType(str, Enum):
     r"""Connector type identifier."""
 
     DATAGEN = "datagen"
 
 
-class CreateInputSampleTypedDict(TypedDict):
+class CreateInputSystemByPackSampleTypedDict(TypedDict):
     sample: str
     r"""Data Generator File Name"""
     events_per_sec: float
     r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
 
 
-class CreateInputSample(BaseModel):
+class CreateInputSystemByPackSample(BaseModel):
     sample: str
     r"""Data Generator File Name"""
 
@@ -12249,12 +12327,12 @@ class CreateInputSample(BaseModel):
     r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
 
 
-class CreateInputInputDatagenTypedDict(TypedDict):
+class CreateInputSystemByPackInputDatagenTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputDatagenType
+    type: CreateInputSystemByPackInputDatagenType
     r"""Connector type identifier."""
-    samples: List[CreateInputSampleTypedDict]
+    samples: List[CreateInputSystemByPackSampleTypedDict]
     r"""Datagens"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -12281,14 +12359,14 @@ class CreateInputInputDatagenTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputDatagen(BaseModel):
+class CreateInputSystemByPackInputDatagen(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputDatagenType
+    type: CreateInputSystemByPackInputDatagenType
     r"""Connector type identifier."""
 
-    samples: List[CreateInputSample]
+    samples: List[CreateInputSystemByPackSample]
     r"""Datagens"""
 
     disabled: Optional[bool] = None
@@ -12364,13 +12442,13 @@ class CreateInputInputDatagen(BaseModel):
         return m
 
 
-class CreateInputInputDatadogAgentType(str, Enum):
+class CreateInputSystemByPackInputDatadogAgentType(str, Enum):
     r"""Source type identifier."""
 
     DATADOG_AGENT = "datadog_agent"
 
 
-class CreateInputSamplingRuleTypedDict(TypedDict):
+class CreateInputSystemByPackSamplingRuleTypedDict(TypedDict):
     service: str
     r"""Datadog service name"""
     environment: str
@@ -12379,7 +12457,7 @@ class CreateInputSamplingRuleTypedDict(TypedDict):
     r"""Sampling rate for this service/environment combination (0.0–1.0)"""
 
 
-class CreateInputSamplingRule(BaseModel):
+class CreateInputSystemByPackSamplingRule(BaseModel):
     service: str
     r"""Datadog service name"""
 
@@ -12390,14 +12468,14 @@ class CreateInputSamplingRule(BaseModel):
     r"""Sampling rate for this service/environment combination (0.0–1.0)"""
 
 
-class CreateInputInputDatadogAgentProxyModeTypedDict(TypedDict):
+class CreateInputSystemByPackInputDatadogAgentProxyModeTypedDict(TypedDict):
     enabled: bool
     r"""Forward key validation requests from the Datadog Agent to the Datadog API. If disabled, Stream handles key validation requests locally by always responding that the key is valid."""
     reject_unauthorized: NotRequired[bool]
     r"""Whether to reject certificates that cannot be verified against a valid CA (such as self-signed certificates)"""
 
 
-class CreateInputInputDatadogAgentProxyMode(BaseModel):
+class CreateInputSystemByPackInputDatadogAgentProxyMode(BaseModel):
     enabled: bool
     r"""Forward key validation requests from the Datadog Agent to the Datadog API. If disabled, Stream handles key validation requests locally by always responding that the key is valid."""
 
@@ -12423,10 +12501,10 @@ class CreateInputInputDatadogAgentProxyMode(BaseModel):
         return m
 
 
-class CreateInputInputDatadogAgentTypedDict(TypedDict):
+class CreateInputSystemByPackInputDatadogAgentTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputDatadogAgentType
+    type: CreateInputSystemByPackInputDatadogAgentType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -12475,11 +12553,11 @@ class CreateInputInputDatadogAgentTypedDict(TypedDict):
     r"""Extract each incoming metric to multiple events, one per data point. Recommended when sending metrics to a statsd-type output. If sending metrics to DatadogHQ or any destination that accepts arbitrary JSON, leave disabled."""
     sampling_rate: NotRequired[float]
     r"""The rate_by_service hint sent to connected tracers as the catch-all sampling rate. Applies to any service/environment not explicitly listed in Per-Service Sampling Rules. 1.0 = keep all traces (default); 0.0 = suggest dropping all."""
-    sampling_rules: NotRequired[List[CreateInputSamplingRuleTypedDict]]
+    sampling_rules: NotRequired[List[CreateInputSystemByPackSamplingRuleTypedDict]]
     r"""Per-service sampling rate hints. Each row maps to a \"service:<s>,env:<e>\" key in the rate_by_service response sent to tracers."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[CreateInputInputDatadogAgentProxyModeTypedDict]
+    proxy_mode: NotRequired[CreateInputSystemByPackInputDatadogAgentProxyModeTypedDict]
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -12492,11 +12570,11 @@ class CreateInputInputDatadogAgentTypedDict(TypedDict):
     r"""Binds 'port' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'port' at runtime."""
 
 
-class CreateInputInputDatadogAgent(BaseModel):
+class CreateInputSystemByPackInputDatadogAgent(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputDatadogAgentType
+    type: CreateInputSystemByPackInputDatadogAgentType
     r"""Source type identifier."""
 
     host: str
@@ -12599,7 +12677,8 @@ class CreateInputInputDatadogAgent(BaseModel):
     r"""The rate_by_service hint sent to connected tracers as the catch-all sampling rate. Applies to any service/environment not explicitly listed in Per-Service Sampling Rules. 1.0 = keep all traces (default); 0.0 = suggest dropping all."""
 
     sampling_rules: Annotated[
-        Optional[List[CreateInputSamplingRule]], pydantic.Field(alias="samplingRules")
+        Optional[List[CreateInputSystemByPackSamplingRule]],
+        pydantic.Field(alias="samplingRules"),
     ] = None
     r"""Per-service sampling rate hints. Each row maps to a \"service:<s>,env:<e>\" key in the rate_by_service response sent to tracers."""
 
@@ -12607,7 +12686,7 @@ class CreateInputInputDatadogAgent(BaseModel):
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[CreateInputInputDatadogAgentProxyMode],
+        Optional[CreateInputSystemByPackInputDatadogAgentProxyMode],
         pydantic.Field(alias="proxyMode"),
     ] = None
 
@@ -12684,16 +12763,16 @@ class CreateInputInputDatadogAgent(BaseModel):
         return m
 
 
-class CreateInputInputCrowdstrikeType(str, Enum):
+class CreateInputSystemByPackInputCrowdstrikeType(str, Enum):
     r"""Connector type identifier."""
 
     CROWDSTRIKE = "crowdstrike"
 
 
-class CreateInputInputCrowdstrikeTypedDict(TypedDict):
+class CreateInputSystemByPackInputCrowdstrikeTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputCrowdstrikeType
+    type: CreateInputSystemByPackInputCrowdstrikeType
     r"""Connector type identifier."""
     queue_name: str
     r"""The name, URL, or ARN of the SQS queue to read notifications from. When a non-AWS URL is specified, format must be: '{url}/myQueueName'. Example: 'https://host:port/myQueueName'. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at init time. Example referencing a Global Variable: `https://host:port/myQueue-${C.vars.myVar}`."""
@@ -12818,11 +12897,11 @@ class CreateInputInputCrowdstrikeTypedDict(TypedDict):
     r"""Binds 'SQSAwsSecretKey' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'SQSAwsSecretKey' at runtime."""
 
 
-class CreateInputInputCrowdstrike(BaseModel):
+class CreateInputSystemByPackInputCrowdstrike(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputCrowdstrikeType
+    type: CreateInputSystemByPackInputCrowdstrikeType
     r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
@@ -13200,13 +13279,15 @@ class CreateInputInputCrowdstrike(BaseModel):
         return m
 
 
-class CreateInputInputWindowsMetricsType(str, Enum):
+class CreateInputSystemByPackInputWindowsMetricsType(str, Enum):
     r"""Connector type identifier."""
 
     WINDOWS_METRICS = "windows_metrics"
 
 
-class CreateInputInputWindowsMetricsSystemMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackInputWindowsMetricsSystemMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of details for system metrics"""
 
     # Basic
@@ -13219,15 +13300,15 @@ class CreateInputInputWindowsMetricsSystemMode(str, Enum, metaclass=utils.OpenEn
     DISABLED = "disabled"
 
 
-class CreateInputInputWindowsMetricsSystemTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputWindowsMetricsSystemMode]
+class CreateInputSystemByPackInputWindowsMetricsSystemTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputWindowsMetricsSystemMode]
     r"""Select the level of details for system metrics"""
     detail: NotRequired[bool]
     r"""Generate metrics for all system information"""
 
 
-class CreateInputInputWindowsMetricsSystem(BaseModel):
-    mode: Optional[CreateInputInputWindowsMetricsSystemMode] = None
+class CreateInputSystemByPackInputWindowsMetricsSystem(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputWindowsMetricsSystemMode] = None
     r"""Select the level of details for system metrics"""
 
     detail: Optional[bool] = None
@@ -13237,7 +13318,9 @@ class CreateInputInputWindowsMetricsSystem(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputWindowsMetricsSystemMode(value)
+                return models.CreateInputSystemByPackInputWindowsMetricsSystemMode(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -13259,7 +13342,9 @@ class CreateInputInputWindowsMetricsSystem(BaseModel):
         return m
 
 
-class CreateInputInputWindowsMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackInputWindowsMetricsCPUMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of details for CPU metrics"""
 
     # Basic
@@ -13272,8 +13357,8 @@ class CreateInputInputWindowsMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumM
     DISABLED = "disabled"
 
 
-class CreateInputInputWindowsMetricsCPUTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputWindowsMetricsCPUMode]
+class CreateInputSystemByPackInputWindowsMetricsCPUTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputWindowsMetricsCPUMode]
     r"""Select the level of details for CPU metrics"""
     per_cpu: NotRequired[bool]
     r"""Generate metrics for each CPU"""
@@ -13283,8 +13368,8 @@ class CreateInputInputWindowsMetricsCPUTypedDict(TypedDict):
     r"""Generate raw, monotonic CPU time counters"""
 
 
-class CreateInputInputWindowsMetricsCPU(BaseModel):
-    mode: Optional[CreateInputInputWindowsMetricsCPUMode] = None
+class CreateInputSystemByPackInputWindowsMetricsCPU(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputWindowsMetricsCPUMode] = None
     r"""Select the level of details for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
@@ -13300,7 +13385,7 @@ class CreateInputInputWindowsMetricsCPU(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputWindowsMetricsCPUMode(value)
+                return models.CreateInputSystemByPackInputWindowsMetricsCPUMode(value)
             except ValueError:
                 return value
         return value
@@ -13322,7 +13407,9 @@ class CreateInputInputWindowsMetricsCPU(BaseModel):
         return m
 
 
-class CreateInputInputWindowsMetricsMemoryMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackInputWindowsMetricsMemoryMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of details for memory metrics"""
 
     # Basic
@@ -13335,15 +13422,15 @@ class CreateInputInputWindowsMetricsMemoryMode(str, Enum, metaclass=utils.OpenEn
     DISABLED = "disabled"
 
 
-class CreateInputInputWindowsMetricsMemoryTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputWindowsMetricsMemoryMode]
+class CreateInputSystemByPackInputWindowsMetricsMemoryTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputWindowsMetricsMemoryMode]
     r"""Select the level of details for memory metrics"""
     detail: NotRequired[bool]
     r"""Generate metrics for all memory states"""
 
 
-class CreateInputInputWindowsMetricsMemory(BaseModel):
-    mode: Optional[CreateInputInputWindowsMetricsMemoryMode] = None
+class CreateInputSystemByPackInputWindowsMetricsMemory(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputWindowsMetricsMemoryMode] = None
     r"""Select the level of details for memory metrics"""
 
     detail: Optional[bool] = None
@@ -13353,7 +13440,9 @@ class CreateInputInputWindowsMetricsMemory(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputWindowsMetricsMemoryMode(value)
+                return models.CreateInputSystemByPackInputWindowsMetricsMemoryMode(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -13375,7 +13464,7 @@ class CreateInputInputWindowsMetricsMemory(BaseModel):
         return m
 
 
-class CreateInputInputWindowsMetricsNetworkMode(
+class CreateInputSystemByPackInputWindowsMetricsNetworkMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of details for network metrics"""
@@ -13390,8 +13479,8 @@ class CreateInputInputWindowsMetricsNetworkMode(
     DISABLED = "disabled"
 
 
-class CreateInputInputWindowsMetricsNetworkTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputWindowsMetricsNetworkMode]
+class CreateInputSystemByPackInputWindowsMetricsNetworkTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputWindowsMetricsNetworkMode]
     r"""Select the level of details for network metrics"""
     detail: NotRequired[bool]
     r"""Generate full network metrics"""
@@ -13403,8 +13492,8 @@ class CreateInputInputWindowsMetricsNetworkTypedDict(TypedDict):
     r"""Generate separate metrics for each interface"""
 
 
-class CreateInputInputWindowsMetricsNetwork(BaseModel):
-    mode: Optional[CreateInputInputWindowsMetricsNetworkMode] = None
+class CreateInputSystemByPackInputWindowsMetricsNetwork(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputWindowsMetricsNetworkMode] = None
     r"""Select the level of details for network metrics"""
 
     detail: Optional[bool] = None
@@ -13425,7 +13514,9 @@ class CreateInputInputWindowsMetricsNetwork(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputWindowsMetricsNetworkMode(value)
+                return models.CreateInputSystemByPackInputWindowsMetricsNetworkMode(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -13449,7 +13540,9 @@ class CreateInputInputWindowsMetricsNetwork(BaseModel):
         return m
 
 
-class CreateInputInputWindowsMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class CreateInputSystemByPackInputWindowsMetricsDiskMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of details for disk metrics"""
 
     # Basic
@@ -13462,8 +13555,8 @@ class CreateInputInputWindowsMetricsDiskMode(str, Enum, metaclass=utils.OpenEnum
     DISABLED = "disabled"
 
 
-class CreateInputInputWindowsMetricsDiskTypedDict(TypedDict):
-    mode: NotRequired[CreateInputInputWindowsMetricsDiskMode]
+class CreateInputSystemByPackInputWindowsMetricsDiskTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputWindowsMetricsDiskMode]
     r"""Select the level of details for disk metrics"""
     per_volume: NotRequired[bool]
     r"""Generate separate metrics for each volume"""
@@ -13473,8 +13566,8 @@ class CreateInputInputWindowsMetricsDiskTypedDict(TypedDict):
     r"""Windows volumes to include/exclude. E.g.: C:, !E:, etc. Wildcards and ! (not) operators are supported. All volumes are included if this list is empty."""
 
 
-class CreateInputInputWindowsMetricsDisk(BaseModel):
-    mode: Optional[CreateInputInputWindowsMetricsDiskMode] = None
+class CreateInputSystemByPackInputWindowsMetricsDisk(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputWindowsMetricsDiskMode] = None
     r"""Select the level of details for disk metrics"""
 
     per_volume: Annotated[Optional[bool], pydantic.Field(alias="perVolume")] = None
@@ -13490,7 +13583,7 @@ class CreateInputInputWindowsMetricsDisk(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputInputWindowsMetricsDiskMode(value)
+                return models.CreateInputSystemByPackInputWindowsMetricsDiskMode(value)
             except ValueError:
                 return value
         return value
@@ -13512,24 +13605,24 @@ class CreateInputInputWindowsMetricsDisk(BaseModel):
         return m
 
 
-class CreateInputInputWindowsMetricsCustomTypedDict(TypedDict):
-    system: NotRequired[CreateInputInputWindowsMetricsSystemTypedDict]
-    cpu: NotRequired[CreateInputInputWindowsMetricsCPUTypedDict]
-    memory: NotRequired[CreateInputInputWindowsMetricsMemoryTypedDict]
-    network: NotRequired[CreateInputInputWindowsMetricsNetworkTypedDict]
-    disk: NotRequired[CreateInputInputWindowsMetricsDiskTypedDict]
+class CreateInputSystemByPackInputWindowsMetricsCustomTypedDict(TypedDict):
+    system: NotRequired[CreateInputSystemByPackInputWindowsMetricsSystemTypedDict]
+    cpu: NotRequired[CreateInputSystemByPackInputWindowsMetricsCPUTypedDict]
+    memory: NotRequired[CreateInputSystemByPackInputWindowsMetricsMemoryTypedDict]
+    network: NotRequired[CreateInputSystemByPackInputWindowsMetricsNetworkTypedDict]
+    disk: NotRequired[CreateInputSystemByPackInputWindowsMetricsDiskTypedDict]
 
 
-class CreateInputInputWindowsMetricsCustom(BaseModel):
-    system: Optional[CreateInputInputWindowsMetricsSystem] = None
+class CreateInputSystemByPackInputWindowsMetricsCustom(BaseModel):
+    system: Optional[CreateInputSystemByPackInputWindowsMetricsSystem] = None
 
-    cpu: Optional[CreateInputInputWindowsMetricsCPU] = None
+    cpu: Optional[CreateInputSystemByPackInputWindowsMetricsCPU] = None
 
-    memory: Optional[CreateInputInputWindowsMetricsMemory] = None
+    memory: Optional[CreateInputSystemByPackInputWindowsMetricsMemory] = None
 
-    network: Optional[CreateInputInputWindowsMetricsNetwork] = None
+    network: Optional[CreateInputSystemByPackInputWindowsMetricsNetwork] = None
 
-    disk: Optional[CreateInputInputWindowsMetricsDisk] = None
+    disk: Optional[CreateInputSystemByPackInputWindowsMetricsDisk] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -13548,17 +13641,17 @@ class CreateInputInputWindowsMetricsCustom(BaseModel):
         return m
 
 
-class CreateInputInputWindowsMetricsHostTypedDict(TypedDict):
+class CreateInputSystemByPackInputWindowsMetricsHostTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
-    custom: NotRequired[CreateInputInputWindowsMetricsCustomTypedDict]
+    custom: NotRequired[CreateInputSystemByPackInputWindowsMetricsCustomTypedDict]
 
 
-class CreateInputInputWindowsMetricsHost(BaseModel):
+class CreateInputSystemByPackInputWindowsMetricsHost(BaseModel):
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
-    custom: Optional[CreateInputInputWindowsMetricsCustom] = None
+    custom: Optional[CreateInputSystemByPackInputWindowsMetricsCustom] = None
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -13586,7 +13679,7 @@ class CreateInputInputWindowsMetricsHost(BaseModel):
         return m
 
 
-class CreateInputInputWindowsMetricsPersistenceTypedDict(TypedDict):
+class CreateInputSystemByPackInputWindowsMetricsPersistenceTypedDict(TypedDict):
     r"""persistence"""
 
     enable: NotRequired[bool]
@@ -13603,7 +13696,7 @@ class CreateInputInputWindowsMetricsPersistenceTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/windows_metrics"""
 
 
-class CreateInputInputWindowsMetricsPersistence(BaseModel):
+class CreateInputSystemByPackInputWindowsMetricsPersistence(BaseModel):
     r"""persistence"""
 
     enable: Optional[bool] = None
@@ -13659,10 +13752,10 @@ class CreateInputInputWindowsMetricsPersistence(BaseModel):
         return m
 
 
-class CreateInputInputWindowsMetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputWindowsMetricsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputWindowsMetricsType
+    type: CreateInputSystemByPackInputWindowsMetricsType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -13681,12 +13774,14 @@ class CreateInputInputWindowsMetricsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
-    host: NotRequired[CreateInputInputWindowsMetricsHostTypedDict]
+    host: NotRequired[CreateInputSystemByPackInputWindowsMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
     gpu: NotRequired[GpuTypeTypedDict]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    persistence: NotRequired[CreateInputInputWindowsMetricsPersistenceTypedDict]
+    persistence: NotRequired[
+        CreateInputSystemByPackInputWindowsMetricsPersistenceTypedDict
+    ]
     r"""persistence"""
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
@@ -13698,11 +13793,11 @@ class CreateInputInputWindowsMetricsTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputWindowsMetrics(BaseModel):
+class CreateInputSystemByPackInputWindowsMetrics(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputWindowsMetricsType
+    type: CreateInputSystemByPackInputWindowsMetricsType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -13733,7 +13828,7 @@ class CreateInputInputWindowsMetrics(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
-    host: Optional[CreateInputInputWindowsMetricsHost] = None
+    host: Optional[CreateInputSystemByPackInputWindowsMetricsHost] = None
 
     process: Optional[ProcessType] = None
 
@@ -13742,7 +13837,7 @@ class CreateInputInputWindowsMetrics(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    persistence: Optional[CreateInputInputWindowsMetricsPersistence] = None
+    persistence: Optional[CreateInputSystemByPackInputWindowsMetricsPersistence] = None
     r"""persistence"""
 
     disable_native_module: Annotated[
@@ -13801,16 +13896,16 @@ class CreateInputInputWindowsMetrics(BaseModel):
         return m
 
 
-class CreateInputInputKubeEventsType(str, Enum):
+class CreateInputSystemByPackInputKubeEventsType(str, Enum):
     r"""Connector type identifier."""
 
     KUBE_EVENTS = "kube_events"
 
 
-class CreateInputInputKubeEventsTypedDict(TypedDict):
+class CreateInputSystemByPackInputKubeEventsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputKubeEventsType
+    type: CreateInputSystemByPackInputKubeEventsType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -13839,11 +13934,11 @@ class CreateInputInputKubeEventsTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputKubeEvents(BaseModel):
+class CreateInputSystemByPackInputKubeEvents(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputKubeEventsType
+    type: CreateInputSystemByPackInputKubeEventsType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -13923,20 +14018,20 @@ class CreateInputInputKubeEvents(BaseModel):
         return m
 
 
-class CreateInputInputKubeLogsType(str, Enum):
+class CreateInputSystemByPackInputKubeLogsType(str, Enum):
     r"""Connector type identifier."""
 
     KUBE_LOGS = "kube_logs"
 
 
-class CreateInputInputKubeLogsRuleTypedDict(TypedDict):
+class CreateInputSystemByPackInputKubeLogsRuleTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to Pod objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class CreateInputInputKubeLogsRule(BaseModel):
+class CreateInputSystemByPackInputKubeLogsRule(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to Pod objects. Return 'true' to include it."""
 
@@ -13960,10 +14055,10 @@ class CreateInputInputKubeLogsRule(BaseModel):
         return m
 
 
-class CreateInputInputKubeLogsTypedDict(TypedDict):
+class CreateInputSystemByPackInputKubeLogsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputKubeLogsType
+    type: CreateInputSystemByPackInputKubeLogsType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -13982,7 +14077,7 @@ class CreateInputInputKubeLogsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
-    rules: NotRequired[List[CreateInputInputKubeLogsRuleTypedDict]]
+    rules: NotRequired[List[CreateInputSystemByPackInputKubeLogsRuleTypedDict]]
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
     timestamps: NotRequired[bool]
     r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
@@ -14008,11 +14103,11 @@ class CreateInputInputKubeLogsTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputKubeLogs(BaseModel):
+class CreateInputSystemByPackInputKubeLogs(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputKubeLogsType
+    type: CreateInputSystemByPackInputKubeLogsType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -14043,7 +14138,7 @@ class CreateInputInputKubeLogs(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
 
-    rules: Optional[List[CreateInputInputKubeLogsRule]] = None
+    rules: Optional[List[CreateInputSystemByPackInputKubeLogsRule]] = None
     r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
 
     timestamps: Optional[bool] = None
@@ -14134,13 +14229,13 @@ class CreateInputInputKubeLogs(BaseModel):
         return m
 
 
-class CreateInputInputKubeMetricsType(str, Enum):
+class CreateInputSystemByPackInputKubeMetricsType(str, Enum):
     r"""Connector type identifier."""
 
     KUBE_METRICS = "kube_metrics"
 
 
-class CreateInputInputKubeMetricsPersistenceTypedDict(TypedDict):
+class CreateInputSystemByPackInputKubeMetricsPersistenceTypedDict(TypedDict):
     r"""persistence"""
 
     enable: NotRequired[bool]
@@ -14157,7 +14252,7 @@ class CreateInputInputKubeMetricsPersistenceTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
 
 
-class CreateInputInputKubeMetricsPersistence(BaseModel):
+class CreateInputSystemByPackInputKubeMetricsPersistence(BaseModel):
     r"""persistence"""
 
     enable: Optional[bool] = None
@@ -14213,10 +14308,10 @@ class CreateInputInputKubeMetricsPersistence(BaseModel):
         return m
 
 
-class CreateInputInputKubeMetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputKubeMetricsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputInputKubeMetricsType
+    type: CreateInputSystemByPackInputKubeMetricsType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -14243,7 +14338,9 @@ class CreateInputInputKubeMetricsTypedDict(TypedDict):
     r"""Add rules to decide which Kubernetes objects to generate metrics for. Events are generated if no rules are given or of all the rules' expressions evaluate to true."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    persistence: NotRequired[CreateInputInputKubeMetricsPersistenceTypedDict]
+    persistence: NotRequired[
+        CreateInputSystemByPackInputKubeMetricsPersistenceTypedDict
+    ]
     r"""persistence"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -14253,11 +14350,11 @@ class CreateInputInputKubeMetricsTypedDict(TypedDict):
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
-class CreateInputInputKubeMetrics(BaseModel):
+class CreateInputSystemByPackInputKubeMetrics(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputInputKubeMetricsType
+    type: CreateInputSystemByPackInputKubeMetricsType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -14304,7 +14401,7 @@ class CreateInputInputKubeMetrics(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    persistence: Optional[CreateInputInputKubeMetricsPersistence] = None
+    persistence: Optional[CreateInputSystemByPackInputKubeMetricsPersistence] = None
     r"""persistence"""
 
     description: Optional[str] = None
@@ -14357,293 +14454,287 @@ class CreateInputInputKubeMetrics(BaseModel):
         return m
 
 
-class CreateInputInputSystemStateType(str, Enum):
-    r"""Connector type identifier."""
-
-    SYSTEM_STATE = "system_state"
-
-
 try:
-    CreateInputInputOkta.model_rebuild()
+    CreateInputSystemByPackInputOkta.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputActivities.model_rebuild()
+    CreateInputSystemByPackActivities.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputChats.model_rebuild()
+    CreateInputSystemByPackChats.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputProjects.model_rebuild()
+    CreateInputSystemByPackProjects.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputChatMessages.model_rebuild()
+    CreateInputSystemByPackChatMessages.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputProjectDetails.model_rebuild()
+    CreateInputSystemByPackProjectDetails.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputGroups.model_rebuild()
+    CreateInputSystemByPackGroups.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputOrganizations.model_rebuild()
+    CreateInputSystemByPackOrganizations.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputOrganizationUsers.model_rebuild()
+    CreateInputSystemByPackOrganizationUsers.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputOrganizationRoles.model_rebuild()
+    CreateInputSystemByPackOrganizationRoles.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputAnthropicCompliance.model_rebuild()
+    CreateInputSystemByPackInputAnthropicCompliance.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputOpenaiComplianceLogs.model_rebuild()
+    CreateInputSystemByPackInputOpenaiComplianceLogs.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputUpwindHec.model_rebuild()
+    CreateInputSystemByPackInputUpwindHec.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputSysdigHec.model_rebuild()
+    CreateInputSystemByPackInputSysdigHec.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputTLSSettingsServerSide.model_rebuild()
+    CreateInputSystemByPackTLSSettingsServerSide.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputCloudflareHec.model_rebuild()
+    CreateInputSystemByPackInputCloudflareHec.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputZscalerHecAuthToken.model_rebuild()
+    CreateInputSystemByPackInputZscalerHecAuthToken.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputZscalerHec.model_rebuild()
+    CreateInputSystemByPackInputZscalerHec.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputServicenowTable.model_rebuild()
+    CreateInputSystemByPackInputServicenowTable.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputBedrockS3.model_rebuild()
+    CreateInputSystemByPackInputBedrockS3.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputSecurityLake.model_rebuild()
+    CreateInputSystemByPackInputSecurityLake.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputNetflow.model_rebuild()
+    CreateInputSystemByPackInputNetflow.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWizWebhook.model_rebuild()
+    CreateInputSystemByPackInputWizWebhook.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputOpenaiContentConfig.model_rebuild()
+    CreateInputSystemByPackInputOpenaiContentConfig.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputOpenai.model_rebuild()
+    CreateInputSystemByPackInputOpenai.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWizContentConfig.model_rebuild()
+    CreateInputSystemByPackInputWizContentConfig.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWiz.model_rebuild()
+    CreateInputSystemByPackInputWiz.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputJournalFilesRule.model_rebuild()
+    CreateInputSystemByPackInputJournalFilesRule.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputJournalFiles.model_rebuild()
+    CreateInputSystemByPackInputJournalFiles.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputRawUDP.model_rebuild()
+    CreateInputSystemByPackInputRawUDP.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputAppleUnifiedLogs.model_rebuild()
+    CreateInputSystemByPackInputAppleUnifiedLogs.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWinEventLogs.model_rebuild()
+    CreateInputSystemByPackInputWinEventLogs.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputMTLSSettings.model_rebuild()
+    CreateInputSystemByPackMTLSSettings.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputQuery.model_rebuild()
+    CreateInputSystemByPackQuery.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputSubscription.model_rebuild()
+    CreateInputSystemByPackSubscription.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWef.model_rebuild()
+    CreateInputSystemByPackInputWef.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputAppscopeFilter.model_rebuild()
+    CreateInputSystemByPackInputAppscopeFilter.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputAppscopePersistence.model_rebuild()
+    CreateInputSystemByPackInputAppscopePersistence.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputAppscope.model_rebuild()
+    CreateInputSystemByPackInputAppscope.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputTCP.model_rebuild()
+    CreateInputSystemByPackInputTCP.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputFile.model_rebuild()
+    CreateInputSystemByPackInputFile.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputSyslogSyslog2.model_rebuild()
+    CreateInputSystemByPackInputSyslogSyslog2.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputSyslogSyslog1.model_rebuild()
+    CreateInputSystemByPackInputSyslogSyslog1.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputSqs.model_rebuild()
+    CreateInputSystemByPackInputSqs.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputModelDrivenTelemetry.model_rebuild()
+    CreateInputSystemByPackInputModelDrivenTelemetry.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputAuthMethodsExt.model_rebuild()
+    CreateInputSystemByPackAuthMethodsExt.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputOpenTelemetry.model_rebuild()
+    CreateInputSystemByPackInputOpenTelemetry.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputV3User.model_rebuild()
+    CreateInputSystemByPackV3User.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputSNMPv3Authentication.model_rebuild()
+    CreateInputSystemByPackSNMPv3Authentication.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputSnmp.model_rebuild()
+    CreateInputSystemByPackInputSnmp.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputS3Inventory.model_rebuild()
+    CreateInputSystemByPackInputS3Inventory.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputS3.model_rebuild()
+    CreateInputSystemByPackInputS3.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputMetrics.model_rebuild()
+    CreateInputSystemByPackInputMetrics.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputCriblmetrics.model_rebuild()
+    CreateInputSystemByPackInputCriblmetrics.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputKinesis.model_rebuild()
+    CreateInputSystemByPackInputKinesis.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputHTTPRaw.model_rebuild()
+    CreateInputSystemByPackInputHTTPRaw.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputSample.model_rebuild()
+    CreateInputSystemByPackSample.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputDatagen.model_rebuild()
+    CreateInputSystemByPackInputDatagen.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputDatadogAgentProxyMode.model_rebuild()
+    CreateInputSystemByPackInputDatadogAgentProxyMode.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputDatadogAgent.model_rebuild()
+    CreateInputSystemByPackInputDatadogAgent.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputCrowdstrike.model_rebuild()
+    CreateInputSystemByPackInputCrowdstrike.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWindowsMetricsCPU.model_rebuild()
+    CreateInputSystemByPackInputWindowsMetricsCPU.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWindowsMetricsNetwork.model_rebuild()
+    CreateInputSystemByPackInputWindowsMetricsNetwork.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWindowsMetricsDisk.model_rebuild()
+    CreateInputSystemByPackInputWindowsMetricsDisk.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWindowsMetricsPersistence.model_rebuild()
+    CreateInputSystemByPackInputWindowsMetricsPersistence.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputWindowsMetrics.model_rebuild()
+    CreateInputSystemByPackInputWindowsMetrics.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputKubeEvents.model_rebuild()
+    CreateInputSystemByPackInputKubeEvents.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputKubeLogsRule.model_rebuild()
+    CreateInputSystemByPackInputKubeLogsRule.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputKubeLogs.model_rebuild()
+    CreateInputSystemByPackInputKubeLogs.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputKubeMetricsPersistence.model_rebuild()
+    CreateInputSystemByPackInputKubeMetricsPersistence.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputInputKubeMetrics.model_rebuild()
+    CreateInputSystemByPackInputKubeMetrics.model_rebuild()
 except NameError:
     pass

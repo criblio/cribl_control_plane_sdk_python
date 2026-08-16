@@ -340,6 +340,8 @@ class OutputAzureDataExplorerTypedDict(TypedDict):
     r"""Maximum size, in KB, of the request body"""
     max_payload_events: NotRequired[float]
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     reject_unauthorized: NotRequired[bool]
@@ -715,6 +717,11 @@ class OutputAzureDataExplorer(BaseModel):
     ] = None
     r"""Maximum number of events to include in the request body. Default is 0 (unlimited)."""
 
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
+
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
     ] = None
@@ -1069,6 +1076,7 @@ class OutputAzureDataExplorer(BaseModel):
                 "concurrency",
                 "maxPayloadSizeKB",
                 "maxPayloadEvents",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "rejectUnauthorized",
                 "useRoundRobinDns",

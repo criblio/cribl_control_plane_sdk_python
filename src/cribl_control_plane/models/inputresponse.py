@@ -50,7 +50,7 @@ from .inputcollectionorigindatasourcediscoverywithdestinationarnconstraint impor
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint,
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict,
 )
-from .inputresponse_inputsystemstate_type import (
+from .inputresponse_inputkubemetrics import (
     InputResponseInputAnthropicCompliance,
     InputResponseInputAnthropicComplianceTypedDict,
     InputResponseInputAppleUnifiedLogs,
@@ -115,7 +115,6 @@ from .inputresponse_inputsystemstate_type import (
     InputResponseInputSysdigHecTypedDict,
     InputResponseInputSyslogUnion,
     InputResponseInputSyslogUnionTypedDict,
-    InputResponseInputSystemStateType,
     InputResponseInputTCP,
     InputResponseInputTCPTypedDict,
     InputResponseInputUpwindHec,
@@ -202,6 +201,12 @@ from pydantic import ConfigDict, field_serializer, model_serializer
 from pydantic.functional_validators import AfterValidator, BeforeValidator
 from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class InputResponseInputSystemStateType(str, Enum):
+    r"""Connector type identifier."""
+
+    SYSTEM_STATE = "system_state"
 
 
 class InputResponseHostsFileTypedDict(TypedDict):
@@ -13152,9 +13157,9 @@ InputResponseTypedDict = TypeAliasType(
         InputResponseInputCriblTCPTypedDict,
         InputResponseInputNetflowTypedDict,
         InputResponseInputOpenaiTypedDict,
-        InputResponseInputOktaTypedDict,
         InputResponseInputEventhubAmqpTypedDict,
         InputResponseInputTcpjsonTypedDict,
+        InputResponseInputOktaTypedDict,
         InputResponseInputGooglePubsubTypedDict,
         InputResponseInputOffice365ServiceTypedDict,
         InputResponseInputTCPTypedDict,

@@ -229,6 +229,10 @@ class AppsTypedDict(TypedDict):
 
     app_backend_broker_origin: NotRequired[str]
     r"""Public origin for App Platform backend broker callbacks (standalone/on-prem only). Must be an absolute HTTP(S) URL."""
+    app_backend_max_callbacks_per_installation: NotRequired[int]
+    r"""Maximum number of broker callbacks per minute a single app backend installation may make. Over-limit callbacks receive HTTP 429."""
+    app_backend_max_callbacks_total: NotRequired[int]
+    r"""Maximum number of broker callbacks per minute across all app backend installations on this Leader. Unlimited when unset. Over-limit callbacks receive HTTP 429."""
     app_backend_max_in_flight: NotRequired[int]
     r"""Maximum number of concurrent App Platform backend invocations across all apps on this Leader."""
     enabled: NotRequired[bool]
@@ -243,6 +247,16 @@ class Apps(BaseModel):
     ] = None
     r"""Public origin for App Platform backend broker callbacks (standalone/on-prem only). Must be an absolute HTTP(S) URL."""
 
+    app_backend_max_callbacks_per_installation: Annotated[
+        Optional[int], pydantic.Field(alias="appBackendMaxCallbacksPerInstallation")
+    ] = None
+    r"""Maximum number of broker callbacks per minute a single app backend installation may make. Over-limit callbacks receive HTTP 429."""
+
+    app_backend_max_callbacks_total: Annotated[
+        Optional[int], pydantic.Field(alias="appBackendMaxCallbacksTotal")
+    ] = None
+    r"""Maximum number of broker callbacks per minute across all app backend installations on this Leader. Unlimited when unset. Over-limit callbacks receive HTTP 429."""
+
     app_backend_max_in_flight: Annotated[
         Optional[int], pydantic.Field(alias="appBackendMaxInFlight")
     ] = None
@@ -254,7 +268,13 @@ class Apps(BaseModel):
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
-            ["appBackendBrokerOrigin", "appBackendMaxInFlight", "enabled"]
+            [
+                "appBackendBrokerOrigin",
+                "appBackendMaxCallbacksPerInstallation",
+                "appBackendMaxCallbacksTotal",
+                "appBackendMaxInFlight",
+                "enabled",
+            ]
         )
         serialized = handler(self)
         m = {}

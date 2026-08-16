@@ -21,9 +21,9 @@ class FunctionConfSchemaOTLPMetricsOTLPVersion(str, Enum, metaclass=utils.OpenEn
 
 class FunctionConfSchemaOtlpMetricsTypedDict(TypedDict):
     resource_attributes: NotRequired[List[str]]
-    r"""Top-level attributes to add as resource attributes. Wildcards and ! (not) operators are supported; entries without a wildcard match exactly, so `cluster` matches only `cluster`, while `cluster*` also matches `cluster_id`. List ! entries before the broader patterns they narrow, for example `!k8s.internal.*`, `k8s.*`. Matching applies to whole top-level attribute names and does not descend into nested objects, so `k8s.*` matches an attribute named `k8s.cluster.name`. Use Eval to copy nested attributes to the top level for matching."""
+    r"""Top-level event fields to promote as OTLP resource attributes. Entries without `*` match the attribute name exactly (`cluster` matches only `cluster`). Append `*` for prefix matching (`cluster*` also matches `cluster_id` and `cluster.name`). Use `!` to exclude names; list exclusions before broader patterns (for example `!k8s.internal.*`, `k8s.*`). Matching is by whole top-level field name only; it does not walk nested objects. Use Eval to copy nested fields to the top level first."""
     resource_attribute_prefixes: NotRequired[List[str]]
-    r"""The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9_\.]+$`. Use Eval to copy nested attributes to the top level for matching. Deprecated because every entry is treated as a prefix, with no way to match an attribute name exactly. Use 'Resource attributes' instead, which supports both; this field applies only when 'Resource attributes' is empty."""
+    r"""Deprecated. Prefer 'Resource attributes', which supports exact and wildcard matching. This field lists prefixes of top-level attributes to add as resource attributes. Every entry is treated as a prefix, so `cluster` also matches `cluster_foo`, with no way to match an attribute name exactly. This field applies only when 'Resource attributes' is empty. Use Eval to copy nested attributes to the top level for matching."""
     drop_non_metric_events: NotRequired[bool]
     r"""Drop events that are not OTLP metric data points."""
     otlp_version: NotRequired[FunctionConfSchemaOTLPMetricsOTLPVersion]
@@ -46,12 +46,12 @@ class FunctionConfSchemaOtlpMetrics(BaseModel):
     resource_attributes: Annotated[
         Optional[List[str]], pydantic.Field(alias="resourceAttributes")
     ] = None
-    r"""Top-level attributes to add as resource attributes. Wildcards and ! (not) operators are supported; entries without a wildcard match exactly, so `cluster` matches only `cluster`, while `cluster*` also matches `cluster_id`. List ! entries before the broader patterns they narrow, for example `!k8s.internal.*`, `k8s.*`. Matching applies to whole top-level attribute names and does not descend into nested objects, so `k8s.*` matches an attribute named `k8s.cluster.name`. Use Eval to copy nested attributes to the top level for matching."""
+    r"""Top-level event fields to promote as OTLP resource attributes. Entries without `*` match the attribute name exactly (`cluster` matches only `cluster`). Append `*` for prefix matching (`cluster*` also matches `cluster_id` and `cluster.name`). Use `!` to exclude names; list exclusions before broader patterns (for example `!k8s.internal.*`, `k8s.*`). Matching is by whole top-level field name only; it does not walk nested objects. Use Eval to copy nested fields to the top level first."""
 
     resource_attribute_prefixes: Annotated[
         Optional[List[str]], pydantic.Field(alias="resourceAttributePrefixes")
     ] = None
-    r"""The prefixes of top-level attributes to add as resource attributes. Each attribute must match the regex pattern `^[a-zA-Z0-9_\.]+$`. Use Eval to copy nested attributes to the top level for matching. Deprecated because every entry is treated as a prefix, with no way to match an attribute name exactly. Use 'Resource attributes' instead, which supports both; this field applies only when 'Resource attributes' is empty."""
+    r"""Deprecated. Prefer 'Resource attributes', which supports exact and wildcard matching. This field lists prefixes of top-level attributes to add as resource attributes. Every entry is treated as a prefix, so `cluster` also matches `cluster_foo`, with no way to match an attribute name exactly. This field applies only when 'Resource attributes' is empty. Use Eval to copy nested attributes to the top level for matching."""
 
     drop_non_metric_events: Annotated[
         Optional[bool], pydantic.Field(alias="dropNonMetricEvents")

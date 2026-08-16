@@ -36,7 +36,7 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .createinputsystembypack_inputsystemstate_type import (
+from .createinputsystembypack_inputkubemetrics import (
     CreateInputSystemByPackInputAnthropicCompliance,
     CreateInputSystemByPackInputAnthropicComplianceTypedDict,
     CreateInputSystemByPackInputAppleUnifiedLogs,
@@ -101,7 +101,6 @@ from .createinputsystembypack_inputsystemstate_type import (
     CreateInputSystemByPackInputSysdigHecTypedDict,
     CreateInputSystemByPackInputSyslogUnion,
     CreateInputSystemByPackInputSyslogUnionTypedDict,
-    CreateInputSystemByPackInputSystemStateType,
     CreateInputSystemByPackInputTCP,
     CreateInputSystemByPackInputTCPTypedDict,
     CreateInputSystemByPackInputUpwindHec,
@@ -198,6 +197,12 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputSystemByPackInputSystemStateType(str, Enum):
+    r"""Connector type identifier."""
+
+    SYSTEM_STATE = "system_state"
 
 
 class CreateInputSystemByPackHostsFileTypedDict(TypedDict):
@@ -12332,9 +12337,9 @@ CreateInputSystemByPackInputTypedDict = TypeAliasType(
         CreateInputSystemByPackInputCriblTCPTypedDict,
         CreateInputSystemByPackInputNetflowTypedDict,
         CreateInputSystemByPackInputOpenaiTypedDict,
-        CreateInputSystemByPackInputOktaTypedDict,
         CreateInputSystemByPackInputEventhubAmqpTypedDict,
         CreateInputSystemByPackInputTcpjsonTypedDict,
+        CreateInputSystemByPackInputOktaTypedDict,
         CreateInputSystemByPackInputGooglePubsubTypedDict,
         CreateInputSystemByPackInputCriblHTTPTypedDict,
         CreateInputSystemByPackInputOffice365ServiceTypedDict,

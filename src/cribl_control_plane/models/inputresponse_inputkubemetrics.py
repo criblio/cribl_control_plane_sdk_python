@@ -95,6 +95,14 @@ class InputResponseInputOktaType(str, Enum):
     OKTA = "okta"
 
 
+class InputResponseInputOktaManageStateTypedDict(TypedDict):
+    pass
+
+
+class InputResponseInputOktaManageState(BaseModel):
+    pass
+
+
 class InputResponseInputOktaTypedDict(TypedDict):
     type: InputResponseInputOktaType
     r"""Connector type identifier."""
@@ -131,6 +139,7 @@ class InputResponseInputOktaTypedDict(TypedDict):
     r"""Earliest time for data collection, relative to now"""
     latest: NotRequired[str]
     r"""Latest time for data collection, relative to now"""
+    manage_state: NotRequired[InputResponseInputOktaManageStateTypedDict]
     job_timeout: NotRequired[str]
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
     request_timeout: NotRequired[float]
@@ -216,6 +225,10 @@ class InputResponseInputOkta(BaseModel):
     latest: Optional[str] = None
     r"""Latest time for data collection, relative to now"""
 
+    manage_state: Annotated[
+        Optional[InputResponseInputOktaManageState], pydantic.Field(alias="manageState")
+    ] = None
+
     job_timeout: Annotated[Optional[str], pydantic.Field(alias="jobTimeout")] = None
     r"""Maximum time the job is allowed to run (e.g., 30, 45s or 15m). Units are seconds, if not specified. Enter 0 for unlimited time."""
 
@@ -291,6 +304,7 @@ class InputResponseInputOkta(BaseModel):
                 "cronSchedule",
                 "earliest",
                 "latest",
+                "manageState",
                 "jobTimeout",
                 "requestTimeout",
                 "keepAliveTime",
@@ -15453,12 +15467,6 @@ class InputResponseInputKubeMetrics(BaseModel):
                     m[k] = val
 
         return m
-
-
-class InputResponseInputSystemStateType(str, Enum):
-    r"""Connector type identifier."""
-
-    SYSTEM_STATE = "system_state"
 
 
 try:

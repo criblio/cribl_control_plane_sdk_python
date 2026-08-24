@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 from .notification_union import NotificationUnion, NotificationUnionTypedDict
-from .outputresponse_type_default import (
+from .outputresponse_outputdefault_type import (
     OutputResponseOutputAzureBlob,
     OutputResponseOutputAzureBlobTypedDict,
     OutputResponseOutputAzureDataExplorer,
@@ -15,6 +15,7 @@ from .outputresponse_type_default import (
     OutputResponseOutputCloudwatchTypedDict,
     OutputResponseOutputConfluentCloud,
     OutputResponseOutputConfluentCloudTypedDict,
+    OutputResponseOutputDefaultType,
     OutputResponseOutputDevnull,
     OutputResponseOutputDevnullTypedDict,
     OutputResponseOutputElastic,
@@ -79,9 +80,8 @@ from .outputresponse_type_default import (
     OutputResponseOutputWebhookUnionTypedDict,
     OutputResponseOutputWizHec,
     OutputResponseOutputWizHecTypedDict,
-    OutputResponseTypeDefault,
 )
-from .outputresponse_type_statsdext import (
+from .outputresponse_outputstatsdext_type import (
     OutputResponseOutputAlibabaCloudS3,
     OutputResponseOutputAlibabaCloudS3TypedDict,
     OutputResponseOutputAlphasocS3,
@@ -185,7 +185,7 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class OutputResponseOutputDefaultTypedDict(TypedDict):
-    type: OutputResponseTypeDefault
+    type: OutputResponseOutputDefaultType
     r"""Connector type identifier."""
     default_id: Nullable[str]
     r"""ID of the default output. This will be used whenever a nonexistent/deleted output is referenced."""
@@ -208,7 +208,7 @@ class OutputResponseOutputDefaultTypedDict(TypedDict):
 
 
 class OutputResponseOutputDefault(BaseModel):
-    type: OutputResponseTypeDefault
+    type: OutputResponseOutputDefaultType
     r"""Connector type identifier."""
 
     default_id: Annotated[Nullable[str], pydantic.Field(alias="defaultId")]
@@ -294,47 +294,47 @@ OutputResponseTypedDict = TypeAliasType(
         OutputResponseOutputGraphiteTypedDict,
         OutputResponseOutputGoogleBigqueryTypedDict,
         OutputResponseOutputGooglePubsubTypedDict,
-        OutputResponseOutputGoogleCloudObservabilityTypedDict,
+        OutputResponseOutputCriblTCPTypedDict,
+        OutputResponseOutputAzureEventhubTypedDict,
         OutputResponseOutputWavefrontTypedDict,
         OutputResponseOutputSignalfxTypedDict,
-        OutputResponseOutputCriblTCPTypedDict,
-        OutputResponseOutputHoneycombTypedDict,
-        OutputResponseOutputAzureEventhubTypedDict,
+        OutputResponseOutputGoogleCloudObservabilityTypedDict,
         OutputResponseOutputMicrosoftFabricTypedDict,
+        OutputResponseOutputHoneycombTypedDict,
         OutputResponseOutputExabeamTypedDict,
-        OutputResponseOutputSumoLogicTypedDict,
-        OutputResponseOutputSplunkTypedDict,
         OutputResponseOutputTcpjsonTypedDict,
-        OutputResponseOutputHumioHecTypedDict,
+        OutputResponseOutputSplunkTypedDict,
+        OutputResponseOutputSumoLogicTypedDict,
         OutputResponseOutputCrowdstrikeNextGenSiemTypedDict,
+        OutputResponseOutputHumioHecTypedDict,
         OutputResponseOutputSnsTypedDict,
-        OutputResponseOutputElasticCloudTypedDict,
         OutputResponseOutputKafkaTypedDict,
-        OutputResponseOutputAzureLogsTypedDict,
+        OutputResponseOutputElasticCloudTypedDict,
         OutputResponseOutputCloudwatchTypedDict,
         OutputResponseOutputSyslogTypedDict,
+        OutputResponseOutputAzureLogsTypedDict,
         OutputResponseOutputConfluentCloudTypedDict,
         OutputResponseOutputSplunkLbTypedDict,
         OutputResponseOutputWizHecTypedDict,
         OutputResponseOutputNewrelicEventsTypedDict,
-        OutputResponseOutputCriblSearchEngineTypedDict,
         OutputResponseOutputKinesisTypedDict,
+        OutputResponseOutputCriblSearchEngineTypedDict,
+        OutputResponseOutputNewrelicTypedDict,
+        OutputResponseOutputCriblHTTPTypedDict,
         OutputResponseOutputXsiamTypedDict,
         OutputResponseOutputDatasetTypedDict,
-        OutputResponseOutputCriblHTTPTypedDict,
-        OutputResponseOutputNewrelicTypedDict,
         OutputResponseOutputLokiTypedDict,
         OutputResponseOutputDynatraceHTTPTypedDict,
         OutputResponseOutputSplunkHecTypedDict,
         OutputResponseOutputFilesystemTypedDict,
-        OutputResponseOutputDynatraceOtlpTypedDict,
-        OutputResponseOutputServiceNowTypedDict,
         OutputResponseOutputSqsTypedDict,
-        OutputResponseOutputSnowflakeStreamingTypedDict,
         OutputResponseOutputCriblLakeTypedDict,
+        OutputResponseOutputDynatraceOtlpTypedDict,
+        OutputResponseOutputSnowflakeStreamingTypedDict,
+        OutputResponseOutputServiceNowTypedDict,
         OutputResponseOutputDatadogTypedDict,
-        OutputResponseOutputAmazonManagedPrometheusTypedDict,
         OutputResponseOutputInfluxdbTypedDict,
+        OutputResponseOutputAmazonManagedPrometheusTypedDict,
         OutputResponseOutputGoogleChronicleTypedDict,
         OutputResponseOutputElasticTypedDict,
         OutputResponseOutputSentinelOneAiSiemTypedDict,
@@ -348,9 +348,9 @@ OutputResponseTypedDict = TypeAliasType(
         OutputResponseOutputMskTypedDict,
         OutputResponseOutputStorjS3TypedDict,
         OutputResponseOutputIbmCloudS3TypedDict,
-        OutputResponseOutputOpenTelemetryTypedDict,
         OutputResponseOutputNutanixObjectsTypedDict,
         OutputResponseOutputScalityS3TypedDict,
+        OutputResponseOutputOpenTelemetryTypedDict,
         OutputResponseOutputDellS3TypedDict,
         OutputResponseOutputCloudflareR2TypedDict,
         OutputResponseOutputSentinelTypedDict,

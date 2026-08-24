@@ -1237,7 +1237,7 @@ with CriblControlPlane(
                         "process",
                     ],
                     "drop_non_metric_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPMetricsOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
                     "send_batch_size": 8192,
                     "timeout": 200,
@@ -1282,7 +1282,7 @@ with CriblControlPlane(
                 "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
                 "conf": {
                     "drop_non_trace_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPTracesOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
                     "send_batch_size": 8192,
                     "timeout": 200,
@@ -1645,14 +1645,14 @@ with CriblControlPlane(
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionSnmpTrapSerialize(
-                filter_="true",
-                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                conf=models.FunctionConfSchemaSnmpTrapSerialize(
-                    strict=True,
-                    drop_failed_events=True,
-                ),
-            ),
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                "conf": {
+                    "strict": True,
+                    "drop_failed_events": True,
+                },
+            },
         ],
         "groups": {
 
@@ -1944,6 +1944,34 @@ with CriblControlPlane(
 ### Example Usage: PipelineResponseExamplesEvalPipeline
 
 <!-- UsageSnippet language="python" operationID="createPipelines" method="post" path="/pipelines" example="PipelineResponseExamplesEvalPipeline" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.create(id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionCefID.CEF,
+                "conf": {},
+            },
+        ],
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createPipelines" method="post" path="/pipelines" example="authenticationFailed" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -3276,7 +3304,7 @@ with CriblControlPlane(
                         "process",
                     ],
                     "drop_non_metric_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPMetricsOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
                     "send_batch_size": 8192,
                     "timeout": 200,
@@ -3321,7 +3349,7 @@ with CriblControlPlane(
                 "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
                 "conf": {
                     "drop_non_trace_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPTracesOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
                     "send_batch_size": 8192,
                     "timeout": 200,
@@ -3684,14 +3712,14 @@ with CriblControlPlane(
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionSnmpTrapSerialize(
-                filter_="true",
-                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                conf=models.FunctionConfSchemaSnmpTrapSerialize(
-                    strict=True,
-                    drop_failed_events=True,
-                ),
-            ),
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                "conf": {
+                    "strict": True,
+                    "drop_failed_events": True,
+                },
+            },
         ],
         "groups": {
 
@@ -3969,10 +3997,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
         "functions": [
-            models.PipelineFunctionSnmpTrapSerialize(
-                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
-            ),
+            {
+                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                "conf": {},
+            },
         ],
     })
 
@@ -3997,10 +4025,10 @@ with CriblControlPlane(
 
     res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
         "functions": [
-            models.PipelineFunctionSnmpTrapSerialize(
-                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                conf=models.FunctionConfSchemaSnmpTrapSerialize(),
-            ),
+            {
+                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                "conf": {},
+            },
         ],
     })
 
@@ -5158,7 +5186,7 @@ with CriblControlPlane(
                         "process",
                     ],
                     "drop_non_metric_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPMetricsOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_metrics": True,
                     "send_batch_size": 8192,
                     "timeout": 200,
@@ -5203,7 +5231,7 @@ with CriblControlPlane(
                 "id": models.PipelineFunctionOtlpTracesID.OTLP_TRACES,
                 "conf": {
                     "drop_non_trace_events": False,
-                    "otlp_version": models.OtlpVersionOptions.ZERO_DOT_10_DOT_0,
+                    "otlp_version": models.FunctionConfSchemaOTLPTracesOTLPVersion.ZERO_DOT_10_DOT_0,
                     "batch_otlp_traces": True,
                     "send_batch_size": 8192,
                     "timeout": 200,
@@ -5566,14 +5594,14 @@ with CriblControlPlane(
         "description": "Pipeline that serializes events into SNMP trap format for SNMP trap destinations",
         "streamtags": [],
         "functions": [
-            models.PipelineFunctionSnmpTrapSerialize(
-                filter_="true",
-                id=models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
-                conf=models.FunctionConfSchemaSnmpTrapSerialize(
-                    strict=True,
-                    drop_failed_events=True,
-                ),
-            ),
+            {
+                "filter_": "true",
+                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                "conf": {
+                    "strict": True,
+                    "drop_failed_events": True,
+                },
+            },
         ],
         "groups": {
 
@@ -5828,6 +5856,34 @@ with CriblControlPlane(
         "groups": {
 
         },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updatePipelinesById" method="patch" path="/pipelines/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.pipelines.update(id_param="<value>", id="<id>", conf={
+        "functions": [
+            {
+                "id": models.PipelineFunctionSnmpTrapSerializeID.SNMP_TRAP_SERIALIZE,
+                "conf": {},
+            },
+        ],
     })
 
     # Handle response

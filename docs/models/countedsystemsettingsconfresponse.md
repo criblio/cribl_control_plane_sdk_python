@@ -1,0 +1,9 @@
+# CountedSystemSettingsConfResponse
+
+
+## Fields
+
+| Field                                                                              | Type                                                                               | Required                                                                           | Description                                                                        |
+| ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
+| `count`                                                                            | *int*                                                                              | :heavy_check_mark:                                                                 | number of items present in the items array                                         |
+| `items`                                                                            | List[[models.SystemSettingsConfResponse](../models/systemsettingsconfresponse.md)] | :heavy_check_mark:                                                                 | List of items in this response.                                                    |

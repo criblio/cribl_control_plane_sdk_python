@@ -23,10 +23,12 @@ from .tlssettingsserversidetype import (
 )
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.utils import validate_const
 from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
-from typing import List, Optional
+from pydantic.functional_validators import AfterValidator
+from typing import List, Literal, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
@@ -481,6 +483,7 @@ class InputSplunkHecTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -603,6 +606,11 @@ class InputSplunkHec(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -735,6 +743,7 @@ class InputSplunkHec(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",

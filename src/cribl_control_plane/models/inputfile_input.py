@@ -75,7 +75,7 @@ class InputFileInputTypedDict(TypedDict):
     force_text: NotRequired[bool]
     r"""Forces files containing binary data to be streamed as text"""
     hash_len: NotRequired[float]
-    r"""Length of file header bytes to use in hash for unique file identification"""
+    r"""Length of file header bytes to use in hash for unique file identification. Values above 16384 may cause issues with re-ingesting files."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     breaker_rulesets: NotRequired[List[str]]
@@ -173,7 +173,7 @@ class InputFileInput(BaseModel):
     r"""Forces files containing binary data to be streamed as text"""
 
     hash_len: Annotated[Optional[float], pydantic.Field(alias="hashLen")] = None
-    r"""Length of file header bytes to use in hash for unique file identification"""
+    r"""Length of file header bytes to use in hash for unique file identification. Values above 16384 may cause issues with re-ingesting files."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""

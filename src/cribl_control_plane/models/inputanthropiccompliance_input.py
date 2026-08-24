@@ -25,15 +25,15 @@ class InputAnthropicComplianceType(str, Enum):
     ANTHROPIC_COMPLIANCE = "anthropic_compliance"
 
 
-class InputAnthropicComplianceActivitiesManageStateTypedDict(TypedDict):
+class ActivitiesManageStateTypedDict(TypedDict):
     pass
 
 
-class InputAnthropicComplianceActivitiesManageState(BaseModel):
+class ActivitiesManageState(BaseModel):
     pass
 
 
-class InputAnthropicComplianceActivitiesTypedDict(TypedDict):
+class ActivitiesTypedDict(TypedDict):
     r"""Activities"""
 
     enabled: NotRequired[bool]
@@ -52,10 +52,10 @@ class InputAnthropicComplianceActivitiesTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event"""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging task state"""
-    manage_state: NotRequired[InputAnthropicComplianceActivitiesManageStateTypedDict]
+    manage_state: NotRequired[ActivitiesManageStateTypedDict]
 
 
-class InputAnthropicComplianceActivities(BaseModel):
+class Activities(BaseModel):
     r"""Activities"""
 
     enabled: Optional[bool] = None
@@ -89,8 +89,7 @@ class InputAnthropicComplianceActivities(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging task state"""
 
     manage_state: Annotated[
-        Optional[InputAnthropicComplianceActivitiesManageState],
-        pydantic.Field(alias="manageState"),
+        Optional[ActivitiesManageState], pydantic.Field(alias="manageState")
     ] = None
 
     @model_serializer(mode="wrap")
@@ -122,15 +121,15 @@ class InputAnthropicComplianceActivities(BaseModel):
         return m
 
 
-class InputAnthropicComplianceChatsManageStateTypedDict(TypedDict):
+class ChatsManageStateTypedDict(TypedDict):
     pass
 
 
-class InputAnthropicComplianceChatsManageState(BaseModel):
+class ChatsManageState(BaseModel):
     pass
 
 
-class InputAnthropicComplianceChatsTypedDict(TypedDict):
+class ChatsTypedDict(TypedDict):
     r"""Chats"""
 
     enabled: NotRequired[bool]
@@ -149,10 +148,10 @@ class InputAnthropicComplianceChatsTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event"""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging task state"""
-    manage_state: NotRequired[InputAnthropicComplianceChatsManageStateTypedDict]
+    manage_state: NotRequired[ChatsManageStateTypedDict]
 
 
-class InputAnthropicComplianceChats(BaseModel):
+class Chats(BaseModel):
     r"""Chats"""
 
     enabled: Optional[bool] = None
@@ -186,8 +185,7 @@ class InputAnthropicComplianceChats(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging task state"""
 
     manage_state: Annotated[
-        Optional[InputAnthropicComplianceChatsManageState],
-        pydantic.Field(alias="manageState"),
+        Optional[ChatsManageState], pydantic.Field(alias="manageState")
     ] = None
 
     @model_serializer(mode="wrap")
@@ -219,15 +217,15 @@ class InputAnthropicComplianceChats(BaseModel):
         return m
 
 
-class InputAnthropicComplianceProjectsManageStateTypedDict(TypedDict):
+class ProjectsManageStateTypedDict(TypedDict):
     pass
 
 
-class InputAnthropicComplianceProjectsManageState(BaseModel):
+class ProjectsManageState(BaseModel):
     pass
 
 
-class InputAnthropicComplianceProjectsTypedDict(TypedDict):
+class ProjectsTypedDict(TypedDict):
     r"""Projects"""
 
     enabled: NotRequired[bool]
@@ -246,10 +244,10 @@ class InputAnthropicComplianceProjectsTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event"""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging task state"""
-    manage_state: NotRequired[InputAnthropicComplianceProjectsManageStateTypedDict]
+    manage_state: NotRequired[ProjectsManageStateTypedDict]
 
 
-class InputAnthropicComplianceProjects(BaseModel):
+class Projects(BaseModel):
     r"""Projects"""
 
     enabled: Optional[bool] = None
@@ -283,8 +281,7 @@ class InputAnthropicComplianceProjects(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging task state"""
 
     manage_state: Annotated[
-        Optional[InputAnthropicComplianceProjectsManageState],
-        pydantic.Field(alias="manageState"),
+        Optional[ProjectsManageState], pydantic.Field(alias="manageState")
     ] = None
 
     @model_serializer(mode="wrap")
@@ -316,15 +313,15 @@ class InputAnthropicComplianceProjects(BaseModel):
         return m
 
 
-class InputAnthropicComplianceChatMessagesManageStateTypedDict(TypedDict):
+class ChatMessagesManageStateTypedDict(TypedDict):
     pass
 
 
-class InputAnthropicComplianceChatMessagesManageState(BaseModel):
+class ChatMessagesManageState(BaseModel):
     pass
 
 
-class InputAnthropicComplianceChatMessagesTypedDict(TypedDict):
+class ChatMessagesTypedDict(TypedDict):
     r"""Chat Messages"""
 
     enabled: NotRequired[bool]
@@ -343,10 +340,10 @@ class InputAnthropicComplianceChatMessagesTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event"""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging task state"""
-    manage_state: NotRequired[InputAnthropicComplianceChatMessagesManageStateTypedDict]
+    manage_state: NotRequired[ChatMessagesManageStateTypedDict]
 
 
-class InputAnthropicComplianceChatMessages(BaseModel):
+class ChatMessages(BaseModel):
     r"""Chat Messages"""
 
     enabled: Optional[bool] = None
@@ -380,8 +377,7 @@ class InputAnthropicComplianceChatMessages(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging task state"""
 
     manage_state: Annotated[
-        Optional[InputAnthropicComplianceChatMessagesManageState],
-        pydantic.Field(alias="manageState"),
+        Optional[ChatMessagesManageState], pydantic.Field(alias="manageState")
     ] = None
 
     @model_serializer(mode="wrap")
@@ -413,15 +409,15 @@ class InputAnthropicComplianceChatMessages(BaseModel):
         return m
 
 
-class InputAnthropicComplianceProjectDetailsManageStateTypedDict(TypedDict):
+class ProjectDetailsManageStateTypedDict(TypedDict):
     pass
 
 
-class InputAnthropicComplianceProjectDetailsManageState(BaseModel):
+class ProjectDetailsManageState(BaseModel):
     pass
 
 
-class InputAnthropicComplianceProjectDetailsTypedDict(TypedDict):
+class ProjectDetailsTypedDict(TypedDict):
     r"""Project Details"""
 
     enabled: NotRequired[bool]
@@ -440,12 +436,10 @@ class InputAnthropicComplianceProjectDetailsTypedDict(TypedDict):
     r"""JavaScript expression that defines how to update the state from an event"""
     state_merge_expression: NotRequired[str]
     r"""JavaScript expression that defines which state to keep when merging task state"""
-    manage_state: NotRequired[
-        InputAnthropicComplianceProjectDetailsManageStateTypedDict
-    ]
+    manage_state: NotRequired[ProjectDetailsManageStateTypedDict]
 
 
-class InputAnthropicComplianceProjectDetails(BaseModel):
+class ProjectDetails(BaseModel):
     r"""Project Details"""
 
     enabled: Optional[bool] = None
@@ -479,8 +473,7 @@ class InputAnthropicComplianceProjectDetails(BaseModel):
     r"""JavaScript expression that defines which state to keep when merging task state"""
 
     manage_state: Annotated[
-        Optional[InputAnthropicComplianceProjectDetailsManageState],
-        pydantic.Field(alias="manageState"),
+        Optional[ProjectDetailsManageState], pydantic.Field(alias="manageState")
     ] = None
 
     @model_serializer(mode="wrap")
@@ -552,7 +545,7 @@ class InputAnthropicComplianceGroups(BaseModel):
         return m
 
 
-class InputAnthropicComplianceOrganizationsTypedDict(TypedDict):
+class OrganizationsTypedDict(TypedDict):
     r"""Organizations"""
 
     enabled: NotRequired[bool]
@@ -563,7 +556,7 @@ class InputAnthropicComplianceOrganizationsTypedDict(TypedDict):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
 
-class InputAnthropicComplianceOrganizations(BaseModel):
+class Organizations(BaseModel):
     r"""Organizations"""
 
     enabled: Optional[bool] = None
@@ -592,7 +585,7 @@ class InputAnthropicComplianceOrganizations(BaseModel):
         return m
 
 
-class InputAnthropicComplianceOrganizationUsersTypedDict(TypedDict):
+class OrganizationUsersTypedDict(TypedDict):
     r"""Organization Users"""
 
     enabled: NotRequired[bool]
@@ -603,7 +596,7 @@ class InputAnthropicComplianceOrganizationUsersTypedDict(TypedDict):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
 
-class InputAnthropicComplianceOrganizationUsers(BaseModel):
+class OrganizationUsers(BaseModel):
     r"""Organization Users"""
 
     enabled: Optional[bool] = None
@@ -632,7 +625,7 @@ class InputAnthropicComplianceOrganizationUsers(BaseModel):
         return m
 
 
-class InputAnthropicComplianceOrganizationRolesTypedDict(TypedDict):
+class OrganizationRolesTypedDict(TypedDict):
     r"""Organization Roles"""
 
     enabled: NotRequired[bool]
@@ -643,7 +636,7 @@ class InputAnthropicComplianceOrganizationRolesTypedDict(TypedDict):
     r"""Maximum time the job is allowed to run (examples: 30, 45s, 15m). Enter 0 for unlimited time."""
 
 
-class InputAnthropicComplianceOrganizationRoles(BaseModel):
+class OrganizationRoles(BaseModel):
     r"""Organization Roles"""
 
     enabled: Optional[bool] = None
@@ -696,26 +689,30 @@ class InputAnthropicComplianceInputTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     api_key: NotRequired[str]
     r"""API key"""
-    activities: NotRequired[InputAnthropicComplianceActivitiesTypedDict]
+    activities: NotRequired[ActivitiesTypedDict]
     r"""Activities"""
-    chats: NotRequired[InputAnthropicComplianceChatsTypedDict]
+    chats: NotRequired[ChatsTypedDict]
     r"""Chats"""
-    projects: NotRequired[InputAnthropicComplianceProjectsTypedDict]
+    projects: NotRequired[ProjectsTypedDict]
     r"""Projects"""
-    chat_messages: NotRequired[InputAnthropicComplianceChatMessagesTypedDict]
+    chat_messages: NotRequired[ChatMessagesTypedDict]
     r"""Chat Messages"""
-    project_details: NotRequired[InputAnthropicComplianceProjectDetailsTypedDict]
+    project_details: NotRequired[ProjectDetailsTypedDict]
     r"""Project Details"""
     groups: NotRequired[InputAnthropicComplianceGroupsTypedDict]
     r"""Groups"""
-    organizations: NotRequired[InputAnthropicComplianceOrganizationsTypedDict]
+    organizations: NotRequired[OrganizationsTypedDict]
     r"""Organizations"""
-    org_users: NotRequired[InputAnthropicComplianceOrganizationUsersTypedDict]
+    org_users: NotRequired[OrganizationUsersTypedDict]
     r"""Organization Users"""
-    org_roles: NotRequired[InputAnthropicComplianceOrganizationRolesTypedDict]
+    org_roles: NotRequired[OrganizationRolesTypedDict]
     r"""Organization Roles"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
     max_missed_keep_alives: NotRequired[float]
@@ -773,37 +770,47 @@ class InputAnthropicComplianceInput(BaseModel):
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
     r"""API key"""
 
-    activities: Optional[InputAnthropicComplianceActivities] = None
+    activities: Optional[Activities] = None
     r"""Activities"""
 
-    chats: Optional[InputAnthropicComplianceChats] = None
+    chats: Optional[Chats] = None
     r"""Chats"""
 
-    projects: Optional[InputAnthropicComplianceProjects] = None
+    projects: Optional[Projects] = None
     r"""Projects"""
 
-    chat_messages: Optional[InputAnthropicComplianceChatMessages] = None
+    chat_messages: Optional[ChatMessages] = None
     r"""Chat Messages"""
 
-    project_details: Optional[InputAnthropicComplianceProjectDetails] = None
+    project_details: Optional[ProjectDetails] = None
     r"""Project Details"""
 
     groups: Optional[InputAnthropicComplianceGroups] = None
     r"""Groups"""
 
-    organizations: Optional[InputAnthropicComplianceOrganizations] = None
+    organizations: Optional[Organizations] = None
     r"""Organizations"""
 
-    org_users: Optional[InputAnthropicComplianceOrganizationUsers] = None
+    org_users: Optional[OrganizationUsers] = None
     r"""Organization Users"""
 
-    org_roles: Optional[InputAnthropicComplianceOrganizationRoles] = None
+    org_roles: Optional[OrganizationRoles] = None
     r"""Organization Roles"""
 
     request_timeout: Annotated[
         Optional[float], pydantic.Field(alias="requestTimeout")
     ] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = None
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
@@ -867,6 +874,8 @@ class InputAnthropicComplianceInput(BaseModel):
                 "org_users",
                 "org_roles",
                 "requestTimeout",
+                "breakerRulesets",
+                "staleChannelFlushMs",
                 "keepAliveTime",
                 "maxMissedKeepAlives",
                 "ttl",
@@ -893,23 +902,23 @@ class InputAnthropicComplianceInput(BaseModel):
 
 
 try:
-    InputAnthropicComplianceActivities.model_rebuild()
+    Activities.model_rebuild()
 except NameError:
     pass
 try:
-    InputAnthropicComplianceChats.model_rebuild()
+    Chats.model_rebuild()
 except NameError:
     pass
 try:
-    InputAnthropicComplianceProjects.model_rebuild()
+    Projects.model_rebuild()
 except NameError:
     pass
 try:
-    InputAnthropicComplianceChatMessages.model_rebuild()
+    ChatMessages.model_rebuild()
 except NameError:
     pass
 try:
-    InputAnthropicComplianceProjectDetails.model_rebuild()
+    ProjectDetails.model_rebuild()
 except NameError:
     pass
 try:
@@ -917,15 +926,15 @@ try:
 except NameError:
     pass
 try:
-    InputAnthropicComplianceOrganizations.model_rebuild()
+    Organizations.model_rebuild()
 except NameError:
     pass
 try:
-    InputAnthropicComplianceOrganizationUsers.model_rebuild()
+    OrganizationUsers.model_rebuild()
 except NameError:
     pass
 try:
-    InputAnthropicComplianceOrganizationRoles.model_rebuild()
+    OrganizationRoles.model_rebuild()
 except NameError:
     pass
 try:

@@ -21,6 +21,7 @@ class PipelineFunctionSensitiveDataScannerRuleTypedDict(TypedDict):
     replace_expr: str
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
     disabled: NotRequired[bool]
+    r"""If <code>true</code>, disable this rule so that it is not applied during scanning."""
 
 
 class PipelineFunctionSensitiveDataScannerRule(BaseModel):
@@ -31,6 +32,7 @@ class PipelineFunctionSensitiveDataScannerRule(BaseModel):
     r"""A JavaScript expression or literal to replace the matching content. Capturing groups can be referenced as g1, g2, and so on, and event fields as event.<fieldName>."""
 
     disabled: Optional[bool] = None
+    r"""If <code>true</code>, disable this rule so that it is not applied during scanning."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -49,19 +51,19 @@ class PipelineFunctionSensitiveDataScannerRule(BaseModel):
         return m
 
 
-class FlagTypedDict(TypedDict):
+class PipelineFunctionSensitiveDataScannerFlagTypedDict(TypedDict):
     value: str
-    r"""Value"""
+    r"""JavaScript expression to compute the value to assign to this field."""
     name: NotRequired[str]
-    r"""Name"""
+    r"""Name of the field to set when one or more scanning rules match."""
 
 
-class Flag(BaseModel):
+class PipelineFunctionSensitiveDataScannerFlag(BaseModel):
     value: str
-    r"""Value"""
+    r"""JavaScript expression to compute the value to assign to this field."""
 
     name: Optional[str] = None
-    r"""Name"""
+    r"""Name of the field to set when one or more scanning rules match."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -89,7 +91,7 @@ class PipelineFunctionSensitiveDataScannerConfTypedDict(TypedDict):
     r"""Rulesets act on the events contained in these fields. Mitigation expressions apply to the scan results. Supports wildcards (*)."""
     exclude_fields: NotRequired[List[str]]
     r"""Fields that the mitigation expression will not be applied to. Supports wildcards (*)."""
-    flags: NotRequired[List[FlagTypedDict]]
+    flags: NotRequired[List[PipelineFunctionSensitiveDataScannerFlagTypedDict]]
     r"""Fields to add when mitigation is applied to an event"""
     include_detected_rules: NotRequired[bool]
     r"""Add matching ruleset IDs to a field called \"__detected\" """
@@ -111,7 +113,7 @@ class PipelineFunctionSensitiveDataScannerConf(BaseModel):
     ] = None
     r"""Fields that the mitigation expression will not be applied to. Supports wildcards (*)."""
 
-    flags: Optional[List[Flag]] = None
+    flags: Optional[List[PipelineFunctionSensitiveDataScannerFlag]] = None
     r"""Fields to add when mitigation is applied to an event"""
 
     include_detected_rules: Annotated[

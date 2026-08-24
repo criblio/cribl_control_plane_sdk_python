@@ -79,7 +79,7 @@ class OutputSplunkLbAuthToken(BaseModel):
         return m
 
 
-class OutputSplunkLbIndexerDiscoveryConfigsTypedDict(TypedDict):
+class IndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
     site: str
@@ -100,7 +100,7 @@ class OutputSplunkLbIndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class OutputSplunkLbIndexerDiscoveryConfigs(BaseModel):
+class IndexerDiscoveryConfigs(BaseModel):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
     site: str
@@ -223,9 +223,7 @@ class OutputSplunkLbTypedDict(TypedDict):
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
     compress: NotRequired[CompressionOptions]
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
-    indexer_discovery_configs: NotRequired[
-        OutputSplunkLbIndexerDiscoveryConfigsTypedDict
-    ]
+    indexer_discovery_configs: NotRequired[IndexerDiscoveryConfigsTypedDict]
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
@@ -382,7 +380,7 @@ class OutputSplunkLb(BaseModel):
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     indexer_discovery_configs: Annotated[
-        Optional[OutputSplunkLbIndexerDiscoveryConfigs],
+        Optional[IndexerDiscoveryConfigs],
         pydantic.Field(alias="indexerDiscoveryConfigs"),
     ] = None
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
@@ -617,7 +615,7 @@ try:
 except NameError:
     pass
 try:
-    OutputSplunkLbIndexerDiscoveryConfigs.model_rebuild()
+    IndexerDiscoveryConfigs.model_rebuild()
 except NameError:
     pass
 try:

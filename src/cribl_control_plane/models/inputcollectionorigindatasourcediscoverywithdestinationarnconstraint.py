@@ -27,6 +27,8 @@ class InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedD
     r"""ARN of the S3 bucket or Firehose delivery stream configured as the Source."""
     source_arn: NotRequired[str]
     r"""ARN of the AWS resource that produces the logs."""
+    account_id: NotRequired[str]
+    r"""Cloud tenant or scope id the Source was configured for (for example an AWS account id, GCP project or folder id, or Azure subscription or resource group id)."""
 
 
 class InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint(BaseModel):
@@ -43,6 +45,9 @@ class InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint(BaseM
     source_arn: Annotated[Optional[str], pydantic.Field(alias="sourceArn")] = None
     r"""ARN of the AWS resource that produces the logs."""
 
+    account_id: Annotated[Optional[str], pydantic.Field(alias="accountId")] = None
+    r"""Cloud tenant or scope id the Source was configured for (for example an AWS account id, GCP project or folder id, or Azure subscription or resource group id)."""
+
     @field_serializer("origin")
     def serialize_origin(self, value):
         if isinstance(value, str):
@@ -54,7 +59,7 @@ class InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint(BaseM
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["origin", "destinationArn", "sourceArn"])
+        optional_fields = set(["origin", "destinationArn", "sourceArn", "accountId"])
         serialized = handler(self)
         m = {}
 

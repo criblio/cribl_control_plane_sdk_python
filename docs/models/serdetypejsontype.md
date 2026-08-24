@@ -1,6 +1,6 @@
 # SerdeTypeJSONType
 
-Parser or formatter type to use
+Parser or formatter type to use.
 
 ## Example Usage
 

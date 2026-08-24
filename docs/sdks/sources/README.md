@@ -151,7 +151,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "anthropic-compliance-source",
-        "type": models.CreateInputTypeAnthropicCompliance.ANTHROPIC_COMPLIANCE,
+        "type": models.CreateInputInputAnthropicComplianceType.ANTHROPIC_COMPLIANCE,
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "anthropic-api-key-secret",
@@ -178,7 +178,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "apple-unified-logs-source",
-        "type": models.CreateInputTypeAppleUnifiedLogs.APPLE_UNIFIED_LOGS,
+        "type": models.CreateInputInputAppleUnifiedLogsType.APPLE_UNIFIED_LOGS,
         "send_to_routes": True,
         "pq_enabled": False,
         "predicate": "subsystem == \"com.apple.security\"",
@@ -205,7 +205,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "appscope-source",
-        "type": models.CreateInputTypeAppscope.APPSCOPE,
+        "type": models.CreateInputInputAppscopeType.APPSCOPE,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -260,7 +260,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "bedrock-s3-source",
-        "type": models.CreateInputTypeBedrockS3.BEDROCK_S3,
+        "type": models.CreateInputInputBedrockS3Type.BEDROCK_S3,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "s3-notifications-queue",
@@ -288,7 +288,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "cloudflare-hec-source",
-        "type": models.CreateInputTypeCloudflareHec.CLOUDFLARE_HEC,
+        "type": models.CreateInputInputCloudflareHecType.CLOUDFLARE_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -317,7 +317,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "collection-source",
-        "type": models.CreateInputTypeCollection.COLLECTION,
+        "type": models.CreateInputInputCollectionType.COLLECTION,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -375,7 +375,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "cribl-http-source",
-        "type": models.CreateInputTypeCriblHTTP.CRIBL_HTTP,
+        "type": models.CreateInputInputCriblHTTPType.CRIBL_HTTP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -403,7 +403,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "cribl-lake-http-source",
-        "type": models.CreateInputTypeCriblLakeHTTP.CRIBL_LAKE_HTTP,
+        "type": models.CreateInputInputCriblLakeHTTPType.CRIBL_LAKE_HTTP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -459,7 +459,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "crowdstrike-source",
-        "type": models.CreateInputTypeCrowdstrike.CROWDSTRIKE,
+        "type": models.CreateInputInputCrowdstrikeType.CROWDSTRIKE,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "crowdstrike-queue",
@@ -487,7 +487,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "datadog-agent-source",
-        "type": models.CreateInputTypeDatadogAgent.DATADOG_AGENT,
+        "type": models.CreateInputInputDatadogAgentType.DATADOG_AGENT,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -515,7 +515,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "datagen-source",
-        "type": models.CreateInputTypeDatagen.DATAGEN,
+        "type": models.CreateInputInputDatagenType.DATAGEN,
         "send_to_routes": True,
         "pq_enabled": False,
         "samples": [
@@ -547,10 +547,10 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "edge-prometheus-source",
-        "type": models.CreateInputTypeEdgePrometheus.EDGE_PROMETHEUS,
+        "type": models.CreateInputInputEdgePrometheusType.EDGE_PROMETHEUS,
         "send_to_routes": True,
         "pq_enabled": False,
-        "discovery_type": models.CreateInputDiscoveryTypeEdgePrometheus.STATIC,
+        "discovery_type": models.CreateInputInputEdgePrometheusDiscoveryType.STATIC,
         "interval": 60,
         "targets": [
             {
@@ -580,7 +580,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "elastic-source",
-        "type": models.CreateInputTypeElastic.ELASTIC,
+        "type": models.CreateInputInputElasticType.ELASTIC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "localhost",
@@ -609,7 +609,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "eventhub-source",
-        "type": models.CreateInputTypeEventhub.EVENTHUB,
+        "type": models.CreateInputInputEventhubType.EVENTHUB,
         "send_to_routes": True,
         "pq_enabled": False,
         "brokers": [
@@ -641,7 +641,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "eventhub-amqp-source",
-        "type": models.CreateInputTypeEventhubAmqp.EVENTHUB_AMQP,
+        "type": models.CreateInputInputEventhubAmqpType.EVENTHUB_AMQP,
         "send_to_routes": True,
         "pq_enabled": False,
         "event_hub_name": "my-event-hub",
@@ -729,7 +729,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "firehose-source",
-        "type": models.CreateInputTypeFirehose.FIREHOSE,
+        "type": models.CreateInputInputFirehoseType.FIREHOSE,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -814,7 +814,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "http-source",
-        "type": models.CreateInputTypeHTTP.HTTP,
+        "type": models.CreateInputInputHTTPType.HTTP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -842,7 +842,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "http-raw-source",
-        "type": models.CreateInputTypeHTTPRaw.HTTP_RAW,
+        "type": models.CreateInputInputHTTPRawType.HTTP_RAW,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -960,7 +960,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "kube-events-source",
-        "type": models.CreateInputTypeKubeEvents.KUBE_EVENTS,
+        "type": models.CreateInputInputKubeEventsType.KUBE_EVENTS,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -986,7 +986,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "kube-logs-source",
-        "type": models.CreateInputTypeKubeLogs.KUBE_LOGS,
+        "type": models.CreateInputInputKubeLogsType.KUBE_LOGS,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -1012,7 +1012,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "kube-metrics-source",
-        "type": models.CreateInputTypeKubeMetrics.KUBE_METRICS,
+        "type": models.CreateInputInputKubeMetricsType.KUBE_METRICS,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -1038,7 +1038,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "loki-source",
-        "type": models.CreateInputTypeLoki.LOKI,
+        "type": models.CreateInputInputLokiType.LOKI,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -1067,7 +1067,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "metrics-source",
-        "type": models.CreateInputTypeMetrics.METRICS,
+        "type": models.CreateInputInputMetricsType.METRICS,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -1095,7 +1095,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "microsoft-graph-source",
-        "type": models.CreateInputTypeMicrosoftGraph.MICROSOFT_GRAPH,
+        "type": models.CreateInputInputMicrosoftGraphType.MICROSOFT_GRAPH,
         "send_to_routes": True,
         "pq_enabled": False,
         "url": "https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces",
@@ -1123,7 +1123,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "mdt-source",
-        "type": models.CreateInputTypeModelDrivenTelemetry.MODEL_DRIVEN_TELEMETRY,
+        "type": models.CreateInputInputModelDrivenTelemetryType.MODEL_DRIVEN_TELEMETRY,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -1213,7 +1213,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "office365-mgmt-source",
-        "type": models.CreateInputTypeOffice365Mgmt.OFFICE365_MGMT,
+        "type": models.CreateInputInputOffice365MgmtType.OFFICE365_MGMT,
         "send_to_routes": True,
         "pq_enabled": False,
         "plan_type": models.SubscriptionPlanOptions.ENTERPRISE_GCC,
@@ -1242,7 +1242,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "office365-msg-trace-source",
-        "type": models.CreateInputTypeOffice365MsgTrace.OFFICE365_MSG_TRACE,
+        "type": models.CreateInputInputOffice365MsgTraceType.OFFICE365_MSG_TRACE,
         "send_to_routes": True,
         "pq_enabled": False,
         "url": "https://reports.office365.com/ecp/reportingwebservice/reporting.svc/MessageTrace",
@@ -1270,7 +1270,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "office365-service-source",
-        "type": models.CreateInputTypeOffice365Service.OFFICE365_SERVICE,
+        "type": models.CreateInputInputOffice365ServiceType.OFFICE365_SERVICE,
         "send_to_routes": True,
         "pq_enabled": False,
         "tenant_id": "tenant-id",
@@ -1298,7 +1298,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "okta-source",
-        "type": models.CreateInputTypeOkta.OKTA,
+        "type": models.CreateInputInputOktaType.OKTA,
         "send_to_routes": True,
         "pq_enabled": False,
         "okta_domain": "your-org",
@@ -1329,7 +1329,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "openai-source",
-        "type": models.CreateInputTypeOpenai.OPENAI,
+        "type": models.CreateInputInputOpenaiType.OPENAI,
         "send_to_routes": True,
         "pq_enabled": False,
         "content_config": [
@@ -1379,7 +1379,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "openai-compliance-logs-source",
-        "type": models.CreateInputTypeOpenaiComplianceLogs.OPENAI_COMPLIANCE_LOGS,
+        "type": models.CreateInputInputOpenaiComplianceLogsType.OPENAI_COMPLIANCE_LOGS,
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "openai-api-key-secret",
@@ -1415,7 +1415,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "otel-source",
-        "type": models.CreateInputTypeOpenTelemetry.OPEN_TELEMETRY,
+        "type": models.CreateInputInputOpenTelemetryType.OPEN_TELEMETRY,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -1446,7 +1446,7 @@ with CriblControlPlane(
         "type": models.TypeOptionsPrometheus.PROMETHEUS,
         "send_to_routes": True,
         "pq_enabled": False,
-        "discovery_type": models.CreateInputDiscoveryTypePrometheus.STATIC,
+        "discovery_type": models.CreateInputInputPrometheusDiscoveryType.STATIC,
         "interval": 60,
         "log_level": models.LogLevelOptions.INFO,
         "target_list": [
@@ -1475,7 +1475,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "prometheus-rw-source",
-        "type": models.CreateInputTypePrometheusRw.PROMETHEUS_RW,
+        "type": models.CreateInputInputPrometheusRwType.PROMETHEUS_RW,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -1504,7 +1504,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "raw-udp-source",
-        "type": models.CreateInputTypeRawUDP.RAW_UDP,
+        "type": models.CreateInputInputRawUDPType.RAW_UDP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -1560,7 +1560,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "s3-inventory-source",
-        "type": models.CreateInputTypeS3Inventory.S3_INVENTORY,
+        "type": models.CreateInputInputS3InventoryType.S3_INVENTORY,
         "send_to_routes": True,
         "pq_enabled": False,
         "queue_name": "s3-inventory-queue",
@@ -1616,7 +1616,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "servicenow-table-source",
-        "type": models.CreateInputTypeServicenowTable.SERVICENOW_TABLE,
+        "type": models.CreateInputInputServicenowTableType.SERVICENOW_TABLE,
         "send_to_routes": True,
         "pq_enabled": False,
         "instance": "https://example.service-now.com",
@@ -1709,7 +1709,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "splunk-hec-source",
-        "type": models.CreateInputTypeSplunkHec.SPLUNK_HEC,
+        "type": models.CreateInputInputSplunkHecType.SPLUNK_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -1738,7 +1738,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "splunk-search-source",
-        "type": models.CreateInputTypeSplunkSearch.SPLUNK_SEARCH,
+        "type": models.CreateInputInputSplunkSearchType.SPLUNK_SEARCH,
         "send_to_routes": True,
         "pq_enabled": False,
         "search_head": "https://localhost:8089",
@@ -1746,7 +1746,7 @@ with CriblControlPlane(
         "cron_schedule": "*/15 * * * *",
         "endpoint": "/services/search/v2/jobs/export",
         "output_mode": models.OutputModeOptionsSplunkCollectorConf.JSON,
-        "auth_type": models.CreateInputAuthenticationTypeSplunkSearch.BASIC,
+        "auth_type": models.CreateInputInputSplunkSearchAuthenticationType.BASIC,
     })
 
     # Handle response
@@ -1799,7 +1799,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "sysdig-hec-source",
-        "type": models.CreateInputTypeSysdigHec.SYSDIG_HEC,
+        "type": models.CreateInputInputSysdigHecType.SYSDIG_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -1893,7 +1893,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "system-metrics-source",
-        "type": models.CreateInputTypeSystemMetrics.SYSTEM_METRICS,
+        "type": models.CreateInputInputSystemMetricsType.SYSTEM_METRICS,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -1919,7 +1919,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "system-state-source",
-        "type": models.CreateInputTypeSystemState.SYSTEM_STATE,
+        "type": models.CreateInputInputSystemStateType.SYSTEM_STATE,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -1945,7 +1945,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "tcp-source",
-        "type": models.CreateInputTypeTCP.TCP,
+        "type": models.CreateInputInputTCPType.TCP,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -2001,7 +2001,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "upwind-hec-source",
-        "type": models.CreateInputTypeUpwindHec.UPWIND_HEC,
+        "type": models.CreateInputInputUpwindHecType.UPWIND_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -2030,7 +2030,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "wef-source",
-        "type": models.CreateInputTypeWef.WEF,
+        "type": models.CreateInputInputWefType.WEF,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -2067,7 +2067,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "win-event-logs-source",
-        "type": models.CreateInputTypeWinEventLogs.WIN_EVENT_LOGS,
+        "type": models.CreateInputInputWinEventLogsType.WIN_EVENT_LOGS,
         "send_to_routes": True,
         "pq_enabled": False,
         "log_names": [
@@ -2097,7 +2097,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "windows-metrics-source",
-        "type": models.CreateInputTypeWindowsMetrics.WINDOWS_METRICS,
+        "type": models.CreateInputInputWindowsMetricsType.WINDOWS_METRICS,
         "send_to_routes": True,
         "pq_enabled": False,
     })
@@ -2123,7 +2123,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "wiz-source",
-        "type": models.CreateInputTypeWiz.WIZ,
+        "type": models.CreateInputInputWizType.WIZ,
         "send_to_routes": True,
         "pq_enabled": False,
         "endpoint": "https://api.wiz.io",
@@ -2153,7 +2153,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "wiz-webhook-source",
-        "type": models.CreateInputTypeWizWebhook.WIZ_WEBHOOK,
+        "type": models.CreateInputInputWizWebhookType.WIZ_WEBHOOK,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -2181,7 +2181,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "zscaler-hec-source",
-        "type": models.CreateInputTypeZscalerHec.ZSCALER_HEC,
+        "type": models.CreateInputInputZscalerHecType.ZSCALER_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -2210,7 +2210,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "<id>",
-        "type": models.CreateInputTypeAppleUnifiedLogs.APPLE_UNIFIED_LOGS,
+        "type": models.CreateInputInputAppleUnifiedLogsType.APPLE_UNIFIED_LOGS,
         "predicate": "<value>",
     })
 
@@ -2235,7 +2235,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "<id>",
-        "type": models.CreateInputTypeMicrosoftGraph.MICROSOFT_GRAPH,
+        "type": models.CreateInputInputMicrosoftGraphType.MICROSOFT_GRAPH,
         "url": "https://spiffy-league.com",
         "interval": 307630,
     })
@@ -2261,7 +2261,7 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "<id>",
-        "type": models.CreateInputTypeCriblHTTP.CRIBL_HTTP,
+        "type": models.CreateInputInputCriblHTTPType.CRIBL_HTTP,
         "host": "drab-scrap.info",
         "port": 7995.63,
     })
@@ -2287,7 +2287,33 @@ with CriblControlPlane(
 
     res = ccp_client.sources.create(request={
         "id": "<id>",
-        "type": models.CreateInputTypeWindowsMetrics.WINDOWS_METRICS,
+        "type": models.CreateInputInputWindowsMetricsType.WINDOWS_METRICS,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createInput" method="post" path="/system/inputs" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.create(request={
+        "id": "<id>",
+        "type": models.CreateInputInputWizWebhookType.WIZ_WEBHOOK,
+        "host": "amused-glider.biz",
+        "port": 7905.42,
     })
 
     # Handle response
@@ -2299,7 +2325,7 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `request`                                                           | [models.CreateInputRequest](../../models/createinputrequest.md)     | :heavy_check_mark:                                                  | The request object to use for the request.                          |
+| `request`                                                           | [models.CreateInputInput](../../models/createinputinput.md)         | :heavy_check_mark:                                                  | The request object to use for the request.                          |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
@@ -3609,7 +3635,7 @@ with CriblControlPlane(
                         "value": "100",
                     },
                 ],
-                "pagination_type": models.InputOpenaiPaginationType.RESPONSE_BODY,
+                "pagination_type": models.PaginationType.RESPONSE_BODY,
                 "pagination_attribute": [
                     "last_id",
                 ],
@@ -3647,7 +3673,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "openai-api-key-secret",
-        "account_type": models.InputOpenaiComplianceLogsAccountType.WORKSPACE,
+        "account_type": models.AccountType.WORKSPACE,
         "cron_schedule": "*/15 * * * *",
         "earliest": "-1h",
         "latest": "now",
@@ -4434,7 +4460,7 @@ with CriblControlPlane(
         "content_config": [
             {
                 "request_params": [],
-                "pagination_type": models.InputOpenaiPaginationType.RESPONSE_BODY,
+                "pagination_type": models.PaginationType.RESPONSE_BODY,
                 "cron_schedule": "<value>",
                 "earliest": "<value>",
                 "latest": "<value>",
@@ -5781,7 +5807,7 @@ with CriblControlPlane(
                         "value": "100",
                     },
                 ],
-                "pagination_type": models.InputOpenaiPaginationType.RESPONSE_BODY,
+                "pagination_type": models.PaginationType.RESPONSE_BODY,
                 "pagination_attribute": [
                     "last_id",
                 ],
@@ -5819,7 +5845,7 @@ with CriblControlPlane(
         "send_to_routes": True,
         "pq_enabled": False,
         "text_secret": "openai-api-key-secret",
-        "account_type": models.InputOpenaiComplianceLogsAccountType.WORKSPACE,
+        "account_type": models.AccountType.WORKSPACE,
         "cron_schedule": "*/15 * * * *",
         "earliest": "-1h",
         "latest": "now",
@@ -6623,6 +6649,31 @@ with CriblControlPlane(
         "host": "0.0.0.0",
         "port": 8088,
         "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateInputById" method="patch" path="/system/inputs/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.sources.update(id="<id>", input_={
+        "type": models.InputHTTPRawType.HTTP_RAW,
+        "host": "focused-invite.org",
+        "port": 4085.76,
     })
 
     # Handle response

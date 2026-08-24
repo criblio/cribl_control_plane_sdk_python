@@ -20,6 +20,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class SavedJobCollectionTypedDict(TypedDict):
+    r"""Configuration for a saved collection job, including Collector, input, and optional run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
     collector: CollectorTypedDict
@@ -45,11 +47,14 @@ class SavedJobCollectionTypedDict(TypedDict):
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
     input: NotRequired[InputTypeRunnableJobCollectionTypedDict]
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class SavedJobCollection(BaseModel):
+    r"""Configuration for a saved collection job, including Collector, input, and optional run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
 
@@ -95,6 +100,7 @@ class SavedJobCollection(BaseModel):
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
     input: Optional[InputTypeRunnableJobCollection] = None
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

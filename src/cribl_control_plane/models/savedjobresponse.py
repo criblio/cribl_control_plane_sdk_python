@@ -29,6 +29,8 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class SavedJobResponseScheduledSearchTypedDict(TypedDict):
+    r"""Configuration for a saved scheduled search job, including the search query to run."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
     saved_query_id: str
@@ -62,6 +64,8 @@ class SavedJobResponseScheduledSearchTypedDict(TypedDict):
 
 
 class SavedJobResponseScheduledSearch(BaseModel):
+    r"""Configuration for a saved scheduled search job, including the search query to run."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
 
@@ -157,9 +161,12 @@ class SavedJobResponseScheduledSearch(BaseModel):
 
 
 class SavedJobResponseExecutorTypedDict(TypedDict):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
     executor: ExecutorTypeRunnableJobExecutorTypedDict
+    r"""Executor configuration, including the executor type and its settings."""
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
@@ -189,10 +196,13 @@ class SavedJobResponseExecutorTypedDict(TypedDict):
 
 
 class SavedJobResponseExecutor(BaseModel):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
 
     executor: ExecutorTypeRunnableJobExecutor
+    r"""Executor configuration, including the executor type and its settings."""
 
     id: Optional[str] = None
     r"""Unique ID for this Job"""
@@ -283,6 +293,8 @@ class SavedJobResponseExecutor(BaseModel):
 
 
 class SavedJobResponseCollectionTypedDict(TypedDict):
+    r"""Configuration for a saved collection job, including Collector, input, and optional run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
     collector: CollectorTypedDict
@@ -308,6 +320,7 @@ class SavedJobResponseCollectionTypedDict(TypedDict):
     worker_affinity: NotRequired[bool]
     r"""If enabled, tasks are created and run by the same Worker Node"""
     input: NotRequired[InputTypeRunnableJobCollectionTypedDict]
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     saved_state: NotRequired[
@@ -319,6 +332,8 @@ class SavedJobResponseCollectionTypedDict(TypedDict):
 
 
 class SavedJobResponseCollection(BaseModel):
+    r"""Configuration for a saved collection job, including Collector, input, and optional run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
 
@@ -364,6 +379,7 @@ class SavedJobResponseCollection(BaseModel):
     r"""If enabled, tasks are created and run by the same Worker Node"""
 
     input: Optional[InputTypeRunnableJobCollection] = None
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

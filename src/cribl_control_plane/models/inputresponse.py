@@ -27,10 +27,7 @@ from .authtokensextconfinputhttp import (
     AuthTokensExtConfInputHTTP,
     AuthTokensExtConfInputHTTPTypedDict,
 )
-from .certificatetypeazureblobauthtypeclientcert import (
-    CertificateTypeAzureBlobAuthTypeClientCert,
-    CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
-)
+from .certificatetype import CertificateType, CertificateTypeTypedDict
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
 from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
@@ -50,9 +47,7 @@ from .inputcollectionorigindatasourcediscoverywithdestinationarnconstraint impor
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint,
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict,
 )
-from .inputresponse_interfaces import (
-    InputResponseHostsFile,
-    InputResponseHostsFileTypedDict,
+from .inputresponse_inputkubemetrics import (
     InputResponseInputAnthropicCompliance,
     InputResponseInputAnthropicComplianceTypedDict,
     InputResponseInputAppleUnifiedLogs,
@@ -133,9 +128,6 @@ from .inputresponse_interfaces import (
     InputResponseInputWizWebhookTypedDict,
     InputResponseInputZscalerHec,
     InputResponseInputZscalerHecTypedDict,
-    InputResponseInterfaces,
-    InputResponseInterfacesTypedDict,
-    InputResponseTypeSystemState,
 )
 from .kafkaschemaregistryauthenticationtype import (
     KafkaSchemaRegistryAuthenticationType,
@@ -197,14 +189,81 @@ from .typeoptionssplunk import TypeOptionsSplunk
 from .typeoptionstcpjson import TypeOptionsTcpjson
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.utils import validate_const
 from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
 from functools import partial
 import pydantic
 from pydantic import ConfigDict, field_serializer, model_serializer
-from pydantic.functional_validators import BeforeValidator
+from pydantic.functional_validators import AfterValidator, BeforeValidator
 from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class InputResponseInputSystemStateType(str, Enum):
+    r"""Connector type identifier."""
+
+    SYSTEM_STATE = "system_state"
+
+
+class InputResponseHostsFileTypedDict(TypedDict):
+    r"""Creates events based on entries collected from the hosts file"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseHostsFile(BaseModel):
+    r"""Creates events based on entries collected from the hosts file"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseInterfacesTypedDict(TypedDict):
+    r"""Creates events for each of the host’s network interfaces"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseInterfaces(BaseModel):
+    r"""Creates events for each of the host’s network interfaces"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class InputResponseDisksAndFileSystemsTypedDict(TypedDict):
@@ -569,7 +628,7 @@ class InputResponseCollectors(BaseModel):
         return m
 
 
-class InputResponsePersistenceSystemStateTypedDict(TypedDict):
+class InputResponseInputSystemStatePersistenceTypedDict(TypedDict):
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -584,7 +643,7 @@ class InputResponsePersistenceSystemStateTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
 
 
-class InputResponsePersistenceSystemState(BaseModel):
+class InputResponseInputSystemStatePersistence(BaseModel):
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -639,7 +698,7 @@ class InputResponsePersistenceSystemState(BaseModel):
 
 
 class InputResponseInputSystemStateTypedDict(TypedDict):
-    type: InputResponseTypeSystemState
+    type: InputResponseInputSystemStateType
     r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -667,7 +726,7 @@ class InputResponseInputSystemStateTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     collectors: NotRequired[InputResponseCollectorsTypedDict]
-    persistence: NotRequired[InputResponsePersistenceSystemStateTypedDict]
+    persistence: NotRequired[InputResponseInputSystemStatePersistenceTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     disable_native_last_log_module: NotRequired[bool]
@@ -685,7 +744,7 @@ class InputResponseInputSystemStateTypedDict(TypedDict):
 
 
 class InputResponseInputSystemState(BaseModel):
-    type: InputResponseTypeSystemState
+    type: InputResponseInputSystemStateType
     r"""Connector type identifier."""
 
     id: Optional[str] = None
@@ -730,7 +789,7 @@ class InputResponseInputSystemState(BaseModel):
 
     collectors: Optional[InputResponseCollectors] = None
 
-    persistence: Optional[InputResponsePersistenceSystemState] = None
+    persistence: Optional[InputResponseInputSystemStatePersistence] = None
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
@@ -802,13 +861,15 @@ class InputResponseInputSystemState(BaseModel):
         return m
 
 
-class InputResponseTypeSystemMetrics(str, Enum):
+class InputResponseInputSystemMetricsType(str, Enum):
     r"""Connector type identifier."""
 
     SYSTEM_METRICS = "system_metrics"
 
 
-class InputResponseSystemModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsSystemMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of detail for system metrics"""
 
     # Basic
@@ -821,15 +882,15 @@ class InputResponseSystemModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMe
     DISABLED = "disabled"
 
 
-class InputResponseSystemSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseSystemModeSystemMetrics]
+class InputResponseInputSystemMetricsSystemTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsSystemMode]
     r"""Select the level of detail for system metrics"""
     processes: NotRequired[bool]
     r"""Generate metrics for the numbers of processes in various states"""
 
 
-class InputResponseSystemSystemMetrics(BaseModel):
-    mode: Optional[InputResponseSystemModeSystemMetrics] = None
+class InputResponseInputSystemMetricsSystem(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsSystemMode] = None
     r"""Select the level of detail for system metrics"""
 
     processes: Optional[bool] = None
@@ -839,7 +900,7 @@ class InputResponseSystemSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseSystemModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsSystemMode(value)
             except ValueError:
                 return value
         return value
@@ -861,7 +922,7 @@ class InputResponseSystemSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseCPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for CPU metrics"""
 
     # Basic
@@ -874,8 +935,8 @@ class InputResponseCPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta)
     DISABLED = "disabled"
 
 
-class InputResponseCPUSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseCPUModeSystemMetrics]
+class InputResponseInputSystemMetricsCPUTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsCPUMode]
     r"""Select the level of detail for CPU metrics"""
     per_cpu: NotRequired[bool]
     r"""Generate metrics for each CPU"""
@@ -885,8 +946,8 @@ class InputResponseCPUSystemMetricsTypedDict(TypedDict):
     r"""Generate raw, monotonic CPU time counters"""
 
 
-class InputResponseCPUSystemMetrics(BaseModel):
-    mode: Optional[InputResponseCPUModeSystemMetrics] = None
+class InputResponseInputSystemMetricsCPU(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsCPUMode] = None
     r"""Select the level of detail for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
@@ -902,7 +963,7 @@ class InputResponseCPUSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseCPUModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsCPUMode(value)
             except ValueError:
                 return value
         return value
@@ -924,7 +985,9 @@ class InputResponseCPUSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseMemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsMemoryMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of detail for memory metrics"""
 
     # Basic
@@ -937,15 +1000,15 @@ class InputResponseMemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMe
     DISABLED = "disabled"
 
 
-class InputResponseMemorySystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseMemoryModeSystemMetrics]
+class InputResponseInputSystemMetricsMemoryTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsMemoryMode]
     r"""Select the level of detail for memory metrics"""
     detail: NotRequired[bool]
     r"""Generate metrics for all memory states"""
 
 
-class InputResponseMemorySystemMetrics(BaseModel):
-    mode: Optional[InputResponseMemoryModeSystemMetrics] = None
+class InputResponseInputSystemMetricsMemory(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsMemoryMode] = None
     r"""Select the level of detail for memory metrics"""
 
     detail: Optional[bool] = None
@@ -955,7 +1018,7 @@ class InputResponseMemorySystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseMemoryModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsMemoryMode(value)
             except ValueError:
                 return value
         return value
@@ -977,7 +1040,9 @@ class InputResponseMemorySystemMetrics(BaseModel):
         return m
 
 
-class InputResponseNetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsNetworkMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of detail for network metrics"""
 
     # Basic
@@ -990,8 +1055,8 @@ class InputResponseNetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumM
     DISABLED = "disabled"
 
 
-class InputResponseNetworkSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseNetworkModeSystemMetrics]
+class InputResponseInputSystemMetricsNetworkTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsNetworkMode]
     r"""Select the level of detail for network metrics"""
     detail: NotRequired[bool]
     r"""Generate full network metrics"""
@@ -1003,8 +1068,8 @@ class InputResponseNetworkSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each interface"""
 
 
-class InputResponseNetworkSystemMetrics(BaseModel):
-    mode: Optional[InputResponseNetworkModeSystemMetrics] = None
+class InputResponseInputSystemMetricsNetwork(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsNetworkMode] = None
     r"""Select the level of detail for network metrics"""
 
     detail: Optional[bool] = None
@@ -1025,7 +1090,7 @@ class InputResponseNetworkSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseNetworkModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsNetworkMode(value)
             except ValueError:
                 return value
         return value
@@ -1049,7 +1114,7 @@ class InputResponseNetworkSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseDiskModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for disk metrics"""
 
     # Basic
@@ -1062,8 +1127,8 @@ class InputResponseDiskModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta
     DISABLED = "disabled"
 
 
-class InputResponseDiskSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseDiskModeSystemMetrics]
+class InputResponseInputSystemMetricsDiskTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsDiskMode]
     r"""Select the level of detail for disk metrics"""
     detail: NotRequired[bool]
     r"""Generate full disk metrics"""
@@ -1079,8 +1144,8 @@ class InputResponseDiskSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each device"""
 
 
-class InputResponseDiskSystemMetrics(BaseModel):
-    mode: Optional[InputResponseDiskModeSystemMetrics] = None
+class InputResponseInputSystemMetricsDisk(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsDiskMode] = None
     r"""Select the level of detail for disk metrics"""
 
     detail: Optional[bool] = None
@@ -1105,7 +1170,7 @@ class InputResponseDiskSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseDiskModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsDiskMode(value)
             except ValueError:
                 return value
         return value
@@ -1137,24 +1202,24 @@ class InputResponseDiskSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseCustomSystemMetricsTypedDict(TypedDict):
-    system: NotRequired[InputResponseSystemSystemMetricsTypedDict]
-    cpu: NotRequired[InputResponseCPUSystemMetricsTypedDict]
-    memory: NotRequired[InputResponseMemorySystemMetricsTypedDict]
-    network: NotRequired[InputResponseNetworkSystemMetricsTypedDict]
-    disk: NotRequired[InputResponseDiskSystemMetricsTypedDict]
+class InputResponseInputSystemMetricsCustomTypedDict(TypedDict):
+    system: NotRequired[InputResponseInputSystemMetricsSystemTypedDict]
+    cpu: NotRequired[InputResponseInputSystemMetricsCPUTypedDict]
+    memory: NotRequired[InputResponseInputSystemMetricsMemoryTypedDict]
+    network: NotRequired[InputResponseInputSystemMetricsNetworkTypedDict]
+    disk: NotRequired[InputResponseInputSystemMetricsDiskTypedDict]
 
 
-class InputResponseCustomSystemMetrics(BaseModel):
-    system: Optional[InputResponseSystemSystemMetrics] = None
+class InputResponseInputSystemMetricsCustom(BaseModel):
+    system: Optional[InputResponseInputSystemMetricsSystem] = None
 
-    cpu: Optional[InputResponseCPUSystemMetrics] = None
+    cpu: Optional[InputResponseInputSystemMetricsCPU] = None
 
-    memory: Optional[InputResponseMemorySystemMetrics] = None
+    memory: Optional[InputResponseInputSystemMetricsMemory] = None
 
-    network: Optional[InputResponseNetworkSystemMetrics] = None
+    network: Optional[InputResponseInputSystemMetricsNetwork] = None
 
-    disk: Optional[InputResponseDiskSystemMetrics] = None
+    disk: Optional[InputResponseInputSystemMetricsDisk] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -1173,17 +1238,17 @@ class InputResponseCustomSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseHostSystemMetricsTypedDict(TypedDict):
+class InputResponseInputSystemMetricsHostTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
-    custom: NotRequired[InputResponseCustomSystemMetricsTypedDict]
+    custom: NotRequired[InputResponseInputSystemMetricsCustomTypedDict]
 
 
-class InputResponseHostSystemMetrics(BaseModel):
+class InputResponseInputSystemMetricsHost(BaseModel):
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
-    custom: Optional[InputResponseCustomSystemMetrics] = None
+    custom: Optional[InputResponseInputSystemMetricsCustom] = None
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -1224,12 +1289,12 @@ class InputResponseContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class InputResponseFilterSystemMetricsTypedDict(TypedDict):
+class InputResponseInputSystemMetricsFilterTypedDict(TypedDict):
     expr: str
     r"""Expression"""
 
 
-class InputResponseFilterSystemMetrics(BaseModel):
+class InputResponseInputSystemMetricsFilter(BaseModel):
     expr: str
     r"""Expression"""
 
@@ -1241,7 +1306,7 @@ class InputResponseContainerTypedDict(TypedDict):
     r"""Full paths for Docker's UNIX-domain socket"""
     docker_timeout: NotRequired[float]
     r"""Timeout, in seconds, for the Docker API"""
-    filters: NotRequired[List[InputResponseFilterSystemMetricsTypedDict]]
+    filters: NotRequired[List[InputResponseInputSystemMetricsFilterTypedDict]]
     r"""Containers matching any of these will be included. All are included if no filters are added."""
     all_containers: NotRequired[bool]
     r"""Include stopped and paused containers"""
@@ -1265,7 +1330,7 @@ class InputResponseContainer(BaseModel):
     ] = None
     r"""Timeout, in seconds, for the Docker API"""
 
-    filters: Optional[List[InputResponseFilterSystemMetrics]] = None
+    filters: Optional[List[InputResponseInputSystemMetricsFilter]] = None
     r"""Containers matching any of these will be included. All are included if no filters are added."""
 
     all_containers: Annotated[Optional[bool], pydantic.Field(alias="allContainers")] = (
@@ -1315,7 +1380,7 @@ class InputResponseContainer(BaseModel):
         return m
 
 
-class InputResponsePersistenceSystemMetricsTypedDict(TypedDict):
+class InputResponseInputSystemMetricsPersistenceTypedDict(TypedDict):
     r"""persistence"""
 
     enable: NotRequired[bool]
@@ -1332,7 +1397,7 @@ class InputResponsePersistenceSystemMetricsTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
 
 
-class InputResponsePersistenceSystemMetrics(BaseModel):
+class InputResponseInputSystemMetricsPersistence(BaseModel):
     r"""persistence"""
 
     enable: Optional[bool] = None
@@ -1389,7 +1454,7 @@ class InputResponsePersistenceSystemMetrics(BaseModel):
 
 
 class InputResponseInputSystemMetricsTypedDict(TypedDict):
-    type: InputResponseTypeSystemMetrics
+    type: InputResponseInputSystemMetricsType
     r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -1414,13 +1479,13 @@ class InputResponseInputSystemMetricsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
-    host: NotRequired[InputResponseHostSystemMetricsTypedDict]
+    host: NotRequired[InputResponseInputSystemMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
     container: NotRequired[InputResponseContainerTypedDict]
     gpu: NotRequired[GpuTypeTypedDict]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    persistence: NotRequired[InputResponsePersistenceSystemMetricsTypedDict]
+    persistence: NotRequired[InputResponseInputSystemMetricsPersistenceTypedDict]
     r"""persistence"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -1435,7 +1500,7 @@ class InputResponseInputSystemMetricsTypedDict(TypedDict):
 
 
 class InputResponseInputSystemMetrics(BaseModel):
-    type: InputResponseTypeSystemMetrics
+    type: InputResponseInputSystemMetricsType
     r"""Connector type identifier."""
 
     id: Optional[str] = None
@@ -1475,7 +1540,7 @@ class InputResponseInputSystemMetrics(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
-    host: Optional[InputResponseHostSystemMetrics] = None
+    host: Optional[InputResponseInputSystemMetricsHost] = None
 
     process: Optional[ProcessType] = None
 
@@ -1486,7 +1551,7 @@ class InputResponseInputSystemMetrics(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    persistence: Optional[InputResponsePersistenceSystemMetrics] = None
+    persistence: Optional[InputResponseInputSystemMetricsPersistence] = None
     r"""persistence"""
 
     description: Optional[str] = None
@@ -1802,7 +1867,7 @@ class InputResponseInputTcpjson(BaseModel):
         return m
 
 
-class InputResponseTypeCriblLakeHTTP(str, Enum):
+class InputResponseInputCriblLakeHTTPType(str, Enum):
     r"""Source type identifier."""
 
     CRIBL_LAKE_HTTP = "cribl_lake_http"
@@ -1924,7 +1989,7 @@ class InputResponseAuthTokensExt(BaseModel):
 
 
 class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
-    type: InputResponseTypeCriblLakeHTTP
+    type: InputResponseInputCriblLakeHTTPType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1963,6 +2028,7 @@ class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -2014,7 +2080,7 @@ class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
 
 
 class InputResponseInputCriblLakeHTTP(BaseModel):
-    type: InputResponseTypeCriblLakeHTTP
+    type: InputResponseInputCriblLakeHTTPType
     r"""Source type identifier."""
 
     host: str
@@ -2084,6 +2150,11 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -2214,6 +2285,7 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -2254,14 +2326,14 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
         return m
 
 
-class InputResponseTypeCriblHTTP(str, Enum):
+class InputResponseInputCriblHTTPType(str, Enum):
     r"""Source type identifier."""
 
     CRIBL_HTTP = "cribl_http"
 
 
 class InputResponseInputCriblHTTPTypedDict(TypedDict):
-    type: InputResponseTypeCriblHTTP
+    type: InputResponseInputCriblHTTPType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2300,6 +2372,7 @@ class InputResponseInputCriblHTTPTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -2333,7 +2406,7 @@ class InputResponseInputCriblHTTPTypedDict(TypedDict):
 
 
 class InputResponseInputCriblHTTP(BaseModel):
-    type: InputResponseTypeCriblHTTP
+    type: InputResponseInputCriblHTTPType
     r"""Source type identifier."""
 
     host: str
@@ -2403,6 +2476,11 @@ class InputResponseInputCriblHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -2491,6 +2569,7 @@ class InputResponseInputCriblHTTP(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -2744,14 +2823,14 @@ class InputResponseInputCriblTCP(BaseModel):
         return m
 
 
-class InputResponseTypeCribl(str, Enum):
+class InputResponseInputCriblType(str, Enum):
     r"""Connector type identifier."""
 
     CRIBL = "cribl"
 
 
 class InputResponseInputCriblTypedDict(TypedDict):
-    type: InputResponseTypeCribl
+    type: InputResponseInputCriblType
     r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -2790,7 +2869,7 @@ class InputResponseInputCriblTypedDict(TypedDict):
 
 
 class InputResponseInputCribl(BaseModel):
-    type: InputResponseTypeCribl
+    type: InputResponseInputCriblType
     r"""Connector type identifier."""
 
     id: Optional[str] = None
@@ -3144,14 +3223,14 @@ class InputResponseInputGooglePubsub(BaseModel):
         return m
 
 
-class InputResponseTypeFirehose(str, Enum):
+class InputResponseInputFirehoseType(str, Enum):
     r"""Source type identifier."""
 
     FIREHOSE = "firehose"
 
 
 class InputResponseInputFirehoseTypedDict(TypedDict):
-    type: InputResponseTypeFirehose
+    type: InputResponseInputFirehoseType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -3190,6 +3269,7 @@ class InputResponseInputFirehoseTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -3225,7 +3305,7 @@ class InputResponseInputFirehoseTypedDict(TypedDict):
 
 
 class InputResponseInputFirehose(BaseModel):
-    type: InputResponseTypeFirehose
+    type: InputResponseInputFirehoseType
     r"""Source type identifier."""
 
     host: str
@@ -3295,6 +3375,11 @@ class InputResponseInputFirehose(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -3388,6 +3473,7 @@ class InputResponseInputFirehose(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -3629,7 +3715,7 @@ class InputResponseInputExec(BaseModel):
         return m
 
 
-class InputResponseTypeEventhubAmqp(str, Enum):
+class InputResponseInputEventhubAmqpType(str, Enum):
     r"""Connector type identifier."""
 
     EVENTHUB_AMQP = "eventhub_amqp"
@@ -3829,7 +3915,7 @@ class InputResponseAuth(BaseModel):
         return m
 
 
-class InputResponseAuthenticationMethodEventhubAmqp(
+class InputResponseInputEventhubAmqpAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Authentication method"""
@@ -3846,7 +3932,7 @@ class InputResponseAzureBlobStorageTypedDict(TypedDict):
 
     container_name: str
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
-    auth_type: NotRequired[InputResponseAuthenticationMethodEventhubAmqp]
+    auth_type: NotRequired[InputResponseInputEventhubAmqpAuthenticationMethod]
     r"""Authentication method"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
@@ -3862,7 +3948,7 @@ class InputResponseAzureBlobStorageTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_storage_account_name: NotRequired[str]
     r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -3880,7 +3966,7 @@ class InputResponseAzureBlobStorage(BaseModel):
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodEventhubAmqp],
+        Optional[InputResponseInputEventhubAmqpAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Authentication method"""
@@ -3912,7 +3998,7 @@ class InputResponseAzureBlobStorage(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_storage_account_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_storageAccountName")
@@ -3938,7 +4024,7 @@ class InputResponseAzureBlobStorage(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodEventhubAmqp(value)
+                return models.InputResponseInputEventhubAmqpAuthenticationMethod(value)
             except ValueError:
                 return value
         return value
@@ -3989,7 +4075,7 @@ class InputResponseCheckpointing(BaseModel):
 
 
 class InputResponseInputEventhubAmqpTypedDict(TypedDict):
-    type: InputResponseTypeEventhubAmqp
+    type: InputResponseInputEventhubAmqpType
     r"""Connector type identifier."""
     consumer_group: str
     r"""The consumer group this instance belongs to. Default is '$Default'."""
@@ -4055,7 +4141,7 @@ class InputResponseInputEventhubAmqpTypedDict(TypedDict):
 
 
 class InputResponseInputEventhubAmqp(BaseModel):
-    type: InputResponseTypeEventhubAmqp
+    type: InputResponseInputEventhubAmqpType
     r"""Connector type identifier."""
 
     consumer_group: Annotated[str, pydantic.Field(alias="consumerGroup")]
@@ -4224,14 +4310,14 @@ class InputResponseInputEventhubAmqp(BaseModel):
         return m
 
 
-class InputResponseTypeEventhub(str, Enum):
+class InputResponseInputEventhubType(str, Enum):
     r"""Connector type identifier."""
 
     EVENTHUB = "eventhub"
 
 
 class InputResponseInputEventhubTypedDict(TypedDict):
-    type: InputResponseTypeEventhub
+    type: InputResponseInputEventhubType
     r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
@@ -4327,7 +4413,7 @@ class InputResponseInputEventhubTypedDict(TypedDict):
 
 
 class InputResponseInputEventhub(BaseModel):
-    type: InputResponseTypeEventhub
+    type: InputResponseInputEventhubType
     r"""Connector type identifier."""
 
     brokers: List[str]
@@ -4564,13 +4650,13 @@ class InputResponseInputEventhub(BaseModel):
         return m
 
 
-class InputResponseTypeMicrosoftGraph(str, Enum):
+class InputResponseInputMicrosoftGraphType(str, Enum):
     r"""Connector type identifier."""
 
     MICROSOFT_GRAPH = "microsoft_graph"
 
 
-class InputResponseAuthenticationMethodMicrosoftGraph(
+class InputResponseInputMicrosoftGraphAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select authentication method."""
@@ -4596,7 +4682,7 @@ class InputResponseSubscriptionPlan(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
-    type: InputResponseTypeMicrosoftGraph
+    type: InputResponseInputMicrosoftGraphType
     r"""Connector type identifier."""
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
@@ -4633,7 +4719,7 @@ class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
     r"""Disables time filtering of events when a date range is specified."""
     max_pages: NotRequired[int]
     r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
-    auth_type: NotRequired[InputResponseAuthenticationMethodMicrosoftGraph]
+    auth_type: NotRequired[InputResponseInputMicrosoftGraphAuthenticationMethod]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -4694,7 +4780,7 @@ class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
 
 
 class InputResponseInputMicrosoftGraph(BaseModel):
-    type: InputResponseTypeMicrosoftGraph
+    type: InputResponseInputMicrosoftGraphType
     r"""Connector type identifier."""
 
     url: str
@@ -4755,7 +4841,7 @@ class InputResponseInputMicrosoftGraph(BaseModel):
     r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodMicrosoftGraph],
+        Optional[InputResponseInputMicrosoftGraphAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -4885,7 +4971,9 @@ class InputResponseInputMicrosoftGraph(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodMicrosoftGraph(value)
+                return models.InputResponseInputMicrosoftGraphAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -4973,13 +5061,13 @@ class InputResponseInputMicrosoftGraph(BaseModel):
         return m
 
 
-class InputResponseTypeOffice365MsgTrace(str, Enum):
+class InputResponseInputOffice365MsgTraceType(str, Enum):
     r"""Connector type identifier."""
 
     OFFICE365_MSG_TRACE = "office365_msg_trace"
 
 
-class InputResponseAuthenticationMethodOffice365MsgTrace(
+class InputResponseInputOffice365MsgTraceAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select authentication method."""
@@ -4992,7 +5080,7 @@ class InputResponseAuthenticationMethodOffice365MsgTrace(
 
 
 class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
-    type: InputResponseTypeOffice365MsgTrace
+    type: InputResponseInputOffice365MsgTraceType
     r"""Connector type identifier."""
     url: str
     r"""URL to use when retrieving report data."""
@@ -5027,7 +5115,7 @@ class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[InputResponseAuthenticationMethodOffice365MsgTrace]
+    auth_type: NotRequired[InputResponseInputOffice365MsgTraceAuthenticationMethod]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -5090,7 +5178,7 @@ class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
 
 
 class InputResponseInputOffice365MsgTrace(BaseModel):
-    type: InputResponseTypeOffice365MsgTrace
+    type: InputResponseInputOffice365MsgTraceType
     r"""Connector type identifier."""
 
     url: str
@@ -5148,7 +5236,7 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodOffice365MsgTrace],
+        Optional[InputResponseInputOffice365MsgTraceAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -5279,7 +5367,9 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodOffice365MsgTrace(value)
+                return models.InputResponseInputOffice365MsgTraceAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -5367,13 +5457,13 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
         return m
 
 
-class InputResponseTypeOffice365Service(str, Enum):
+class InputResponseInputOffice365ServiceType(str, Enum):
     r"""Connector type identifier."""
 
     OFFICE365_SERVICE = "office365_service"
 
 
-class InputResponseContentConfigOffice365ServiceTypedDict(TypedDict):
+class InputResponseInputOffice365ServiceContentConfigTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Microsoft 365 Services API Content Type"""
     description: NotRequired[str]
@@ -5386,7 +5476,7 @@ class InputResponseContentConfigOffice365ServiceTypedDict(TypedDict):
     r"""Enabled"""
 
 
-class InputResponseContentConfigOffice365Service(BaseModel):
+class InputResponseInputOffice365ServiceContentConfig(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Microsoft 365 Services API Content Type"""
 
@@ -5433,7 +5523,7 @@ class InputResponseContentConfigOffice365Service(BaseModel):
 
 
 class InputResponseInputOffice365ServiceTypedDict(TypedDict):
-    type: InputResponseTypeOffice365Service
+    type: InputResponseInputOffice365ServiceType
     r"""Connector type identifier."""
     tenant_id: str
     r"""Microsoft 365 Azure Tenant ID"""
@@ -5477,7 +5567,7 @@ class InputResponseInputOffice365ServiceTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     content_config: NotRequired[
-        List[InputResponseContentConfigOffice365ServiceTypedDict]
+        List[InputResponseInputOffice365ServiceContentConfigTypedDict]
     ]
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
@@ -5508,7 +5598,7 @@ class InputResponseInputOffice365ServiceTypedDict(TypedDict):
 
 
 class InputResponseInputOffice365Service(BaseModel):
-    type: InputResponseTypeOffice365Service
+    type: InputResponseInputOffice365ServiceType
     r"""Connector type identifier."""
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
@@ -5584,7 +5674,7 @@ class InputResponseInputOffice365Service(BaseModel):
     r"""Fields to add to events from this input"""
 
     content_config: Annotated[
-        Optional[List[InputResponseContentConfigOffice365Service]],
+        Optional[List[InputResponseInputOffice365ServiceContentConfig]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
@@ -5714,13 +5804,13 @@ class InputResponseInputOffice365Service(BaseModel):
         return m
 
 
-class InputResponseTypeOffice365Mgmt(str, Enum):
+class InputResponseInputOffice365MgmtType(str, Enum):
     r"""Connector type identifier."""
 
     OFFICE365_MGMT = "office365_mgmt"
 
 
-class InputResponseContentConfigOffice365MgmtTypedDict(TypedDict):
+class InputResponseInputOffice365MgmtContentConfigTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Microsoft 365 Management Activity API Content Type"""
     description: NotRequired[str]
@@ -5733,7 +5823,7 @@ class InputResponseContentConfigOffice365MgmtTypedDict(TypedDict):
     r"""Enabled"""
 
 
-class InputResponseContentConfigOffice365Mgmt(BaseModel):
+class InputResponseInputOffice365MgmtContentConfig(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Microsoft 365 Management Activity API Content Type"""
 
@@ -5780,7 +5870,7 @@ class InputResponseContentConfigOffice365Mgmt(BaseModel):
 
 
 class InputResponseInputOffice365MgmtTypedDict(TypedDict):
-    type: InputResponseTypeOffice365Mgmt
+    type: InputResponseInputOffice365MgmtType
     r"""Connector type identifier."""
     plan_type: SubscriptionPlanOptions
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
@@ -5825,7 +5915,9 @@ class InputResponseInputOffice365MgmtTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
-    content_config: NotRequired[List[InputResponseContentConfigOffice365MgmtTypedDict]]
+    content_config: NotRequired[
+        List[InputResponseInputOffice365MgmtContentConfigTypedDict]
+    ]
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
@@ -5859,7 +5951,7 @@ class InputResponseInputOffice365MgmtTypedDict(TypedDict):
 
 
 class InputResponseInputOffice365Mgmt(BaseModel):
-    type: InputResponseTypeOffice365Mgmt
+    type: InputResponseInputOffice365MgmtType
     r"""Connector type identifier."""
 
     plan_type: Annotated[SubscriptionPlanOptions, pydantic.Field(alias="planType")]
@@ -5938,7 +6030,7 @@ class InputResponseInputOffice365Mgmt(BaseModel):
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
 
     content_config: Annotated[
-        Optional[List[InputResponseContentConfigOffice365Mgmt]],
+        Optional[List[InputResponseInputOffice365MgmtContentConfig]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
@@ -6080,13 +6172,15 @@ class InputResponseInputOffice365Mgmt(BaseModel):
         return m
 
 
-class InputResponseTypeEdgePrometheus(str, Enum):
+class InputResponseInputEdgePrometheusType(str, Enum):
     r"""Connector type identifier."""
 
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
-class InputResponseDiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputEdgePrometheusDiscoveryType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     # Static
@@ -6105,7 +6199,7 @@ class InputResponseDiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEn
     HTTP_SD = "http_sd"
 
 
-class InputResponseAuthenticationMethodEdgePrometheus(
+class InputResponseInputEdgePrometheusAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Enter credentials directly, or select a stored secret"""
@@ -6197,9 +6291,9 @@ class InputResponsePodFilter(BaseModel):
 
 
 class InputResponseInputEdgePrometheusTypedDict(TypedDict):
-    type: InputResponseTypeEdgePrometheus
+    type: InputResponseInputEdgePrometheusType
     r"""Connector type identifier."""
-    discovery_type: InputResponseDiscoveryTypeEdgePrometheus
+    discovery_type: InputResponseInputEdgePrometheusDiscoveryType
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: float
     r"""How often in seconds to scrape targets for metrics."""
@@ -6234,7 +6328,7 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
     r"""Disk Spooling"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_type: NotRequired[InputResponseAuthenticationMethodEdgePrometheus]
+    auth_type: NotRequired[InputResponseInputEdgePrometheusAuthenticationMethod]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -6336,11 +6430,12 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
 
 
 class InputResponseInputEdgePrometheus(BaseModel):
-    type: InputResponseTypeEdgePrometheus
+    type: InputResponseInputEdgePrometheusType
     r"""Connector type identifier."""
 
     discovery_type: Annotated[
-        InputResponseDiscoveryTypeEdgePrometheus, pydantic.Field(alias="discoveryType")
+        InputResponseInputEdgePrometheusDiscoveryType,
+        pydantic.Field(alias="discoveryType"),
     ]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
@@ -6401,7 +6496,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodEdgePrometheus],
+        Optional[InputResponseInputEdgePrometheusAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
@@ -6615,7 +6710,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseDiscoveryTypeEdgePrometheus(value)
+                return models.InputResponseInputEdgePrometheusDiscoveryType(value)
             except ValueError:
                 return value
         return value
@@ -6624,7 +6719,9 @@ class InputResponseInputEdgePrometheus(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodEdgePrometheus(value)
+                return models.InputResponseInputEdgePrometheusAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -6737,7 +6834,9 @@ class InputResponseInputEdgePrometheus(BaseModel):
         return m
 
 
-class InputResponseDiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputPrometheusDiscoveryType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     # Static
@@ -6789,7 +6888,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     r"""Other dimensions to include in events"""
     field_per_metric: NotRequired[bool]
     r"""When enabled, each metric name is used as the event field key (example: go_threads: 9) instead of the default _metric/_value format."""
-    discovery_type: NotRequired[InputResponseDiscoveryTypePrometheus]
+    discovery_type: NotRequired[InputResponseInputPrometheusDiscoveryType]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
@@ -6956,7 +7055,7 @@ class InputResponseInputPrometheus(BaseModel):
     r"""When enabled, each metric name is used as the event field key (example: go_threads: 9) instead of the default _metric/_value format."""
 
     discovery_type: Annotated[
-        Optional[InputResponseDiscoveryTypePrometheus],
+        Optional[InputResponseInputPrometheusDiscoveryType],
         pydantic.Field(alias="discoveryType"),
     ] = None
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -7199,7 +7298,7 @@ class InputResponseInputPrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseDiscoveryTypePrometheus(value)
+                return models.InputResponseInputPrometheusDiscoveryType(value)
             except ValueError:
                 return value
         return value
@@ -7335,14 +7434,14 @@ class InputResponseInputPrometheus(BaseModel):
         return m
 
 
-class InputResponseTypePrometheusRw(str, Enum):
+class InputResponseInputPrometheusRwType(str, Enum):
     r"""Source type identifier."""
 
     PROMETHEUS_RW = "prometheus_rw"
 
 
 class InputResponseInputPrometheusRwTypedDict(TypedDict):
-    type: InputResponseTypePrometheusRw
+    type: InputResponseInputPrometheusRwType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7381,6 +7480,7 @@ class InputResponseInputPrometheusRwTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -7430,7 +7530,7 @@ class InputResponseInputPrometheusRwTypedDict(TypedDict):
 
 
 class InputResponseInputPrometheusRw(BaseModel):
-    type: InputResponseTypePrometheusRw
+    type: InputResponseInputPrometheusRwType
     r"""Source type identifier."""
 
     host: str
@@ -7498,6 +7598,11 @@ class InputResponseInputPrometheusRw(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -7627,6 +7732,7 @@ class InputResponseInputPrometheusRw(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -7666,14 +7772,14 @@ class InputResponseInputPrometheusRw(BaseModel):
         return m
 
 
-class InputResponseTypeLoki(str, Enum):
+class InputResponseInputLokiType(str, Enum):
     r"""Source type identifier."""
 
     LOKI = "loki"
 
 
 class InputResponseInputLokiTypedDict(TypedDict):
-    type: InputResponseTypeLoki
+    type: InputResponseInputLokiType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7712,6 +7818,7 @@ class InputResponseInputLokiTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -7759,7 +7866,7 @@ class InputResponseInputLokiTypedDict(TypedDict):
 
 
 class InputResponseInputLoki(BaseModel):
-    type: InputResponseTypeLoki
+    type: InputResponseInputLokiType
     r"""Source type identifier."""
 
     host: str
@@ -7827,6 +7934,11 @@ class InputResponseInputLoki(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -7950,6 +8062,7 @@ class InputResponseInputLoki(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -8181,6 +8294,7 @@ class InputResponseInputGrafanaGrafana2TypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -8291,6 +8405,11 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
     ] = None
     r"""Add request headers to events, in the __headers field"""
 
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
+
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
     ] = None
@@ -8400,6 +8519,7 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -8629,6 +8749,7 @@ class InputResponseInputGrafanaGrafana1TypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -8739,6 +8860,11 @@ class InputResponseInputGrafanaGrafana1(BaseModel):
     ] = None
     r"""Add request headers to events, in the __headers field"""
 
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
+
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
     ] = None
@@ -8846,6 +8972,7 @@ class InputResponseInputGrafanaGrafana1(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -9240,13 +9367,15 @@ class InputResponseInputConfluentCloud(BaseModel):
         return m
 
 
-class InputResponseTypeElastic(str, Enum):
+class InputResponseInputElasticType(str, Enum):
     r"""Source type identifier."""
 
     ELASTIC = "elastic"
 
 
-class InputResponseAuthenticationTypeElastic(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputElasticAuthenticationType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Authentication type"""
 
     # None
@@ -9270,7 +9399,9 @@ class InputResponseAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class InputResponseAuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputElasticAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Enter credentials directly, or select a stored secret"""
 
     NONE = "none"
@@ -9278,10 +9409,10 @@ class InputResponseAuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEn
     SECRET = "secret"
 
 
-class InputResponseProxyModeElasticTypedDict(TypedDict):
+class InputResponseInputElasticProxyModeTypedDict(TypedDict):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
-    auth_type: NotRequired[InputResponseAuthenticationMethodElastic]
+    auth_type: NotRequired[InputResponseInputElasticAuthenticationMethod]
     r"""Enter credentials directly, or select a stored secret"""
     username: NotRequired[str]
     r"""Username"""
@@ -9301,12 +9432,12 @@ class InputResponseProxyModeElasticTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class InputResponseProxyModeElastic(BaseModel):
+class InputResponseInputElasticProxyMode(BaseModel):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodElastic],
+        Optional[InputResponseInputElasticAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
@@ -9347,7 +9478,7 @@ class InputResponseProxyModeElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodElastic(value)
+                return models.InputResponseInputElasticAuthenticationMethod(value)
             except ValueError:
                 return value
         return value
@@ -9382,7 +9513,7 @@ class InputResponseProxyModeElastic(BaseModel):
 
 
 class InputResponseInputElasticTypedDict(TypedDict):
-    type: InputResponseTypeElastic
+    type: InputResponseInputElasticType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9421,6 +9552,7 @@ class InputResponseInputElasticTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -9435,7 +9567,7 @@ class InputResponseInputElasticTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    auth_type: NotRequired[InputResponseAuthenticationTypeElastic]
+    auth_type: NotRequired[InputResponseInputElasticAuthenticationType]
     r"""Authentication type"""
     api_version: NotRequired[InputResponseAPIVersion]
     r"""The API version to use for communicating with the server"""
@@ -9443,7 +9575,7 @@ class InputResponseInputElasticTypedDict(TypedDict):
     r"""Headers to add to all events"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[InputResponseProxyModeElasticTypedDict]
+    proxy_mode: NotRequired[InputResponseInputElasticProxyModeTypedDict]
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
@@ -9475,7 +9607,7 @@ class InputResponseInputElasticTypedDict(TypedDict):
 
 
 class InputResponseInputElastic(BaseModel):
-    type: InputResponseTypeElastic
+    type: InputResponseInputElasticType
     r"""Source type identifier."""
 
     host: str
@@ -9544,6 +9676,11 @@ class InputResponseInputElastic(BaseModel):
     ] = None
     r"""Add request headers to events, in the __headers field"""
 
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
+
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
     ] = None
@@ -9580,7 +9717,7 @@ class InputResponseInputElastic(BaseModel):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationTypeElastic],
+        Optional[InputResponseInputElasticAuthenticationType],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Authentication type"""
@@ -9600,7 +9737,7 @@ class InputResponseInputElastic(BaseModel):
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[InputResponseProxyModeElastic], pydantic.Field(alias="proxyMode")
+        Optional[InputResponseInputElasticProxyMode], pydantic.Field(alias="proxyMode")
     ] = None
 
     description: Optional[str] = None
@@ -9667,7 +9804,7 @@ class InputResponseInputElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationTypeElastic(value)
+                return models.InputResponseInputElasticAuthenticationType(value)
             except ValueError:
                 return value
         return value
@@ -9700,6 +9837,7 @@ class InputResponseInputElastic(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -9810,7 +9948,7 @@ class InputResponseInputAzureBlobTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -9961,7 +10099,7 @@ class InputResponseInputAzureBlob(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -10080,13 +10218,13 @@ class InputResponseInputAzureBlob(BaseModel):
         return m
 
 
-class InputResponseTypeSplunkHec(str, Enum):
+class InputResponseInputSplunkHecType(str, Enum):
     r"""Source type identifier."""
 
     SPLUNK_HEC = "splunk_hec"
 
 
-class InputResponseAuthTokenSplunkHecTypedDict(TypedDict):
+class InputResponseInputSplunkHecAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -10103,7 +10241,7 @@ class InputResponseAuthTokenSplunkHecTypedDict(TypedDict):
     r"""Fields to add to events referencing this token"""
 
 
-class InputResponseAuthTokenSplunkHec(BaseModel):
+class InputResponseInputSplunkHecAuthToken(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
@@ -10166,7 +10304,7 @@ class InputResponseAuthTokenSplunkHec(BaseModel):
 
 
 class InputResponseInputSplunkHecTypedDict(TypedDict):
-    type: InputResponseTypeSplunkHec
+    type: InputResponseInputSplunkHecType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -10195,7 +10333,7 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[InputResponseAuthTokenSplunkHecTypedDict]]
+    auth_tokens: NotRequired[List[InputResponseInputSplunkHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
@@ -10207,6 +10345,7 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -10260,7 +10399,7 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
 
 
 class InputResponseInputSplunkHec(BaseModel):
-    type: InputResponseTypeSplunkHec
+    type: InputResponseInputSplunkHecType
     r"""Source type identifier."""
 
     host: str
@@ -10307,7 +10446,7 @@ class InputResponseInputSplunkHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[InputResponseAuthTokenSplunkHec]],
+        Optional[List[InputResponseInputSplunkHecAuthToken]],
         pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
@@ -10334,6 +10473,11 @@ class InputResponseInputSplunkHec(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -10472,6 +10616,7 @@ class InputResponseInputSplunkHec(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -10513,7 +10658,7 @@ class InputResponseInputSplunkHec(BaseModel):
         return m
 
 
-class InputResponseTypeSplunkSearch(str, Enum):
+class InputResponseInputSplunkSearchType(str, Enum):
     r"""Connector type identifier."""
 
     SPLUNK_SEARCH = "splunk_search"
@@ -10549,7 +10694,7 @@ class InputResponseEndpointHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class InputResponseLogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSplunkSearchLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Collector runtime log level (verbosity)"""
 
     ERROR = "error"
@@ -10558,7 +10703,7 @@ class InputResponseLogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta)
     DEBUG = "debug"
 
 
-class InputResponseAuthenticationTypeSplunkSearch(
+class InputResponseInputSplunkSearchAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Splunk Search authentication type"""
@@ -10576,7 +10721,7 @@ class InputResponseAuthenticationTypeSplunkSearch(
 
 
 class InputResponseInputSplunkSearchTypedDict(TypedDict):
-    type: InputResponseTypeSplunkSearch
+    type: InputResponseInputSplunkSearchType
     r"""Connector type identifier."""
     search_head: str
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
@@ -10588,7 +10733,7 @@ class InputResponseInputSplunkSearchTypedDict(TypedDict):
     r"""REST API used to create a search"""
     output_mode: OutputModeOptionsSplunkCollectorConf
     r"""Format of the returned output"""
-    auth_type: InputResponseAuthenticationTypeSplunkSearch
+    auth_type: InputResponseInputSplunkSearchAuthenticationType
     r"""Splunk Search authentication type"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -10619,7 +10764,7 @@ class InputResponseInputSplunkSearchTypedDict(TypedDict):
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[InputResponseEndpointHeaderTypedDict]]
     r"""Optional request headers to send to the endpoint"""
-    log_level: NotRequired[InputResponseLogLevelSplunkSearch]
+    log_level: NotRequired[InputResponseInputSplunkSearchLogLevel]
     r"""Collector runtime log level (verbosity)"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
@@ -10681,7 +10826,7 @@ class InputResponseInputSplunkSearchTypedDict(TypedDict):
 
 
 class InputResponseInputSplunkSearch(BaseModel):
-    type: InputResponseTypeSplunkSearch
+    type: InputResponseInputSplunkSearchType
     r"""Connector type identifier."""
 
     search_head: Annotated[str, pydantic.Field(alias="searchHead")]
@@ -10702,7 +10847,8 @@ class InputResponseInputSplunkSearch(BaseModel):
     r"""Format of the returned output"""
 
     auth_type: Annotated[
-        InputResponseAuthenticationTypeSplunkSearch, pydantic.Field(alias="authType")
+        InputResponseInputSplunkSearchAuthenticationType,
+        pydantic.Field(alias="authType"),
     ]
     r"""Splunk Search authentication type"""
 
@@ -10759,7 +10905,8 @@ class InputResponseInputSplunkSearch(BaseModel):
     r"""Optional request headers to send to the endpoint"""
 
     log_level: Annotated[
-        Optional[InputResponseLogLevelSplunkSearch], pydantic.Field(alias="logLevel")
+        Optional[InputResponseInputSplunkSearchLogLevel],
+        pydantic.Field(alias="logLevel"),
     ] = None
     r"""Collector runtime log level (verbosity)"""
 
@@ -10898,7 +11045,7 @@ class InputResponseInputSplunkSearch(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseLogLevelSplunkSearch(value)
+                return models.InputResponseInputSplunkSearchLogLevel(value)
             except ValueError:
                 return value
         return value
@@ -10907,7 +11054,7 @@ class InputResponseInputSplunkSearch(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationTypeSplunkSearch(value)
+                return models.InputResponseInputSplunkSearchAuthenticationType(value)
             except ValueError:
                 return value
         return value
@@ -10976,14 +11123,14 @@ class InputResponseInputSplunkSearch(BaseModel):
         return m
 
 
-class InputResponseAuthTokenSplunkTypedDict(TypedDict):
+class InputResponseInputSplunkAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
     r"""Description"""
 
 
-class InputResponseAuthTokenSplunk(BaseModel):
+class InputResponseInputSplunkAuthToken(BaseModel):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
@@ -11075,7 +11222,7 @@ class InputResponseInputSplunkTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_tokens: NotRequired[List[InputResponseAuthTokenSplunkTypedDict]]
+    auth_tokens: NotRequired[List[InputResponseInputSplunkAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     max_s2_sversion: NotRequired[InputResponseMaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
@@ -11198,7 +11345,8 @@ class InputResponseInputSplunk(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_tokens: Annotated[
-        Optional[List[InputResponseAuthTokenSplunk]], pydantic.Field(alias="authTokens")
+        Optional[List[InputResponseInputSplunkAuthToken]],
+        pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
@@ -11337,14 +11485,14 @@ class InputResponseInputSplunk(BaseModel):
         return m
 
 
-class InputResponseTypeHTTP(str, Enum):
+class InputResponseInputHTTPType(str, Enum):
     r"""Source type identifier."""
 
     HTTP = "http"
 
 
 class InputResponseInputHTTPTypedDict(TypedDict):
-    type: InputResponseTypeHTTP
+    type: InputResponseInputHTTPType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -11383,6 +11531,7 @@ class InputResponseInputHTTPTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -11434,7 +11583,7 @@ class InputResponseInputHTTPTypedDict(TypedDict):
 
 
 class InputResponseInputHTTP(BaseModel):
-    type: InputResponseTypeHTTP
+    type: InputResponseInputHTTPType
     r"""Source type identifier."""
 
     host: str
@@ -11504,6 +11653,11 @@ class InputResponseInputHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -11634,6 +11788,7 @@ class InputResponseInputHTTP(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -12498,15 +12653,17 @@ class InputResponseInputKafka(BaseModel):
         return m
 
 
-class InputResponseTypeCollection(str, Enum):
-    r"""Connector type identifier."""
+class InputResponseInputCollectionType(str, Enum):
+    r"""Resource type identifier."""
 
     COLLECTION = "collection"
 
 
 class InputResponseInputCollectionTypedDict(TypedDict):
-    type: InputResponseTypeCollection
-    r"""Connector type identifier."""
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
+    type: InputResponseInputCollectionType
+    r"""Resource type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -12533,6 +12690,7 @@ class InputResponseInputCollectionTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -12550,8 +12708,10 @@ class InputResponseInputCollectionTypedDict(TypedDict):
 
 
 class InputResponseInputCollection(BaseModel):
-    type: InputResponseTypeCollection
-    r"""Connector type identifier."""
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
+    type: InputResponseInputCollectionType
+    r"""Resource type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -12598,6 +12758,7 @@ class InputResponseInputCollection(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
@@ -12670,15 +12831,15 @@ InputResponseTypedDict = TypeAliasType(
     "InputResponseTypedDict",
     Union[
         InputResponseInputDatagenTypedDict,
-        InputResponseInputKubeEventsTypedDict,
         InputResponseInputCriblTypedDict,
+        InputResponseInputKubeEventsTypedDict,
         InputResponseInputAppleUnifiedLogsTypedDict,
         InputResponseInputCriblmetricsTypedDict,
         InputResponseInputCollectionTypedDict,
-        InputResponseInputKubeMetricsTypedDict,
         InputResponseInputSystemStateTypedDict,
-        InputResponseInputSystemMetricsTypedDict,
+        InputResponseInputKubeMetricsTypedDict,
         InputResponseInputWindowsMetricsTypedDict,
+        InputResponseInputSystemMetricsTypedDict,
         InputResponseInputJournalFilesTypedDict,
         InputResponseInputModelDrivenTelemetryTypedDict,
         InputResponseInputExecTypedDict,
@@ -12687,56 +12848,56 @@ InputResponseTypedDict = TypeAliasType(
         InputResponseInputSnmpTypedDict,
         InputResponseInputWinEventLogsTypedDict,
         InputResponseInputMetricsTypedDict,
-        InputResponseInputNetflowTypedDict,
         InputResponseInputCriblTCPTypedDict,
+        InputResponseInputNetflowTypedDict,
         InputResponseInputOpenaiTypedDict,
         InputResponseInputOktaTypedDict,
-        InputResponseInputEventhubAmqpTypedDict,
         InputResponseInputTcpjsonTypedDict,
+        InputResponseInputEventhubAmqpTypedDict,
         InputResponseInputGooglePubsubTypedDict,
-        InputResponseInputAnthropicComplianceTypedDict,
         InputResponseInputCriblHTTPTypedDict,
         InputResponseInputTCPTypedDict,
-        InputResponseInputFirehoseTypedDict,
         InputResponseInputOffice365ServiceTypedDict,
+        InputResponseInputFirehoseTypedDict,
         InputResponseInputWizTypedDict,
-        InputResponseInputDatadogAgentTypedDict,
+        InputResponseInputAnthropicComplianceTypedDict,
         InputResponseInputAppscopeTypedDict,
         InputResponseInputOffice365MgmtTypedDict,
         InputResponseInputSplunkTypedDict,
         InputResponseInputFileTypedDict,
+        InputResponseInputDatadogAgentTypedDict,
         InputResponseInputWefTypedDict,
-        InputResponseInputLokiTypedDict,
-        InputResponseInputHTTPRawTypedDict,
         InputResponseInputWizWebhookTypedDict,
+        InputResponseInputLokiTypedDict,
         InputResponseInputPrometheusRwTypedDict,
+        InputResponseInputKafkaTypedDict,
         InputResponseInputUpwindHecTypedDict,
         InputResponseInputSysdigHecTypedDict,
-        InputResponseInputHTTPTypedDict,
-        InputResponseInputZscalerHecTypedDict,
-        InputResponseInputKafkaTypedDict,
-        InputResponseInputConfluentCloudTypedDict,
-        InputResponseInputCriblLakeHTTPTypedDict,
         InputResponseInputEventhubTypedDict,
+        InputResponseInputConfluentCloudTypedDict,
+        InputResponseInputZscalerHecTypedDict,
+        InputResponseInputHTTPTypedDict,
+        InputResponseInputCriblLakeHTTPTypedDict,
         InputResponseInputAzureBlobTypedDict,
         InputResponseInputOpenaiComplianceLogsTypedDict,
         InputResponseInputCloudflareHecTypedDict,
         InputResponseInputElasticTypedDict,
         InputResponseInputOpenTelemetryTypedDict,
-        InputResponseInputSplunkHecTypedDict,
         InputResponseInputSqsTypedDict,
+        InputResponseInputSplunkHecTypedDict,
         InputResponseInputKinesisTypedDict,
-        InputResponseInputOffice365MsgTraceTypedDict,
         InputResponseInputMicrosoftGraphTypedDict,
+        InputResponseInputOffice365MsgTraceTypedDict,
+        InputResponseInputHTTPRawTypedDict,
         InputResponseInputSplunkSearchTypedDict,
         InputResponseInputServicenowTableTypedDict,
         InputResponseInputMskTypedDict,
         InputResponseInputEdgePrometheusTypedDict,
         InputResponseInputCrowdstrikeTypedDict,
-        InputResponseInputS3TypedDict,
         InputResponseInputBedrockS3TypedDict,
-        InputResponseInputSecurityLakeTypedDict,
         InputResponseInputPrometheusTypedDict,
+        InputResponseInputS3TypedDict,
+        InputResponseInputSecurityLakeTypedDict,
         InputResponseInputS3InventoryTypedDict,
         InputResponseInputGrafanaUnionTypedDict,
         InputResponseInputSyslogUnionTypedDict,
@@ -12923,7 +13084,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponsePersistenceSystemState.model_rebuild()
+    InputResponseInputSystemStatePersistence.model_rebuild()
 except NameError:
     pass
 try:
@@ -12931,15 +13092,15 @@ try:
 except NameError:
     pass
 try:
-    InputResponseCPUSystemMetrics.model_rebuild()
+    InputResponseInputSystemMetricsCPU.model_rebuild()
 except NameError:
     pass
 try:
-    InputResponseNetworkSystemMetrics.model_rebuild()
+    InputResponseInputSystemMetricsNetwork.model_rebuild()
 except NameError:
     pass
 try:
-    InputResponseDiskSystemMetrics.model_rebuild()
+    InputResponseInputSystemMetricsDisk.model_rebuild()
 except NameError:
     pass
 try:
@@ -12947,7 +13108,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponsePersistenceSystemMetrics.model_rebuild()
+    InputResponseInputSystemMetricsPersistence.model_rebuild()
 except NameError:
     pass
 try:
@@ -13031,7 +13192,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponseContentConfigOffice365Service.model_rebuild()
+    InputResponseInputOffice365ServiceContentConfig.model_rebuild()
 except NameError:
     pass
 try:
@@ -13039,7 +13200,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponseContentConfigOffice365Mgmt.model_rebuild()
+    InputResponseInputOffice365MgmtContentConfig.model_rebuild()
 except NameError:
     pass
 try:
@@ -13095,7 +13256,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponseProxyModeElastic.model_rebuild()
+    InputResponseInputElasticProxyMode.model_rebuild()
 except NameError:
     pass
 try:
@@ -13107,7 +13268,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponseAuthTokenSplunkHec.model_rebuild()
+    InputResponseInputSplunkHecAuthToken.model_rebuild()
 except NameError:
     pass
 try:

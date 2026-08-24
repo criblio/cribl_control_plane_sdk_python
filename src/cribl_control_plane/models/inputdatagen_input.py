@@ -24,14 +24,14 @@ class InputDatagenType(str, Enum):
     DATAGEN = "datagen"
 
 
-class InputDatagenSampleTypedDict(TypedDict):
+class SampleTypedDict(TypedDict):
     sample: str
     r"""Data Generator File Name"""
     events_per_sec: float
     r"""Maximum number of events to generate per second per Worker Node. Defaults to 10."""
 
 
-class InputDatagenSample(BaseModel):
+class Sample(BaseModel):
     sample: str
     r"""Data Generator File Name"""
 
@@ -42,7 +42,7 @@ class InputDatagenSample(BaseModel):
 class InputDatagenInputTypedDict(TypedDict):
     type: InputDatagenType
     r"""Connector type identifier."""
-    samples: List[InputDatagenSampleTypedDict]
+    samples: List[SampleTypedDict]
     r"""Datagens"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -75,7 +75,7 @@ class InputDatagenInput(BaseModel):
     type: InputDatagenType
     r"""Connector type identifier."""
 
-    samples: List[InputDatagenSample]
+    samples: List[Sample]
     r"""Datagens"""
 
     id: Optional[str] = None
@@ -156,7 +156,7 @@ class InputDatagenInput(BaseModel):
 
 
 try:
-    InputDatagenSample.model_rebuild()
+    Sample.model_rebuild()
 except NameError:
     pass
 try:

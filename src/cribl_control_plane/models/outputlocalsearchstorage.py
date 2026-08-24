@@ -47,7 +47,7 @@ class OutputLocalSearchStorageFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     JSON_EACH_ROW = "json-each-row"
 
 
-class OutputLocalSearchStorageMappingType(str, Enum, metaclass=utils.OpenEnumMeta):
+class MappingType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""How event fields are mapped to columns."""
 
     # Automatic
@@ -56,7 +56,7 @@ class OutputLocalSearchStorageMappingType(str, Enum, metaclass=utils.OpenEnumMet
     CUSTOM = "custom"
 
 
-class OutputLocalSearchStorageStatsDestinationTypedDict(TypedDict):
+class StatsDestinationTypedDict(TypedDict):
     url: NotRequired[str]
     database: NotRequired[str]
     table_name: NotRequired[str]
@@ -68,7 +68,7 @@ class OutputLocalSearchStorageStatsDestinationTypedDict(TypedDict):
     concurrency: NotRequired[float]
 
 
-class OutputLocalSearchStorageStatsDestination(BaseModel):
+class StatsDestination(BaseModel):
     url: Optional[str] = None
 
     database: Optional[str] = None
@@ -118,7 +118,7 @@ class OutputLocalSearchStorageStatsDestination(BaseModel):
         return m
 
 
-class OutputLocalSearchStorageColumnMappingTypedDict(TypedDict):
+class ColumnMappingTypedDict(TypedDict):
     column_name: str
     r"""Name of the column that will store field value"""
     column_value_expression: str
@@ -127,7 +127,7 @@ class OutputLocalSearchStorageColumnMappingTypedDict(TypedDict):
     r"""Type of the column in the database"""
 
 
-class OutputLocalSearchStorageColumnMapping(BaseModel):
+class ColumnMapping(BaseModel):
     column_name: Annotated[str, pydantic.Field(alias="columnName")]
     r"""Name of the column that will store field value"""
 
@@ -187,7 +187,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     r"""Authentication type"""
     format_: NotRequired[OutputLocalSearchStorageFormat]
     r"""Data format to use when sending data. Defaults to JSON Compact."""
-    mapping_type: NotRequired[OutputLocalSearchStorageMappingType]
+    mapping_type: NotRequired[MappingType]
     r"""How event fields are mapped to columns."""
     async_inserts: NotRequired[bool]
     r"""Collect data into batches for later processing. Disable to write to a table immediately."""
@@ -208,6 +208,8 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -231,7 +233,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     r"""Log the most recent event that fails to match the table schema"""
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
-    stats_destination: NotRequired[OutputLocalSearchStorageStatsDestinationTypedDict]
+    stats_destination: NotRequired[StatsDestinationTypedDict]
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
@@ -248,7 +250,7 @@ class OutputLocalSearchStorageTypedDict(TypedDict):
     r"""Fields to exclude from sending"""
     describe_table: NotRequired[str]
     r"""Retrieves the table schema and populates the Column Mapping table"""
-    column_mappings: NotRequired[List[OutputLocalSearchStorageColumnMappingTypedDict]]
+    column_mappings: NotRequired[List[ColumnMappingTypedDict]]
     r"""Column Mapping"""
     pq_strict_ordering: NotRequired[bool]
     r"""Use FIFO (first in, first out) processing. Disable to forward new events to receivers before queue is flushed."""
@@ -329,8 +331,7 @@ class OutputLocalSearchStorage(BaseModel):
     r"""Data format to use when sending data. Defaults to JSON Compact."""
 
     mapping_type: Annotated[
-        Optional[OutputLocalSearchStorageMappingType],
-        pydantic.Field(alias="mappingType"),
+        Optional[MappingType], pydantic.Field(alias="mappingType")
     ] = None
     r"""How event fields are mapped to columns."""
 
@@ -368,6 +369,11 @@ class OutputLocalSearchStorage(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -425,8 +431,7 @@ class OutputLocalSearchStorage(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     stats_destination: Annotated[
-        Optional[OutputLocalSearchStorageStatsDestination],
-        pydantic.Field(alias="statsDestination"),
+        Optional[StatsDestination], pydantic.Field(alias="statsDestination")
     ] = None
 
     description: Optional[str] = None
@@ -462,8 +467,7 @@ class OutputLocalSearchStorage(BaseModel):
     r"""Retrieves the table schema and populates the Column Mapping table"""
 
     column_mappings: Annotated[
-        Optional[List[OutputLocalSearchStorageColumnMapping]],
-        pydantic.Field(alias="columnMappings"),
+        Optional[List[ColumnMapping]], pydantic.Field(alias="columnMappings")
     ] = None
     r"""Column Mapping"""
 
@@ -573,7 +577,7 @@ class OutputLocalSearchStorage(BaseModel):
     def serialize_mapping_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputLocalSearchStorageMappingType(value)
+                return models.MappingType(value)
             except ValueError:
                 return value
         return value
@@ -643,6 +647,7 @@ class OutputLocalSearchStorage(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "useRoundRobinDns",
@@ -699,11 +704,11 @@ class OutputLocalSearchStorage(BaseModel):
 
 
 try:
-    OutputLocalSearchStorageStatsDestination.model_rebuild()
+    StatsDestination.model_rebuild()
 except NameError:
     pass
 try:
-    OutputLocalSearchStorageColumnMapping.model_rebuild()
+    ColumnMapping.model_rebuild()
 except NameError:
     pass
 try:

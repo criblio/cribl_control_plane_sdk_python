@@ -20,10 +20,10 @@ class GetProductsGroupsByProductRequestTypedDict(TypedDict):
     r"""Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for."""
     fields: NotRequired[str]
     r"""Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>."""
-    offset: NotRequired[int]
-    r"""Pagination offset"""
     limit: NotRequired[int]
-    r"""Maximum number of items to return"""
+    r"""Maximum number of Worker Groups, Outpost Groups, or Edge Fleets to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
+    offset: NotRequired[int]
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
 
 
 class GetProductsGroupsByProductRequest(BaseModel):
@@ -39,17 +39,17 @@ class GetProductsGroupsByProductRequest(BaseModel):
     ] = None
     r"""Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>."""
 
-    offset: Annotated[
-        Optional[int],
-        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
-    ] = None
-    r"""Pagination offset"""
-
     limit: Annotated[
         Optional[int],
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Maximum number of items to return"""
+    r"""Maximum number of Worker Groups, Outpost Groups, or Edge Fleets to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches."""
+
+    offset: Annotated[
+        Optional[int],
+        FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
+    ] = None
+    r"""Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches."""
 
     @field_serializer("product")
     def serialize_product(self, value):
@@ -62,7 +62,7 @@ class GetProductsGroupsByProductRequest(BaseModel):
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
-        optional_fields = set(["fields", "offset", "limit"])
+        optional_fields = set(["fields", "limit", "offset"])
         serialized = handler(self)
         m = {}
 

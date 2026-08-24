@@ -34,7 +34,7 @@ class InputWinEventLogsReadMode(str, Enum, metaclass=utils.OpenEnumMeta):
     NEWEST = "newest"
 
 
-class InputWinEventLogsEventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class EventFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Format of individual events"""
 
     # JSON
@@ -69,7 +69,7 @@ class InputWinEventLogsInputTypedDict(TypedDict):
     r"""When enabled, missing event log channels will not cause the Source to report errors. Use in Fleets where some hosts may not have all configured event logs."""
     read_mode: NotRequired[InputWinEventLogsReadMode]
     r"""Read all stored and future event logs, or only future events"""
-    event_format: NotRequired[InputWinEventLogsEventFormat]
+    event_format: NotRequired[EventFormat]
     r"""Format of individual events"""
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell for JSON, wevtutil for XML) to collect event logs instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-event-logs/#advanced-settings)"""
@@ -139,7 +139,7 @@ class InputWinEventLogsInput(BaseModel):
     r"""Read all stored and future event logs, or only future events"""
 
     event_format: Annotated[
-        Optional[InputWinEventLogsEventFormat], pydantic.Field(alias="eventFormat")
+        Optional[EventFormat], pydantic.Field(alias="eventFormat")
     ] = None
     r"""Format of individual events"""
 
@@ -198,7 +198,7 @@ class InputWinEventLogsInput(BaseModel):
     def serialize_event_format(self, value):
         if isinstance(value, str):
             try:
-                return models.InputWinEventLogsEventFormat(value)
+                return models.EventFormat(value)
             except ValueError:
                 return value
         return value

@@ -20,7 +20,7 @@ class PipelineFunctionSerializeID(str, Enum):
 
 
 class SerializeTypeCsvType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Data output format"""
+    r"""Data output format."""
 
     # CSV
     CSV = "csv"
@@ -38,7 +38,7 @@ class SerializeTypeCsvType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerializeTypeCsvTypedDict(TypedDict):
     type: SerializeTypeCsvType
-    r"""Data output format"""
+    r"""Data output format."""
     fields: NotRequired[List[str]]
     r"""Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"""
     src_field: NotRequired[str]
@@ -55,7 +55,7 @@ class SerializeTypeCsvTypedDict(TypedDict):
 
 class SerializeTypeCsv(BaseModel):
     type: SerializeTypeCsvType
-    r"""Data output format"""
+    r"""Data output format."""
 
     fields: Optional[List[str]] = None
     r"""Required for CSV, ELFF, CLF, and Delimited values. All other formats support wildcard field lists. Examples: host, array*, !host *"""
@@ -115,7 +115,7 @@ class SerializeTypeCsv(BaseModel):
 
 
 class SerializeTypeDelimType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Data output format"""
+    r"""Data output format."""
 
     # CSV
     CSV = "csv"
@@ -133,7 +133,7 @@ class SerializeTypeDelimType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerializeTypeDelimTypedDict(TypedDict):
     type: SerializeTypeDelimType
-    r"""Data output format"""
+    r"""Data output format."""
     delim_char: NotRequired[str]
     r"""Delimiter character to use to split values. If left blank, will default to ','."""
     quote_char: NotRequired[str]
@@ -158,7 +158,7 @@ class SerializeTypeDelimTypedDict(TypedDict):
 
 class SerializeTypeDelim(BaseModel):
     type: SerializeTypeDelimType
-    r"""Data output format"""
+    r"""Data output format."""
 
     delim_char: Annotated[Optional[str], pydantic.Field(alias="delimChar")] = None
     r"""Delimiter character to use to split values. If left blank, will default to ','."""
@@ -234,7 +234,7 @@ class SerializeTypeDelim(BaseModel):
 
 
 class SerializeTypeKvpType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Data output format"""
+    r"""Data output format."""
 
     # CSV
     CSV = "csv"
@@ -252,7 +252,7 @@ class SerializeTypeKvpType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerializeTypeKvpTypedDict(TypedDict):
     type: SerializeTypeKvpType
-    r"""Data output format"""
+    r"""Data output format."""
     clean_fields: NotRequired[bool]
     r"""Clean field names by replacing non-[a-zA-Z0-9] characters with _"""
     fields: NotRequired[List[str]]
@@ -269,7 +269,7 @@ class SerializeTypeKvpTypedDict(TypedDict):
 
 class SerializeTypeKvp(BaseModel):
     type: SerializeTypeKvpType
-    r"""Data output format"""
+    r"""Data output format."""
 
     clean_fields: Annotated[Optional[bool], pydantic.Field(alias="cleanFields")] = None
     r"""Clean field names by replacing non-[a-zA-Z0-9] characters with _"""

@@ -11,6 +11,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 class FunctionConfSchemaOtlpLogsTypedDict(TypedDict):
     drop_non_log_events: NotRequired[bool]
     r"""Drop events that are not OTLP log records."""
+    preserve_native_any_value: NotRequired[bool]
+    r"""Body and attribute values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are preserved rather than being re-wrapped"""
     batch_otlp_logs: NotRequired[bool]
     r"""Batch OTLP log records by shared top-level `resource` attributes"""
     send_batch_size: NotRequired[float]
@@ -30,6 +32,11 @@ class FunctionConfSchemaOtlpLogs(BaseModel):
         Optional[bool], pydantic.Field(alias="dropNonLogEvents")
     ] = None
     r"""Drop events that are not OTLP log records."""
+
+    preserve_native_any_value: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveNativeAnyValue")
+    ] = None
+    r"""Body and attribute values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are preserved rather than being re-wrapped"""
 
     batch_otlp_logs: Annotated[
         Optional[bool], pydantic.Field(alias="batchOTLPLogs")
@@ -64,6 +71,7 @@ class FunctionConfSchemaOtlpLogs(BaseModel):
         optional_fields = set(
             [
                 "dropNonLogEvents",
+                "preserveNativeAnyValue",
                 "batchOTLPLogs",
                 "sendBatchSize",
                 "timeout",

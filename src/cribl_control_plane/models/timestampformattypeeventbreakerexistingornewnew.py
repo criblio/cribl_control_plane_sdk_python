@@ -17,22 +17,22 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 class EventBreakerExistingOrNewNewTimestampTypeCurrentTypedDict(TypedDict):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    r"""Timestamp type"""
+    r"""Method to use for timestamp extraction. Use <code>auto</code> for automatic detection, <code>format</code> to specify a strptime format, or <code>current</code> to use the current system time."""
     length: NotRequired[float]
-    r"""Length"""
+    r"""Maximum number of characters to search for a timestamp value from the beginning of the match."""
     format_: NotRequired[str]
-    r"""Format"""
+    r"""Strptime format string for parsing timestamps (for example, <code>%Y-%m-%d %H:%M:%S</code>)."""
 
 
 class EventBreakerExistingOrNewNewTimestampTypeCurrent(BaseModel):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    r"""Timestamp type"""
+    r"""Method to use for timestamp extraction. Use <code>auto</code> for automatic detection, <code>format</code> to specify a strptime format, or <code>current</code> to use the current system time."""
 
     length: Optional[float] = None
-    r"""Length"""
+    r"""Maximum number of characters to search for a timestamp value from the beginning of the match."""
 
     format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
-    r"""Format"""
+    r"""Strptime format string for parsing timestamps (for example, <code>%Y-%m-%d %H:%M:%S</code>)."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -64,22 +64,22 @@ class EventBreakerExistingOrNewNewTimestampTypeCurrent(BaseModel):
 
 class EventBreakerExistingOrNewNewTimestampTypeFormatTypedDict(TypedDict):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    r"""Timestamp type"""
+    r"""Method to use for timestamp extraction. Use <code>auto</code> for automatic detection, <code>format</code> to specify a strptime format, or <code>current</code> to use the current system time."""
     format_: str
-    r"""Format"""
+    r"""Strptime format string for parsing timestamps (for example, <code>%Y-%m-%d %H:%M:%S</code>)."""
     length: NotRequired[float]
-    r"""Length"""
+    r"""Maximum number of characters to search for a timestamp value from the beginning of the match."""
 
 
 class EventBreakerExistingOrNewNewTimestampTypeFormat(BaseModel):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    r"""Timestamp type"""
+    r"""Method to use for timestamp extraction. Use <code>auto</code> for automatic detection, <code>format</code> to specify a strptime format, or <code>current</code> to use the current system time."""
 
     format_: Annotated[str, pydantic.Field(alias="format")]
-    r"""Format"""
+    r"""Strptime format string for parsing timestamps (for example, <code>%Y-%m-%d %H:%M:%S</code>)."""
 
     length: Optional[float] = None
-    r"""Length"""
+    r"""Maximum number of characters to search for a timestamp value from the beginning of the match."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -111,22 +111,22 @@ class EventBreakerExistingOrNewNewTimestampTypeFormat(BaseModel):
 
 class EventBreakerExistingOrNewNewTimestampTypeAutoTypedDict(TypedDict):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    r"""Timestamp type"""
+    r"""Method to use for timestamp extraction. Use <code>auto</code> for automatic detection, <code>format</code> to specify a strptime format, or <code>current</code> to use the current system time."""
     length: float
-    r"""Length"""
+    r"""Maximum number of characters to search for a timestamp value from the beginning of the match."""
     format_: NotRequired[str]
-    r"""Format"""
+    r"""Strptime format string for parsing timestamps (for example, <code>%Y-%m-%d %H:%M:%S</code>)."""
 
 
 class EventBreakerExistingOrNewNewTimestampTypeAuto(BaseModel):
     type: TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp
-    r"""Timestamp type"""
+    r"""Method to use for timestamp extraction. Use <code>auto</code> for automatic detection, <code>format</code> to specify a strptime format, or <code>current</code> to use the current system time."""
 
     length: float
-    r"""Length"""
+    r"""Maximum number of characters to search for a timestamp value from the beginning of the match."""
 
     format_: Annotated[Optional[str], pydantic.Field(alias="format")] = None
-    r"""Format"""
+    r"""Strptime format string for parsing timestamps (for example, <code>%Y-%m-%d %H:%M:%S</code>)."""
 
     @field_serializer("type")
     def serialize_type(self, value):
@@ -164,7 +164,7 @@ TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict = TypeAliasType(
         EventBreakerExistingOrNewNewTimestampTypeCurrentTypedDict,
     ],
 )
-r"""Timestamp format"""
+r"""Configuration for extracting and parsing timestamps from events."""
 
 
 class UnknownTimestampFormatTypeEventBreakerExistingOrNewNew(BaseModel):
@@ -201,7 +201,7 @@ TimestampFormatTypeEventBreakerExistingOrNewNew = Annotated[
         )
     ),
 ]
-r"""Timestamp format"""
+r"""Configuration for extracting and parsing timestamps from events."""
 
 
 try:

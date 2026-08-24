@@ -23,11 +23,11 @@ class GetProductsWorkersByProductRequestTypedDict(TypedDict):
     product: ProductsCore
     r"""Name of the Cribl product to get Worker, Edge, or Outpost Nodes for."""
     filter_exp: NotRequired[str]
-    r"""Filter expression to evaluate against Nodes for inclusion in the response."""
+    r"""Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>)."""
     sort_exp: NotRequired[str]
     r"""Sorting expression to evaluate against Nodes to specify the sort order for the response."""
     filter_: NotRequired[str]
-    r"""JSON-stringified filter object to evaluate against Nodes for inclusion in the response."""
+    r"""JSON-stringified filter object to evaluate against Nodes for inclusion in the response (for example, <code>{\"field\":\"status\",\"op\":\"eq\",\"value\":\"healthy\"}</code>)."""
     sort: NotRequired[str]
     r"""JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response."""
     limit: NotRequired[int]
@@ -48,7 +48,7 @@ class GetProductsWorkersByProductRequest(BaseModel):
         pydantic.Field(alias="filterExp"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""Filter expression to evaluate against Nodes for inclusion in the response."""
+    r"""Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>)."""
 
     sort_exp: Annotated[
         Optional[str],
@@ -62,7 +62,7 @@ class GetProductsWorkersByProductRequest(BaseModel):
         pydantic.Field(alias="filter"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
-    r"""JSON-stringified filter object to evaluate against Nodes for inclusion in the response."""
+    r"""JSON-stringified filter object to evaluate against Nodes for inclusion in the response (for example, <code>{\"field\":\"status\",\"op\":\"eq\",\"value\":\"healthy\"}</code>)."""
 
     sort: Annotated[
         Optional[str],

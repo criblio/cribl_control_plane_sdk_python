@@ -1,6 +1,6 @@
 # TimestampFormatTypeEventBreakerExistingOrNewNew
 
-Timestamp format
+Configuration for extracting and parsing timestamps from events.
 
 
 ## Supported Types

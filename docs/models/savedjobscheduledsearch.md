@@ -1,5 +1,7 @@
 # SavedJobScheduledSearch
 
+Configuration for a saved scheduled search job, including the search query to run.
+
 
 ## Fields
 

@@ -94,6 +94,18 @@ class InputHTTPRawInputTypedDict(TypedDict):
     r"""List of HTTP methods accepted by this input. Wildcards are supported (such as P*, GET). Defaults to allow all."""
     auth_tokens_ext: NotRequired[List[AuthTokensExtConfInputHTTPTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins allowed to send CORS requests (example: https://pivot.claude.ai). Supports wildcards. Leave empty to disable CORS. Note: IP allowlist/denylist rules are applied before CORS."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers echoed in Access-Control-Allow-Headers on preflight. Use \"*\" to allow all headers."""
+    access_control_allow_methods: NotRequired[List[str]]
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight."""
+    access_control_expose_headers: NotRequired[List[str]]
+    r"""Headers the browser is allowed to access from the response"""
+    access_control_allow_credentials: NotRequired[bool]
+    r"""Include credentials in cross-origin requests. Cannot be used with wildcard origins."""
+    access_control_max_age: NotRequired[float]
+    r"""How long browsers should cache the preflight response"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -108,6 +120,10 @@ class InputHTTPRawInputTypedDict(TypedDict):
     r"""Binds 'authTokens' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'authTokens' at runtime."""
     template_allowed_paths: NotRequired[str]
     r"""Binds 'allowedPaths' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedPaths' at runtime."""
+    template_access_control_allow_origin: NotRequired[str]
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+    template_access_control_allow_headers: NotRequired[str]
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
 class InputHTTPRawInput(BaseModel):
@@ -240,6 +256,36 @@ class InputHTTPRawInput(BaseModel):
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""HTTP origins allowed to send CORS requests (example: https://pivot.claude.ai). Supports wildcards. Leave empty to disable CORS. Note: IP allowlist/denylist rules are applied before CORS."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""HTTP headers echoed in Access-Control-Allow-Headers on preflight. Use \"*\" to allow all headers."""
+
+    access_control_allow_methods: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowMethods")
+    ] = None
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight."""
+
+    access_control_expose_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlExposeHeaders")
+    ] = None
+    r"""Headers the browser is allowed to access from the response"""
+
+    access_control_allow_credentials: Annotated[
+        Optional[bool], pydantic.Field(alias="accessControlAllowCredentials")
+    ] = None
+    r"""Include credentials in cross-origin requests. Cannot be used with wildcard origins."""
+
+    access_control_max_age: Annotated[
+        Optional[float], pydantic.Field(alias="accessControlMaxAge")
+    ] = None
+    r"""How long browsers should cache the preflight response"""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -273,6 +319,16 @@ class InputHTTPRawInput(BaseModel):
     ] = None
     r"""Binds 'allowedPaths' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedPaths' at runtime."""
 
+    template_access_control_allow_origin: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowOrigin")
+    ] = None
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+
+    template_access_control_allow_headers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowHeaders")
+    ] = None
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -305,6 +361,12 @@ class InputHTTPRawInput(BaseModel):
                 "allowedPaths",
                 "allowedMethods",
                 "authTokensExt",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "accessControlAllowMethods",
+                "accessControlExposeHeaders",
+                "accessControlAllowCredentials",
+                "accessControlMaxAge",
                 "description",
                 "__template_environment",
                 "__template_streamtags",
@@ -312,6 +374,8 @@ class InputHTTPRawInput(BaseModel):
                 "__template_port",
                 "__template_authTokens",
                 "__template_allowedPaths",
+                "__template_accessControlAllowOrigin",
+                "__template_accessControlAllowHeaders",
             ]
         )
         serialized = handler(self)

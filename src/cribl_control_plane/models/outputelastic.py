@@ -41,7 +41,7 @@ class OutputElasticType(str, Enum):
     ELASTIC = "elastic"
 
 
-class OutputElasticElasticVersion(str, Enum, metaclass=utils.OpenEnumMeta):
+class ElasticVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
 
     # Auto
@@ -52,7 +52,7 @@ class OutputElasticElasticVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     SEVEN = "7"
 
 
-class OutputElasticWriteAction(str, Enum, metaclass=utils.OpenEnumMeta):
+class WriteAction(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Action to use when writing events. Must be set to `Create` when writing to a data stream."""
 
     # Index
@@ -141,6 +141,8 @@ class OutputElasticTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -159,13 +161,13 @@ class OutputElasticTypedDict(TypedDict):
     extra_params: NotRequired[List[SaslExtensionConfInputKafkaTypedDict]]
     r"""Extra parameters"""
     auth: NotRequired[AuthTypeTemplatemanualAPIKeyAuthTypeTypedDict]
-    elastic_version: NotRequired[OutputElasticElasticVersion]
+    elastic_version: NotRequired[ElasticVersion]
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
     elastic_pipeline: NotRequired[str]
     r"""Optional Elasticsearch destination pipeline"""
     include_doc_id: NotRequired[bool]
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
-    write_action: NotRequired[OutputElasticWriteAction]
+    write_action: NotRequired[WriteAction]
     r"""Action to use when writing events. Must be set to `Create` when writing to a data stream."""
     retry_partial_errors: NotRequired[bool]
     r"""Retry failed events when a bulk request to Elastic is successful, but the response body returns an error for one or more events in the batch"""
@@ -284,6 +286,11 @@ class OutputElastic(BaseModel):
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
+
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
     ] = None
@@ -329,7 +336,7 @@ class OutputElastic(BaseModel):
     auth: Optional[AuthTypeTemplatemanualAPIKeyAuthType] = None
 
     elastic_version: Annotated[
-        Optional[OutputElasticElasticVersion], pydantic.Field(alias="elasticVersion")
+        Optional[ElasticVersion], pydantic.Field(alias="elasticVersion")
     ] = None
     r"""Optional Elasticsearch version, used to format events. If not specified, will auto-discover version."""
 
@@ -344,7 +351,7 @@ class OutputElastic(BaseModel):
     r"""Include the `document_id` field when sending events to an Elastic TSDS (time series data stream)"""
 
     write_action: Annotated[
-        Optional[OutputElasticWriteAction], pydantic.Field(alias="writeAction")
+        Optional[WriteAction], pydantic.Field(alias="writeAction")
     ] = None
     r"""Action to use when writing events. Must be set to `Create` when writing to a data stream."""
 
@@ -487,7 +494,7 @@ class OutputElastic(BaseModel):
     def serialize_elastic_version(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputElasticElasticVersion(value)
+                return models.ElasticVersion(value)
             except ValueError:
                 return value
         return value
@@ -496,7 +503,7 @@ class OutputElastic(BaseModel):
     def serialize_write_action(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputElasticWriteAction(value)
+                return models.WriteAction(value)
             except ValueError:
                 return value
         return value
@@ -554,6 +561,7 @@ class OutputElastic(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",

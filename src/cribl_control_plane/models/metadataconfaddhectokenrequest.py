@@ -7,10 +7,14 @@ from typing_extensions import TypedDict
 
 class MetadataConfAddHecTokenRequestTypedDict(TypedDict):
     name: str
+    r"""Key name for the metadata entry."""
     value: str
+    r"""Value for the metadata entry. Can be a static string or a JavaScript expression."""
 
 
 class MetadataConfAddHecTokenRequest(BaseModel):
     name: str
+    r"""Key name for the metadata entry."""
 
     value: str
+    r"""Value for the metadata entry. Can be a static string or a JavaScript expression."""

@@ -19,9 +19,12 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class SavedJobExecutorTypedDict(TypedDict):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
     executor: ExecutorTypeRunnableJobExecutorTypedDict
+    r"""Executor configuration, including the executor type and its settings."""
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
@@ -45,10 +48,13 @@ class SavedJobExecutorTypedDict(TypedDict):
 
 
 class SavedJobExecutor(BaseModel):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
 
     executor: ExecutorTypeRunnableJobExecutor
+    r"""Executor configuration, including the executor type and its settings."""
 
     id: Optional[str] = None
     r"""Unique ID for this Job"""

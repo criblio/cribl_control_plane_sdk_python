@@ -29,7 +29,7 @@ class InputOpenaiComplianceLogsType(str, Enum):
     OPENAI_COMPLIANCE_LOGS = "openai_compliance_logs"
 
 
-class InputOpenaiComplianceLogsAccountType(str, Enum, metaclass=utils.OpenEnumMeta):
+class AccountType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Account type"""
 
     # Workspace
@@ -51,7 +51,7 @@ class InputOpenaiComplianceLogsInputTypedDict(TypedDict):
     r"""Connector type identifier."""
     text_secret: str
     r"""Select or create a stored text secret"""
-    account_type: InputOpenaiComplianceLogsAccountType
+    account_type: AccountType
     r"""Account type"""
     cron_schedule: str
     r"""Cron schedule"""
@@ -135,9 +135,7 @@ class InputOpenaiComplianceLogsInput(BaseModel):
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
     r"""Select or create a stored text secret"""
 
-    account_type: Annotated[
-        InputOpenaiComplianceLogsAccountType, pydantic.Field(alias="accountType")
-    ]
+    account_type: Annotated[AccountType, pydantic.Field(alias="accountType")]
     r"""Account type"""
 
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
@@ -297,7 +295,7 @@ class InputOpenaiComplianceLogsInput(BaseModel):
     def serialize_account_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputOpenaiComplianceLogsAccountType(value)
+                return models.AccountType(value)
             except ValueError:
                 return value
         return value

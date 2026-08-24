@@ -172,7 +172,7 @@ class InputZscalerHecInputTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     hec_acks: NotRequired[bool]
-    r"""Whether HEC acknowledgements are enabled. Always true for Zscaler sources."""
+    r"""Whether to enable Zscaler HEC acknowledgements"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -316,7 +316,7 @@ class InputZscalerHecInput(BaseModel):
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     hec_acks: Annotated[Optional[bool], pydantic.Field(alias="hecAcks")] = None
-    r"""Whether HEC acknowledgements are enabled. Always true for Zscaler sources."""
+    r"""Whether to enable Zscaler HEC acknowledgements"""
 
     description: Optional[str] = None
     r"""Optional description for this configuration."""

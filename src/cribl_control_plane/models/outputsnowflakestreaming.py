@@ -33,14 +33,14 @@ class OutputSnowflakeStreamingType(str, Enum):
     SNOWFLAKE_STREAMING = "snowflake_streaming"
 
 
-class OutputSnowflakeStreamingPrivateKeyTypedDict(TypedDict):
+class PrivateKeyTypedDict(TypedDict):
     r"""Private key"""
 
     key_name: str
     r"""Select the stored secret containing the RSA private key (PEM format) for Snowflake key-pair authentication"""
 
 
-class OutputSnowflakeStreamingPrivateKey(BaseModel):
+class PrivateKey(BaseModel):
     r"""Private key"""
 
     key_name: Annotated[str, pydantic.Field(alias="keyName")]
@@ -62,7 +62,7 @@ class OutputSnowflakeStreamingTypedDict(TypedDict):
     r"""Snowflake account identifier in org-account format (example: MYORG-MYACCOUNT)"""
     user: str
     r"""Snowflake user with key-pair authentication configured"""
-    pem: OutputSnowflakeStreamingPrivateKeyTypedDict
+    pem: PrivateKeyTypedDict
     r"""Private key"""
     database: str
     r"""Target database"""
@@ -101,6 +101,8 @@ class OutputSnowflakeStreamingTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -178,7 +180,7 @@ class OutputSnowflakeStreaming(BaseModel):
     user: str
     r"""Snowflake user with key-pair authentication configured"""
 
-    pem: OutputSnowflakeStreamingPrivateKey
+    pem: PrivateKey
     r"""Private key"""
 
     database: str
@@ -242,6 +244,11 @@ class OutputSnowflakeStreaming(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -460,6 +467,7 @@ class OutputSnowflakeStreaming(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
@@ -509,7 +517,7 @@ class OutputSnowflakeStreaming(BaseModel):
 
 
 try:
-    OutputSnowflakeStreamingPrivateKey.model_rebuild()
+    PrivateKey.model_rebuild()
 except NameError:
     pass
 try:

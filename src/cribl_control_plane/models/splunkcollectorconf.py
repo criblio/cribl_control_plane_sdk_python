@@ -257,6 +257,7 @@ SplunkAuthenticationTokenSecretRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationTokenSecretSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationTokenSecretRetryRules(BaseModel):
@@ -293,6 +294,7 @@ SplunkAuthenticationTokenSecretRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
@@ -331,6 +333,7 @@ class SplunkAuthenticationTokenSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenSecretRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     password: NotRequired[str]
@@ -427,6 +430,7 @@ class SplunkAuthenticationTokenSecret(BaseModel):
         Optional[SplunkAuthenticationTokenSecretRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -788,6 +792,7 @@ SplunkAuthenticationTokenRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationTokenSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationTokenRetryRules(BaseModel):
@@ -824,6 +829,7 @@ SplunkAuthenticationTokenRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationTokenTypedDict(TypedDict):
@@ -862,6 +868,7 @@ class SplunkAuthenticationTokenTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationTokenRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     password: NotRequired[str]
@@ -958,6 +965,7 @@ class SplunkAuthenticationToken(BaseModel):
         Optional[SplunkAuthenticationTokenRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -1321,6 +1329,7 @@ SplunkAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationBasicSecretSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationBasicSecretRetryRules(BaseModel):
@@ -1357,6 +1366,7 @@ SplunkAuthenticationBasicSecretRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
@@ -1395,6 +1405,7 @@ class SplunkAuthenticationBasicSecretTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicSecretRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     password: NotRequired[str]
@@ -1491,6 +1502,7 @@ class SplunkAuthenticationBasicSecret(BaseModel):
         Optional[SplunkAuthenticationBasicSecretRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -1850,6 +1862,7 @@ SplunkAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationBasicSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationBasicRetryRules(BaseModel):
@@ -1886,6 +1899,7 @@ SplunkAuthenticationBasicRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationBasicTypedDict(TypedDict):
@@ -1926,6 +1940,7 @@ class SplunkAuthenticationBasicTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationBasicRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     token: NotRequired[str]
@@ -2023,6 +2038,7 @@ class SplunkAuthenticationBasic(BaseModel):
         Optional[SplunkAuthenticationBasicRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -2380,6 +2396,7 @@ SplunkAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
         SplunkAuthenticationNoneSplunkRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownSplunkAuthenticationNoneRetryRules(BaseModel):
@@ -2416,6 +2433,7 @@ SplunkAuthenticationNoneRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class SplunkAuthenticationNoneTypedDict(TypedDict):
@@ -2452,6 +2470,7 @@ class SplunkAuthenticationNoneTypedDict(TypedDict):
     handle_escaped_chars: NotRequired[bool]
     r"""Escape characters (\\") in search queries will be passed directly to Splunk"""
     retry_rules: NotRequired[SplunkAuthenticationNoneRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     password: NotRequired[str]
@@ -2546,6 +2565,7 @@ class SplunkAuthenticationNone(BaseModel):
     retry_rules: Annotated[
         Optional[SplunkAuthenticationNoneRetryRules], pydantic.Field(alias="retryRules")
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""

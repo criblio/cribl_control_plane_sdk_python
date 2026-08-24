@@ -490,6 +490,58 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: OutputCreateExamplesCriblMetrics
+
+<!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesCriblMetrics" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.create(pack="<value>", request_body={
+        "id": "cribl-metrics-output",
+        "type": models.CreateOutputSystemByPackOutputCriblMetricsType.CRIBL_METRICS,
+        "system_fields": [
+            "cribl_pipe",
+        ],
+        "streamtags": [],
+        "load_balanced": False,
+        "tls": {
+            "disabled": True,
+        },
+        "token_ttl_minutes": 60,
+        "exclude_fields": [
+            "__kube_*",
+            "__metadata",
+            "__winEvent",
+        ],
+        "compression": models.CompressionOptionsGzipNone.GZIP,
+        "concurrency": 5,
+        "max_payload_size_kb": 4096,
+        "max_payload_events": 0,
+        "reject_unauthorized": True,
+        "timeout_sec": 30,
+        "flush_period_sec": 1,
+        "failed_request_logging_mode": models.FailedRequestLoggingModeOptions.NONE,
+        "safe_headers": [],
+        "throttle_rate_per_sec": "0",
+        "response_honor_retry_after_header": True,
+        "on_backpressure": models.BackpressureBehaviorOptions.BLOCK,
+        "url": "https://0.0.0.0:10200",
+        "use_round_robin_dns": True,
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: OutputCreateExamplesCriblSearchEngine
 
 <!-- UsageSnippet language="python" operationID="createOutputSystemByPack" method="post" path="/p/{pack}/system/outputs" example="OutputCreateExamplesCriblSearchEngine" -->
@@ -5354,6 +5406,58 @@ with CriblControlPlane(
     res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
         "id": "cribl-lake-output",
         "type": models.OutputCriblLakeType.CRIBL_LAKE,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateOutputExamplesCriblMetrics
+
+<!-- UsageSnippet language="python" operationID="updateOutputSystemByPackAndId" method="patch" path="/p/{pack}/system/outputs/{id}" example="UpdateOutputExamplesCriblMetrics" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.destinations.update(id="<id>", pack="<value>", output={
+        "id": "cribl-metrics-output",
+        "type": models.OutputCriblMetricsType.CRIBL_METRICS,
+        "system_fields": [
+            "cribl_pipe",
+        ],
+        "streamtags": [],
+        "load_balanced": False,
+        "tls": {
+            "disabled": True,
+        },
+        "token_ttl_minutes": 60,
+        "exclude_fields": [
+            "__kube_*",
+            "__metadata",
+            "__winEvent",
+        ],
+        "compression": models.CompressionOptionsGzipNone.GZIP,
+        "concurrency": 5,
+        "max_payload_size_kb": 4096,
+        "max_payload_events": 0,
+        "reject_unauthorized": True,
+        "timeout_sec": 30,
+        "flush_period_sec": 1,
+        "failed_request_logging_mode": models.FailedRequestLoggingModeOptions.NONE,
+        "safe_headers": [],
+        "throttle_rate_per_sec": "0",
+        "response_honor_retry_after_header": True,
+        "on_backpressure": models.BackpressureBehaviorOptions.BLOCK,
+        "url": "https://0.0.0.0:10200",
+        "use_round_robin_dns": True,
     })
 
     # Handle response

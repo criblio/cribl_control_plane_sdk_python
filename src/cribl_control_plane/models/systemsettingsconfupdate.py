@@ -92,7 +92,7 @@ class Ssl(BaseModel):
         return m
 
 
-class SystemSettingsConfUpdateAPITypedDict(TypedDict):
+class APITypedDict(TypedDict):
     r"""API server configuration for the Cribl instance."""
 
     base_url: NotRequired[str]
@@ -127,7 +127,7 @@ class SystemSettingsConfUpdateAPITypedDict(TypedDict):
     r"""If <code>true</code>, enable remote access (teleporting) to Worker Processes via the API. Otherwise, <code>false</code>."""
 
 
-class SystemSettingsConfUpdateAPI(BaseModel):
+class API(BaseModel):
     r"""API server configuration for the Cribl instance."""
 
     base_url: Annotated[Optional[str], pydantic.Field(alias="baseUrl")] = None
@@ -635,7 +635,7 @@ class SystemSettingsConfUpdateWorkers(BaseModel):
 
 
 class SystemSettingsConfUpdateTypedDict(TypedDict):
-    api: NotRequired[SystemSettingsConfUpdateAPITypedDict]
+    api: NotRequired[APITypedDict]
     r"""API server configuration for the Cribl instance."""
     apps: NotRequired[AppsTypedDict]
     r"""App configuration."""
@@ -663,7 +663,7 @@ class SystemSettingsConfUpdateTypedDict(TypedDict):
 
 
 class SystemSettingsConfUpdate(BaseModel):
-    api: Optional[SystemSettingsConfUpdateAPI] = None
+    api: Optional[API] = None
     r"""API server configuration for the Cribl instance."""
 
     apps: Optional[Apps] = None
@@ -751,7 +751,7 @@ try:
 except NameError:
     pass
 try:
-    SystemSettingsConfUpdateAPI.model_rebuild()
+    API.model_rebuild()
 except NameError:
     pass
 try:

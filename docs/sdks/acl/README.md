@@ -4,15 +4,15 @@
 
 ### Available Operations
 
-* [get](#get) - Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
+* [get](#get) - Get the user access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 ## get
 
-Get the Access Control List (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.
+Get the user access control list (ACL) for the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>This endpoint lists users with explicit access assignments on the Group or Fleet. The response does not include access granted through Team membership or inherited based on a user's Permissions and Roles at the Organization/Global, Workspace, or product level.<br/><br/>To list the Team ACL for a product and Group or Fleet, use <code>GET /products/{product}/groups/{id}/acl/teams</code>.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getProductsGroupsAclByProductAndId" method="get" path="/products/{product}/groups/{id}/acl" -->
+<!-- UsageSnippet language="python" operationID="getProductsGroupsAclByProductAndId" method="get" path="/products/{product}/groups/{id}/acl" example="AclGetUsersResponseGroupExamplesSuccess" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -36,7 +36,7 @@ with CriblControlPlane(
 
 | Parameter                                                                                 | Type                                                                                      | Required                                                                                  | Description                                                                               |
 | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
-| `product`                                                                                 | [models.ProductsCore](../../models/productscore.md)                                       | :heavy_check_mark:                                                                        | Name of the Cribl product to get the Worker Groups or Edge Fleets for.                    |
+| `product`                                                                                 | [models.ProductsCore](../../models/productscore.md)                                       | :heavy_check_mark:                                                                        | Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.   |
 | `id`                                                                                      | *str*                                                                                     | :heavy_check_mark:                                                                        | The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to get the ACL for. |
 | `type`                                                                                    | [Optional[models.RbacResource]](../../models/rbacresource.md)                             | :heavy_minus_sign:                                                                        | Filter for limiting the response to ACL entries for the specified RBAC resource type.     |
 | `retries`                                                                                 | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                          | :heavy_minus_sign:                                                                        | Configuration to override the default retry behavior of the client.                       |

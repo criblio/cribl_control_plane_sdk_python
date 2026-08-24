@@ -275,11 +275,11 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Groups.Acl](docs/sdks/acl/README.md)
 
-* [get](docs/sdks/acl/README.md#get) - Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
+* [get](docs/sdks/acl/README.md#get) - Get the user access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 ##### [Groups.Acl.Teams](docs/sdks/teams/README.md)
 
-* [get](docs/sdks/teams/README.md#get) - Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+* [get](docs/sdks/teams/README.md#get) - Get the team access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 #### [Groups.Configs.Versions](docs/sdks/configsversions/README.md)
 

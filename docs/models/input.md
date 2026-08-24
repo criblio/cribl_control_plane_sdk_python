@@ -393,6 +393,12 @@ value: models.InputBedrockS3Input = /* values here */
 value: models.InputServicenowTableInput = /* values here */
 ```
 
+### `models.InputProofpointPodInput`
+
+```python
+value: models.InputProofpointPodInput = /* values here */
+```
+
 ### `models.InputZscalerHecInput`
 
 ```python
@@ -417,6 +423,18 @@ value: models.InputSysdigHecInput = /* values here */
 value: models.InputUpwindHecInput = /* values here */
 ```
 
+### `models.InputSailpointHecInput`
+
+```python
+value: models.InputSailpointHecInput = /* values here */
+```
+
+### `models.InputAquaSecurityHecInput`
+
+```python
+value: models.InputAquaSecurityHecInput = /* values here */
+```
+
 ### `models.InputOpenaiComplianceLogsInput`
 
 ```python
@@ -433,5 +451,17 @@ value: models.InputAnthropicComplianceInput = /* values here */
 
 ```python
 value: models.InputOktaInput = /* values here */
+```
+
+### `models.InputAkamaiHecInput`
+
+```python
+value: models.InputAkamaiHecInput = /* values here */
+```
+
+### `models.InputVectraAiHecInput`
+
+```python
+value: models.InputVectraAiHecInput = /* values here */
 ```
 

@@ -95,7 +95,7 @@ class ElasticsearchMetadata(BaseModel):
         return m
 
 
-class AuthTokensExtTypedDict(TypedDict):
+class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
     token: str
     r"""Token"""
     description: NotRequired[str]
@@ -105,7 +105,7 @@ class AuthTokensExtTypedDict(TypedDict):
     elasticsearch_metadata: NotRequired[ElasticsearchMetadataTypedDict]
 
 
-class AuthTokensExt(BaseModel):
+class InputCriblLakeHTTPAuthTokensExt(BaseModel):
     token: str
     r"""Token"""
 
@@ -201,7 +201,7 @@ class InputCriblLakeHTTPInputTypedDict(TypedDict):
     r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_tokens_ext: NotRequired[List[AuthTokensExtTypedDict]]
+    auth_tokens_ext: NotRequired[List[InputCriblLakeHTTPAuthTokensExtTypedDict]]
     r"""Auth tokens"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -344,7 +344,8 @@ class InputCriblLakeHTTPInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_tokens_ext: Annotated[
-        Optional[List[AuthTokensExt]], pydantic.Field(alias="authTokensExt")
+        Optional[List[InputCriblLakeHTTPAuthTokensExt]],
+        pydantic.Field(alias="authTokensExt"),
     ] = None
     r"""Auth tokens"""
 
@@ -457,7 +458,7 @@ try:
 except NameError:
     pass
 try:
-    AuthTokensExt.model_rebuild()
+    InputCriblLakeHTTPAuthTokensExt.model_rebuild()
 except NameError:
     pass
 try:

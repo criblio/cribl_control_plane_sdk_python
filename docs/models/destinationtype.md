@@ -75,6 +75,7 @@ value = DestinationType.DEFAULT
 | `CRIBL_HTTP`                 | cribl_http                   |
 | `CRIBL_TCP`                  | cribl_tcp                    |
 | `CRIBL_SEARCH_ENGINE`        | cribl_search_engine          |
+| `CRIBL_METRICS`              | cribl_metrics                |
 | `GOOGLE_CLOUD_LOGGING`       | google_cloud_logging         |
 | `SNS`                        | sns                          |
 | `DL_S3`                      | dl_s3                        |

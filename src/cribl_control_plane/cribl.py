@@ -201,12 +201,7 @@ class Cribl(BaseSDK):
     def update(
         self,
         *,
-        api: Optional[
-            Union[
-                models.SystemSettingsConfUpdateAPI,
-                models.SystemSettingsConfUpdateAPITypedDict,
-            ]
-        ] = None,
+        api: Optional[Union[models.API, models.APITypedDict]] = None,
         apps: Optional[Union[models.Apps, models.AppsTypedDict]] = None,
         backups: Optional[
             Union[models.BackupsSettingsUnion, models.BackupsSettingsUnionTypedDict]
@@ -294,9 +289,7 @@ class Cribl(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.SystemSettingsConfUpdate(
-            api=utils.get_pydantic_model(
-                api, Optional[models.SystemSettingsConfUpdateAPI]
-            ),
+            api=utils.get_pydantic_model(api, Optional[models.API]),
             apps=utils.get_pydantic_model(apps, Optional[models.Apps]),
             backups=utils.get_pydantic_model(
                 backups, Optional[models.BackupsSettingsUnion]
@@ -406,12 +399,7 @@ class Cribl(BaseSDK):
     async def update_async(
         self,
         *,
-        api: Optional[
-            Union[
-                models.SystemSettingsConfUpdateAPI,
-                models.SystemSettingsConfUpdateAPITypedDict,
-            ]
-        ] = None,
+        api: Optional[Union[models.API, models.APITypedDict]] = None,
         apps: Optional[Union[models.Apps, models.AppsTypedDict]] = None,
         backups: Optional[
             Union[models.BackupsSettingsUnion, models.BackupsSettingsUnionTypedDict]
@@ -499,9 +487,7 @@ class Cribl(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         request = models.SystemSettingsConfUpdate(
-            api=utils.get_pydantic_model(
-                api, Optional[models.SystemSettingsConfUpdateAPI]
-            ),
+            api=utils.get_pydantic_model(api, Optional[models.API]),
             apps=utils.get_pydantic_model(apps, Optional[models.Apps]),
             backups=utils.get_pydantic_model(
                 backups, Optional[models.BackupsSettingsUnion]

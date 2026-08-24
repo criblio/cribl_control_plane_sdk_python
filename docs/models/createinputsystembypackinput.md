@@ -395,6 +395,12 @@ value: models.CreateInputSystemByPackInputBedrockS3 = /* values here */
 value: models.CreateInputSystemByPackInputServicenowTable = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputProofpointPod`
+
+```python
+value: models.CreateInputSystemByPackInputProofpointPod = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputZscalerHec`
 
 ```python
@@ -419,6 +425,18 @@ value: models.CreateInputSystemByPackInputSysdigHec = /* values here */
 value: models.CreateInputSystemByPackInputUpwindHec = /* values here */
 ```
 
+### `models.CreateInputSystemByPackInputSailpointHec`
+
+```python
+value: models.CreateInputSystemByPackInputSailpointHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputAquaSecurityHec`
+
+```python
+value: models.CreateInputSystemByPackInputAquaSecurityHec = /* values here */
+```
+
 ### `models.CreateInputSystemByPackInputOpenaiComplianceLogs`
 
 ```python
@@ -435,5 +453,17 @@ value: models.CreateInputSystemByPackInputAnthropicCompliance = /* values here *
 
 ```python
 value: models.CreateInputSystemByPackInputOkta = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputAkamaiHec`
+
+```python
+value: models.CreateInputSystemByPackInputAkamaiHec = /* values here */
+```
+
+### `models.CreateInputSystemByPackInputVectraAiHec`
+
+```python
+value: models.CreateInputSystemByPackInputVectraAiHec = /* values here */
 ```
 

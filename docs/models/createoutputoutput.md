@@ -347,6 +347,12 @@ value: models.CreateOutputOutputCriblHTTP = /* values here */
 value: models.CreateOutputOutputCriblSearchEngine = /* values here */
 ```
 
+### `models.CreateOutputOutputCriblMetrics`
+
+```python
+value: models.CreateOutputOutputCriblMetrics = /* values here */
+```
+
 ### `models.CreateOutputOutputHumioHec`
 
 ```python

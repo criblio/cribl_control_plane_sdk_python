@@ -275,11 +275,11 @@ The [On-Prem Authentication Example](https://github.com/criblio/cribl_control_pl
 
 #### [Groups.Acl](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/acl/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/acl/README.md#get) - Get the Access Control List for a Worker Group, Outpost Group, or Edge Fleet
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/acl/README.md#get) - Get the user access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 ##### [Groups.Acl.Teams](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/teams/README.md)
 
-* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/teams/README.md#get) - Get the Access Control List for teams with permissions on a Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product
+* [get](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/teams/README.md#get) - Get the team access control list for a Worker Group, Outpost Group, or Edge Fleet
 
 #### [Groups.Configs.Versions](https://github.com/criblio/cribl_control_plane_sdk_python/blob/master/docs/sdks/configsversions/README.md)
 

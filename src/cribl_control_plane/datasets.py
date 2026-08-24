@@ -25,6 +25,12 @@ class Datasets(BaseSDK):
         include_metrics: Optional[bool] = None,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
+        order_by: Optional[str] = None,
+        order_dir: Optional[str] = None,
+        name: Optional[str] = None,
+        name_contains: Optional[str] = None,
+        provider_path_contains: Optional[str] = None,
+        description_contains: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -43,8 +49,14 @@ class Datasets(BaseSDK):
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
         :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param offset: Starting point for catalog-backed pagination. Requires <code>limit</code>.
+        :param limit: Page size for catalog-backed pagination. Requires <code>offset</code>.
+        :param order_by: Catalog sort field when paginating: <code>name</code>, <code>createdAt</code>, <code>updatedAt</code>, <code>providerPath</code>, <code>type</code>, or <code>retentionPeriodInDays</code>. Defaults to <code>name</code>.
+        :param order_dir: Sort direction when paginating: <code>asc</code> or <code>desc</code>. Defaults to <code>asc</code>.
+        :param name: Exact dataset name match (catalog path, with pagination).
+        :param name_contains: Case-insensitive substring match on dataset name (catalog path, with pagination).
+        :param provider_path_contains: Case-insensitive substring match on provider path (catalog path, with pagination).
+        :param description_contains: Case-insensitive substring match on description (catalog path, with pagination).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -72,6 +84,12 @@ class Datasets(BaseSDK):
             include_metrics=include_metrics,
             offset=offset,
             limit=limit,
+            order_by=order_by,
+            order_dir=order_dir,
+            name=name,
+            name_contains=name_contains,
+            provider_path_contains=provider_path_contains,
+            description_contains=description_contains,
         )
 
         req = self._build_request(
@@ -151,6 +169,12 @@ class Datasets(BaseSDK):
                 include_metrics=include_metrics,
                 offset=next_offset,
                 limit=limit,
+                order_by=order_by,
+                order_dir=order_dir,
+                name=name,
+                name_contains=name_contains,
+                provider_path_contains=provider_path_contains,
+                description_contains=description_contains,
                 retries=retries,
                 server_url=server_url,
                 timeout_ms=timeout_ms,
@@ -194,6 +218,12 @@ class Datasets(BaseSDK):
         include_metrics: Optional[bool] = None,
         offset: Optional[int] = None,
         limit: Optional[int] = None,
+        order_by: Optional[str] = None,
+        order_dir: Optional[str] = None,
+        name: Optional[str] = None,
+        name_contains: Optional[str] = None,
+        provider_path_contains: Optional[str] = None,
+        description_contains: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -212,8 +242,14 @@ class Datasets(BaseSDK):
         :param exclude_internal: Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.
         :param exclude_byos: Exclude BYOS (Bring Your Own Storage) datasets from the response.
         :param include_metrics: Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param offset: Starting point for catalog-backed pagination. Requires <code>limit</code>.
+        :param limit: Page size for catalog-backed pagination. Requires <code>offset</code>.
+        :param order_by: Catalog sort field when paginating: <code>name</code>, <code>createdAt</code>, <code>updatedAt</code>, <code>providerPath</code>, <code>type</code>, or <code>retentionPeriodInDays</code>. Defaults to <code>name</code>.
+        :param order_dir: Sort direction when paginating: <code>asc</code> or <code>desc</code>. Defaults to <code>asc</code>.
+        :param name: Exact dataset name match (catalog path, with pagination).
+        :param name_contains: Case-insensitive substring match on dataset name (catalog path, with pagination).
+        :param provider_path_contains: Case-insensitive substring match on provider path (catalog path, with pagination).
+        :param description_contains: Case-insensitive substring match on description (catalog path, with pagination).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -241,6 +277,12 @@ class Datasets(BaseSDK):
             include_metrics=include_metrics,
             offset=offset,
             limit=limit,
+            order_by=order_by,
+            order_dir=order_dir,
+            name=name,
+            name_contains=name_contains,
+            provider_path_contains=provider_path_contains,
+            description_contains=description_contains,
         )
 
         req = self._build_request_async(
@@ -325,6 +367,12 @@ class Datasets(BaseSDK):
                 include_metrics=include_metrics,
                 offset=next_offset,
                 limit=limit,
+                order_by=order_by,
+                order_dir=order_dir,
+                name=name,
+                name_contains=name_contains,
+                provider_path_contains=provider_path_contains,
+                description_contains=description_contains,
                 retries=retries,
                 server_url=server_url,
                 timeout_ms=timeout_ms,

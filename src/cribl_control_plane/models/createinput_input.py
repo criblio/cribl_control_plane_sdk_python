@@ -36,13 +36,17 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .createinput_inputkubemetrics import (
+from .createinput_inputwindowsmetrics_custom import (
+    CreateInputInputAkamaiHec,
+    CreateInputInputAkamaiHecTypedDict,
     CreateInputInputAnthropicCompliance,
     CreateInputInputAnthropicComplianceTypedDict,
     CreateInputInputAppleUnifiedLogs,
     CreateInputInputAppleUnifiedLogsTypedDict,
     CreateInputInputAppscope,
     CreateInputInputAppscopeTypedDict,
+    CreateInputInputAquaSecurityHec,
+    CreateInputInputAquaSecurityHecTypedDict,
     CreateInputInputBedrockS3,
     CreateInputInputBedrockS3TypedDict,
     CreateInputInputCloudflareHec,
@@ -63,12 +67,6 @@ from .createinput_inputkubemetrics import (
     CreateInputInputJournalFilesTypedDict,
     CreateInputInputKinesis,
     CreateInputInputKinesisTypedDict,
-    CreateInputInputKubeEvents,
-    CreateInputInputKubeEventsTypedDict,
-    CreateInputInputKubeLogs,
-    CreateInputInputKubeLogsTypedDict,
-    CreateInputInputKubeMetrics,
-    CreateInputInputKubeMetricsTypedDict,
     CreateInputInputMetrics,
     CreateInputInputMetricsTypedDict,
     CreateInputInputModelDrivenTelemetry,
@@ -83,12 +81,16 @@ from .createinput_inputkubemetrics import (
     CreateInputInputOpenaiComplianceLogs,
     CreateInputInputOpenaiComplianceLogsTypedDict,
     CreateInputInputOpenaiTypedDict,
+    CreateInputInputProofpointPod,
+    CreateInputInputProofpointPodTypedDict,
     CreateInputInputRawUDP,
     CreateInputInputRawUDPTypedDict,
     CreateInputInputS3,
     CreateInputInputS3Inventory,
     CreateInputInputS3InventoryTypedDict,
     CreateInputInputS3TypedDict,
+    CreateInputInputSailpointHec,
+    CreateInputInputSailpointHecTypedDict,
     CreateInputInputSecurityLake,
     CreateInputInputSecurityLakeTypedDict,
     CreateInputInputServicenowTable,
@@ -105,12 +107,15 @@ from .createinput_inputkubemetrics import (
     CreateInputInputTCPTypedDict,
     CreateInputInputUpwindHec,
     CreateInputInputUpwindHecTypedDict,
+    CreateInputInputVectraAiHec,
+    CreateInputInputVectraAiHecTypedDict,
     CreateInputInputWef,
     CreateInputInputWefTypedDict,
     CreateInputInputWinEventLogs,
     CreateInputInputWinEventLogsTypedDict,
-    CreateInputInputWindowsMetrics,
-    CreateInputInputWindowsMetricsTypedDict,
+    CreateInputInputWindowsMetricsCustom,
+    CreateInputInputWindowsMetricsCustomTypedDict,
+    CreateInputInputWindowsMetricsType,
     CreateInputInputWiz,
     CreateInputInputWizTypedDict,
     CreateInputInputWizWebhook,
@@ -158,6 +163,10 @@ from .retryrulestypecodesenableheader import (
     RetryRulesTypeCodesEnableHeader,
     RetryRulesTypeCodesEnableHeaderTypedDict,
 )
+from .ruleconfinputkubemetrics import (
+    RuleConfInputKubeMetrics,
+    RuleConfInputKubeMetricsTypedDict,
+)
 from .searchfilterconfinputprometheus import (
     SearchFilterConfInputPrometheus,
     SearchFilterConfInputPrometheusTypedDict,
@@ -192,6 +201,815 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputInputWindowsMetricsHostTypedDict(TypedDict):
+    mode: NotRequired[ModeOptionsHost]
+    r"""Select level of detail for host metrics"""
+    custom: NotRequired[CreateInputInputWindowsMetricsCustomTypedDict]
+
+
+class CreateInputInputWindowsMetricsHost(BaseModel):
+    mode: Optional[ModeOptionsHost] = None
+    r"""Select level of detail for host metrics"""
+
+    custom: Optional[CreateInputInputWindowsMetricsCustom] = None
+
+    @field_serializer("mode")
+    def serialize_mode(self, value):
+        if isinstance(value, str):
+            try:
+                return models.ModeOptionsHost(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["mode", "custom"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputWindowsMetricsPersistenceTypedDict(TypedDict):
+    r"""persistence"""
+
+    enable: NotRequired[bool]
+    r"""Spool metrics to disk for Cribl Edge and Search"""
+    time_window: NotRequired[str]
+    r"""Time span for each file bucket"""
+    max_data_size: NotRequired[str]
+    r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
+    max_data_time: NotRequired[str]
+    r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
+    compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
+    dest_path: NotRequired[str]
+    r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/windows_metrics"""
+
+
+class CreateInputInputWindowsMetricsPersistence(BaseModel):
+    r"""persistence"""
+
+    enable: Optional[bool] = None
+    r"""Spool metrics to disk for Cribl Edge and Search"""
+
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
+    r"""Time span for each file bucket"""
+
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
+    r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
+
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
+    r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
+
+    compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
+
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
+    r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/windows_metrics"""
+
+    @field_serializer("compress")
+    def serialize_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataCompressionFormatOptionsPersistence(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputWindowsMetricsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputInputWindowsMetricsType
+    r"""Connector type identifier."""
+    disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Metadata tags used for categorization and filtering."""
+    connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    interval: NotRequired[float]
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+    host: NotRequired[CreateInputInputWindowsMetricsHostTypedDict]
+    process: NotRequired[ProcessTypeTypedDict]
+    gpu: NotRequired[GpuTypeTypedDict]
+    metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
+    r"""Fields to add to events from this input"""
+    persistence: NotRequired[CreateInputInputWindowsMetricsPersistenceTypedDict]
+    r"""persistence"""
+    disable_native_module: NotRequired[bool]
+    r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
+    description: NotRequired[str]
+    r"""Optional description for this configuration."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+
+class CreateInputInputWindowsMetrics(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputInputWindowsMetricsType
+    r"""Connector type identifier."""
+
+    disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Metadata tags used for categorization and filtering."""
+
+    connections: Optional[List[ConnectionConfInputCollection]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    interval: Optional[float] = None
+    r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
+
+    host: Optional[CreateInputInputWindowsMetricsHost] = None
+
+    process: Optional[ProcessType] = None
+
+    gpu: Optional[GpuType] = None
+
+    metadata: Optional[List[MetadataConfInputCollection]] = None
+    r"""Fields to add to events from this input"""
+
+    persistence: Optional[CreateInputInputWindowsMetricsPersistence] = None
+    r"""persistence"""
+
+    disable_native_module: Annotated[
+        Optional[bool], pydantic.Field(alias="disableNativeModule")
+    ] = None
+    r"""Enable to use built-in tools (PowerShell) to collect metrics instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-windows-metrics/#advanced-tab)"""
+
+    description: Optional[str] = None
+    r"""Optional description for this configuration."""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "host",
+                "process",
+                "gpu",
+                "metadata",
+                "persistence",
+                "disableNativeModule",
+                "description",
+                "__template_environment",
+                "__template_streamtags",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputKubeEventsType(str, Enum):
+    r"""Connector type identifier."""
+
+    KUBE_EVENTS = "kube_events"
+
+
+class CreateInputInputKubeEventsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputInputKubeEventsType
+    r"""Connector type identifier."""
+    disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Metadata tags used for categorization and filtering."""
+    connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    rules: NotRequired[List[RuleConfInputKubeMetricsTypedDict]]
+    r"""Filtering on event fields"""
+    metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
+    r"""Fields to add to events from this input"""
+    description: NotRequired[str]
+    r"""Optional description for this configuration."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+
+class CreateInputInputKubeEvents(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputInputKubeEventsType
+    r"""Connector type identifier."""
+
+    disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Metadata tags used for categorization and filtering."""
+
+    connections: Optional[List[ConnectionConfInputCollection]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    rules: Optional[List[RuleConfInputKubeMetrics]] = None
+    r"""Filtering on event fields"""
+
+    metadata: Optional[List[MetadataConfInputCollection]] = None
+    r"""Fields to add to events from this input"""
+
+    description: Optional[str] = None
+    r"""Optional description for this configuration."""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "rules",
+                "metadata",
+                "description",
+                "__template_environment",
+                "__template_streamtags",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputKubeLogsType(str, Enum):
+    r"""Connector type identifier."""
+
+    KUBE_LOGS = "kube_logs"
+
+
+class CreateInputInputKubeLogsRuleTypedDict(TypedDict):
+    filter_: str
+    r"""JavaScript expression applied to Pod objects. Return 'true' to include it."""
+    description: NotRequired[str]
+    r"""Optional description of this rule's purpose"""
+
+
+class CreateInputInputKubeLogsRule(BaseModel):
+    filter_: Annotated[str, pydantic.Field(alias="filter")]
+    r"""JavaScript expression applied to Pod objects. Return 'true' to include it."""
+
+    description: Optional[str] = None
+    r"""Optional description of this rule's purpose"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["description"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputKubeLogsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputInputKubeLogsType
+    r"""Connector type identifier."""
+    disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Metadata tags used for categorization and filtering."""
+    connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    interval: NotRequired[float]
+    r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
+    rules: NotRequired[List[CreateInputInputKubeLogsRuleTypedDict]]
+    r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
+    timestamps: NotRequired[bool]
+    r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
+    line_buffer_limit: NotRequired[float]
+    r"""Maximum bytes to buffer while reassembling a single log line. A line that exceeds this size is flushed as-is, either whole or partially. The default is 1048576 (1 MB)."""
+    lb_disable_assembly: NotRequired[bool]
+    r"""Internal flag to disable LB worker payload reassembly."""
+    metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
+    r"""Fields to add to events from this input"""
+    persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    r"""Disk Spooling"""
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+    enable_load_balancing: NotRequired[bool]
+    r"""Load balance traffic across all Worker Processes"""
+    description: NotRequired[str]
+    r"""Optional description for this configuration."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+
+class CreateInputInputKubeLogs(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputInputKubeLogsType
+    r"""Connector type identifier."""
+
+    disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Metadata tags used for categorization and filtering."""
+
+    connections: Optional[List[ConnectionConfInputCollection]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    interval: Optional[float] = None
+    r"""Time, in seconds, between checks for new containers. Default is 15 secs."""
+
+    rules: Optional[List[CreateInputInputKubeLogsRule]] = None
+    r"""Add rules to decide which Pods to collect logs from. Logs are collected if no rules are given or if all the rules' expressions evaluate to true."""
+
+    timestamps: Optional[bool] = None
+    r"""For use when containers do not emit a timestamp, prefix each line of output with a timestamp. If you enable this setting, you can use the Kubernetes Logs Event Breaker and the kubernetes_logs Pre-processing Pipeline to remove them from the events after the timestamps are extracted."""
+
+    line_buffer_limit: Annotated[
+        Optional[float], pydantic.Field(alias="lineBufferLimit")
+    ] = None
+    r"""Maximum bytes to buffer while reassembling a single log line. A line that exceeds this size is flushed as-is, either whole or partially. The default is 1048576 (1 MB)."""
+
+    lb_disable_assembly: Annotated[
+        Optional[bool], pydantic.Field(alias="__LBDisableAssembly")
+    ] = None
+    r"""Internal flag to disable LB worker payload reassembly."""
+
+    metadata: Optional[List[MetadataConfInputCollection]] = None
+    r"""Fields to add to events from this input"""
+
+    persistence: Optional[DiskSpoolingType] = None
+    r"""Disk Spooling"""
+
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = None
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
+    enable_load_balancing: Annotated[
+        Optional[bool], pydantic.Field(alias="enableLoadBalancing")
+    ] = None
+    r"""Load balance traffic across all Worker Processes"""
+
+    description: Optional[str] = None
+    r"""Optional description for this configuration."""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "rules",
+                "timestamps",
+                "lineBufferLimit",
+                "__LBDisableAssembly",
+                "metadata",
+                "persistence",
+                "breakerRulesets",
+                "staleChannelFlushMs",
+                "enableLoadBalancing",
+                "description",
+                "__template_environment",
+                "__template_streamtags",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputKubeMetricsType(str, Enum):
+    r"""Connector type identifier."""
+
+    KUBE_METRICS = "kube_metrics"
+
+
+class CreateInputInputKubeMetricsPersistenceTypedDict(TypedDict):
+    r"""persistence"""
+
+    enable: NotRequired[bool]
+    r"""Spool metrics on disk for Cribl Search"""
+    time_window: NotRequired[str]
+    r"""Time span for each file bucket"""
+    max_data_size: NotRequired[str]
+    r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
+    max_data_time: NotRequired[str]
+    r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
+    compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
+    dest_path: NotRequired[str]
+    r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
+
+
+class CreateInputInputKubeMetricsPersistence(BaseModel):
+    r"""persistence"""
+
+    enable: Optional[bool] = None
+    r"""Spool metrics on disk for Cribl Search"""
+
+    time_window: Annotated[Optional[str], pydantic.Field(alias="timeWindow")] = None
+    r"""Time span for each file bucket"""
+
+    max_data_size: Annotated[Optional[str], pydantic.Field(alias="maxDataSize")] = None
+    r"""Maximum disk space allowed to be consumed (examples: 420MB, 4GB). When limit is reached, older data will be deleted."""
+
+    max_data_time: Annotated[Optional[str], pydantic.Field(alias="maxDataTime")] = None
+    r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
+
+    compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
+
+    dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
+    r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/<id>"""
+
+    @field_serializer("compress")
+    def serialize_compress(self, value):
+        if isinstance(value, str):
+            try:
+                return models.DataCompressionFormatOptionsPersistence(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "enable",
+                "timeWindow",
+                "maxDataSize",
+                "maxDataTime",
+                "compress",
+                "destPath",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputInputKubeMetricsTypedDict(TypedDict):
+    id: str
+    r"""Unique ID for this input"""
+    type: CreateInputInputKubeMetricsType
+    r"""Connector type identifier."""
+    disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
+    pipeline: NotRequired[str]
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+    send_to_routes: NotRequired[bool]
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+    environment: NotRequired[str]
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+    pq_enabled: NotRequired[bool]
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+    streamtags: NotRequired[List[str]]
+    r"""Metadata tags used for categorization and filtering."""
+    connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+    pq: NotRequired[PqTypeTypedDict]
+    interval: NotRequired[float]
+    r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
+    scrape_kubelet: NotRequired[bool]
+    r"""Enable to scrape kubelet metrics from https://<nodeIP>:10250/metrics. Requires Edge to run as a DaemonSet with direct network access to the node."""
+    scrape_cadvisor: NotRequired[bool]
+    r"""Scrape cAdvisor container metrics from https://<nodeIP>:10250/metrics/cadvisor. Requires Edge to run as a DaemonSet with direct network access to the Node."""
+    rules: NotRequired[List[RuleConfInputKubeMetricsTypedDict]]
+    r"""Add rules to decide which Kubernetes objects to generate metrics for. Events are generated if no rules are given or of all the rules' expressions evaluate to true."""
+    metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
+    r"""Fields to add to events from this input"""
+    persistence: NotRequired[CreateInputInputKubeMetricsPersistenceTypedDict]
+    r"""persistence"""
+    description: NotRequired[str]
+    r"""Optional description for this configuration."""
+    template_environment: NotRequired[str]
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+    template_streamtags: NotRequired[str]
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+
+class CreateInputInputKubeMetrics(BaseModel):
+    id: str
+    r"""Unique ID for this input"""
+
+    type: CreateInputInputKubeMetricsType
+    r"""Connector type identifier."""
+
+    disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
+
+    pipeline: Optional[str] = None
+    r"""Pipeline to process data from this Source before sending it through the Routes"""
+
+    send_to_routes: Annotated[Optional[bool], pydantic.Field(alias="sendToRoutes")] = (
+        None
+    )
+    r"""Select whether to send data to Routes, or directly to Destinations."""
+
+    environment: Optional[str] = None
+    r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
+
+    pq_enabled: Annotated[Optional[bool], pydantic.Field(alias="pqEnabled")] = None
+    r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
+
+    streamtags: Optional[List[str]] = None
+    r"""Metadata tags used for categorization and filtering."""
+
+    connections: Optional[List[ConnectionConfInputCollection]] = None
+    r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
+
+    pq: Optional[PqType] = None
+
+    interval: Optional[float] = None
+    r"""Time, in seconds, between consecutive metrics collections. Default is 15 secs."""
+
+    scrape_kubelet: Annotated[Optional[bool], pydantic.Field(alias="scrapeKubelet")] = (
+        None
+    )
+    r"""Enable to scrape kubelet metrics from https://<nodeIP>:10250/metrics. Requires Edge to run as a DaemonSet with direct network access to the node."""
+
+    scrape_cadvisor: Annotated[
+        Optional[bool], pydantic.Field(alias="scrapeCadvisor")
+    ] = None
+    r"""Scrape cAdvisor container metrics from https://<nodeIP>:10250/metrics/cadvisor. Requires Edge to run as a DaemonSet with direct network access to the Node."""
+
+    rules: Optional[List[RuleConfInputKubeMetrics]] = None
+    r"""Add rules to decide which Kubernetes objects to generate metrics for. Events are generated if no rules are given or of all the rules' expressions evaluate to true."""
+
+    metadata: Optional[List[MetadataConfInputCollection]] = None
+    r"""Fields to add to events from this input"""
+
+    persistence: Optional[CreateInputInputKubeMetricsPersistence] = None
+    r"""persistence"""
+
+    description: Optional[str] = None
+    r"""Optional description for this configuration."""
+
+    template_environment: Annotated[
+        Optional[str], pydantic.Field(alias="__template_environment")
+    ] = None
+    r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
+
+    template_streamtags: Annotated[
+        Optional[str], pydantic.Field(alias="__template_streamtags")
+    ] = None
+    r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(
+            [
+                "disabled",
+                "pipeline",
+                "sendToRoutes",
+                "environment",
+                "pqEnabled",
+                "streamtags",
+                "connections",
+                "pq",
+                "interval",
+                "scrapeKubelet",
+                "scrapeCadvisor",
+                "rules",
+                "metadata",
+                "persistence",
+                "description",
+                "__template_environment",
+                "__template_streamtags",
+            ]
+        )
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputInputSystemStateType(str, Enum):
@@ -1856,7 +2674,7 @@ class CreateInputElasticsearchMetadata(BaseModel):
         return m
 
 
-class CreateInputAuthTokensExtTypedDict(TypedDict):
+class CreateInputInputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
     token: str
     r"""Token"""
     description: NotRequired[str]
@@ -1866,7 +2684,7 @@ class CreateInputAuthTokensExtTypedDict(TypedDict):
     elasticsearch_metadata: NotRequired[CreateInputElasticsearchMetadataTypedDict]
 
 
-class CreateInputAuthTokensExt(BaseModel):
+class CreateInputInputCriblLakeHTTPAuthTokensExt(BaseModel):
     token: str
     r"""Token"""
 
@@ -1964,7 +2782,9 @@ class CreateInputInputCriblLakeHTTPTypedDict(TypedDict):
     r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_tokens_ext: NotRequired[List[CreateInputAuthTokensExtTypedDict]]
+    auth_tokens_ext: NotRequired[
+        List[CreateInputInputCriblLakeHTTPAuthTokensExtTypedDict]
+    ]
     r"""Auth tokens"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -2107,7 +2927,8 @@ class CreateInputInputCriblLakeHTTP(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_tokens_ext: Annotated[
-        Optional[List[CreateInputAuthTokensExt]], pydantic.Field(alias="authTokensExt")
+        Optional[List[CreateInputInputCriblLakeHTTPAuthTokensExt]],
+        pydantic.Field(alias="authTokensExt"),
     ] = None
     r"""Auth tokens"""
 
@@ -3010,6 +3831,64 @@ class CreateInputInputFirehoseType(str, Enum):
     FIREHOSE = "firehose"
 
 
+class CreateInputInputFirehoseAuthTokensExtTypedDict(TypedDict):
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
+    auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+    token_secret: NotRequired[str]
+    r"""Select or create a stored text secret"""
+    description: NotRequired[str]
+    r"""Description"""
+    metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
+    r"""Fields to add to events referencing this token"""
+
+
+class CreateInputInputFirehoseAuthTokensExt(BaseModel):
+    token: str
+    r"""Shared secret to be provided by any client (Authorization: <token>)"""
+
+    auth_type: Annotated[
+        Optional[AuthenticationMethodOptionsAuthTokensItems],
+        pydantic.Field(alias="authType"),
+    ] = None
+    r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
+
+    token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
+    r"""Select or create a stored text secret"""
+
+    description: Optional[str] = None
+    r"""Description"""
+
+    metadata: Optional[List[MetadataConfInputCollection]] = None
+    r"""Fields to add to events referencing this token"""
+
+    @field_serializer("auth_type")
+    def serialize_auth_type(self, value):
+        if isinstance(value, str):
+            try:
+                return models.AuthenticationMethodOptionsAuthTokensItems(value)
+            except ValueError:
+                return value
+        return value
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["authType", "tokenSecret", "description", "metadata"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
 class CreateInputInputFirehoseTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
@@ -3062,6 +3941,8 @@ class CreateInputInputFirehoseTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
+    auth_tokens_ext: NotRequired[List[CreateInputInputFirehoseAuthTokensExtTypedDict]]
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
@@ -3180,6 +4061,12 @@ class CreateInputInputFirehose(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
+    auth_tokens_ext: Annotated[
+        Optional[List[CreateInputInputFirehoseAuthTokensExt]],
+        pydantic.Field(alias="authTokensExt"),
+    ] = None
+    r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
@@ -3234,6 +4121,7 @@ class CreateInputInputFirehose(BaseModel):
                 "ipAllowlistRegex",
                 "ipDenylistRegex",
                 "metadata",
+                "authTokensExt",
                 "description",
                 "__template_environment",
                 "__template_streamtags",
@@ -9257,6 +10145,8 @@ class CreateInputInputAzureVnetFlowLogTypedDict(TypedDict):
     r"""How many receiver processes to run. The higher the number, the better the throughput - at the expense of CPU overhead."""
     max_messages: NotRequired[float]
     r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+    max_dequeue_count: NotRequired[float]
+    r"""Number of times a non-matching message can be dequeued before it is permanently deleted. At the default of 1, non-matching messages are deleted immediately (same as standard Azure Blob source behavior). Set higher to leave messages in the queue for other consumers."""
     service_period_secs: NotRequired[float]
     r"""The duration (in seconds) which pollers should be validated and restarted if exited"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -9350,6 +10240,11 @@ class CreateInputInputAzureVnetFlowLog(BaseModel):
 
     max_messages: Annotated[Optional[float], pydantic.Field(alias="maxMessages")] = None
     r"""The maximum number of messages to return in a poll request. Azure storage queues never returns more messages than this value (however, fewer messages might be returned). Valid values: 1 to 32."""
+
+    max_dequeue_count: Annotated[
+        Optional[float], pydantic.Field(alias="maxDequeueCount")
+    ] = None
+    r"""Number of times a non-matching message can be dequeued before it is permanently deleted. At the default of 1, non-matching messages are deleted immediately (same as standard Azure Blob source behavior). Set higher to leave messages in the queue for other consumers."""
 
     service_period_secs: Annotated[
         Optional[float], pydantic.Field(alias="servicePeriodSecs")
@@ -9471,6 +10366,7 @@ class CreateInputInputAzureVnetFlowLog(BaseModel):
                 "visibilityTimeout",
                 "numReceivers",
                 "maxMessages",
+                "maxDequeueCount",
                 "servicePeriodSecs",
                 "metadata",
                 "breakerRulesets",
@@ -12249,65 +13145,70 @@ class CreateInputInputCollection(BaseModel):
 CreateInputInputTypedDict = TypeAliasType(
     "CreateInputInputTypedDict",
     Union[
+        CreateInputInputKubeEventsTypedDict,
         CreateInputInputDatagenTypedDict,
         CreateInputInputCriblTypedDict,
-        CreateInputInputKubeEventsTypedDict,
-        CreateInputInputAppleUnifiedLogsTypedDict,
         CreateInputInputCriblmetricsTypedDict,
+        CreateInputInputAppleUnifiedLogsTypedDict,
         CreateInputInputCollectionTypedDict,
-        CreateInputInputKubeMetricsTypedDict,
         CreateInputInputSystemStateTypedDict,
-        CreateInputInputWindowsMetricsTypedDict,
+        CreateInputInputKubeMetricsTypedDict,
         CreateInputInputSystemMetricsTypedDict,
+        CreateInputInputWindowsMetricsTypedDict,
         CreateInputInputJournalFilesTypedDict,
         CreateInputInputModelDrivenTelemetryTypedDict,
         CreateInputInputExecTypedDict,
         CreateInputInputRawUDPTypedDict,
         CreateInputInputKubeLogsTypedDict,
+        CreateInputInputProofpointPodTypedDict,
         CreateInputInputSnmpTypedDict,
         CreateInputInputWinEventLogsTypedDict,
         CreateInputInputMetricsTypedDict,
-        CreateInputInputCriblTCPTypedDict,
         CreateInputInputNetflowTypedDict,
+        CreateInputInputCriblTCPTypedDict,
         CreateInputInputOpenaiTypedDict,
-        CreateInputInputEventhubAmqpTypedDict,
         CreateInputInputTcpjsonTypedDict,
+        CreateInputInputEventhubAmqpTypedDict,
         CreateInputInputOktaTypedDict,
         CreateInputInputGooglePubsubTypedDict,
         CreateInputInputCriblHTTPTypedDict,
         CreateInputInputOffice365ServiceTypedDict,
-        CreateInputInputFirehoseTypedDict,
         CreateInputInputTCPTypedDict,
+        CreateInputInputSailpointHecTypedDict,
+        CreateInputInputFirehoseTypedDict,
         CreateInputInputWizTypedDict,
         CreateInputInputAnthropicComplianceTypedDict,
+        CreateInputInputAkamaiHecTypedDict,
         CreateInputInputDatadogAgentTypedDict,
-        CreateInputInputSplunkTypedDict,
         CreateInputInputOffice365MgmtTypedDict,
         CreateInputInputAppscopeTypedDict,
+        CreateInputInputSplunkTypedDict,
         CreateInputInputFileTypedDict,
-        CreateInputInputAzureVnetFlowLogTypedDict,
         CreateInputInputWefTypedDict,
+        CreateInputInputAzureVnetFlowLogTypedDict,
         CreateInputInputLokiTypedDict,
         CreateInputInputWizWebhookTypedDict,
-        CreateInputInputPrometheusRwTypedDict,
-        CreateInputInputUpwindHecTypedDict,
+        CreateInputInputAquaSecurityHecTypedDict,
         CreateInputInputSysdigHecTypedDict,
-        CreateInputInputZscalerHecTypedDict,
+        CreateInputInputUpwindHecTypedDict,
+        CreateInputInputVectraAiHecTypedDict,
+        CreateInputInputPrometheusRwTypedDict,
         CreateInputInputKafkaTypedDict,
-        CreateInputInputCriblLakeHTTPTypedDict,
-        CreateInputInputConfluentCloudTypedDict,
         CreateInputInputHTTPTypedDict,
+        CreateInputInputZscalerHecTypedDict,
+        CreateInputInputCriblLakeHTTPTypedDict,
         CreateInputInputEventhubTypedDict,
+        CreateInputInputConfluentCloudTypedDict,
         CreateInputInputOpenaiComplianceLogsTypedDict,
         CreateInputInputCloudflareHecTypedDict,
         CreateInputInputAzureBlobTypedDict,
-        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputElasticTypedDict,
         CreateInputInputSplunkHecTypedDict,
+        CreateInputInputOpenTelemetryTypedDict,
         CreateInputInputSqsTypedDict,
+        CreateInputInputKinesisTypedDict,
         CreateInputInputOffice365MsgTraceTypedDict,
         CreateInputInputMicrosoftGraphTypedDict,
-        CreateInputInputKinesisTypedDict,
         CreateInputInputHTTPRawTypedDict,
         CreateInputInputSplunkSearchTypedDict,
         CreateInputInputServicenowTableTypedDict,
@@ -12315,12 +13216,12 @@ CreateInputInputTypedDict = TypeAliasType(
         CreateInputInputEdgePrometheusTypedDict,
         CreateInputInputCrowdstrikeTypedDict,
         CreateInputInputBedrockS3TypedDict,
-        CreateInputInputPrometheusTypedDict,
         CreateInputInputSecurityLakeTypedDict,
+        CreateInputInputPrometheusTypedDict,
         CreateInputInputS3TypedDict,
         CreateInputInputS3InventoryTypedDict,
-        CreateInputInputSyslogUnionTypedDict,
         CreateInputInputGrafanaUnionTypedDict,
+        CreateInputInputSyslogUnionTypedDict,
     ],
 )
 r"""Input object."""
@@ -12393,19 +13294,52 @@ CreateInputInput = Annotated[
         Annotated[CreateInputInputSecurityLake, Tag("security_lake")],
         Annotated[CreateInputInputBedrockS3, Tag("bedrock_s3")],
         Annotated[CreateInputInputServicenowTable, Tag("servicenow_table")],
+        Annotated[CreateInputInputProofpointPod, Tag("proofpoint_pod")],
         Annotated[CreateInputInputZscalerHec, Tag("zscaler_hec")],
         Annotated[CreateInputInputCloudflareHec, Tag("cloudflare_hec")],
         Annotated[CreateInputInputSysdigHec, Tag("sysdig_hec")],
         Annotated[CreateInputInputUpwindHec, Tag("upwind_hec")],
+        Annotated[CreateInputInputSailpointHec, Tag("sailpoint_hec")],
+        Annotated[CreateInputInputAquaSecurityHec, Tag("aqua_security_hec")],
         Annotated[CreateInputInputOpenaiComplianceLogs, Tag("openai_compliance_logs")],
         Annotated[CreateInputInputAnthropicCompliance, Tag("anthropic_compliance")],
         Annotated[CreateInputInputOkta, Tag("okta")],
+        Annotated[CreateInputInputAkamaiHec, Tag("akamai_hec")],
+        Annotated[CreateInputInputVectraAiHec, Tag("vectra_ai_hec")],
     ],
     Discriminator(lambda m: get_discriminator(m, "type", "type")),
 ]
 r"""Input object."""
 
 
+try:
+    CreateInputInputWindowsMetricsPersistence.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputWindowsMetrics.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKubeEvents.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKubeLogsRule.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKubeLogs.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKubeMetricsPersistence.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputKubeMetrics.model_rebuild()
+except NameError:
+    pass
 try:
     CreateInputCollectors.model_rebuild()
 except NameError:
@@ -12455,7 +13389,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputAuthTokensExt.model_rebuild()
+    CreateInputInputCriblLakeHTTPAuthTokensExt.model_rebuild()
 except NameError:
     pass
 try:
@@ -12476,6 +13410,10 @@ except NameError:
     pass
 try:
     CreateInputInputGooglePubsub.model_rebuild()
+except NameError:
+    pass
+try:
+    CreateInputInputFirehoseAuthTokensExt.model_rebuild()
 except NameError:
     pass
 try:

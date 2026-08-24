@@ -133,6 +133,35 @@ with CriblControlPlane(
 
 Create a new Source. The system-managed provenance field (JSON <code>criblSourceProvenance</code>) must be omitted from the request body within the specified Pack.
 
+### Example Usage: InputCreateExamplesAkamaiHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAkamaiHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "akamai-hec-source",
+        "type": models.CreateInputSystemByPackInputAkamaiHecType.AKAMAI_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesAnthropicCompliance
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAnthropicCompliance" -->
@@ -209,6 +238,35 @@ with CriblControlPlane(
         "pq_enabled": False,
         "host": "0.0.0.0",
         "port": 9109,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesAquaSecurityHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesAquaSecurityHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "aqua-security-hec-source",
+        "type": models.CreateInputSystemByPackInputAquaSecurityHecType.AQUA_SECURITY_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -1513,6 +1571,35 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: InputCreateExamplesProofpointPod
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesProofpointPod" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "proofpoint-pod-source",
+        "type": models.CreateInputSystemByPackInputProofpointPodType.PROOFPOINT_POD,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "cluster_id": "my-pod-cluster",
+        "feed_type": models.CreateInputSystemByPackFeedType.MESSAGE,
+        "text_secret": "proofpoint-pod-token-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: InputCreateExamplesRawUdp
 
 <!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesRawUdp" -->
@@ -1591,6 +1678,35 @@ with CriblControlPlane(
         "pq_enabled": False,
         "queue_name": "s3-inventory-queue",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesSailpointHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesSailpointHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "sailpoint-hec-source",
+        "type": models.CreateInputSystemByPackInputSailpointHecType.SAILPOINT_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -2028,6 +2144,35 @@ with CriblControlPlane(
     res = ccp_client.packs.sources.create(pack="<value>", request_body={
         "id": "upwind-hec-source",
         "type": models.CreateInputSystemByPackInputUpwindHecType.UPWIND_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: InputCreateExamplesVectraAiHec
+
+<!-- UsageSnippet language="python" operationID="createInputSystemByPack" method="post" path="/p/{pack}/system/inputs" example="InputCreateExamplesVectraAiHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.create(pack="<value>", request_body={
+        "id": "vectra-ai-hec-source",
+        "type": models.CreateInputSystemByPackInputVectraAiHecType.VECTRA_AI_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",
@@ -4576,6 +4721,35 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateInputExamplesAkamaiHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesAkamaiHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "akamai-hec-source",
+        "type": models.InputAkamaiHecType.AKAMAI_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateInputExamplesAnthropicCompliance
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesAnthropicCompliance" -->
@@ -4652,6 +4826,35 @@ with CriblControlPlane(
         "pq_enabled": False,
         "host": "0.0.0.0",
         "port": 9109,
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesAquaSecurityHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesAquaSecurityHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "aqua-security-hec-source",
+        "type": models.InputAquaSecurityHecType.AQUA_SECURITY_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -6008,6 +6211,35 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: UpdateInputExamplesProofpointPod
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesProofpointPod" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "proofpoint-pod-source",
+        "type": models.InputProofpointPodType.PROOFPOINT_POD,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "cluster_id": "my-pod-cluster",
+        "feed_type": models.FeedType.MESSAGE,
+        "text_secret": "proofpoint-pod-token-secret",
+    })
+
+    # Handle response
+    print(res)
+
+```
 ### Example Usage: UpdateInputExamplesRawUdp
 
 <!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesRawUdp" -->
@@ -6086,6 +6318,35 @@ with CriblControlPlane(
         "pq_enabled": False,
         "queue_name": "s3-inventory-queue",
         "region": "us-east-1",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesSailpointHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesSailpointHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "sailpoint-hec-source",
+        "type": models.InputSailpointHecType.SAILPOINT_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
     })
 
     # Handle response
@@ -6523,6 +6784,35 @@ with CriblControlPlane(
     res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
         "id": "upwind-hec-source",
         "type": models.InputUpwindHecType.UPWIND_HEC,
+        "send_to_routes": True,
+        "pq_enabled": False,
+        "host": "0.0.0.0",
+        "port": 8088,
+        "hec_api": "/services/collector",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateInputExamplesVectraAiHec
+
+<!-- UsageSnippet language="python" operationID="updateInputSystemByPackAndId" method="patch" path="/p/{pack}/system/inputs/{id}" example="UpdateInputExamplesVectraAiHec" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.sources.update(id="<id>", pack="<value>", input_={
+        "id": "vectra-ai-hec-source",
+        "type": models.InputVectraAiHecType.VECTRA_AI_HEC,
         "send_to_routes": True,
         "pq_enabled": False,
         "host": "0.0.0.0",

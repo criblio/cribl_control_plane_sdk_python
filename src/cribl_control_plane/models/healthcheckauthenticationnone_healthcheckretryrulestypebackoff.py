@@ -957,6 +957,7 @@ HealthCheckAuthenticationOauthSecretDiscoveryTypedDict = TypeAliasType(
         HealthCheckAuthenticationOauthSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckAuthenticationOauthSecretDiscovery(BaseModel):
@@ -995,6 +996,7 @@ HealthCheckAuthenticationOauthSecretDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckAuthenticationOauthSecretHealthCheckMethod(
@@ -1179,6 +1181,7 @@ HealthCheckAuthenticationOauthSecretRetryRulesTypedDict = TypeAliasType(
         HealthCheckAuthenticationOauthSecretHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckAuthenticationOauthSecretRetryRules(BaseModel):
@@ -1215,6 +1218,7 @@ HealthCheckAuthenticationOauthSecretRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
@@ -1259,6 +1263,7 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     template_refresh_url: NotRequired[str]
     r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationOauthSecretDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationOauthSecretCollectRequestHeaderTypedDict]
     ]
@@ -1274,6 +1279,7 @@ class HealthCheckAuthenticationOauthSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationOauthSecretRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -1371,6 +1377,7 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
     r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationOauthSecretDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationOauthSecretCollectRequestHeader]],
@@ -1406,6 +1413,7 @@ class HealthCheckAuthenticationOauthSecret(BaseModel):
         Optional[HealthCheckAuthenticationOauthSecretRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -2435,6 +2443,7 @@ HealthCheckAuthenticationOauthDiscoveryTypedDict = TypeAliasType(
         HealthCheckAuthenticationOauthHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckAuthenticationOauthDiscovery(BaseModel):
@@ -2473,6 +2482,7 @@ HealthCheckAuthenticationOauthDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckAuthenticationOauthHealthCheckMethod(
@@ -2653,6 +2663,7 @@ HealthCheckAuthenticationOauthRetryRulesTypedDict = TypeAliasType(
         HealthCheckAuthenticationOauthHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckAuthenticationOauthRetryRules(BaseModel):
@@ -2689,6 +2700,7 @@ HealthCheckAuthenticationOauthRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckAuthenticationOauthTypedDict(TypedDict):
@@ -2733,6 +2745,7 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     template_refresh_url: NotRequired[str]
     r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationOauthDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationOauthCollectRequestHeaderTypedDict]
     ]
@@ -2748,6 +2761,7 @@ class HealthCheckAuthenticationOauthTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationOauthRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -2847,6 +2861,7 @@ class HealthCheckAuthenticationOauth(BaseModel):
     r"""Binds 'refreshUrl' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'refreshUrl' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationOauthDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationOauthCollectRequestHeader]],
@@ -2882,6 +2897,7 @@ class HealthCheckAuthenticationOauth(BaseModel):
         Optional[HealthCheckAuthenticationOauthRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -3907,6 +3923,7 @@ HealthCheckAuthenticationLoginSecretDiscoveryTypedDict = TypeAliasType(
         HealthCheckAuthenticationLoginSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckAuthenticationLoginSecretDiscovery(BaseModel):
@@ -3945,6 +3962,7 @@ HealthCheckAuthenticationLoginSecretDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckAuthenticationLoginSecretHealthCheckMethod(
@@ -4129,6 +4147,7 @@ HealthCheckAuthenticationLoginSecretRetryRulesTypedDict = TypeAliasType(
         HealthCheckAuthenticationLoginSecretHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckAuthenticationLoginSecretRetryRules(BaseModel):
@@ -4165,6 +4184,7 @@ HealthCheckAuthenticationLoginSecretRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
@@ -4193,6 +4213,7 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     template_token_resp_attribute: NotRequired[str]
     r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationLoginSecretDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationLoginSecretCollectRequestHeaderTypedDict]
     ]
@@ -4208,6 +4229,7 @@ class HealthCheckAuthenticationLoginSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationLoginSecretRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -4289,6 +4311,7 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
     r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationLoginSecretDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationLoginSecretCollectRequestHeader]],
@@ -4324,6 +4347,7 @@ class HealthCheckAuthenticationLoginSecret(BaseModel):
         Optional[HealthCheckAuthenticationLoginSecretRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -5383,6 +5407,7 @@ HealthCheckAuthenticationLoginDiscoveryTypedDict = TypeAliasType(
         HealthCheckAuthenticationLoginHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckAuthenticationLoginDiscovery(BaseModel):
@@ -5421,6 +5446,7 @@ HealthCheckAuthenticationLoginDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckAuthenticationLoginHealthCheckMethod(
@@ -5601,6 +5627,7 @@ HealthCheckAuthenticationLoginRetryRulesTypedDict = TypeAliasType(
         HealthCheckAuthenticationLoginHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckAuthenticationLoginRetryRules(BaseModel):
@@ -5637,6 +5664,7 @@ HealthCheckAuthenticationLoginRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckAuthenticationLoginTypedDict(TypedDict):
@@ -5671,6 +5699,7 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
     template_token_resp_attribute: NotRequired[str]
     r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationLoginDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationLoginCollectRequestHeaderTypedDict]
     ]
@@ -5686,6 +5715,7 @@ class HealthCheckAuthenticationLoginTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationLoginRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     client_secret_param_name: NotRequired[str]
@@ -5774,6 +5804,7 @@ class HealthCheckAuthenticationLogin(BaseModel):
     r"""Binds 'tokenRespAttribute' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'tokenRespAttribute' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationLoginDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationLoginCollectRequestHeader]],
@@ -5809,6 +5840,7 @@ class HealthCheckAuthenticationLogin(BaseModel):
         Optional[HealthCheckAuthenticationLoginRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -6854,6 +6886,7 @@ HealthCheckAuthenticationBasicSecretDiscoveryTypedDict = TypeAliasType(
         HealthCheckAuthenticationBasicSecretHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckAuthenticationBasicSecretDiscovery(BaseModel):
@@ -6892,6 +6925,7 @@ HealthCheckAuthenticationBasicSecretDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckAuthenticationBasicSecretHealthCheckMethod(
@@ -7076,6 +7110,7 @@ HealthCheckAuthenticationBasicSecretRetryRulesTypedDict = TypeAliasType(
         HealthCheckAuthenticationBasicSecretHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckAuthenticationBasicSecretRetryRules(BaseModel):
@@ -7112,6 +7147,7 @@ HealthCheckAuthenticationBasicSecretRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
@@ -7124,6 +7160,7 @@ class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
     collect_method: HealthCheckAuthenticationBasicSecretHealthCheckMethod
     r"""Health check HTTP method."""
     discovery: NotRequired[HealthCheckAuthenticationBasicSecretDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationBasicSecretCollectRequestHeaderTypedDict]
     ]
@@ -7139,6 +7176,7 @@ class HealthCheckAuthenticationBasicSecretTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationBasicSecretRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -7206,6 +7244,7 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
     r"""Health check HTTP method."""
 
     discovery: Optional[HealthCheckAuthenticationBasicSecretDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationBasicSecretCollectRequestHeader]],
@@ -7241,6 +7280,7 @@ class HealthCheckAuthenticationBasicSecret(BaseModel):
         Optional[HealthCheckAuthenticationBasicSecretRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -8335,6 +8375,7 @@ HealthCheckAuthenticationBasicDiscoveryTypedDict = TypeAliasType(
         HealthCheckAuthenticationBasicHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckAuthenticationBasicDiscovery(BaseModel):
@@ -8373,6 +8414,7 @@ HealthCheckAuthenticationBasicDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckAuthenticationBasicHealthCheckMethod(
@@ -8553,6 +8595,7 @@ HealthCheckAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
         HealthCheckAuthenticationBasicHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckAuthenticationBasicRetryRules(BaseModel):
@@ -8589,6 +8632,7 @@ HealthCheckAuthenticationBasicRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckAuthenticationBasicTypedDict(TypedDict):
@@ -8607,6 +8651,7 @@ class HealthCheckAuthenticationBasicTypedDict(TypedDict):
     template_password: NotRequired[str]
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
     discovery: NotRequired[HealthCheckAuthenticationBasicDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationBasicCollectRequestHeaderTypedDict]
     ]
@@ -8622,6 +8667,7 @@ class HealthCheckAuthenticationBasicTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationBasicRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     credentials_secret: NotRequired[str]
     r"""Select or create a stored secret that references your credentials"""
     login_url: NotRequired[str]
@@ -8696,6 +8742,7 @@ class HealthCheckAuthenticationBasic(BaseModel):
     r"""Binds 'password' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'password' at runtime."""
 
     discovery: Optional[HealthCheckAuthenticationBasicDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationBasicCollectRequestHeader]],
@@ -8731,6 +8778,7 @@ class HealthCheckAuthenticationBasic(BaseModel):
         Optional[HealthCheckAuthenticationBasicRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -9811,6 +9859,7 @@ HealthCheckAuthenticationNoneDiscoveryTypedDict = TypeAliasType(
         HealthCheckAuthenticationNoneHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckAuthenticationNoneDiscovery(BaseModel):
@@ -9849,6 +9898,7 @@ HealthCheckAuthenticationNoneDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckAuthenticationNoneHealthCheckMethod(

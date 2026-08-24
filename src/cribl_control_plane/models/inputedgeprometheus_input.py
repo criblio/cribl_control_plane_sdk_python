@@ -66,7 +66,7 @@ class InputEdgePrometheusAuthenticationMethod(str, Enum, metaclass=utils.OpenEnu
     KUBERNETES = "kubernetes"
 
 
-class InputEdgePrometheusTargetTypedDict(TypedDict):
+class TargetTypedDict(TypedDict):
     host: str
     r"""Name of host from which to pull metrics."""
     protocol: NotRequired[ProtocolOptionsTargetsItems]
@@ -77,7 +77,7 @@ class InputEdgePrometheusTargetTypedDict(TypedDict):
     r"""Path to use when collecting metrics from discovered targets"""
 
 
-class InputEdgePrometheusTarget(BaseModel):
+class Target(BaseModel):
     host: str
     r"""Name of host from which to pull metrics."""
 
@@ -116,14 +116,14 @@ class InputEdgePrometheusTarget(BaseModel):
         return m
 
 
-class InputEdgePrometheusPodFilterTypedDict(TypedDict):
+class PodFilterTypedDict(TypedDict):
     filter_: str
     r"""JavaScript expression applied to pods objects. Return 'true' to include it."""
     description: NotRequired[str]
     r"""Optional description of this rule's purpose"""
 
 
-class InputEdgePrometheusPodFilter(BaseModel):
+class PodFilter(BaseModel):
     filter_: Annotated[str, pydantic.Field(alias="filter")]
     r"""JavaScript expression applied to pods objects. Return 'true' to include it."""
 
@@ -185,7 +185,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
-    targets: NotRequired[List[InputEdgePrometheusTargetTypedDict]]
+    targets: NotRequired[List[TargetTypedDict]]
     r"""Targets"""
     record_type: NotRequired[RecordTypeOptions]
     r"""DNS record type to resolve"""
@@ -233,7 +233,7 @@ class InputEdgePrometheusInputTypedDict(TypedDict):
     r"""The port number in the metrics URL for discovered targets."""
     scrape_path_expr: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
-    pod_filter: NotRequired[List[InputEdgePrometheusPodFilterTypedDict]]
+    pod_filter: NotRequired[List[PodFilterTypedDict]]
     r"""
     Add rules to decide which pods to discover for metrics.
     Pods are searched if no rules are given or of all the rules'
@@ -346,7 +346,7 @@ class InputEdgePrometheusInput(BaseModel):
     description: Optional[str] = None
     r"""Optional description for this configuration."""
 
-    targets: Optional[List[InputEdgePrometheusTarget]] = None
+    targets: Optional[List[Target]] = None
     r"""Targets"""
 
     record_type: Annotated[
@@ -451,7 +451,7 @@ class InputEdgePrometheusInput(BaseModel):
     r"""Path to use when collecting metrics from discovered targets"""
 
     pod_filter: Annotated[
-        Optional[List[InputEdgePrometheusPodFilter]], pydantic.Field(alias="podFilter")
+        Optional[List[PodFilter]], pydantic.Field(alias="podFilter")
     ] = None
     r"""
     Add rules to decide which pods to discover for metrics.
@@ -666,7 +666,7 @@ class InputEdgePrometheusInput(BaseModel):
 
 
 try:
-    InputEdgePrometheusPodFilter.model_rebuild()
+    PodFilter.model_rebuild()
 except NameError:
     pass
 try:

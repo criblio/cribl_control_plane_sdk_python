@@ -307,7 +307,7 @@ class Destinations(BaseSDK):
     def create(
         self,
         *,
-        request: Union[models.CreateOutputRequest, models.CreateOutputRequestTypedDict],
+        request: Union[models.CreateOutputOutput, models.CreateOutputOutputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -334,8 +334,8 @@ class Destinations(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.CreateOutputRequest)
-        request = cast(models.CreateOutputRequest, request)
+            request = utils.unmarshal(request, models.CreateOutputOutput)
+        request = cast(models.CreateOutputOutput, request)
 
         req = self._build_request(
             method="POST",
@@ -351,7 +351,7 @@ class Destinations(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateOutputRequest
+                request, False, False, "json", models.CreateOutputOutput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -407,7 +407,7 @@ class Destinations(BaseSDK):
     async def create_async(
         self,
         *,
-        request: Union[models.CreateOutputRequest, models.CreateOutputRequestTypedDict],
+        request: Union[models.CreateOutputOutput, models.CreateOutputOutputTypedDict],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -434,8 +434,8 @@ class Destinations(BaseSDK):
             base_url = self._get_url(base_url, url_variables)
 
         if not isinstance(request, BaseModel):
-            request = utils.unmarshal(request, models.CreateOutputRequest)
-        request = cast(models.CreateOutputRequest, request)
+            request = utils.unmarshal(request, models.CreateOutputOutput)
+        request = cast(models.CreateOutputOutput, request)
 
         req = self._build_request_async(
             method="POST",
@@ -451,7 +451,7 @@ class Destinations(BaseSDK):
             http_headers=http_headers,
             security=self.sdk_configuration.security,
             get_serialized_body=lambda: utils.serialize_request_body(
-                request, False, False, "json", models.CreateOutputRequest
+                request, False, False, "json", models.CreateOutputOutput
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,

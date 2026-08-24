@@ -27,14 +27,14 @@ class InputSplunkSearchType(str, Enum):
     SPLUNK_SEARCH = "splunk_search"
 
 
-class InputSplunkSearchEndpointParamTypedDict(TypedDict):
+class EndpointParamTypedDict(TypedDict):
     name: str
     r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class InputSplunkSearchEndpointParam(BaseModel):
+class EndpointParam(BaseModel):
     name: str
     r"""Parameter Name"""
 
@@ -42,14 +42,14 @@ class InputSplunkSearchEndpointParam(BaseModel):
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class InputSplunkSearchEndpointHeaderTypedDict(TypedDict):
+class EndpointHeaderTypedDict(TypedDict):
     name: str
     r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class InputSplunkSearchEndpointHeader(BaseModel):
+class EndpointHeader(BaseModel):
     name: str
     r"""Header Name"""
 
@@ -117,9 +117,9 @@ class InputSplunkSearchInputTypedDict(TypedDict):
     r"""The earliest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-16m@m'"""
     latest: NotRequired[str]
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
-    endpoint_params: NotRequired[List[InputSplunkSearchEndpointParamTypedDict]]
+    endpoint_params: NotRequired[List[EndpointParamTypedDict]]
     r"""Optional request parameters to send to the endpoint"""
-    endpoint_headers: NotRequired[List[InputSplunkSearchEndpointHeaderTypedDict]]
+    endpoint_headers: NotRequired[List[EndpointHeaderTypedDict]]
     r"""Optional request headers to send to the endpoint"""
     log_level: NotRequired[InputSplunkSearchLogLevel]
     r"""Collector runtime log level (verbosity)"""
@@ -239,14 +239,12 @@ class InputSplunkSearchInput(BaseModel):
     r"""The latest time boundary for the search. Can be an exact or relative time. Examples: '2022-01-14T12:00:00Z' or '-1m@m'"""
 
     endpoint_params: Annotated[
-        Optional[List[InputSplunkSearchEndpointParam]],
-        pydantic.Field(alias="endpointParams"),
+        Optional[List[EndpointParam]], pydantic.Field(alias="endpointParams")
     ] = None
     r"""Optional request parameters to send to the endpoint"""
 
     endpoint_headers: Annotated[
-        Optional[List[InputSplunkSearchEndpointHeader]],
-        pydantic.Field(alias="endpointHeaders"),
+        Optional[List[EndpointHeader]], pydantic.Field(alias="endpointHeaders")
     ] = None
     r"""Optional request headers to send to the endpoint"""
 

@@ -28,14 +28,14 @@ class InputCriblLakeHTTPType(str, Enum):
     CRIBL_LAKE_HTTP = "cribl_lake_http"
 
 
-class InputCriblLakeHTTPSplunkHecMetadataTypedDict(TypedDict):
+class SplunkHecMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""When enabled, the token value is available on events as __hecToken"""
     default_dataset: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
 
 
-class InputCriblLakeHTTPSplunkHecMetadata(BaseModel):
+class SplunkHecMetadata(BaseModel):
     enabled: Optional[bool] = None
     r"""When enabled, the token value is available on events as __hecToken"""
 
@@ -64,13 +64,13 @@ class InputCriblLakeHTTPSplunkHecMetadata(BaseModel):
         return m
 
 
-class InputCriblLakeHTTPElasticsearchMetadataTypedDict(TypedDict):
+class ElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
     r"""Elasticsearch"""
     default_dataset: NotRequired[str]
 
 
-class InputCriblLakeHTTPElasticsearchMetadata(BaseModel):
+class ElasticsearchMetadata(BaseModel):
     enabled: Optional[bool] = None
     r"""Elasticsearch"""
 
@@ -95,19 +95,17 @@ class InputCriblLakeHTTPElasticsearchMetadata(BaseModel):
         return m
 
 
-class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
+class AuthTokensExtTypedDict(TypedDict):
     token: str
     r"""Token"""
     description: NotRequired[str]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this token"""
-    splunk_hec_metadata: NotRequired[InputCriblLakeHTTPSplunkHecMetadataTypedDict]
-    elasticsearch_metadata: NotRequired[
-        InputCriblLakeHTTPElasticsearchMetadataTypedDict
-    ]
+    splunk_hec_metadata: NotRequired[SplunkHecMetadataTypedDict]
+    elasticsearch_metadata: NotRequired[ElasticsearchMetadataTypedDict]
 
 
-class InputCriblLakeHTTPAuthTokensExt(BaseModel):
+class AuthTokensExt(BaseModel):
     token: str
     r"""Token"""
 
@@ -117,13 +115,11 @@ class InputCriblLakeHTTPAuthTokensExt(BaseModel):
     r"""Fields to add to events referencing this token"""
 
     splunk_hec_metadata: Annotated[
-        Optional[InputCriblLakeHTTPSplunkHecMetadata],
-        pydantic.Field(alias="splunkHecMetadata"),
+        Optional[SplunkHecMetadata], pydantic.Field(alias="splunkHecMetadata")
     ] = None
 
     elasticsearch_metadata: Annotated[
-        Optional[InputCriblLakeHTTPElasticsearchMetadata],
-        pydantic.Field(alias="elasticsearchMetadata"),
+        Optional[ElasticsearchMetadata], pydantic.Field(alias="elasticsearchMetadata")
     ] = None
 
     @model_serializer(mode="wrap")
@@ -205,7 +201,7 @@ class InputCriblLakeHTTPInputTypedDict(TypedDict):
     r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_tokens_ext: NotRequired[List[InputCriblLakeHTTPAuthTokensExtTypedDict]]
+    auth_tokens_ext: NotRequired[List[AuthTokensExtTypedDict]]
     r"""Auth tokens"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -348,8 +344,7 @@ class InputCriblLakeHTTPInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_tokens_ext: Annotated[
-        Optional[List[InputCriblLakeHTTPAuthTokensExt]],
-        pydantic.Field(alias="authTokensExt"),
+        Optional[List[AuthTokensExt]], pydantic.Field(alias="authTokensExt")
     ] = None
     r"""Auth tokens"""
 
@@ -454,15 +449,15 @@ class InputCriblLakeHTTPInput(BaseModel):
 
 
 try:
-    InputCriblLakeHTTPSplunkHecMetadata.model_rebuild()
+    SplunkHecMetadata.model_rebuild()
 except NameError:
     pass
 try:
-    InputCriblLakeHTTPElasticsearchMetadata.model_rebuild()
+    ElasticsearchMetadata.model_rebuild()
 except NameError:
     pass
 try:
-    InputCriblLakeHTTPAuthTokensExt.model_rebuild()
+    AuthTokensExt.model_rebuild()
 except NameError:
     pass
 try:

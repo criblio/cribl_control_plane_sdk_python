@@ -35,7 +35,7 @@ class OutputNewrelicType(str, Enum):
     NEWRELIC = "newrelic"
 
 
-class OutputNewrelicFieldName(str, Enum, metaclass=utils.OpenEnumMeta):
+class FieldName(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Name of the metadata field."""
 
     SERVICE = "service"
@@ -44,15 +44,15 @@ class OutputNewrelicFieldName(str, Enum, metaclass=utils.OpenEnumMeta):
     AUDIT_ID = "auditId"
 
 
-class OutputNewrelicMetadatumTypedDict(TypedDict):
-    name: OutputNewrelicFieldName
+class MetadatumTypedDict(TypedDict):
+    name: FieldName
     r"""Name of the metadata field."""
     value: str
     r"""JavaScript expression to compute field's value, enclosed in quotes or backticks. (Can evaluate to a constant.)"""
 
 
-class OutputNewrelicMetadatum(BaseModel):
-    name: OutputNewrelicFieldName
+class Metadatum(BaseModel):
+    name: FieldName
     r"""Name of the metadata field."""
 
     value: str
@@ -62,7 +62,7 @@ class OutputNewrelicMetadatum(BaseModel):
     def serialize_name(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputNewrelicFieldName(value)
+                return models.FieldName(value)
             except ValueError:
                 return value
         return value
@@ -95,7 +95,7 @@ class OutputNewrelicTypedDict(TypedDict):
     r"""Name of the logtype to send with events, e.g.: observability, access_log. The event's 'sourcetype' field (if set) will override this value."""
     message_field: NotRequired[str]
     r"""Name of field to send as log message value. If not present, event will be serialized and sent as JSON."""
-    metadata: NotRequired[List[OutputNewrelicMetadatumTypedDict]]
+    metadata: NotRequired[List[MetadatumTypedDict]]
     r"""Fields to add to events from this input"""
     concurrency: NotRequired[float]
     r"""Maximum number of ongoing requests before blocking"""
@@ -112,6 +112,8 @@ class OutputNewrelicTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -210,7 +212,7 @@ class OutputNewrelic(BaseModel):
     message_field: Annotated[Optional[str], pydantic.Field(alias="messageField")] = None
     r"""Name of field to send as log message value. If not present, event will be serialized and sent as JSON."""
 
-    metadata: Optional[List[OutputNewrelicMetadatum]] = None
+    metadata: Optional[List[Metadatum]] = None
     r"""Fields to add to events from this input"""
 
     concurrency: Optional[float] = None
@@ -239,6 +241,11 @@ class OutputNewrelic(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -474,6 +481,7 @@ class OutputNewrelic(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "useRoundRobinDns",

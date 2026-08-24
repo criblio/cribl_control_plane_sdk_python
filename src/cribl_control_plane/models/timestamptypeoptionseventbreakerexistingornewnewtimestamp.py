@@ -8,7 +8,7 @@ from enum import Enum
 class TimestampTypeOptionsEventBreakerExistingOrNewNewTimestamp(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Timestamp type"""
+    r"""Method to use for timestamp extraction. Use <code>auto</code> for automatic detection, <code>format</code> to specify a strptime format, or <code>current</code> to use the current system time."""
 
     AUTO = "auto"
     FORMAT = "format"

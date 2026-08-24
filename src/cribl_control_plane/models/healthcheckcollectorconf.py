@@ -144,6 +144,7 @@ HealthCheckAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
         HealthCheckAuthenticationNoneHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckAuthenticationNoneRetryRules(BaseModel):
@@ -180,6 +181,7 @@ HealthCheckAuthenticationNoneRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckAuthenticationNoneTypedDict(TypedDict):
@@ -190,6 +192,7 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     collect_method: HealthCheckAuthenticationNoneHealthCheckMethod
     r"""Health check HTTP method."""
     discovery: NotRequired[HealthCheckAuthenticationNoneDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckAuthenticationNoneCollectRequestHeaderTypedDict]
     ]
@@ -205,6 +208,7 @@ class HealthCheckAuthenticationNoneTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckAuthenticationNoneRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -271,6 +275,7 @@ class HealthCheckAuthenticationNone(BaseModel):
     r"""Health check HTTP method."""
 
     discovery: Optional[HealthCheckAuthenticationNoneDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckAuthenticationNoneCollectRequestHeader]],
@@ -306,6 +311,7 @@ class HealthCheckAuthenticationNone(BaseModel):
         Optional[HealthCheckAuthenticationNoneRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -1403,6 +1409,7 @@ HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict = TypeAliasType(
         HealthCheckCollectMethodPostWithBodyHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckCollectMethodPostWithBodyDiscovery(BaseModel):
@@ -1441,6 +1448,7 @@ HealthCheckCollectMethodPostWithBodyDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckCollectMethodPostWithBodyCollectRequestHeaderTypedDict(TypedDict):
@@ -1626,6 +1634,7 @@ HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict = TypeAliasType(
         HealthCheckCollectMethodPostWithBodyHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckCollectMethodPostWithBodyRetryRules(BaseModel):
@@ -1662,6 +1671,7 @@ HealthCheckCollectMethodPostWithBodyRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
@@ -1674,6 +1684,7 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     collect_body: NotRequired[str]
     r"""Template for POST body to send with the health check request. You can reference parameters from the Discover response, using template params of the form: ${variable}."""
     discovery: NotRequired[HealthCheckCollectMethodPostWithBodyDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckCollectMethodPostWithBodyCollectRequestHeaderTypedDict]
     ]
@@ -1689,6 +1700,7 @@ class HealthCheckCollectMethodPostWithBodyTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostWithBodyRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -1758,6 +1770,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
     r"""Template for POST body to send with the health check request. You can reference parameters from the Discover response, using template params of the form: ${variable}."""
 
     discovery: Optional[HealthCheckCollectMethodPostWithBodyDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckCollectMethodPostWithBodyCollectRequestHeader]],
@@ -1793,6 +1806,7 @@ class HealthCheckCollectMethodPostWithBody(BaseModel):
         Optional[HealthCheckCollectMethodPostWithBodyRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -2893,6 +2907,7 @@ HealthCheckCollectMethodPostDiscoveryTypedDict = TypeAliasType(
         HealthCheckCollectMethodPostHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckCollectMethodPostDiscovery(BaseModel):
@@ -2931,6 +2946,7 @@ HealthCheckCollectMethodPostDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckCollectMethodPostCollectRequestHeaderTypedDict(TypedDict):
@@ -3110,6 +3126,7 @@ HealthCheckCollectMethodPostRetryRulesTypedDict = TypeAliasType(
         HealthCheckCollectMethodPostHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckCollectMethodPostRetryRules(BaseModel):
@@ -3146,6 +3163,7 @@ HealthCheckCollectMethodPostRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckCollectMethodPostTypedDict(TypedDict):
@@ -3160,6 +3178,7 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
     ]
     r"""Optional health check request parameters."""
     discovery: NotRequired[HealthCheckCollectMethodPostDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckCollectMethodPostCollectRequestHeaderTypedDict]
     ]
@@ -3175,6 +3194,7 @@ class HealthCheckCollectMethodPostTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodPostRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -3247,6 +3267,7 @@ class HealthCheckCollectMethodPost(BaseModel):
     r"""Optional health check request parameters."""
 
     discovery: Optional[HealthCheckCollectMethodPostDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckCollectMethodPostCollectRequestHeader]],
@@ -3282,6 +3303,7 @@ class HealthCheckCollectMethodPost(BaseModel):
         Optional[HealthCheckCollectMethodPostRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""
@@ -4393,6 +4415,7 @@ HealthCheckCollectMethodGetDiscoveryTypedDict = TypeAliasType(
         HealthCheckCollectMethodGetHealthCheckDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownHealthCheckCollectMethodGetDiscovery(BaseModel):
@@ -4431,6 +4454,7 @@ HealthCheckCollectMethodGetDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class HealthCheckCollectMethodGetCollectRequestHeaderTypedDict(TypedDict):
@@ -4610,6 +4634,7 @@ HealthCheckCollectMethodGetRetryRulesTypedDict = TypeAliasType(
         HealthCheckCollectMethodGetHealthCheckRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownHealthCheckCollectMethodGetRetryRules(BaseModel):
@@ -4646,6 +4671,7 @@ HealthCheckCollectMethodGetRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class HealthCheckCollectMethodGetTypedDict(TypedDict):
@@ -4660,6 +4686,7 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
     ]
     r"""Optional health check request parameters."""
     discovery: NotRequired[HealthCheckCollectMethodGetDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[HealthCheckCollectMethodGetCollectRequestHeaderTypedDict]
     ]
@@ -4675,6 +4702,7 @@ class HealthCheckCollectMethodGetTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text."""
     retry_rules: NotRequired[HealthCheckCollectMethodGetRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     username: NotRequired[str]
     r"""Basic authentication username"""
     template_username: NotRequired[str]
@@ -4747,6 +4775,7 @@ class HealthCheckCollectMethodGet(BaseModel):
     r"""Optional health check request parameters."""
 
     discovery: Optional[HealthCheckCollectMethodGetDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[HealthCheckCollectMethodGetCollectRequestHeader]],
@@ -4782,6 +4811,7 @@ class HealthCheckCollectMethodGet(BaseModel):
         Optional[HealthCheckCollectMethodGetRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     username: Optional[str] = None
     r"""Basic authentication username"""

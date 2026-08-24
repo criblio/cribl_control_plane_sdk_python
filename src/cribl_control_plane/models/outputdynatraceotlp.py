@@ -15,7 +15,7 @@ from .keyvaluemetadataconfoutputfilesystem import (
     KeyValueMetadataConfOutputFilesystemTypedDict,
 )
 from .modeoptions import ModeOptions
-from .otlpversionoptions131 import OtlpVersionOptions131
+from .otlpversionoptions import OtlpVersionOptions
 from .queuefullbehavioroptions import QueueFullBehaviorOptions
 from .responseretrysettingconfoutputwebhook import (
     ResponseRetrySettingConfOutputWebhook,
@@ -47,7 +47,7 @@ class OutputDynatraceOtlpProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     HTTP = "http"
 
 
-class OutputDynatraceOtlpEndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
+class EndpointType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the type of Dynatrace endpoint configured"""
 
     # SaaS
@@ -71,9 +71,9 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     r"""Select a transport option for Dynatrace"""
     endpoint: str
     r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
-    otlp_version: OtlpVersionOptions131
+    otlp_version: OtlpVersionOptions
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
-    endpoint_type: OutputDynatraceOtlpEndpointType
+    endpoint_type: EndpointType
     r"""Select the type of Dynatrace endpoint configured"""
     token_secret: str
     r"""Select or create a stored text secret"""
@@ -87,6 +87,8 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
     r"""Metadata tags used for categorization and filtering."""
+    preserve_native_any_value: NotRequired[bool]
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
     compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_compress: NotRequired[CompressionOptionsMessages]
@@ -109,6 +111,8 @@ class OutputDynatraceOtlpTypedDict(TypedDict):
     r"""Maximum size (in KB) of the request body. The maximum payload size is 4 MB. If this limit is exceeded, the entire OTLP message is dropped"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
@@ -185,12 +189,10 @@ class OutputDynatraceOtlp(BaseModel):
     endpoint: str
     r"""The endpoint where Dynatrace events will be sent. Enter any valid URL or an IP address (IPv4 or IPv6; enclose IPv6 addresses in square brackets)"""
 
-    otlp_version: Annotated[OtlpVersionOptions131, pydantic.Field(alias="otlpVersion")]
+    otlp_version: Annotated[OtlpVersionOptions, pydantic.Field(alias="otlpVersion")]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
-    endpoint_type: Annotated[
-        OutputDynatraceOtlpEndpointType, pydantic.Field(alias="endpointType")
-    ]
+    endpoint_type: Annotated[EndpointType, pydantic.Field(alias="endpointType")]
     r"""Select the type of Dynatrace endpoint configured"""
 
     token_secret: Annotated[str, pydantic.Field(alias="tokenSecret")]
@@ -212,6 +214,11 @@ class OutputDynatraceOtlp(BaseModel):
 
     streamtags: Optional[List[str]] = None
     r"""Metadata tags used for categorization and filtering."""
+
+    preserve_native_any_value: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveNativeAnyValue")
+    ] = None
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
 
     compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
@@ -259,6 +266,11 @@ class OutputDynatraceOtlp(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -418,7 +430,7 @@ class OutputDynatraceOtlp(BaseModel):
     def serialize_otlp_version(self, value):
         if isinstance(value, str):
             try:
-                return models.OtlpVersionOptions131(value)
+                return models.OtlpVersionOptions(value)
             except ValueError:
                 return value
         return value
@@ -454,7 +466,7 @@ class OutputDynatraceOtlp(BaseModel):
     def serialize_endpoint_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputDynatraceOtlpEndpointType(value)
+                return models.EndpointType(value)
             except ValueError:
                 return value
         return value
@@ -504,6 +516,7 @@ class OutputDynatraceOtlp(BaseModel):
                 "systemFields",
                 "environment",
                 "streamtags",
+                "preserveNativeAnyValue",
                 "compress",
                 "httpCompress",
                 "httpTracesEndpointOverride",
@@ -515,6 +528,7 @@ class OutputDynatraceOtlp(BaseModel):
                 "concurrency",
                 "maxPayloadSizeKB",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "failedRequestLoggingMode",
                 "connectionTimeout",

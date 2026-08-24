@@ -896,6 +896,7 @@ PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
         RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderTypedDict,
     ],
 )
+r"""Settings that control how the Collector paginates through Discover results."""
 
 
 class UnknownPaginationTypeRestDiscoveryDiscoverTypeHTTP(BaseModel):
@@ -938,6 +939,7 @@ PaginationTypeRestDiscoveryDiscoverTypeHTTP = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector paginates through Discover results."""
 
 
 try:

@@ -2,10 +2,7 @@
 
 from __future__ import annotations
 from .authenticationmethodoptionsauth import AuthenticationMethodOptionsAuth
-from .certificatetypeazureblobauthtypeclientcert import (
-    CertificateTypeAzureBlobAuthTypeClientCert,
-    CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
-)
+from .certificatetype import CertificateType, CertificateTypeTypedDict
 from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
@@ -33,7 +30,7 @@ class InputEventhubAmqpType(str, Enum):
     EVENTHUB_AMQP = "eventhub_amqp"
 
 
-class InputEventhubAmqpAuthenticationMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+class AuthenticationMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Authentication mechanism"""
 
     # Connection String
@@ -83,8 +80,8 @@ class InputEventhubAmqpCertificate(BaseModel):
         return m
 
 
-class InputEventhubAmqpAuthTypedDict(TypedDict):
-    mechanism: InputEventhubAmqpAuthenticationMechanism
+class AuthTypedDict(TypedDict):
+    mechanism: AuthenticationMechanism
     r"""Authentication mechanism"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
@@ -111,8 +108,8 @@ class InputEventhubAmqpAuthTypedDict(TypedDict):
     r"""Binds 'fullyQualifiedNamespace' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'fullyQualifiedNamespace' at runtime."""
 
 
-class InputEventhubAmqpAuth(BaseModel):
-    mechanism: InputEventhubAmqpAuthenticationMechanism
+class Auth(BaseModel):
+    mechanism: AuthenticationMechanism
     r"""Authentication mechanism"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
@@ -172,7 +169,7 @@ class InputEventhubAmqpAuth(BaseModel):
     def serialize_mechanism(self, value):
         if isinstance(value, str):
             try:
-                return models.InputEventhubAmqpAuthenticationMechanism(value)
+                return models.AuthenticationMechanism(value)
             except ValueError:
                 return value
         return value
@@ -237,7 +234,7 @@ class InputEventhubAmqpAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumM
     CLIENT_ASSERTION_RPC = "clientAssertion_rpc"
 
 
-class InputEventhubAmqpAzureBlobStorageTypedDict(TypedDict):
+class AzureBlobStorageTypedDict(TypedDict):
     r"""Azure Blob Storage"""
 
     container_name: str
@@ -258,7 +255,7 @@ class InputEventhubAmqpAzureBlobStorageTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_storage_account_name: NotRequired[str]
     r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -269,7 +266,7 @@ class InputEventhubAmqpAzureBlobStorageTypedDict(TypedDict):
     r"""Binds 'azureCloud' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'azureCloud' at runtime."""
 
 
-class InputEventhubAmqpAzureBlobStorage(BaseModel):
+class AzureBlobStorage(BaseModel):
     r"""Azure Blob Storage"""
 
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
@@ -308,7 +305,7 @@ class InputEventhubAmqpAzureBlobStorage(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_storage_account_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_storageAccountName")
@@ -372,15 +369,13 @@ class InputEventhubAmqpAzureBlobStorage(BaseModel):
         return m
 
 
-class InputEventhubAmqpCheckpointingTypedDict(TypedDict):
-    blob_store: InputEventhubAmqpAzureBlobStorageTypedDict
+class CheckpointingTypedDict(TypedDict):
+    blob_store: AzureBlobStorageTypedDict
     r"""Azure Blob Storage"""
 
 
-class InputEventhubAmqpCheckpointing(BaseModel):
-    blob_store: Annotated[
-        InputEventhubAmqpAzureBlobStorage, pydantic.Field(alias="blobStore")
-    ]
+class Checkpointing(BaseModel):
+    blob_store: Annotated[AzureBlobStorage, pydantic.Field(alias="blobStore")]
     r"""Azure Blob Storage"""
 
 
@@ -389,7 +384,7 @@ class InputEventhubAmqpInputTypedDict(TypedDict):
     r"""Connector type identifier."""
     consumer_group: str
     r"""The consumer group this instance belongs to. Default is '$Default'."""
-    checkpointing: InputEventhubAmqpCheckpointingTypedDict
+    checkpointing: CheckpointingTypedDict
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -409,7 +404,7 @@ class InputEventhubAmqpInputTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     event_hub_name: NotRequired[str]
     r"""The name of the Event Hub to consume from"""
-    auth: NotRequired[InputEventhubAmqpAuthTypedDict]
+    auth: NotRequired[AuthTypedDict]
     from_beginning: NotRequired[bool]
     r"""Start reading from earliest available data; relevant only during initial subscription"""
     max_batch_size: NotRequired[int]
@@ -449,7 +444,7 @@ class InputEventhubAmqpInput(BaseModel):
     consumer_group: Annotated[str, pydantic.Field(alias="consumerGroup")]
     r"""The consumer group this instance belongs to. Default is '$Default'."""
 
-    checkpointing: InputEventhubAmqpCheckpointing
+    checkpointing: Checkpointing
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -484,7 +479,7 @@ class InputEventhubAmqpInput(BaseModel):
     )
     r"""The name of the Event Hub to consume from"""
 
-    auth: Optional[InputEventhubAmqpAuth] = None
+    auth: Optional[Auth] = None
 
     from_beginning: Annotated[Optional[bool], pydantic.Field(alias="fromBeginning")] = (
         None
@@ -602,15 +597,15 @@ try:
 except NameError:
     pass
 try:
-    InputEventhubAmqpAuth.model_rebuild()
+    Auth.model_rebuild()
 except NameError:
     pass
 try:
-    InputEventhubAmqpAzureBlobStorage.model_rebuild()
+    AzureBlobStorage.model_rebuild()
 except NameError:
     pass
 try:
-    InputEventhubAmqpCheckpointing.model_rebuild()
+    Checkpointing.model_rebuild()
 except NameError:
     pass
 try:

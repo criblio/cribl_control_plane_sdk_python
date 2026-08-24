@@ -152,6 +152,27 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createVersionCommit" method="post" path="/version/commit" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.versions.commits.create(message="<value>")
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -315,6 +336,27 @@ with CriblControlPlane(
 ### Example Usage: VersionRevertResponseExamplesRevertResult
 
 <!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" example="VersionRevertResponseExamplesRevertResult" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.versions.commits.revert(commit="<value>")
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createVersionRevert" method="post" path="/version/revert" example="authenticationFailed" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

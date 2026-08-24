@@ -28,7 +28,7 @@ class PipelineFunctionSerdeID(str, Enum):
 
 
 class SerdeTypeGrokType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     # Auto
     AUTO = "auto"
@@ -61,7 +61,7 @@ class SerdeTypeGrokOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerdeTypeGrokTypedDict(TypedDict):
     type: SerdeTypeGrokType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
     mode: SerdeTypeGrokOperationMode
@@ -100,7 +100,7 @@ class SerdeTypeGrokTypedDict(TypedDict):
 
 class SerdeTypeGrok(BaseModel):
     type: SerdeTypeGrokType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     pattern: str
     r"""Grok pattern to extract fields. Syntax supported: %{PATTERN_NAME:FIELD_NAME}"""
@@ -220,7 +220,7 @@ class SerdeTypeGrok(BaseModel):
 
 
 class SerdeTypeRegexType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     # Auto
     AUTO = "auto"
@@ -253,7 +253,7 @@ class SerdeTypeRegexOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerdeTypeRegexTypedDict(TypedDict):
     type: SerdeTypeRegexType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
     regex: str
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
     mode: SerdeTypeRegexOperationMode
@@ -292,7 +292,7 @@ class SerdeTypeRegexTypedDict(TypedDict):
 
 class SerdeTypeRegex(BaseModel):
     type: SerdeTypeRegexType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     regex: str
     r"""Regex literal with named capturing groups, such as (?<foo>bar), or _NAME_ and _VALUE_ capturing groups, such as(?<_NAME_0>[^ =]+)=(?<_VALUE_0>[^,]+)"""
@@ -412,7 +412,7 @@ class SerdeTypeRegex(BaseModel):
 
 
 class SerdeTypeJSONType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     # Auto
     AUTO = "auto"
@@ -445,7 +445,7 @@ class SerdeTypeJSONOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerdeTypeJSONTypedDict(TypedDict):
     type: SerdeTypeJSONType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
     mode: SerdeTypeJSONOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
     src_field: NotRequired[str]
@@ -484,7 +484,7 @@ class SerdeTypeJSONTypedDict(TypedDict):
 
 class SerdeTypeJSON(BaseModel):
     type: SerdeTypeJSONType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     mode: SerdeTypeJSONOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
@@ -605,7 +605,7 @@ class SerdeTypeJSON(BaseModel):
 
 
 class SerdeTypeCsvType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     # Auto
     AUTO = "auto"
@@ -638,7 +638,7 @@ class SerdeTypeCsvOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerdeTypeCsvTypedDict(TypedDict):
     type: SerdeTypeCsvType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
     mode: SerdeTypeCsvOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
     src_field: NotRequired[str]
@@ -677,7 +677,7 @@ class SerdeTypeCsvTypedDict(TypedDict):
 
 class SerdeTypeCsv(BaseModel):
     type: SerdeTypeCsvType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     mode: SerdeTypeCsvOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
@@ -798,7 +798,7 @@ class SerdeTypeCsv(BaseModel):
 
 
 class SerdeTypeDelimType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     # Auto
     AUTO = "auto"
@@ -831,7 +831,7 @@ class SerdeTypeDelimOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerdeTypeDelimTypedDict(TypedDict):
     type: SerdeTypeDelimType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
     mode: SerdeTypeDelimOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
     src_field: NotRequired[str]
@@ -878,7 +878,7 @@ class SerdeTypeDelimTypedDict(TypedDict):
 
 class SerdeTypeDelim(BaseModel):
     type: SerdeTypeDelimType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     mode: SerdeTypeDelimOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
@@ -1015,7 +1015,7 @@ class SerdeTypeDelim(BaseModel):
 
 
 class SerdeTypeKvpType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     # Auto
     AUTO = "auto"
@@ -1048,7 +1048,7 @@ class SerdeTypeKvpOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerdeTypeKvpTypedDict(TypedDict):
     type: SerdeTypeKvpType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
     mode: SerdeTypeKvpOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
     src_field: NotRequired[str]
@@ -1089,7 +1089,7 @@ class SerdeTypeKvpTypedDict(TypedDict):
 
 class SerdeTypeKvp(BaseModel):
     type: SerdeTypeKvpType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     mode: SerdeTypeKvpOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
@@ -1214,7 +1214,7 @@ class SerdeTypeKvp(BaseModel):
 
 
 class SerdeTypeAutoType(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     # Auto
     AUTO = "auto"
@@ -1247,7 +1247,7 @@ class SerdeTypeAutoOperationMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class SerdeTypeAutoTypedDict(TypedDict):
     type: SerdeTypeAutoType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
     mode: SerdeTypeAutoOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""
     tag_datatype: NotRequired[bool]
@@ -1282,7 +1282,7 @@ class SerdeTypeAutoTypedDict(TypedDict):
 
 class SerdeTypeAuto(BaseModel):
     type: SerdeTypeAutoType
-    r"""Parser or formatter type to use"""
+    r"""Parser or formatter type to use."""
 
     mode: SerdeTypeAutoOperationMode
     r"""Extract creates new fields. Reserialize extracts and filters fields, and then reserializes."""

@@ -35,8 +35,8 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         fields: Optional[str] = None,
-        offset: Optional[int] = None,
         limit: Optional[int] = None,
+        offset: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -48,8 +48,8 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param fields: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param limit: Maximum number of Worker Groups, Outpost Groups, or Edge Fleets to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -68,8 +68,8 @@ class GroupsSDK(BaseSDK):
         request = models.GetProductsGroupsByProductRequest(
             product=product,
             fields=fields,
-            offset=offset,
             limit=limit,
+            offset=offset,
         )
 
         req = self._build_request(
@@ -136,8 +136,8 @@ class GroupsSDK(BaseSDK):
             return self.list(
                 product=product,
                 fields=fields,
-                offset=next_offset,
                 limit=limit,
+                offset=next_offset,
                 retries=retries,
                 server_url=server_url,
                 timeout_ms=timeout_ms,
@@ -170,8 +170,8 @@ class GroupsSDK(BaseSDK):
         *,
         product: models.ProductsCore,
         fields: Optional[str] = None,
-        offset: Optional[int] = None,
         limit: Optional[int] = None,
+        offset: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
@@ -183,8 +183,8 @@ class GroupsSDK(BaseSDK):
 
         :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
         :param fields: Comma-separated list of additional properties to include in the response. Available values are <code>git.commit</code>, <code>git.localChanges</code>, and <code>git.log</code>.
-        :param offset: Pagination offset
-        :param limit: Maximum number of items to return
+        :param limit: Maximum number of Worker Groups, Outpost Groups, or Edge Fleets to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -203,8 +203,8 @@ class GroupsSDK(BaseSDK):
         request = models.GetProductsGroupsByProductRequest(
             product=product,
             fields=fields,
-            offset=offset,
             limit=limit,
+            offset=offset,
         )
 
         req = self._build_request_async(
@@ -276,8 +276,8 @@ class GroupsSDK(BaseSDK):
             return self.list_async(
                 product=product,
                 fields=fields,
-                offset=next_offset,
                 limit=limit,
+                offset=next_offset,
                 retries=retries,
                 server_url=server_url,
                 timeout_ms=timeout_ms,
@@ -335,7 +335,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedConfigGroup:
+    ) -> models.CreateProductsGroupsByProductResponse:
         r"""Create a Worker Group, Outpost Group, or Edge Fleet
 
         Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
@@ -455,10 +455,18 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedConfigGroup, http_res)
+            return models.CreateProductsGroupsByProductResponse(
+                result=unmarshal_json_response(models.CountedConfigGroup, http_res),
+                headers={},
+            )
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, "429", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -501,7 +509,7 @@ class GroupsSDK(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedConfigGroup:
+    ) -> models.CreateProductsGroupsByProductResponse:
         r"""Create a Worker Group, Outpost Group, or Edge Fleet
 
         Create a new Worker Group, Outpost Group, or Edge Fleet for the specified Cribl product.
@@ -621,10 +629,18 @@ class GroupsSDK(BaseSDK):
 
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedConfigGroup, http_res)
+            return models.CreateProductsGroupsByProductResponse(
+                result=unmarshal_json_response(models.CountedConfigGroup, http_res),
+                headers={},
+            )
         if utils.match_response(http_res, "401", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, "429", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
@@ -889,7 +905,7 @@ class GroupsSDK(BaseSDK):
 
         Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
 
-        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
         :param cloud:
@@ -1076,7 +1092,7 @@ class GroupsSDK(BaseSDK):
 
         Update the specified Worker Group, Outpost Group, or Edge Fleet.<br/><br/>Provide a complete representation of the Group or Fleet that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Group or Fleet.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Group or Fleet might not function as expected.<br/><br/>**Warning**: Do not change the values for the following parameters in the body of PATCH requests. The request body must include the values as they appear in the <code>GET /products/{product}/groups/{id}</code> response.<br/> - <code>configVersion</code><br/> - <code>deployingWorkerCount</code><br/> - <code>incompatibleWorkerCount</code><br/> - <code>workerCount</code><br/> - <code>lookupDeployments</code>.
 
-        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
         :param id_param: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update.
         :param id: Unique identifier.
         :param cloud:
@@ -1231,7 +1247,7 @@ class GroupsSDK(BaseSDK):
 
         Delete the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
         :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
@@ -1331,7 +1347,7 @@ class GroupsSDK(BaseSDK):
 
         Delete the specified Worker Group, Outpost Group, or Edge Fleet.
 
-        :param product: Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for.
+        :param product: Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet.
         :param id: The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to delete.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method

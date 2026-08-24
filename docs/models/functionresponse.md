@@ -357,12 +357,6 @@ value: models.FunctionSerialize = /* values here */
 value: models.FunctionSidlookup = /* values here */
 ```
 
-### `models.FunctionSignalFilter`
-
-```python
-value: models.FunctionSignalFilter = /* values here */
-```
-
 ### `models.FunctionSnmpTrapSerialize`
 
 ```python

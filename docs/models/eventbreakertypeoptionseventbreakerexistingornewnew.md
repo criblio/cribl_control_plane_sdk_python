@@ -1,6 +1,6 @@
 # EventBreakerTypeOptionsEventBreakerExistingOrNewNew
 
-Event Breaker type
+Type of event-breaking rule to apply when creating a new inline ruleset.
 
 ## Example Usage
 

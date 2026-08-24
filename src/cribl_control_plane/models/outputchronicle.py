@@ -40,7 +40,7 @@ class OutputChronicleAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMet
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
-class OutputChronicleCustomLabelTypedDict(TypedDict):
+class CustomLabelTypedDict(TypedDict):
     key: str
     r"""Key"""
     value: str
@@ -49,7 +49,7 @@ class OutputChronicleCustomLabelTypedDict(TypedDict):
     r"""Designate this label for role-based access control and filtering"""
 
 
-class OutputChronicleCustomLabel(BaseModel):
+class CustomLabel(BaseModel):
     key: str
     r"""Key"""
 
@@ -131,6 +131,8 @@ class OutputChronicleTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -151,7 +153,7 @@ class OutputChronicleTypedDict(TypedDict):
     r"""User-configured environment namespace to identify the data domain the logs originated from. This namespace is used as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     log_text_field: NotRequired[str]
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
-    custom_labels: NotRequired[List[OutputChronicleCustomLabelTypedDict]]
+    custom_labels: NotRequired[List[CustomLabelTypedDict]]
     r"""Custom labels to be added to every event"""
     endpoint: NotRequired[str]
     r"""Chronicle API service endpoint. If empty, defaults to the Region-specific endpoint. Otherwise, it must point to a Chronicle API-compatible endpoint. (Example: https://custom-endpoint.googleapis.com)"""
@@ -291,6 +293,11 @@ class OutputChronicle(BaseModel):
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
+
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
     ] = None
@@ -342,7 +349,7 @@ class OutputChronicle(BaseModel):
     r"""Name of the event field that contains the log text to send. If not specified, Stream sends a JSON representation of the whole event."""
 
     custom_labels: Annotated[
-        Optional[List[OutputChronicleCustomLabel]], pydantic.Field(alias="customLabels")
+        Optional[List[CustomLabel]], pydantic.Field(alias="customLabels")
     ] = None
     r"""Custom labels to be added to every event"""
 
@@ -540,6 +547,7 @@ class OutputChronicle(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
@@ -594,7 +602,7 @@ class OutputChronicle(BaseModel):
 
 
 try:
-    OutputChronicleCustomLabel.model_rebuild()
+    CustomLabel.model_rebuild()
 except NameError:
     pass
 try:

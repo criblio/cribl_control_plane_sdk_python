@@ -101,6 +101,7 @@ class InputCrowdstrikeInputTypedDict(TypedDict):
     shared_assume_role_arn: NotRequired[bool]
     r"""Use the same settings for S3 and SQS"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     checkpointing: NotRequired[CheckpointingTypeTypedDict]
@@ -301,6 +302,7 @@ class InputCrowdstrikeInput(BaseModel):
     r"""Use the same settings for S3 and SQS"""
 
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""

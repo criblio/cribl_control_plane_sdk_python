@@ -19,7 +19,7 @@ from typing import Awaitable, Callable, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class GetCriblLakeDatasetByLakeIDFormat(str, Enum, metaclass=utils.OpenEnumMeta):
+class DatasetFormatFilter(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets."""
 
     DDSS = "ddss"
@@ -30,7 +30,7 @@ class GetCriblLakeDatasetByLakeIDRequestTypedDict(TypedDict):
     r"""The <code>id</code> of the Lake that contains the Lake Datasets to list."""
     storage_location_id: NotRequired[str]
     r"""Filter datasets by storage location ID. Use <code>default</code> for default storage location."""
-    format_: NotRequired[GetCriblLakeDatasetByLakeIDFormat]
+    format_: NotRequired[DatasetFormatFilter]
     r"""Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets."""
     exclude_ddss: NotRequired[bool]
     r"""Exclude DDSS format datasets from the response."""
@@ -66,7 +66,7 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
     r"""Filter datasets by storage location ID. Use <code>default</code> for default storage location."""
 
     format_: Annotated[
-        Optional[GetCriblLakeDatasetByLakeIDFormat],
+        Optional[DatasetFormatFilter],
         pydantic.Field(alias="format"),
         FieldMetadata(query=QueryParamMetadata(style="form", explode=True)),
     ] = None
@@ -130,7 +130,7 @@ class GetCriblLakeDatasetByLakeIDRequest(BaseModel):
     def serialize_format_(self, value):
         if isinstance(value, str):
             try:
-                return models.GetCriblLakeDatasetByLakeIDFormat(value)
+                return models.DatasetFormatFilter(value)
             except ValueError:
                 return value
         return value

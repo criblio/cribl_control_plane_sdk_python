@@ -346,6 +346,32 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateRoutesByPackAndId" method="patch" path="/p/{pack}/routes/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.routes.update(id_param="<value>", pack="<value>", id="<id>", routes=[
+        {
+            "name": "<value>",
+            "pipeline": "<value>",
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -529,6 +555,32 @@ with CriblControlPlane(
 ### Example Usage: RoutesResponseExamplesMultiRouteTable
 
 <!-- UsageSnippet language="python" operationID="createRoutesAppendByPackAndId" method="post" path="/p/{pack}/routes/{id}/append" example="RoutesResponseExamplesMultiRouteTable" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.packs.routes.append(id="<id>", pack="<value>", request_body=[
+        {
+            "name": "<value>",
+            "pipeline": "<value>",
+        },
+    ])
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createRoutesAppendByPackAndId" method="post" path="/p/{pack}/routes/{id}/append" example="authenticationFailed" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

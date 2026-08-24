@@ -63,7 +63,7 @@ class OutputDynatraceHTTPEndpoint(str, Enum, metaclass=utils.OpenEnumMeta):
     MANUAL = "manual"
 
 
-class OutputDynatraceHTTPTelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
+class TelemetryType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Telemetry type"""
 
     # Logs
@@ -87,7 +87,7 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     r"""How to format events before sending. Defaults to JSON. Plaintext is not currently supported."""
     endpoint: OutputDynatraceHTTPEndpoint
     r"""Endpoint"""
-    telemetry_type: OutputDynatraceHTTPTelemetryType
+    telemetry_type: TelemetryType
     r"""Telemetry type"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -118,6 +118,8 @@ class OutputDynatraceHTTPTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -197,9 +199,7 @@ class OutputDynatraceHTTP(BaseModel):
     endpoint: OutputDynatraceHTTPEndpoint
     r"""Endpoint"""
 
-    telemetry_type: Annotated[
-        OutputDynatraceHTTPTelemetryType, pydantic.Field(alias="telemetryType")
-    ]
+    telemetry_type: Annotated[TelemetryType, pydantic.Field(alias="telemetryType")]
     r"""Telemetry type"""
 
     id: Optional[str] = None
@@ -251,6 +251,11 @@ class OutputDynatraceHTTP(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -464,7 +469,7 @@ class OutputDynatraceHTTP(BaseModel):
     def serialize_telemetry_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputDynatraceHTTPTelemetryType(value)
+                return models.TelemetryType(value)
             except ValueError:
                 return value
         return value
@@ -513,6 +518,7 @@ class OutputDynatraceHTTP(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "useRoundRobinDns",

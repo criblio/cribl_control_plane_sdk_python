@@ -40,7 +40,7 @@ class Nodes(BaseSDK):
         Get a count of all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
         :param product: Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for.
-        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -140,7 +140,7 @@ class Nodes(BaseSDK):
         Get a count of all Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
         :param product: Name of the Cribl product to get the count of Worker, Edge, or Outpost Nodes for.
-        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>).
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -245,9 +245,9 @@ class Nodes(BaseSDK):
         Get detailed metadata for Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
         :param product: Name of the Cribl product to get Worker, Edge, or Outpost Nodes for.
-        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>).
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
-        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
+        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response (for example, <code>{\"field\":\"status\",\"op\":\"eq\",\"value\":\"healthy\"}</code>).
         :param sort: JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response.
         :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
@@ -394,9 +394,9 @@ class Nodes(BaseSDK):
         Get detailed metadata for Worker, Edge, or Outpost Nodes for the specified Cribl product.
 
         :param product: Name of the Cribl product to get Worker, Edge, or Outpost Nodes for.
-        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response.
+        :param filter_exp: Filter expression to evaluate against Nodes for inclusion in the response (for example, <code>status=='healthy'</code>).
         :param sort_exp: Sorting expression to evaluate against Nodes to specify the sort order for the response.
-        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response.
+        :param filter_: JSON-stringified filter object to evaluate against Nodes for inclusion in the response (for example, <code>{\"field\":\"status\",\"op\":\"eq\",\"value\":\"healthy\"}</code>).
         :param sort: JSON-stringified sorting object to evaluate against Nodes to specify the sort order for the response.
         :param limit: Maximum number of Nodes to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
         :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.

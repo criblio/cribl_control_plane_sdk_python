@@ -47,7 +47,7 @@ class InputPrometheusDiscoveryType(str, Enum, metaclass=utils.OpenEnumMeta):
     HTTP_SD = "http_sd"
 
 
-class InputPrometheusMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
+class MetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Protocol to use when collecting metrics"""
 
     HTTP = "http"
@@ -112,7 +112,7 @@ class InputPrometheusInputTypedDict(TypedDict):
     r"""The port number in the metrics URL for discovered targets"""
     name_list: NotRequired[List[str]]
     r"""List of DNS names to resolve"""
-    scrape_protocol: NotRequired[InputPrometheusMetricsProtocol]
+    scrape_protocol: NotRequired[MetricsProtocol]
     r"""Protocol to use when collecting metrics"""
     scrape_path: NotRequired[str]
     r"""Path to use when collecting metrics from discovered targets"""
@@ -300,7 +300,7 @@ class InputPrometheusInput(BaseModel):
     r"""List of DNS names to resolve"""
 
     scrape_protocol: Annotated[
-        Optional[InputPrometheusMetricsProtocol], pydantic.Field(alias="scrapeProtocol")
+        Optional[MetricsProtocol], pydantic.Field(alias="scrapeProtocol")
     ] = None
     r"""Protocol to use when collecting metrics"""
 
@@ -511,7 +511,7 @@ class InputPrometheusInput(BaseModel):
     def serialize_scrape_protocol(self, value):
         if isinstance(value, str):
             try:
-                return models.InputPrometheusMetricsProtocol(value)
+                return models.MetricsProtocol(value)
             except ValueError:
                 return value
         return value

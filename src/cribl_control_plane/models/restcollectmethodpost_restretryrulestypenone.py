@@ -653,6 +653,7 @@ RestAuthenticationBasicPaginationTypedDict = TypeAliasType(
         RestAuthenticationBasicRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class UnknownRestAuthenticationBasicPagination(BaseModel):
@@ -695,6 +696,7 @@ RestAuthenticationBasicPagination = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class RestAuthenticationBasicRestRetryRulesTypeBackoffTypedDict(TypedDict):
@@ -914,6 +916,7 @@ RestAuthenticationBasicRetryRulesTypedDict = TypeAliasType(
         RestAuthenticationBasicRestRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownRestAuthenticationBasicRetryRules(BaseModel):
@@ -950,6 +953,7 @@ RestAuthenticationBasicRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class RestAuthenticationBasicMicrosoftGraphDeltaTypedDict(TypedDict):
@@ -985,11 +989,15 @@ class RestAuthenticationBasicMicrosoftGraphDelta(BaseModel):
 
 
 class RestAuthenticationBasicStateTrackingTypedDict(TypedDict):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
 
 
 class RestAuthenticationBasicStateTracking(BaseModel):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
 
@@ -1011,14 +1019,20 @@ class RestAuthenticationBasicStateTracking(BaseModel):
 
 
 class RestAuthenticationBasicSchedulingTypedDict(TypedDict):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: NotRequired[RestAuthenticationBasicStateTrackingTypedDict]
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
 
 class RestAuthenticationBasicScheduling(BaseModel):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: Annotated[
         Optional[RestAuthenticationBasicStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -1049,11 +1063,13 @@ class RestAuthenticationBasicTypedDict(TypedDict):
     collect_method: RestAuthenticationBasicCollectMethod
     r"""Collect method"""
     discovery: NotRequired[RestAuthenticationBasicDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
-    r"""Collect headers"""
+    r"""Headers to send with each Collect request."""
     pagination: NotRequired[RestAuthenticationBasicPaginationTypedDict]
+    r"""Settings that control how the Collector paginates through Collect results."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     max_response_body_size: NotRequired[str]
@@ -1073,11 +1089,13 @@ class RestAuthenticationBasicTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestAuthenticationBasicRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     microsoft_graph_delta: NotRequired[
         RestAuthenticationBasicMicrosoftGraphDeltaTypedDict
     ]
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestAuthenticationBasicSchedulingTypedDict]
+    r"""Internal settings for scheduled execution of this Collector."""
     template_username: NotRequired[str]
     r"""Binds 'username' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'username' at runtime."""
     template_password: NotRequired[str]
@@ -1161,14 +1179,16 @@ class RestAuthenticationBasic(BaseModel):
     r"""Collect method"""
 
     discovery: Optional[RestAuthenticationBasicDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
-    r"""Collect headers"""
+    r"""Headers to send with each Collect request."""
 
     pagination: Optional[RestAuthenticationBasicPagination] = None
+    r"""Settings that control how the Collector paginates through Collect results."""
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -1214,6 +1234,7 @@ class RestAuthenticationBasic(BaseModel):
     retry_rules: Annotated[
         Optional[RestAuthenticationBasicRetryRules], pydantic.Field(alias="retryRules")
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     microsoft_graph_delta: Annotated[
         Optional[RestAuthenticationBasicMicrosoftGraphDelta],
@@ -1225,6 +1246,7 @@ class RestAuthenticationBasic(BaseModel):
         Optional[RestAuthenticationBasicScheduling],
         pydantic.Field(alias="__scheduling"),
     ] = None
+    r"""Internal settings for scheduled execution of this Collector."""
 
     template_username: Annotated[
         Optional[str], pydantic.Field(alias="__template_username")
@@ -1478,6 +1500,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -1518,6 +1541,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeNone(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -1619,6 +1643,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -1660,6 +1685,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeList(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -1759,6 +1785,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -1803,6 +1830,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeJSON(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -1899,6 +1927,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -1952,6 +1981,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -2070,6 +2100,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -2116,6 +2147,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -2234,6 +2266,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -2281,6 +2314,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -2402,6 +2436,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -2449,6 +2484,7 @@ class RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -2597,6 +2633,7 @@ RestAuthenticationNoneDiscoveryTypedDict = TypeAliasType(
         RestAuthenticationNoneRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownRestAuthenticationNoneDiscovery(BaseModel):
@@ -2635,6 +2672,7 @@ RestAuthenticationNoneDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class RestAuthenticationNoneCollectMethod(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -3529,6 +3567,7 @@ RestAuthenticationNonePaginationTypedDict = TypeAliasType(
         RestAuthenticationNoneRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class UnknownRestAuthenticationNonePagination(BaseModel):
@@ -3571,6 +3610,7 @@ RestAuthenticationNonePagination = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class RestAuthenticationNoneRestRetryRulesTypeBackoffTypedDict(TypedDict):
@@ -3790,6 +3830,7 @@ RestAuthenticationNoneRetryRulesTypedDict = TypeAliasType(
         RestAuthenticationNoneRestRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownRestAuthenticationNoneRetryRules(BaseModel):
@@ -3826,6 +3867,7 @@ RestAuthenticationNoneRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class RestAuthenticationNoneMicrosoftGraphDeltaTypedDict(TypedDict):
@@ -3861,11 +3903,15 @@ class RestAuthenticationNoneMicrosoftGraphDelta(BaseModel):
 
 
 class RestAuthenticationNoneStateTrackingTypedDict(TypedDict):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
 
 
 class RestAuthenticationNoneStateTracking(BaseModel):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
 
@@ -3887,14 +3933,20 @@ class RestAuthenticationNoneStateTracking(BaseModel):
 
 
 class RestAuthenticationNoneSchedulingTypedDict(TypedDict):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: NotRequired[RestAuthenticationNoneStateTrackingTypedDict]
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
 
 class RestAuthenticationNoneScheduling(BaseModel):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: Annotated[
         Optional[RestAuthenticationNoneStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -3921,11 +3973,13 @@ class RestAuthenticationNoneTypedDict(TypedDict):
     collect_method: RestAuthenticationNoneCollectMethod
     r"""Collect method"""
     discovery: NotRequired[RestAuthenticationNoneDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
-    r"""Collect headers"""
+    r"""Headers to send with each Collect request."""
     pagination: NotRequired[RestAuthenticationNonePaginationTypedDict]
+    r"""Settings that control how the Collector paginates through Collect results."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     max_response_body_size: NotRequired[str]
@@ -3945,11 +3999,13 @@ class RestAuthenticationNoneTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestAuthenticationNoneRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     microsoft_graph_delta: NotRequired[
         RestAuthenticationNoneMicrosoftGraphDeltaTypedDict
     ]
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestAuthenticationNoneSchedulingTypedDict]
+    r"""Internal settings for scheduled execution of this Collector."""
     username: NotRequired[str]
     r"""Username"""
     template_username: NotRequired[str]
@@ -4031,14 +4087,16 @@ class RestAuthenticationNone(BaseModel):
     r"""Collect method"""
 
     discovery: Optional[RestAuthenticationNoneDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
-    r"""Collect headers"""
+    r"""Headers to send with each Collect request."""
 
     pagination: Optional[RestAuthenticationNonePagination] = None
+    r"""Settings that control how the Collector paginates through Collect results."""
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -4084,6 +4142,7 @@ class RestAuthenticationNone(BaseModel):
     retry_rules: Annotated[
         Optional[RestAuthenticationNoneRetryRules], pydantic.Field(alias="retryRules")
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     microsoft_graph_delta: Annotated[
         Optional[RestAuthenticationNoneMicrosoftGraphDelta],
@@ -4094,6 +4153,7 @@ class RestAuthenticationNone(BaseModel):
     scheduling: Annotated[
         Optional[RestAuthenticationNoneScheduling], pydantic.Field(alias="__scheduling")
     ] = None
+    r"""Internal settings for scheduled execution of this Collector."""
 
     username: Optional[str] = None
     r"""Username"""
@@ -4353,6 +4413,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -4393,6 +4454,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeNone(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -4494,6 +4556,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -4535,6 +4598,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeList(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -4634,6 +4698,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -4678,6 +4743,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeJSON(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -4774,6 +4840,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherType
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -4827,6 +4894,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Bas
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -4945,6 +5013,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -4991,6 +5060,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithB
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -5109,6 +5179,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTyped
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -5156,6 +5227,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(Base
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -5277,6 +5349,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedD
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -5324,6 +5397,7 @@ class RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseM
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -5474,6 +5548,7 @@ RestCollectMethodOtherDiscoveryTypedDict = TypeAliasType(
         RestCollectMethodOtherRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownRestCollectMethodOtherDiscovery(BaseModel):
@@ -5512,6 +5587,7 @@ RestCollectMethodOtherDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class RestCollectMethodOtherRestPaginationTypeRequestPageTypedDict(TypedDict):
@@ -6393,6 +6469,7 @@ RestCollectMethodOtherPaginationTypedDict = TypeAliasType(
         RestCollectMethodOtherRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class UnknownRestCollectMethodOtherPagination(BaseModel):
@@ -6435,6 +6512,7 @@ RestCollectMethodOtherPagination = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class RestCollectMethodOtherAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):
@@ -6669,6 +6747,7 @@ RestCollectMethodOtherRetryRulesTypedDict = TypeAliasType(
         RestCollectMethodOtherRestRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownRestCollectMethodOtherRetryRules(BaseModel):
@@ -6705,6 +6784,7 @@ RestCollectMethodOtherRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class RestCollectMethodOtherMicrosoftGraphDeltaTypedDict(TypedDict):
@@ -6740,11 +6820,15 @@ class RestCollectMethodOtherMicrosoftGraphDelta(BaseModel):
 
 
 class RestCollectMethodOtherStateTrackingTypedDict(TypedDict):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
 
 
 class RestCollectMethodOtherStateTracking(BaseModel):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
 
@@ -6766,14 +6850,20 @@ class RestCollectMethodOtherStateTracking(BaseModel):
 
 
 class RestCollectMethodOtherSchedulingTypedDict(TypedDict):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: NotRequired[RestCollectMethodOtherStateTrackingTypedDict]
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
 
 class RestCollectMethodOtherScheduling(BaseModel):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: Annotated[
         Optional[RestCollectMethodOtherStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -6808,11 +6898,13 @@ class RestCollectMethodOtherTypedDict(TypedDict):
     ]
     r"""Collect parameters"""
     discovery: NotRequired[RestCollectMethodOtherDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
-    r"""Collect headers"""
+    r"""Headers to send with each Collect request."""
     pagination: NotRequired[RestCollectMethodOtherPaginationTypedDict]
+    r"""Settings that control how the Collector paginates through Collect results."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     max_response_body_size: NotRequired[str]
@@ -6832,11 +6924,13 @@ class RestCollectMethodOtherTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestCollectMethodOtherRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     microsoft_graph_delta: NotRequired[
         RestCollectMethodOtherMicrosoftGraphDeltaTypedDict
     ]
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestCollectMethodOtherSchedulingTypedDict]
+    r"""Internal settings for scheduled execution of this Collector."""
     username: NotRequired[str]
     r"""Username"""
     template_username: NotRequired[str]
@@ -6930,14 +7024,16 @@ class RestCollectMethodOther(BaseModel):
     r"""Collect parameters"""
 
     discovery: Optional[RestCollectMethodOtherDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
-    r"""Collect headers"""
+    r"""Headers to send with each Collect request."""
 
     pagination: Optional[RestCollectMethodOtherPagination] = None
+    r"""Settings that control how the Collector paginates through Collect results."""
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -6983,6 +7079,7 @@ class RestCollectMethodOther(BaseModel):
     retry_rules: Annotated[
         Optional[RestCollectMethodOtherRetryRules], pydantic.Field(alias="retryRules")
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     microsoft_graph_delta: Annotated[
         Optional[RestCollectMethodOtherMicrosoftGraphDelta],
@@ -6993,6 +7090,7 @@ class RestCollectMethodOther(BaseModel):
     scheduling: Annotated[
         Optional[RestCollectMethodOtherScheduling], pydantic.Field(alias="__scheduling")
     ] = None
+    r"""Internal settings for scheduled execution of this Collector."""
 
     username: Optional[str] = None
     r"""Username"""
@@ -7258,6 +7356,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeNoneTypedDict(TypedD
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -7298,6 +7397,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeNone(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -7401,6 +7501,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeListTypedDict(TypedD
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -7442,6 +7543,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeList(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -7543,6 +7645,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeJSONTypedDict(TypedD
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -7587,6 +7690,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeJSON(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -7683,6 +7787,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -7738,6 +7843,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodOt
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -7856,6 +7962,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -7902,6 +8009,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -8020,6 +8128,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -8069,6 +8178,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodPo
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -8188,6 +8298,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -8237,6 +8348,7 @@ class RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPDiscoverMethodGe
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -8387,6 +8499,7 @@ RestCollectMethodPostWithBodyDiscoveryTypedDict = TypeAliasType(
         RestCollectMethodPostWithBodyRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownRestCollectMethodPostWithBodyDiscovery(BaseModel):
@@ -8425,6 +8538,7 @@ RestCollectMethodPostWithBodyDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class RestCollectMethodPostWithBodyRestPaginationTypeRequestPageTypedDict(TypedDict):
@@ -9310,6 +9424,7 @@ RestCollectMethodPostWithBodyPaginationTypedDict = TypeAliasType(
         RestCollectMethodPostWithBodyRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class UnknownRestCollectMethodPostWithBodyPagination(BaseModel):
@@ -9352,6 +9467,7 @@ RestCollectMethodPostWithBodyPagination = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class RestCollectMethodPostWithBodyAuthentication(
@@ -9588,6 +9704,7 @@ RestCollectMethodPostWithBodyRetryRulesTypedDict = TypeAliasType(
         RestCollectMethodPostWithBodyRestRetryRulesTypeBackoffTypedDict,
     ],
 )
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class UnknownRestCollectMethodPostWithBodyRetryRules(BaseModel):
@@ -9624,6 +9741,7 @@ RestCollectMethodPostWithBodyRetryRules = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector retries failed HTTP requests."""
 
 
 class RestCollectMethodPostWithBodyMicrosoftGraphDeltaTypedDict(TypedDict):
@@ -9659,11 +9777,15 @@ class RestCollectMethodPostWithBodyMicrosoftGraphDelta(BaseModel):
 
 
 class RestCollectMethodPostWithBodyStateTrackingTypedDict(TypedDict):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions"""
 
 
 class RestCollectMethodPostWithBodyStateTracking(BaseModel):
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
+
     enabled: Optional[bool] = None
     r"""Track collection progress between consecutive scheduled executions"""
 
@@ -9685,14 +9807,20 @@ class RestCollectMethodPostWithBodyStateTracking(BaseModel):
 
 
 class RestCollectMethodPostWithBodySchedulingTypedDict(TypedDict):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: NotRequired[RestCollectMethodPostWithBodyStateTrackingTypedDict]
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
 
 class RestCollectMethodPostWithBodyScheduling(BaseModel):
+    r"""Internal settings for scheduled execution of this Collector."""
+
     state_tracking: Annotated[
         Optional[RestCollectMethodPostWithBodyStateTracking],
         pydantic.Field(alias="stateTracking"),
     ] = None
+    r"""Settings for tracking collection state between consecutive scheduled executions."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -9721,11 +9849,13 @@ class RestCollectMethodPostWithBodyTypedDict(TypedDict):
     authentication: RestCollectMethodPostWithBodyAuthentication
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
     discovery: NotRequired[RestCollectMethodPostWithBodyDiscoveryTypedDict]
+    r"""Settings that control how the Collector discovers Collect tasks."""
     collect_request_headers: NotRequired[
         List[CollectRequestParamConfRestCollectMethodGetTypedDict]
     ]
-    r"""Collect headers"""
+    r"""Headers to send with each Collect request."""
     pagination: NotRequired[RestCollectMethodPostWithBodyPaginationTypedDict]
+    r"""Settings that control how the Collector paginates through Collect results."""
     timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     max_response_body_size: NotRequired[str]
@@ -9745,11 +9875,13 @@ class RestCollectMethodPostWithBodyTypedDict(TypedDict):
     safe_headers: NotRequired[List[str]]
     r"""List of headers that are safe to log in plain text"""
     retry_rules: NotRequired[RestCollectMethodPostWithBodyRetryRulesTypedDict]
+    r"""Settings that control how the Collector retries failed HTTP requests."""
     microsoft_graph_delta: NotRequired[
         RestCollectMethodPostWithBodyMicrosoftGraphDeltaTypedDict
     ]
     r"""Internal opt-in for the Microsoft Graph deltaLink state-tracking hook. Set programmatically by the Microsoft Graph source when the configured URL targets a /delta endpoint; not user-configurable."""
     scheduling: NotRequired[RestCollectMethodPostWithBodySchedulingTypedDict]
+    r"""Internal settings for scheduled execution of this Collector."""
     username: NotRequired[str]
     r"""Username"""
     template_username: NotRequired[str]
@@ -9835,14 +9967,16 @@ class RestCollectMethodPostWithBody(BaseModel):
     r"""Authentication method for Discover and Collect REST calls. You can specify API key–based authentication by adding the appropriate Collect headers."""
 
     discovery: Optional[RestCollectMethodPostWithBodyDiscovery] = None
+    r"""Settings that control how the Collector discovers Collect tasks."""
 
     collect_request_headers: Annotated[
         Optional[List[CollectRequestParamConfRestCollectMethodGet]],
         pydantic.Field(alias="collectRequestHeaders"),
     ] = None
-    r"""Collect headers"""
+    r"""Headers to send with each Collect request."""
 
     pagination: Optional[RestCollectMethodPostWithBodyPagination] = None
+    r"""Settings that control how the Collector paginates through Collect results."""
 
     timeout: Optional[float] = None
     r"""HTTP request inactivity timeout. Use 0 to disable."""
@@ -9889,6 +10023,7 @@ class RestCollectMethodPostWithBody(BaseModel):
         Optional[RestCollectMethodPostWithBodyRetryRules],
         pydantic.Field(alias="retryRules"),
     ] = None
+    r"""Settings that control how the Collector retries failed HTTP requests."""
 
     microsoft_graph_delta: Annotated[
         Optional[RestCollectMethodPostWithBodyMicrosoftGraphDelta],
@@ -9900,6 +10035,7 @@ class RestCollectMethodPostWithBody(BaseModel):
         Optional[RestCollectMethodPostWithBodyScheduling],
         pydantic.Field(alias="__scheduling"),
     ] = None
+    r"""Internal settings for scheduled execution of this Collector."""
 
     username: Optional[str] = None
     r"""Username"""
@@ -10159,6 +10295,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeNoneTypedDict(TypedDict):
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -10199,6 +10336,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeNone(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -10300,6 +10438,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeListTypedDict(TypedDict):
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -10341,6 +10480,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeList(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -10440,6 +10580,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeJSONTypedDict(TypedDict):
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     enable_strict_discover_parsing: NotRequired[bool]
     r"""Explicitly set the discover response format. When disabled, best effort parsing is used."""
     enable_discover_code: NotRequired[bool]
@@ -10484,6 +10625,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeJSON(BaseModel):
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     enable_strict_discover_parsing: Annotated[
         Optional[bool], pydantic.Field(alias="enableStrictDiscoverParsing")
@@ -10580,6 +10722,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOtherTyped
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -10633,6 +10776,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodOther(Base
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -10751,6 +10895,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBo
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -10797,6 +10942,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostWithBo
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -10917,6 +11063,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPostTypedD
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -10964,6 +11111,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodPost(BaseM
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -11085,6 +11233,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGetTypedDi
     ]
     r"""Discover headers"""
     pagination: NotRequired[PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict]
+    r"""Settings that control how the Collector paginates through Discover results."""
     discover_data_field: NotRequired[str]
     r"""Path to field in the response object that contains discovery results (ex: level1.name). Leave blank if the result is an array."""
     enable_strict_discover_parsing: NotRequired[bool]
@@ -11132,6 +11281,7 @@ class RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPDiscoverMethodGet(BaseMo
     r"""Discover headers"""
 
     pagination: Optional[PaginationTypeRestDiscoveryDiscoverTypeHTTP] = None
+    r"""Settings that control how the Collector paginates through Discover results."""
 
     discover_data_field: Annotated[
         Optional[str], pydantic.Field(alias="discoverDataField")
@@ -11280,6 +11430,7 @@ RestCollectMethodPostDiscoveryTypedDict = TypeAliasType(
         RestCollectMethodPostRestDiscoveryDiscoverTypeHTTPTypedDict,
     ],
 )
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class UnknownRestCollectMethodPostDiscovery(BaseModel):
@@ -11318,6 +11469,7 @@ RestCollectMethodPostDiscovery = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector discovers Collect tasks."""
 
 
 class RestCollectMethodPostRestPaginationTypeRequestPageTypedDict(TypedDict):
@@ -12199,6 +12351,7 @@ RestCollectMethodPostPaginationTypedDict = TypeAliasType(
         RestCollectMethodPostRestPaginationTypeResponseHeaderTypedDict,
     ],
 )
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class UnknownRestCollectMethodPostPagination(BaseModel):
@@ -12241,6 +12394,7 @@ RestCollectMethodPostPagination = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector paginates through Collect results."""
 
 
 class RestCollectMethodPostAuthentication(str, Enum, metaclass=utils.OpenEnumMeta):

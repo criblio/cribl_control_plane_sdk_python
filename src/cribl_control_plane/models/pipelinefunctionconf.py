@@ -189,10 +189,6 @@ from .pipelinefunctionsidlookup import (
     PipelineFunctionSidlookup,
     PipelineFunctionSidlookupTypedDict,
 )
-from .pipelinefunctionsignalfilter import (
-    PipelineFunctionSignalFilter,
-    PipelineFunctionSignalFilterTypedDict,
-)
 from .pipelinefunctionsnmptrapserialize import (
     PipelineFunctionSnmpTrapSerialize,
     PipelineFunctionSnmpTrapSerializeTypedDict,
@@ -292,7 +288,6 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionSerdeTypedDict,
         PipelineFunctionSerializeTypedDict,
         PipelineFunctionSidlookupTypedDict,
-        PipelineFunctionSignalFilterTypedDict,
         PipelineFunctionSnmpTrapSerializeTypedDict,
         PipelineFunctionSortTypedDict,
         PipelineFunctionStoreTypedDict,
@@ -377,7 +372,6 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "serde": PipelineFunctionSerde,
     "serialize": PipelineFunctionSerialize,
     "sidlookup": PipelineFunctionSidlookup,
-    "signal_filter": PipelineFunctionSignalFilter,
     "snmp_trap_serialize": PipelineFunctionSnmpTrapSerialize,
     "sort": PipelineFunctionSort,
     "store": PipelineFunctionStore,
@@ -452,7 +446,6 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionSerde,
         PipelineFunctionSerialize,
         PipelineFunctionSidlookup,
-        PipelineFunctionSignalFilter,
         PipelineFunctionSnmpTrapSerialize,
         PipelineFunctionSort,
         PipelineFunctionStore,

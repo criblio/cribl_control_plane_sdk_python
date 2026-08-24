@@ -1,5 +1,7 @@
 # PreprocessType
 
+Optional preprocessing step that pipes collected data through an external command before ingestion.
+
 
 ## Fields
 

@@ -1,6 +1,6 @@
 # ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor
 
-Executor-specific settings
+Executor-type-specific settings object. Shape varies by executor type.
 
 
 ## Fields

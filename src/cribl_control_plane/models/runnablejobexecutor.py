@@ -81,7 +81,10 @@ class RunnableJobExecutorRun(BaseModel):
 
 
 class RunnableJobExecutorTypedDict(TypedDict):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     executor: ExecutorTypeRunnableJobExecutorTypedDict
+    r"""Executor configuration, including the executor type and its settings."""
     run: RunnableJobExecutorRunTypedDict
     id: NotRequired[str]
     r"""Unique ID for this Job"""
@@ -108,7 +111,10 @@ class RunnableJobExecutorTypedDict(TypedDict):
 
 
 class RunnableJobExecutor(BaseModel):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     executor: ExecutorTypeRunnableJobExecutor
+    r"""Executor configuration, including the executor type and its settings."""
 
     run: RunnableJobExecutorRun
 

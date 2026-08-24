@@ -16,6 +16,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputTypeRunnableJobCollectionTypedDict(TypedDict):
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
     type: NotRequired[TypeOptionsRunnableJobCollectionInput]
     r"""Resource type identifier."""
     breaker_rulesets: NotRequired[List[str]]
@@ -25,6 +27,7 @@ class InputTypeRunnableJobCollectionTypedDict(TypedDict):
     send_to_routes: NotRequired[bool]
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -36,6 +39,8 @@ class InputTypeRunnableJobCollectionTypedDict(TypedDict):
 
 
 class InputTypeRunnableJobCollection(BaseModel):
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
     type: Optional[TypeOptionsRunnableJobCollectionInput] = None
     r"""Resource type identifier."""
 
@@ -55,6 +60,7 @@ class InputTypeRunnableJobCollection(BaseModel):
     r"""Send events to normal routing and event processing. Disable to select a specific Pipeline/Destination combination."""
 
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")

@@ -105,6 +105,8 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     r"""Select a transport option for OpenTelemetry"""
     otlp_version: NotRequired[OutputOpenTelemetryOTLPVersion]
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
+    preserve_native_any_value: NotRequired[bool]
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
     compress: NotRequired[CompressionOptionsDeflateGzip]
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
     http_compress: NotRequired[CompressionOptionsMessages]
@@ -129,6 +131,8 @@ class OutputOpenTelemetryTypedDict(TypedDict):
     r"""Maximum size, in KB, of the request body"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
@@ -255,6 +259,11 @@ class OutputOpenTelemetry(BaseModel):
     ] = None
     r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
+    preserve_native_any_value: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveNativeAnyValue")
+    ] = None
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
+
     compress: Optional[CompressionOptionsDeflateGzip] = None
     r"""Type of compression to apply to messages sent to the OpenTelemetry endpoint"""
 
@@ -307,6 +316,11 @@ class OutputOpenTelemetry(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -614,6 +628,7 @@ class OutputOpenTelemetry(BaseModel):
                 "streamtags",
                 "protocol",
                 "otlpVersion",
+                "preserveNativeAnyValue",
                 "compress",
                 "httpCompress",
                 "authType",
@@ -626,6 +641,7 @@ class OutputOpenTelemetry(BaseModel):
                 "concurrency",
                 "maxPayloadSizeKB",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "failedRequestLoggingMode",
                 "connectionTimeout",

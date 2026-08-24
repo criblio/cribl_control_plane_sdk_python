@@ -27,18 +27,13 @@ from .authtokensextconfinputhttp import (
     AuthTokensExtConfInputHTTP,
     AuthTokensExtConfInputHTTPTypedDict,
 )
-from .certificatetypeazureblobauthtypeclientcert import (
-    CertificateTypeAzureBlobAuthTypeClientCert,
-    CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
-)
+from .certificatetype import CertificateType, CertificateTypeTypedDict
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
 from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .createinputsystembypack_interfaces import (
-    CreateInputSystemByPackHostsFile,
-    CreateInputSystemByPackHostsFileTypedDict,
+from .createinputsystembypack_inputkubemetrics import (
     CreateInputSystemByPackInputAnthropicCompliance,
     CreateInputSystemByPackInputAnthropicComplianceTypedDict,
     CreateInputSystemByPackInputAppleUnifiedLogs,
@@ -119,9 +114,6 @@ from .createinputsystembypack_interfaces import (
     CreateInputSystemByPackInputWizWebhookTypedDict,
     CreateInputSystemByPackInputZscalerHec,
     CreateInputSystemByPackInputZscalerHecTypedDict,
-    CreateInputSystemByPackInterfaces,
-    CreateInputSystemByPackInterfacesTypedDict,
-    CreateInputSystemByPackTypeSystemState,
 )
 from .datacompressionformatoptionspersistence import (
     DataCompressionFormatOptionsPersistence,
@@ -202,6 +194,72 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputSystemByPackInputSystemStateType(str, Enum):
+    r"""Connector type identifier."""
+
+    SYSTEM_STATE = "system_state"
+
+
+class CreateInputSystemByPackHostsFileTypedDict(TypedDict):
+    r"""Creates events based on entries collected from the hosts file"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackHostsFile(BaseModel):
+    r"""Creates events based on entries collected from the hosts file"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackInterfacesTypedDict(TypedDict):
+    r"""Creates events for each of the host’s network interfaces"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackInterfaces(BaseModel):
+    r"""Creates events for each of the host’s network interfaces"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputSystemByPackDisksAndFileSystemsTypedDict(TypedDict):
@@ -567,7 +625,7 @@ class CreateInputSystemByPackCollectors(BaseModel):
         return m
 
 
-class CreateInputSystemByPackPersistenceSystemStateTypedDict(TypedDict):
+class CreateInputSystemByPackInputSystemStatePersistenceTypedDict(TypedDict):
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -582,7 +640,7 @@ class CreateInputSystemByPackPersistenceSystemStateTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
 
 
-class CreateInputSystemByPackPersistenceSystemState(BaseModel):
+class CreateInputSystemByPackInputSystemStatePersistence(BaseModel):
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -639,7 +697,7 @@ class CreateInputSystemByPackPersistenceSystemState(BaseModel):
 class CreateInputSystemByPackInputSystemStateTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSystemState
+    type: CreateInputSystemByPackInputSystemStateType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -661,7 +719,9 @@ class CreateInputSystemByPackInputSystemStateTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     collectors: NotRequired[CreateInputSystemByPackCollectorsTypedDict]
-    persistence: NotRequired[CreateInputSystemByPackPersistenceSystemStateTypedDict]
+    persistence: NotRequired[
+        CreateInputSystemByPackInputSystemStatePersistenceTypedDict
+    ]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     disable_native_last_log_module: NotRequired[bool]
@@ -678,7 +738,7 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSystemState
+    type: CreateInputSystemByPackInputSystemStateType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -714,7 +774,7 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
 
     collectors: Optional[CreateInputSystemByPackCollectors] = None
 
-    persistence: Optional[CreateInputSystemByPackPersistenceSystemState] = None
+    persistence: Optional[CreateInputSystemByPackInputSystemStatePersistence] = None
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
@@ -776,13 +836,13 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeSystemMetrics(str, Enum):
+class CreateInputSystemByPackInputSystemMetricsType(str, Enum):
     r"""Connector type identifier."""
 
     SYSTEM_METRICS = "system_metrics"
 
 
-class CreateInputSystemByPackSystemModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsSystemMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for system metrics"""
@@ -797,15 +857,15 @@ class CreateInputSystemByPackSystemModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackSystemSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackSystemModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsSystemTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsSystemMode]
     r"""Select the level of detail for system metrics"""
     processes: NotRequired[bool]
     r"""Generate metrics for the numbers of processes in various states"""
 
 
-class CreateInputSystemByPackSystemSystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackSystemModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsSystem(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsSystemMode] = None
     r"""Select the level of detail for system metrics"""
 
     processes: Optional[bool] = None
@@ -815,7 +875,7 @@ class CreateInputSystemByPackSystemSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackSystemModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsSystemMode(value)
             except ValueError:
                 return value
         return value
@@ -837,7 +897,7 @@ class CreateInputSystemByPackSystemSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackCPUModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsCPUMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for CPU metrics"""
@@ -852,8 +912,8 @@ class CreateInputSystemByPackCPUModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackCPUSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackCPUModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsCPUTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsCPUMode]
     r"""Select the level of detail for CPU metrics"""
     per_cpu: NotRequired[bool]
     r"""Generate metrics for each CPU"""
@@ -863,8 +923,8 @@ class CreateInputSystemByPackCPUSystemMetricsTypedDict(TypedDict):
     r"""Generate raw, monotonic CPU time counters"""
 
 
-class CreateInputSystemByPackCPUSystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackCPUModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsCPU(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsCPUMode] = None
     r"""Select the level of detail for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
@@ -880,7 +940,7 @@ class CreateInputSystemByPackCPUSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackCPUModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsCPUMode(value)
             except ValueError:
                 return value
         return value
@@ -902,7 +962,7 @@ class CreateInputSystemByPackCPUSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackMemoryModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsMemoryMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for memory metrics"""
@@ -917,15 +977,15 @@ class CreateInputSystemByPackMemoryModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackMemorySystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackMemoryModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsMemoryTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsMemoryMode]
     r"""Select the level of detail for memory metrics"""
     detail: NotRequired[bool]
     r"""Generate metrics for all memory states"""
 
 
-class CreateInputSystemByPackMemorySystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackMemoryModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsMemory(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsMemoryMode] = None
     r"""Select the level of detail for memory metrics"""
 
     detail: Optional[bool] = None
@@ -935,7 +995,7 @@ class CreateInputSystemByPackMemorySystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackMemoryModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsMemoryMode(value)
             except ValueError:
                 return value
         return value
@@ -957,7 +1017,7 @@ class CreateInputSystemByPackMemorySystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackNetworkModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsNetworkMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for network metrics"""
@@ -972,8 +1032,8 @@ class CreateInputSystemByPackNetworkModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackNetworkSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackNetworkModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsNetworkTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsNetworkMode]
     r"""Select the level of detail for network metrics"""
     detail: NotRequired[bool]
     r"""Generate full network metrics"""
@@ -985,8 +1045,8 @@ class CreateInputSystemByPackNetworkSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each interface"""
 
 
-class CreateInputSystemByPackNetworkSystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackNetworkModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsNetwork(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsNetworkMode] = None
     r"""Select the level of detail for network metrics"""
 
     detail: Optional[bool] = None
@@ -1007,7 +1067,9 @@ class CreateInputSystemByPackNetworkSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackNetworkModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsNetworkMode(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -1031,7 +1093,7 @@ class CreateInputSystemByPackNetworkSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackDiskModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsDiskMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for disk metrics"""
@@ -1046,8 +1108,8 @@ class CreateInputSystemByPackDiskModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackDiskSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackDiskModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsDiskTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsDiskMode]
     r"""Select the level of detail for disk metrics"""
     detail: NotRequired[bool]
     r"""Generate full disk metrics"""
@@ -1063,8 +1125,8 @@ class CreateInputSystemByPackDiskSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each device"""
 
 
-class CreateInputSystemByPackDiskSystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackDiskModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsDisk(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsDiskMode] = None
     r"""Select the level of detail for disk metrics"""
 
     detail: Optional[bool] = None
@@ -1089,7 +1151,7 @@ class CreateInputSystemByPackDiskSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackDiskModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsDiskMode(value)
             except ValueError:
                 return value
         return value
@@ -1121,24 +1183,24 @@ class CreateInputSystemByPackDiskSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackCustomSystemMetricsTypedDict(TypedDict):
-    system: NotRequired[CreateInputSystemByPackSystemSystemMetricsTypedDict]
-    cpu: NotRequired[CreateInputSystemByPackCPUSystemMetricsTypedDict]
-    memory: NotRequired[CreateInputSystemByPackMemorySystemMetricsTypedDict]
-    network: NotRequired[CreateInputSystemByPackNetworkSystemMetricsTypedDict]
-    disk: NotRequired[CreateInputSystemByPackDiskSystemMetricsTypedDict]
+class CreateInputSystemByPackInputSystemMetricsCustomTypedDict(TypedDict):
+    system: NotRequired[CreateInputSystemByPackInputSystemMetricsSystemTypedDict]
+    cpu: NotRequired[CreateInputSystemByPackInputSystemMetricsCPUTypedDict]
+    memory: NotRequired[CreateInputSystemByPackInputSystemMetricsMemoryTypedDict]
+    network: NotRequired[CreateInputSystemByPackInputSystemMetricsNetworkTypedDict]
+    disk: NotRequired[CreateInputSystemByPackInputSystemMetricsDiskTypedDict]
 
 
-class CreateInputSystemByPackCustomSystemMetrics(BaseModel):
-    system: Optional[CreateInputSystemByPackSystemSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsCustom(BaseModel):
+    system: Optional[CreateInputSystemByPackInputSystemMetricsSystem] = None
 
-    cpu: Optional[CreateInputSystemByPackCPUSystemMetrics] = None
+    cpu: Optional[CreateInputSystemByPackInputSystemMetricsCPU] = None
 
-    memory: Optional[CreateInputSystemByPackMemorySystemMetrics] = None
+    memory: Optional[CreateInputSystemByPackInputSystemMetricsMemory] = None
 
-    network: Optional[CreateInputSystemByPackNetworkSystemMetrics] = None
+    network: Optional[CreateInputSystemByPackInputSystemMetricsNetwork] = None
 
-    disk: Optional[CreateInputSystemByPackDiskSystemMetrics] = None
+    disk: Optional[CreateInputSystemByPackInputSystemMetricsDisk] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -1157,17 +1219,17 @@ class CreateInputSystemByPackCustomSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackHostSystemMetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputSystemMetricsHostTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
-    custom: NotRequired[CreateInputSystemByPackCustomSystemMetricsTypedDict]
+    custom: NotRequired[CreateInputSystemByPackInputSystemMetricsCustomTypedDict]
 
 
-class CreateInputSystemByPackHostSystemMetrics(BaseModel):
+class CreateInputSystemByPackInputSystemMetricsHost(BaseModel):
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
-    custom: Optional[CreateInputSystemByPackCustomSystemMetrics] = None
+    custom: Optional[CreateInputSystemByPackInputSystemMetricsCustom] = None
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -1208,12 +1270,12 @@ class CreateInputSystemByPackContainerMode(str, Enum, metaclass=utils.OpenEnumMe
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackFilterSystemMetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputSystemMetricsFilterTypedDict(TypedDict):
     expr: str
     r"""Expression"""
 
 
-class CreateInputSystemByPackFilterSystemMetrics(BaseModel):
+class CreateInputSystemByPackInputSystemMetricsFilter(BaseModel):
     expr: str
     r"""Expression"""
 
@@ -1225,7 +1287,7 @@ class CreateInputSystemByPackContainerTypedDict(TypedDict):
     r"""Full paths for Docker's UNIX-domain socket"""
     docker_timeout: NotRequired[float]
     r"""Timeout, in seconds, for the Docker API"""
-    filters: NotRequired[List[CreateInputSystemByPackFilterSystemMetricsTypedDict]]
+    filters: NotRequired[List[CreateInputSystemByPackInputSystemMetricsFilterTypedDict]]
     r"""Containers matching any of these will be included. All are included if no filters are added."""
     all_containers: NotRequired[bool]
     r"""Include stopped and paused containers"""
@@ -1249,7 +1311,7 @@ class CreateInputSystemByPackContainer(BaseModel):
     ] = None
     r"""Timeout, in seconds, for the Docker API"""
 
-    filters: Optional[List[CreateInputSystemByPackFilterSystemMetrics]] = None
+    filters: Optional[List[CreateInputSystemByPackInputSystemMetricsFilter]] = None
     r"""Containers matching any of these will be included. All are included if no filters are added."""
 
     all_containers: Annotated[Optional[bool], pydantic.Field(alias="allContainers")] = (
@@ -1299,7 +1361,7 @@ class CreateInputSystemByPackContainer(BaseModel):
         return m
 
 
-class CreateInputSystemByPackPersistenceSystemMetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputSystemMetricsPersistenceTypedDict(TypedDict):
     r"""persistence"""
 
     enable: NotRequired[bool]
@@ -1316,7 +1378,7 @@ class CreateInputSystemByPackPersistenceSystemMetricsTypedDict(TypedDict):
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
 
 
-class CreateInputSystemByPackPersistenceSystemMetrics(BaseModel):
+class CreateInputSystemByPackInputSystemMetricsPersistence(BaseModel):
     r"""persistence"""
 
     enable: Optional[bool] = None
@@ -1375,7 +1437,7 @@ class CreateInputSystemByPackPersistenceSystemMetrics(BaseModel):
 class CreateInputSystemByPackInputSystemMetricsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSystemMetrics
+    type: CreateInputSystemByPackInputSystemMetricsType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -1394,13 +1456,15 @@ class CreateInputSystemByPackInputSystemMetricsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
-    host: NotRequired[CreateInputSystemByPackHostSystemMetricsTypedDict]
+    host: NotRequired[CreateInputSystemByPackInputSystemMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
     container: NotRequired[CreateInputSystemByPackContainerTypedDict]
     gpu: NotRequired[GpuTypeTypedDict]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    persistence: NotRequired[CreateInputSystemByPackPersistenceSystemMetricsTypedDict]
+    persistence: NotRequired[
+        CreateInputSystemByPackInputSystemMetricsPersistenceTypedDict
+    ]
     r"""persistence"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -1414,7 +1478,7 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSystemMetrics
+    type: CreateInputSystemByPackInputSystemMetricsType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -1445,7 +1509,7 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
-    host: Optional[CreateInputSystemByPackHostSystemMetrics] = None
+    host: Optional[CreateInputSystemByPackInputSystemMetricsHost] = None
 
     process: Optional[ProcessType] = None
 
@@ -1456,7 +1520,7 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    persistence: Optional[CreateInputSystemByPackPersistenceSystemMetrics] = None
+    persistence: Optional[CreateInputSystemByPackInputSystemMetricsPersistence] = None
     r"""persistence"""
 
     description: Optional[str] = None
@@ -1738,7 +1802,7 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCriblLakeHTTP(str, Enum):
+class CreateInputSystemByPackInputCriblLakeHTTPType(str, Enum):
     r"""Source type identifier."""
 
     CRIBL_LAKE_HTTP = "cribl_lake_http"
@@ -1864,7 +1928,7 @@ class CreateInputSystemByPackAuthTokensExt(BaseModel):
 class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCriblLakeHTTP
+    type: CreateInputSystemByPackInputCriblLakeHTTPType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1947,7 +2011,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCriblLakeHTTP
+    type: CreateInputSystemByPackInputCriblLakeHTTPType
     r"""Source type identifier."""
 
     host: str
@@ -2168,7 +2232,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCriblHTTP(str, Enum):
+class CreateInputSystemByPackInputCriblHTTPType(str, Enum):
     r"""Source type identifier."""
 
     CRIBL_HTTP = "cribl_http"
@@ -2177,7 +2241,7 @@ class CreateInputSystemByPackTypeCriblHTTP(str, Enum):
 class CreateInputSystemByPackInputCriblHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCriblHTTP
+    type: CreateInputSystemByPackInputCriblHTTPType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2242,7 +2306,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCriblHTTP
+    type: CreateInputSystemByPackInputCriblHTTPType
     r"""Source type identifier."""
 
     host: str
@@ -2610,7 +2674,7 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCribl(str, Enum):
+class CreateInputSystemByPackInputCriblType(str, Enum):
     r"""Connector type identifier."""
 
     CRIBL = "cribl"
@@ -2619,7 +2683,7 @@ class CreateInputSystemByPackTypeCribl(str, Enum):
 class CreateInputSystemByPackInputCriblTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCribl
+    type: CreateInputSystemByPackInputCriblType
     r"""Connector type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -2651,7 +2715,7 @@ class CreateInputSystemByPackInputCribl(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCribl
+    type: CreateInputSystemByPackInputCriblType
     r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
@@ -2962,7 +3026,7 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeFirehose(str, Enum):
+class CreateInputSystemByPackInputFirehoseType(str, Enum):
     r"""Source type identifier."""
 
     FIREHOSE = "firehose"
@@ -2971,7 +3035,7 @@ class CreateInputSystemByPackTypeFirehose(str, Enum):
 class CreateInputSystemByPackInputFirehoseTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeFirehose
+    type: CreateInputSystemByPackInputFirehoseType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -3038,7 +3102,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeFirehose
+    type: CreateInputSystemByPackInputFirehoseType
     r"""Source type identifier."""
 
     host: str
@@ -3400,7 +3464,7 @@ class CreateInputSystemByPackInputExec(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeEventhubAmqp(str, Enum):
+class CreateInputSystemByPackInputEventhubAmqpType(str, Enum):
     r"""Connector type identifier."""
 
     EVENTHUB_AMQP = "eventhub_amqp"
@@ -3602,7 +3666,7 @@ class CreateInputSystemByPackAuth(BaseModel):
         return m
 
 
-class CreateInputSystemByPackAuthenticationMethodEventhubAmqp(
+class CreateInputSystemByPackInputEventhubAmqpAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Authentication method"""
@@ -3619,7 +3683,7 @@ class CreateInputSystemByPackAzureBlobStorageTypedDict(TypedDict):
 
     container_name: str
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodEventhubAmqp]
+    auth_type: NotRequired[CreateInputSystemByPackInputEventhubAmqpAuthenticationMethod]
     r"""Authentication method"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
@@ -3635,7 +3699,7 @@ class CreateInputSystemByPackAzureBlobStorageTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_storage_account_name: NotRequired[str]
     r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -3653,7 +3717,7 @@ class CreateInputSystemByPackAzureBlobStorage(BaseModel):
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodEventhubAmqp],
+        Optional[CreateInputSystemByPackInputEventhubAmqpAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Authentication method"""
@@ -3685,7 +3749,7 @@ class CreateInputSystemByPackAzureBlobStorage(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_storage_account_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_storageAccountName")
@@ -3711,8 +3775,10 @@ class CreateInputSystemByPackAzureBlobStorage(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationMethodEventhubAmqp(
-                    value
+                return (
+                    models.CreateInputSystemByPackInputEventhubAmqpAuthenticationMethod(
+                        value
+                    )
                 )
             except ValueError:
                 return value
@@ -3766,7 +3832,7 @@ class CreateInputSystemByPackCheckpointing(BaseModel):
 class CreateInputSystemByPackInputEventhubAmqpTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeEventhubAmqp
+    type: CreateInputSystemByPackInputEventhubAmqpType
     r"""Connector type identifier."""
     consumer_group: str
     r"""The consumer group this instance belongs to. Default is '$Default'."""
@@ -3825,7 +3891,7 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeEventhubAmqp
+    type: CreateInputSystemByPackInputEventhubAmqpType
     r"""Connector type identifier."""
 
     consumer_group: Annotated[str, pydantic.Field(alias="consumerGroup")]
@@ -3975,7 +4041,7 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeEventhub(str, Enum):
+class CreateInputSystemByPackInputEventhubType(str, Enum):
     r"""Connector type identifier."""
 
     EVENTHUB = "eventhub"
@@ -3984,7 +4050,7 @@ class CreateInputSystemByPackTypeEventhub(str, Enum):
 class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeEventhub
+    type: CreateInputSystemByPackInputEventhubType
     r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
@@ -4073,7 +4139,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeEventhub
+    type: CreateInputSystemByPackInputEventhubType
     r"""Connector type identifier."""
 
     brokers: List[str]
@@ -4291,13 +4357,13 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeMicrosoftGraph(str, Enum):
+class CreateInputSystemByPackInputMicrosoftGraphType(str, Enum):
     r"""Connector type identifier."""
 
     MICROSOFT_GRAPH = "microsoft_graph"
 
 
-class CreateInputSystemByPackAuthenticationMethodMicrosoftGraph(
+class CreateInputSystemByPackInputMicrosoftGraphAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select authentication method."""
@@ -4325,7 +4391,7 @@ class CreateInputSystemByPackSubscriptionPlan(str, Enum, metaclass=utils.OpenEnu
 class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeMicrosoftGraph
+    type: CreateInputSystemByPackInputMicrosoftGraphType
     r"""Connector type identifier."""
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
@@ -4356,7 +4422,9 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     r"""Disables time filtering of events when a date range is specified."""
     max_pages: NotRequired[int]
     r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodMicrosoftGraph]
+    auth_type: NotRequired[
+        CreateInputSystemByPackInputMicrosoftGraphAuthenticationMethod
+    ]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -4416,7 +4484,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeMicrosoftGraph
+    type: CreateInputSystemByPackInputMicrosoftGraphType
     r"""Connector type identifier."""
 
     url: str
@@ -4468,7 +4536,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodMicrosoftGraph],
+        Optional[CreateInputSystemByPackInputMicrosoftGraphAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -4593,7 +4661,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationMethodMicrosoftGraph(
+                return models.CreateInputSystemByPackInputMicrosoftGraphAuthenticationMethod(
                     value
                 )
             except ValueError:
@@ -4679,13 +4747,13 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeOffice365MsgTrace(str, Enum):
+class CreateInputSystemByPackInputOffice365MsgTraceType(str, Enum):
     r"""Connector type identifier."""
 
     OFFICE365_MSG_TRACE = "office365_msg_trace"
 
 
-class CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace(
+class CreateInputSystemByPackInputOffice365MsgTraceAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select authentication method."""
@@ -4700,7 +4768,7 @@ class CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace(
 class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeOffice365MsgTrace
+    type: CreateInputSystemByPackInputOffice365MsgTraceType
     r"""Connector type identifier."""
     url: str
     r"""URL to use when retrieving report data."""
@@ -4729,7 +4797,9 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace]
+    auth_type: NotRequired[
+        CreateInputSystemByPackInputOffice365MsgTraceAuthenticationMethod
+    ]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -4791,7 +4861,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeOffice365MsgTrace
+    type: CreateInputSystemByPackInputOffice365MsgTraceType
     r"""Connector type identifier."""
 
     url: str
@@ -4840,7 +4910,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace],
+        Optional[CreateInputSystemByPackInputOffice365MsgTraceAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -4965,10 +5035,8 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return (
-                    models.CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace(
-                        value
-                    )
+                return models.CreateInputSystemByPackInputOffice365MsgTraceAuthenticationMethod(
+                    value
                 )
             except ValueError:
                 return value
@@ -5053,13 +5121,13 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeOffice365Service(str, Enum):
+class CreateInputSystemByPackInputOffice365ServiceType(str, Enum):
     r"""Connector type identifier."""
 
     OFFICE365_SERVICE = "office365_service"
 
 
-class CreateInputSystemByPackContentConfigOffice365ServiceTypedDict(TypedDict):
+class CreateInputSystemByPackInputOffice365ServiceContentConfigTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Microsoft 365 Services API Content Type"""
     description: NotRequired[str]
@@ -5072,7 +5140,7 @@ class CreateInputSystemByPackContentConfigOffice365ServiceTypedDict(TypedDict):
     r"""Enabled"""
 
 
-class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
+class CreateInputSystemByPackInputOffice365ServiceContentConfig(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Microsoft 365 Services API Content Type"""
 
@@ -5121,7 +5189,7 @@ class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
 class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeOffice365Service
+    type: CreateInputSystemByPackInputOffice365ServiceType
     r"""Connector type identifier."""
     tenant_id: str
     r"""Microsoft 365 Azure Tenant ID"""
@@ -5159,7 +5227,7 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     content_config: NotRequired[
-        List[CreateInputSystemByPackContentConfigOffice365ServiceTypedDict]
+        List[CreateInputSystemByPackInputOffice365ServiceContentConfigTypedDict]
     ]
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
@@ -5189,7 +5257,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeOffice365Service
+    type: CreateInputSystemByPackInputOffice365ServiceType
     r"""Connector type identifier."""
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
@@ -5256,7 +5324,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     r"""Fields to add to events from this input"""
 
     content_config: Annotated[
-        Optional[List[CreateInputSystemByPackContentConfigOffice365Service]],
+        Optional[List[CreateInputSystemByPackInputOffice365ServiceContentConfig]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
@@ -5376,13 +5444,13 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeOffice365Mgmt(str, Enum):
+class CreateInputSystemByPackInputOffice365MgmtType(str, Enum):
     r"""Connector type identifier."""
 
     OFFICE365_MGMT = "office365_mgmt"
 
 
-class CreateInputSystemByPackContentConfigOffice365MgmtTypedDict(TypedDict):
+class CreateInputSystemByPackInputOffice365MgmtContentConfigTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Microsoft 365 Management Activity API Content Type"""
     description: NotRequired[str]
@@ -5395,7 +5463,7 @@ class CreateInputSystemByPackContentConfigOffice365MgmtTypedDict(TypedDict):
     r"""Enabled"""
 
 
-class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
+class CreateInputSystemByPackInputOffice365MgmtContentConfig(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Microsoft 365 Management Activity API Content Type"""
 
@@ -5444,7 +5512,7 @@ class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
 class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeOffice365Mgmt
+    type: CreateInputSystemByPackInputOffice365MgmtType
     r"""Connector type identifier."""
     plan_type: SubscriptionPlanOptions
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
@@ -5484,7 +5552,7 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
     content_config: NotRequired[
-        List[CreateInputSystemByPackContentConfigOffice365MgmtTypedDict]
+        List[CreateInputSystemByPackInputOffice365MgmtContentConfigTypedDict]
     ]
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
@@ -5518,7 +5586,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeOffice365Mgmt
+    type: CreateInputSystemByPackInputOffice365MgmtType
     r"""Connector type identifier."""
 
     plan_type: Annotated[SubscriptionPlanOptions, pydantic.Field(alias="planType")]
@@ -5588,7 +5656,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
 
     content_config: Annotated[
-        Optional[List[CreateInputSystemByPackContentConfigOffice365Mgmt]],
+        Optional[List[CreateInputSystemByPackInputOffice365MgmtContentConfig]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
@@ -5720,13 +5788,13 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeEdgePrometheus(str, Enum):
+class CreateInputSystemByPackInputEdgePrometheusType(str, Enum):
     r"""Connector type identifier."""
 
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
-class CreateInputSystemByPackDiscoveryTypeEdgePrometheus(
+class CreateInputSystemByPackInputEdgePrometheusDiscoveryType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -5747,7 +5815,7 @@ class CreateInputSystemByPackDiscoveryTypeEdgePrometheus(
     HTTP_SD = "http_sd"
 
 
-class CreateInputSystemByPackAuthenticationMethodEdgePrometheus(
+class CreateInputSystemByPackInputEdgePrometheusAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Enter credentials directly, or select a stored secret"""
@@ -5841,9 +5909,9 @@ class CreateInputSystemByPackPodFilter(BaseModel):
 class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeEdgePrometheus
+    type: CreateInputSystemByPackInputEdgePrometheusType
     r"""Connector type identifier."""
-    discovery_type: CreateInputSystemByPackDiscoveryTypeEdgePrometheus
+    discovery_type: CreateInputSystemByPackInputEdgePrometheusDiscoveryType
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: float
     r"""How often in seconds to scrape targets for metrics."""
@@ -5872,7 +5940,9 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     r"""Disk Spooling"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodEdgePrometheus]
+    auth_type: NotRequired[
+        CreateInputSystemByPackInputEdgePrometheusAuthenticationMethod
+    ]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
@@ -5973,11 +6043,11 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeEdgePrometheus
+    type: CreateInputSystemByPackInputEdgePrometheusType
     r"""Connector type identifier."""
 
     discovery_type: Annotated[
-        CreateInputSystemByPackDiscoveryTypeEdgePrometheus,
+        CreateInputSystemByPackInputEdgePrometheusDiscoveryType,
         pydantic.Field(alias="discoveryType"),
     ]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -6030,7 +6100,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodEdgePrometheus],
+        Optional[CreateInputSystemByPackInputEdgePrometheusAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
@@ -6239,7 +6309,9 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackDiscoveryTypeEdgePrometheus(value)
+                return models.CreateInputSystemByPackInputEdgePrometheusDiscoveryType(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -6248,7 +6320,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationMethodEdgePrometheus(
+                return models.CreateInputSystemByPackInputEdgePrometheusAuthenticationMethod(
                     value
                 )
             except ValueError:
@@ -6359,7 +6431,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
         return m
 
 
-class CreateInputSystemByPackDiscoveryTypePrometheus(
+class CreateInputSystemByPackInputPrometheusDiscoveryType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -6409,7 +6481,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     r"""Other dimensions to include in events"""
     field_per_metric: NotRequired[bool]
     r"""When enabled, each metric name is used as the event field key (example: go_threads: 9) instead of the default _metric/_value format."""
-    discovery_type: NotRequired[CreateInputSystemByPackDiscoveryTypePrometheus]
+    discovery_type: NotRequired[CreateInputSystemByPackInputPrometheusDiscoveryType]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
@@ -6566,7 +6638,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""When enabled, each metric name is used as the event field key (example: go_threads: 9) instead of the default _metric/_value format."""
 
     discovery_type: Annotated[
-        Optional[CreateInputSystemByPackDiscoveryTypePrometheus],
+        Optional[CreateInputSystemByPackInputPrometheusDiscoveryType],
         pydantic.Field(alias="discoveryType"),
     ] = None
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -6804,7 +6876,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackDiscoveryTypePrometheus(value)
+                return models.CreateInputSystemByPackInputPrometheusDiscoveryType(value)
             except ValueError:
                 return value
         return value
@@ -6936,7 +7008,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypePrometheusRw(str, Enum):
+class CreateInputSystemByPackInputPrometheusRwType(str, Enum):
     r"""Source type identifier."""
 
     PROMETHEUS_RW = "prometheus_rw"
@@ -6945,7 +7017,7 @@ class CreateInputSystemByPackTypePrometheusRw(str, Enum):
 class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypePrometheusRw
+    type: CreateInputSystemByPackInputPrometheusRwType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7026,7 +7098,7 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypePrometheusRw
+    type: CreateInputSystemByPackInputPrometheusRwType
     r"""Source type identifier."""
 
     host: str
@@ -7243,7 +7315,7 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeLoki(str, Enum):
+class CreateInputSystemByPackInputLokiType(str, Enum):
     r"""Source type identifier."""
 
     LOKI = "loki"
@@ -7252,7 +7324,7 @@ class CreateInputSystemByPackTypeLoki(str, Enum):
 class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeLoki
+    type: CreateInputSystemByPackInputLokiType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7331,7 +7403,7 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeLoki
+    type: CreateInputSystemByPackInputLokiType
     r"""Source type identifier."""
 
     host: str
@@ -8726,13 +8798,13 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeElastic(str, Enum):
+class CreateInputSystemByPackInputElasticType(str, Enum):
     r"""Source type identifier."""
 
     ELASTIC = "elastic"
 
 
-class CreateInputSystemByPackAuthenticationTypeElastic(
+class CreateInputSystemByPackInputElasticAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Authentication type"""
@@ -8758,7 +8830,7 @@ class CreateInputSystemByPackAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta)
     CUSTOM = "custom"
 
 
-class CreateInputSystemByPackAuthenticationMethodElastic(
+class CreateInputSystemByPackInputElasticAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Enter credentials directly, or select a stored secret"""
@@ -8768,10 +8840,10 @@ class CreateInputSystemByPackAuthenticationMethodElastic(
     SECRET = "secret"
 
 
-class CreateInputSystemByPackProxyModeElasticTypedDict(TypedDict):
+class CreateInputSystemByPackInputElasticProxyModeTypedDict(TypedDict):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodElastic]
+    auth_type: NotRequired[CreateInputSystemByPackInputElasticAuthenticationMethod]
     r"""Enter credentials directly, or select a stored secret"""
     username: NotRequired[str]
     r"""Username"""
@@ -8791,12 +8863,12 @@ class CreateInputSystemByPackProxyModeElasticTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class CreateInputSystemByPackProxyModeElastic(BaseModel):
+class CreateInputSystemByPackInputElasticProxyMode(BaseModel):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodElastic],
+        Optional[CreateInputSystemByPackInputElasticAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
@@ -8837,7 +8909,9 @@ class CreateInputSystemByPackProxyModeElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationMethodElastic(value)
+                return models.CreateInputSystemByPackInputElasticAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -8874,7 +8948,7 @@ class CreateInputSystemByPackProxyModeElastic(BaseModel):
 class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeElastic
+    type: CreateInputSystemByPackInputElasticType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -8921,7 +8995,7 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationTypeElastic]
+    auth_type: NotRequired[CreateInputSystemByPackInputElasticAuthenticationType]
     r"""Authentication type"""
     api_version: NotRequired[CreateInputSystemByPackAPIVersion]
     r"""The API version to use for communicating with the server"""
@@ -8929,7 +9003,7 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     r"""Headers to add to all events"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[CreateInputSystemByPackProxyModeElasticTypedDict]
+    proxy_mode: NotRequired[CreateInputSystemByPackInputElasticProxyModeTypedDict]
     description: NotRequired[str]
     r"""Optional description for this configuration."""
     username: NotRequired[str]
@@ -8960,7 +9034,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeElastic
+    type: CreateInputSystemByPackInputElasticType
     r"""Source type identifier."""
 
     host: str
@@ -9056,7 +9130,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationTypeElastic],
+        Optional[CreateInputSystemByPackInputElasticAuthenticationType],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Authentication type"""
@@ -9076,7 +9150,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[CreateInputSystemByPackProxyModeElastic],
+        Optional[CreateInputSystemByPackInputElasticProxyMode],
         pydantic.Field(alias="proxyMode"),
     ] = None
 
@@ -9138,7 +9212,9 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationTypeElastic(value)
+                return models.CreateInputSystemByPackInputElasticAuthenticationType(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -9273,7 +9349,7 @@ class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -9414,7 +9490,7 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -9523,13 +9599,13 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeSplunkHec(str, Enum):
+class CreateInputSystemByPackInputSplunkHecType(str, Enum):
     r"""Source type identifier."""
 
     SPLUNK_HEC = "splunk_hec"
 
 
-class CreateInputSystemByPackAuthTokenSplunkHecTypedDict(TypedDict):
+class CreateInputSystemByPackInputSplunkHecAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -9546,7 +9622,7 @@ class CreateInputSystemByPackAuthTokenSplunkHecTypedDict(TypedDict):
     r"""Fields to add to events referencing this token"""
 
 
-class CreateInputSystemByPackAuthTokenSplunkHec(BaseModel):
+class CreateInputSystemByPackInputSplunkHecAuthToken(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
@@ -9611,7 +9687,7 @@ class CreateInputSystemByPackAuthTokenSplunkHec(BaseModel):
 class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSplunkHec
+    type: CreateInputSystemByPackInputSplunkHecType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9634,7 +9710,9 @@ class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[CreateInputSystemByPackAuthTokenSplunkHecTypedDict]]
+    auth_tokens: NotRequired[
+        List[CreateInputSystemByPackInputSplunkHecAuthTokenTypedDict]
+    ]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
     r"""TLS settings (server side)"""
@@ -9698,7 +9776,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSplunkHec
+    type: CreateInputSystemByPackInputSplunkHecType
     r"""Source type identifier."""
 
     host: str
@@ -9736,7 +9814,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[CreateInputSystemByPackAuthTokenSplunkHec]],
+        Optional[List[CreateInputSystemByPackInputSplunkHecAuthToken]],
         pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
@@ -9932,7 +10010,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeSplunkSearch(str, Enum):
+class CreateInputSystemByPackInputSplunkSearchType(str, Enum):
     r"""Connector type identifier."""
 
     SPLUNK_SEARCH = "splunk_search"
@@ -9968,7 +10046,7 @@ class CreateInputSystemByPackEndpointHeader(BaseModel):
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class CreateInputSystemByPackLogLevelSplunkSearch(
+class CreateInputSystemByPackInputSplunkSearchLogLevel(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Collector runtime log level (verbosity)"""
@@ -9979,7 +10057,7 @@ class CreateInputSystemByPackLogLevelSplunkSearch(
     DEBUG = "debug"
 
 
-class CreateInputSystemByPackAuthenticationTypeSplunkSearch(
+class CreateInputSystemByPackInputSplunkSearchAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Splunk Search authentication type"""
@@ -9999,7 +10077,7 @@ class CreateInputSystemByPackAuthenticationTypeSplunkSearch(
 class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSplunkSearch
+    type: CreateInputSystemByPackInputSplunkSearchType
     r"""Connector type identifier."""
     search_head: str
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
@@ -10011,7 +10089,7 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     r"""REST API used to create a search"""
     output_mode: OutputModeOptionsSplunkCollectorConf
     r"""Format of the returned output"""
-    auth_type: CreateInputSystemByPackAuthenticationTypeSplunkSearch
+    auth_type: CreateInputSystemByPackInputSplunkSearchAuthenticationType
     r"""Splunk Search authentication type"""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
@@ -10036,7 +10114,7 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[CreateInputSystemByPackEndpointHeaderTypedDict]]
     r"""Optional request headers to send to the endpoint"""
-    log_level: NotRequired[CreateInputSystemByPackLogLevelSplunkSearch]
+    log_level: NotRequired[CreateInputSystemByPackInputSplunkSearchLogLevel]
     r"""Collector runtime log level (verbosity)"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
@@ -10097,7 +10175,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSplunkSearch
+    type: CreateInputSystemByPackInputSplunkSearchType
     r"""Connector type identifier."""
 
     search_head: Annotated[str, pydantic.Field(alias="searchHead")]
@@ -10118,7 +10196,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""Format of the returned output"""
 
     auth_type: Annotated[
-        CreateInputSystemByPackAuthenticationTypeSplunkSearch,
+        CreateInputSystemByPackInputSplunkSearchAuthenticationType,
         pydantic.Field(alias="authType"),
     ]
     r"""Splunk Search authentication type"""
@@ -10167,7 +10245,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""Optional request headers to send to the endpoint"""
 
     log_level: Annotated[
-        Optional[CreateInputSystemByPackLogLevelSplunkSearch],
+        Optional[CreateInputSystemByPackInputSplunkSearchLogLevel],
         pydantic.Field(alias="logLevel"),
     ] = None
     r"""Collector runtime log level (verbosity)"""
@@ -10301,7 +10379,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackLogLevelSplunkSearch(value)
+                return models.CreateInputSystemByPackInputSplunkSearchLogLevel(value)
             except ValueError:
                 return value
         return value
@@ -10310,8 +10388,10 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationTypeSplunkSearch(
-                    value
+                return (
+                    models.CreateInputSystemByPackInputSplunkSearchAuthenticationType(
+                        value
+                    )
                 )
             except ValueError:
                 return value
@@ -10377,14 +10457,14 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
         return m
 
 
-class CreateInputSystemByPackAuthTokenSplunkTypedDict(TypedDict):
+class CreateInputSystemByPackInputSplunkAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
     r"""Description"""
 
 
-class CreateInputSystemByPackAuthTokenSplunk(BaseModel):
+class CreateInputSystemByPackInputSplunkAuthToken(BaseModel):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
@@ -10472,7 +10552,7 @@ class CreateInputSystemByPackInputSplunkTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_tokens: NotRequired[List[CreateInputSystemByPackAuthTokenSplunkTypedDict]]
+    auth_tokens: NotRequired[List[CreateInputSystemByPackInputSplunkAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     max_s2_sversion: NotRequired[CreateInputSystemByPackMaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
@@ -10585,7 +10665,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_tokens: Annotated[
-        Optional[List[CreateInputSystemByPackAuthTokenSplunk]],
+        Optional[List[CreateInputSystemByPackInputSplunkAuthToken]],
         pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
@@ -10716,7 +10796,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeHTTP(str, Enum):
+class CreateInputSystemByPackInputHTTPType(str, Enum):
     r"""Source type identifier."""
 
     HTTP = "http"
@@ -10725,7 +10805,7 @@ class CreateInputSystemByPackTypeHTTP(str, Enum):
 class CreateInputSystemByPackInputHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeHTTP
+    type: CreateInputSystemByPackInputHTTPType
     r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -10808,7 +10888,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeHTTP
+    type: CreateInputSystemByPackInputHTTPType
     r"""Source type identifier."""
 
     host: str
@@ -11805,17 +11885,19 @@ class CreateInputSystemByPackInputKafka(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCollection(str, Enum):
-    r"""Connector type identifier."""
+class CreateInputSystemByPackInputCollectionType(str, Enum):
+    r"""Resource type identifier."""
 
     COLLECTION = "collection"
 
 
 class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCollection
-    r"""Connector type identifier."""
+    type: CreateInputSystemByPackInputCollectionType
+    r"""Resource type identifier."""
     disabled: NotRequired[bool]
     r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
@@ -11836,6 +11918,7 @@ class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -11849,11 +11932,13 @@ class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
 
 
 class CreateInputSystemByPackInputCollection(BaseModel):
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCollection
-    r"""Connector type identifier."""
+    type: CreateInputSystemByPackInputCollectionType
+    r"""Resource type identifier."""
 
     disabled: Optional[bool] = None
     r"""If true, the Source is disabled and will not collect data."""
@@ -11891,6 +11976,7 @@ class CreateInputSystemByPackInputCollection(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
@@ -11949,8 +12035,8 @@ class CreateInputSystemByPackInputCollection(BaseModel):
         return m
 
 
-CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
-    "CreateInputSystemByPackRequestBodyTypedDict",
+CreateInputSystemByPackInputTypedDict = TypeAliasType(
+    "CreateInputSystemByPackInputTypedDict",
     Union[
         CreateInputSystemByPackInputDatagenTypedDict,
         CreateInputSystemByPackInputKubeEventsTypedDict,
@@ -11973,33 +12059,32 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputNetflowTypedDict,
         CreateInputSystemByPackInputCriblTCPTypedDict,
         CreateInputSystemByPackInputOpenaiTypedDict,
-        CreateInputSystemByPackInputOktaTypedDict,
         CreateInputSystemByPackInputEventhubAmqpTypedDict,
         CreateInputSystemByPackInputTcpjsonTypedDict,
+        CreateInputSystemByPackInputOktaTypedDict,
         CreateInputSystemByPackInputGooglePubsubTypedDict,
-        CreateInputSystemByPackInputAnthropicComplianceTypedDict,
         CreateInputSystemByPackInputCriblHTTPTypedDict,
         CreateInputSystemByPackInputTCPTypedDict,
         CreateInputSystemByPackInputFirehoseTypedDict,
         CreateInputSystemByPackInputOffice365ServiceTypedDict,
+        CreateInputSystemByPackInputAnthropicComplianceTypedDict,
         CreateInputSystemByPackInputWizTypedDict,
         CreateInputSystemByPackInputDatadogAgentTypedDict,
         CreateInputSystemByPackInputAppscopeTypedDict,
-        CreateInputSystemByPackInputOffice365MgmtTypedDict,
-        CreateInputSystemByPackInputSplunkTypedDict,
         CreateInputSystemByPackInputFileTypedDict,
+        CreateInputSystemByPackInputSplunkTypedDict,
+        CreateInputSystemByPackInputOffice365MgmtTypedDict,
         CreateInputSystemByPackInputWefTypedDict,
         CreateInputSystemByPackInputLokiTypedDict,
-        CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputWizWebhookTypedDict,
-        CreateInputSystemByPackInputPrometheusRwTypedDict,
         CreateInputSystemByPackInputUpwindHecTypedDict,
         CreateInputSystemByPackInputSysdigHecTypedDict,
-        CreateInputSystemByPackInputHTTPTypedDict,
-        CreateInputSystemByPackInputZscalerHecTypedDict,
-        CreateInputSystemByPackInputKafkaTypedDict,
+        CreateInputSystemByPackInputPrometheusRwTypedDict,
         CreateInputSystemByPackInputConfluentCloudTypedDict,
+        CreateInputSystemByPackInputKafkaTypedDict,
+        CreateInputSystemByPackInputZscalerHecTypedDict,
         CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
+        CreateInputSystemByPackInputHTTPTypedDict,
         CreateInputSystemByPackInputEventhubTypedDict,
         CreateInputSystemByPackInputAzureBlobTypedDict,
         CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict,
@@ -12011,6 +12096,7 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputKinesisTypedDict,
         CreateInputSystemByPackInputOffice365MsgTraceTypedDict,
         CreateInputSystemByPackInputMicrosoftGraphTypedDict,
+        CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputSplunkSearchTypedDict,
         CreateInputSystemByPackInputServicenowTableTypedDict,
         CreateInputSystemByPackInputMskTypedDict,
@@ -12028,7 +12114,7 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
 r"""Input object."""
 
 
-CreateInputSystemByPackRequestBody = Annotated[
+CreateInputSystemByPackInput = Annotated[
     Union[
         Annotated[CreateInputSystemByPackInputCollection, Tag("collection")],
         Annotated[CreateInputSystemByPackInputKafka, Tag("kafka")],
@@ -12124,7 +12210,7 @@ r"""Input object."""
 class CreateInputSystemByPackRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
-    request_body: CreateInputSystemByPackRequestBodyTypedDict
+    request_body: CreateInputSystemByPackInputTypedDict
     r"""Input object."""
 
 
@@ -12135,7 +12221,7 @@ class CreateInputSystemByPackRequest(BaseModel):
     r"""The <code>id</code> of the Pack."""
 
     request_body: Annotated[
-        CreateInputSystemByPackRequestBody,
+        CreateInputSystemByPackInput,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
     r"""Input object."""
@@ -12146,7 +12232,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackPersistenceSystemState.model_rebuild()
+    CreateInputSystemByPackInputSystemStatePersistence.model_rebuild()
 except NameError:
     pass
 try:
@@ -12154,15 +12240,15 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackCPUSystemMetrics.model_rebuild()
+    CreateInputSystemByPackInputSystemMetricsCPU.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputSystemByPackNetworkSystemMetrics.model_rebuild()
+    CreateInputSystemByPackInputSystemMetricsNetwork.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputSystemByPackDiskSystemMetrics.model_rebuild()
+    CreateInputSystemByPackInputSystemMetricsDisk.model_rebuild()
 except NameError:
     pass
 try:
@@ -12170,7 +12256,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackPersistenceSystemMetrics.model_rebuild()
+    CreateInputSystemByPackInputSystemMetricsPersistence.model_rebuild()
 except NameError:
     pass
 try:
@@ -12254,7 +12340,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackContentConfigOffice365Service.model_rebuild()
+    CreateInputSystemByPackInputOffice365ServiceContentConfig.model_rebuild()
 except NameError:
     pass
 try:
@@ -12262,7 +12348,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackContentConfigOffice365Mgmt.model_rebuild()
+    CreateInputSystemByPackInputOffice365MgmtContentConfig.model_rebuild()
 except NameError:
     pass
 try:
@@ -12318,7 +12404,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackProxyModeElastic.model_rebuild()
+    CreateInputSystemByPackInputElasticProxyMode.model_rebuild()
 except NameError:
     pass
 try:
@@ -12330,7 +12416,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackAuthTokenSplunkHec.model_rebuild()
+    CreateInputSystemByPackInputSplunkHecAuthToken.model_rebuild()
 except NameError:
     pass
 try:

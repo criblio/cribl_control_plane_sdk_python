@@ -45,13 +45,13 @@ class EventBreakerExistingOrNewExistingTypedDict(TypedDict):
     should_mark_cribl_breaker: NotRequired[bool]
     r"""Add this Function name to the cribl_breaker field"""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
     timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -79,7 +79,7 @@ class EventBreakerExistingOrNewExisting(BaseModel):
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
         pydantic.Field(alias="ruleType"),
     ] = None
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
 
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
@@ -92,7 +92,7 @@ class EventBreakerExistingOrNewExisting(BaseModel):
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
     timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -177,7 +177,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsvTypedDict(TypedDict):
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeCsvExistingOrNew
     r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
     time_field: NotRequired[str]
     r"""Optional timestamp field name in extracted events"""
     max_event_bytes: NotRequired[float]
@@ -185,7 +185,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsvTypedDict(TypedDict):
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
     timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -218,7 +218,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
         pydantic.Field(alias="ruleType"),
     ] = None
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
 
     time_field: Annotated[Optional[str], pydantic.Field(alias="timeField")] = None
     r"""Optional timestamp field name in extracted events"""
@@ -234,7 +234,7 @@ class EventBreakerExistingOrNewNewRuleTypeCsv(BaseModel):
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
     timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -330,7 +330,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeaderTypedDict(TypedDict):
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeHeaderExistingOrNew
     r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
     null_field_val: NotRequired[str]
     r"""Representation of a null value. Null fields are not added to events."""
     clean_fields: NotRequired[bool]
@@ -340,7 +340,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeaderTypedDict(TypedDict):
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
     timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -373,7 +373,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
         pydantic.Field(alias="ruleType"),
     ] = None
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
 
     null_field_val: Annotated[Optional[str], pydantic.Field(alias="nullFieldVal")] = (
         None
@@ -394,7 +394,7 @@ class EventBreakerExistingOrNewNewRuleTypeHeader(BaseModel):
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
     timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -485,7 +485,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict(TypedDict):
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeJSONArrayExistingOrNew
     r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
     json_array_field: NotRequired[str]
     r"""The path to an array in a JSON event with records to extract, such as Records or level1.level2.events. Leave blank if result itself is an array, such as [{...},{...}]"""
     parent_fields_to_copy: NotRequired[List[str]]
@@ -501,7 +501,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArrayTypedDict(TypedDict):
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
     timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -525,7 +525,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArray(BaseModel):
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
         pydantic.Field(alias="ruleType"),
     ] = None
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
 
     json_array_field: Annotated[
         Optional[str], pydantic.Field(alias="jsonArrayField")
@@ -563,7 +563,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSONArray(BaseModel):
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
     timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -659,13 +659,13 @@ class EventBreakerExistingOrNewNewRuleTypeJSONTypedDict(TypedDict):
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeJSONExistingOrNew
     r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
     timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -689,7 +689,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
         pydantic.Field(alias="ruleType"),
     ] = None
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
 
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
@@ -702,7 +702,7 @@ class EventBreakerExistingOrNewNewRuleTypeJSON(BaseModel):
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
     timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")
@@ -793,13 +793,13 @@ class EventBreakerExistingOrNewNewRuleTypeRegexTypedDict(TypedDict):
     existing_or_new: EventBreakerExistingOrNewNewRuleTypeRegexExistingOrNew
     r"""Whether to use an existing event breaker ruleset or create a new one inline."""
     rule_type: NotRequired[EventBreakerTypeOptionsEventBreakerExistingOrNewNew]
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
     max_event_bytes: NotRequired[float]
     r"""The maximum number of bytes that an event can be before being flushed to the Pipelines"""
     timestamp_anchor_regex: NotRequired[str]
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
     timestamp: NotRequired[TimestampFormatTypeEventBreakerExistingOrNewNewTypedDict]
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
     timestamp_timezone: NotRequired[str]
     r"""Timezone to assign to timestamps without timezone info"""
     timestamp_earliest: NotRequired[str]
@@ -826,7 +826,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegex(BaseModel):
         Optional[EventBreakerTypeOptionsEventBreakerExistingOrNewNew],
         pydantic.Field(alias="ruleType"),
     ] = None
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
 
     max_event_bytes: Annotated[
         Optional[float], pydantic.Field(alias="maxEventBytes")
@@ -839,7 +839,7 @@ class EventBreakerExistingOrNewNewRuleTypeRegex(BaseModel):
     r"""Regex to match before attempting timestamp extraction. Use $ (end of string anchor) to not perform extraction."""
 
     timestamp: Optional[TimestampFormatTypeEventBreakerExistingOrNewNew] = None
-    r"""Timestamp format"""
+    r"""Configuration for extracting and parsing timestamps from events."""
 
     timestamp_timezone: Annotated[
         Optional[str], pydantic.Field(alias="timestampTimezone")

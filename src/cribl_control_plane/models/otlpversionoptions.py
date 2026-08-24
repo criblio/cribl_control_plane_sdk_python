@@ -6,9 +6,7 @@ from enum import Enum
 
 
 class OtlpVersionOptions(str, Enum, metaclass=utils.OpenEnumMeta):
-    r"""OTLP version"""
+    r"""The version of OTLP Protobuf definitions to use when structuring data to send"""
 
-    # 0.10.0
-    ZERO_DOT_10_DOT_0 = "0.10.0"
     # 1.3.1
     ONE_DOT_3_DOT_1 = "1.3.1"

@@ -15,6 +15,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class SavedJobScheduledSearchTypedDict(TypedDict):
+    r"""Configuration for a saved scheduled search job, including the search query to run."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
     saved_query_id: str
@@ -42,6 +44,8 @@ class SavedJobScheduledSearchTypedDict(TypedDict):
 
 
 class SavedJobScheduledSearch(BaseModel):
+    r"""Configuration for a saved scheduled search job, including the search query to run."""
+
     type: JobTypeOptionsRunnableJobCollection
     r"""Job type"""
 

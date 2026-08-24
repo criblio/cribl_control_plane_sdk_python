@@ -36,7 +36,7 @@ class InputWefAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
     KERBEROS = "kerberos"
 
 
-class InputWefMTLSSettingsTypedDict(TypedDict):
+class MTLSSettingsTypedDict(TypedDict):
     r"""mTLS settings"""
 
     priv_key_path: str
@@ -67,7 +67,7 @@ class InputWefMTLSSettingsTypedDict(TypedDict):
     r"""If enabled, checks will fail on any OCSP error. Otherwise, checks will fail only when a certificate is revoked, ignoring other errors."""
 
 
-class InputWefMTLSSettings(BaseModel):
+class MTLSSettings(BaseModel):
     r"""mTLS settings"""
 
     priv_key_path: Annotated[str, pydantic.Field(alias="privKeyPath")]
@@ -176,21 +176,21 @@ class InputWefFormat(str, Enum, metaclass=utils.OpenEnumMeta):
     RENDERED_TEXT = "RenderedText"
 
 
-class InputWefQueryBuilderMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class QueryBuilderMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Query builder mode"""
 
     SIMPLE = "simple"
     XML = "xml"
 
 
-class InputWefQueryTypedDict(TypedDict):
+class QueryTypedDict(TypedDict):
     path: str
     r"""The Path attribute from the relevant XML Select element"""
     query_expression: str
     r"""The XPath query inside the relevant XML Select element"""
 
 
-class InputWefQuery(BaseModel):
+class Query(BaseModel):
     path: str
     r"""The Path attribute from the relevant XML Select element"""
 
@@ -198,7 +198,7 @@ class InputWefQuery(BaseModel):
     r"""The XPath query inside the relevant XML Select element"""
 
 
-class InputWefSubscriptionTypedDict(TypedDict):
+class SubscriptionTypedDict(TypedDict):
     subscription_name: str
     r"""Subscription name"""
     content_format: InputWefFormat
@@ -219,17 +219,17 @@ class InputWefSubscriptionTypedDict(TypedDict):
     r"""Receive compressed events from the source"""
     locale: NotRequired[str]
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
-    query_selector: NotRequired[InputWefQueryBuilderMode]
+    query_selector: NotRequired[QueryBuilderMode]
     r"""Query builder mode"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events ingested under this subscription"""
-    queries: NotRequired[List[InputWefQueryTypedDict]]
+    queries: NotRequired[List[QueryTypedDict]]
     r"""Queries"""
     xml_query: NotRequired[str]
     r"""The XPath query to use for selecting events"""
 
 
-class InputWefSubscription(BaseModel):
+class Subscription(BaseModel):
     subscription_name: Annotated[str, pydantic.Field(alias="subscriptionName")]
     r"""Subscription name"""
 
@@ -265,14 +265,14 @@ class InputWefSubscription(BaseModel):
     r"""The RFC-3066 locale the Windows clients should use when sending events. Defaults to \"en-US\"."""
 
     query_selector: Annotated[
-        Optional[InputWefQueryBuilderMode], pydantic.Field(alias="querySelector")
+        Optional[QueryBuilderMode], pydantic.Field(alias="querySelector")
     ] = None
     r"""Query builder mode"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events ingested under this subscription"""
 
-    queries: Optional[List[InputWefQuery]] = None
+    queries: Optional[List[Query]] = None
     r"""Queries"""
 
     xml_query: Annotated[Optional[str], pydantic.Field(alias="xmlQuery")] = None
@@ -291,7 +291,7 @@ class InputWefSubscription(BaseModel):
     def serialize_query_selector(self, value):
         if isinstance(value, str):
             try:
-                return models.InputWefQueryBuilderMode(value)
+                return models.QueryBuilderMode(value)
             except ValueError:
                 return value
         return value
@@ -332,7 +332,7 @@ class InputWefInputTypedDict(TypedDict):
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
-    subscriptions: List[InputWefSubscriptionTypedDict]
+    subscriptions: List[SubscriptionTypedDict]
     r"""Subscriptions to events on forwarding endpoints"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
@@ -353,7 +353,7 @@ class InputWefInputTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     auth_method: NotRequired[InputWefAuthenticationMethod]
     r"""How to authenticate incoming client connections"""
-    tls: NotRequired[InputWefMTLSSettingsTypedDict]
+    tls: NotRequired[MTLSSettingsTypedDict]
     r"""mTLS settings"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
@@ -411,7 +411,7 @@ class InputWefInput(BaseModel):
     port: float
     r"""Port to listen on"""
 
-    subscriptions: List[InputWefSubscription]
+    subscriptions: List[Subscription]
     r"""Subscriptions to events on forwarding endpoints"""
 
     id: Optional[str] = None
@@ -447,7 +447,7 @@ class InputWefInput(BaseModel):
     ] = None
     r"""How to authenticate incoming client connections"""
 
-    tls: Optional[InputWefMTLSSettings] = None
+    tls: Optional[MTLSSettings] = None
     r"""mTLS settings"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
@@ -615,15 +615,15 @@ class InputWefInput(BaseModel):
 
 
 try:
-    InputWefMTLSSettings.model_rebuild()
+    MTLSSettings.model_rebuild()
 except NameError:
     pass
 try:
-    InputWefQuery.model_rebuild()
+    Query.model_rebuild()
 except NameError:
     pass
 try:
-    InputWefSubscription.model_rebuild()
+    Subscription.model_rebuild()
 except NameError:
     pass
 try:

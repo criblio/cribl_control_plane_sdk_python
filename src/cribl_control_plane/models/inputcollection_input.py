@@ -20,14 +20,16 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputCollectionType(str, Enum):
-    r"""Connector type identifier."""
+    r"""Resource type identifier."""
 
     COLLECTION = "collection"
 
 
 class InputCollectionInputTypedDict(TypedDict):
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
     type: InputCollectionType
-    r"""Connector type identifier."""
+    r"""Resource type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
@@ -50,6 +52,7 @@ class InputCollectionInputTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -63,8 +66,10 @@ class InputCollectionInputTypedDict(TypedDict):
 
 
 class InputCollectionInput(BaseModel):
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
     type: InputCollectionType
-    r"""Connector type identifier."""
+    r"""Resource type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
@@ -105,6 +110,7 @@ class InputCollectionInput(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")

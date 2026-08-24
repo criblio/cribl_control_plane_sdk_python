@@ -36,7 +36,7 @@ class OutputSentinelOneAiSiemType(str, Enum):
     SENTINEL_ONE_AI_SIEM = "sentinel_one_ai_siem"
 
 
-class OutputSentinelOneAiSiemRegion(str, Enum, metaclass=utils.OpenEnumMeta):
+class Region(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
 
     US = "US"
@@ -48,9 +48,7 @@ class OutputSentinelOneAiSiemRegion(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "Custom"
 
 
-class OutputSentinelOneAISIEMAISIEMEndpointPath(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AISIEMEndpointPath(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     ROOT_SERVICES_COLLECTOR_EVENT = "/services/collector/event"
@@ -68,9 +66,9 @@ class OutputSentinelOneAiSiemPqControls(BaseModel):
 class OutputSentinelOneAiSiemTypedDict(TypedDict):
     type: OutputSentinelOneAiSiemType
     r"""Connector type identifier."""
-    region: OutputSentinelOneAiSiemRegion
+    region: Region
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
-    endpoint: OutputSentinelOneAISIEMAISIEMEndpointPath
+    endpoint: AISIEMEndpointPath
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -97,6 +95,8 @@ class OutputSentinelOneAiSiemTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -188,10 +188,10 @@ class OutputSentinelOneAiSiem(BaseModel):
     type: OutputSentinelOneAiSiemType
     r"""Connector type identifier."""
 
-    region: OutputSentinelOneAiSiemRegion
+    region: Region
     r"""The SentinelOne region to send events to. In most cases you can find the region by either looking at your SentinelOne URL or knowing what geographic region your SentinelOne instance is contained in."""
 
-    endpoint: OutputSentinelOneAISIEMAISIEMEndpointPath
+    endpoint: AISIEMEndpointPath
     r"""Endpoint to send events to. Use /services/collector/event for structured JSON payloads with standard HEC top-level fields. Use /services/collector/raw for unstructured log lines (plain text)."""
 
     id: Optional[str] = None
@@ -237,6 +237,11 @@ class OutputSentinelOneAiSiem(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -451,7 +456,7 @@ class OutputSentinelOneAiSiem(BaseModel):
     def serialize_region(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputSentinelOneAiSiemRegion(value)
+                return models.Region(value)
             except ValueError:
                 return value
         return value
@@ -460,7 +465,7 @@ class OutputSentinelOneAiSiem(BaseModel):
     def serialize_endpoint(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputSentinelOneAISIEMAISIEMEndpointPath(value)
+                return models.AISIEMEndpointPath(value)
             except ValueError:
                 return value
         return value
@@ -516,6 +521,7 @@ class OutputSentinelOneAiSiem(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",

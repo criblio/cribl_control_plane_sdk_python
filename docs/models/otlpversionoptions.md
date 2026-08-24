@@ -1,13 +1,13 @@
 # OtlpVersionOptions
 
-OTLP version
+The version of OTLP Protobuf definitions to use when structuring data to send
 
 ## Example Usage
 
 ```python
 from cribl_control_plane.models import OtlpVersionOptions
 
-value = OtlpVersionOptions.ZERO_DOT_10_DOT_0
+value = OtlpVersionOptions.ONE_DOT_3_DOT_1
 
 # Open enum: unrecognized values are captured as UnrecognizedStr
 ```
@@ -15,7 +15,6 @@ value = OtlpVersionOptions.ZERO_DOT_10_DOT_0
 
 ## Values
 
-| Name                | Value               |
-| ------------------- | ------------------- |
-| `ZERO_DOT_10_DOT_0` | 0.10.0              |
-| `ONE_DOT_3_DOT_1`   | 1.3.1               |
+| Name              | Value             |
+| ----------------- | ----------------- |
+| `ONE_DOT_3_DOT_1` | 1.3.1             |

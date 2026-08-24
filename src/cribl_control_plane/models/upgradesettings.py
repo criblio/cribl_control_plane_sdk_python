@@ -18,6 +18,8 @@ class UpgradeSettingsTypedDict(TypedDict):
     r"""If <code>true</code>, enable the legacy upgrade flow for Edge Nodes. Otherwise, <code>false</code>."""
     package_urls: NotRequired[List[UpgradePackageUrlsTypedDict]]
     r"""List of custom package URLs to use for manual upgrades."""
+    reject_unauthorized: NotRequired[bool]
+    r"""If <code>false</code>, skip TLS certificate validation when downloading upgrade packages. Defaults to <code>true</code> (validate). Set to <code>false</code> only when a trusted TLS-inspecting proxy is in use (insecure)."""
     upgrade_source: NotRequired[str]
     r"""Upgrade source: <code>cribl</code> for official Cribl packages or <code>custom</code> for a custom package URL."""
 
@@ -43,6 +45,11 @@ class UpgradeSettings(BaseModel):
     ] = None
     r"""List of custom package URLs to use for manual upgrades."""
 
+    reject_unauthorized: Annotated[
+        Optional[bool], pydantic.Field(alias="rejectUnauthorized")
+    ] = None
+    r"""If <code>false</code>, skip TLS certificate validation when downloading upgrade packages. Defaults to <code>true</code> (validate). Set to <code>false</code> only when a trusted TLS-inspecting proxy is in use (insecure)."""
+
     upgrade_source: Annotated[Optional[str], pydantic.Field(alias="upgradeSource")] = (
         None
     )
@@ -56,6 +63,7 @@ class UpgradeSettings(BaseModel):
                 "disableAutomaticUpgrade",
                 "enableLegacyEdgeUpgrade",
                 "packageUrls",
+                "rejectUnauthorized",
                 "upgradeSource",
             ]
         )

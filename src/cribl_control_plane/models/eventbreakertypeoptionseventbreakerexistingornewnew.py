@@ -8,7 +8,7 @@ from enum import Enum
 class EventBreakerTypeOptionsEventBreakerExistingOrNewNew(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
-    r"""Event Breaker type"""
+    r"""Type of event-breaking rule to apply when creating a new inline ruleset."""
 
     # Regex
     REGEX = "regex"

@@ -38,7 +38,7 @@ class InputOpenaiManageState(BaseModel):
     pass
 
 
-class InputOpenaiPaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class PaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Pagination type"""
 
     # None
@@ -61,12 +61,12 @@ class InputOpenaiLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     SILLY = "silly"
 
 
-class InputOpenaiContentConfigTypedDict(TypedDict):
+class ContentConfigInputTypedDict(TypedDict):
     request_params: List[
         RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict
     ]
     r"""Query-string parameters to send with this endpoint"""
-    pagination_type: InputOpenaiPaginationType
+    pagination_type: PaginationType
     r"""Pagination type"""
     cron_schedule: str
     r"""A cron schedule on which to run this job"""
@@ -101,16 +101,14 @@ class InputOpenaiContentConfigTypedDict(TypedDict):
     r"""Fields automatically added to events from this Content Type"""
 
 
-class InputOpenaiContentConfig(BaseModel):
+class ContentConfigInput(BaseModel):
     request_params: Annotated[
         List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret],
         pydantic.Field(alias="requestParams"),
     ]
     r"""Query-string parameters to send with this endpoint"""
 
-    pagination_type: Annotated[
-        InputOpenaiPaginationType, pydantic.Field(alias="paginationType")
-    ]
+    pagination_type: Annotated[PaginationType, pydantic.Field(alias="paginationType")]
     r"""Pagination type"""
 
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
@@ -185,7 +183,7 @@ class InputOpenaiContentConfig(BaseModel):
     def serialize_pagination_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputOpenaiPaginationType(value)
+                return models.PaginationType(value)
             except ValueError:
                 return value
         return value
@@ -235,7 +233,7 @@ class InputOpenaiContentConfig(BaseModel):
 class InputOpenaiInputTypedDict(TypedDict):
     type: InputOpenaiType
     r"""Connector type identifier."""
-    content_config: List[InputOpenaiContentConfigTypedDict]
+    content_config: List[ContentConfigInputTypedDict]
     r"""Content Types"""
     text_secret: str
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
@@ -292,7 +290,7 @@ class InputOpenaiInput(BaseModel):
     r"""Connector type identifier."""
 
     content_config: Annotated[
-        List[InputOpenaiContentConfig], pydantic.Field(alias="contentConfig")
+        List[ContentConfigInput], pydantic.Field(alias="contentConfig")
     ]
     r"""Content Types"""
 
@@ -438,7 +436,7 @@ class InputOpenaiInput(BaseModel):
 
 
 try:
-    InputOpenaiContentConfig.model_rebuild()
+    ContentConfigInput.model_rebuild()
 except NameError:
     pass
 try:

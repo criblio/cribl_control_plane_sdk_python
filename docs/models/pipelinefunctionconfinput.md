@@ -357,12 +357,6 @@ value: models.PipelineFunctionSerialize = /* values here */
 value: models.PipelineFunctionSidlookup = /* values here */
 ```
 
-### `models.PipelineFunctionSignalFilter`
-
-```python
-value: models.PipelineFunctionSignalFilter = /* values here */
-```
-
 ### `models.PipelineFunctionSnmpTrapSerialize`
 
 ```python

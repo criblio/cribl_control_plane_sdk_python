@@ -313,8 +313,8 @@ class PacksSources(BaseSDK):
         *,
         pack: str,
         request_body: Union[
-            models.CreateInputSystemByPackRequestBody,
-            models.CreateInputSystemByPackRequestBodyTypedDict,
+            models.CreateInputSystemByPackInput,
+            models.CreateInputSystemByPackInputTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -345,7 +345,7 @@ class PacksSources(BaseSDK):
         request = models.CreateInputSystemByPackRequest(
             pack=pack,
             request_body=utils.get_pydantic_model(
-                request_body, models.CreateInputSystemByPackRequestBody
+                request_body, models.CreateInputSystemByPackInput
             ),
         )
 
@@ -367,7 +367,7 @@ class PacksSources(BaseSDK):
                 False,
                 False,
                 "json",
-                models.CreateInputSystemByPackRequestBody,
+                models.CreateInputSystemByPackInput,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -425,8 +425,8 @@ class PacksSources(BaseSDK):
         *,
         pack: str,
         request_body: Union[
-            models.CreateInputSystemByPackRequestBody,
-            models.CreateInputSystemByPackRequestBodyTypedDict,
+            models.CreateInputSystemByPackInput,
+            models.CreateInputSystemByPackInputTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -457,7 +457,7 @@ class PacksSources(BaseSDK):
         request = models.CreateInputSystemByPackRequest(
             pack=pack,
             request_body=utils.get_pydantic_model(
-                request_body, models.CreateInputSystemByPackRequestBody
+                request_body, models.CreateInputSystemByPackInput
             ),
         )
 
@@ -479,7 +479,7 @@ class PacksSources(BaseSDK):
                 False,
                 False,
                 "json",
-                models.CreateInputSystemByPackRequestBody,
+                models.CreateInputSystemByPackInput,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,

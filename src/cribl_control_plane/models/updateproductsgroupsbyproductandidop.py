@@ -13,7 +13,7 @@ from typing_extensions import Annotated, TypedDict
 
 class UpdateProductsGroupsByProductAndIDRequestTypedDict(TypedDict):
     product: ProductsCore
-    r"""Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for."""
+    r"""Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet."""
     id_param: str
     r"""The <code>id</code> of the Worker Group, Outpost Group, or Edge Fleet to update."""
     config_group: ConfigGroupTypedDict
@@ -25,7 +25,7 @@ class UpdateProductsGroupsByProductAndIDRequest(BaseModel):
         ProductsCore,
         FieldMetadata(path=PathParamMetadata(style="simple", explode=False)),
     ]
-    r"""Name of the Cribl product to get the Worker Groups, Outpost Groups, or Edge Fleets for."""
+    r"""Name of the Cribl product that contains the Worker Group, Outpost Group, or Edge Fleet."""
 
     id_param: Annotated[
         str,

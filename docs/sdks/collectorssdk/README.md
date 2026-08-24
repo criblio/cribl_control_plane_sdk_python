@@ -109,7 +109,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -401,7 +401,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -506,7 +506,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -611,7 +611,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -716,7 +716,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -821,7 +821,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -909,6 +909,42 @@ with CriblControlPlane(
                 client_secret_param_value="<value>",
                 collect_url="https://glaring-bid.name/",
                 collect_method=models.RestAuthenticationOauthCollectMethod.GET,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorAzureBlob(
+            type=models.CollectorAzureBlobType.AZURE_BLOB,
+            conf=models.AzureBlobAuthTypeClientCert(
+                auth_type=models.AzureBlobAuthTypeClientCertAuthenticationMethod.CLIENT_CERT,
+                storage_account_name="<value>",
+                tenant_id="<id>",
+                client_id="<id>",
+                certificate=models.CertificateTypeAzureBlobAuthTypeClientCert(
+                    certificate_name="<value>",
+                ),
+                container_name="<value>",
             ),
         ),
     ))
@@ -1093,7 +1129,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1210,7 +1246,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1452,7 +1488,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1633,7 +1669,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1750,7 +1786,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -2107,6 +2143,40 @@ with CriblControlPlane(
 ### Example Usage: UpdateCollectorExamplesSplunk
 
 <!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesSplunk" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="authenticationFailed" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os

@@ -89,6 +89,8 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     r"""Discriminator value."""
     endpoint: NotRequired[OutputGoogleCloudObservabilityEndpoint]
     r"""Fixed Google Cloud Observability gRPC endpoint. All three signals share this transport; the OTLP service path determines whether the call lands on traces, metrics, or logs."""
+    preserve_native_any_value: NotRequired[bool]
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
     metadata: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
     dynamic_headers_enabled: NotRequired[bool]
@@ -101,6 +103,8 @@ class OutputGoogleCloudObservabilityTypedDict(TypedDict):
     r"""Maximum size, in KB, of the request body sent to Google Cloud Observability"""
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     failed_request_logging_mode: NotRequired[FailedRequestLoggingModeOptions]
@@ -190,6 +194,11 @@ class OutputGoogleCloudObservability(BaseModel):
     endpoint: Optional[OutputGoogleCloudObservabilityEndpoint] = None
     r"""Fixed Google Cloud Observability gRPC endpoint. All three signals share this transport; the OTLP service path determines whether the call lands on traces, metrics, or logs."""
 
+    preserve_native_any_value: Annotated[
+        Optional[bool], pydantic.Field(alias="preserveNativeAnyValue")
+    ] = None
+    r"""Values already in OTLP AnyValue form (e.g. {string_value: \"...\"}) are serialized directly instead of being wrapped as key-value maps"""
+
     metadata: Optional[List[KeyValueMetadataConfOutputFilesystem]] = None
     r"""List of key-value pairs to send with each gRPC request. Value supports JavaScript expressions that are evaluated just once, when the destination gets started. To pass credentials as metadata, use 'C.Secret'."""
 
@@ -213,6 +222,11 @@ class OutputGoogleCloudObservability(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -419,12 +433,14 @@ class OutputGoogleCloudObservability(BaseModel):
                 "protocol",
                 "otlpVersion",
                 "endpoint",
+                "preserveNativeAnyValue",
                 "metadata",
                 "dynamicHeadersEnabled",
                 "dynamicHeadersField",
                 "concurrency",
                 "maxPayloadSizeKB",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "failedRequestLoggingMode",
                 "connectionTimeout",

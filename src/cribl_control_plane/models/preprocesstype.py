@@ -8,6 +8,8 @@ from typing_extensions import NotRequired, TypedDict
 
 
 class PreprocessTypeTypedDict(TypedDict):
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
+
     disabled: bool
     r"""Disabled"""
     command: NotRequired[str]
@@ -17,6 +19,8 @@ class PreprocessTypeTypedDict(TypedDict):
 
 
 class PreprocessType(BaseModel):
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
+
     disabled: bool
     r"""Disabled"""
 

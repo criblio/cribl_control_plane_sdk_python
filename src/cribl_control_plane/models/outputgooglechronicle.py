@@ -61,7 +61,7 @@ class OutputGoogleChronicleAuthenticationMethod(
     SERVICE_ACCOUNT_SECRET = "serviceAccountSecret"
 
 
-class OutputGoogleChronicleSendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta):
+class SendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Send events as"""
 
     # Unstructured
@@ -70,14 +70,14 @@ class OutputGoogleChronicleSendEventsAs(str, Enum, metaclass=utils.OpenEnumMeta)
     UDM = "udm"
 
 
-class OutputGoogleChronicleExtraLogTypeTypedDict(TypedDict):
+class ExtraLogTypeTypedDict(TypedDict):
     log_type: str
     r"""Log Type"""
     description: NotRequired[str]
     r"""Description"""
 
 
-class OutputGoogleChronicleExtraLogType(BaseModel):
+class ExtraLogType(BaseModel):
     log_type: Annotated[str, pydantic.Field(alias="logType")]
     r"""Log Type"""
 
@@ -101,7 +101,7 @@ class OutputGoogleChronicleExtraLogType(BaseModel):
         return m
 
 
-class OutputGoogleChronicleUDMType(str, Enum, metaclass=utils.OpenEnumMeta):
+class UDMType(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
 
     ENTITIES = "entities"
@@ -119,7 +119,7 @@ class OutputGoogleChroniclePqControls(BaseModel):
 class OutputGoogleChronicleTypedDict(TypedDict):
     type: OutputGoogleChronicleType
     r"""Connector type identifier."""
-    log_format_type: OutputGoogleChronicleSendEventsAs
+    log_format_type: SendEventsAs
     r"""Send events as"""
     id: NotRequired[str]
     r"""Unique ID for this output"""
@@ -159,6 +159,8 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -175,7 +177,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     r"""Maximum total size of the batches waiting to be sent. If left blank, defaults to 5 times the max body size (if set). If 0, no limit is enforced."""
     description: NotRequired[str]
     r"""Optional description for this configuration."""
-    extra_log_types: NotRequired[List[OutputGoogleChronicleExtraLogTypeTypedDict]]
+    extra_log_types: NotRequired[List[ExtraLogTypeTypedDict]]
     r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
     log_type: NotRequired[str]
     r"""Default log type value to send to SecOps. Can be overwritten by event field __logType."""
@@ -187,7 +189,7 @@ class OutputGoogleChronicleTypedDict(TypedDict):
     r"""User-configured environment namespace to identify the data domain the logs originated from. Use namespace as a tag to identify the appropriate data domain for indexing and enrichment functionality. Can be overwritten by event field __namespace."""
     custom_labels: NotRequired[List[KeyValueMetadataConfOutputFilesystemTypedDict]]
     r"""Custom labels to be added to every batch"""
-    udm_type: NotRequired[OutputGoogleChronicleUDMType]
+    udm_type: NotRequired[UDMType]
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
     api_key: NotRequired[str]
     r"""Organization's API key in Google SecOps"""
@@ -239,9 +241,7 @@ class OutputGoogleChronicle(BaseModel):
     type: OutputGoogleChronicleType
     r"""Connector type identifier."""
 
-    log_format_type: Annotated[
-        OutputGoogleChronicleSendEventsAs, pydantic.Field(alias="logFormatType")
-    ]
+    log_format_type: Annotated[SendEventsAs, pydantic.Field(alias="logFormatType")]
     r"""Send events as"""
 
     id: Optional[str] = None
@@ -317,6 +317,11 @@ class OutputGoogleChronicle(BaseModel):
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
 
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
+
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
     ] = None
@@ -358,8 +363,7 @@ class OutputGoogleChronicle(BaseModel):
     r"""Optional description for this configuration."""
 
     extra_log_types: Annotated[
-        Optional[List[OutputGoogleChronicleExtraLogType]],
-        pydantic.Field(alias="extraLogTypes"),
+        Optional[List[ExtraLogType]], pydantic.Field(alias="extraLogTypes")
     ] = None
     r"""Custom log types. If the value \"Custom\" is selected in the setting \"Default log type\" above, the first custom log type in this table will be automatically selected as default log type."""
 
@@ -383,9 +387,7 @@ class OutputGoogleChronicle(BaseModel):
     ] = None
     r"""Custom labels to be added to every batch"""
 
-    udm_type: Annotated[
-        Optional[OutputGoogleChronicleUDMType], pydantic.Field(alias="udmType")
-    ] = None
+    udm_type: Annotated[Optional[UDMType], pydantic.Field(alias="udmType")] = None
     r"""Defines the specific format for UDM events sent to Google SecOps. This must match the type of UDM data being sent."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
@@ -512,7 +514,7 @@ class OutputGoogleChronicle(BaseModel):
     def serialize_log_format_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputGoogleChronicleSendEventsAs(value)
+                return models.SendEventsAs(value)
             except ValueError:
                 return value
         return value
@@ -539,7 +541,7 @@ class OutputGoogleChronicle(BaseModel):
     def serialize_udm_type(self, value):
         if isinstance(value, str):
             try:
-                return models.OutputGoogleChronicleUDMType(value)
+                return models.UDMType(value)
             except ValueError:
                 return value
         return value
@@ -592,6 +594,7 @@ class OutputGoogleChronicle(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",
@@ -646,7 +649,7 @@ class OutputGoogleChronicle(BaseModel):
 
 
 try:
-    OutputGoogleChronicleExtraLogType.model_rebuild()
+    ExtraLogType.model_rebuild()
 except NameError:
     pass
 try:

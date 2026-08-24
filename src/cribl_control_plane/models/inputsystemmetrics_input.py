@@ -434,7 +434,7 @@ class InputSystemMetricsHost(BaseModel):
         return m
 
 
-class InputSystemMetricsContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for container metrics"""
 
     # Basic
@@ -457,8 +457,8 @@ class InputSystemMetricsFilter(BaseModel):
     r"""Expression"""
 
 
-class InputSystemMetricsContainerTypedDict(TypedDict):
-    mode: NotRequired[InputSystemMetricsContainerMode]
+class ContainerTypedDict(TypedDict):
+    mode: NotRequired[ContainerMode]
     r"""Select the level of detail for container metrics"""
     docker_socket: NotRequired[List[str]]
     r"""Full paths for Docker's UNIX-domain socket"""
@@ -474,8 +474,8 @@ class InputSystemMetricsContainerTypedDict(TypedDict):
     r"""Generate full container metrics"""
 
 
-class InputSystemMetricsContainer(BaseModel):
-    mode: Optional[InputSystemMetricsContainerMode] = None
+class Container(BaseModel):
+    mode: Optional[ContainerMode] = None
     r"""Select the level of detail for container metrics"""
 
     docker_socket: Annotated[
@@ -506,7 +506,7 @@ class InputSystemMetricsContainer(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputSystemMetricsContainerMode(value)
+                return models.ContainerMode(value)
             except ValueError:
                 return value
         return value
@@ -635,7 +635,7 @@ class InputSystemMetricsInputTypedDict(TypedDict):
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
     host: NotRequired[InputSystemMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
-    container: NotRequired[InputSystemMetricsContainerTypedDict]
+    container: NotRequired[ContainerTypedDict]
     gpu: NotRequired[GpuTypeTypedDict]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
@@ -688,7 +688,7 @@ class InputSystemMetricsInput(BaseModel):
 
     process: Optional[ProcessType] = None
 
-    container: Optional[InputSystemMetricsContainer] = None
+    container: Optional[Container] = None
 
     gpu: Optional[GpuType] = None
 
@@ -763,7 +763,7 @@ try:
 except NameError:
     pass
 try:
-    InputSystemMetricsContainer.model_rebuild()
+    Container.model_rebuild()
 except NameError:
     pass
 try:

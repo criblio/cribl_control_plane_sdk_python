@@ -317,8 +317,8 @@ class PacksDestinations(BaseSDK):
         *,
         pack: str,
         request_body: Union[
-            models.CreateOutputSystemByPackRequestBody,
-            models.CreateOutputSystemByPackRequestBodyTypedDict,
+            models.CreateOutputSystemByPackOutput,
+            models.CreateOutputSystemByPackOutputTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -349,7 +349,7 @@ class PacksDestinations(BaseSDK):
         request = models.CreateOutputSystemByPackRequest(
             pack=pack,
             request_body=utils.get_pydantic_model(
-                request_body, models.CreateOutputSystemByPackRequestBody
+                request_body, models.CreateOutputSystemByPackOutput
             ),
         )
 
@@ -371,7 +371,7 @@ class PacksDestinations(BaseSDK):
                 False,
                 False,
                 "json",
-                models.CreateOutputSystemByPackRequestBody,
+                models.CreateOutputSystemByPackOutput,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -429,8 +429,8 @@ class PacksDestinations(BaseSDK):
         *,
         pack: str,
         request_body: Union[
-            models.CreateOutputSystemByPackRequestBody,
-            models.CreateOutputSystemByPackRequestBodyTypedDict,
+            models.CreateOutputSystemByPackOutput,
+            models.CreateOutputSystemByPackOutputTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -461,7 +461,7 @@ class PacksDestinations(BaseSDK):
         request = models.CreateOutputSystemByPackRequest(
             pack=pack,
             request_body=utils.get_pydantic_model(
-                request_body, models.CreateOutputSystemByPackRequestBody
+                request_body, models.CreateOutputSystemByPackOutput
             ),
         )
 
@@ -483,7 +483,7 @@ class PacksDestinations(BaseSDK):
                 False,
                 False,
                 "json",
-                models.CreateOutputSystemByPackRequestBody,
+                models.CreateOutputSystemByPackOutput,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,

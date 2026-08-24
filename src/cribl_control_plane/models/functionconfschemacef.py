@@ -12,7 +12,7 @@ class HeaderTypedDict(TypedDict):
     value: str
     r"""JavaScript expression to compute the value (can be constant)"""
     name: NotRequired[str]
-    r"""Name"""
+    r"""Name of the CEF header field. Header names are predefined by the CEF standard."""
 
 
 class Header(BaseModel):
@@ -20,7 +20,7 @@ class Header(BaseModel):
     r"""JavaScript expression to compute the value (can be constant)"""
 
     name: Optional[str] = None
-    r"""Name"""
+    r"""Name of the CEF header field. Header names are predefined by the CEF standard."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -41,14 +41,14 @@ class Header(BaseModel):
 
 class ExtensionTypedDict(TypedDict):
     name: str
-    r"""Name"""
+    r"""Name of the CEF extension field. Must contain only alphanumeric characters."""
     value: str
     r"""JavaScript expression to compute the value (can be constant)"""
 
 
 class Extension(BaseModel):
     name: str
-    r"""Name"""
+    r"""Name of the CEF extension field. Must contain only alphanumeric characters."""
 
     value: str
     r"""JavaScript expression to compute the value (can be constant)"""

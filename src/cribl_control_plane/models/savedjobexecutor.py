@@ -19,11 +19,16 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class SavedJobExecutorTypedDict(TypedDict):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
+    r"""Job type"""
     executor: ExecutorTypeRunnableJobExecutorTypedDict
+    r"""Executor configuration, including the executor type and its settings."""
     id: NotRequired[str]
     r"""Unique ID for this Job"""
     description: NotRequired[str]
+    r"""Description"""
     ttl: NotRequired[str]
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
     ignore_group_jobs_limit: NotRequired[bool]
@@ -37,20 +42,25 @@ class SavedJobExecutorTypedDict(TypedDict):
     schedule: NotRequired[ScheduleTypeSavedJobResponseCollectionTypedDict]
     r"""Configuration for a scheduled job"""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
 
 
 class SavedJobExecutor(BaseModel):
+    r"""Configuration for a saved executor job, including executor type and run settings."""
+
     type: JobTypeOptionsRunnableJobCollection
+    r"""Job type"""
 
     executor: ExecutorTypeRunnableJobExecutor
+    r"""Executor configuration, including the executor type and its settings."""
 
     id: Optional[str] = None
     r"""Unique ID for this Job"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     ttl: Optional[str] = None
     r"""Time to keep the job's artifacts on disk after job completion. This also affects how long a job is listed in the Job Inspector."""
@@ -77,7 +87,7 @@ class SavedJobExecutor(BaseModel):
     r"""Configuration for a scheduled job"""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")

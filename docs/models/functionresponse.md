@@ -207,6 +207,12 @@ value: models.FunctionLookup = /* values here */
 value: models.FunctionMask = /* values here */
 ```
 
+### `models.FunctionMetricsExport`
+
+```python
+value: models.FunctionMetricsExport = /* values here */
+```
+
 ### `models.FunctionMvExpand`
 
 ```python
@@ -349,12 +355,6 @@ value: models.FunctionSerialize = /* values here */
 
 ```python
 value: models.FunctionSidlookup = /* values here */
-```
-
-### `models.FunctionSignalFilter`
-
-```python
-value: models.FunctionSignalFilter = /* values here */
 ```
 
 ### `models.FunctionSnmpTrapSerialize`

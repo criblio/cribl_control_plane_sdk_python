@@ -10,19 +10,27 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 class UpgradeGroupSettingsTypedDict(TypedDict):
     is_rolling: NotRequired[bool]
-    quantity: NotRequired[float]
-    retry_count: NotRequired[float]
-    retry_delay: NotRequired[float]
+    r"""If <code>true</code>, perform a rolling upgrade that updates nodes incrementally. If <code>false</code>, upgrade all nodes simultaneously."""
+    quantity: NotRequired[int]
+    r"""Percentage of nodes to upgrade at a time during a rolling upgrade."""
+    retry_count: NotRequired[int]
+    r"""Number of times to retry upgrading a node before marking it as failed."""
+    retry_delay: NotRequired[int]
+    r"""Delay in milliseconds between upgrade retries when a node fails to upgrade."""
 
 
 class UpgradeGroupSettings(BaseModel):
     is_rolling: Annotated[Optional[bool], pydantic.Field(alias="isRolling")] = None
+    r"""If <code>true</code>, perform a rolling upgrade that updates nodes incrementally. If <code>false</code>, upgrade all nodes simultaneously."""
 
-    quantity: Optional[float] = None
+    quantity: Optional[int] = None
+    r"""Percentage of nodes to upgrade at a time during a rolling upgrade."""
 
-    retry_count: Annotated[Optional[float], pydantic.Field(alias="retryCount")] = None
+    retry_count: Annotated[Optional[int], pydantic.Field(alias="retryCount")] = None
+    r"""Number of times to retry upgrading a node before marking it as failed."""
 
-    retry_delay: Annotated[Optional[float], pydantic.Field(alias="retryDelay")] = None
+    retry_delay: Annotated[Optional[int], pydantic.Field(alias="retryDelay")] = None
+    r"""Delay in milliseconds between upgrade retries when a node fails to upgrade."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

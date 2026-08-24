@@ -1,0 +1,18 @@
+# CreateInputInputTCPType
+
+Connector type identifier.
+
+## Example Usage
+
+```python
+from cribl_control_plane.models import CreateInputInputTCPType
+
+value = CreateInputInputTCPType.TCP
+```
+
+
+## Values
+
+| Name  | Value |
+| ----- | ----- |
+| `TCP` | tcp   |

@@ -6,7 +6,8 @@ from cribl_control_plane._hooks import HookContext
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Mapping, Optional
+from jsonpath import JSONPath
+from typing import Any, Awaitable, Dict, List, Mapping, Optional, Union
 
 
 class DatabaseConnections(BaseSDK):
@@ -16,16 +17,20 @@ class DatabaseConnections(BaseSDK):
         self,
         *,
         database_type: Optional[models.DatabaseConnectionType] = None,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
-        r"""List Database Connections
+    ) -> Optional[models.GetDatabaseConnectionConfigResponse]:
+        r"""List all Database Connections
 
         Get a list of all Database Connections.
 
-        :param database_type: Type of Database Connections to include in the results.
+        :param database_type: Filter results by database engine type. Use this parameter to return only Database Connections for the specified engine.
+        :param limit: Maximum number of Database Connections to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -43,6 +48,8 @@ class DatabaseConnections(BaseSDK):
 
         request = models.GetDatabaseConnectionConfigRequest(
             database_type=database_type,
+            limit=limit,
+            offset=offset,
         )
 
         req = self._build_request(
@@ -83,21 +90,54 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[models.GetDatabaseConnectionConfigResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return None
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return None
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return None
+            next_offset = offset + len(results[0])
+
+            return self.list(
+                database_type=database_type,
+                limit=limit,
+                offset=next_offset,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+            return models.GetDatabaseConnectionConfigResponse(
+                result=unmarshal_json_response(
+                    models.DatabaseConnectionResponseEnvelope, http_res
+                ),
+                next=next_func,
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -110,16 +150,20 @@ class DatabaseConnections(BaseSDK):
         self,
         *,
         database_type: Optional[models.DatabaseConnectionType] = None,
+        limit: Optional[int] = None,
+        offset: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
-        r"""List Database Connections
+    ) -> Optional[models.GetDatabaseConnectionConfigResponse]:
+        r"""List all Database Connections
 
         Get a list of all Database Connections.
 
-        :param database_type: Type of Database Connections to include in the results.
+        :param database_type: Filter results by database engine type. Use this parameter to return only Database Connections for the specified engine.
+        :param limit: Maximum number of Database Connections to return in the response for this request. Use with <code>offset</code> to paginate the response into manageable batches.
+        :param offset: Starting point from which to retrieve results for this request. Use with <code>limit</code> to paginate the response into manageable batches.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -137,6 +181,8 @@ class DatabaseConnections(BaseSDK):
 
         request = models.GetDatabaseConnectionConfigRequest(
             database_type=database_type,
+            limit=limit,
+            offset=offset,
         )
 
         req = self._build_request_async(
@@ -177,21 +223,59 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> (
+            Awaitable[Optional[models.GetDatabaseConnectionConfigResponse]]
+        ):
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            async def empty_result():
+                return None
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return empty_result()
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return empty_result()
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return empty_result()
+            next_offset = offset + len(results[0])
+
+            return self.list_async(
+                database_type=database_type,
+                limit=limit,
+                offset=next_offset,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+            return models.GetDatabaseConnectionConfigResponse(
+                result=unmarshal_json_response(
+                    models.DatabaseConnectionResponseEnvelope, http_res
+                ),
+                next=next_func,
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -203,41 +287,45 @@ class DatabaseConnections(BaseSDK):
     def create(
         self,
         *,
-        auth_type: str,
+        auth_type: models.DatabaseConnectionAuthType,
         database_type: models.DatabaseConnectionType,
         description: str,
         id: str,
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
-        connection_timeout: Optional[float] = None,
+        connection_timeout: Optional[int] = None,
         creds_secrets: Optional[str] = None,
         password: Optional[str] = None,
-        request_timeout: Optional[float] = None,
+        request_timeout: Optional[int] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
+        tls: Optional[
+            Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
+        ] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
-        r"""Create Database Connection
+    ) -> models.DatabaseConnectionResponseEnvelope:
+        r"""Create a Database Connection
 
         Create a new Database Connection.
 
         :param auth_type:
         :param database_type:
-        :param description:
-        :param id:
-        :param config_obj:
-        :param connection_string:
-        :param connection_timeout:
-        :param creds_secrets:
-        :param password:
-        :param request_timeout:
-        :param tags:
-        :param text_secret:
-        :param user:
+        :param description: Brief description of the Database Connection.
+        :param id: Unique identifier for the Database Connection.
+        :param config_obj: JSON configuration object for advanced SQL Server connection settings.
+        :param connection_string: Database connection string with embedded credentials or server information.
+        :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
+        :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param password: Database password for authentication. Used with Oracle connections.
+        :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
+        :param text_secret: Name of the stored text secret containing the connection string.
+        :param tls: TLS client connection settings.
+        :param user: Database username for authentication. Used with Oracle connections.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -266,6 +354,7 @@ class DatabaseConnections(BaseSDK):
             request_timeout=request_timeout,
             tags=tags,
             text_secret=text_secret,
+            tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
             user=user,
         )
 
@@ -310,6 +399,8 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -319,12 +410,20 @@ class DatabaseConnections(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+                models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -336,41 +435,45 @@ class DatabaseConnections(BaseSDK):
     async def create_async(
         self,
         *,
-        auth_type: str,
+        auth_type: models.DatabaseConnectionAuthType,
         database_type: models.DatabaseConnectionType,
         description: str,
         id: str,
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
-        connection_timeout: Optional[float] = None,
+        connection_timeout: Optional[int] = None,
         creds_secrets: Optional[str] = None,
         password: Optional[str] = None,
-        request_timeout: Optional[float] = None,
+        request_timeout: Optional[int] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
+        tls: Optional[
+            Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
+        ] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
-        r"""Create Database Connection
+    ) -> models.DatabaseConnectionResponseEnvelope:
+        r"""Create a Database Connection
 
         Create a new Database Connection.
 
         :param auth_type:
         :param database_type:
-        :param description:
-        :param id:
-        :param config_obj:
-        :param connection_string:
-        :param connection_timeout:
-        :param creds_secrets:
-        :param password:
-        :param request_timeout:
-        :param tags:
-        :param text_secret:
-        :param user:
+        :param description: Brief description of the Database Connection.
+        :param id: Unique identifier for the Database Connection.
+        :param config_obj: JSON configuration object for advanced SQL Server connection settings.
+        :param connection_string: Database connection string with embedded credentials or server information.
+        :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
+        :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param password: Database password for authentication. Used with Oracle connections.
+        :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
+        :param text_secret: Name of the stored text secret containing the connection string.
+        :param tls: TLS client connection settings.
+        :param user: Database username for authentication. Used with Oracle connections.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -399,6 +502,7 @@ class DatabaseConnections(BaseSDK):
             request_timeout=request_timeout,
             tags=tags,
             text_secret=text_secret,
+            tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
             user=user,
         )
 
@@ -443,6 +547,8 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -452,12 +558,20 @@ class DatabaseConnections(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+                models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "400", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -474,7 +588,7 @@ class DatabaseConnections(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
+    ) -> models.DatabaseConnectionResponseEnvelope:
         r"""Get a Database Connection
 
         Get the specified Database Connection.
@@ -537,6 +651,8 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -546,12 +662,20 @@ class DatabaseConnections(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+                models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, "404", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "404", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -568,7 +692,7 @@ class DatabaseConnections(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
+    ) -> models.DatabaseConnectionResponseEnvelope:
         r"""Get a Database Connection
 
         Get the specified Database Connection.
@@ -631,6 +755,8 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -640,12 +766,20 @@ class DatabaseConnections(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+                models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, "404", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "404", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -658,24 +792,27 @@ class DatabaseConnections(BaseSDK):
         self,
         *,
         id_param: str,
-        auth_type: str,
+        auth_type: models.DatabaseConnectionAuthType,
         database_type: models.DatabaseConnectionType,
         description: str,
         id: str,
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
-        connection_timeout: Optional[float] = None,
+        connection_timeout: Optional[int] = None,
         creds_secrets: Optional[str] = None,
         password: Optional[str] = None,
-        request_timeout: Optional[float] = None,
+        request_timeout: Optional[int] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
+        tls: Optional[
+            Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
+        ] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
+    ) -> models.DatabaseConnectionResponseEnvelope:
         r"""Update a Database Connection
 
         Update the specified Database Connection.<br/><br/>Provide a complete representation of the Database Connection that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Database Connection.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Database Connection might not function as expected.
@@ -683,17 +820,18 @@ class DatabaseConnections(BaseSDK):
         :param id_param: The <code>id</code> of the Database Connection to update.
         :param auth_type:
         :param database_type:
-        :param description:
-        :param id:
-        :param config_obj:
-        :param connection_string:
-        :param connection_timeout:
-        :param creds_secrets:
-        :param password:
-        :param request_timeout:
-        :param tags:
-        :param text_secret:
-        :param user:
+        :param description: Brief description of the Database Connection.
+        :param id: Unique identifier for the Database Connection.
+        :param config_obj: JSON configuration object for advanced SQL Server connection settings.
+        :param connection_string: Database connection string with embedded credentials or server information.
+        :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
+        :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param password: Database password for authentication. Used with Oracle connections.
+        :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
+        :param text_secret: Name of the stored text secret containing the connection string.
+        :param tls: TLS client connection settings.
+        :param user: Database username for authentication. Used with Oracle connections.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -724,6 +862,7 @@ class DatabaseConnections(BaseSDK):
                 request_timeout=request_timeout,
                 tags=tags,
                 text_secret=text_secret,
+                tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
                 user=user,
             ),
         )
@@ -773,6 +912,8 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -782,12 +923,20 @@ class DatabaseConnections(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+                models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -800,24 +949,27 @@ class DatabaseConnections(BaseSDK):
         self,
         *,
         id_param: str,
-        auth_type: str,
+        auth_type: models.DatabaseConnectionAuthType,
         database_type: models.DatabaseConnectionType,
         description: str,
         id: str,
         config_obj: Optional[str] = None,
         connection_string: Optional[str] = None,
-        connection_timeout: Optional[float] = None,
+        connection_timeout: Optional[int] = None,
         creds_secrets: Optional[str] = None,
         password: Optional[str] = None,
-        request_timeout: Optional[float] = None,
+        request_timeout: Optional[int] = None,
         tags: Optional[str] = None,
         text_secret: Optional[str] = None,
+        tls: Optional[
+            Union[models.TLSClientParams, models.TLSClientParamsTypedDict]
+        ] = None,
         user: Optional[str] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
+    ) -> models.DatabaseConnectionResponseEnvelope:
         r"""Update a Database Connection
 
         Update the specified Database Connection.<br/><br/>Provide a complete representation of the Database Connection that you want to update in the request body. This endpoint does not support partial updates. Cribl removes any omitted fields when updating the Database Connection.<br/><br/>Confirm that the configuration in your request body is correct before sending the request. If the configuration is incorrect, the updated Database Connection might not function as expected.
@@ -825,17 +977,18 @@ class DatabaseConnections(BaseSDK):
         :param id_param: The <code>id</code> of the Database Connection to update.
         :param auth_type:
         :param database_type:
-        :param description:
-        :param id:
-        :param config_obj:
-        :param connection_string:
-        :param connection_timeout:
-        :param creds_secrets:
-        :param password:
-        :param request_timeout:
-        :param tags:
-        :param text_secret:
-        :param user:
+        :param description: Brief description of the Database Connection.
+        :param id: Unique identifier for the Database Connection.
+        :param config_obj: JSON configuration object for advanced SQL Server connection settings.
+        :param connection_string: Database connection string with embedded credentials or server information.
+        :param connection_timeout: Maximum time (in milliseconds) to wait when establishing the database connection.
+        :param creds_secrets: Name of the stored credentials secret containing username and password. Used with Oracle connections.
+        :param password: Database password for authentication. Used with Oracle connections.
+        :param request_timeout: Maximum time (in milliseconds) to wait for a database query to complete. Applies to SQL Server connections only.
+        :param tags: Comma-separated list of tags for categorizing and filtering Database Connections.
+        :param text_secret: Name of the stored text secret containing the connection string.
+        :param tls: TLS client connection settings.
+        :param user: Database username for authentication. Used with Oracle connections.
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -866,6 +1019,7 @@ class DatabaseConnections(BaseSDK):
                 request_timeout=request_timeout,
                 tags=tags,
                 text_secret=text_secret,
+                tls=utils.get_pydantic_model(tls, Optional[models.TLSClientParams]),
                 user=user,
             ),
         )
@@ -915,6 +1069,8 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -924,12 +1080,20 @@ class DatabaseConnections(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+                models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, ["400", "404"], "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -946,7 +1110,7 @@ class DatabaseConnections(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
+    ) -> models.DatabaseConnectionResponseEnvelope:
         r"""Delete a Database Connection
 
         Delete the specified Database Connection.
@@ -1009,6 +1173,8 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1018,12 +1184,20 @@ class DatabaseConnections(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+                models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, "404", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -1040,7 +1214,7 @@ class DatabaseConnections(BaseSDK):
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedDatabaseConnectionConfig:
+    ) -> models.DatabaseConnectionResponseEnvelope:
         r"""Delete a Database Connection
 
         Delete the specified Database Connection.
@@ -1103,6 +1277,8 @@ class DatabaseConnections(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["databaseConnections"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1112,12 +1288,20 @@ class DatabaseConnections(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(
-                models.CountedDatabaseConnectionConfig, http_res
+                models.DatabaseConnectionResponseEnvelope, http_res
             )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
+        if utils.match_response(http_res, "404", "application/json"):
+            response_data = unmarshal_json_response(
+                errors.RestAPIJSONErrorData, http_res
+            )
+            raise errors.RestAPIJSONError(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

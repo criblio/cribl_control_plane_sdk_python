@@ -31,19 +31,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputSignalfxType(str, Enum):
+    r"""Connector type identifier."""
+
     SIGNALFX = "signalfx"
 
 
 class OutputSignalfxPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSignalfxPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSignalfxTypedDict(TypedDict):
     type: OutputSignalfxType
+    r"""Connector type identifier."""
     realm: str
     r"""SignalFx realm name, e.g. \"us0\". For a complete list of available SignalFx realm names, please check [here](https://docs.splunk.com/observability/en/get-started/service-description.html#sd-regions)."""
     id: NotRequired[str]
@@ -55,7 +58,7 @@ class OutputSignalfxTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     concurrency: NotRequired[float]
@@ -73,6 +76,8 @@ class OutputSignalfxTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -93,6 +98,7 @@ class OutputSignalfxTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     token: NotRequired[str]
     r"""SignalFx API access token (see [here](https://docs.signalfx.com/en/latest/admin-guide/tokens.html#working-with-access-tokens))"""
     text_secret: NotRequired[str]
@@ -120,6 +126,7 @@ class OutputSignalfxTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSignalfxPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -130,6 +137,7 @@ class OutputSignalfxTypedDict(TypedDict):
 
 class OutputSignalfx(BaseModel):
     type: OutputSignalfxType
+    r"""Connector type identifier."""
 
     realm: str
     r"""SignalFx realm name, e.g. \"us0\". For a complete list of available SignalFx realm names, please check [here](https://docs.splunk.com/observability/en/get-started/service-description.html#sd-regions)."""
@@ -149,7 +157,7 @@ class OutputSignalfx(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
@@ -183,6 +191,11 @@ class OutputSignalfx(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -232,6 +245,7 @@ class OutputSignalfx(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     token: Optional[str] = None
     r"""SignalFx API access token (see [here](https://docs.signalfx.com/en/latest/admin-guide/tokens.html#working-with-access-tokens))"""
@@ -291,6 +305,7 @@ class OutputSignalfx(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSignalfxPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -377,6 +392,7 @@ class OutputSignalfx(BaseModel):
                 "compress",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "useRoundRobinDns",

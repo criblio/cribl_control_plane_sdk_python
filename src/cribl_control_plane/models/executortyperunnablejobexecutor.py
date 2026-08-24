@@ -13,14 +13,19 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class ExecutorTypeRunnableJobExecutorTypedDict(TypedDict):
+    r"""Executor configuration, including the executor type and its settings."""
+
     type: str
     r"""The type of executor to run"""
     store_task_results: NotRequired[bool]
     r"""Determines whether or not to write task results to disk"""
     conf: NotRequired[ExecutorSpecificSettingsTypeRunnableJobExecutorExecutorTypedDict]
+    r"""Executor-type-specific settings object. Shape varies by executor type."""
 
 
 class ExecutorTypeRunnableJobExecutor(BaseModel):
+    r"""Executor configuration, including the executor type and its settings."""
+
     type: str
     r"""The type of executor to run"""
 
@@ -30,6 +35,7 @@ class ExecutorTypeRunnableJobExecutor(BaseModel):
     r"""Determines whether or not to write task results to disk"""
 
     conf: Optional[ExecutorSpecificSettingsTypeRunnableJobExecutorExecutor] = None
+    r"""Executor-type-specific settings object. Shape varies by executor type."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

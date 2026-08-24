@@ -1,5 +1,7 @@
 # OutputStatsdExtPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

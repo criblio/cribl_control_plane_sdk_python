@@ -28,11 +28,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputTCPType(str, Enum):
+    r"""Connector type identifier."""
+
     TCP = "tcp"
 
 
 class InputTCPInputTypedDict(TypedDict):
     type: InputTCPType
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -40,6 +43,7 @@ class InputTCPInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -49,11 +53,12 @@ class InputTCPInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -75,7 +80,9 @@ class InputTCPInputTypedDict(TypedDict):
     enable_header: NotRequired[bool]
     r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -94,6 +101,7 @@ class InputTCPInputTypedDict(TypedDict):
 
 class InputTCPInput(BaseModel):
     type: InputTCPType
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -105,6 +113,7 @@ class InputTCPInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -121,7 +130,7 @@ class InputTCPInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -129,6 +138,7 @@ class InputTCPInput(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -179,8 +189,10 @@ class InputTCPInput(BaseModel):
     r"""Client will pass the header record with every new connection. The header can contain an authToken, and an object with a list of fields and values to add to every event. These fields can be used to simplify Event Breaker selection, routing, etc. Header has this format, and must be followed by a newline: { \"authToken\" : \"myToken\", \"fields\": { \"field1\": \"value1\", \"field2\": \"value2\" } }"""
 
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""

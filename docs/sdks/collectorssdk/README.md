@@ -18,7 +18,7 @@ Get a list of all Collectors.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getSavedJob" method="get" path="/lib/jobs" -->
+<!-- UsageSnippet language="python" operationID="getSavedJob" method="get" path="/lib/jobs" example="CollectorListResponseExamplesListed" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -33,8 +33,10 @@ with CriblControlPlane(
 
     res = ccp_client.collectors.list()
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -42,17 +44,20 @@ with CriblControlPlane(
 
 | Parameter                                                           | Type                                                                | Required                                                            | Description                                                         |
 | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| `collector_type`                                                    | [Optional[models.CollectorType]](../../models/collectortype.md)     | :heavy_minus_sign:                                                  | Filter by collector type                                            |
+| `collector_type`                                                    | [Optional[models.CollectorType]](../../models/collectortype.md)     | :heavy_minus_sign:                                                  | Filter by collector type.                                           |
+| `offset`                                                            | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Pagination offset                                                   |
+| `limit`                                                             | *Optional[int]*                                                     | :heavy_minus_sign:                                                  | Maximum number of items to return                                   |
 | `retries`                                                           | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)    | :heavy_minus_sign:                                                  | Configuration to override the default retry behavior of the client. |
 
 ### Response
 
-**[models.CountedSavedJobResponse](../../models/countedsavedjobresponse.md)**
+**[models.GetSavedJobResponse](../../models/getsavedjobresponse.md)**
 
 ### Errors
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -419,7 +424,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -446,8 +451,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -523,7 +528,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -550,8 +555,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -627,7 +632,7 @@ with CriblControlPlane(
                 earliest=4847.66,
                 latest=3337.75,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -654,8 +659,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -753,6 +758,67 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: CollectorResponseExamplesRestCollector
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="CollectorResponseExamplesRestCollector" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(request=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        collector=models.CollectorRest(
+            type=models.CollectorRestType.REST,
+            conf=models.RestAuthenticationOauth(
+                authentication=models.RestAuthenticationOauthAuthentication.OAUTH,
+                login_url="https://crushing-pomelo.biz",
+                auth_header_expr="<value>",
+                client_secret_param_name="<value>",
+                client_secret_param_value="<value>",
+                collect_url="https://glaring-bid.name/",
+                collect_method=models.RestAuthenticationOauthCollectMethod.GET,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createSavedJob" method="post" path="/lib/jobs" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.create(request={
+        "type": models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        "executor": {
+            "type": "<value>",
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -769,6 +835,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -778,7 +845,7 @@ Get the specified Collector.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getSavedJobById" method="get" path="/lib/jobs/{id}" -->
+<!-- UsageSnippet language="python" operationID="getSavedJobById" method="get" path="/lib/jobs/{id}" example="CollectorResponseExamplesRestCollector" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -813,6 +880,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -1046,7 +1114,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1088,8 +1156,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -1162,7 +1230,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1204,8 +1272,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -1278,7 +1346,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1320,8 +1388,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -1394,7 +1462,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1436,8 +1504,8 @@ with CriblControlPlane(
             destructive=True,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -1510,7 +1578,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1552,8 +1620,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -1626,7 +1694,7 @@ with CriblControlPlane(
                 earliest=8882.78,
                 latest=6778.74,
                 timestamp_timezone="<value>",
-                time_warning=models.BrokenEventProcessor(),
+                time_warning=models.TimeWarningTypeRunnableJobCollectionScheduleRun(),
                 expression="<value>",
                 min_task_size="<value>",
                 max_task_size="<value>",
@@ -1668,8 +1736,8 @@ with CriblControlPlane(
             destructive=False,
             encoding="<value>",
         ),
-        input=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraint(
-            type=models.RunnableJobCollectionTypeCollectionWithBreakerRulesetsConstraintType.COLLECTION,
+        input=models.InputTypeRunnableJobCollection(
+            type=models.TypeOptionsRunnableJobCollectionInput.COLLECTION,
             breaker_rulesets=[
                 "<value 1>",
                 "<value 2>",
@@ -1699,6 +1767,354 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: CollectorResponseExamplesRestCollector
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="CollectorResponseExamplesRestCollector" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesAzureBlob
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesAzureBlob" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "executor": {
+            "type": "<value>",
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesCriblLake
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesCriblLake" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesDatabase
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesDatabase" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesFilesystem
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesFilesystem" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "saved_query_id": "<id>",
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesGoogleCloudStorage
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesGoogleCloudStorage" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesRest
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesRest" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesS3
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesS3" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesScript
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesScript" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job={
+        "type": models.JobTypeOptionsRunnableJobCollection.SCHEDULED_SEARCH,
+        "executor": {
+            "type": "<value>",
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: UpdateCollectorExamplesSplunk
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="UpdateCollectorExamplesSplunk" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateSavedJobById" method="patch" path="/lib/jobs/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.collectors.update(id="<id>", saved_job=models.SavedJobCollection(
+        type=models.JobTypeOptionsRunnableJobCollection.COLLECTION,
+        collector=models.CollectorSplunk(
+            type=models.CollectorSplunkType.SPLUNK,
+            conf=models.SplunkAuthenticationToken(
+                authentication=models.SplunkAuthenticationTokenAuthentication.TOKEN,
+                token="<value>",
+                search_head="<value>",
+                search="<value>",
+                endpoint="<value>",
+                output_mode=models.OutputModeOptionsSplunkCollectorConf.JSON,
+            ),
+        ),
+    ))
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -1716,6 +2132,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -1725,7 +2142,7 @@ Delete the specified Collector.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="deleteSavedJobById" method="delete" path="/lib/jobs/{id}" -->
+<!-- UsageSnippet language="python" operationID="deleteSavedJobById" method="delete" path="/lib/jobs/{id}" example="CollectorResponseExamplesRestCollector" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -1760,5 +2177,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

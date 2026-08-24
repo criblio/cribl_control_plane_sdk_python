@@ -11,21 +11,18 @@ from .metadataconfinputcollection import (
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
+from .typeoptionsgooglepubsub import TypeOptionsGooglepubsub
 from cribl_control_plane import models
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
-from enum import Enum
 import pydantic
 from pydantic import field_serializer, model_serializer
 from typing import List, Optional
 from typing_extensions import Annotated, NotRequired, TypedDict
 
 
-class InputGooglePubsubType(str, Enum):
-    GOOGLE_PUBSUB = "google_pubsub"
-
-
 class InputGooglePubsubInputTypedDict(TypedDict):
-    type: InputGooglePubsubType
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
     topic_name: str
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     subscription_name: str
@@ -33,6 +30,7 @@ class InputGooglePubsubInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -42,7 +40,7 @@ class InputGooglePubsubInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -69,6 +67,7 @@ class InputGooglePubsubInputTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     ordered_delivery: NotRequired[bool]
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
     template_environment: NotRequired[str]
@@ -84,7 +83,8 @@ class InputGooglePubsubInputTypedDict(TypedDict):
 
 
 class InputGooglePubsubInput(BaseModel):
-    type: InputGooglePubsubType
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
 
     topic_name: Annotated[str, pydantic.Field(alias="topicName")]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -96,6 +96,7 @@ class InputGooglePubsubInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -112,7 +113,7 @@ class InputGooglePubsubInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -164,6 +165,7 @@ class InputGooglePubsubInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")

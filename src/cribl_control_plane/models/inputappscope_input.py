@@ -30,10 +30,12 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 
 class InputAppscopeType(str, Enum):
+    r"""Connector type identifier."""
+
     APPSCOPE = "appscope"
 
 
-class InputAppscopeAllowTypedDict(TypedDict):
+class AllowTypedDict(TypedDict):
     procname: str
     r"""Specify the name of a process or family of processes."""
     config: str
@@ -42,7 +44,7 @@ class InputAppscopeAllowTypedDict(TypedDict):
     r"""Specify a string to substring-match against process command-line."""
 
 
-class InputAppscopeAllow(BaseModel):
+class Allow(BaseModel):
     procname: str
     r"""Specify the name of a process or family of processes."""
 
@@ -70,14 +72,14 @@ class InputAppscopeAllow(BaseModel):
 
 
 class InputAppscopeFilterTypedDict(TypedDict):
-    allow: NotRequired[List[InputAppscopeAllowTypedDict]]
+    allow: NotRequired[List[AllowTypedDict]]
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
     transport_url: NotRequired[str]
     r"""To override the UNIX domain socket or address/port specified in General Settings (while leaving Authentication settings as is), enter a URL."""
 
 
 class InputAppscopeFilter(BaseModel):
-    allow: Optional[List[InputAppscopeAllow]] = None
+    allow: Optional[List[Allow]] = None
     r"""Specify processes that AppScope should be loaded into, and the config to use."""
 
     transport_url: Annotated[Optional[str], pydantic.Field(alias="transportURL")] = None
@@ -101,6 +103,8 @@ class InputAppscopeFilter(BaseModel):
 
 
 class InputAppscopePersistenceTypedDict(TypedDict):
+    r"""Persistence"""
+
     enable: NotRequired[bool]
     r"""Spool events and metrics on disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -110,11 +114,14 @@ class InputAppscopePersistenceTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/appscope"""
 
 
 class InputAppscopePersistence(BaseModel):
+    r"""Persistence"""
+
     enable: Optional[bool] = None
     r"""Spool events and metrics on disk for Cribl Edge and Search"""
 
@@ -128,6 +135,7 @@ class InputAppscopePersistence(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/appscope"""
@@ -167,23 +175,23 @@ class InputAppscopePersistence(BaseModel):
         return m
 
 
-InputAppscopeUNIXSocketPermissionsTypedDict = TypeAliasType(
-    "InputAppscopeUNIXSocketPermissionsTypedDict", Union[str, float]
+UNIXSocketPermissionsTypedDict = TypeAliasType(
+    "UNIXSocketPermissionsTypedDict", Union[str, float]
 )
 r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
 
-InputAppscopeUNIXSocketPermissions = TypeAliasType(
-    "InputAppscopeUNIXSocketPermissions", Union[str, float]
-)
+UNIXSocketPermissions = TypeAliasType("UNIXSocketPermissions", Union[str, float])
 r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 
 
 class InputAppscopeInputTypedDict(TypedDict):
     type: InputAppscopeType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -193,7 +201,7 @@ class InputAppscopeInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -219,17 +227,20 @@ class InputAppscopeInputTypedDict(TypedDict):
     r"""Toggle to Yes to specify a file-backed UNIX domain socket connection, instead of a network host and port."""
     filter_: NotRequired[InputAppscopeFilterTypedDict]
     persistence: NotRequired[InputAppscopePersistenceTypedDict]
+    r"""Persistence"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     host: NotRequired[str]
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: NotRequired[float]
     r"""Port to listen on"""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     unix_socket_path: NotRequired[str]
     r"""Path to the UNIX domain socket to listen on."""
-    unix_socket_perms: NotRequired[InputAppscopeUNIXSocketPermissionsTypedDict]
+    unix_socket_perms: NotRequired[UNIXSocketPermissionsTypedDict]
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -247,11 +258,13 @@ class InputAppscopeInputTypedDict(TypedDict):
 
 class InputAppscopeInput(BaseModel):
     type: InputAppscopeType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -268,7 +281,7 @@ class InputAppscopeInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -328,6 +341,7 @@ class InputAppscopeInput(BaseModel):
     ] = None
 
     persistence: Optional[InputAppscopePersistence] = None
+    r"""Persistence"""
 
     auth_type: Annotated[
         Optional[AuthenticationMethodOptionsAuthTokensItems],
@@ -336,6 +350,7 @@ class InputAppscopeInput(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     host: Optional[str] = None
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -344,6 +359,7 @@ class InputAppscopeInput(BaseModel):
     r"""Port to listen on"""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     unix_socket_path: Annotated[
         Optional[str], pydantic.Field(alias="unixSocketPath")
@@ -351,8 +367,7 @@ class InputAppscopeInput(BaseModel):
     r"""Path to the UNIX domain socket to listen on."""
 
     unix_socket_perms: Annotated[
-        Optional[InputAppscopeUNIXSocketPermissions],
-        pydantic.Field(alias="unixSocketPerms"),
+        Optional[UNIXSocketPermissions], pydantic.Field(alias="unixSocketPerms")
     ] = None
     r"""Permissions to set for socket e.g., 777. If empty, falls back to the runtime user's default permissions."""
 

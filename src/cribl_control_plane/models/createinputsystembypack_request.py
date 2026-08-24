@@ -27,32 +27,21 @@ from .authtokensextconfinputhttp import (
     AuthTokensExtConfInputHTTP,
     AuthTokensExtConfInputHTTPTypedDict,
 )
-from .certificatetypeazureblobauthtypeclientcert import (
-    CertificateTypeAzureBlobAuthTypeClientCert,
-    CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
-)
+from .certificatetype import CertificateType, CertificateTypeTypedDict
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
 from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .createinputsystembypack_logged_in_users import (
-    CreateInputSystemByPackDNS,
-    CreateInputSystemByPackDNSTypedDict,
-    CreateInputSystemByPackDisksAndFileSystems,
-    CreateInputSystemByPackDisksAndFileSystemsTypedDict,
-    CreateInputSystemByPackFirewall,
-    CreateInputSystemByPackFirewallTypedDict,
-    CreateInputSystemByPackHostInfo,
-    CreateInputSystemByPackHostInfoTypedDict,
-    CreateInputSystemByPackHostsFile,
-    CreateInputSystemByPackHostsFileTypedDict,
+from .createinputsystembypack_inputkubemetrics import (
     CreateInputSystemByPackInputAnthropicCompliance,
     CreateInputSystemByPackInputAnthropicComplianceTypedDict,
     CreateInputSystemByPackInputAppleUnifiedLogs,
     CreateInputSystemByPackInputAppleUnifiedLogsTypedDict,
     CreateInputSystemByPackInputAppscope,
     CreateInputSystemByPackInputAppscopeTypedDict,
+    CreateInputSystemByPackInputBedrockS3,
+    CreateInputSystemByPackInputBedrockS3TypedDict,
     CreateInputSystemByPackInputCloudflareHec,
     CreateInputSystemByPackInputCloudflareHecTypedDict,
     CreateInputSystemByPackInputCriblmetrics,
@@ -105,10 +94,14 @@ from .createinputsystembypack_logged_in_users import (
     CreateInputSystemByPackInputSnmpTypedDict,
     CreateInputSystemByPackInputSqs,
     CreateInputSystemByPackInputSqsTypedDict,
+    CreateInputSystemByPackInputSysdigHec,
+    CreateInputSystemByPackInputSysdigHecTypedDict,
     CreateInputSystemByPackInputSyslogUnion,
     CreateInputSystemByPackInputSyslogUnionTypedDict,
     CreateInputSystemByPackInputTCP,
     CreateInputSystemByPackInputTCPTypedDict,
+    CreateInputSystemByPackInputUpwindHec,
+    CreateInputSystemByPackInputUpwindHecTypedDict,
     CreateInputSystemByPackInputWef,
     CreateInputSystemByPackInputWefTypedDict,
     CreateInputSystemByPackInputWinEventLogs,
@@ -121,19 +114,6 @@ from .createinputsystembypack_logged_in_users import (
     CreateInputSystemByPackInputWizWebhookTypedDict,
     CreateInputSystemByPackInputZscalerHec,
     CreateInputSystemByPackInputZscalerHecTypedDict,
-    CreateInputSystemByPackInterfaces,
-    CreateInputSystemByPackInterfacesTypedDict,
-    CreateInputSystemByPackListeningPorts,
-    CreateInputSystemByPackListeningPortsTypedDict,
-    CreateInputSystemByPackLoggedInUsers,
-    CreateInputSystemByPackLoggedInUsersTypedDict,
-    CreateInputSystemByPackRoutes,
-    CreateInputSystemByPackRoutesTypedDict,
-    CreateInputSystemByPackServices,
-    CreateInputSystemByPackServicesTypedDict,
-    CreateInputSystemByPackTypeSystemState,
-    CreateInputSystemByPackUsersAndGroups,
-    CreateInputSystemByPackUsersAndGroupsTypedDict,
 )
 from .datacompressionformatoptionspersistence import (
     DataCompressionFormatOptionsPersistence,
@@ -145,10 +125,6 @@ from .extrahttpheaderconfinputelastic import (
 )
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
 from .gputype import GpuType, GpuTypeTypedDict
-from .httpdiscoveryheaderconfinputprometheus import (
-    HTTPDiscoveryHeaderConfInputPrometheus,
-    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
-)
 from .kafkaschemaregistryauthenticationtype import (
     KafkaSchemaRegistryAuthenticationType,
     KafkaSchemaRegistryAuthenticationTypeTypedDict,
@@ -170,6 +146,10 @@ from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .processtype import ProcessType, ProcessTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from .retryrulestypecodesenableheader import (
     RetryRulesTypeCodesEnableHeader,
@@ -192,6 +172,15 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
+from .typeoptions import TypeOptions
+from .typeoptionsazureblob import TypeOptionsAzureblob
+from .typeoptionsconfluentcloud import TypeOptionsConfluentcloud
+from .typeoptionscribltcp import TypeOptionsCribltcp
+from .typeoptionsgooglepubsub import TypeOptionsGooglepubsub
+from .typeoptionsmsk import TypeOptionsMsk
+from .typeoptionsprometheus import TypeOptionsPrometheus
+from .typeoptionssplunk import TypeOptionsSplunk
+from .typeoptionstcpjson import TypeOptionsTcpjson
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from cribl_control_plane.utils import (
@@ -205,6 +194,342 @@ import pydantic
 from pydantic import Discriminator, Tag, field_serializer, model_serializer
 from typing import List, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class CreateInputSystemByPackInputSystemStateType(str, Enum):
+    r"""Connector type identifier."""
+
+    SYSTEM_STATE = "system_state"
+
+
+class CreateInputSystemByPackHostsFileTypedDict(TypedDict):
+    r"""Creates events based on entries collected from the hosts file"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackHostsFile(BaseModel):
+    r"""Creates events based on entries collected from the hosts file"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackInterfacesTypedDict(TypedDict):
+    r"""Creates events for each of the host’s network interfaces"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackInterfaces(BaseModel):
+    r"""Creates events for each of the host’s network interfaces"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackDisksAndFileSystemsTypedDict(TypedDict):
+    r"""Creates events for physical disks, partitions, and file systems"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackDisksAndFileSystems(BaseModel):
+    r"""Creates events for physical disks, partitions, and file systems"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackHostInfoTypedDict(TypedDict):
+    r"""Creates events based on the host system’s current state"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackHostInfo(BaseModel):
+    r"""Creates events based on the host system’s current state"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackRoutesTypedDict(TypedDict):
+    r"""Creates events based on entries collected from the host’s network routes"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackRoutes(BaseModel):
+    r"""Creates events based on entries collected from the host’s network routes"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackDNSTypedDict(TypedDict):
+    r"""Creates events for DNS resolvers and search entries"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackDNS(BaseModel):
+    r"""Creates events for DNS resolvers and search entries"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackUsersAndGroupsTypedDict(TypedDict):
+    r"""Creates events for local users and groups"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackUsersAndGroups(BaseModel):
+    r"""Creates events for local users and groups"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackFirewallTypedDict(TypedDict):
+    r"""Creates events for Firewall rules entries"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackFirewall(BaseModel):
+    r"""Creates events for Firewall rules entries"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackServicesTypedDict(TypedDict):
+    r"""Creates events from the list of services"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackServices(BaseModel):
+    r"""Creates events from the list of services"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackListeningPortsTypedDict(TypedDict):
+    r"""Creates events from list of listening ports"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackListeningPorts(BaseModel):
+    r"""Creates events from list of listening ports"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class CreateInputSystemByPackLoggedInUsersTypedDict(TypedDict):
+    r"""Creates events from list of logged-in users"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class CreateInputSystemByPackLoggedInUsers(BaseModel):
+    r"""Creates events from list of logged-in users"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class CreateInputSystemByPackCollectorsTypedDict(TypedDict):
@@ -300,7 +625,7 @@ class CreateInputSystemByPackCollectors(BaseModel):
         return m
 
 
-class CreateInputSystemByPackPersistenceSystemStateTypedDict(TypedDict):
+class CreateInputSystemByPackInputSystemStatePersistenceTypedDict(TypedDict):
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -310,11 +635,12 @@ class CreateInputSystemByPackPersistenceSystemStateTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
 
 
-class CreateInputSystemByPackPersistenceSystemState(BaseModel):
+class CreateInputSystemByPackInputSystemStatePersistence(BaseModel):
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -328,6 +654,7 @@ class CreateInputSystemByPackPersistenceSystemState(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
@@ -370,8 +697,10 @@ class CreateInputSystemByPackPersistenceSystemState(BaseModel):
 class CreateInputSystemByPackInputSystemStateTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSystemState
+    type: CreateInputSystemByPackInputSystemStateType
+    r"""Connector type identifier."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -381,7 +710,7 @@ class CreateInputSystemByPackInputSystemStateTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -390,12 +719,15 @@ class CreateInputSystemByPackInputSystemStateTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     collectors: NotRequired[CreateInputSystemByPackCollectorsTypedDict]
-    persistence: NotRequired[CreateInputSystemByPackPersistenceSystemStateTypedDict]
+    persistence: NotRequired[
+        CreateInputSystemByPackInputSystemStatePersistenceTypedDict
+    ]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     disable_native_last_log_module: NotRequired[bool]
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -406,9 +738,11 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSystemState
+    type: CreateInputSystemByPackInputSystemStateType
+    r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -425,7 +759,7 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -440,7 +774,7 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
 
     collectors: Optional[CreateInputSystemByPackCollectors] = None
 
-    persistence: Optional[CreateInputSystemByPackPersistenceSystemState] = None
+    persistence: Optional[CreateInputSystemByPackInputSystemStatePersistence] = None
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
@@ -453,6 +787,7 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -501,11 +836,13 @@ class CreateInputSystemByPackInputSystemState(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeSystemMetrics(str, Enum):
+class CreateInputSystemByPackInputSystemMetricsType(str, Enum):
+    r"""Connector type identifier."""
+
     SYSTEM_METRICS = "system_metrics"
 
 
-class CreateInputSystemByPackSystemModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsSystemMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for system metrics"""
@@ -520,15 +857,15 @@ class CreateInputSystemByPackSystemModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackSystemSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackSystemModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsSystemTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsSystemMode]
     r"""Select the level of detail for system metrics"""
     processes: NotRequired[bool]
     r"""Generate metrics for the numbers of processes in various states"""
 
 
-class CreateInputSystemByPackSystemSystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackSystemModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsSystem(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsSystemMode] = None
     r"""Select the level of detail for system metrics"""
 
     processes: Optional[bool] = None
@@ -538,7 +875,7 @@ class CreateInputSystemByPackSystemSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackSystemModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsSystemMode(value)
             except ValueError:
                 return value
         return value
@@ -560,7 +897,7 @@ class CreateInputSystemByPackSystemSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackCPUModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsCPUMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for CPU metrics"""
@@ -575,8 +912,8 @@ class CreateInputSystemByPackCPUModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackCPUSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackCPUModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsCPUTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsCPUMode]
     r"""Select the level of detail for CPU metrics"""
     per_cpu: NotRequired[bool]
     r"""Generate metrics for each CPU"""
@@ -586,8 +923,8 @@ class CreateInputSystemByPackCPUSystemMetricsTypedDict(TypedDict):
     r"""Generate raw, monotonic CPU time counters"""
 
 
-class CreateInputSystemByPackCPUSystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackCPUModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsCPU(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsCPUMode] = None
     r"""Select the level of detail for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
@@ -603,7 +940,7 @@ class CreateInputSystemByPackCPUSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackCPUModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsCPUMode(value)
             except ValueError:
                 return value
         return value
@@ -625,7 +962,7 @@ class CreateInputSystemByPackCPUSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackMemoryModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsMemoryMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for memory metrics"""
@@ -640,15 +977,15 @@ class CreateInputSystemByPackMemoryModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackMemorySystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackMemoryModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsMemoryTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsMemoryMode]
     r"""Select the level of detail for memory metrics"""
     detail: NotRequired[bool]
     r"""Generate metrics for all memory states"""
 
 
-class CreateInputSystemByPackMemorySystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackMemoryModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsMemory(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsMemoryMode] = None
     r"""Select the level of detail for memory metrics"""
 
     detail: Optional[bool] = None
@@ -658,7 +995,7 @@ class CreateInputSystemByPackMemorySystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackMemoryModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsMemoryMode(value)
             except ValueError:
                 return value
         return value
@@ -680,7 +1017,7 @@ class CreateInputSystemByPackMemorySystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackNetworkModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsNetworkMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for network metrics"""
@@ -695,8 +1032,8 @@ class CreateInputSystemByPackNetworkModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackNetworkSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackNetworkModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsNetworkTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsNetworkMode]
     r"""Select the level of detail for network metrics"""
     detail: NotRequired[bool]
     r"""Generate full network metrics"""
@@ -708,8 +1045,8 @@ class CreateInputSystemByPackNetworkSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each interface"""
 
 
-class CreateInputSystemByPackNetworkSystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackNetworkModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsNetwork(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsNetworkMode] = None
     r"""Select the level of detail for network metrics"""
 
     detail: Optional[bool] = None
@@ -730,7 +1067,9 @@ class CreateInputSystemByPackNetworkSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackNetworkModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsNetworkMode(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -754,7 +1093,7 @@ class CreateInputSystemByPackNetworkSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackDiskModeSystemMetrics(
+class CreateInputSystemByPackInputSystemMetricsDiskMode(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select the level of detail for disk metrics"""
@@ -769,8 +1108,8 @@ class CreateInputSystemByPackDiskModeSystemMetrics(
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackDiskSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[CreateInputSystemByPackDiskModeSystemMetrics]
+class CreateInputSystemByPackInputSystemMetricsDiskTypedDict(TypedDict):
+    mode: NotRequired[CreateInputSystemByPackInputSystemMetricsDiskMode]
     r"""Select the level of detail for disk metrics"""
     detail: NotRequired[bool]
     r"""Generate full disk metrics"""
@@ -786,8 +1125,8 @@ class CreateInputSystemByPackDiskSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each device"""
 
 
-class CreateInputSystemByPackDiskSystemMetrics(BaseModel):
-    mode: Optional[CreateInputSystemByPackDiskModeSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsDisk(BaseModel):
+    mode: Optional[CreateInputSystemByPackInputSystemMetricsDiskMode] = None
     r"""Select the level of detail for disk metrics"""
 
     detail: Optional[bool] = None
@@ -812,7 +1151,7 @@ class CreateInputSystemByPackDiskSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackDiskModeSystemMetrics(value)
+                return models.CreateInputSystemByPackInputSystemMetricsDiskMode(value)
             except ValueError:
                 return value
         return value
@@ -844,24 +1183,24 @@ class CreateInputSystemByPackDiskSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackCustomSystemMetricsTypedDict(TypedDict):
-    system: NotRequired[CreateInputSystemByPackSystemSystemMetricsTypedDict]
-    cpu: NotRequired[CreateInputSystemByPackCPUSystemMetricsTypedDict]
-    memory: NotRequired[CreateInputSystemByPackMemorySystemMetricsTypedDict]
-    network: NotRequired[CreateInputSystemByPackNetworkSystemMetricsTypedDict]
-    disk: NotRequired[CreateInputSystemByPackDiskSystemMetricsTypedDict]
+class CreateInputSystemByPackInputSystemMetricsCustomTypedDict(TypedDict):
+    system: NotRequired[CreateInputSystemByPackInputSystemMetricsSystemTypedDict]
+    cpu: NotRequired[CreateInputSystemByPackInputSystemMetricsCPUTypedDict]
+    memory: NotRequired[CreateInputSystemByPackInputSystemMetricsMemoryTypedDict]
+    network: NotRequired[CreateInputSystemByPackInputSystemMetricsNetworkTypedDict]
+    disk: NotRequired[CreateInputSystemByPackInputSystemMetricsDiskTypedDict]
 
 
-class CreateInputSystemByPackCustomSystemMetrics(BaseModel):
-    system: Optional[CreateInputSystemByPackSystemSystemMetrics] = None
+class CreateInputSystemByPackInputSystemMetricsCustom(BaseModel):
+    system: Optional[CreateInputSystemByPackInputSystemMetricsSystem] = None
 
-    cpu: Optional[CreateInputSystemByPackCPUSystemMetrics] = None
+    cpu: Optional[CreateInputSystemByPackInputSystemMetricsCPU] = None
 
-    memory: Optional[CreateInputSystemByPackMemorySystemMetrics] = None
+    memory: Optional[CreateInputSystemByPackInputSystemMetricsMemory] = None
 
-    network: Optional[CreateInputSystemByPackNetworkSystemMetrics] = None
+    network: Optional[CreateInputSystemByPackInputSystemMetricsNetwork] = None
 
-    disk: Optional[CreateInputSystemByPackDiskSystemMetrics] = None
+    disk: Optional[CreateInputSystemByPackInputSystemMetricsDisk] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -880,17 +1219,17 @@ class CreateInputSystemByPackCustomSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackHostSystemMetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputSystemMetricsHostTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
-    custom: NotRequired[CreateInputSystemByPackCustomSystemMetricsTypedDict]
+    custom: NotRequired[CreateInputSystemByPackInputSystemMetricsCustomTypedDict]
 
 
-class CreateInputSystemByPackHostSystemMetrics(BaseModel):
+class CreateInputSystemByPackInputSystemMetricsHost(BaseModel):
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
-    custom: Optional[CreateInputSystemByPackCustomSystemMetrics] = None
+    custom: Optional[CreateInputSystemByPackInputSystemMetricsCustom] = None
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -931,12 +1270,14 @@ class CreateInputSystemByPackContainerMode(str, Enum, metaclass=utils.OpenEnumMe
     DISABLED = "disabled"
 
 
-class CreateInputSystemByPackFilterSystemMetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputSystemMetricsFilterTypedDict(TypedDict):
     expr: str
+    r"""Expression"""
 
 
-class CreateInputSystemByPackFilterSystemMetrics(BaseModel):
+class CreateInputSystemByPackInputSystemMetricsFilter(BaseModel):
     expr: str
+    r"""Expression"""
 
 
 class CreateInputSystemByPackContainerTypedDict(TypedDict):
@@ -946,7 +1287,7 @@ class CreateInputSystemByPackContainerTypedDict(TypedDict):
     r"""Full paths for Docker's UNIX-domain socket"""
     docker_timeout: NotRequired[float]
     r"""Timeout, in seconds, for the Docker API"""
-    filters: NotRequired[List[CreateInputSystemByPackFilterSystemMetricsTypedDict]]
+    filters: NotRequired[List[CreateInputSystemByPackInputSystemMetricsFilterTypedDict]]
     r"""Containers matching any of these will be included. All are included if no filters are added."""
     all_containers: NotRequired[bool]
     r"""Include stopped and paused containers"""
@@ -970,7 +1311,7 @@ class CreateInputSystemByPackContainer(BaseModel):
     ] = None
     r"""Timeout, in seconds, for the Docker API"""
 
-    filters: Optional[List[CreateInputSystemByPackFilterSystemMetrics]] = None
+    filters: Optional[List[CreateInputSystemByPackInputSystemMetricsFilter]] = None
     r"""Containers matching any of these will be included. All are included if no filters are added."""
 
     all_containers: Annotated[Optional[bool], pydantic.Field(alias="allContainers")] = (
@@ -1020,7 +1361,9 @@ class CreateInputSystemByPackContainer(BaseModel):
         return m
 
 
-class CreateInputSystemByPackPersistenceSystemMetricsTypedDict(TypedDict):
+class CreateInputSystemByPackInputSystemMetricsPersistenceTypedDict(TypedDict):
+    r"""persistence"""
+
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -1030,11 +1373,14 @@ class CreateInputSystemByPackPersistenceSystemMetricsTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
 
 
-class CreateInputSystemByPackPersistenceSystemMetrics(BaseModel):
+class CreateInputSystemByPackInputSystemMetricsPersistence(BaseModel):
+    r"""persistence"""
+
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -1048,6 +1394,7 @@ class CreateInputSystemByPackPersistenceSystemMetrics(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
@@ -1090,8 +1437,10 @@ class CreateInputSystemByPackPersistenceSystemMetrics(BaseModel):
 class CreateInputSystemByPackInputSystemMetricsTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSystemMetrics
+    type: CreateInputSystemByPackInputSystemMetricsType
+    r"""Connector type identifier."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1101,20 +1450,24 @@ class CreateInputSystemByPackInputSystemMetricsTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
-    host: NotRequired[CreateInputSystemByPackHostSystemMetricsTypedDict]
+    host: NotRequired[CreateInputSystemByPackInputSystemMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
     container: NotRequired[CreateInputSystemByPackContainerTypedDict]
     gpu: NotRequired[GpuTypeTypedDict]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    persistence: NotRequired[CreateInputSystemByPackPersistenceSystemMetricsTypedDict]
+    persistence: NotRequired[
+        CreateInputSystemByPackInputSystemMetricsPersistenceTypedDict
+    ]
+    r"""persistence"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1125,9 +1478,11 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSystemMetrics
+    type: CreateInputSystemByPackInputSystemMetricsType
+    r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1144,7 +1499,7 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -1154,7 +1509,7 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
-    host: Optional[CreateInputSystemByPackHostSystemMetrics] = None
+    host: Optional[CreateInputSystemByPackInputSystemMetricsHost] = None
 
     process: Optional[ProcessType] = None
 
@@ -1165,9 +1520,11 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    persistence: Optional[CreateInputSystemByPackPersistenceSystemMetrics] = None
+    persistence: Optional[CreateInputSystemByPackInputSystemMetricsPersistence] = None
+    r"""persistence"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1217,19 +1574,17 @@ class CreateInputSystemByPackInputSystemMetrics(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeTcpjson(str, Enum):
-    TCPJSON = "tcpjson"
-
-
 class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeTcpjson
+    type: TypeOptionsTcpjson
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1239,11 +1594,12 @@ class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -1263,6 +1619,7 @@ class CreateInputSystemByPackInputTcpjsonTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     text_secret: NotRequired[str]
@@ -1281,7 +1638,8 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeTcpjson
+    type: TypeOptionsTcpjson
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1290,6 +1648,7 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1306,7 +1665,7 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -1314,6 +1673,7 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -1360,6 +1720,7 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -1441,18 +1802,22 @@ class CreateInputSystemByPackInputTcpjson(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCriblLakeHTTP(str, Enum):
+class CreateInputSystemByPackInputCriblLakeHTTPType(str, Enum):
+    r"""Source type identifier."""
+
     CRIBL_LAKE_HTTP = "cribl_lake_http"
 
 
 class CreateInputSystemByPackSplunkHecMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""When enabled, the token value is available on events as __hecToken"""
     default_dataset: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
 
 
 class CreateInputSystemByPackSplunkHecMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""When enabled, the token value is available on events as __hecToken"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -1481,11 +1846,13 @@ class CreateInputSystemByPackSplunkHecMetadata(BaseModel):
 
 class CreateInputSystemByPackElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""Elasticsearch"""
     default_dataset: NotRequired[str]
 
 
 class CreateInputSystemByPackElasticsearchMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""Elasticsearch"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -1510,6 +1877,7 @@ class CreateInputSystemByPackElasticsearchMetadata(BaseModel):
 
 class CreateInputSystemByPackAuthTokensExtTypedDict(TypedDict):
     token: str
+    r"""Token"""
     description: NotRequired[str]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this token"""
@@ -1521,6 +1889,7 @@ class CreateInputSystemByPackAuthTokensExtTypedDict(TypedDict):
 
 class CreateInputSystemByPackAuthTokensExt(BaseModel):
     token: str
+    r"""Token"""
 
     description: Optional[str] = None
 
@@ -1559,12 +1928,14 @@ class CreateInputSystemByPackAuthTokensExt(BaseModel):
 class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCriblLakeHTTP
+    type: CreateInputSystemByPackInputCriblLakeHTTPType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1574,13 +1945,14 @@ class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -1610,10 +1982,13 @@ class CreateInputSystemByPackInputCriblLakeHTTPTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
+    r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[CreateInputSystemByPackAuthTokensExtTypedDict]]
+    r"""Auth tokens"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1636,7 +2011,8 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCriblLakeHTTP
+    type: CreateInputSystemByPackInputCriblLakeHTTPType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1645,6 +2021,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1661,7 +2038,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -1674,6 +2051,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -1744,6 +2122,7 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
+    r"""Enable Splunk HEC acknowledgements"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -1752,8 +2131,10 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
         Optional[List[CreateInputSystemByPackAuthTokensExt]],
         pydantic.Field(alias="authTokensExt"),
     ] = None
+    r"""Auth tokens"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1851,19 +2232,23 @@ class CreateInputSystemByPackInputCriblLakeHTTP(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCriblHTTP(str, Enum):
+class CreateInputSystemByPackInputCriblHTTPType(str, Enum):
+    r"""Source type identifier."""
+
     CRIBL_HTTP = "cribl_http"
 
 
 class CreateInputSystemByPackInputCriblHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCriblHTTP
+    type: CreateInputSystemByPackInputCriblHTTPType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1873,13 +2258,14 @@ class CreateInputSystemByPackInputCriblHTTPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[AuthTokenConfInputCriblTCPTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -1905,6 +2291,7 @@ class CreateInputSystemByPackInputCriblHTTPTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1919,7 +2306,8 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCriblHTTP
+    type: CreateInputSystemByPackInputCriblHTTPType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1928,6 +2316,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1944,7 +2333,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -1957,6 +2346,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -2017,6 +2407,7 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2085,19 +2476,17 @@ class CreateInputSystemByPackInputCriblHTTP(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCriblTCP(str, Enum):
-    CRIBL_TCP = "cribl_tcp"
-
-
 class CreateInputSystemByPackInputCriblTCPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCriblTCP
+    type: TypeOptionsCribltcp
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2107,11 +2496,12 @@ class CreateInputSystemByPackInputCriblTCPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
     socket_idle_timeout: NotRequired[float]
@@ -2129,6 +2519,7 @@ class CreateInputSystemByPackInputCriblTCPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[AuthTokenConfInputCriblTCPTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2143,7 +2534,8 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCriblTCP
+    type: TypeOptionsCribltcp
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2152,6 +2544,7 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2168,7 +2561,7 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -2176,6 +2569,7 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
         None
@@ -2216,6 +2610,7 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2279,15 +2674,19 @@ class CreateInputSystemByPackInputCriblTCP(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCribl(str, Enum):
+class CreateInputSystemByPackInputCriblType(str, Enum):
+    r"""Connector type identifier."""
+
     CRIBL = "cribl"
 
 
 class CreateInputSystemByPackInputCriblTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCribl
+    type: CreateInputSystemByPackInputCriblType
+    r"""Connector type identifier."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2297,7 +2696,7 @@ class CreateInputSystemByPackInputCriblTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -2305,6 +2704,7 @@ class CreateInputSystemByPackInputCriblTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2315,9 +2715,11 @@ class CreateInputSystemByPackInputCribl(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCribl
+    type: CreateInputSystemByPackInputCriblType
+    r"""Connector type identifier."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2334,7 +2736,7 @@ class CreateInputSystemByPackInputCribl(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -2347,6 +2749,7 @@ class CreateInputSystemByPackInputCribl(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2391,19 +2794,17 @@ class CreateInputSystemByPackInputCribl(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeGooglePubsub(str, Enum):
-    GOOGLE_PUBSUB = "google_pubsub"
-
-
 class CreateInputSystemByPackInputGooglePubsubTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeGooglePubsub
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
     topic_name: str
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     subscription_name: str
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2413,7 +2814,7 @@ class CreateInputSystemByPackInputGooglePubsubTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -2440,6 +2841,7 @@ class CreateInputSystemByPackInputGooglePubsubTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     ordered_delivery: NotRequired[bool]
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
     template_environment: NotRequired[str]
@@ -2458,7 +2860,8 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeGooglePubsub
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
 
     topic_name: Annotated[str, pydantic.Field(alias="topicName")]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -2467,6 +2870,7 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
     r"""ID of the subscription to use when receiving events. When Monitor subscription is enabled, the fully qualified subscription name must be entered. Example: projects/myProject/subscriptions/mySubscription"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2483,7 +2887,7 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -2535,6 +2939,7 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")
@@ -2621,19 +3026,23 @@ class CreateInputSystemByPackInputGooglePubsub(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeFirehose(str, Enum):
+class CreateInputSystemByPackInputFirehoseType(str, Enum):
+    r"""Source type identifier."""
+
     FIREHOSE = "firehose"
 
 
 class CreateInputSystemByPackInputFirehoseTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeFirehose
+    type: CreateInputSystemByPackInputFirehoseType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2643,13 +3052,14 @@ class CreateInputSystemByPackInputFirehoseTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -2675,6 +3085,7 @@ class CreateInputSystemByPackInputFirehoseTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2691,7 +3102,8 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeFirehose
+    type: CreateInputSystemByPackInputFirehoseType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2700,6 +3112,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2716,7 +3129,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -2729,6 +3142,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -2789,6 +3203,7 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2864,6 +3279,8 @@ class CreateInputSystemByPackInputFirehose(BaseModel):
 
 
 class CreateInputSystemByPackInputExecType(str, Enum):
+    r"""Connector type identifier."""
+
     EXEC = "exec"
 
 
@@ -2878,9 +3295,11 @@ class CreateInputSystemByPackInputExecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackInputExecType
+    r"""Connector type identifier."""
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     disabled: NotRequired[bool]
+    r"""Disabled"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2890,7 +3309,7 @@ class CreateInputSystemByPackInputExecTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -2907,6 +3326,7 @@ class CreateInputSystemByPackInputExecTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     interval: NotRequired[float]
     r"""Interval between command executions in seconds."""
     cron_schedule: NotRequired[str]
@@ -2922,11 +3342,13 @@ class CreateInputSystemByPackInputExec(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackInputExecType
+    r"""Connector type identifier."""
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
 
     disabled: Optional[bool] = None
+    r"""Disabled"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2943,7 +3365,7 @@ class CreateInputSystemByPackInputExec(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -2976,6 +3398,7 @@ class CreateInputSystemByPackInputExec(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     interval: Optional[float] = None
     r"""Interval between command executions in seconds."""
@@ -3041,13 +3464,17 @@ class CreateInputSystemByPackInputExec(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeEventhubAmqp(str, Enum):
+class CreateInputSystemByPackInputEventhubAmqpType(str, Enum):
+    r"""Connector type identifier."""
+
     EVENTHUB_AMQP = "eventhub_amqp"
 
 
 class CreateInputSystemByPackAuthenticationMechanism(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication mechanism"""
+
     # Connection String
     CONNECTION_STRING = "connection-string"
     # OAuth Bearer
@@ -3097,9 +3524,11 @@ class CreateInputSystemByPackCertificate(BaseModel):
 
 class CreateInputSystemByPackAuthTypedDict(TypedDict):
     mechanism: CreateInputSystemByPackAuthenticationMechanism
+    r"""Authentication mechanism"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
+    r"""Authentication method"""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[CreateInputSystemByPackCertificateTypedDict]
@@ -3123,6 +3552,7 @@ class CreateInputSystemByPackAuthTypedDict(TypedDict):
 
 class CreateInputSystemByPackAuth(BaseModel):
     mechanism: CreateInputSystemByPackAuthenticationMechanism
+    r"""Authentication mechanism"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -3131,6 +3561,7 @@ class CreateInputSystemByPackAuth(BaseModel):
         Optional[AuthenticationMethodOptionsAuth],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
+    r"""Authentication method"""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
@@ -3235,9 +3666,11 @@ class CreateInputSystemByPackAuth(BaseModel):
         return m
 
 
-class CreateInputSystemByPackAuthenticationMethodEventhubAmqp(
+class CreateInputSystemByPackInputEventhubAmqpAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method"""
+
     SECRET = "secret"
     CLIENT_SECRET = "clientSecret"
     CLIENT_CERT = "clientCert"
@@ -3246,9 +3679,12 @@ class CreateInputSystemByPackAuthenticationMethodEventhubAmqp(
 
 
 class CreateInputSystemByPackAzureBlobStorageTypedDict(TypedDict):
+    r"""Azure Blob Storage"""
+
     container_name: str
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodEventhubAmqp]
+    auth_type: NotRequired[CreateInputSystemByPackInputEventhubAmqpAuthenticationMethod]
+    r"""Authentication method"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     storage_account_name: NotRequired[str]
@@ -3263,7 +3699,7 @@ class CreateInputSystemByPackAzureBlobStorageTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_storage_account_name: NotRequired[str]
     r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -3275,13 +3711,16 @@ class CreateInputSystemByPackAzureBlobStorageTypedDict(TypedDict):
 
 
 class CreateInputSystemByPackAzureBlobStorage(BaseModel):
+    r"""Azure Blob Storage"""
+
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodEventhubAmqp],
+        Optional[CreateInputSystemByPackInputEventhubAmqpAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -3310,7 +3749,7 @@ class CreateInputSystemByPackAzureBlobStorage(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_storage_account_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_storageAccountName")
@@ -3336,8 +3775,10 @@ class CreateInputSystemByPackAzureBlobStorage(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationMethodEventhubAmqp(
-                    value
+                return (
+                    models.CreateInputSystemByPackInputEventhubAmqpAuthenticationMethod(
+                        value
+                    )
                 )
             except ValueError:
                 return value
@@ -3378,22 +3819,26 @@ class CreateInputSystemByPackAzureBlobStorage(BaseModel):
 
 class CreateInputSystemByPackCheckpointingTypedDict(TypedDict):
     blob_store: CreateInputSystemByPackAzureBlobStorageTypedDict
+    r"""Azure Blob Storage"""
 
 
 class CreateInputSystemByPackCheckpointing(BaseModel):
     blob_store: Annotated[
         CreateInputSystemByPackAzureBlobStorage, pydantic.Field(alias="blobStore")
     ]
+    r"""Azure Blob Storage"""
 
 
 class CreateInputSystemByPackInputEventhubAmqpTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeEventhubAmqp
+    type: CreateInputSystemByPackInputEventhubAmqpType
+    r"""Connector type identifier."""
     consumer_group: str
     r"""The consumer group this instance belongs to. Default is '$Default'."""
     checkpointing: CreateInputSystemByPackCheckpointingTypedDict
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3403,7 +3848,7 @@ class CreateInputSystemByPackInputEventhubAmqpTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -3435,6 +3880,7 @@ class CreateInputSystemByPackInputEventhubAmqpTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -3445,7 +3891,8 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeEventhubAmqp
+    type: CreateInputSystemByPackInputEventhubAmqpType
+    r"""Connector type identifier."""
 
     consumer_group: Annotated[str, pydantic.Field(alias="consumerGroup")]
     r"""The consumer group this instance belongs to. Default is '$Default'."""
@@ -3453,6 +3900,7 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
     checkpointing: CreateInputSystemByPackCheckpointing
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3469,7 +3917,7 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -3536,6 +3984,7 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -3592,19 +4041,23 @@ class CreateInputSystemByPackInputEventhubAmqp(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeEventhub(str, Enum):
+class CreateInputSystemByPackInputEventhubType(str, Enum):
+    r"""Connector type identifier."""
+
     EVENTHUB = "eventhub"
 
 
 class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeEventhub
+    type: CreateInputSystemByPackInputEventhubType
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
     topics: List[str]
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3614,7 +4067,7 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -3641,6 +4094,7 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     sasl: NotRequired[AuthenticationTypeUseTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    r"""TLS settings (client side)"""
     session_timeout: NotRequired[float]
     r"""
     Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities. If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance. Value must be lower than rebalanceTimeout. See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
@@ -3668,6 +4122,7 @@ class CreateInputSystemByPackInputEventhubTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -3684,7 +4139,8 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeEventhub
+    type: CreateInputSystemByPackInputEventhubType
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
@@ -3693,6 +4149,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     r"""The name of the Event Hub (Kafka topic) to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Event Hubs Source to only a single topic."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3709,7 +4166,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -3762,6 +4219,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
+    r"""TLS settings (client side)"""
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -3816,6 +4274,7 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -3898,11 +4357,13 @@ class CreateInputSystemByPackInputEventhub(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeMicrosoftGraph(str, Enum):
+class CreateInputSystemByPackInputMicrosoftGraphType(str, Enum):
+    r"""Connector type identifier."""
+
     MICROSOFT_GRAPH = "microsoft_graph"
 
 
-class CreateInputSystemByPackAuthenticationMethodMicrosoftGraph(
+class CreateInputSystemByPackInputMicrosoftGraphAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select authentication method."""
@@ -3930,12 +4391,14 @@ class CreateInputSystemByPackSubscriptionPlan(str, Enum, metaclass=utils.OpenEnu
 class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeMicrosoftGraph
+    type: CreateInputSystemByPackInputMicrosoftGraphType
+    r"""Connector type identifier."""
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
     interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3945,7 +4408,7 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -3959,7 +4422,9 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     r"""Disables time filtering of events when a date range is specified."""
     max_pages: NotRequired[int]
     r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodMicrosoftGraph]
+    auth_type: NotRequired[
+        CreateInputSystemByPackInputMicrosoftGraphAuthenticationMethod
+    ]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -3980,7 +4445,12 @@ class CreateInputSystemByPackInputMicrosoftGraphTypedDict(TypedDict):
     log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""client_secret to pass in the OAuth request parameter."""
     tenant_id: NotRequired[str]
@@ -4014,7 +4484,8 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeMicrosoftGraph
+    type: CreateInputSystemByPackInputMicrosoftGraphType
+    r"""Connector type identifier."""
 
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
@@ -4023,6 +4494,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4039,7 +4511,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -4064,7 +4536,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodMicrosoftGraph],
+        Optional[CreateInputSystemByPackInputMicrosoftGraphAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -4112,7 +4584,18 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
         Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = None
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""client_secret to pass in the OAuth request parameter."""
@@ -4178,7 +4661,7 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationMethodMicrosoftGraph(
+                return models.CreateInputSystemByPackInputMicrosoftGraphAuthenticationMethod(
                     value
                 )
             except ValueError:
@@ -4231,6 +4714,8 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
                 "maxTaskReschedule",
                 "logLevel",
                 "retryRules",
+                "breakerRulesets",
+                "staleChannelFlushMs",
                 "description",
                 "clientSecret",
                 "tenantId",
@@ -4262,11 +4747,13 @@ class CreateInputSystemByPackInputMicrosoftGraph(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeOffice365MsgTrace(str, Enum):
+class CreateInputSystemByPackInputOffice365MsgTraceType(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_MSG_TRACE = "office365_msg_trace"
 
 
-class CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace(
+class CreateInputSystemByPackInputOffice365MsgTraceAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select authentication method."""
@@ -4281,12 +4768,14 @@ class CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace(
 class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeOffice365MsgTrace
+    type: CreateInputSystemByPackInputOffice365MsgTraceType
+    r"""Connector type identifier."""
     url: str
     r"""URL to use when retrieving report data."""
     interval: int
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4296,7 +4785,7 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -4308,7 +4797,9 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace]
+    auth_type: NotRequired[
+        CreateInputSystemByPackInputOffice365MsgTraceAuthenticationMethod
+    ]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -4330,6 +4821,7 @@ class CreateInputSystemByPackInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     r"""Username to run Message Trace API call."""
     password: NotRequired[str]
@@ -4369,7 +4861,8 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeOffice365MsgTrace
+    type: CreateInputSystemByPackInputOffice365MsgTraceType
+    r"""Connector type identifier."""
 
     url: str
     r"""URL to use when retrieving report data."""
@@ -4378,6 +4871,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     r"""How often (in minutes) to run the report. Must divide evenly into 60 minutes to create a predictable schedule, or Save will fail."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4394,7 +4888,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -4416,7 +4910,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace],
+        Optional[CreateInputSystemByPackInputOffice365MsgTraceAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -4465,6 +4959,7 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
     r"""Username to run Message Trace API call."""
@@ -4540,10 +5035,8 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return (
-                    models.CreateInputSystemByPackAuthenticationMethodOffice365MsgTrace(
-                        value
-                    )
+                return models.CreateInputSystemByPackInputOffice365MsgTraceAuthenticationMethod(
+                    value
                 )
             except ValueError:
                 return value
@@ -4628,22 +5121,26 @@ class CreateInputSystemByPackInputOffice365MsgTrace(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeOffice365Service(str, Enum):
+class CreateInputSystemByPackInputOffice365ServiceType(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_SERVICE = "office365_service"
 
 
-class CreateInputSystemByPackContentConfigOffice365ServiceTypedDict(TypedDict):
+class CreateInputSystemByPackInputOffice365ServiceContentConfigTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Microsoft 365 Services API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
+    r"""Interval"""
     log_level: NotRequired[LogLevelOptionsContentConfigItems]
     r"""Collector runtime Log Level"""
     enabled: NotRequired[bool]
+    r"""Enabled"""
 
 
-class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
+class CreateInputSystemByPackInputOffice365ServiceContentConfig(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Microsoft 365 Services API Content Type"""
 
@@ -4651,6 +5148,7 @@ class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
 
     interval: Optional[float] = None
+    r"""Interval"""
 
     log_level: Annotated[
         Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
@@ -4658,6 +5156,7 @@ class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
     r"""Collector runtime Log Level"""
 
     enabled: Optional[bool] = None
+    r"""Enabled"""
 
     @field_serializer("log_level")
     def serialize_log_level(self, value):
@@ -4690,12 +5189,14 @@ class CreateInputSystemByPackContentConfigOffice365Service(BaseModel):
 class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeOffice365Service
+    type: CreateInputSystemByPackInputOffice365ServiceType
+    r"""Connector type identifier."""
     tenant_id: str
     r"""Microsoft 365 Azure Tenant ID"""
     app_id: str
     r"""Microsoft 365 Azure Application ID"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4705,7 +5206,7 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -4726,13 +5227,14 @@ class CreateInputSystemByPackInputOffice365ServiceTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     content_config: NotRequired[
-        List[CreateInputSystemByPackContentConfigOffice365ServiceTypedDict]
+        List[CreateInputSystemByPackInputOffice365ServiceContentConfigTypedDict]
     ]
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
@@ -4755,7 +5257,8 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeOffice365Service
+    type: CreateInputSystemByPackInputOffice365ServiceType
+    r"""Connector type identifier."""
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
     r"""Microsoft 365 Azure Tenant ID"""
@@ -4764,6 +5267,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     r"""Microsoft 365 Azure Application ID"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4780,7 +5284,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -4820,7 +5324,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     r"""Fields to add to events from this input"""
 
     content_config: Annotated[
-        Optional[List[CreateInputSystemByPackContentConfigOffice365Service]],
+        Optional[List[CreateInputSystemByPackInputOffice365ServiceContentConfig]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
@@ -4836,6 +5340,7 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""Microsoft 365 Azure client secret"""
@@ -4939,22 +5444,26 @@ class CreateInputSystemByPackInputOffice365Service(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeOffice365Mgmt(str, Enum):
+class CreateInputSystemByPackInputOffice365MgmtType(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_MGMT = "office365_mgmt"
 
 
-class CreateInputSystemByPackContentConfigOffice365MgmtTypedDict(TypedDict):
+class CreateInputSystemByPackInputOffice365MgmtContentConfigTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Microsoft 365 Management Activity API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
+    r"""Interval"""
     log_level: NotRequired[LogLevelOptionsContentConfigItems]
     r"""Collector runtime Log Level"""
     enabled: NotRequired[bool]
+    r"""Enabled"""
 
 
-class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
+class CreateInputSystemByPackInputOffice365MgmtContentConfig(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Microsoft 365 Management Activity API Content Type"""
 
@@ -4962,6 +5471,7 @@ class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
 
     interval: Optional[float] = None
+    r"""Interval"""
 
     log_level: Annotated[
         Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
@@ -4969,6 +5479,7 @@ class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
     r"""Collector runtime Log Level"""
 
     enabled: Optional[bool] = None
+    r"""Enabled"""
 
     @field_serializer("log_level")
     def serialize_log_level(self, value):
@@ -5001,7 +5512,8 @@ class CreateInputSystemByPackContentConfigOffice365Mgmt(BaseModel):
 class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeOffice365Mgmt
+    type: CreateInputSystemByPackInputOffice365MgmtType
+    r"""Connector type identifier."""
     plan_type: SubscriptionPlanOptions
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     tenant_id: str
@@ -5009,6 +5521,7 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     app_id: str
     r"""Microsoft 365 Azure Application ID"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5018,7 +5531,7 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -5039,7 +5552,7 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
     content_config: NotRequired[
-        List[CreateInputSystemByPackContentConfigOffice365MgmtTypedDict]
+        List[CreateInputSystemByPackInputOffice365MgmtContentConfigTypedDict]
     ]
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
@@ -5048,6 +5561,7 @@ class CreateInputSystemByPackInputOffice365MgmtTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
@@ -5072,7 +5586,8 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeOffice365Mgmt
+    type: CreateInputSystemByPackInputOffice365MgmtType
+    r"""Connector type identifier."""
 
     plan_type: Annotated[SubscriptionPlanOptions, pydantic.Field(alias="planType")]
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
@@ -5084,6 +5599,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     r"""Microsoft 365 Azure Application ID"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5100,7 +5616,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -5140,7 +5656,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
 
     content_config: Annotated[
-        Optional[List[CreateInputSystemByPackContentConfigOffice365Mgmt]],
+        Optional[List[CreateInputSystemByPackInputOffice365MgmtContentConfig]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
@@ -5161,6 +5677,7 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""Microsoft 365 Azure client secret"""
@@ -5271,11 +5788,13 @@ class CreateInputSystemByPackInputOffice365Mgmt(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeEdgePrometheus(str, Enum):
+class CreateInputSystemByPackInputEdgePrometheusType(str, Enum):
+    r"""Connector type identifier."""
+
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
-class CreateInputSystemByPackDiscoveryTypeEdgePrometheus(
+class CreateInputSystemByPackInputEdgePrometheusDiscoveryType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -5296,7 +5815,7 @@ class CreateInputSystemByPackDiscoveryTypeEdgePrometheus(
     HTTP_SD = "http_sd"
 
 
-class CreateInputSystemByPackAuthenticationMethodEdgePrometheus(
+class CreateInputSystemByPackInputEdgePrometheusAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Enter credentials directly, or select a stored secret"""
@@ -5390,12 +5909,14 @@ class CreateInputSystemByPackPodFilter(BaseModel):
 class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeEdgePrometheus
-    discovery_type: CreateInputSystemByPackDiscoveryTypeEdgePrometheus
+    type: CreateInputSystemByPackInputEdgePrometheusType
+    r"""Connector type identifier."""
+    discovery_type: CreateInputSystemByPackInputEdgePrometheusDiscoveryType
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: float
     r"""How often in seconds to scrape targets for metrics."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5405,7 +5926,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -5416,12 +5937,17 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     timeout: NotRequired[float]
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    r"""Disk Spooling"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodEdgePrometheus]
+    auth_type: NotRequired[
+        CreateInputSystemByPackInputEdgePrometheusAuthenticationMethod
+    ]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     targets: NotRequired[List[CreateInputSystemByPackTargetTypedDict]]
+    r"""Targets"""
     record_type: NotRequired[RecordTypeOptions]
     r"""DNS record type to resolve"""
     scrape_port: NotRequired[float]
@@ -5435,6 +5961,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -5442,6 +5969,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -5476,7 +6004,7 @@ class CreateInputSystemByPackInputEdgePrometheusTypedDict(TypedDict):
     http_discovery_url: NotRequired[str]
     r"""URL to fetch target groups from (must be http or https)"""
     http_discovery_headers: NotRequired[
-        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Extra headers to send with the discovery request"""
     http_discovery_reject_unauthorized: NotRequired[bool]
@@ -5515,10 +6043,11 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeEdgePrometheus
+    type: CreateInputSystemByPackInputEdgePrometheusType
+    r"""Connector type identifier."""
 
     discovery_type: Annotated[
-        CreateInputSystemByPackDiscoveryTypeEdgePrometheus,
+        CreateInputSystemByPackInputEdgePrometheusDiscoveryType,
         pydantic.Field(alias="discoveryType"),
     ]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -5527,6 +6056,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""How often in seconds to scrape targets for metrics."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5543,7 +6073,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -5564,19 +6094,22 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
 
     persistence: Optional[DiskSpoolingType] = None
+    r"""Disk Spooling"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodEdgePrometheus],
+        Optional[CreateInputSystemByPackInputEdgePrometheusAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     targets: Optional[List[CreateInputSystemByPackTarget]] = None
+    r"""Targets"""
 
     record_type: Annotated[
         Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
@@ -5604,6 +6137,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -5620,6 +6154,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""
@@ -5694,7 +6229,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     r"""URL to fetch target groups from (must be http or https)"""
 
     http_discovery_headers: Annotated[
-        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
         pydantic.Field(alias="httpDiscoveryHeaders"),
     ] = None
     r"""Extra headers to send with the discovery request"""
@@ -5774,7 +6309,9 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackDiscoveryTypeEdgePrometheus(value)
+                return models.CreateInputSystemByPackInputEdgePrometheusDiscoveryType(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -5783,7 +6320,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationMethodEdgePrometheus(
+                return models.CreateInputSystemByPackInputEdgePrometheusAuthenticationMethod(
                     value
                 )
             except ValueError:
@@ -5894,11 +6431,7 @@ class CreateInputSystemByPackInputEdgePrometheus(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypePrometheus(str, Enum):
-    PROMETHEUS = "prometheus"
-
-
-class CreateInputSystemByPackDiscoveryTypePrometheus(
+class CreateInputSystemByPackInputPrometheusDiscoveryType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -5923,12 +6456,14 @@ class CreateInputSystemByPackMetricsProtocol(str, Enum, metaclass=utils.OpenEnum
 class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypePrometheus
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
     log_level: LogLevelOptions
     r"""Collector runtime log level"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5938,7 +6473,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -5946,7 +6481,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     r"""Other dimensions to include in events"""
     field_per_metric: NotRequired[bool]
     r"""When enabled, each metric name is used as the event field key (example: go_threads: 9) instead of the default _metric/_value format."""
-    discovery_type: NotRequired[CreateInputSystemByPackDiscoveryTypePrometheus]
+    discovery_type: NotRequired[CreateInputSystemByPackInputPrometheusDiscoveryType]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
@@ -5967,6 +6502,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsSasl]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     target_list: NotRequired[List[str]]
     r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
     record_type: NotRequired[RecordTypeOptions]
@@ -5982,6 +6518,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -5989,6 +6526,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -6006,7 +6544,7 @@ class CreateInputSystemByPackInputPrometheusTypedDict(TypedDict):
     http_discovery_url: NotRequired[str]
     r"""URL to fetch target groups from (must be http or https)"""
     http_discovery_headers: NotRequired[
-        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Extra headers to send with the discovery request"""
     http_discovery_reject_unauthorized: NotRequired[bool]
@@ -6055,7 +6593,8 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypePrometheus
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
 
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
@@ -6064,6 +6603,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""Collector runtime log level"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6080,7 +6620,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -6098,7 +6638,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""When enabled, each metric name is used as the event field key (example: go_threads: 9) instead of the default _metric/_value format."""
 
     discovery_type: Annotated[
-        Optional[CreateInputSystemByPackDiscoveryTypePrometheus],
+        Optional[CreateInputSystemByPackInputPrometheusDiscoveryType],
         pydantic.Field(alias="discoveryType"),
     ] = None
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -6141,6 +6681,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     target_list: Annotated[Optional[List[str]], pydantic.Field(alias="targetList")] = (
         None
@@ -6174,6 +6715,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -6190,6 +6732,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""
@@ -6228,7 +6771,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     r"""URL to fetch target groups from (must be http or https)"""
 
     http_discovery_headers: Annotated[
-        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
         pydantic.Field(alias="httpDiscoveryHeaders"),
     ] = None
     r"""Extra headers to send with the discovery request"""
@@ -6333,7 +6876,7 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackDiscoveryTypePrometheus(value)
+                return models.CreateInputSystemByPackInputPrometheusDiscoveryType(value)
             except ValueError:
                 return value
         return value
@@ -6465,14 +7008,17 @@ class CreateInputSystemByPackInputPrometheus(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypePrometheusRw(str, Enum):
+class CreateInputSystemByPackInputPrometheusRwType(str, Enum):
+    r"""Source type identifier."""
+
     PROMETHEUS_RW = "prometheus_rw"
 
 
 class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypePrometheusRw
+    type: CreateInputSystemByPackInputPrometheusRwType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -6480,6 +7026,7 @@ class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     prometheus_api: str
     r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6489,11 +7036,12 @@ class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -6521,8 +7069,11 @@ class CreateInputSystemByPackInputPrometheusRwTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -6547,7 +7098,8 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypePrometheusRw
+    type: CreateInputSystemByPackInputPrometheusRwType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -6559,6 +7111,7 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     r"""Absolute path on which to listen for Prometheus requests. Defaults to /write, which will expand as: http://<your‑upstream‑URL>:<your‑port>/write."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6575,7 +7128,7 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -6583,6 +7136,7 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -6649,10 +7203,13 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -6758,14 +7315,17 @@ class CreateInputSystemByPackInputPrometheusRw(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeLoki(str, Enum):
+class CreateInputSystemByPackInputLokiType(str, Enum):
+    r"""Source type identifier."""
+
     LOKI = "loki"
 
 
 class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeLoki
+    type: CreateInputSystemByPackInputLokiType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -6773,6 +7333,7 @@ class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     loki_api: str
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6782,11 +7343,12 @@ class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -6814,8 +7376,11 @@ class CreateInputSystemByPackInputLokiTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -6838,7 +7403,8 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeLoki
+    type: CreateInputSystemByPackInputLokiType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -6850,6 +7416,7 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6866,7 +7433,7 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -6874,6 +7441,7 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -6939,10 +7507,13 @@ class CreateInputSystemByPackInputLoki(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7043,6 +7614,8 @@ class CreateInputSystemByPackInputLoki(BaseModel):
 
 
 class CreateInputSystemByPackInputGrafanaType2(str, Enum):
+    r"""Source type identifier."""
+
     GRAFANA = "grafana"
 
 
@@ -7050,7 +7623,9 @@ class CreateInputSystemByPackPrometheusAuth2TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7067,8 +7642,10 @@ class CreateInputSystemByPackPrometheusAuth2(BaseModel):
     r"""Remote Write authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7120,7 +7697,9 @@ class CreateInputSystemByPackLokiAuth2TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7136,8 +7715,10 @@ class CreateInputSystemByPackLokiAuth2(BaseModel):
     r"""Loki logs authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7189,6 +7770,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackInputGrafanaType2
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -7196,6 +7778,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2TypedDict(TypedDict):
     loki_api: str
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7205,11 +7788,12 @@ class CreateInputSystemByPackInputGrafanaGrafana2TypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -7239,6 +7823,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2TypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -7258,6 +7843,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackInputGrafanaType2
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7269,6 +7855,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
     r"""Absolute path on which to listen for Loki logs requests. Defaults to /loki/api/v1/push, which will (in this example) expand as: 'http://<your‑upstream‑URL>:<your‑port>/loki/api/v1/push'. Either this field or 'Remote Write API endpoint' must be configured."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7285,7 +7872,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -7293,6 +7880,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -7367,6 +7955,7 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -7450,6 +8039,8 @@ class CreateInputSystemByPackInputGrafanaGrafana2(BaseModel):
 
 
 class CreateInputSystemByPackInputGrafanaType1(str, Enum):
+    r"""Source type identifier."""
+
     GRAFANA = "grafana"
 
 
@@ -7457,7 +8048,9 @@ class CreateInputSystemByPackPrometheusAuth1TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7474,8 +8067,10 @@ class CreateInputSystemByPackPrometheusAuth1(BaseModel):
     r"""Remote Write authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7527,7 +8122,9 @@ class CreateInputSystemByPackLokiAuth1TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7543,8 +8140,10 @@ class CreateInputSystemByPackLokiAuth1(BaseModel):
     r"""Loki logs authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7596,6 +8195,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1TypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
     type: CreateInputSystemByPackInputGrafanaType1
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -7603,6 +8203,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1TypedDict(TypedDict):
     prometheus_api: str
     r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7612,11 +8213,12 @@ class CreateInputSystemByPackInputGrafanaGrafana1TypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -7646,6 +8248,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1TypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -7665,6 +8268,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
     r"""Unique ID for this input"""
 
     type: CreateInputSystemByPackInputGrafanaType1
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7676,6 +8280,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
     r"""Absolute path on which to listen for Grafana Agent's Remote Write requests. Defaults to /api/prom/push, which will expand as: 'http://<your‑upstream‑URL>:<your‑port>/api/prom/push'. Either this field or 'Logs API endpoint' must be configured."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7692,7 +8297,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -7700,6 +8305,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -7772,6 +8378,7 @@ class CreateInputSystemByPackInputGrafanaGrafana1(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -7872,19 +8479,17 @@ CreateInputSystemByPackInputGrafanaUnion = TypeAliasType(
 )
 
 
-class CreateInputSystemByPackTypeConfluentCloud(str, Enum):
-    CONFLUENT_CLOUD = "confluent_cloud"
-
-
 class CreateInputSystemByPackInputConfluentCloudTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeConfluentCloud
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7894,16 +8499,18 @@ class CreateInputSystemByPackInputConfluentCloudTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -7951,6 +8558,7 @@ class CreateInputSystemByPackInputConfluentCloudTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -7967,7 +8575,8 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeConfluentCloud
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
@@ -7976,6 +8585,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7992,7 +8602,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -8000,6 +8610,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -8013,6 +8624,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -8103,6 +8715,7 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -8185,13 +8798,17 @@ class CreateInputSystemByPackInputConfluentCloud(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeElastic(str, Enum):
+class CreateInputSystemByPackInputElasticType(str, Enum):
+    r"""Source type identifier."""
+
     ELASTIC = "elastic"
 
 
-class CreateInputSystemByPackAuthenticationTypeElastic(
+class CreateInputSystemByPackInputElasticAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication type"""
+
     # None
     NONE = "none"
     # Basic
@@ -8213,7 +8830,7 @@ class CreateInputSystemByPackAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta)
     CUSTOM = "custom"
 
 
-class CreateInputSystemByPackAuthenticationMethodElastic(
+class CreateInputSystemByPackInputElasticAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Enter credentials directly, or select a stored secret"""
@@ -8223,13 +8840,15 @@ class CreateInputSystemByPackAuthenticationMethodElastic(
     SECRET = "secret"
 
 
-class CreateInputSystemByPackProxyModeElasticTypedDict(TypedDict):
+class CreateInputSystemByPackInputElasticProxyModeTypedDict(TypedDict):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationMethodElastic]
+    auth_type: NotRequired[CreateInputSystemByPackInputElasticAuthenticationMethod]
     r"""Enter credentials directly, or select a stored secret"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     url: NotRequired[str]
@@ -8244,19 +8863,21 @@ class CreateInputSystemByPackProxyModeElasticTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class CreateInputSystemByPackProxyModeElastic(BaseModel):
+class CreateInputSystemByPackInputElasticProxyMode(BaseModel):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationMethodElastic],
+        Optional[CreateInputSystemByPackInputElasticAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -8288,7 +8909,9 @@ class CreateInputSystemByPackProxyModeElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationMethodElastic(value)
+                return models.CreateInputSystemByPackInputElasticAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -8325,7 +8948,8 @@ class CreateInputSystemByPackProxyModeElastic(BaseModel):
 class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeElastic
+    type: CreateInputSystemByPackInputElasticType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -8333,6 +8957,7 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     elastic_api: str
     r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8342,11 +8967,12 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -8369,17 +8995,21 @@ class CreateInputSystemByPackInputElasticTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    auth_type: NotRequired[CreateInputSystemByPackAuthenticationTypeElastic]
+    auth_type: NotRequired[CreateInputSystemByPackInputElasticAuthenticationType]
+    r"""Authentication type"""
     api_version: NotRequired[CreateInputSystemByPackAPIVersion]
     r"""The API version to use for communicating with the server"""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[CreateInputSystemByPackProxyModeElasticTypedDict]
+    proxy_mode: NotRequired[CreateInputSystemByPackInputElasticProxyModeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     auth_tokens: NotRequired[List[str]]
@@ -8404,7 +9034,8 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeElastic
+    type: CreateInputSystemByPackInputElasticType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -8416,6 +9047,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     r"""Absolute path on which to listen for Elasticsearch API requests. Defaults to /. _bulk will be appended automatically. For example, /myPath becomes /myPath/_bulk. Requests can then be made to either /myPath/_bulk or /myPath/<myIndexName>/_bulk. Other entries are faked as success."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8432,7 +9064,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -8440,6 +9072,7 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -8497,9 +9130,10 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
     auth_type: Annotated[
-        Optional[CreateInputSystemByPackAuthenticationTypeElastic],
+        Optional[CreateInputSystemByPackInputElasticAuthenticationType],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication type"""
 
     api_version: Annotated[
         Optional[CreateInputSystemByPackAPIVersion], pydantic.Field(alias="apiVersion")
@@ -8516,15 +9150,18 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[CreateInputSystemByPackProxyModeElastic],
+        Optional[CreateInputSystemByPackInputElasticProxyMode],
         pydantic.Field(alias="proxyMode"),
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -8575,7 +9212,9 @@ class CreateInputSystemByPackInputElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationTypeElastic(value)
+                return models.CreateInputSystemByPackInputElasticAuthenticationType(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -8646,17 +9285,15 @@ class CreateInputSystemByPackInputElastic(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeAzureBlob(str, Enum):
-    AZURE_BLOB = "azure_blob"
-
-
 class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeAzureBlob
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
     queue_name: str
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8666,7 +9303,7 @@ class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -8693,7 +9330,9 @@ class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
     auth_type: NotRequired[AuthenticationMethodOptions]
+    r"""Authentication method"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     connection_string: NotRequired[str]
     r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
     text_secret: NotRequired[str]
@@ -8710,7 +9349,7 @@ class CreateInputSystemByPackInputAzureBlobTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -8733,12 +9372,14 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeAzureBlob
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8755,7 +9396,7 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -8812,8 +9453,10 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = None
+    r"""Authentication method"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     connection_string: Annotated[
         Optional[str], pydantic.Field(alias="connectionString")
@@ -8847,7 +9490,7 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -8956,11 +9599,13 @@ class CreateInputSystemByPackInputAzureBlob(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeSplunkHec(str, Enum):
+class CreateInputSystemByPackInputSplunkHecType(str, Enum):
+    r"""Source type identifier."""
+
     SPLUNK_HEC = "splunk_hec"
 
 
-class CreateInputSystemByPackAuthTokenSplunkHecTypedDict(TypedDict):
+class CreateInputSystemByPackInputSplunkHecAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -8968,6 +9613,7 @@ class CreateInputSystemByPackAuthTokenSplunkHecTypedDict(TypedDict):
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     enabled: NotRequired[bool]
+    r"""If true, the token is active and can be used for authentication."""
     description: NotRequired[str]
     r"""Optional token description"""
     allowed_indexes_at_token: NotRequired[List[str]]
@@ -8976,7 +9622,7 @@ class CreateInputSystemByPackAuthTokenSplunkHecTypedDict(TypedDict):
     r"""Fields to add to events referencing this token"""
 
 
-class CreateInputSystemByPackAuthTokenSplunkHec(BaseModel):
+class CreateInputSystemByPackInputSplunkHecAuthToken(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
@@ -8990,6 +9636,7 @@ class CreateInputSystemByPackAuthTokenSplunkHec(BaseModel):
     r"""Select or create a stored text secret"""
 
     enabled: Optional[bool] = None
+    r"""If true, the token is active and can be used for authentication."""
 
     description: Optional[str] = None
     r"""Optional token description"""
@@ -9040,7 +9687,8 @@ class CreateInputSystemByPackAuthTokenSplunkHec(BaseModel):
 class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSplunkHec
+    type: CreateInputSystemByPackInputSplunkHecType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -9048,6 +9696,7 @@ class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     splunk_hec_api: str
     r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9057,13 +9706,16 @@ class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[CreateInputSystemByPackAuthTokenSplunkHecTypedDict]]
+    auth_tokens: NotRequired[
+        List[CreateInputSystemByPackInputSplunkHecAuthTokenTypedDict]
+    ]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -9107,6 +9759,7 @@ class CreateInputSystemByPackInputSplunkHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -9123,7 +9776,8 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSplunkHec
+    type: CreateInputSystemByPackInputSplunkHecType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9135,6 +9789,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     r"""Absolute path on which to listen for the Splunk HTTP Event Collector API requests. This input supports the /event, /raw and /s2s endpoints."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9151,7 +9806,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -9159,12 +9814,13 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[CreateInputSystemByPackAuthTokenSplunkHec]],
+        Optional[List[CreateInputSystemByPackInputSplunkHecAuthToken]],
         pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -9270,6 +9926,7 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -9353,18 +10010,22 @@ class CreateInputSystemByPackInputSplunkHec(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeSplunkSearch(str, Enum):
+class CreateInputSystemByPackInputSplunkSearchType(str, Enum):
+    r"""Connector type identifier."""
+
     SPLUNK_SEARCH = "splunk_search"
 
 
 class CreateInputSystemByPackEndpointParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
 class CreateInputSystemByPackEndpointParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
@@ -9372,18 +10033,20 @@ class CreateInputSystemByPackEndpointParam(BaseModel):
 
 class CreateInputSystemByPackEndpointHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
 class CreateInputSystemByPackEndpointHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class CreateInputSystemByPackLogLevelSplunkSearch(
+class CreateInputSystemByPackInputSplunkSearchLogLevel(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Collector runtime log level (verbosity)"""
@@ -9394,7 +10057,7 @@ class CreateInputSystemByPackLogLevelSplunkSearch(
     DEBUG = "debug"
 
 
-class CreateInputSystemByPackAuthenticationTypeSplunkSearch(
+class CreateInputSystemByPackInputSplunkSearchAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Splunk Search authentication type"""
@@ -9414,7 +10077,8 @@ class CreateInputSystemByPackAuthenticationTypeSplunkSearch(
 class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSplunkSearch
+    type: CreateInputSystemByPackInputSplunkSearchType
+    r"""Connector type identifier."""
     search_head: str
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
@@ -9425,9 +10089,10 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     r"""REST API used to create a search"""
     output_mode: OutputModeOptionsSplunkCollectorConf
     r"""Format of the returned output"""
-    auth_type: CreateInputSystemByPackAuthenticationTypeSplunkSearch
+    auth_type: CreateInputSystemByPackInputSplunkSearchAuthenticationType
     r"""Splunk Search authentication type"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9437,7 +10102,7 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -9449,7 +10114,7 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[CreateInputSystemByPackEndpointHeaderTypedDict]]
     r"""Optional request headers to send to the endpoint"""
-    log_level: NotRequired[CreateInputSystemByPackLogLevelSplunkSearch]
+    log_level: NotRequired[CreateInputSystemByPackInputSplunkSearchLogLevel]
     r"""Collector runtime log level (verbosity)"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
@@ -9477,8 +10142,11 @@ class CreateInputSystemByPackInputSplunkSearchTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -9507,7 +10175,8 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSplunkSearch
+    type: CreateInputSystemByPackInputSplunkSearchType
+    r"""Connector type identifier."""
 
     search_head: Annotated[str, pydantic.Field(alias="searchHead")]
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
@@ -9527,12 +10196,13 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""Format of the returned output"""
 
     auth_type: Annotated[
-        CreateInputSystemByPackAuthenticationTypeSplunkSearch,
+        CreateInputSystemByPackInputSplunkSearchAuthenticationType,
         pydantic.Field(alias="authType"),
     ]
     r"""Splunk Search authentication type"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9549,7 +10219,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -9575,7 +10245,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""Optional request headers to send to the endpoint"""
 
     log_level: Annotated[
-        Optional[CreateInputSystemByPackLogLevelSplunkSearch],
+        Optional[CreateInputSystemByPackInputSplunkSearchLogLevel],
         pydantic.Field(alias="logLevel"),
     ] = None
     r"""Collector runtime log level (verbosity)"""
@@ -9637,10 +10307,13 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -9706,7 +10379,7 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackLogLevelSplunkSearch(value)
+                return models.CreateInputSystemByPackInputSplunkSearchLogLevel(value)
             except ValueError:
                 return value
         return value
@@ -9715,8 +10388,10 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.CreateInputSystemByPackAuthenticationTypeSplunkSearch(
-                    value
+                return (
+                    models.CreateInputSystemByPackInputSplunkSearchAuthenticationType(
+                        value
+                    )
                 )
             except ValueError:
                 return value
@@ -9782,21 +10457,19 @@ class CreateInputSystemByPackInputSplunkSearch(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeSplunk(str, Enum):
-    SPLUNK = "splunk"
-
-
-class CreateInputSystemByPackAuthTokenSplunkTypedDict(TypedDict):
+class CreateInputSystemByPackInputSplunkAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    r"""Description"""
 
 
-class CreateInputSystemByPackAuthTokenSplunk(BaseModel):
+class CreateInputSystemByPackInputSplunkAuthToken(BaseModel):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+    r"""Description"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -9838,12 +10511,14 @@ class CreateInputSystemByPackCompression(str, Enum, metaclass=utils.OpenEnumMeta
 class CreateInputSystemByPackInputSplunkTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeSplunk
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9853,11 +10528,12 @@ class CreateInputSystemByPackInputSplunkTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -9876,11 +10552,12 @@ class CreateInputSystemByPackInputSplunkTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_tokens: NotRequired[List[CreateInputSystemByPackAuthTokenSplunkTypedDict]]
+    auth_tokens: NotRequired[List[CreateInputSystemByPackInputSplunkAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     max_s2_sversion: NotRequired[CreateInputSystemByPackMaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     use_fwd_timezone: NotRequired[bool]
     r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
     drop_control_fields: NotRequired[bool]
@@ -9907,7 +10584,8 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeSplunk
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9916,6 +10594,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9932,7 +10611,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -9940,6 +10619,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -9985,7 +10665,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_tokens: Annotated[
-        Optional[List[CreateInputSystemByPackAuthTokenSplunk]],
+        Optional[List[CreateInputSystemByPackInputSplunkAuthToken]],
         pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
@@ -9997,6 +10677,7 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
     r"""The highest S2S protocol version to advertise during handshake"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     use_fwd_timezone: Annotated[
         Optional[bool], pydantic.Field(alias="useFwdTimezone")
@@ -10115,19 +10796,23 @@ class CreateInputSystemByPackInputSplunk(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeHTTP(str, Enum):
+class CreateInputSystemByPackInputHTTPType(str, Enum):
+    r"""Source type identifier."""
+
     HTTP = "http"
 
 
 class CreateInputSystemByPackInputHTTPTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeHTTP
+    type: CreateInputSystemByPackInputHTTPType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
     r"""Port to listen on"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10137,13 +10822,14 @@ class CreateInputSystemByPackInputHTTPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -10173,11 +10859,13 @@ class CreateInputSystemByPackInputHTTPTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
+    r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[AuthTokensExtConfInputHTTPTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -10200,7 +10888,8 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeHTTP
+    type: CreateInputSystemByPackInputHTTPType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -10209,6 +10898,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     r"""Port to listen on"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10225,7 +10915,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -10238,6 +10928,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -10308,6 +10999,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
+    r"""Enable Splunk HEC acknowledgements"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -10319,6 +11011,7 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -10416,14 +11109,11 @@ class CreateInputSystemByPackInputHTTP(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeMsk(str, Enum):
-    MSK = "msk"
-
-
 class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeMsk
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
@@ -10433,6 +11123,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     region: str
     r"""Region where the MSK cluster is located"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10442,7 +11133,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -10469,6 +11160,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -10486,6 +11178,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
     reuse_connections: NotRequired[bool]
@@ -10501,6 +11194,7 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
     auto_commit_threshold: NotRequired[float]
@@ -10512,7 +11206,9 @@ class CreateInputSystemByPackInputMskTypedDict(TypedDict):
     max_socket_errors: NotRequired[float]
     r"""Maximum number of network errors before the consumer re-creates a socket"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     template_environment: NotRequired[str]
@@ -10543,7 +11239,8 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeMsk
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -10561,6 +11258,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     r"""Region where the MSK cluster is located"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10577,7 +11275,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -10624,6 +11322,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -10662,6 +11361,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     endpoint: Optional[str] = None
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
@@ -10697,6 +11397,7 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     auto_commit_interval: Annotated[
         Optional[float], pydantic.Field(alias="autoCommitInterval")
@@ -10722,8 +11423,10 @@ class CreateInputSystemByPackInputMsk(BaseModel):
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -10863,19 +11566,17 @@ class CreateInputSystemByPackInputMsk(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeKafka(str, Enum):
-    KAFKA = "kafka"
-
-
 class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeKafka
+    type: TypeOptions
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10885,7 +11586,7 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -10894,6 +11595,7 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -10913,6 +11615,7 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     session_timeout: NotRequired[float]
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
@@ -10942,6 +11645,7 @@ class CreateInputSystemByPackInputKafkaTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -10958,7 +11662,8 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeKafka
+    type: TypeOptions
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -10967,6 +11672,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     r"""Topic to subscribe to. Warning: To optimize performance, Cribl suggests subscribing each Kafka Source to a single topic only."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10983,7 +11689,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -11002,6 +11708,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -11041,6 +11748,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -11094,6 +11802,7 @@ class CreateInputSystemByPackInputKafka(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -11176,15 +11885,21 @@ class CreateInputSystemByPackInputKafka(BaseModel):
         return m
 
 
-class CreateInputSystemByPackTypeCollection(str, Enum):
+class CreateInputSystemByPackInputCollectionType(str, Enum):
+    r"""Resource type identifier."""
+
     COLLECTION = "collection"
 
 
 class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
     id: str
     r"""Unique ID for this input"""
-    type: CreateInputSystemByPackTypeCollection
+    type: CreateInputSystemByPackInputCollectionType
+    r"""Resource type identifier."""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process results"""
     send_to_routes: NotRequired[bool]
@@ -11194,7 +11909,7 @@ class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -11203,6 +11918,7 @@ class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -11216,12 +11932,16 @@ class CreateInputSystemByPackInputCollectionTypedDict(TypedDict):
 
 
 class CreateInputSystemByPackInputCollection(BaseModel):
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
     id: str
     r"""Unique ID for this input"""
 
-    type: CreateInputSystemByPackTypeCollection
+    type: CreateInputSystemByPackInputCollectionType
+    r"""Resource type identifier."""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process results"""
@@ -11238,7 +11958,7 @@ class CreateInputSystemByPackInputCollection(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -11256,6 +11976,7 @@ class CreateInputSystemByPackInputCollection(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
@@ -11314,8 +12035,8 @@ class CreateInputSystemByPackInputCollection(BaseModel):
         return m
 
 
-CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
-    "CreateInputSystemByPackRequestBodyTypedDict",
+CreateInputSystemByPackInputTypedDict = TypeAliasType(
+    "CreateInputSystemByPackInputTypedDict",
     Union[
         CreateInputSystemByPackInputDatagenTypedDict,
         CreateInputSystemByPackInputKubeEventsTypedDict,
@@ -11331,58 +12052,61 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
         CreateInputSystemByPackInputModelDrivenTelemetryTypedDict,
         CreateInputSystemByPackInputExecTypedDict,
         CreateInputSystemByPackInputRawUDPTypedDict,
-        CreateInputSystemByPackInputAnthropicComplianceTypedDict,
-        CreateInputSystemByPackInputWinEventLogsTypedDict,
         CreateInputSystemByPackInputKubeLogsTypedDict,
         CreateInputSystemByPackInputSnmpTypedDict,
+        CreateInputSystemByPackInputWinEventLogsTypedDict,
         CreateInputSystemByPackInputMetricsTypedDict,
         CreateInputSystemByPackInputNetflowTypedDict,
         CreateInputSystemByPackInputCriblTCPTypedDict,
         CreateInputSystemByPackInputOpenaiTypedDict,
-        CreateInputSystemByPackInputOktaTypedDict,
         CreateInputSystemByPackInputEventhubAmqpTypedDict,
         CreateInputSystemByPackInputTcpjsonTypedDict,
+        CreateInputSystemByPackInputOktaTypedDict,
         CreateInputSystemByPackInputGooglePubsubTypedDict,
         CreateInputSystemByPackInputCriblHTTPTypedDict,
         CreateInputSystemByPackInputTCPTypedDict,
-        CreateInputSystemByPackInputDatadogAgentTypedDict,
         CreateInputSystemByPackInputFirehoseTypedDict,
         CreateInputSystemByPackInputOffice365ServiceTypedDict,
+        CreateInputSystemByPackInputAnthropicComplianceTypedDict,
         CreateInputSystemByPackInputWizTypedDict,
+        CreateInputSystemByPackInputDatadogAgentTypedDict,
         CreateInputSystemByPackInputAppscopeTypedDict,
         CreateInputSystemByPackInputFileTypedDict,
         CreateInputSystemByPackInputSplunkTypedDict,
         CreateInputSystemByPackInputOffice365MgmtTypedDict,
-        CreateInputSystemByPackInputZscalerHecTypedDict,
         CreateInputSystemByPackInputWefTypedDict,
-        CreateInputSystemByPackInputWizWebhookTypedDict,
-        CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputLokiTypedDict,
+        CreateInputSystemByPackInputWizWebhookTypedDict,
+        CreateInputSystemByPackInputUpwindHecTypedDict,
+        CreateInputSystemByPackInputSysdigHecTypedDict,
         CreateInputSystemByPackInputPrometheusRwTypedDict,
-        CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
-        CreateInputSystemByPackInputHTTPTypedDict,
         CreateInputSystemByPackInputConfluentCloudTypedDict,
         CreateInputSystemByPackInputKafkaTypedDict,
+        CreateInputSystemByPackInputZscalerHecTypedDict,
+        CreateInputSystemByPackInputCriblLakeHTTPTypedDict,
+        CreateInputSystemByPackInputHTTPTypedDict,
         CreateInputSystemByPackInputEventhubTypedDict,
-        CreateInputSystemByPackInputCloudflareHecTypedDict,
-        CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict,
         CreateInputSystemByPackInputAzureBlobTypedDict,
-        CreateInputSystemByPackInputOpenTelemetryTypedDict,
+        CreateInputSystemByPackInputOpenaiComplianceLogsTypedDict,
+        CreateInputSystemByPackInputCloudflareHecTypedDict,
         CreateInputSystemByPackInputElasticTypedDict,
+        CreateInputSystemByPackInputOpenTelemetryTypedDict,
         CreateInputSystemByPackInputSplunkHecTypedDict,
         CreateInputSystemByPackInputSqsTypedDict,
-        CreateInputSystemByPackInputMicrosoftGraphTypedDict,
         CreateInputSystemByPackInputKinesisTypedDict,
         CreateInputSystemByPackInputOffice365MsgTraceTypedDict,
+        CreateInputSystemByPackInputMicrosoftGraphTypedDict,
+        CreateInputSystemByPackInputHTTPRawTypedDict,
         CreateInputSystemByPackInputSplunkSearchTypedDict,
-        CreateInputSystemByPackInputCrowdstrikeTypedDict,
         CreateInputSystemByPackInputServicenowTableTypedDict,
-        CreateInputSystemByPackInputSecurityLakeTypedDict,
-        CreateInputSystemByPackInputS3TypedDict,
-        CreateInputSystemByPackInputS3InventoryTypedDict,
         CreateInputSystemByPackInputMskTypedDict,
         CreateInputSystemByPackInputEdgePrometheusTypedDict,
+        CreateInputSystemByPackInputCrowdstrikeTypedDict,
+        CreateInputSystemByPackInputS3TypedDict,
+        CreateInputSystemByPackInputBedrockS3TypedDict,
+        CreateInputSystemByPackInputSecurityLakeTypedDict,
         CreateInputSystemByPackInputPrometheusTypedDict,
+        CreateInputSystemByPackInputS3InventoryTypedDict,
         CreateInputSystemByPackInputGrafanaUnionTypedDict,
         CreateInputSystemByPackInputSyslogUnionTypedDict,
     ],
@@ -11390,7 +12114,7 @@ CreateInputSystemByPackRequestBodyTypedDict = TypeAliasType(
 r"""Input object."""
 
 
-CreateInputSystemByPackRequestBody = Annotated[
+CreateInputSystemByPackInput = Annotated[
     Union[
         Annotated[CreateInputSystemByPackInputCollection, Tag("collection")],
         Annotated[CreateInputSystemByPackInputKafka, Tag("kafka")],
@@ -11463,9 +12187,12 @@ CreateInputSystemByPackRequestBody = Annotated[
         Annotated[CreateInputSystemByPackInputWizWebhook, Tag("wiz_webhook")],
         Annotated[CreateInputSystemByPackInputNetflow, Tag("netflow")],
         Annotated[CreateInputSystemByPackInputSecurityLake, Tag("security_lake")],
+        Annotated[CreateInputSystemByPackInputBedrockS3, Tag("bedrock_s3")],
         Annotated[CreateInputSystemByPackInputServicenowTable, Tag("servicenow_table")],
         Annotated[CreateInputSystemByPackInputZscalerHec, Tag("zscaler_hec")],
         Annotated[CreateInputSystemByPackInputCloudflareHec, Tag("cloudflare_hec")],
+        Annotated[CreateInputSystemByPackInputSysdigHec, Tag("sysdig_hec")],
+        Annotated[CreateInputSystemByPackInputUpwindHec, Tag("upwind_hec")],
         Annotated[
             CreateInputSystemByPackInputOpenaiComplianceLogs,
             Tag("openai_compliance_logs"),
@@ -11483,7 +12210,7 @@ r"""Input object."""
 class CreateInputSystemByPackRequestTypedDict(TypedDict):
     pack: str
     r"""The <code>id</code> of the Pack."""
-    request_body: CreateInputSystemByPackRequestBodyTypedDict
+    request_body: CreateInputSystemByPackInputTypedDict
     r"""Input object."""
 
 
@@ -11494,7 +12221,7 @@ class CreateInputSystemByPackRequest(BaseModel):
     r"""The <code>id</code> of the Pack."""
 
     request_body: Annotated[
-        CreateInputSystemByPackRequestBody,
+        CreateInputSystemByPackInput,
         FieldMetadata(request=RequestMetadata(media_type="application/json")),
     ]
     r"""Input object."""
@@ -11505,7 +12232,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackPersistenceSystemState.model_rebuild()
+    CreateInputSystemByPackInputSystemStatePersistence.model_rebuild()
 except NameError:
     pass
 try:
@@ -11513,15 +12240,15 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackCPUSystemMetrics.model_rebuild()
+    CreateInputSystemByPackInputSystemMetricsCPU.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputSystemByPackNetworkSystemMetrics.model_rebuild()
+    CreateInputSystemByPackInputSystemMetricsNetwork.model_rebuild()
 except NameError:
     pass
 try:
-    CreateInputSystemByPackDiskSystemMetrics.model_rebuild()
+    CreateInputSystemByPackInputSystemMetricsDisk.model_rebuild()
 except NameError:
     pass
 try:
@@ -11529,7 +12256,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackPersistenceSystemMetrics.model_rebuild()
+    CreateInputSystemByPackInputSystemMetricsPersistence.model_rebuild()
 except NameError:
     pass
 try:
@@ -11613,7 +12340,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackContentConfigOffice365Service.model_rebuild()
+    CreateInputSystemByPackInputOffice365ServiceContentConfig.model_rebuild()
 except NameError:
     pass
 try:
@@ -11621,7 +12348,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackContentConfigOffice365Mgmt.model_rebuild()
+    CreateInputSystemByPackInputOffice365MgmtContentConfig.model_rebuild()
 except NameError:
     pass
 try:
@@ -11677,7 +12404,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackProxyModeElastic.model_rebuild()
+    CreateInputSystemByPackInputElasticProxyMode.model_rebuild()
 except NameError:
     pass
 try:
@@ -11689,7 +12416,7 @@ try:
 except NameError:
     pass
 try:
-    CreateInputSystemByPackAuthTokenSplunkHec.model_rebuild()
+    CreateInputSystemByPackInputSplunkHecAuthToken.model_rebuild()
 except NameError:
     pass
 try:

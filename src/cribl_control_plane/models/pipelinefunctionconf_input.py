@@ -107,6 +107,10 @@ from .pipelinefunctionlookup import (
     PipelineFunctionLookupTypedDict,
 )
 from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskTypedDict
+from .pipelinefunctionmetricsexport import (
+    PipelineFunctionMetricsExport,
+    PipelineFunctionMetricsExportTypedDict,
+)
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
     PipelineFunctionMvExpandTypedDict,
@@ -188,10 +192,6 @@ from .pipelinefunctionsidlookup import (
     PipelineFunctionSidlookup,
     PipelineFunctionSidlookupTypedDict,
 )
-from .pipelinefunctionsignalfilter import (
-    PipelineFunctionSignalFilter,
-    PipelineFunctionSignalFilterTypedDict,
-)
 from .pipelinefunctionsnmptrapserialize import (
     PipelineFunctionSnmpTrapSerialize,
     PipelineFunctionSnmpTrapSerializeTypedDict,
@@ -263,6 +263,7 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionLocalSearchTransformerTypedDict,
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
+        PipelineFunctionMetricsExportTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -287,7 +288,6 @@ PipelineFunctionConfInputTypedDict = TypeAliasType(
         PipelineFunctionSerdeTypedDict,
         PipelineFunctionSerializeTypedDict,
         PipelineFunctionSidlookupTypedDict,
-        PipelineFunctionSignalFilterTypedDict,
         PipelineFunctionSnmpTrapSerializeTypedDict,
         PipelineFunctionSortTypedDict,
         PipelineFunctionStoreTypedDict,
@@ -350,6 +350,7 @@ PipelineFunctionConfInput = Annotated[
         ],
         Annotated[PipelineFunctionLookup, Tag("lookup")],
         Annotated[PipelineFunctionMask, Tag("mask")],
+        Annotated[PipelineFunctionMetricsExport, Tag("metrics_export")],
         Annotated[PipelineFunctionMvExpand, Tag("mv_expand")],
         Annotated[PipelineFunctionMvPull, Tag("mv_pull")],
         Annotated[PipelineFunctionNotificationPolicies, Tag("notification_policies")],
@@ -374,7 +375,6 @@ PipelineFunctionConfInput = Annotated[
         Annotated[PipelineFunctionSerde, Tag("serde")],
         Annotated[PipelineFunctionSerialize, Tag("serialize")],
         Annotated[PipelineFunctionSidlookup, Tag("sidlookup")],
-        Annotated[PipelineFunctionSignalFilter, Tag("signal_filter")],
         Annotated[PipelineFunctionSnmpTrapSerialize, Tag("snmp_trap_serialize")],
         Annotated[PipelineFunctionSort, Tag("sort")],
         Annotated[PipelineFunctionStore, Tag("store")],

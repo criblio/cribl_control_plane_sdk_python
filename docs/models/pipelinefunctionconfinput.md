@@ -207,6 +207,12 @@ value: models.PipelineFunctionLookup = /* values here */
 value: models.PipelineFunctionMask = /* values here */
 ```
 
+### `models.PipelineFunctionMetricsExport`
+
+```python
+value: models.PipelineFunctionMetricsExport = /* values here */
+```
+
 ### `models.PipelineFunctionMvExpand`
 
 ```python
@@ -349,12 +355,6 @@ value: models.PipelineFunctionSerialize = /* values here */
 
 ```python
 value: models.PipelineFunctionSidlookup = /* values here */
-```
-
-### `models.PipelineFunctionSignalFilter`
-
-```python
-value: models.PipelineFunctionSignalFilter = /* values here */
 ```
 
 ### `models.PipelineFunctionSnmpTrapSerialize`

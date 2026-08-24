@@ -27,11 +27,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputHTTPRawType(str, Enum):
+    r"""Source type identifier."""
+
     HTTP_RAW = "http_raw"
 
 
 class InputHTTPRawInputTypedDict(TypedDict):
     type: InputHTTPRawType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -39,6 +42,7 @@ class InputHTTPRawInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -48,13 +52,14 @@ class InputHTTPRawInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -89,7 +94,20 @@ class InputHTTPRawInputTypedDict(TypedDict):
     r"""List of HTTP methods accepted by this input. Wildcards are supported (such as P*, GET). Defaults to allow all."""
     auth_tokens_ext: NotRequired[List[AuthTokensExtConfInputHTTPTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
+    access_control_allow_origin: NotRequired[List[str]]
+    r"""HTTP origins allowed to send CORS requests (example: https://pivot.claude.ai). Supports wildcards. Leave empty to disable CORS. Note: IP allowlist/denylist rules are applied before CORS."""
+    access_control_allow_headers: NotRequired[List[str]]
+    r"""HTTP headers echoed in Access-Control-Allow-Headers on preflight. Use \"*\" to allow all headers."""
+    access_control_allow_methods: NotRequired[List[str]]
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight."""
+    access_control_expose_headers: NotRequired[List[str]]
+    r"""Headers the browser is allowed to access from the response"""
+    access_control_allow_credentials: NotRequired[bool]
+    r"""Include credentials in cross-origin requests. Cannot be used with wildcard origins."""
+    access_control_max_age: NotRequired[float]
+    r"""How long browsers should cache the preflight response"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -102,10 +120,15 @@ class InputHTTPRawInputTypedDict(TypedDict):
     r"""Binds 'authTokens' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'authTokens' at runtime."""
     template_allowed_paths: NotRequired[str]
     r"""Binds 'allowedPaths' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedPaths' at runtime."""
+    template_access_control_allow_origin: NotRequired[str]
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+    template_access_control_allow_headers: NotRequired[str]
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
 
 class InputHTTPRawInput(BaseModel):
     type: InputHTTPRawType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -117,6 +140,7 @@ class InputHTTPRawInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -133,7 +157,7 @@ class InputHTTPRawInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -146,6 +170,7 @@ class InputHTTPRawInput(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -231,7 +256,38 @@ class InputHTTPRawInput(BaseModel):
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
+    access_control_allow_origin: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowOrigin")
+    ] = None
+    r"""HTTP origins allowed to send CORS requests (example: https://pivot.claude.ai). Supports wildcards. Leave empty to disable CORS. Note: IP allowlist/denylist rules are applied before CORS."""
+
+    access_control_allow_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowHeaders")
+    ] = None
+    r"""HTTP headers echoed in Access-Control-Allow-Headers on preflight. Use \"*\" to allow all headers."""
+
+    access_control_allow_methods: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlAllowMethods")
+    ] = None
+    r"""HTTP methods echoed in Access-Control-Allow-Methods on preflight."""
+
+    access_control_expose_headers: Annotated[
+        Optional[List[str]], pydantic.Field(alias="accessControlExposeHeaders")
+    ] = None
+    r"""Headers the browser is allowed to access from the response"""
+
+    access_control_allow_credentials: Annotated[
+        Optional[bool], pydantic.Field(alias="accessControlAllowCredentials")
+    ] = None
+    r"""Include credentials in cross-origin requests. Cannot be used with wildcard origins."""
+
+    access_control_max_age: Annotated[
+        Optional[float], pydantic.Field(alias="accessControlMaxAge")
+    ] = None
+    r"""How long browsers should cache the preflight response"""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -262,6 +318,16 @@ class InputHTTPRawInput(BaseModel):
         Optional[str], pydantic.Field(alias="__template_allowedPaths")
     ] = None
     r"""Binds 'allowedPaths' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'allowedPaths' at runtime."""
+
+    template_access_control_allow_origin: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowOrigin")
+    ] = None
+    r"""Binds 'accessControlAllowOrigin' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowOrigin' at runtime."""
+
+    template_access_control_allow_headers: Annotated[
+        Optional[str], pydantic.Field(alias="__template_accessControlAllowHeaders")
+    ] = None
+    r"""Binds 'accessControlAllowHeaders' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'accessControlAllowHeaders' at runtime."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -295,6 +361,12 @@ class InputHTTPRawInput(BaseModel):
                 "allowedPaths",
                 "allowedMethods",
                 "authTokensExt",
+                "accessControlAllowOrigin",
+                "accessControlAllowHeaders",
+                "accessControlAllowMethods",
+                "accessControlExposeHeaders",
+                "accessControlAllowCredentials",
+                "accessControlMaxAge",
                 "description",
                 "__template_environment",
                 "__template_streamtags",
@@ -302,6 +374,8 @@ class InputHTTPRawInput(BaseModel):
                 "__template_port",
                 "__template_authTokens",
                 "__template_allowedPaths",
+                "__template_accessControlAllowOrigin",
+                "__template_accessControlAllowHeaders",
             ]
         )
         serialized = handler(self)

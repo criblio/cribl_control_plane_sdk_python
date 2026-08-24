@@ -31,8 +31,10 @@ with CriblControlPlane(
 
     res = ccp_client.lakes.datasets.list(lake_id="<id>", storage_location_id="<id>", exclude_ddss=True, exclude_deleted=True, exclude_internal=False, exclude_byos=False)
 
-    # Handle response
-    print(res)
+    while res is not None:
+        # Handle items
+
+        res = res.next()
 
 ```
 
@@ -42,23 +44,26 @@ with CriblControlPlane(
 | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `lake_id`                                                                                                                                                  | *str*                                                                                                                                                      | :heavy_check_mark:                                                                                                                                         | The <code>id</code> of the Lake that contains the Lake Datasets to list.                                                                                   |
 | `storage_location_id`                                                                                                                                      | *Optional[str]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Filter datasets by storage location ID. Use <code>default</code> for default storage location.                                                             |
-| `format_`                                                                                                                                                  | [Optional[models.GetCriblLakeDatasetByLakeIDFormat]](../../models/getcribllakedatasetbylakeidformat.md)                                                    | :heavy_minus_sign:                                                                                                                                         | Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.                                                                          |
+| `format_`                                                                                                                                                  | [Optional[models.DatasetFormatFilter]](../../models/datasetformatfilter.md)                                                                                | :heavy_minus_sign:                                                                                                                                         | Filter datasets by format. Set to <code>ddss</code> to return only DDSS datasets.                                                                          |
 | `exclude_ddss`                                                                                                                                             | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude DDSS format datasets from the response.                                                                                                            |
 | `exclude_netskope`                                                                                                                                         | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude Netskope format datasets from the response.                                                                                                        |
 | `exclude_deleted`                                                                                                                                          | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude deleted datasets from the response.                                                                                                                |
 | `exclude_internal`                                                                                                                                         | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude internal datasets (those with IDs starting with <code>cribl_</code>) from the response.                                                            |
 | `exclude_byos`                                                                                                                                             | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Exclude BYOS (Bring Your Own Storage) datasets from the response.                                                                                          |
 | `include_metrics`                                                                                                                                          | *Optional[bool]*                                                                                                                                           | :heavy_minus_sign:                                                                                                                                         | Set to <code>true</code> to include storage metrics for each Lake Dataset. Otherwise, <code>false</code> (default). Requires a Cribl Lake metrics license. |
+| `offset`                                                                                                                                                   | *Optional[int]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Pagination offset                                                                                                                                          |
+| `limit`                                                                                                                                                    | *Optional[int]*                                                                                                                                            | :heavy_minus_sign:                                                                                                                                         | Maximum number of items to return                                                                                                                          |
 | `retries`                                                                                                                                                  | [Optional[utils.RetryConfig]](../../models/utils/retryconfig.md)                                                                                           | :heavy_minus_sign:                                                                                                                                         | Configuration to override the default retry behavior of the client.                                                                                        |
 
 ### Response
 
-**[models.CountedCriblLakeDataset](../../models/countedcribllakedataset.md)**
+**[models.GetCriblLakeDatasetByLakeIDResponse](../../models/getcribllakedatasetbylakeidresponse.md)**
 
 ### Errors
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -157,6 +162,36 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="createCriblLakeDatasetByLakeId" method="post" path="/products/lake/lakes/{lakeId}/datasets" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.lakes.datasets.create(lake_id="<id>", id="<id>", search_config={
+        "metadata": {
+            "earliest": "-30d",
+            "enable_acceleration": False,
+            "field_list": [
+                "<value 1>",
+            ],
+            "scan_mode": models.ScanMode.QUICK,
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -187,6 +222,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -233,6 +269,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -306,6 +343,38 @@ with CriblControlPlane(
     print(res)
 
 ```
+### Example Usage: authenticationFailed
+
+<!-- UsageSnippet language="python" operationID="updateCriblLakeDatasetByLakeIdAndId" method="patch" path="/products/lake/lakes/{lakeId}/datasets/{id}" example="authenticationFailed" -->
+```python
+from cribl_control_plane import CriblControlPlane, models
+import os
+
+
+with CriblControlPlane(
+    "https://api.example.com",
+    security=models.Security(
+        bearer_auth=os.getenv("CRIBLCONTROLPLANE_BEARER_AUTH", ""),
+    ),
+) as ccp_client:
+
+    res = ccp_client.lakes.datasets.update(lake_id="<id>", id_param="<value>", search_config={
+        "metadata": {
+            "earliest": "-30d",
+            "enable_acceleration": False,
+            "field_list": [
+                "<value 1>",
+                "<value 2>",
+                "<value 3>",
+            ],
+            "scan_mode": models.ScanMode.DETAILED,
+        },
+    })
+
+    # Handle response
+    print(res)
+
+```
 
 ### Parameters
 
@@ -337,6 +406,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -382,5 +452,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

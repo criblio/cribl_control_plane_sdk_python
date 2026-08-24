@@ -24,6 +24,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOpenTelemetryType(str, Enum):
+    r"""Source type identifier."""
+
     OPEN_TELEMETRY = "open_telemetry"
 
 
@@ -60,9 +62,9 @@ class InputOpenTelemetryAuthenticationType(str, Enum, metaclass=utils.OpenEnumMe
     TEXT_SECRET = "textSecret"
 
 
-class InputOpenTelemetryAuthMethodsExtAuthenticationType(
-    str, Enum, metaclass=utils.OpenEnumMeta
-):
+class AuthMethodsExtAuthenticationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication type"""
+
     # Token
     TOKEN = "token"
     # Token (secret)
@@ -73,44 +75,53 @@ class InputOpenTelemetryAuthMethodsExtAuthenticationType(
     BASIC_SECRET = "basicSecret"
 
 
-class InputOpenTelemetryAuthMethodsExtTypedDict(TypedDict):
-    auth_type: InputOpenTelemetryAuthMethodsExtAuthenticationType
+class AuthMethodsExtTypedDict(TypedDict):
+    auth_type: AuthMethodsExtAuthenticationType
+    r"""Authentication type"""
     token: NotRequired[str]
     r"""Bearer token for Authorization header"""
     description: NotRequired[str]
+    r"""Description"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this auth method"""
     enabled: NotRequired[bool]
+    r"""Enable"""
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
 
 
-class InputOpenTelemetryAuthMethodsExt(BaseModel):
+class AuthMethodsExt(BaseModel):
     auth_type: Annotated[
-        InputOpenTelemetryAuthMethodsExtAuthenticationType,
-        pydantic.Field(alias="authType"),
+        AuthMethodsExtAuthenticationType, pydantic.Field(alias="authType")
     ]
+    r"""Authentication type"""
 
     token: Optional[str] = None
     r"""Bearer token for Authorization header"""
 
     description: Optional[str] = None
+    r"""Description"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events referencing this auth method"""
 
     enabled: Optional[bool] = None
+    r"""Enable"""
 
     token_secret: Annotated[Optional[str], pydantic.Field(alias="tokenSecret")] = None
     r"""Select or create a stored text secret"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -121,7 +132,7 @@ class InputOpenTelemetryAuthMethodsExt(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputOpenTelemetryAuthMethodsExtAuthenticationType(value)
+                return models.AuthMethodsExtAuthenticationType(value)
             except ValueError:
                 return value
         return value
@@ -156,6 +167,7 @@ class InputOpenTelemetryAuthMethodsExt(BaseModel):
 
 class InputOpenTelemetryInputTypedDict(TypedDict):
     type: InputOpenTelemetryType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -163,6 +175,7 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -172,11 +185,12 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -203,15 +217,18 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
     r"""The version of OTLP Protobuf definitions to use when interpreting received data"""
     auth_type: NotRequired[InputOpenTelemetryAuthenticationType]
     r"""OpenTelemetry authentication type"""
-    auth_methods_ext: NotRequired[List[InputOpenTelemetryAuthMethodsExtTypedDict]]
+    auth_methods_ext: NotRequired[List[AuthMethodsExtTypedDict]]
     r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -236,6 +253,7 @@ class InputOpenTelemetryInputTypedDict(TypedDict):
 
 class InputOpenTelemetryInput(BaseModel):
     type: InputOpenTelemetryType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -247,6 +265,7 @@ class InputOpenTelemetryInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -263,7 +282,7 @@ class InputOpenTelemetryInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -271,6 +290,7 @@ class InputOpenTelemetryInput(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -336,8 +356,7 @@ class InputOpenTelemetryInput(BaseModel):
     r"""OpenTelemetry authentication type"""
 
     auth_methods_ext: Annotated[
-        Optional[List[InputOpenTelemetryAuthMethodsExt]],
-        pydantic.Field(alias="authMethodsExt"),
+        Optional[List[AuthMethodsExt]], pydantic.Field(alias="authMethodsExt")
     ] = None
     r"""Shared secrets to authenticate clients. Supports Bearer tokens and Basic auth. If empty, unauthenticated access is permitted."""
 
@@ -350,10 +369,13 @@ class InputOpenTelemetryInput(BaseModel):
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -486,7 +508,7 @@ class InputOpenTelemetryInput(BaseModel):
 
 
 try:
-    InputOpenTelemetryAuthMethodsExt.model_rebuild()
+    AuthMethodsExt.model_rebuild()
 except NameError:
     pass
 try:

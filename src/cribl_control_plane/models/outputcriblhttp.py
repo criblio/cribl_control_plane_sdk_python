@@ -41,19 +41,22 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputCriblHTTPType(str, Enum):
+    r"""Connector type identifier."""
+
     CRIBL_HTTP = "cribl_http"
 
 
 class OutputCriblHTTPPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCriblHTTPPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputCriblHTTPTypedDict(TypedDict):
     type: OutputCriblHTTPType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this output"""
     pipeline: NotRequired[str]
@@ -63,10 +66,11 @@ class OutputCriblHTTPTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     load_balanced: NotRequired[bool]
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     token_ttl_minutes: NotRequired[float]
     r"""The number of minutes before the internally generated authentication token expires. Valid values are between 1 and 60."""
     exclude_fields: NotRequired[List[str]]
@@ -86,6 +90,8 @@ class OutputCriblHTTPTypedDict(TypedDict):
     """
     timeout_sec: NotRequired[float]
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+    max_connection_reuse_sec: NotRequired[float]
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
     flush_period_sec: NotRequired[float]
     r"""Maximum time between requests. Small values could cause the payload size to be smaller than the configured Body size limit."""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
@@ -108,6 +114,7 @@ class OutputCriblHTTPTypedDict(TypedDict):
     on_backpressure: NotRequired[BackpressureBehaviorOptions]
     r"""How to handle events when all receivers are exerting backpressure"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     url: NotRequired[str]
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
     use_round_robin_dns: NotRequired[bool]
@@ -115,6 +122,7 @@ class OutputCriblHTTPTypedDict(TypedDict):
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
     urls: NotRequired[List[URLConfOutputCriblHTTPTypedDict]]
+    r"""Cribl Worker endpoints"""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -142,6 +150,7 @@ class OutputCriblHTTPTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputCriblHTTPPqControlsTypedDict]
+    r"""Persistent queue controls."""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_failed_request_logging_mode: NotRequired[str]
@@ -154,6 +163,7 @@ class OutputCriblHTTPTypedDict(TypedDict):
 
 class OutputCriblHTTP(BaseModel):
     type: OutputCriblHTTPType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this output"""
@@ -170,7 +180,7 @@ class OutputCriblHTTP(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     load_balanced: Annotated[Optional[bool], pydantic.Field(alias="loadBalanced")] = (
         None
@@ -178,6 +188,7 @@ class OutputCriblHTTP(BaseModel):
     r"""For optimal performance, enable load balancing even if you have one hostname, as it can expand to multiple IPs. If this setting is disabled, consider enabling round-robin DNS."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     token_ttl_minutes: Annotated[
         Optional[float], pydantic.Field(alias="tokenTTLMinutes")
@@ -215,6 +226,11 @@ class OutputCriblHTTP(BaseModel):
 
     timeout_sec: Annotated[Optional[float], pydantic.Field(alias="timeoutSec")] = None
     r"""Amount of time, in seconds, to wait for a request to complete before canceling it"""
+
+    max_connection_reuse_sec: Annotated[
+        Optional[float], pydantic.Field(alias="maxConnectionReuseSec")
+    ] = None
+    r"""How long, in seconds, to reuse a keep-alive connection after its first use before forcing it closed. Set to 0 to disable the time-based close and reuse connections for as long as the destination server permits."""
 
     flush_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="flushPeriodSec")
@@ -269,6 +285,7 @@ class OutputCriblHTTP(BaseModel):
     r"""How to handle events when all receivers are exerting backpressure"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     url: Optional[str] = None
     r"""URL of a Cribl Worker to send events to, such as http://localhost:10200"""
@@ -282,6 +299,7 @@ class OutputCriblHTTP(BaseModel):
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
 
     urls: Optional[List[URLConfOutputCriblHTTP]] = None
+    r"""Cribl Worker endpoints"""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -345,6 +363,7 @@ class OutputCriblHTTP(BaseModel):
     pq_controls: Annotated[
         Optional[OutputCriblHTTPPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -439,6 +458,7 @@ class OutputCriblHTTP(BaseModel):
                 "maxPayloadEvents",
                 "rejectUnauthorized",
                 "timeoutSec",
+                "maxConnectionReuseSec",
                 "flushPeriodSec",
                 "extraHttpHeaders",
                 "failedRequestLoggingMode",

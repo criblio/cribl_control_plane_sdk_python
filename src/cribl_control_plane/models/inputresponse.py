@@ -27,10 +27,7 @@ from .authtokensextconfinputhttp import (
     AuthTokensExtConfInputHTTP,
     AuthTokensExtConfInputHTTPTypedDict,
 )
-from .certificatetypeazureblobauthtypeclientcert import (
-    CertificateTypeAzureBlobAuthTypeClientCert,
-    CertificateTypeAzureBlobAuthTypeClientCertTypedDict,
-)
+from .certificatetype import CertificateType, CertificateTypeTypedDict
 from .certoptionstype import CertOptionsType, CertOptionsTypeTypedDict
 from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
@@ -46,31 +43,19 @@ from .extrahttpheaderconfinputelastic import (
 )
 from .googleauthenticationmethodoptions import GoogleAuthenticationMethodOptions
 from .gputype import GpuType, GpuTypeTypedDict
-from .httpdiscoveryheaderconfinputprometheus import (
-    HTTPDiscoveryHeaderConfInputPrometheus,
-    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
-)
 from .inputcollectionorigindatasourcediscoverywithdestinationarnconstraint import (
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint,
     InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict,
 )
-from .inputresponse_logged_in_users import (
-    InputResponseDNS,
-    InputResponseDNSTypedDict,
-    InputResponseDisksAndFileSystems,
-    InputResponseDisksAndFileSystemsTypedDict,
-    InputResponseFirewall,
-    InputResponseFirewallTypedDict,
-    InputResponseHostInfo,
-    InputResponseHostInfoTypedDict,
-    InputResponseHostsFile,
-    InputResponseHostsFileTypedDict,
+from .inputresponse_inputkubemetrics import (
     InputResponseInputAnthropicCompliance,
     InputResponseInputAnthropicComplianceTypedDict,
     InputResponseInputAppleUnifiedLogs,
     InputResponseInputAppleUnifiedLogsTypedDict,
     InputResponseInputAppscope,
     InputResponseInputAppscopeTypedDict,
+    InputResponseInputBedrockS3,
+    InputResponseInputBedrockS3TypedDict,
     InputResponseInputCloudflareHec,
     InputResponseInputCloudflareHecTypedDict,
     InputResponseInputCriblmetrics,
@@ -123,10 +108,14 @@ from .inputresponse_logged_in_users import (
     InputResponseInputSnmpTypedDict,
     InputResponseInputSqs,
     InputResponseInputSqsTypedDict,
+    InputResponseInputSysdigHec,
+    InputResponseInputSysdigHecTypedDict,
     InputResponseInputSyslogUnion,
     InputResponseInputSyslogUnionTypedDict,
     InputResponseInputTCP,
     InputResponseInputTCPTypedDict,
+    InputResponseInputUpwindHec,
+    InputResponseInputUpwindHecTypedDict,
     InputResponseInputWef,
     InputResponseInputWefTypedDict,
     InputResponseInputWinEventLogs,
@@ -139,19 +128,6 @@ from .inputresponse_logged_in_users import (
     InputResponseInputWizWebhookTypedDict,
     InputResponseInputZscalerHec,
     InputResponseInputZscalerHecTypedDict,
-    InputResponseInterfaces,
-    InputResponseInterfacesTypedDict,
-    InputResponseListeningPorts,
-    InputResponseListeningPortsTypedDict,
-    InputResponseLoggedInUsers,
-    InputResponseLoggedInUsersTypedDict,
-    InputResponseRoutes,
-    InputResponseRoutesTypedDict,
-    InputResponseServices,
-    InputResponseServicesTypedDict,
-    InputResponseTypeSystemState,
-    InputResponseUsersAndGroups,
-    InputResponseUsersAndGroupsTypedDict,
 )
 from .kafkaschemaregistryauthenticationtype import (
     KafkaSchemaRegistryAuthenticationType,
@@ -175,6 +151,10 @@ from .preprocesstype import PreprocessType, PreprocessTypeTypedDict
 from .processtype import ProcessType, ProcessTypeTypedDict
 from .protocoloptionstargetsitems import ProtocolOptionsTargetsItems
 from .recordtypeoptions import RecordTypeOptions
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from .retryrulestypecodesenableheader import (
     RetryRulesTypeCodesEnableHeader,
@@ -198,16 +178,362 @@ from .tlssettingsserversidetype import (
     TLSSettingsServerSideType,
     TLSSettingsServerSideTypeTypedDict,
 )
+from .typeoptions import TypeOptions
+from .typeoptionsazureblob import TypeOptionsAzureblob
+from .typeoptionsconfluentcloud import TypeOptionsConfluentcloud
+from .typeoptionscribltcp import TypeOptionsCribltcp
+from .typeoptionsgooglepubsub import TypeOptionsGooglepubsub
+from .typeoptionsmsk import TypeOptionsMsk
+from .typeoptionsprometheus import TypeOptionsPrometheus
+from .typeoptionssplunk import TypeOptionsSplunk
+from .typeoptionstcpjson import TypeOptionsTcpjson
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
+from cribl_control_plane.utils import validate_const
 from cribl_control_plane.utils.unions import parse_open_union
 from enum import Enum
 from functools import partial
 import pydantic
 from pydantic import ConfigDict, field_serializer, model_serializer
-from pydantic.functional_validators import BeforeValidator
+from pydantic.functional_validators import AfterValidator, BeforeValidator
 from typing import Any, List, Literal, Optional, Union
 from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
+
+
+class InputResponseInputSystemStateType(str, Enum):
+    r"""Connector type identifier."""
+
+    SYSTEM_STATE = "system_state"
+
+
+class InputResponseHostsFileTypedDict(TypedDict):
+    r"""Creates events based on entries collected from the hosts file"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseHostsFile(BaseModel):
+    r"""Creates events based on entries collected from the hosts file"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseInterfacesTypedDict(TypedDict):
+    r"""Creates events for each of the host’s network interfaces"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseInterfaces(BaseModel):
+    r"""Creates events for each of the host’s network interfaces"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseDisksAndFileSystemsTypedDict(TypedDict):
+    r"""Creates events for physical disks, partitions, and file systems"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseDisksAndFileSystems(BaseModel):
+    r"""Creates events for physical disks, partitions, and file systems"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseHostInfoTypedDict(TypedDict):
+    r"""Creates events based on the host system’s current state"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseHostInfo(BaseModel):
+    r"""Creates events based on the host system’s current state"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseRoutesTypedDict(TypedDict):
+    r"""Creates events based on entries collected from the host’s network routes"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseRoutes(BaseModel):
+    r"""Creates events based on entries collected from the host’s network routes"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseDNSTypedDict(TypedDict):
+    r"""Creates events for DNS resolvers and search entries"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseDNS(BaseModel):
+    r"""Creates events for DNS resolvers and search entries"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseUsersAndGroupsTypedDict(TypedDict):
+    r"""Creates events for local users and groups"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseUsersAndGroups(BaseModel):
+    r"""Creates events for local users and groups"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseFirewallTypedDict(TypedDict):
+    r"""Creates events for Firewall rules entries"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseFirewall(BaseModel):
+    r"""Creates events for Firewall rules entries"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseServicesTypedDict(TypedDict):
+    r"""Creates events from the list of services"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseServices(BaseModel):
+    r"""Creates events from the list of services"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseListeningPortsTypedDict(TypedDict):
+    r"""Creates events from list of listening ports"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseListeningPorts(BaseModel):
+    r"""Creates events from list of listening ports"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
+
+
+class InputResponseLoggedInUsersTypedDict(TypedDict):
+    r"""Creates events from list of logged-in users"""
+
+    enable: NotRequired[bool]
+    r"""Enabled"""
+
+
+class InputResponseLoggedInUsers(BaseModel):
+    r"""Creates events from list of logged-in users"""
+
+    enable: Optional[bool] = None
+    r"""Enabled"""
+
+    @model_serializer(mode="wrap")
+    def serialize_model(self, handler):
+        optional_fields = set(["enable"])
+        serialized = handler(self)
+        m = {}
+
+        for n, f in type(self).model_fields.items():
+            k = f.alias or n
+            val = serialized.get(k, serialized.get(n))
+
+            if val != UNSET_SENTINEL:
+                if val is not None or k not in optional_fields:
+                    m[k] = val
+
+        return m
 
 
 class InputResponseCollectorsTypedDict(TypedDict):
@@ -302,7 +628,7 @@ class InputResponseCollectors(BaseModel):
         return m
 
 
-class InputResponsePersistenceSystemStateTypedDict(TypedDict):
+class InputResponseInputSystemStatePersistenceTypedDict(TypedDict):
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -312,11 +638,12 @@ class InputResponsePersistenceSystemStateTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
 
 
-class InputResponsePersistenceSystemState(BaseModel):
+class InputResponseInputSystemStatePersistence(BaseModel):
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -330,6 +657,7 @@ class InputResponsePersistenceSystemState(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_state"""
@@ -370,10 +698,12 @@ class InputResponsePersistenceSystemState(BaseModel):
 
 
 class InputResponseInputSystemStateTypedDict(TypedDict):
-    type: InputResponseTypeSystemState
+    type: InputResponseInputSystemStateType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -383,7 +713,7 @@ class InputResponseInputSystemStateTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -396,12 +726,13 @@ class InputResponseInputSystemStateTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     collectors: NotRequired[InputResponseCollectorsTypedDict]
-    persistence: NotRequired[InputResponsePersistenceSystemStateTypedDict]
+    persistence: NotRequired[InputResponseInputSystemStatePersistenceTypedDict]
     disable_native_module: NotRequired[bool]
     r"""Enable to use built-in tools (PowerShell) to collect events instead of native API (default) [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     disable_native_last_log_module: NotRequired[bool]
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -413,12 +744,14 @@ class InputResponseInputSystemStateTypedDict(TypedDict):
 
 
 class InputResponseInputSystemState(BaseModel):
-    type: InputResponseTypeSystemState
+    type: InputResponseInputSystemStateType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -435,7 +768,7 @@ class InputResponseInputSystemState(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -456,7 +789,7 @@ class InputResponseInputSystemState(BaseModel):
 
     collectors: Optional[InputResponseCollectors] = None
 
-    persistence: Optional[InputResponsePersistenceSystemState] = None
+    persistence: Optional[InputResponseInputSystemStatePersistence] = None
 
     disable_native_module: Annotated[
         Optional[bool], pydantic.Field(alias="disableNativeModule")
@@ -469,6 +802,7 @@ class InputResponseInputSystemState(BaseModel):
     r"""Enable only to collect LastLog data via legacy implementation. This option will be removed in a future release. Please contact Support before enabling. [Learn more](https://docs.cribl.io/edge/sources-system-state/#advanced-tab)"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -527,11 +861,15 @@ class InputResponseInputSystemState(BaseModel):
         return m
 
 
-class InputResponseTypeSystemMetrics(str, Enum):
+class InputResponseInputSystemMetricsType(str, Enum):
+    r"""Connector type identifier."""
+
     SYSTEM_METRICS = "system_metrics"
 
 
-class InputResponseSystemModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsSystemMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of detail for system metrics"""
 
     # Basic
@@ -544,15 +882,15 @@ class InputResponseSystemModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMe
     DISABLED = "disabled"
 
 
-class InputResponseSystemSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseSystemModeSystemMetrics]
+class InputResponseInputSystemMetricsSystemTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsSystemMode]
     r"""Select the level of detail for system metrics"""
     processes: NotRequired[bool]
     r"""Generate metrics for the numbers of processes in various states"""
 
 
-class InputResponseSystemSystemMetrics(BaseModel):
-    mode: Optional[InputResponseSystemModeSystemMetrics] = None
+class InputResponseInputSystemMetricsSystem(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsSystemMode] = None
     r"""Select the level of detail for system metrics"""
 
     processes: Optional[bool] = None
@@ -562,7 +900,7 @@ class InputResponseSystemSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseSystemModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsSystemMode(value)
             except ValueError:
                 return value
         return value
@@ -584,7 +922,7 @@ class InputResponseSystemSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseCPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsCPUMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for CPU metrics"""
 
     # Basic
@@ -597,8 +935,8 @@ class InputResponseCPUModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta)
     DISABLED = "disabled"
 
 
-class InputResponseCPUSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseCPUModeSystemMetrics]
+class InputResponseInputSystemMetricsCPUTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsCPUMode]
     r"""Select the level of detail for CPU metrics"""
     per_cpu: NotRequired[bool]
     r"""Generate metrics for each CPU"""
@@ -608,8 +946,8 @@ class InputResponseCPUSystemMetricsTypedDict(TypedDict):
     r"""Generate raw, monotonic CPU time counters"""
 
 
-class InputResponseCPUSystemMetrics(BaseModel):
-    mode: Optional[InputResponseCPUModeSystemMetrics] = None
+class InputResponseInputSystemMetricsCPU(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsCPUMode] = None
     r"""Select the level of detail for CPU metrics"""
 
     per_cpu: Annotated[Optional[bool], pydantic.Field(alias="perCpu")] = None
@@ -625,7 +963,7 @@ class InputResponseCPUSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseCPUModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsCPUMode(value)
             except ValueError:
                 return value
         return value
@@ -647,7 +985,9 @@ class InputResponseCPUSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseMemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsMemoryMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of detail for memory metrics"""
 
     # Basic
@@ -660,15 +1000,15 @@ class InputResponseMemoryModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMe
     DISABLED = "disabled"
 
 
-class InputResponseMemorySystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseMemoryModeSystemMetrics]
+class InputResponseInputSystemMetricsMemoryTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsMemoryMode]
     r"""Select the level of detail for memory metrics"""
     detail: NotRequired[bool]
     r"""Generate metrics for all memory states"""
 
 
-class InputResponseMemorySystemMetrics(BaseModel):
-    mode: Optional[InputResponseMemoryModeSystemMetrics] = None
+class InputResponseInputSystemMetricsMemory(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsMemoryMode] = None
     r"""Select the level of detail for memory metrics"""
 
     detail: Optional[bool] = None
@@ -678,7 +1018,7 @@ class InputResponseMemorySystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseMemoryModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsMemoryMode(value)
             except ValueError:
                 return value
         return value
@@ -700,7 +1040,9 @@ class InputResponseMemorySystemMetrics(BaseModel):
         return m
 
 
-class InputResponseNetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsNetworkMode(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Select the level of detail for network metrics"""
 
     # Basic
@@ -713,8 +1055,8 @@ class InputResponseNetworkModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumM
     DISABLED = "disabled"
 
 
-class InputResponseNetworkSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseNetworkModeSystemMetrics]
+class InputResponseInputSystemMetricsNetworkTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsNetworkMode]
     r"""Select the level of detail for network metrics"""
     detail: NotRequired[bool]
     r"""Generate full network metrics"""
@@ -726,8 +1068,8 @@ class InputResponseNetworkSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each interface"""
 
 
-class InputResponseNetworkSystemMetrics(BaseModel):
-    mode: Optional[InputResponseNetworkModeSystemMetrics] = None
+class InputResponseInputSystemMetricsNetwork(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsNetworkMode] = None
     r"""Select the level of detail for network metrics"""
 
     detail: Optional[bool] = None
@@ -748,7 +1090,7 @@ class InputResponseNetworkSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseNetworkModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsNetworkMode(value)
             except ValueError:
                 return value
         return value
@@ -772,7 +1114,7 @@ class InputResponseNetworkSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseDiskModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSystemMetricsDiskMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for disk metrics"""
 
     # Basic
@@ -785,8 +1127,8 @@ class InputResponseDiskModeSystemMetrics(str, Enum, metaclass=utils.OpenEnumMeta
     DISABLED = "disabled"
 
 
-class InputResponseDiskSystemMetricsTypedDict(TypedDict):
-    mode: NotRequired[InputResponseDiskModeSystemMetrics]
+class InputResponseInputSystemMetricsDiskTypedDict(TypedDict):
+    mode: NotRequired[InputResponseInputSystemMetricsDiskMode]
     r"""Select the level of detail for disk metrics"""
     detail: NotRequired[bool]
     r"""Generate full disk metrics"""
@@ -802,8 +1144,8 @@ class InputResponseDiskSystemMetricsTypedDict(TypedDict):
     r"""Generate separate metrics for each device"""
 
 
-class InputResponseDiskSystemMetrics(BaseModel):
-    mode: Optional[InputResponseDiskModeSystemMetrics] = None
+class InputResponseInputSystemMetricsDisk(BaseModel):
+    mode: Optional[InputResponseInputSystemMetricsDiskMode] = None
     r"""Select the level of detail for disk metrics"""
 
     detail: Optional[bool] = None
@@ -828,7 +1170,7 @@ class InputResponseDiskSystemMetrics(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseDiskModeSystemMetrics(value)
+                return models.InputResponseInputSystemMetricsDiskMode(value)
             except ValueError:
                 return value
         return value
@@ -860,24 +1202,24 @@ class InputResponseDiskSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseCustomSystemMetricsTypedDict(TypedDict):
-    system: NotRequired[InputResponseSystemSystemMetricsTypedDict]
-    cpu: NotRequired[InputResponseCPUSystemMetricsTypedDict]
-    memory: NotRequired[InputResponseMemorySystemMetricsTypedDict]
-    network: NotRequired[InputResponseNetworkSystemMetricsTypedDict]
-    disk: NotRequired[InputResponseDiskSystemMetricsTypedDict]
+class InputResponseInputSystemMetricsCustomTypedDict(TypedDict):
+    system: NotRequired[InputResponseInputSystemMetricsSystemTypedDict]
+    cpu: NotRequired[InputResponseInputSystemMetricsCPUTypedDict]
+    memory: NotRequired[InputResponseInputSystemMetricsMemoryTypedDict]
+    network: NotRequired[InputResponseInputSystemMetricsNetworkTypedDict]
+    disk: NotRequired[InputResponseInputSystemMetricsDiskTypedDict]
 
 
-class InputResponseCustomSystemMetrics(BaseModel):
-    system: Optional[InputResponseSystemSystemMetrics] = None
+class InputResponseInputSystemMetricsCustom(BaseModel):
+    system: Optional[InputResponseInputSystemMetricsSystem] = None
 
-    cpu: Optional[InputResponseCPUSystemMetrics] = None
+    cpu: Optional[InputResponseInputSystemMetricsCPU] = None
 
-    memory: Optional[InputResponseMemorySystemMetrics] = None
+    memory: Optional[InputResponseInputSystemMetricsMemory] = None
 
-    network: Optional[InputResponseNetworkSystemMetrics] = None
+    network: Optional[InputResponseInputSystemMetricsNetwork] = None
 
-    disk: Optional[InputResponseDiskSystemMetrics] = None
+    disk: Optional[InputResponseInputSystemMetricsDisk] = None
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -896,17 +1238,17 @@ class InputResponseCustomSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseHostSystemMetricsTypedDict(TypedDict):
+class InputResponseInputSystemMetricsHostTypedDict(TypedDict):
     mode: NotRequired[ModeOptionsHost]
     r"""Select level of detail for host metrics"""
-    custom: NotRequired[InputResponseCustomSystemMetricsTypedDict]
+    custom: NotRequired[InputResponseInputSystemMetricsCustomTypedDict]
 
 
-class InputResponseHostSystemMetrics(BaseModel):
+class InputResponseInputSystemMetricsHost(BaseModel):
     mode: Optional[ModeOptionsHost] = None
     r"""Select level of detail for host metrics"""
 
-    custom: Optional[InputResponseCustomSystemMetrics] = None
+    custom: Optional[InputResponseInputSystemMetricsCustom] = None
 
     @field_serializer("mode")
     def serialize_mode(self, value):
@@ -947,12 +1289,14 @@ class InputResponseContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     DISABLED = "disabled"
 
 
-class InputResponseFilterSystemMetricsTypedDict(TypedDict):
+class InputResponseInputSystemMetricsFilterTypedDict(TypedDict):
     expr: str
+    r"""Expression"""
 
 
-class InputResponseFilterSystemMetrics(BaseModel):
+class InputResponseInputSystemMetricsFilter(BaseModel):
     expr: str
+    r"""Expression"""
 
 
 class InputResponseContainerTypedDict(TypedDict):
@@ -962,7 +1306,7 @@ class InputResponseContainerTypedDict(TypedDict):
     r"""Full paths for Docker's UNIX-domain socket"""
     docker_timeout: NotRequired[float]
     r"""Timeout, in seconds, for the Docker API"""
-    filters: NotRequired[List[InputResponseFilterSystemMetricsTypedDict]]
+    filters: NotRequired[List[InputResponseInputSystemMetricsFilterTypedDict]]
     r"""Containers matching any of these will be included. All are included if no filters are added."""
     all_containers: NotRequired[bool]
     r"""Include stopped and paused containers"""
@@ -986,7 +1330,7 @@ class InputResponseContainer(BaseModel):
     ] = None
     r"""Timeout, in seconds, for the Docker API"""
 
-    filters: Optional[List[InputResponseFilterSystemMetrics]] = None
+    filters: Optional[List[InputResponseInputSystemMetricsFilter]] = None
     r"""Containers matching any of these will be included. All are included if no filters are added."""
 
     all_containers: Annotated[Optional[bool], pydantic.Field(alias="allContainers")] = (
@@ -1036,7 +1380,9 @@ class InputResponseContainer(BaseModel):
         return m
 
 
-class InputResponsePersistenceSystemMetricsTypedDict(TypedDict):
+class InputResponseInputSystemMetricsPersistenceTypedDict(TypedDict):
+    r"""persistence"""
+
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -1046,11 +1392,14 @@ class InputResponsePersistenceSystemMetricsTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
 
 
-class InputResponsePersistenceSystemMetrics(BaseModel):
+class InputResponseInputSystemMetricsPersistence(BaseModel):
+    r"""persistence"""
+
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -1064,6 +1413,7 @@ class InputResponsePersistenceSystemMetrics(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
@@ -1104,10 +1454,12 @@ class InputResponsePersistenceSystemMetrics(BaseModel):
 
 
 class InputResponseInputSystemMetricsTypedDict(TypedDict):
-    type: InputResponseTypeSystemMetrics
+    type: InputResponseInputSystemMetricsType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1117,7 +1469,7 @@ class InputResponseInputSystemMetricsTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -1127,14 +1479,16 @@ class InputResponseInputSystemMetricsTypedDict(TypedDict):
     pq: NotRequired[PqTypeTypedDict]
     interval: NotRequired[float]
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
-    host: NotRequired[InputResponseHostSystemMetricsTypedDict]
+    host: NotRequired[InputResponseInputSystemMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
     container: NotRequired[InputResponseContainerTypedDict]
     gpu: NotRequired[GpuTypeTypedDict]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    persistence: NotRequired[InputResponsePersistenceSystemMetricsTypedDict]
+    persistence: NotRequired[InputResponseInputSystemMetricsPersistenceTypedDict]
+    r"""persistence"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1146,12 +1500,14 @@ class InputResponseInputSystemMetricsTypedDict(TypedDict):
 
 
 class InputResponseInputSystemMetrics(BaseModel):
-    type: InputResponseTypeSystemMetrics
+    type: InputResponseInputSystemMetricsType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1168,7 +1524,7 @@ class InputResponseInputSystemMetrics(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -1184,7 +1540,7 @@ class InputResponseInputSystemMetrics(BaseModel):
     interval: Optional[float] = None
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
 
-    host: Optional[InputResponseHostSystemMetrics] = None
+    host: Optional[InputResponseInputSystemMetricsHost] = None
 
     process: Optional[ProcessType] = None
 
@@ -1195,9 +1551,11 @@ class InputResponseInputSystemMetrics(BaseModel):
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
-    persistence: Optional[InputResponsePersistenceSystemMetrics] = None
+    persistence: Optional[InputResponseInputSystemMetricsPersistence] = None
+    r"""persistence"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1257,12 +1615,9 @@ class InputResponseInputSystemMetrics(BaseModel):
         return m
 
 
-class InputResponseTypeTcpjson(str, Enum):
-    TCPJSON = "tcpjson"
-
-
 class InputResponseInputTcpjsonTypedDict(TypedDict):
-    type: InputResponseTypeTcpjson
+    type: TypeOptionsTcpjson
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -1270,6 +1625,7 @@ class InputResponseInputTcpjsonTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1279,7 +1635,7 @@ class InputResponseInputTcpjsonTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -1288,6 +1644,7 @@ class InputResponseInputTcpjsonTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -1307,6 +1664,7 @@ class InputResponseInputTcpjsonTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     auth_token: NotRequired[str]
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
     text_secret: NotRequired[str]
@@ -1326,7 +1684,8 @@ class InputResponseInputTcpjsonTypedDict(TypedDict):
 
 
 class InputResponseInputTcpjson(BaseModel):
-    type: InputResponseTypeTcpjson
+    type: TypeOptionsTcpjson
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1338,6 +1697,7 @@ class InputResponseInputTcpjson(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1354,7 +1714,7 @@ class InputResponseInputTcpjson(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -1368,6 +1728,7 @@ class InputResponseInputTcpjson(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -1414,6 +1775,7 @@ class InputResponseInputTcpjson(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret to be provided by any client (in authToken header field). If empty, unauthorized access is permitted."""
@@ -1505,18 +1867,22 @@ class InputResponseInputTcpjson(BaseModel):
         return m
 
 
-class InputResponseTypeCriblLakeHTTP(str, Enum):
+class InputResponseInputCriblLakeHTTPType(str, Enum):
+    r"""Source type identifier."""
+
     CRIBL_LAKE_HTTP = "cribl_lake_http"
 
 
 class InputResponseSplunkHecMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""When enabled, the token value is available on events as __hecToken"""
     default_dataset: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
 
 
 class InputResponseSplunkHecMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""When enabled, the token value is available on events as __hecToken"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -1545,11 +1911,13 @@ class InputResponseSplunkHecMetadata(BaseModel):
 
 class InputResponseElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""Elasticsearch"""
     default_dataset: NotRequired[str]
 
 
 class InputResponseElasticsearchMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""Elasticsearch"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -1574,6 +1942,7 @@ class InputResponseElasticsearchMetadata(BaseModel):
 
 class InputResponseAuthTokensExtTypedDict(TypedDict):
     token: str
+    r"""Token"""
     description: NotRequired[str]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this token"""
@@ -1583,6 +1952,7 @@ class InputResponseAuthTokensExtTypedDict(TypedDict):
 
 class InputResponseAuthTokensExt(BaseModel):
     token: str
+    r"""Token"""
 
     description: Optional[str] = None
 
@@ -1619,7 +1989,8 @@ class InputResponseAuthTokensExt(BaseModel):
 
 
 class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
-    type: InputResponseTypeCriblLakeHTTP
+    type: InputResponseInputCriblLakeHTTPType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -1627,6 +1998,7 @@ class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1636,7 +2008,7 @@ class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -1647,6 +2019,7 @@ class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -1655,6 +2028,7 @@ class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -1676,10 +2050,13 @@ class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
+    r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[InputResponseAuthTokensExtTypedDict]]
+    r"""Auth tokens"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -1703,7 +2080,8 @@ class InputResponseInputCriblLakeHTTPTypedDict(TypedDict):
 
 
 class InputResponseInputCriblLakeHTTP(BaseModel):
-    type: InputResponseTypeCriblLakeHTTP
+    type: InputResponseInputCriblLakeHTTPType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -1715,6 +2093,7 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -1731,7 +2110,7 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -1750,6 +2129,7 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -1770,6 +2150,11 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -1820,6 +2205,7 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
+    r"""Enable Splunk HEC acknowledgements"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -1828,8 +2214,10 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
         Optional[List[InputResponseAuthTokensExt]],
         pydantic.Field(alias="authTokensExt"),
     ] = None
+    r"""Auth tokens"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -1897,6 +2285,7 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -1937,12 +2326,15 @@ class InputResponseInputCriblLakeHTTP(BaseModel):
         return m
 
 
-class InputResponseTypeCriblHTTP(str, Enum):
+class InputResponseInputCriblHTTPType(str, Enum):
+    r"""Source type identifier."""
+
     CRIBL_HTTP = "cribl_http"
 
 
 class InputResponseInputCriblHTTPTypedDict(TypedDict):
-    type: InputResponseTypeCriblHTTP
+    type: InputResponseInputCriblHTTPType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -1950,6 +2342,7 @@ class InputResponseInputCriblHTTPTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -1959,7 +2352,7 @@ class InputResponseInputCriblHTTPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -1970,6 +2363,7 @@ class InputResponseInputCriblHTTPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[AuthTokenConfInputCriblTCPTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -1978,6 +2372,7 @@ class InputResponseInputCriblHTTPTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -1995,6 +2390,7 @@ class InputResponseInputCriblHTTPTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2010,7 +2406,8 @@ class InputResponseInputCriblHTTPTypedDict(TypedDict):
 
 
 class InputResponseInputCriblHTTP(BaseModel):
-    type: InputResponseTypeCriblHTTP
+    type: InputResponseInputCriblHTTPType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2022,6 +2419,7 @@ class InputResponseInputCriblHTTP(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2038,7 +2436,7 @@ class InputResponseInputCriblHTTP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -2057,6 +2455,7 @@ class InputResponseInputCriblHTTP(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl HTTP destinations in connected environments."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -2077,6 +2476,11 @@ class InputResponseInputCriblHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -2117,6 +2521,7 @@ class InputResponseInputCriblHTTP(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2164,6 +2569,7 @@ class InputResponseInputCriblHTTP(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -2195,12 +2601,9 @@ class InputResponseInputCriblHTTP(BaseModel):
         return m
 
 
-class InputResponseTypeCriblTCP(str, Enum):
-    CRIBL_TCP = "cribl_tcp"
-
-
 class InputResponseInputCriblTCPTypedDict(TypedDict):
-    type: InputResponseTypeCriblTCP
+    type: TypeOptionsCribltcp
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -2208,6 +2611,7 @@ class InputResponseInputCriblTCPTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2217,7 +2621,7 @@ class InputResponseInputCriblTCPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -2226,6 +2630,7 @@ class InputResponseInputCriblTCPTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_cxn: NotRequired[float]
     r"""Maximum number of active connections allowed per Worker Process. Use 0 for unlimited."""
     socket_idle_timeout: NotRequired[float]
@@ -2243,6 +2648,7 @@ class InputResponseInputCriblTCPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[AuthTokenConfInputCriblTCPTypedDict]]
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2258,7 +2664,8 @@ class InputResponseInputCriblTCPTypedDict(TypedDict):
 
 
 class InputResponseInputCriblTCP(BaseModel):
-    type: InputResponseTypeCriblTCP
+    type: TypeOptionsCribltcp
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2270,6 +2677,7 @@ class InputResponseInputCriblTCP(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2286,7 +2694,7 @@ class InputResponseInputCriblTCP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -2300,6 +2708,7 @@ class InputResponseInputCriblTCP(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_cxn: Annotated[Optional[float], pydantic.Field(alias="maxActiveCxn")] = (
         None
@@ -2340,6 +2749,7 @@ class InputResponseInputCriblTCP(BaseModel):
     r"""Shared secrets to be used by connected environments to authorize connections. These tokens should be installed in Cribl TCP destinations in connected environments."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2413,15 +2823,19 @@ class InputResponseInputCriblTCP(BaseModel):
         return m
 
 
-class InputResponseTypeCribl(str, Enum):
+class InputResponseInputCriblType(str, Enum):
+    r"""Connector type identifier."""
+
     CRIBL = "cribl"
 
 
 class InputResponseInputCriblTypedDict(TypedDict):
-    type: InputResponseTypeCribl
+    type: InputResponseInputCriblType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2431,7 +2845,7 @@ class InputResponseInputCriblTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -2443,6 +2857,7 @@ class InputResponseInputCriblTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2454,12 +2869,14 @@ class InputResponseInputCriblTypedDict(TypedDict):
 
 
 class InputResponseInputCribl(BaseModel):
-    type: InputResponseTypeCribl
+    type: InputResponseInputCriblType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2476,7 +2893,7 @@ class InputResponseInputCribl(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -2495,6 +2912,7 @@ class InputResponseInputCribl(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -2549,12 +2967,9 @@ class InputResponseInputCribl(BaseModel):
         return m
 
 
-class InputResponseTypeGooglePubsub(str, Enum):
-    GOOGLE_PUBSUB = "google_pubsub"
-
-
 class InputResponseInputGooglePubsubTypedDict(TypedDict):
-    type: InputResponseTypeGooglePubsub
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
     topic_name: str
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
     subscription_name: str
@@ -2562,6 +2977,7 @@ class InputResponseInputGooglePubsubTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2571,7 +2987,7 @@ class InputResponseInputGooglePubsubTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -2602,6 +3018,7 @@ class InputResponseInputGooglePubsubTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     ordered_delivery: NotRequired[bool]
     r"""Receive events in the order they were added to the queue. The process sending events must have ordering enabled."""
     template_environment: NotRequired[str]
@@ -2621,7 +3038,8 @@ class InputResponseInputGooglePubsubTypedDict(TypedDict):
 
 
 class InputResponseInputGooglePubsub(BaseModel):
-    type: InputResponseTypeGooglePubsub
+    type: TypeOptionsGooglepubsub
+    r"""Connector type identifier."""
 
     topic_name: Annotated[str, pydantic.Field(alias="topicName")]
     r"""ID of the topic to receive events from. When Monitor subscription is enabled, any value may be entered."""
@@ -2633,6 +3051,7 @@ class InputResponseInputGooglePubsub(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2649,7 +3068,7 @@ class InputResponseInputGooglePubsub(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -2707,6 +3126,7 @@ class InputResponseInputGooglePubsub(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     ordered_delivery: Annotated[
         Optional[bool], pydantic.Field(alias="orderedDelivery")
@@ -2803,12 +3223,15 @@ class InputResponseInputGooglePubsub(BaseModel):
         return m
 
 
-class InputResponseTypeFirehose(str, Enum):
+class InputResponseInputFirehoseType(str, Enum):
+    r"""Source type identifier."""
+
     FIREHOSE = "firehose"
 
 
 class InputResponseInputFirehoseTypedDict(TypedDict):
-    type: InputResponseTypeFirehose
+    type: InputResponseInputFirehoseType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -2816,6 +3239,7 @@ class InputResponseInputFirehoseTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -2825,7 +3249,7 @@ class InputResponseInputFirehoseTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -2836,6 +3260,7 @@ class InputResponseInputFirehoseTypedDict(TypedDict):
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -2844,6 +3269,7 @@ class InputResponseInputFirehoseTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -2861,6 +3287,7 @@ class InputResponseInputFirehoseTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -2878,7 +3305,8 @@ class InputResponseInputFirehoseTypedDict(TypedDict):
 
 
 class InputResponseInputFirehose(BaseModel):
-    type: InputResponseTypeFirehose
+    type: InputResponseInputFirehoseType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -2890,6 +3318,7 @@ class InputResponseInputFirehose(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -2906,7 +3335,7 @@ class InputResponseInputFirehose(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -2925,6 +3354,7 @@ class InputResponseInputFirehose(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -2945,6 +3375,11 @@ class InputResponseInputFirehose(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -2985,6 +3420,7 @@ class InputResponseInputFirehose(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -3037,6 +3473,7 @@ class InputResponseInputFirehose(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -3070,6 +3507,8 @@ class InputResponseInputFirehose(BaseModel):
 
 
 class InputResponseInputExecType(str, Enum):
+    r"""Connector type identifier."""
+
     EXEC = "exec"
 
 
@@ -3082,11 +3521,13 @@ class InputResponseScheduleType(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputResponseInputExecTypedDict(TypedDict):
     type: InputResponseInputExecType
+    r"""Connector type identifier."""
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""Disabled"""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3096,7 +3537,7 @@ class InputResponseInputExecTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -3117,6 +3558,7 @@ class InputResponseInputExecTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     interval: NotRequired[float]
     r"""Interval between command executions in seconds."""
     cron_schedule: NotRequired[str]
@@ -3133,6 +3575,7 @@ class InputResponseInputExecTypedDict(TypedDict):
 
 class InputResponseInputExec(BaseModel):
     type: InputResponseInputExecType
+    r"""Connector type identifier."""
 
     command: str
     r"""Command to execute; supports Bourne shell (or CMD on Windows) syntax"""
@@ -3141,6 +3584,7 @@ class InputResponseInputExec(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""Disabled"""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3157,7 +3601,7 @@ class InputResponseInputExec(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -3195,6 +3639,7 @@ class InputResponseInputExec(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     interval: Optional[float] = None
     r"""Interval between command executions in seconds."""
@@ -3270,11 +3715,15 @@ class InputResponseInputExec(BaseModel):
         return m
 
 
-class InputResponseTypeEventhubAmqp(str, Enum):
+class InputResponseInputEventhubAmqpType(str, Enum):
+    r"""Connector type identifier."""
+
     EVENTHUB_AMQP = "eventhub_amqp"
 
 
 class InputResponseAuthenticationMechanism(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication mechanism"""
+
     # Connection String
     CONNECTION_STRING = "connection-string"
     # OAuth Bearer
@@ -3324,9 +3773,11 @@ class InputResponseCertificate(BaseModel):
 
 class InputResponseAuthTypedDict(TypedDict):
     mechanism: InputResponseAuthenticationMechanism
+    r"""Authentication mechanism"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     client_secret_auth_type: NotRequired[AuthenticationMethodOptionsAuth]
+    r"""Authentication method"""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     certificate: NotRequired[InputResponseCertificateTypedDict]
@@ -3350,6 +3801,7 @@ class InputResponseAuthTypedDict(TypedDict):
 
 class InputResponseAuth(BaseModel):
     mechanism: InputResponseAuthenticationMechanism
+    r"""Authentication mechanism"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -3358,6 +3810,7 @@ class InputResponseAuth(BaseModel):
         Optional[AuthenticationMethodOptionsAuth],
         pydantic.Field(alias="clientSecretAuthType"),
     ] = None
+    r"""Authentication method"""
 
     client_text_secret: Annotated[
         Optional[str], pydantic.Field(alias="clientTextSecret")
@@ -3462,9 +3915,11 @@ class InputResponseAuth(BaseModel):
         return m
 
 
-class InputResponseAuthenticationMethodEventhubAmqp(
+class InputResponseInputEventhubAmqpAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
+    r"""Authentication method"""
+
     SECRET = "secret"
     CLIENT_SECRET = "clientSecret"
     CLIENT_CERT = "clientCert"
@@ -3473,9 +3928,12 @@ class InputResponseAuthenticationMethodEventhubAmqp(
 
 
 class InputResponseAzureBlobStorageTypedDict(TypedDict):
+    r"""Azure Blob Storage"""
+
     container_name: str
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
-    auth_type: NotRequired[InputResponseAuthenticationMethodEventhubAmqp]
+    auth_type: NotRequired[InputResponseInputEventhubAmqpAuthenticationMethod]
+    r"""Authentication method"""
     text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     storage_account_name: NotRequired[str]
@@ -3490,7 +3948,7 @@ class InputResponseAzureBlobStorageTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_storage_account_name: NotRequired[str]
     r"""Binds 'storageAccountName' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'storageAccountName' at runtime."""
     template_tenant_id: NotRequired[str]
@@ -3502,13 +3960,16 @@ class InputResponseAzureBlobStorageTypedDict(TypedDict):
 
 
 class InputResponseAzureBlobStorage(BaseModel):
+    r"""Azure Blob Storage"""
+
     container_name: Annotated[str, pydantic.Field(alias="containerName")]
     r"""Azure Blob Storage container used to store checkpoints. Must be 3–63 lowercase alphanumeric characters or hyphens."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodEventhubAmqp],
+        Optional[InputResponseInputEventhubAmqpAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication method"""
 
     text_secret: Annotated[Optional[str], pydantic.Field(alias="textSecret")] = None
     r"""Select or create a stored text secret"""
@@ -3537,7 +3998,7 @@ class InputResponseAzureBlobStorage(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_storage_account_name: Annotated[
         Optional[str], pydantic.Field(alias="__template_storageAccountName")
@@ -3563,7 +4024,7 @@ class InputResponseAzureBlobStorage(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodEventhubAmqp(value)
+                return models.InputResponseInputEventhubAmqpAuthenticationMethod(value)
             except ValueError:
                 return value
         return value
@@ -3603,22 +4064,26 @@ class InputResponseAzureBlobStorage(BaseModel):
 
 class InputResponseCheckpointingTypedDict(TypedDict):
     blob_store: InputResponseAzureBlobStorageTypedDict
+    r"""Azure Blob Storage"""
 
 
 class InputResponseCheckpointing(BaseModel):
     blob_store: Annotated[
         InputResponseAzureBlobStorage, pydantic.Field(alias="blobStore")
     ]
+    r"""Azure Blob Storage"""
 
 
 class InputResponseInputEventhubAmqpTypedDict(TypedDict):
-    type: InputResponseTypeEventhubAmqp
+    type: InputResponseInputEventhubAmqpType
+    r"""Connector type identifier."""
     consumer_group: str
     r"""The consumer group this instance belongs to. Default is '$Default'."""
     checkpointing: InputResponseCheckpointingTypedDict
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3628,7 +4093,7 @@ class InputResponseInputEventhubAmqpTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -3664,6 +4129,7 @@ class InputResponseInputEventhubAmqpTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -3675,7 +4141,8 @@ class InputResponseInputEventhubAmqpTypedDict(TypedDict):
 
 
 class InputResponseInputEventhubAmqp(BaseModel):
-    type: InputResponseTypeEventhubAmqp
+    type: InputResponseInputEventhubAmqpType
+    r"""Connector type identifier."""
 
     consumer_group: Annotated[str, pydantic.Field(alias="consumerGroup")]
     r"""The consumer group this instance belongs to. Default is '$Default'."""
@@ -3686,6 +4153,7 @@ class InputResponseInputEventhubAmqp(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3702,7 +4170,7 @@ class InputResponseInputEventhubAmqp(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -3775,6 +4243,7 @@ class InputResponseInputEventhubAmqp(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -3841,12 +4310,15 @@ class InputResponseInputEventhubAmqp(BaseModel):
         return m
 
 
-class InputResponseTypeEventhub(str, Enum):
+class InputResponseInputEventhubType(str, Enum):
+    r"""Connector type identifier."""
+
     EVENTHUB = "eventhub"
 
 
 class InputResponseInputEventhubTypedDict(TypedDict):
-    type: InputResponseTypeEventhub
+    type: InputResponseInputEventhubType
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
     topics: List[str]
@@ -3854,6 +4326,7 @@ class InputResponseInputEventhubTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -3863,7 +4336,7 @@ class InputResponseInputEventhubTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -3894,6 +4367,7 @@ class InputResponseInputEventhubTypedDict(TypedDict):
     sasl: NotRequired[AuthenticationTypeUseTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeTypedDict]
+    r"""TLS settings (client side)"""
     session_timeout: NotRequired[float]
     r"""
     Timeout (session.timeout.ms in Kafka domain) used to detect client failures when using Kafka's group-management facilities. If the client sends no heartbeats to the broker before the timeout expires, the broker will remove the client from the group and initiate a rebalance. Value must be lower than rebalanceTimeout. See details [here](https://github.com/Azure/azure-event-hubs-for-kafka/blob/master/CONFIGURATION.md).
@@ -3921,6 +4395,7 @@ class InputResponseInputEventhubTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -3938,7 +4413,8 @@ class InputResponseInputEventhubTypedDict(TypedDict):
 
 
 class InputResponseInputEventhub(BaseModel):
-    type: InputResponseTypeEventhub
+    type: InputResponseInputEventhubType
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Event Hubs Kafka brokers to connect to (example: yourdomain.servicebus.windows.net:9093). The hostname can be found in the host portion of the primary or secondary connection string in Shared Access Policies."""
@@ -3950,6 +4426,7 @@ class InputResponseInputEventhub(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -3966,7 +4443,7 @@ class InputResponseInputEventhub(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -4025,6 +4502,7 @@ class InputResponseInputEventhub(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideType] = None
+    r"""TLS settings (client side)"""
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -4079,6 +4557,7 @@ class InputResponseInputEventhub(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -4171,11 +4650,13 @@ class InputResponseInputEventhub(BaseModel):
         return m
 
 
-class InputResponseTypeMicrosoftGraph(str, Enum):
+class InputResponseInputMicrosoftGraphType(str, Enum):
+    r"""Connector type identifier."""
+
     MICROSOFT_GRAPH = "microsoft_graph"
 
 
-class InputResponseAuthenticationMethodMicrosoftGraph(
+class InputResponseInputMicrosoftGraphAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select authentication method."""
@@ -4201,7 +4682,8 @@ class InputResponseSubscriptionPlan(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
-    type: InputResponseTypeMicrosoftGraph
+    type: InputResponseInputMicrosoftGraphType
+    r"""Connector type identifier."""
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
     interval: int
@@ -4209,6 +4691,7 @@ class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4218,7 +4701,7 @@ class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -4236,7 +4719,7 @@ class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
     r"""Disables time filtering of events when a date range is specified."""
     max_pages: NotRequired[int]
     r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
-    auth_type: NotRequired[InputResponseAuthenticationMethodMicrosoftGraph]
+    auth_type: NotRequired[InputResponseInputMicrosoftGraphAuthenticationMethod]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -4257,7 +4740,12 @@ class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
     log_level: NotRequired[LogLevelOptionsDebugError]
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
+    breaker_rulesets: NotRequired[List[str]]
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+    stale_channel_flush_ms: NotRequired[float]
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""client_secret to pass in the OAuth request parameter."""
     tenant_id: NotRequired[str]
@@ -4292,7 +4780,8 @@ class InputResponseInputMicrosoftGraphTypedDict(TypedDict):
 
 
 class InputResponseInputMicrosoftGraph(BaseModel):
-    type: InputResponseTypeMicrosoftGraph
+    type: InputResponseInputMicrosoftGraphType
+    r"""Connector type identifier."""
 
     url: str
     r"""Microsoft Graph API endpoint URL. (ex. https://graph.microsoft.com/v1.0/admin/exchange/tracing/messageTraces)"""
@@ -4304,6 +4793,7 @@ class InputResponseInputMicrosoftGraph(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4320,7 +4810,7 @@ class InputResponseInputMicrosoftGraph(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -4351,7 +4841,7 @@ class InputResponseInputMicrosoftGraph(BaseModel):
     r"""Maximum number of pages to retrieve per collection task. Set to 0 to retrieve all pages."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodMicrosoftGraph],
+        Optional[InputResponseInputMicrosoftGraphAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -4399,7 +4889,18 @@ class InputResponseInputMicrosoftGraph(BaseModel):
         Optional[RetryRulesTypeCodesEnableHeader], pydantic.Field(alias="retryRules")
     ] = None
 
+    breaker_rulesets: Annotated[
+        Optional[List[str]], pydantic.Field(alias="breakerRulesets")
+    ] = None
+    r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
+
+    stale_channel_flush_ms: Annotated[
+        Optional[float], pydantic.Field(alias="staleChannelFlushMs")
+    ] = None
+    r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
+
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""client_secret to pass in the OAuth request parameter."""
@@ -4470,7 +4971,9 @@ class InputResponseInputMicrosoftGraph(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodMicrosoftGraph(value)
+                return models.InputResponseInputMicrosoftGraphAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -4523,6 +5026,8 @@ class InputResponseInputMicrosoftGraph(BaseModel):
                 "maxTaskReschedule",
                 "logLevel",
                 "retryRules",
+                "breakerRulesets",
+                "staleChannelFlushMs",
                 "description",
                 "clientSecret",
                 "tenantId",
@@ -4556,11 +5061,13 @@ class InputResponseInputMicrosoftGraph(BaseModel):
         return m
 
 
-class InputResponseTypeOffice365MsgTrace(str, Enum):
+class InputResponseInputOffice365MsgTraceType(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_MSG_TRACE = "office365_msg_trace"
 
 
-class InputResponseAuthenticationMethodOffice365MsgTrace(
+class InputResponseInputOffice365MsgTraceAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Select authentication method."""
@@ -4573,7 +5080,8 @@ class InputResponseAuthenticationMethodOffice365MsgTrace(
 
 
 class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
-    type: InputResponseTypeOffice365MsgTrace
+    type: InputResponseInputOffice365MsgTraceType
+    r"""Connector type identifier."""
     url: str
     r"""URL to use when retrieving report data."""
     interval: int
@@ -4581,6 +5089,7 @@ class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -4590,7 +5099,7 @@ class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -4606,7 +5115,7 @@ class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
     r"""HTTP request inactivity timeout. Maximum is 2400 (40 minutes); enter 0 to wait indefinitely."""
     disable_time_filter: NotRequired[bool]
     r"""Disables time filtering of events when a date range is specified."""
-    auth_type: NotRequired[InputResponseAuthenticationMethodOffice365MsgTrace]
+    auth_type: NotRequired[InputResponseInputOffice365MsgTraceAuthenticationMethod]
     r"""Select authentication method."""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
@@ -4628,6 +5137,7 @@ class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
     r"""Log Level (verbosity) for collection runtime behavior."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
     r"""Username to run Message Trace API call."""
     password: NotRequired[str]
@@ -4668,7 +5178,8 @@ class InputResponseInputOffice365MsgTraceTypedDict(TypedDict):
 
 
 class InputResponseInputOffice365MsgTrace(BaseModel):
-    type: InputResponseTypeOffice365MsgTrace
+    type: InputResponseInputOffice365MsgTraceType
+    r"""Connector type identifier."""
 
     url: str
     r"""URL to use when retrieving report data."""
@@ -4680,6 +5191,7 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -4696,7 +5208,7 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -4724,7 +5236,7 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
     r"""Disables time filtering of events when a date range is specified."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodOffice365MsgTrace],
+        Optional[InputResponseInputOffice365MsgTraceAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Select authentication method."""
@@ -4773,6 +5285,7 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
     r"""Username to run Message Trace API call."""
@@ -4854,7 +5367,9 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodOffice365MsgTrace(value)
+                return models.InputResponseInputOffice365MsgTraceAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -4942,22 +5457,26 @@ class InputResponseInputOffice365MsgTrace(BaseModel):
         return m
 
 
-class InputResponseTypeOffice365Service(str, Enum):
+class InputResponseInputOffice365ServiceType(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_SERVICE = "office365_service"
 
 
-class InputResponseContentConfigOffice365ServiceTypedDict(TypedDict):
+class InputResponseInputOffice365ServiceContentConfigTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Microsoft 365 Services API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
+    r"""Interval"""
     log_level: NotRequired[LogLevelOptionsContentConfigItems]
     r"""Collector runtime Log Level"""
     enabled: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputResponseContentConfigOffice365Service(BaseModel):
+class InputResponseInputOffice365ServiceContentConfig(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Microsoft 365 Services API Content Type"""
 
@@ -4965,6 +5484,7 @@ class InputResponseContentConfigOffice365Service(BaseModel):
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
 
     interval: Optional[float] = None
+    r"""Interval"""
 
     log_level: Annotated[
         Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
@@ -4972,6 +5492,7 @@ class InputResponseContentConfigOffice365Service(BaseModel):
     r"""Collector runtime Log Level"""
 
     enabled: Optional[bool] = None
+    r"""Enabled"""
 
     @field_serializer("log_level")
     def serialize_log_level(self, value):
@@ -5002,7 +5523,8 @@ class InputResponseContentConfigOffice365Service(BaseModel):
 
 
 class InputResponseInputOffice365ServiceTypedDict(TypedDict):
-    type: InputResponseTypeOffice365Service
+    type: InputResponseInputOffice365ServiceType
+    r"""Connector type identifier."""
     tenant_id: str
     r"""Microsoft 365 Azure Tenant ID"""
     app_id: str
@@ -5010,6 +5532,7 @@ class InputResponseInputOffice365ServiceTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5019,7 +5542,7 @@ class InputResponseInputOffice365ServiceTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -5044,13 +5567,14 @@ class InputResponseInputOffice365ServiceTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     content_config: NotRequired[
-        List[InputResponseContentConfigOffice365ServiceTypedDict]
+        List[InputResponseInputOffice365ServiceContentConfigTypedDict]
     ]
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
     retry_rules: NotRequired[RetryRulesTypeCodesEnableHeaderTypedDict]
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
@@ -5074,7 +5598,8 @@ class InputResponseInputOffice365ServiceTypedDict(TypedDict):
 
 
 class InputResponseInputOffice365Service(BaseModel):
-    type: InputResponseTypeOffice365Service
+    type: InputResponseInputOffice365ServiceType
+    r"""Connector type identifier."""
 
     tenant_id: Annotated[str, pydantic.Field(alias="tenantId")]
     r"""Microsoft 365 Azure Tenant ID"""
@@ -5086,6 +5611,7 @@ class InputResponseInputOffice365Service(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5102,7 +5628,7 @@ class InputResponseInputOffice365Service(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -5148,7 +5674,7 @@ class InputResponseInputOffice365Service(BaseModel):
     r"""Fields to add to events from this input"""
 
     content_config: Annotated[
-        Optional[List[InputResponseContentConfigOffice365Service]],
+        Optional[List[InputResponseInputOffice365ServiceContentConfig]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Microsoft 365 Service Communication API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered for current and historical status must be evenly divisible by 60 to give a predictable schedule."""
@@ -5164,6 +5690,7 @@ class InputResponseInputOffice365Service(BaseModel):
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""Microsoft 365 Azure client secret"""
@@ -5277,22 +5804,26 @@ class InputResponseInputOffice365Service(BaseModel):
         return m
 
 
-class InputResponseTypeOffice365Mgmt(str, Enum):
+class InputResponseInputOffice365MgmtType(str, Enum):
+    r"""Connector type identifier."""
+
     OFFICE365_MGMT = "office365_mgmt"
 
 
-class InputResponseContentConfigOffice365MgmtTypedDict(TypedDict):
+class InputResponseInputOffice365MgmtContentConfigTypedDict(TypedDict):
     content_type: NotRequired[str]
     r"""Microsoft 365 Management Activity API Content Type"""
     description: NotRequired[str]
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
     interval: NotRequired[float]
+    r"""Interval"""
     log_level: NotRequired[LogLevelOptionsContentConfigItems]
     r"""Collector runtime Log Level"""
     enabled: NotRequired[bool]
+    r"""Enabled"""
 
 
-class InputResponseContentConfigOffice365Mgmt(BaseModel):
+class InputResponseInputOffice365MgmtContentConfig(BaseModel):
     content_type: Annotated[Optional[str], pydantic.Field(alias="contentType")] = None
     r"""Microsoft 365 Management Activity API Content Type"""
 
@@ -5300,6 +5831,7 @@ class InputResponseContentConfigOffice365Mgmt(BaseModel):
     r"""If interval type is minutes the value entered must evenly divisible by 60 or save will fail"""
 
     interval: Optional[float] = None
+    r"""Interval"""
 
     log_level: Annotated[
         Optional[LogLevelOptionsContentConfigItems], pydantic.Field(alias="logLevel")
@@ -5307,6 +5839,7 @@ class InputResponseContentConfigOffice365Mgmt(BaseModel):
     r"""Collector runtime Log Level"""
 
     enabled: Optional[bool] = None
+    r"""Enabled"""
 
     @field_serializer("log_level")
     def serialize_log_level(self, value):
@@ -5337,7 +5870,8 @@ class InputResponseContentConfigOffice365Mgmt(BaseModel):
 
 
 class InputResponseInputOffice365MgmtTypedDict(TypedDict):
-    type: InputResponseTypeOffice365Mgmt
+    type: InputResponseInputOffice365MgmtType
+    r"""Connector type identifier."""
     plan_type: SubscriptionPlanOptions
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
     tenant_id: str
@@ -5347,6 +5881,7 @@ class InputResponseInputOffice365MgmtTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5356,7 +5891,7 @@ class InputResponseInputOffice365MgmtTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -5380,7 +5915,9 @@ class InputResponseInputOffice365MgmtTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     publisher_identifier: NotRequired[str]
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
-    content_config: NotRequired[List[InputResponseContentConfigOffice365MgmtTypedDict]]
+    content_config: NotRequired[
+        List[InputResponseInputOffice365MgmtContentConfigTypedDict]
+    ]
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
     ingestion_lag: NotRequired[float]
     r"""Use this setting to account for ingestion lag. This is necessary because there can be a lag of 60 - 90 minutes (or longer) before Microsoft 365 events are available for retrieval."""
@@ -5388,6 +5925,7 @@ class InputResponseInputOffice365MgmtTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsManualSecret]
     r"""Enter client secret directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     client_secret: NotRequired[str]
     r"""Microsoft 365 Azure client secret"""
     text_secret: NotRequired[str]
@@ -5413,7 +5951,8 @@ class InputResponseInputOffice365MgmtTypedDict(TypedDict):
 
 
 class InputResponseInputOffice365Mgmt(BaseModel):
-    type: InputResponseTypeOffice365Mgmt
+    type: InputResponseInputOffice365MgmtType
+    r"""Connector type identifier."""
 
     plan_type: Annotated[SubscriptionPlanOptions, pydantic.Field(alias="planType")]
     r"""Microsoft 365 subscription plan for your organization, typically Microsoft 365 Enterprise"""
@@ -5428,6 +5967,7 @@ class InputResponseInputOffice365Mgmt(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5444,7 +5984,7 @@ class InputResponseInputOffice365Mgmt(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -5490,7 +6030,7 @@ class InputResponseInputOffice365Mgmt(BaseModel):
     r"""Optional Publisher Identifier to use in API requests, defaults to tenant id if not defined. For more information see [here](https://docs.microsoft.com/en-us/office/office-365-management-api/office-365-management-activity-api-reference#start-a-subscription)"""
 
     content_config: Annotated[
-        Optional[List[InputResponseContentConfigOffice365Mgmt]],
+        Optional[List[InputResponseInputOffice365MgmtContentConfig]],
         pydantic.Field(alias="contentConfig"),
     ] = None
     r"""Enable Microsoft 365 Management Activity API content types and polling intervals. Polling intervals are used to set up search date range and cron schedule, e.g.: */${interval} * * * *. Because of this, intervals entered must be evenly divisible by 60 to give a predictable schedule."""
@@ -5511,6 +6051,7 @@ class InputResponseInputOffice365Mgmt(BaseModel):
     r"""Enter client secret directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     client_secret: Annotated[Optional[str], pydantic.Field(alias="clientSecret")] = None
     r"""Microsoft 365 Azure client secret"""
@@ -5631,11 +6172,15 @@ class InputResponseInputOffice365Mgmt(BaseModel):
         return m
 
 
-class InputResponseTypeEdgePrometheus(str, Enum):
+class InputResponseInputEdgePrometheusType(str, Enum):
+    r"""Connector type identifier."""
+
     EDGE_PROMETHEUS = "edge_prometheus"
 
 
-class InputResponseDiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputEdgePrometheusDiscoveryType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     # Static
@@ -5654,7 +6199,7 @@ class InputResponseDiscoveryTypeEdgePrometheus(str, Enum, metaclass=utils.OpenEn
     HTTP_SD = "http_sd"
 
 
-class InputResponseAuthenticationMethodEdgePrometheus(
+class InputResponseInputEdgePrometheusAuthenticationMethod(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Enter credentials directly, or select a stored secret"""
@@ -5746,14 +6291,16 @@ class InputResponsePodFilter(BaseModel):
 
 
 class InputResponseInputEdgePrometheusTypedDict(TypedDict):
-    type: InputResponseTypeEdgePrometheus
-    discovery_type: InputResponseDiscoveryTypeEdgePrometheus
+    type: InputResponseInputEdgePrometheusType
+    r"""Connector type identifier."""
+    discovery_type: InputResponseInputEdgePrometheusDiscoveryType
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     interval: float
     r"""How often in seconds to scrape targets for metrics."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -5763,7 +6310,7 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -5778,12 +6325,15 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
     timeout: NotRequired[float]
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
     persistence: NotRequired[DiskSpoolingTypeTypedDict]
+    r"""Disk Spooling"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_type: NotRequired[InputResponseAuthenticationMethodEdgePrometheus]
+    auth_type: NotRequired[InputResponseInputEdgePrometheusAuthenticationMethod]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     targets: NotRequired[List[InputResponseTargetTypedDict]]
+    r"""Targets"""
     record_type: NotRequired[RecordTypeOptions]
     r"""DNS record type to resolve"""
     scrape_port: NotRequired[float]
@@ -5797,6 +6347,7 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -5804,6 +6355,7 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -5838,7 +6390,7 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
     http_discovery_url: NotRequired[str]
     r"""URL to fetch target groups from (must be http or https)"""
     http_discovery_headers: NotRequired[
-        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Extra headers to send with the discovery request"""
     http_discovery_reject_unauthorized: NotRequired[bool]
@@ -5878,10 +6430,12 @@ class InputResponseInputEdgePrometheusTypedDict(TypedDict):
 
 
 class InputResponseInputEdgePrometheus(BaseModel):
-    type: InputResponseTypeEdgePrometheus
+    type: InputResponseInputEdgePrometheusType
+    r"""Connector type identifier."""
 
     discovery_type: Annotated[
-        InputResponseDiscoveryTypeEdgePrometheus, pydantic.Field(alias="discoveryType")
+        InputResponseInputEdgePrometheusDiscoveryType,
+        pydantic.Field(alias="discoveryType"),
     ]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
@@ -5892,6 +6446,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -5908,7 +6463,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -5935,19 +6490,22 @@ class InputResponseInputEdgePrometheus(BaseModel):
     r"""Timeout, in milliseconds, before aborting HTTP connection attempts; 1-60000 or 0 to disable"""
 
     persistence: Optional[DiskSpoolingType] = None
+    r"""Disk Spooling"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodEdgePrometheus],
+        Optional[InputResponseInputEdgePrometheusAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     targets: Optional[List[InputResponseTarget]] = None
+    r"""Targets"""
 
     record_type: Annotated[
         Optional[RecordTypeOptions], pydantic.Field(alias="recordType")
@@ -5975,6 +6533,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -5991,6 +6550,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""
@@ -6064,7 +6624,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     r"""URL to fetch target groups from (must be http or https)"""
 
     http_discovery_headers: Annotated[
-        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
         pydantic.Field(alias="httpDiscoveryHeaders"),
     ] = None
     r"""Extra headers to send with the discovery request"""
@@ -6150,7 +6710,7 @@ class InputResponseInputEdgePrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseDiscoveryTypeEdgePrometheus(value)
+                return models.InputResponseInputEdgePrometheusDiscoveryType(value)
             except ValueError:
                 return value
         return value
@@ -6159,7 +6719,9 @@ class InputResponseInputEdgePrometheus(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodEdgePrometheus(value)
+                return models.InputResponseInputEdgePrometheusAuthenticationMethod(
+                    value
+                )
             except ValueError:
                 return value
         return value
@@ -6272,11 +6834,9 @@ class InputResponseInputEdgePrometheus(BaseModel):
         return m
 
 
-class InputResponseTypePrometheus(str, Enum):
-    PROMETHEUS = "prometheus"
-
-
-class InputResponseDiscoveryTypePrometheus(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputPrometheusDiscoveryType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
 
     # Static
@@ -6297,7 +6857,8 @@ class InputResponseMetricsProtocol(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputResponseInputPrometheusTypedDict(TypedDict):
-    type: InputResponseTypePrometheus
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
     log_level: LogLevelOptions
@@ -6305,6 +6866,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6314,7 +6876,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -6326,7 +6888,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     r"""Other dimensions to include in events"""
     field_per_metric: NotRequired[bool]
     r"""When enabled, each metric name is used as the event field key (example: go_threads: 9) instead of the default _metric/_value format."""
-    discovery_type: NotRequired[InputResponseDiscoveryTypePrometheus]
+    discovery_type: NotRequired[InputResponseInputPrometheusDiscoveryType]
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
     reject_unauthorized: NotRequired[bool]
     r"""Reject certificates that cannot be verified against a valid CA, such as self-signed certificates"""
@@ -6347,6 +6909,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsSasl]
     r"""Enter credentials directly, or select a stored secret"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     target_list: NotRequired[List[str]]
     r"""List of Prometheus targets to pull metrics from. Values can be in URL or host[:port] format. For example: http://localhost:9090/metrics, localhost:9090, or localhost. In cases where just host[:port] is specified, the endpoint will resolve to 'http://host[:port]/metrics'."""
     record_type: NotRequired[RecordTypeOptions]
@@ -6362,6 +6925,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsS3CollectorConf]
     r"""AWS authentication method. Choose Auto to use IAM roles."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     use_public_ip: NotRequired[bool]
@@ -6369,6 +6933,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     search_filter: NotRequired[List[SearchFilterConfInputPrometheusTypedDict]]
     r"""Filter to apply when searching for EC2 instances"""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     region: NotRequired[str]
     r"""Region where the EC2 is located"""
     endpoint: NotRequired[str]
@@ -6386,7 +6951,7 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
     http_discovery_url: NotRequired[str]
     r"""URL to fetch target groups from (must be http or https)"""
     http_discovery_headers: NotRequired[
-        List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict]
     ]
     r"""Extra headers to send with the discovery request"""
     http_discovery_reject_unauthorized: NotRequired[bool]
@@ -6436,7 +7001,8 @@ class InputResponseInputPrometheusTypedDict(TypedDict):
 
 
 class InputResponseInputPrometheus(BaseModel):
-    type: InputResponseTypePrometheus
+    type: TypeOptionsPrometheus
+    r"""Connector type identifier."""
 
     interval: float
     r"""How often, in minutes, to scrape targets for metrics. Maximum of 60 minutes. 60 must be evenly divisible by the value you enter."""
@@ -6448,6 +7014,7 @@ class InputResponseInputPrometheus(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6464,7 +7031,7 @@ class InputResponseInputPrometheus(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -6488,7 +7055,7 @@ class InputResponseInputPrometheus(BaseModel):
     r"""When enabled, each metric name is used as the event field key (example: go_threads: 9) instead of the default _metric/_value format."""
 
     discovery_type: Annotated[
-        Optional[InputResponseDiscoveryTypePrometheus],
+        Optional[InputResponseInputPrometheusDiscoveryType],
         pydantic.Field(alias="discoveryType"),
     ] = None
     r"""Target discovery mechanism. Use static to manually enter a list of targets."""
@@ -6531,6 +7098,7 @@ class InputResponseInputPrometheus(BaseModel):
     r"""Enter credentials directly, or select a stored secret"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     target_list: Annotated[Optional[List[str]], pydantic.Field(alias="targetList")] = (
         None
@@ -6563,6 +7131,7 @@ class InputResponseInputPrometheus(BaseModel):
     r"""AWS authentication method. Choose Auto to use IAM roles."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -6579,6 +7148,7 @@ class InputResponseInputPrometheus(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     region: Optional[str] = None
     r"""Region where the EC2 is located"""
@@ -6617,7 +7187,7 @@ class InputResponseInputPrometheus(BaseModel):
     r"""URL to fetch target groups from (must be http or https)"""
 
     http_discovery_headers: Annotated[
-        Optional[List[HTTPDiscoveryHeaderConfInputPrometheus]],
+        Optional[List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret]],
         pydantic.Field(alias="httpDiscoveryHeaders"),
     ] = None
     r"""Extra headers to send with the discovery request"""
@@ -6728,7 +7298,7 @@ class InputResponseInputPrometheus(BaseModel):
     def serialize_discovery_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseDiscoveryTypePrometheus(value)
+                return models.InputResponseInputPrometheusDiscoveryType(value)
             except ValueError:
                 return value
         return value
@@ -6864,12 +7434,15 @@ class InputResponseInputPrometheus(BaseModel):
         return m
 
 
-class InputResponseTypePrometheusRw(str, Enum):
+class InputResponseInputPrometheusRwType(str, Enum):
+    r"""Source type identifier."""
+
     PROMETHEUS_RW = "prometheus_rw"
 
 
 class InputResponseInputPrometheusRwTypedDict(TypedDict):
-    type: InputResponseTypePrometheusRw
+    type: InputResponseInputPrometheusRwType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -6879,6 +7452,7 @@ class InputResponseInputPrometheusRwTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -6888,7 +7462,7 @@ class InputResponseInputPrometheusRwTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -6897,6 +7471,7 @@ class InputResponseInputPrometheusRwTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -6905,6 +7480,7 @@ class InputResponseInputPrometheusRwTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -6924,8 +7500,11 @@ class InputResponseInputPrometheusRwTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -6951,7 +7530,8 @@ class InputResponseInputPrometheusRwTypedDict(TypedDict):
 
 
 class InputResponseInputPrometheusRw(BaseModel):
-    type: InputResponseTypePrometheusRw
+    type: InputResponseInputPrometheusRwType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -6966,6 +7546,7 @@ class InputResponseInputPrometheusRw(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -6982,7 +7563,7 @@ class InputResponseInputPrometheusRw(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -6996,6 +7577,7 @@ class InputResponseInputPrometheusRw(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -7016,6 +7598,11 @@ class InputResponseInputPrometheusRw(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -7062,10 +7649,13 @@ class InputResponseInputPrometheusRw(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7142,6 +7732,7 @@ class InputResponseInputPrometheusRw(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -7181,12 +7772,15 @@ class InputResponseInputPrometheusRw(BaseModel):
         return m
 
 
-class InputResponseTypeLoki(str, Enum):
+class InputResponseInputLokiType(str, Enum):
+    r"""Source type identifier."""
+
     LOKI = "loki"
 
 
 class InputResponseInputLokiTypedDict(TypedDict):
-    type: InputResponseTypeLoki
+    type: InputResponseInputLokiType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -7196,6 +7790,7 @@ class InputResponseInputLokiTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7205,7 +7800,7 @@ class InputResponseInputLokiTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -7214,6 +7809,7 @@ class InputResponseInputLokiTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -7222,6 +7818,7 @@ class InputResponseInputLokiTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -7241,8 +7838,11 @@ class InputResponseInputLokiTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7266,7 +7866,8 @@ class InputResponseInputLokiTypedDict(TypedDict):
 
 
 class InputResponseInputLoki(BaseModel):
-    type: InputResponseTypeLoki
+    type: InputResponseInputLokiType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7281,6 +7882,7 @@ class InputResponseInputLoki(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7297,7 +7899,7 @@ class InputResponseInputLoki(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -7311,6 +7913,7 @@ class InputResponseInputLoki(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -7331,6 +7934,11 @@ class InputResponseInputLoki(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -7376,10 +7984,13 @@ class InputResponseInputLoki(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7451,6 +8062,7 @@ class InputResponseInputLoki(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -7490,6 +8102,8 @@ class InputResponseInputLoki(BaseModel):
 
 
 class InputResponseInputGrafanaType2(str, Enum):
+    r"""Source type identifier."""
+
     GRAFANA = "grafana"
 
 
@@ -7497,7 +8111,9 @@ class InputResponsePrometheusAuth2TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7514,8 +8130,10 @@ class InputResponsePrometheusAuth2(BaseModel):
     r"""Remote Write authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7567,7 +8185,9 @@ class InputResponseLokiAuth2TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7583,8 +8203,10 @@ class InputResponseLokiAuth2(BaseModel):
     r"""Loki logs authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7634,6 +8256,7 @@ class InputResponseLokiAuth2(BaseModel):
 
 class InputResponseInputGrafanaGrafana2TypedDict(TypedDict):
     type: InputResponseInputGrafanaType2
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -7643,6 +8266,7 @@ class InputResponseInputGrafanaGrafana2TypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -7652,7 +8276,7 @@ class InputResponseInputGrafanaGrafana2TypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -7661,6 +8285,7 @@ class InputResponseInputGrafanaGrafana2TypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -7669,6 +8294,7 @@ class InputResponseInputGrafanaGrafana2TypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -7690,6 +8316,7 @@ class InputResponseInputGrafanaGrafana2TypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -7710,6 +8337,7 @@ class InputResponseInputGrafanaGrafana2TypedDict(TypedDict):
 
 class InputResponseInputGrafanaGrafana2(BaseModel):
     type: InputResponseInputGrafanaType2
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -7724,6 +8352,7 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -7740,7 +8369,7 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -7754,6 +8383,7 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -7774,6 +8404,11 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -7827,6 +8462,7 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -7883,6 +8519,7 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -7920,6 +8557,8 @@ class InputResponseInputGrafanaGrafana2(BaseModel):
 
 
 class InputResponseInputGrafanaType1(str, Enum):
+    r"""Source type identifier."""
+
     GRAFANA = "grafana"
 
 
@@ -7927,7 +8566,9 @@ class InputResponsePrometheusAuth1TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsPrometheusAuth]
     r"""Remote Write authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -7944,8 +8585,10 @@ class InputResponsePrometheusAuth1(BaseModel):
     r"""Remote Write authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -7997,7 +8640,9 @@ class InputResponseLokiAuth1TypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationTypeOptionsLokiAuth]
     r"""Loki logs authentication type"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -8013,8 +8658,10 @@ class InputResponseLokiAuth1(BaseModel):
     r"""Loki logs authentication type"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -8064,6 +8711,7 @@ class InputResponseLokiAuth1(BaseModel):
 
 class InputResponseInputGrafanaGrafana1TypedDict(TypedDict):
     type: InputResponseInputGrafanaType1
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -8073,6 +8721,7 @@ class InputResponseInputGrafanaGrafana1TypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8082,7 +8731,7 @@ class InputResponseInputGrafanaGrafana1TypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -8091,6 +8740,7 @@ class InputResponseInputGrafanaGrafana1TypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -8099,6 +8749,7 @@ class InputResponseInputGrafanaGrafana1TypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -8120,6 +8771,7 @@ class InputResponseInputGrafanaGrafana1TypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -8140,6 +8792,7 @@ class InputResponseInputGrafanaGrafana1TypedDict(TypedDict):
 
 class InputResponseInputGrafanaGrafana1(BaseModel):
     type: InputResponseInputGrafanaType1
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -8154,6 +8807,7 @@ class InputResponseInputGrafanaGrafana1(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8170,7 +8824,7 @@ class InputResponseInputGrafanaGrafana1(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -8184,6 +8838,7 @@ class InputResponseInputGrafanaGrafana1(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -8204,6 +8859,11 @@ class InputResponseInputGrafanaGrafana1(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -8255,6 +8915,7 @@ class InputResponseInputGrafanaGrafana1(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -8311,6 +8972,7 @@ class InputResponseInputGrafanaGrafana1(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -8362,12 +9024,9 @@ InputResponseInputGrafanaUnion = TypeAliasType(
 )
 
 
-class InputResponseTypeConfluentCloud(str, Enum):
-    CONFLUENT_CLOUD = "confluent_cloud"
-
-
 class InputResponseInputConfluentCloudTypedDict(TypedDict):
-    type: InputResponseTypeConfluentCloud
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
     topics: List[str]
@@ -8375,6 +9034,7 @@ class InputResponseInputConfluentCloudTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8384,7 +9044,7 @@ class InputResponseInputConfluentCloudTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -8393,11 +9053,13 @@ class InputResponseInputConfluentCloudTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     group_id: NotRequired[str]
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -8445,6 +9107,7 @@ class InputResponseInputConfluentCloudTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -8462,7 +9125,8 @@ class InputResponseInputConfluentCloudTypedDict(TypedDict):
 
 
 class InputResponseInputConfluentCloud(BaseModel):
-    type: InputResponseTypeConfluentCloud
+    type: TypeOptionsConfluentcloud
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""List of Confluent Cloud bootstrap servers to use, such as yourAccount.confluent.cloud:9092"""
@@ -8474,6 +9138,7 @@ class InputResponseInputConfluentCloud(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8490,7 +9155,7 @@ class InputResponseInputConfluentCloud(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -8504,6 +9169,7 @@ class InputResponseInputConfluentCloud(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
     r"""The consumer group to which this instance belongs. Defaults to 'Cribl'."""
@@ -8517,6 +9183,7 @@ class InputResponseInputConfluentCloud(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -8607,6 +9274,7 @@ class InputResponseInputConfluentCloud(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -8699,11 +9367,17 @@ class InputResponseInputConfluentCloud(BaseModel):
         return m
 
 
-class InputResponseTypeElastic(str, Enum):
+class InputResponseInputElasticType(str, Enum):
+    r"""Source type identifier."""
+
     ELASTIC = "elastic"
 
 
-class InputResponseAuthenticationTypeElastic(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputElasticAuthenticationType(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
+    r"""Authentication type"""
+
     # None
     NONE = "none"
     # Basic
@@ -8725,7 +9399,9 @@ class InputResponseAPIVersion(str, Enum, metaclass=utils.OpenEnumMeta):
     CUSTOM = "custom"
 
 
-class InputResponseAuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputElasticAuthenticationMethod(
+    str, Enum, metaclass=utils.OpenEnumMeta
+):
     r"""Enter credentials directly, or select a stored secret"""
 
     NONE = "none"
@@ -8733,13 +9409,15 @@ class InputResponseAuthenticationMethodElastic(str, Enum, metaclass=utils.OpenEn
     SECRET = "secret"
 
 
-class InputResponseProxyModeElasticTypedDict(TypedDict):
+class InputResponseInputElasticProxyModeTypedDict(TypedDict):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
-    auth_type: NotRequired[InputResponseAuthenticationMethodElastic]
+    auth_type: NotRequired[InputResponseInputElasticAuthenticationMethod]
     r"""Enter credentials directly, or select a stored secret"""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     url: NotRequired[str]
@@ -8754,19 +9432,21 @@ class InputResponseProxyModeElasticTypedDict(TypedDict):
     r"""Binds 'url' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'url' at runtime."""
 
 
-class InputResponseProxyModeElastic(BaseModel):
+class InputResponseInputElasticProxyMode(BaseModel):
     enabled: bool
     r"""Enable proxying of non-bulk API requests to an external Elastic server. Enable this only if you understand the implications. See [Cribl Docs](https://docs.cribl.io/stream/sources-elastic/#proxy-mode) for more details."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationMethodElastic],
+        Optional[InputResponseInputElasticAuthenticationMethod],
         pydantic.Field(alias="authType"),
     ] = None
     r"""Enter credentials directly, or select a stored secret"""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -8798,7 +9478,7 @@ class InputResponseProxyModeElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationMethodElastic(value)
+                return models.InputResponseInputElasticAuthenticationMethod(value)
             except ValueError:
                 return value
         return value
@@ -8833,7 +9513,8 @@ class InputResponseProxyModeElastic(BaseModel):
 
 
 class InputResponseInputElasticTypedDict(TypedDict):
-    type: InputResponseTypeElastic
+    type: InputResponseInputElasticType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -8843,6 +9524,7 @@ class InputResponseInputElasticTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -8852,7 +9534,7 @@ class InputResponseInputElasticTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -8861,6 +9543,7 @@ class InputResponseInputElasticTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -8869,6 +9552,7 @@ class InputResponseInputElasticTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -8883,17 +9567,21 @@ class InputResponseInputElasticTypedDict(TypedDict):
     r"""Messages from matched IP addresses will be processed, unless also matched by the denylist"""
     ip_denylist_regex: NotRequired[str]
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
-    auth_type: NotRequired[InputResponseAuthenticationTypeElastic]
+    auth_type: NotRequired[InputResponseInputElasticAuthenticationType]
+    r"""Authentication type"""
     api_version: NotRequired[InputResponseAPIVersion]
     r"""The API version to use for communicating with the server"""
     extra_http_headers: NotRequired[List[ExtraHTTPHeaderConfInputElasticTypedDict]]
     r"""Headers to add to all events"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    proxy_mode: NotRequired[InputResponseProxyModeElasticTypedDict]
+    proxy_mode: NotRequired[InputResponseInputElasticProxyModeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     credentials_secret: NotRequired[str]
     r"""Select or create a secret that references your credentials"""
     auth_tokens: NotRequired[List[str]]
@@ -8919,7 +9607,8 @@ class InputResponseInputElasticTypedDict(TypedDict):
 
 
 class InputResponseInputElastic(BaseModel):
-    type: InputResponseTypeElastic
+    type: InputResponseInputElasticType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -8934,6 +9623,7 @@ class InputResponseInputElastic(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -8950,7 +9640,7 @@ class InputResponseInputElastic(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -8964,6 +9654,7 @@ class InputResponseInputElastic(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -8984,6 +9675,11 @@ class InputResponseInputElastic(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -9021,9 +9717,10 @@ class InputResponseInputElastic(BaseModel):
     r"""Messages from matched IP addresses will be ignored. This takes precedence over the allowlist."""
 
     auth_type: Annotated[
-        Optional[InputResponseAuthenticationTypeElastic],
+        Optional[InputResponseInputElasticAuthenticationType],
         pydantic.Field(alias="authType"),
     ] = None
+    r"""Authentication type"""
 
     api_version: Annotated[
         Optional[InputResponseAPIVersion], pydantic.Field(alias="apiVersion")
@@ -9040,14 +9737,17 @@ class InputResponseInputElastic(BaseModel):
     r"""Fields to add to events from this input"""
 
     proxy_mode: Annotated[
-        Optional[InputResponseProxyModeElastic], pydantic.Field(alias="proxyMode")
+        Optional[InputResponseInputElasticProxyMode], pydantic.Field(alias="proxyMode")
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     credentials_secret: Annotated[
         Optional[str], pydantic.Field(alias="credentialsSecret")
@@ -9104,7 +9804,7 @@ class InputResponseInputElastic(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationTypeElastic(value)
+                return models.InputResponseInputElasticAuthenticationType(value)
             except ValueError:
                 return value
         return value
@@ -9137,6 +9837,7 @@ class InputResponseInputElastic(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -9179,17 +9880,15 @@ class InputResponseInputElastic(BaseModel):
         return m
 
 
-class InputResponseTypeAzureBlob(str, Enum):
-    AZURE_BLOB = "azure_blob"
-
-
 class InputResponseInputAzureBlobTypedDict(TypedDict):
-    type: InputResponseTypeAzureBlob
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
     queue_name: str
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9199,7 +9898,7 @@ class InputResponseInputAzureBlobTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -9230,7 +9929,9 @@ class InputResponseInputAzureBlobTypedDict(TypedDict):
     parquet_chunk_download_timeout: NotRequired[float]
     r"""The maximum time allowed for downloading a Parquet chunk. Processing will stop if a chunk cannot be downloaded within the time specified."""
     auth_type: NotRequired[AuthenticationMethodOptions]
+    r"""Authentication method"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     connection_string: NotRequired[str]
     r"""Enter your Azure Storage account connection string. If left blank, Stream will fall back to env.AZURE_STORAGE_CONNECTION_STRING."""
     text_secret: NotRequired[str]
@@ -9247,7 +9948,7 @@ class InputResponseInputAzureBlobTypedDict(TypedDict):
     r"""Endpoint suffix for the service URL. Takes precedence over the Azure Cloud setting. Defaults to core.windows.net."""
     client_text_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
-    certificate: NotRequired[CertificateTypeAzureBlobAuthTypeClientCertTypedDict]
+    certificate: NotRequired[CertificateTypeTypedDict]
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -9271,7 +9972,8 @@ class InputResponseInputAzureBlobTypedDict(TypedDict):
 
 
 class InputResponseInputAzureBlob(BaseModel):
-    type: InputResponseTypeAzureBlob
+    type: TypeOptionsAzureblob
+    r"""Connector type identifier."""
 
     queue_name: Annotated[str, pydantic.Field(alias="queueName")]
     r"""The storage account queue name blob notifications will be read from. Value must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myQueue-${C.vars.myVar}`"""
@@ -9280,6 +9982,7 @@ class InputResponseInputAzureBlob(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9296,7 +9999,7 @@ class InputResponseInputAzureBlob(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -9359,8 +10062,10 @@ class InputResponseInputAzureBlob(BaseModel):
     auth_type: Annotated[
         Optional[AuthenticationMethodOptions], pydantic.Field(alias="authType")
     ] = None
+    r"""Authentication method"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     connection_string: Annotated[
         Optional[str], pydantic.Field(alias="connectionString")
@@ -9394,7 +10099,7 @@ class InputResponseInputAzureBlob(BaseModel):
     ] = None
     r"""Select or create a stored text secret"""
 
-    certificate: Optional[CertificateTypeAzureBlobAuthTypeClientCert] = None
+    certificate: Optional[CertificateType] = None
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -9513,11 +10218,13 @@ class InputResponseInputAzureBlob(BaseModel):
         return m
 
 
-class InputResponseTypeSplunkHec(str, Enum):
+class InputResponseInputSplunkHecType(str, Enum):
+    r"""Source type identifier."""
+
     SPLUNK_HEC = "splunk_hec"
 
 
-class InputResponseAuthTokenSplunkHecTypedDict(TypedDict):
+class InputResponseInputSplunkHecAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
@@ -9525,6 +10232,7 @@ class InputResponseAuthTokenSplunkHecTypedDict(TypedDict):
     token_secret: NotRequired[str]
     r"""Select or create a stored text secret"""
     enabled: NotRequired[bool]
+    r"""If true, the token is active and can be used for authentication."""
     description: NotRequired[str]
     r"""Optional token description"""
     allowed_indexes_at_token: NotRequired[List[str]]
@@ -9533,7 +10241,7 @@ class InputResponseAuthTokenSplunkHecTypedDict(TypedDict):
     r"""Fields to add to events referencing this token"""
 
 
-class InputResponseAuthTokenSplunkHec(BaseModel):
+class InputResponseInputSplunkHecAuthToken(BaseModel):
     token: str
     r"""Shared secret to be provided by any client (Authorization: <token>)"""
 
@@ -9547,6 +10255,7 @@ class InputResponseAuthTokenSplunkHec(BaseModel):
     r"""Select or create a stored text secret"""
 
     enabled: Optional[bool] = None
+    r"""If true, the token is active and can be used for authentication."""
 
     description: Optional[str] = None
     r"""Optional token description"""
@@ -9595,7 +10304,8 @@ class InputResponseAuthTokenSplunkHec(BaseModel):
 
 
 class InputResponseInputSplunkHecTypedDict(TypedDict):
-    type: InputResponseTypeSplunkHec
+    type: InputResponseInputSplunkHecType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -9605,6 +10315,7 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -9614,7 +10325,7 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -9622,9 +10333,10 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
-    auth_tokens: NotRequired[List[InputResponseAuthTokenSplunkHecTypedDict]]
+    auth_tokens: NotRequired[List[InputResponseInputSplunkHecAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -9633,6 +10345,7 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -9668,6 +10381,7 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
     emit_token_metrics: NotRequired[bool]
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -9685,7 +10399,8 @@ class InputResponseInputSplunkHecTypedDict(TypedDict):
 
 
 class InputResponseInputSplunkHec(BaseModel):
-    type: InputResponseTypeSplunkHec
+    type: InputResponseInputSplunkHecType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -9700,6 +10415,7 @@ class InputResponseInputSplunkHec(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -9716,7 +10432,7 @@ class InputResponseInputSplunkHec(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -9730,12 +10446,13 @@ class InputResponseInputSplunkHec(BaseModel):
     pq: Optional[PqType] = None
 
     auth_tokens: Annotated[
-        Optional[List[InputResponseAuthTokenSplunkHec]],
+        Optional[List[InputResponseInputSplunkHecAuthToken]],
         pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -9756,6 +10473,11 @@ class InputResponseInputSplunkHec(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -9841,6 +10563,7 @@ class InputResponseInputSplunkHec(BaseModel):
     r"""Emit per-token (<prefix>.http.perToken) and summary (<prefix>.http.summary) request metrics"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -9893,6 +10616,7 @@ class InputResponseInputSplunkHec(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -9934,18 +10658,22 @@ class InputResponseInputSplunkHec(BaseModel):
         return m
 
 
-class InputResponseTypeSplunkSearch(str, Enum):
+class InputResponseInputSplunkSearchType(str, Enum):
+    r"""Connector type identifier."""
+
     SPLUNK_SEARCH = "splunk_search"
 
 
 class InputResponseEndpointParamTypedDict(TypedDict):
     name: str
+    r"""Parameter Name"""
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
 class InputResponseEndpointParam(BaseModel):
     name: str
+    r"""Parameter Name"""
 
     value: str
     r"""JavaScript expression to compute the parameter's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
@@ -9953,18 +10681,20 @@ class InputResponseEndpointParam(BaseModel):
 
 class InputResponseEndpointHeaderTypedDict(TypedDict):
     name: str
+    r"""Header Name"""
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
 class InputResponseEndpointHeader(BaseModel):
     name: str
+    r"""Header Name"""
 
     value: str
     r"""JavaScript expression to compute the header's value, normally enclosed in backticks (e.g., `${earliest}`). If a constant, use single quotes (e.g., 'earliest'). Values without delimiters (e.g., earliest) are evaluated as strings."""
 
 
-class InputResponseLogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta):
+class InputResponseInputSplunkSearchLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Collector runtime log level (verbosity)"""
 
     ERROR = "error"
@@ -9973,7 +10703,7 @@ class InputResponseLogLevelSplunkSearch(str, Enum, metaclass=utils.OpenEnumMeta)
     DEBUG = "debug"
 
 
-class InputResponseAuthenticationTypeSplunkSearch(
+class InputResponseInputSplunkSearchAuthenticationType(
     str, Enum, metaclass=utils.OpenEnumMeta
 ):
     r"""Splunk Search authentication type"""
@@ -9991,7 +10721,8 @@ class InputResponseAuthenticationTypeSplunkSearch(
 
 
 class InputResponseInputSplunkSearchTypedDict(TypedDict):
-    type: InputResponseTypeSplunkSearch
+    type: InputResponseInputSplunkSearchType
+    r"""Connector type identifier."""
     search_head: str
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
     search: str
@@ -10002,11 +10733,12 @@ class InputResponseInputSplunkSearchTypedDict(TypedDict):
     r"""REST API used to create a search"""
     output_mode: OutputModeOptionsSplunkCollectorConf
     r"""Format of the returned output"""
-    auth_type: InputResponseAuthenticationTypeSplunkSearch
+    auth_type: InputResponseInputSplunkSearchAuthenticationType
     r"""Splunk Search authentication type"""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10016,7 +10748,7 @@ class InputResponseInputSplunkSearchTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -10032,7 +10764,7 @@ class InputResponseInputSplunkSearchTypedDict(TypedDict):
     r"""Optional request parameters to send to the endpoint"""
     endpoint_headers: NotRequired[List[InputResponseEndpointHeaderTypedDict]]
     r"""Optional request headers to send to the endpoint"""
-    log_level: NotRequired[InputResponseLogLevelSplunkSearch]
+    log_level: NotRequired[InputResponseInputSplunkSearchLogLevel]
     r"""Collector runtime log level (verbosity)"""
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 for no timeout."""
@@ -10060,8 +10792,11 @@ class InputResponseInputSplunkSearchTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     username: NotRequired[str]
+    r"""Username"""
     password: NotRequired[str]
+    r"""Password"""
     token: NotRequired[str]
     r"""Bearer token to include in the authorization header"""
     credentials_secret: NotRequired[str]
@@ -10091,7 +10826,8 @@ class InputResponseInputSplunkSearchTypedDict(TypedDict):
 
 
 class InputResponseInputSplunkSearch(BaseModel):
-    type: InputResponseTypeSplunkSearch
+    type: InputResponseInputSplunkSearchType
+    r"""Connector type identifier."""
 
     search_head: Annotated[str, pydantic.Field(alias="searchHead")]
     r"""Search head base URL. Can be an expression. Default is https://localhost:8089."""
@@ -10111,7 +10847,8 @@ class InputResponseInputSplunkSearch(BaseModel):
     r"""Format of the returned output"""
 
     auth_type: Annotated[
-        InputResponseAuthenticationTypeSplunkSearch, pydantic.Field(alias="authType")
+        InputResponseInputSplunkSearchAuthenticationType,
+        pydantic.Field(alias="authType"),
     ]
     r"""Splunk Search authentication type"""
 
@@ -10119,6 +10856,7 @@ class InputResponseInputSplunkSearch(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10135,7 +10873,7 @@ class InputResponseInputSplunkSearch(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -10167,7 +10905,8 @@ class InputResponseInputSplunkSearch(BaseModel):
     r"""Optional request headers to send to the endpoint"""
 
     log_level: Annotated[
-        Optional[InputResponseLogLevelSplunkSearch], pydantic.Field(alias="logLevel")
+        Optional[InputResponseInputSplunkSearchLogLevel],
+        pydantic.Field(alias="logLevel"),
     ] = None
     r"""Collector runtime log level (verbosity)"""
 
@@ -10228,10 +10967,13 @@ class InputResponseInputSplunkSearch(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     username: Optional[str] = None
+    r"""Username"""
 
     password: Optional[str] = None
+    r"""Password"""
 
     token: Optional[str] = None
     r"""Bearer token to include in the authorization header"""
@@ -10303,7 +11045,7 @@ class InputResponseInputSplunkSearch(BaseModel):
     def serialize_log_level(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseLogLevelSplunkSearch(value)
+                return models.InputResponseInputSplunkSearchLogLevel(value)
             except ValueError:
                 return value
         return value
@@ -10312,7 +11054,7 @@ class InputResponseInputSplunkSearch(BaseModel):
     def serialize_auth_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputResponseAuthenticationTypeSplunkSearch(value)
+                return models.InputResponseInputSplunkSearchAuthenticationType(value)
             except ValueError:
                 return value
         return value
@@ -10381,21 +11123,19 @@ class InputResponseInputSplunkSearch(BaseModel):
         return m
 
 
-class InputResponseTypeSplunk(str, Enum):
-    SPLUNK = "splunk"
-
-
-class InputResponseAuthTokenSplunkTypedDict(TypedDict):
+class InputResponseInputSplunkAuthTokenTypedDict(TypedDict):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    r"""Description"""
 
 
-class InputResponseAuthTokenSplunk(BaseModel):
+class InputResponseInputSplunkAuthToken(BaseModel):
     token: str
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+    r"""Description"""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
@@ -10435,7 +11175,8 @@ class InputResponseCompression(str, Enum, metaclass=utils.OpenEnumMeta):
 
 
 class InputResponseInputSplunkTypedDict(TypedDict):
-    type: InputResponseTypeSplunk
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -10443,6 +11184,7 @@ class InputResponseInputSplunkTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10452,7 +11194,7 @@ class InputResponseInputSplunkTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -10461,6 +11203,7 @@ class InputResponseInputSplunkTypedDict(TypedDict):
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     ip_whitelist_regex: NotRequired[str]
     r"""Regex matching IP addresses that are allowed to establish a connection"""
     max_active_cxn: NotRequired[float]
@@ -10479,11 +11222,12 @@ class InputResponseInputSplunkTypedDict(TypedDict):
     r"""A list of event-breaking rulesets that will be applied, in order, to the input data stream"""
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
-    auth_tokens: NotRequired[List[InputResponseAuthTokenSplunkTypedDict]]
+    auth_tokens: NotRequired[List[InputResponseInputSplunkAuthTokenTypedDict]]
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
     max_s2_sversion: NotRequired[InputResponseMaxS2SVersion]
     r"""The highest S2S protocol version to advertise during handshake"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     use_fwd_timezone: NotRequired[bool]
     r"""Event Breakers will determine events' time zone from UF-provided metadata, when TZ can't be inferred from the raw event"""
     drop_control_fields: NotRequired[bool]
@@ -10511,7 +11255,8 @@ class InputResponseInputSplunkTypedDict(TypedDict):
 
 
 class InputResponseInputSplunk(BaseModel):
-    type: InputResponseTypeSplunk
+    type: TypeOptionsSplunk
+    r"""Connector type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -10523,6 +11268,7 @@ class InputResponseInputSplunk(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10539,7 +11285,7 @@ class InputResponseInputSplunk(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -10553,6 +11299,7 @@ class InputResponseInputSplunk(BaseModel):
     pq: Optional[PqType] = None
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     ip_whitelist_regex: Annotated[
         Optional[str], pydantic.Field(alias="ipWhitelistRegex")
@@ -10598,7 +11345,8 @@ class InputResponseInputSplunk(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     auth_tokens: Annotated[
-        Optional[List[InputResponseAuthTokenSplunk]], pydantic.Field(alias="authTokens")
+        Optional[List[InputResponseInputSplunkAuthToken]],
+        pydantic.Field(alias="authTokens"),
     ] = None
     r"""Shared secrets to be provided by any Splunk forwarder. If empty, unauthorized access is permitted."""
 
@@ -10608,6 +11356,7 @@ class InputResponseInputSplunk(BaseModel):
     r"""The highest S2S protocol version to advertise during handshake"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     use_fwd_timezone: Annotated[
         Optional[bool], pydantic.Field(alias="useFwdTimezone")
@@ -10736,12 +11485,15 @@ class InputResponseInputSplunk(BaseModel):
         return m
 
 
-class InputResponseTypeHTTP(str, Enum):
+class InputResponseInputHTTPType(str, Enum):
+    r"""Source type identifier."""
+
     HTTP = "http"
 
 
 class InputResponseInputHTTPTypedDict(TypedDict):
-    type: InputResponseTypeHTTP
+    type: InputResponseInputHTTPType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -10749,6 +11501,7 @@ class InputResponseInputHTTPTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -10758,7 +11511,7 @@ class InputResponseInputHTTPTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -10769,6 +11522,7 @@ class InputResponseInputHTTPTypedDict(TypedDict):
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -10777,6 +11531,7 @@ class InputResponseInputHTTPTypedDict(TypedDict):
     r"""Extract the client IP and port from PROXY protocol v1/v2. When enabled, the X-Forwarded-For header is ignored. Disable to use the X-Forwarded-For header for client IP extraction."""
     capture_headers: NotRequired[bool]
     r"""Add request headers to events, in the __headers field"""
+    capture_headers_warning: Literal[""]
     activity_log_sample_rate: NotRequired[float]
     r"""How often request activity is logged at the `info` level. A value of 1 would log every request, 10 every 10th request, etc."""
     request_timeout: NotRequired[float]
@@ -10798,11 +11553,13 @@ class InputResponseInputHTTPTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
+    r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     auth_tokens_ext: NotRequired[List[AuthTokensExtConfInputHTTPTypedDict]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -10826,7 +11583,8 @@ class InputResponseInputHTTPTypedDict(TypedDict):
 
 
 class InputResponseInputHTTP(BaseModel):
-    type: InputResponseTypeHTTP
+    type: InputResponseInputHTTPType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -10838,6 +11596,7 @@ class InputResponseInputHTTP(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -10854,7 +11613,7 @@ class InputResponseInputHTTP(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -10873,6 +11632,7 @@ class InputResponseInputHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -10893,6 +11653,11 @@ class InputResponseInputHTTP(BaseModel):
         Optional[bool], pydantic.Field(alias="captureHeaders")
     ] = None
     r"""Add request headers to events, in the __headers field"""
+
+    CAPTURE_HEADERS_WARNING: Annotated[
+        Annotated[Optional[Literal[""]], AfterValidator(validate_const(""))],
+        pydantic.Field(alias="captureHeadersWarning"),
+    ] = ""
 
     activity_log_sample_rate: Annotated[
         Optional[float], pydantic.Field(alias="activityLogSampleRate")
@@ -10943,6 +11708,7 @@ class InputResponseInputHTTP(BaseModel):
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
+    r"""Enable Splunk HEC acknowledgements"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
@@ -10954,6 +11720,7 @@ class InputResponseInputHTTP(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -11021,6 +11788,7 @@ class InputResponseInputHTTP(BaseModel):
                 "maxRequestsPerSocket",
                 "enableProxyHeader",
                 "captureHeaders",
+                "captureHeadersWarning",
                 "activityLogSampleRate",
                 "requestTimeout",
                 "socketTimeout",
@@ -11061,12 +11829,9 @@ class InputResponseInputHTTP(BaseModel):
         return m
 
 
-class InputResponseTypeMsk(str, Enum):
-    MSK = "msk"
-
-
 class InputResponseInputMskTypedDict(TypedDict):
-    type: InputResponseTypeMsk
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
@@ -11078,6 +11843,7 @@ class InputResponseInputMskTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -11087,7 +11853,7 @@ class InputResponseInputMskTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -11118,6 +11884,7 @@ class InputResponseInputMskTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -11135,6 +11902,7 @@ class InputResponseInputMskTypedDict(TypedDict):
     reauthentication_threshold: NotRequired[float]
     r"""Specifies a time window during which @{product} can reauthenticate if needed. Creates the window measuring backward from the moment when credentials are set to expire."""
     aws_secret_key: NotRequired[str]
+    r"""Secret key"""
     endpoint: NotRequired[str]
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
     reuse_connections: NotRequired[bool]
@@ -11150,6 +11918,7 @@ class InputResponseInputMskTypedDict(TypedDict):
     duration_seconds: NotRequired[float]
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     auto_commit_interval: NotRequired[float]
     r"""How often to commit offsets. If both this and Offset commit threshold are set, @{product} commits offsets when either condition is met. If both are empty, @{product} commits offsets after each batch."""
     auto_commit_threshold: NotRequired[float]
@@ -11161,7 +11930,9 @@ class InputResponseInputMskTypedDict(TypedDict):
     max_socket_errors: NotRequired[float]
     r"""Maximum number of network errors before the consumer re-creates a socket"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_api_key: NotRequired[str]
+    r"""Access key"""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     template_environment: NotRequired[str]
@@ -11193,7 +11964,8 @@ class InputResponseInputMskTypedDict(TypedDict):
 
 
 class InputResponseInputMsk(BaseModel):
-    type: InputResponseTypeMsk
+    type: TypeOptionsMsk
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -11214,6 +11986,7 @@ class InputResponseInputMsk(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11230,7 +12003,7 @@ class InputResponseInputMsk(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -11283,6 +12056,7 @@ class InputResponseInputMsk(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -11321,6 +12095,7 @@ class InputResponseInputMsk(BaseModel):
     aws_secret_key: Annotated[Optional[str], pydantic.Field(alias="awsSecretKey")] = (
         None
     )
+    r"""Secret key"""
 
     endpoint: Optional[str] = None
     r"""MSK cluster service endpoint. If empty, defaults to the AWS Region-specific endpoint. Otherwise, it must point to MSK cluster-compatible endpoint."""
@@ -11356,6 +12131,7 @@ class InputResponseInputMsk(BaseModel):
     r"""Duration of the assumed role's session, in seconds. Minimum is 900 (15 minutes), default is 3600 (1 hour), and maximum is 43200 (12 hours)."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     auto_commit_interval: Annotated[
         Optional[float], pydantic.Field(alias="autoCommitInterval")
@@ -11381,8 +12157,10 @@ class InputResponseInputMsk(BaseModel):
     r"""Maximum number of network errors before the consumer re-creates a socket"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
+    r"""Access key"""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""
@@ -11532,12 +12310,9 @@ class InputResponseInputMsk(BaseModel):
         return m
 
 
-class InputResponseTypeKafka(str, Enum):
-    KAFKA = "kafka"
-
-
 class InputResponseInputKafkaTypedDict(TypedDict):
-    type: InputResponseTypeKafka
+    type: TypeOptions
+    r"""Connector type identifier."""
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
     topics: List[str]
@@ -11545,6 +12320,7 @@ class InputResponseInputKafkaTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -11554,7 +12330,7 @@ class InputResponseInputKafkaTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -11567,6 +12343,7 @@ class InputResponseInputKafkaTypedDict(TypedDict):
     from_beginning: NotRequired[bool]
     r"""Leave enabled if you want the Source, upon first subscribing to a topic, to read starting with the earliest available message"""
     kafka_schema_registry: NotRequired[KafkaSchemaRegistryAuthenticationTypeTypedDict]
+    r"""Kafka Schema Registry Authentication"""
     connection_timeout: NotRequired[float]
     r"""Maximum time to wait for a connection to complete successfully"""
     request_timeout: NotRequired[float]
@@ -11586,6 +12363,7 @@ class InputResponseInputKafkaTypedDict(TypedDict):
     sasl: NotRequired[AuthenticationTypeTypedDict]
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     session_timeout: NotRequired[float]
     r"""
     Timeout used to detect client failures when using Kafka's group-management facilities.
@@ -11615,6 +12393,7 @@ class InputResponseInputKafkaTypedDict(TypedDict):
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -11632,7 +12411,8 @@ class InputResponseInputKafkaTypedDict(TypedDict):
 
 
 class InputResponseInputKafka(BaseModel):
-    type: InputResponseTypeKafka
+    type: TypeOptions
+    r"""Connector type identifier."""
 
     brokers: List[str]
     r"""Enter each Kafka bootstrap server you want to use. Specify the hostname and port (such as mykafkabroker:9092) or just the hostname (in which case @{product} will assign port 9092)."""
@@ -11644,6 +12424,7 @@ class InputResponseInputKafka(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -11660,7 +12441,7 @@ class InputResponseInputKafka(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -11685,6 +12466,7 @@ class InputResponseInputKafka(BaseModel):
         Optional[KafkaSchemaRegistryAuthenticationType],
         pydantic.Field(alias="kafkaSchemaRegistry"),
     ] = None
+    r"""Kafka Schema Registry Authentication"""
 
     connection_timeout: Annotated[
         Optional[float], pydantic.Field(alias="connectionTimeout")
@@ -11724,6 +12506,7 @@ class InputResponseInputKafka(BaseModel):
     r"""Authentication parameters to use when connecting to brokers. Using TLS is highly recommended."""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     session_timeout: Annotated[
         Optional[float], pydantic.Field(alias="sessionTimeout")
@@ -11777,6 +12560,7 @@ class InputResponseInputKafka(BaseModel):
     r"""Fields to add to events from this input"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -11869,15 +12653,21 @@ class InputResponseInputKafka(BaseModel):
         return m
 
 
-class InputResponseTypeCollection(str, Enum):
+class InputResponseInputCollectionType(str, Enum):
+    r"""Resource type identifier."""
+
     COLLECTION = "collection"
 
 
 class InputResponseInputCollectionTypedDict(TypedDict):
-    type: InputResponseTypeCollection
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
+    type: InputResponseInputCollectionType
+    r"""Resource type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process results"""
     send_to_routes: NotRequired[bool]
@@ -11887,7 +12677,7 @@ class InputResponseInputCollectionTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     cribl_source_provenance: NotRequired[
         InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraintTypedDict
     ]
@@ -11900,6 +12690,7 @@ class InputResponseInputCollectionTypedDict(TypedDict):
     stale_channel_flush_ms: NotRequired[float]
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
     preprocess: NotRequired[PreprocessTypeTypedDict]
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
     throttle_rate_per_sec: NotRequired[str]
     r"""Rate (in bytes per second) to throttle while writing to an output. Accepts values with multiple-byte units, such as KB, MB, and GB. (Example: 42 MB) Default value of 0 specifies no throttling."""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
@@ -11917,12 +12708,16 @@ class InputResponseInputCollectionTypedDict(TypedDict):
 
 
 class InputResponseInputCollection(BaseModel):
-    type: InputResponseTypeCollection
+    r"""Input settings for a collection job, including event breaking, routing, and preprocessing options."""
+
+    type: InputResponseInputCollectionType
+    r"""Resource type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process results"""
@@ -11939,7 +12734,7 @@ class InputResponseInputCollection(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     cribl_source_provenance: Annotated[
         Optional[InputCollectionOriginDataSourceDiscoveryWithDestinationArnConstraint],
@@ -11963,6 +12758,7 @@ class InputResponseInputCollection(BaseModel):
     r"""How long (in milliseconds) the Event Breaker will wait for new data to be sent to a specific channel before flushing the data stream out, as is, to the Pipelines"""
 
     preprocess: Optional[PreprocessType] = None
+    r"""Optional preprocessing step that pipes collected data through an external command before ingestion."""
 
     throttle_rate_per_sec: Annotated[
         Optional[str], pydantic.Field(alias="throttleRatePerSec")
@@ -12035,71 +12831,74 @@ InputResponseTypedDict = TypeAliasType(
     "InputResponseTypedDict",
     Union[
         InputResponseInputDatagenTypedDict,
-        InputResponseInputKubeEventsTypedDict,
         InputResponseInputCriblTypedDict,
+        InputResponseInputKubeEventsTypedDict,
         InputResponseInputAppleUnifiedLogsTypedDict,
         InputResponseInputCriblmetricsTypedDict,
         InputResponseInputCollectionTypedDict,
-        InputResponseInputKubeMetricsTypedDict,
         InputResponseInputSystemStateTypedDict,
-        InputResponseInputSystemMetricsTypedDict,
+        InputResponseInputKubeMetricsTypedDict,
         InputResponseInputWindowsMetricsTypedDict,
+        InputResponseInputSystemMetricsTypedDict,
         InputResponseInputJournalFilesTypedDict,
         InputResponseInputModelDrivenTelemetryTypedDict,
         InputResponseInputExecTypedDict,
         InputResponseInputRawUDPTypedDict,
-        InputResponseInputAnthropicComplianceTypedDict,
-        InputResponseInputWinEventLogsTypedDict,
         InputResponseInputKubeLogsTypedDict,
         InputResponseInputSnmpTypedDict,
+        InputResponseInputWinEventLogsTypedDict,
         InputResponseInputMetricsTypedDict,
-        InputResponseInputNetflowTypedDict,
         InputResponseInputCriblTCPTypedDict,
+        InputResponseInputNetflowTypedDict,
         InputResponseInputOpenaiTypedDict,
         InputResponseInputOktaTypedDict,
-        InputResponseInputEventhubAmqpTypedDict,
         InputResponseInputTcpjsonTypedDict,
+        InputResponseInputEventhubAmqpTypedDict,
         InputResponseInputGooglePubsubTypedDict,
         InputResponseInputCriblHTTPTypedDict,
         InputResponseInputTCPTypedDict,
-        InputResponseInputDatadogAgentTypedDict,
-        InputResponseInputFirehoseTypedDict,
         InputResponseInputOffice365ServiceTypedDict,
+        InputResponseInputFirehoseTypedDict,
         InputResponseInputWizTypedDict,
+        InputResponseInputAnthropicComplianceTypedDict,
         InputResponseInputAppscopeTypedDict,
-        InputResponseInputFileTypedDict,
-        InputResponseInputSplunkTypedDict,
         InputResponseInputOffice365MgmtTypedDict,
-        InputResponseInputZscalerHecTypedDict,
+        InputResponseInputSplunkTypedDict,
+        InputResponseInputFileTypedDict,
+        InputResponseInputDatadogAgentTypedDict,
         InputResponseInputWefTypedDict,
         InputResponseInputWizWebhookTypedDict,
-        InputResponseInputHTTPRawTypedDict,
         InputResponseInputLokiTypedDict,
         InputResponseInputPrometheusRwTypedDict,
-        InputResponseInputCriblLakeHTTPTypedDict,
-        InputResponseInputHTTPTypedDict,
-        InputResponseInputConfluentCloudTypedDict,
         InputResponseInputKafkaTypedDict,
+        InputResponseInputUpwindHecTypedDict,
+        InputResponseInputSysdigHecTypedDict,
         InputResponseInputEventhubTypedDict,
-        InputResponseInputCloudflareHecTypedDict,
-        InputResponseInputOpenaiComplianceLogsTypedDict,
+        InputResponseInputConfluentCloudTypedDict,
+        InputResponseInputZscalerHecTypedDict,
+        InputResponseInputHTTPTypedDict,
+        InputResponseInputCriblLakeHTTPTypedDict,
         InputResponseInputAzureBlobTypedDict,
-        InputResponseInputOpenTelemetryTypedDict,
+        InputResponseInputOpenaiComplianceLogsTypedDict,
+        InputResponseInputCloudflareHecTypedDict,
         InputResponseInputElasticTypedDict,
-        InputResponseInputSplunkHecTypedDict,
+        InputResponseInputOpenTelemetryTypedDict,
         InputResponseInputSqsTypedDict,
-        InputResponseInputMicrosoftGraphTypedDict,
+        InputResponseInputSplunkHecTypedDict,
         InputResponseInputKinesisTypedDict,
+        InputResponseInputMicrosoftGraphTypedDict,
         InputResponseInputOffice365MsgTraceTypedDict,
+        InputResponseInputHTTPRawTypedDict,
         InputResponseInputSplunkSearchTypedDict,
-        InputResponseInputCrowdstrikeTypedDict,
         InputResponseInputServicenowTableTypedDict,
-        InputResponseInputSecurityLakeTypedDict,
-        InputResponseInputS3TypedDict,
-        InputResponseInputS3InventoryTypedDict,
         InputResponseInputMskTypedDict,
         InputResponseInputEdgePrometheusTypedDict,
+        InputResponseInputCrowdstrikeTypedDict,
+        InputResponseInputBedrockS3TypedDict,
         InputResponseInputPrometheusTypedDict,
+        InputResponseInputS3TypedDict,
+        InputResponseInputSecurityLakeTypedDict,
+        InputResponseInputS3InventoryTypedDict,
         InputResponseInputGrafanaUnionTypedDict,
         InputResponseInputSyslogUnionTypedDict,
     ],
@@ -12180,9 +12979,12 @@ _INPUT_RESPONSE_VARIANTS: dict[str, Any] = {
     "wiz_webhook": InputResponseInputWizWebhook,
     "netflow": InputResponseInputNetflow,
     "security_lake": InputResponseInputSecurityLake,
+    "bedrock_s3": InputResponseInputBedrockS3,
     "servicenow_table": InputResponseInputServicenowTable,
     "zscaler_hec": InputResponseInputZscalerHec,
     "cloudflare_hec": InputResponseInputCloudflareHec,
+    "sysdig_hec": InputResponseInputSysdigHec,
+    "upwind_hec": InputResponseInputUpwindHec,
     "openai_compliance_logs": InputResponseInputOpenaiComplianceLogs,
     "anthropic_compliance": InputResponseInputAnthropicCompliance,
     "okta": InputResponseInputOkta,
@@ -12253,9 +13055,12 @@ InputResponse = Annotated[
         InputResponseInputWizWebhook,
         InputResponseInputNetflow,
         InputResponseInputSecurityLake,
+        InputResponseInputBedrockS3,
         InputResponseInputServicenowTable,
         InputResponseInputZscalerHec,
         InputResponseInputCloudflareHec,
+        InputResponseInputSysdigHec,
+        InputResponseInputUpwindHec,
         InputResponseInputOpenaiComplianceLogs,
         InputResponseInputAnthropicCompliance,
         InputResponseInputOkta,
@@ -12279,7 +13084,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponsePersistenceSystemState.model_rebuild()
+    InputResponseInputSystemStatePersistence.model_rebuild()
 except NameError:
     pass
 try:
@@ -12287,15 +13092,15 @@ try:
 except NameError:
     pass
 try:
-    InputResponseCPUSystemMetrics.model_rebuild()
+    InputResponseInputSystemMetricsCPU.model_rebuild()
 except NameError:
     pass
 try:
-    InputResponseNetworkSystemMetrics.model_rebuild()
+    InputResponseInputSystemMetricsNetwork.model_rebuild()
 except NameError:
     pass
 try:
-    InputResponseDiskSystemMetrics.model_rebuild()
+    InputResponseInputSystemMetricsDisk.model_rebuild()
 except NameError:
     pass
 try:
@@ -12303,7 +13108,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponsePersistenceSystemMetrics.model_rebuild()
+    InputResponseInputSystemMetricsPersistence.model_rebuild()
 except NameError:
     pass
 try:
@@ -12387,7 +13192,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponseContentConfigOffice365Service.model_rebuild()
+    InputResponseInputOffice365ServiceContentConfig.model_rebuild()
 except NameError:
     pass
 try:
@@ -12395,7 +13200,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponseContentConfigOffice365Mgmt.model_rebuild()
+    InputResponseInputOffice365MgmtContentConfig.model_rebuild()
 except NameError:
     pass
 try:
@@ -12451,7 +13256,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponseProxyModeElastic.model_rebuild()
+    InputResponseInputElasticProxyMode.model_rebuild()
 except NameError:
     pass
 try:
@@ -12463,7 +13268,7 @@ try:
 except NameError:
     pass
 try:
-    InputResponseAuthTokenSplunkHec.model_rebuild()
+    InputResponseInputSplunkHecAuthToken.model_rebuild()
 except NameError:
     pass
 try:

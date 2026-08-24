@@ -104,6 +104,10 @@ from .pipelinefunctionlookup import (
     PipelineFunctionLookupTypedDict,
 )
 from .pipelinefunctionmask import PipelineFunctionMask, PipelineFunctionMaskTypedDict
+from .pipelinefunctionmetricsexport import (
+    PipelineFunctionMetricsExport,
+    PipelineFunctionMetricsExportTypedDict,
+)
 from .pipelinefunctionmvexpand import (
     PipelineFunctionMvExpand,
     PipelineFunctionMvExpandTypedDict,
@@ -185,10 +189,6 @@ from .pipelinefunctionsidlookup import (
     PipelineFunctionSidlookup,
     PipelineFunctionSidlookupTypedDict,
 )
-from .pipelinefunctionsignalfilter import (
-    PipelineFunctionSignalFilter,
-    PipelineFunctionSignalFilterTypedDict,
-)
 from .pipelinefunctionsnmptrapserialize import (
     PipelineFunctionSnmpTrapSerialize,
     PipelineFunctionSnmpTrapSerializeTypedDict,
@@ -263,6 +263,7 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionLocalSearchTransformerTypedDict,
         PipelineFunctionLookupTypedDict,
         PipelineFunctionMaskTypedDict,
+        PipelineFunctionMetricsExportTypedDict,
         PipelineFunctionMvExpandTypedDict,
         PipelineFunctionMvPullTypedDict,
         PipelineFunctionNotificationPoliciesTypedDict,
@@ -287,7 +288,6 @@ PipelineFunctionConfTypedDict = TypeAliasType(
         PipelineFunctionSerdeTypedDict,
         PipelineFunctionSerializeTypedDict,
         PipelineFunctionSidlookupTypedDict,
-        PipelineFunctionSignalFilterTypedDict,
         PipelineFunctionSnmpTrapSerializeTypedDict,
         PipelineFunctionSortTypedDict,
         PipelineFunctionStoreTypedDict,
@@ -347,6 +347,7 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "local_search_transformer": PipelineFunctionLocalSearchTransformer,
     "lookup": PipelineFunctionLookup,
     "mask": PipelineFunctionMask,
+    "metrics_export": PipelineFunctionMetricsExport,
     "mv_expand": PipelineFunctionMvExpand,
     "mv_pull": PipelineFunctionMvPull,
     "notification_policies": PipelineFunctionNotificationPolicies,
@@ -371,7 +372,6 @@ _PIPELINE_FUNCTION_CONF_VARIANTS: dict[str, Any] = {
     "serde": PipelineFunctionSerde,
     "serialize": PipelineFunctionSerialize,
     "sidlookup": PipelineFunctionSidlookup,
-    "signal_filter": PipelineFunctionSignalFilter,
     "snmp_trap_serialize": PipelineFunctionSnmpTrapSerialize,
     "sort": PipelineFunctionSort,
     "store": PipelineFunctionStore,
@@ -421,6 +421,7 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionLocalSearchTransformer,
         PipelineFunctionLookup,
         PipelineFunctionMask,
+        PipelineFunctionMetricsExport,
         PipelineFunctionMvExpand,
         PipelineFunctionMvPull,
         PipelineFunctionNotificationPolicies,
@@ -445,7 +446,6 @@ PipelineFunctionConf = Annotated[
         PipelineFunctionSerde,
         PipelineFunctionSerialize,
         PipelineFunctionSidlookup,
-        PipelineFunctionSignalFilter,
         PipelineFunctionSnmpTrapSerialize,
         PipelineFunctionSort,
         PipelineFunctionStore,

@@ -10,7 +10,8 @@ from cribl_control_plane.packs_sources_statuses import PacksSourcesStatuses
 from cribl_control_plane.types import OptionalNullable, UNSET
 from cribl_control_plane.utils import get_security_from_env
 from cribl_control_plane.utils.unmarshal_json_response import unmarshal_json_response
-from typing import Any, Iterable, List, Mapping, Optional, Union
+from jsonpath import JSONPath
+from typing import Any, Awaitable, Dict, Iterable, List, Mapping, Optional, Union
 
 
 class PacksSources(BaseSDK):
@@ -39,17 +40,21 @@ class PacksSources(BaseSDK):
         *,
         pack: str,
         type_: Optional[Iterable[str]] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInputResponse:
+    ) -> Optional[models.GetInputSystemByPackResponse]:
         r"""List all Sources within a Pack
 
         Get a list of all Sources within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack.
         :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
+        :param offset: Pagination offset
+        :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -67,6 +72,8 @@ class PacksSources(BaseSDK):
 
         request = models.GetInputSystemByPackRequest(
             type=utils.unmarshal(type_, Optional[List[str]]),
+            offset=offset,
+            limit=limit,
             pack=pack,
         )
 
@@ -108,19 +115,53 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> Optional[models.GetInputSystemByPackResponse]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return None
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return None
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return None
+            next_offset = offset + len(results[0])
+
+            return self.list(
+                pack=pack,
+                type_=type_,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInputResponse, http_res)
+            return models.GetInputSystemByPackResponse(
+                result=unmarshal_json_response(models.PaginatedInputResponse, http_res),
+                next=next_func,
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -134,17 +175,21 @@ class PacksSources(BaseSDK):
         *,
         pack: str,
         type_: Optional[Iterable[str]] = None,
+        offset: Optional[int] = None,
+        limit: Optional[int] = None,
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
         timeout_ms: Optional[int] = None,
         http_headers: Optional[Mapping[str, str]] = None,
-    ) -> models.CountedInputResponse:
+    ) -> Optional[models.GetInputSystemByPackResponse]:
         r"""List all Sources within a Pack
 
         Get a list of all Sources within the specified Pack.
 
         :param pack: The <code>id</code> of the Pack.
         :param type: Type of Source to include in the results. Each request can include only one <code>type</code> parameter; multiple parameters per request are not supported.
+        :param offset: Pagination offset
+        :param limit: Maximum number of items to return
         :param retries: Override the default retry configuration for this method
         :param server_url: Override the default server URL for this method
         :param timeout_ms: Override the default request timeout configuration for this method in milliseconds
@@ -162,6 +207,8 @@ class PacksSources(BaseSDK):
 
         request = models.GetInputSystemByPackRequest(
             type=utils.unmarshal(type_, Optional[List[str]]),
+            offset=offset,
+            limit=limit,
             pack=pack,
         )
 
@@ -203,19 +250,56 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
             retry_config=retry_config,
         )
 
+        def next_func() -> Awaitable[Optional[models.GetInputSystemByPackResponse]]:
+            body = utils.unmarshal_json(http_res.text, Union[Dict[Any, Any], List[Any]])
+
+            async def empty_result():
+                return None
+
+            offset = request.offset if isinstance(request.offset, int) else 0
+
+            if not http_res.text:
+                return empty_result()
+            results = JSONPath("$.items").parse(body)
+            if len(results) == 0 or len(results[0]) == 0:
+                return empty_result()
+            limit_ = request.limit if isinstance(request.limit, int) else 0
+            if len(results[0]) < limit_:
+                return empty_result()
+            next_offset = offset + len(results[0])
+
+            return self.list_async(
+                pack=pack,
+                type_=type_,
+                offset=next_offset,
+                limit=limit,
+                retries=retries,
+                server_url=server_url,
+                timeout_ms=timeout_ms,
+                http_headers=http_headers,
+            )
+
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
-            return unmarshal_json_response(models.CountedInputResponse, http_res)
+            return models.GetInputSystemByPackResponse(
+                result=unmarshal_json_response(models.PaginatedInputResponse, http_res),
+                next=next_func,
+            )
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -229,8 +313,8 @@ class PacksSources(BaseSDK):
         *,
         pack: str,
         request_body: Union[
-            models.CreateInputSystemByPackRequestBody,
-            models.CreateInputSystemByPackRequestBodyTypedDict,
+            models.CreateInputSystemByPackInput,
+            models.CreateInputSystemByPackInputTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -261,7 +345,7 @@ class PacksSources(BaseSDK):
         request = models.CreateInputSystemByPackRequest(
             pack=pack,
             request_body=utils.get_pydantic_model(
-                request_body, models.CreateInputSystemByPackRequestBody
+                request_body, models.CreateInputSystemByPackInput
             ),
         )
 
@@ -283,7 +367,7 @@ class PacksSources(BaseSDK):
                 False,
                 False,
                 "json",
-                models.CreateInputSystemByPackRequestBody,
+                models.CreateInputSystemByPackInput,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -310,6 +394,8 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -319,10 +405,13 @@ class PacksSources(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -336,8 +425,8 @@ class PacksSources(BaseSDK):
         *,
         pack: str,
         request_body: Union[
-            models.CreateInputSystemByPackRequestBody,
-            models.CreateInputSystemByPackRequestBodyTypedDict,
+            models.CreateInputSystemByPackInput,
+            models.CreateInputSystemByPackInputTypedDict,
         ],
         retries: OptionalNullable[utils.RetryConfig] = UNSET,
         server_url: Optional[str] = None,
@@ -368,7 +457,7 @@ class PacksSources(BaseSDK):
         request = models.CreateInputSystemByPackRequest(
             pack=pack,
             request_body=utils.get_pydantic_model(
-                request_body, models.CreateInputSystemByPackRequestBody
+                request_body, models.CreateInputSystemByPackInput
             ),
         )
 
@@ -390,7 +479,7 @@ class PacksSources(BaseSDK):
                 False,
                 False,
                 "json",
-                models.CreateInputSystemByPackRequestBody,
+                models.CreateInputSystemByPackInput,
             ),
             allow_empty_value=None,
             timeout_ms=timeout_ms,
@@ -417,6 +506,8 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -426,10 +517,13 @@ class PacksSources(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["409", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -512,6 +606,8 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -521,10 +617,13 @@ class PacksSources(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["404", "4XX"], "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -607,6 +706,8 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -616,10 +717,13 @@ class PacksSources(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, ["404", "4XX"], "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -708,6 +812,8 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -717,10 +823,13 @@ class PacksSources(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -809,6 +918,8 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -818,10 +929,13 @@ class PacksSources(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -904,6 +1018,8 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -913,10 +1029,13 @@ class PacksSources(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = utils.stream_to_text(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):
@@ -999,6 +1118,8 @@ class PacksSources(BaseSDK):
                 security_source=get_security_from_env(
                     self.sdk_configuration.security, models.Security
                 ),
+                tags=["sources"],
+                extensions={"x-cribl-availability": "both", "x-cribl-internal": False},
             ),
             request=req,
             is_error_status_code=lambda c: utils.match_status_codes(["4XX", "5XX"], c),
@@ -1008,10 +1129,13 @@ class PacksSources(BaseSDK):
         response_data: Any = None
         if utils.match_response(http_res, "200", "application/json"):
             return unmarshal_json_response(models.CountedInputResponse, http_res)
+        if utils.match_response(http_res, "401", "application/json"):
+            response_data = unmarshal_json_response(errors.ErrorData, http_res)
+            raise errors.Error(response_data, http_res)
         if utils.match_response(http_res, "500", "application/json"):
             response_data = unmarshal_json_response(errors.ErrorData, http_res)
             raise errors.Error(response_data, http_res)
-        if utils.match_response(http_res, ["401", "4XX"], "*"):
+        if utils.match_response(http_res, "4XX", "*"):
             http_res_text = await utils.stream_to_text_async(http_res)
             raise errors.APIError("API error occurred", http_res, http_res_text)
         if utils.match_response(http_res, "5XX", "*"):

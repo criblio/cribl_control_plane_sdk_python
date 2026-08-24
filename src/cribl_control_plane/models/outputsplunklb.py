@@ -26,6 +26,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputSplunkLbType(str, Enum):
+    r"""Connector type identifier."""
+
     SPLUNK_LB = "splunk_lb"
 
 
@@ -77,7 +79,7 @@ class OutputSplunkLbAuthToken(BaseModel):
         return m
 
 
-class OutputSplunkLbIndexerDiscoveryConfigsTypedDict(TypedDict):
+class IndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
     site: str
@@ -98,7 +100,7 @@ class OutputSplunkLbIndexerDiscoveryConfigsTypedDict(TypedDict):
     r"""Select or create a stored text secret"""
 
 
-class OutputSplunkLbIndexerDiscoveryConfigs(BaseModel):
+class IndexerDiscoveryConfigs(BaseModel):
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
 
     site: str
@@ -161,15 +163,16 @@ class OutputSplunkLbIndexerDiscoveryConfigs(BaseModel):
 
 
 class OutputSplunkLbPqControlsTypedDict(TypedDict):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSplunkLbPqControls(BaseModel):
-    pass
+    r"""Persistent queue controls."""
 
 
 class OutputSplunkLbTypedDict(TypedDict):
     type: OutputSplunkLbType
+    r"""Connector type identifier."""
     hosts: List[HostConfOutputSyslogTypedDict]
     r"""Set of Splunk indexers to load-balance data to."""
     id: NotRequired[str]
@@ -181,7 +184,7 @@ class OutputSplunkLbTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     dns_resolve_period_sec: NotRequired[float]
     r"""The interval in which to re-resolve any hostnames and pick up destinations from A records"""
     load_balance_stats_period_sec: NotRequired[float]
@@ -197,6 +200,7 @@ class OutputSplunkLbTypedDict(TypedDict):
     write_timeout: NotRequired[float]
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
     tls: NotRequired[TLSSettingsClientSideTypeCaPathCertPathTypedDict]
+    r"""TLS settings (client side)"""
     enable_multi_metrics: NotRequired[bool]
     r"""Output metrics in multiple-metric format in a single event. Supported in Splunk 8.0 and above."""
     enable_ack: NotRequired[bool]
@@ -214,13 +218,12 @@ class OutputSplunkLbTypedDict(TypedDict):
     auth_type: NotRequired[AuthenticationMethodOptionsAuthTokensItems]
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     max_failed_health_checks: NotRequired[float]
     r"""Maximum number of times healthcheck can fail before we close connection. If set to 0 (disabled), and the connection to Splunk is forcibly closed, some data loss might occur."""
     compress: NotRequired[CompressionOptions]
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
-    indexer_discovery_configs: NotRequired[
-        OutputSplunkLbIndexerDiscoveryConfigsTypedDict
-    ]
+    indexer_discovery_configs: NotRequired[IndexerDiscoveryConfigsTypedDict]
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
     exclude_self: NotRequired[bool]
     r"""Exclude all IPs of the current host from the list of any resolved hostnames"""
@@ -247,6 +250,7 @@ class OutputSplunkLbTypedDict(TypedDict):
     pq_max_buffer_size_bytes: NotRequired[str]
     r"""The maximum size to hold in memory before writing events to disk. Enter a numeral with units of KB, MB, etc. The minimum value is 64KB and the maximum value is 10MB."""
     pq_controls: NotRequired[OutputSplunkLbPqControlsTypedDict]
+    r"""Persistent queue controls."""
     auth_token: NotRequired[str]
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
     text_secret: NotRequired[str]
@@ -265,6 +269,7 @@ class OutputSplunkLbTypedDict(TypedDict):
 
 class OutputSplunkLb(BaseModel):
     type: OutputSplunkLbType
+    r"""Connector type identifier."""
 
     hosts: List[HostConfOutputSyslog]
     r"""Set of Splunk indexers to load-balance data to."""
@@ -284,7 +289,7 @@ class OutputSplunkLb(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     dns_resolve_period_sec: Annotated[
         Optional[float], pydantic.Field(alias="dnsResolvePeriodSec")
@@ -322,6 +327,7 @@ class OutputSplunkLb(BaseModel):
     r"""Amount of time (milliseconds) to wait for a write to complete before assuming connection is dead"""
 
     tls: Optional[TLSSettingsClientSideTypeCaPathCertPath] = None
+    r"""TLS settings (client side)"""
 
     enable_multi_metrics: Annotated[
         Optional[bool], pydantic.Field(alias="enableMultiMetrics")
@@ -363,6 +369,7 @@ class OutputSplunkLb(BaseModel):
     r"""Select Manual to enter an auth token directly, or select Secret to use a text secret to authenticate"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     max_failed_health_checks: Annotated[
         Optional[float], pydantic.Field(alias="maxFailedHealthChecks")
@@ -373,7 +380,7 @@ class OutputSplunkLb(BaseModel):
     r"""Controls whether the sender should send compressed data to the server. Select 'Disabled' to reject compressed connections or 'Always' to ignore server's configuration and send compressed data."""
 
     indexer_discovery_configs: Annotated[
-        Optional[OutputSplunkLbIndexerDiscoveryConfigs],
+        Optional[IndexerDiscoveryConfigs],
         pydantic.Field(alias="indexerDiscoveryConfigs"),
     ] = None
     r"""List of configurations to set up indexer discovery in Splunk Indexer clustering environment."""
@@ -433,6 +440,7 @@ class OutputSplunkLb(BaseModel):
     pq_controls: Annotated[
         Optional[OutputSplunkLbPqControls], pydantic.Field(alias="pqControls")
     ] = None
+    r"""Persistent queue controls."""
 
     auth_token: Annotated[Optional[str], pydantic.Field(alias="authToken")] = None
     r"""Shared secret token to use when establishing a connection to a Splunk indexer."""
@@ -607,7 +615,7 @@ try:
 except NameError:
     pass
 try:
-    OutputSplunkLbIndexerDiscoveryConfigs.model_rebuild()
+    IndexerDiscoveryConfigs.model_rebuild()
 except NameError:
     pass
 try:

@@ -10,12 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionWindowID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>window</code>"""
 
     WINDOW = "window"
 
 
 class PipelineFunctionWindowConfTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     event_window_id: float
     r"""Identifies the unique ID, used for a event window"""
     registered_functions: List[str]
@@ -27,6 +29,8 @@ class PipelineFunctionWindowConfTypedDict(TypedDict):
 
 
 class PipelineFunctionWindowConf(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     event_window_id: Annotated[float, pydantic.Field(alias="eventWindowId")]
     r"""Identifies the unique ID, used for a event window"""
 
@@ -64,40 +68,42 @@ class PipelineFunctionWindowConf(BaseModel):
 
 class PipelineFunctionWindowTypedDict(TypedDict):
     id: PipelineFunctionWindowID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>window</code>"""
     conf: PipelineFunctionWindowConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionWindow(BaseModel):
     id: PipelineFunctionWindowID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>window</code>"""
 
     conf: PipelineFunctionWindowConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

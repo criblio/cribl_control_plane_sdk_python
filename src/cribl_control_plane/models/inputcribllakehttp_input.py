@@ -23,17 +23,21 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputCriblLakeHTTPType(str, Enum):
+    r"""Source type identifier."""
+
     CRIBL_LAKE_HTTP = "cribl_lake_http"
 
 
-class InputCriblLakeHTTPSplunkHecMetadataTypedDict(TypedDict):
+class SplunkHecMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""When enabled, the token value is available on events as __hecToken"""
     default_dataset: NotRequired[str]
     allowed_indexes_at_token: NotRequired[List[str]]
 
 
-class InputCriblLakeHTTPSplunkHecMetadata(BaseModel):
+class SplunkHecMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""When enabled, the token value is available on events as __hecToken"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -60,13 +64,15 @@ class InputCriblLakeHTTPSplunkHecMetadata(BaseModel):
         return m
 
 
-class InputCriblLakeHTTPElasticsearchMetadataTypedDict(TypedDict):
+class ElasticsearchMetadataTypedDict(TypedDict):
     enabled: NotRequired[bool]
+    r"""Elasticsearch"""
     default_dataset: NotRequired[str]
 
 
-class InputCriblLakeHTTPElasticsearchMetadata(BaseModel):
+class ElasticsearchMetadata(BaseModel):
     enabled: Optional[bool] = None
+    r"""Elasticsearch"""
 
     default_dataset: Annotated[
         Optional[str], pydantic.Field(alias="defaultDataset")
@@ -89,19 +95,19 @@ class InputCriblLakeHTTPElasticsearchMetadata(BaseModel):
         return m
 
 
-class InputCriblLakeHTTPAuthTokensExtTypedDict(TypedDict):
+class AuthTokensExtTypedDict(TypedDict):
     token: str
+    r"""Token"""
     description: NotRequired[str]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events referencing this token"""
-    splunk_hec_metadata: NotRequired[InputCriblLakeHTTPSplunkHecMetadataTypedDict]
-    elasticsearch_metadata: NotRequired[
-        InputCriblLakeHTTPElasticsearchMetadataTypedDict
-    ]
+    splunk_hec_metadata: NotRequired[SplunkHecMetadataTypedDict]
+    elasticsearch_metadata: NotRequired[ElasticsearchMetadataTypedDict]
 
 
-class InputCriblLakeHTTPAuthTokensExt(BaseModel):
+class AuthTokensExt(BaseModel):
     token: str
+    r"""Token"""
 
     description: Optional[str] = None
 
@@ -109,13 +115,11 @@ class InputCriblLakeHTTPAuthTokensExt(BaseModel):
     r"""Fields to add to events referencing this token"""
 
     splunk_hec_metadata: Annotated[
-        Optional[InputCriblLakeHTTPSplunkHecMetadata],
-        pydantic.Field(alias="splunkHecMetadata"),
+        Optional[SplunkHecMetadata], pydantic.Field(alias="splunkHecMetadata")
     ] = None
 
     elasticsearch_metadata: Annotated[
-        Optional[InputCriblLakeHTTPElasticsearchMetadata],
-        pydantic.Field(alias="elasticsearchMetadata"),
+        Optional[ElasticsearchMetadata], pydantic.Field(alias="elasticsearchMetadata")
     ] = None
 
     @model_serializer(mode="wrap")
@@ -139,6 +143,7 @@ class InputCriblLakeHTTPAuthTokensExt(BaseModel):
 
 class InputCriblLakeHTTPInputTypedDict(TypedDict):
     type: InputCriblLakeHTTPType
+    r"""Source type identifier."""
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
     port: float
@@ -146,6 +151,7 @@ class InputCriblLakeHTTPInputTypedDict(TypedDict):
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -155,13 +161,14 @@ class InputCriblLakeHTTPInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
     auth_tokens: NotRequired[List[str]]
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
     tls: NotRequired[TLSSettingsServerSideTypeTypedDict]
+    r"""TLS settings (server side)"""
     max_active_req: NotRequired[float]
     r"""Maximum number of active requests allowed per Worker Process. Set to 0 for unlimited. Caution: Increasing the limit above the default value, or setting it to unlimited, may degrade performance and reduce throughput."""
     max_requests_per_socket: NotRequired[int]
@@ -191,10 +198,13 @@ class InputCriblLakeHTTPInputTypedDict(TypedDict):
     splunk_hec_api: NotRequired[str]
     r"""Absolute path on which listen for the Splunk HTTP Event Collector API requests. Use empty string to disable."""
     splunk_hec_acks: NotRequired[bool]
+    r"""Enable Splunk HEC acknowledgements"""
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
-    auth_tokens_ext: NotRequired[List[InputCriblLakeHTTPAuthTokensExtTypedDict]]
+    auth_tokens_ext: NotRequired[List[AuthTokensExtTypedDict]]
+    r"""Auth tokens"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -215,6 +225,7 @@ class InputCriblLakeHTTPInputTypedDict(TypedDict):
 
 class InputCriblLakeHTTPInput(BaseModel):
     type: InputCriblLakeHTTPType
+    r"""Source type identifier."""
 
     host: str
     r"""Address to bind on. Defaults to 0.0.0.0 (all addresses)."""
@@ -226,6 +237,7 @@ class InputCriblLakeHTTPInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -242,7 +254,7 @@ class InputCriblLakeHTTPInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -255,6 +267,7 @@ class InputCriblLakeHTTPInput(BaseModel):
     r"""Shared secrets to be provided by any client (Authorization: <token>). If empty, unauthorized access is permitted."""
 
     tls: Optional[TLSSettingsServerSideType] = None
+    r"""TLS settings (server side)"""
 
     max_active_req: Annotated[Optional[float], pydantic.Field(alias="maxActiveReq")] = (
         None
@@ -325,16 +338,18 @@ class InputCriblLakeHTTPInput(BaseModel):
     splunk_hec_acks: Annotated[
         Optional[bool], pydantic.Field(alias="splunkHecAcks")
     ] = None
+    r"""Enable Splunk HEC acknowledgements"""
 
     metadata: Optional[List[MetadataConfInputCollection]] = None
     r"""Fields to add to events from this input"""
 
     auth_tokens_ext: Annotated[
-        Optional[List[InputCriblLakeHTTPAuthTokensExt]],
-        pydantic.Field(alias="authTokensExt"),
+        Optional[List[AuthTokensExt]], pydantic.Field(alias="authTokensExt")
     ] = None
+    r"""Auth tokens"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -434,15 +449,15 @@ class InputCriblLakeHTTPInput(BaseModel):
 
 
 try:
-    InputCriblLakeHTTPSplunkHecMetadata.model_rebuild()
+    SplunkHecMetadata.model_rebuild()
 except NameError:
     pass
 try:
-    InputCriblLakeHTTPElasticsearchMetadata.model_rebuild()
+    ElasticsearchMetadata.model_rebuild()
 except NameError:
     pass
 try:
-    InputCriblLakeHTTPAuthTokensExt.model_rebuild()
+    AuthTokensExt.model_rebuild()
 except NameError:
     pass
 try:

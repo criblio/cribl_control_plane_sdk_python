@@ -22,6 +22,8 @@ class CriblLakeDatasetTypedDict(TypedDict):
     r"""Unique identifier for the Dataset."""
     accelerated_fields: NotRequired[List[str]]
     r"""Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance."""
+    allow_record_erasure: NotRequired[bool]
+    r"""If <code>true</code>, the Dataset is opted in to Lake Record Erasure. Off by default; only settable when the <code>feature-lake-record-erasure</code> flag is enabled."""
     bucket_name: NotRequired[str]
     r"""Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>."""
     cache_connection: NotRequired[CacheConnectionTypedDict]
@@ -34,6 +36,8 @@ class CriblLakeDatasetTypedDict(TypedDict):
     http_da_used: NotRequired[bool]
     r"""If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>."""
     metrics: NotRequired[LakeDatasetMetricsTypedDict]
+    provider_path: NotRequired[str]
+    r"""Storage path within the provider (for example an S3 prefix or Azure container). Independent of <code>id</code> for catalog-backed Datasets so name reuse after delete cannot collide with lingering object-storage data. When omitted, <code>id</code> is the storage path (legacy YAML Datasets)."""
     retention_period_in_days: NotRequired[int]
     r"""Dataset retention period, in days."""
     search_config: NotRequired[LakeDatasetSearchConfigTypedDict]
@@ -53,6 +57,11 @@ class CriblLakeDataset(BaseModel):
         Optional[List[str]], pydantic.Field(alias="acceleratedFields")
     ] = None
     r"""Accelerated fields for the Dataset. Data is partitioned by these fields in storage to improve query performance."""
+
+    allow_record_erasure: Annotated[
+        Optional[bool], pydantic.Field(alias="allowRecordErasure")
+    ] = None
+    r"""If <code>true</code>, the Dataset is opted in to Lake Record Erasure. Off by default; only settable when the <code>feature-lake-record-erasure</code> flag is enabled."""
 
     bucket_name: Annotated[Optional[str], pydantic.Field(alias="bucketName")] = None
     r"""Name of the legacy Cribl Lake bucket that backs the Dataset. Mutually exclusive with <code>storageLocationId</code>."""
@@ -78,6 +87,9 @@ class CriblLakeDataset(BaseModel):
     r"""If <code>true</code>, the Dataset is used by Direct Access HTTP. Otherwise, <code>false</code>."""
 
     metrics: Optional[LakeDatasetMetrics] = None
+
+    provider_path: Annotated[Optional[str], pydantic.Field(alias="providerPath")] = None
+    r"""Storage path within the provider (for example an S3 prefix or Azure container). Independent of <code>id</code> for catalog-backed Datasets so name reuse after delete cannot collide with lingering object-storage data. When omitted, <code>id</code> is the storage path (legacy YAML Datasets)."""
 
     retention_period_in_days: Annotated[
         Optional[int], pydantic.Field(alias="retentionPeriodInDays")
@@ -125,6 +137,7 @@ class CriblLakeDataset(BaseModel):
         optional_fields = set(
             [
                 "acceleratedFields",
+                "allowRecordErasure",
                 "bucketName",
                 "cacheConnection",
                 "deletionStartedAt",
@@ -132,6 +145,7 @@ class CriblLakeDataset(BaseModel):
                 "format",
                 "httpDAUsed",
                 "metrics",
+                "providerPath",
                 "retentionPeriodInDays",
                 "searchConfig",
                 "storageClass",

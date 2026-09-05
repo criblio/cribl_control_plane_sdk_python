@@ -17,6 +17,7 @@ from typing_extensions import Annotated, NotRequired, TypeAliasType, TypedDict
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestPageTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     page_field: str
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
     size_field: str
@@ -51,6 +52,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestPageTypedDict(TypedDict)
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestPage(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     page_field: Annotated[str, pydantic.Field(alias="pageField")]
     r"""Query string parameter that sets the page index to be returned. Example: /api/v1/query?term=cribl&page_size=100&page_number=0"""
@@ -150,6 +152,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestPage(BaseModel):
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestOffsetTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     offset_field: str
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
     limit_field: str
@@ -184,6 +187,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestOffsetTypedDict(TypedDic
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestOffset(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     offset_field: Annotated[str, pydantic.Field(alias="offsetField")]
     r"""Query string parameter that sets the index from which to begin returning records. Example: /api/v1/query?term=cribl&limit=100&offset=0"""
@@ -283,6 +287,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeRequestOffset(BaseModel):
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderLinkTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     next_relation_attribute: str
     r"""Relation name used in the link header that refers to the next page in the result set. Example: rel=\"next\" refers to the next page of results: <https://myHost/nextPage>; rel=\"next\" """
     max_pages: float
@@ -317,6 +322,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderLinkTypedDict(Typ
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderLink(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     next_relation_attribute: Annotated[
         str, pydantic.Field(alias="nextRelationAttribute")
@@ -435,6 +441,7 @@ r"""Names of attributes within the response that contain next-page information""
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
@@ -471,6 +478,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderTypedDict(TypedDi
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeader(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: (
         RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderResponseAttributes
@@ -595,6 +603,7 @@ r"""Names of attributes within the response that contain next-page information""
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     attribute: RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyResponseAttributesTypedDict
     r"""Names of attributes within the response that contain next-page information"""
     max_pages: float
@@ -631,6 +640,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyTypedDict(TypedDict
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBody(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     attribute: RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBodyResponseAttributes
     r"""Names of attributes within the response that contain next-page information"""
@@ -737,6 +747,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseBody(BaseModel):
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeNoneTypedDict(TypedDict):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
     max_pages: NotRequired[float]
     r"""Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
     last_page_expr: NotRequired[str]
@@ -771,6 +782,7 @@ class RestDiscoveryDiscoverTypeHTTPPaginationTypeNoneTypedDict(TypedDict):
 
 class RestDiscoveryDiscoverTypeHTTPPaginationTypeNone(BaseModel):
     type: PaginationOptionsRestDiscoveryDiscoverTypeHTTPPagination
+    r"""Pagination"""
 
     max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
     r"""Maximum number of pages to retrieve for the discover task. Defaults to 50 pages. Set to 0 to retrieve all pages."""
@@ -884,6 +896,7 @@ PaginationTypeRestDiscoveryDiscoverTypeHTTPTypedDict = TypeAliasType(
         RestDiscoveryDiscoverTypeHTTPPaginationTypeResponseHeaderTypedDict,
     ],
 )
+r"""Settings that control how the Collector paginates through Discover results."""
 
 
 class UnknownPaginationTypeRestDiscoveryDiscoverTypeHTTP(BaseModel):
@@ -926,6 +939,7 @@ PaginationTypeRestDiscoveryDiscoverTypeHTTP = Annotated[
         )
     ),
 ]
+r"""Settings that control how the Collector paginates through Discover results."""
 
 
 try:

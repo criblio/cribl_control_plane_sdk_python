@@ -1,5 +1,7 @@
 # OutputSplunkHecPqControls
 
+Persistent queue controls.
+
 
 ## Fields
 

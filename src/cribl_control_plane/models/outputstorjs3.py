@@ -28,11 +28,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputStorjS3Type(str, Enum):
+    r"""Connector type identifier."""
+
     STORJ_S3 = "storj_s3"
 
 
 class OutputStorjS3TypedDict(TypedDict):
     type: OutputStorjS3Type
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination Storj bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
     stage_path: str
@@ -48,7 +51,7 @@ class OutputStorjS3TypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     aws_authentication_method: NotRequired[AuthenticationMethodOptionsSecret]
     r"""Authentication method."""
     reuse_connections: NotRequired[bool]
@@ -97,7 +100,9 @@ class OutputStorjS3TypedDict(TypedDict):
     r"""Force all staged files to close during an orderly Node shutdown. This triggers immediate upload of in-progress data — regardless of idle time, file age, or size thresholds — to minimize data loss."""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     aws_secret: NotRequired[str]
     r"""Select or create a stored secret that references your access key and secret key"""
     compress: NotRequired[CompressionOptionsHTTP]
@@ -160,6 +165,7 @@ class OutputStorjS3TypedDict(TypedDict):
 
 class OutputStorjS3(BaseModel):
     type: OutputStorjS3Type
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination Storj bucket. Must be a JavaScript expression (which can evaluate to a constant value), enclosed in quotes or backticks. Can be evaluated only at initialization time. Example referencing a Global Variable: `myBucket-${C.vars.myVar}`"""
@@ -185,7 +191,7 @@ class OutputStorjS3(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     aws_authentication_method: Annotated[
         Optional[AuthenticationMethodOptionsSecret],
@@ -306,8 +312,10 @@ class OutputStorjS3(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
     r"""Select or create a stored secret that references your access key and secret key"""

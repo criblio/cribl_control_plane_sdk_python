@@ -12,7 +12,7 @@ from .orphanfilerecoverytype import (
 )
 from .retrysettingstype import RetrySettingsType, RetrySettingsTypeTypedDict
 from .storageclassoptionsarchivecoldline import StorageClassOptionsArchiveColdline
-from cribl_control_plane import models
+from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
 from enum import Enum
 import pydantic
@@ -22,11 +22,23 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class OutputExabeamType(str, Enum):
+    r"""Connector type identifier."""
+
     EXABEAM = "exabeam"
+
+
+class OutputExabeamAuthenticationMethod(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Authentication method"""
+
+    # Manual
+    MANUAL = "manual"
+    # Secret
+    SECRET = "secret"
 
 
 class OutputExabeamTypedDict(TypedDict):
     type: OutputExabeamType
+    r"""Connector type identifier."""
     bucket: str
     r"""Name of the destination bucket. A constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a JavaScript Global Variable: `myBucket-${C.vars.myVar}`."""
     region: str
@@ -48,7 +60,7 @@ class OutputExabeamTypedDict(TypedDict):
     environment: NotRequired[str]
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     object_acl: NotRequired[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol]
     r"""Object ACL to assign to uploaded objects"""
     storage_class: NotRequired[StorageClassOptionsArchiveColdline]
@@ -75,20 +87,33 @@ class OutputExabeamTypedDict(TypedDict):
     r"""How to handle events when disk space is below the global 'Min free disk space' limit"""
     retry_settings: NotRequired[RetrySettingsTypeTypedDict]
     orphans: NotRequired[OrphanFileRecoveryTypeTypedDict]
+    r"""Orphan file recovery"""
     max_file_size_mb: NotRequired[float]
     r"""Maximum uncompressed output file size. Files of this size will be closed and moved to final output location."""
     encoded_configuration: NotRequired[str]
     r"""Enter an encoded string containing Exabeam configurations"""
+    aws_authentication_method: NotRequired[OutputExabeamAuthenticationMethod]
+    r"""Authentication method"""
     site_name: NotRequired[str]
     r"""Constant or JavaScript expression to create an Exabeam site name. Values that aren't successfully evaluated will be treated as string constants."""
     site_id: NotRequired[str]
     r"""Exabeam site ID. If left blank, @{product} will use the value of the Exabeam site name."""
     timezone_offset: NotRequired[str]
+    r"""Timezone offset"""
+    hostname: NotRequired[str]
+    r"""JavaScript expression for the host from which the log was ingested into the SIEM, evaluated per event. Static values must be quoted or backticked (for example, 'collector-1.example.com'); unquoted text is evaluated as JavaScript, not as a literal. To reference an event field use an expression, such as `${host}`. Emitted as the \"hostname\" metadata field; omitted when empty or not a usable scalar."""
+    forwarder: NotRequired[str]
+    r"""JavaScript expression for the host that forwarded the log, evaluated per event. Static values must be quoted or backticked (for example, 'fwd-1'); unquoted text is evaluated as JavaScript, not as a literal. To reference an event field use an expression, such as `${__forwarder}`. Emitted as the \"forwarder\" metadata field; omitted when empty or not a usable scalar."""
+    origin: NotRequired[str]
+    r"""JavaScript expression that must resolve to an object describing the interim agent collector, such as {hostname: origin_host, '@timestamp': _time, path: source}. Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"origin\" metadata field; omitted when the result is not a non-empty object."""
+    logtags: NotRequired[str]
+    r"""JavaScript expression that must resolve to an object of custom metadata key/value pairs (searchable in Exabeam as m_c_logtags_<name>). Assemble the object upstream and reference it here (example: __exabeam_logtags), or build it inline (example: {department: dept, servertype: stype}). Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"logtags\" metadata field; omitted when the result is not a non-empty object."""
     aws_api_key: NotRequired[str]
     r"""HMAC access key. Can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""
     aws_secret_key: NotRequired[str]
     r"""HMAC secret. Can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     empty_dir_cleanup_sec: NotRequired[float]
     r"""How frequently, in seconds, to clean up empty directories"""
     directory_batch_size: NotRequired[float]
@@ -97,6 +122,8 @@ class OutputExabeamTypedDict(TypedDict):
     r"""Storage location for files that fail to reach their final destination after maximum retries are exceeded"""
     max_retry_num: NotRequired[float]
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+    aws_secret: NotRequired[str]
+    r"""Select or create a stored secret that references your access key and secret key"""
     template_streamtags: NotRequired[str]
     r"""Binds 'streamtags' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'streamtags' at runtime."""
     template_region: NotRequired[str]
@@ -113,6 +140,7 @@ class OutputExabeamTypedDict(TypedDict):
 
 class OutputExabeam(BaseModel):
     type: OutputExabeamType
+    r"""Connector type identifier."""
 
     bucket: str
     r"""Name of the destination bucket. A constant or a JavaScript expression that can only be evaluated at init time. Example of referencing a JavaScript Global Variable: `myBucket-${C.vars.myVar}`."""
@@ -146,7 +174,7 @@ class OutputExabeam(BaseModel):
     r"""Optionally, enable this config only on a specified Git branch. If empty, will be enabled everywhere."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     object_acl: Annotated[
         Optional[ObjectACLOptionsAuthenticatedreadBucketownerfullcontrol],
@@ -217,6 +245,7 @@ class OutputExabeam(BaseModel):
     ] = None
 
     orphans: Optional[OrphanFileRecoveryType] = None
+    r"""Orphan file recovery"""
 
     max_file_size_mb: Annotated[
         Optional[float], pydantic.Field(alias="maxFileSizeMB")
@@ -228,6 +257,12 @@ class OutputExabeam(BaseModel):
     ] = None
     r"""Enter an encoded string containing Exabeam configurations"""
 
+    aws_authentication_method: Annotated[
+        Optional[OutputExabeamAuthenticationMethod],
+        pydantic.Field(alias="awsAuthenticationMethod"),
+    ] = None
+    r"""Authentication method"""
+
     site_name: Annotated[Optional[str], pydantic.Field(alias="siteName")] = None
     r"""Constant or JavaScript expression to create an Exabeam site name. Values that aren't successfully evaluated will be treated as string constants."""
 
@@ -237,6 +272,19 @@ class OutputExabeam(BaseModel):
     timezone_offset: Annotated[
         Optional[str], pydantic.Field(alias="timezoneOffset")
     ] = None
+    r"""Timezone offset"""
+
+    hostname: Optional[str] = None
+    r"""JavaScript expression for the host from which the log was ingested into the SIEM, evaluated per event. Static values must be quoted or backticked (for example, 'collector-1.example.com'); unquoted text is evaluated as JavaScript, not as a literal. To reference an event field use an expression, such as `${host}`. Emitted as the \"hostname\" metadata field; omitted when empty or not a usable scalar."""
+
+    forwarder: Optional[str] = None
+    r"""JavaScript expression for the host that forwarded the log, evaluated per event. Static values must be quoted or backticked (for example, 'fwd-1'); unquoted text is evaluated as JavaScript, not as a literal. To reference an event field use an expression, such as `${__forwarder}`. Emitted as the \"forwarder\" metadata field; omitted when empty or not a usable scalar."""
+
+    origin: Optional[str] = None
+    r"""JavaScript expression that must resolve to an object describing the interim agent collector, such as {hostname: origin_host, '@timestamp': _time, path: source}. Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"origin\" metadata field; omitted when the result is not a non-empty object."""
+
+    logtags: Optional[str] = None
+    r"""JavaScript expression that must resolve to an object of custom metadata key/value pairs (searchable in Exabeam as m_c_logtags_<name>). Assemble the object upstream and reference it here (example: __exabeam_logtags), or build it inline (example: {department: dept, servertype: stype}). Evaluated per event. Unquoted text is evaluated as JavaScript, not as a literal. Emitted as the \"logtags\" metadata field; omitted when the result is not a non-empty object."""
 
     aws_api_key: Annotated[Optional[str], pydantic.Field(alias="awsApiKey")] = None
     r"""HMAC access key. Can be a constant or a JavaScript expression, such as `${C.env.GCS_ACCESS_KEY}`."""
@@ -247,6 +295,7 @@ class OutputExabeam(BaseModel):
     r"""HMAC secret. Can be a constant or a JavaScript expression, such as `${C.env.GCS_SECRET}`."""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     empty_dir_cleanup_sec: Annotated[
         Optional[float], pydantic.Field(alias="emptyDirCleanupSec")
@@ -267,6 +316,9 @@ class OutputExabeam(BaseModel):
         None
     )
     r"""The maximum number of times a file will attempt to move to its final destination before being dead-lettered"""
+
+    aws_secret: Annotated[Optional[str], pydantic.Field(alias="awsSecret")] = None
+    r"""Select or create a stored secret that references your access key and secret key"""
 
     template_streamtags: Annotated[
         Optional[str], pydantic.Field(alias="__template_streamtags")
@@ -336,6 +388,15 @@ class OutputExabeam(BaseModel):
                 return value
         return value
 
+    @field_serializer("aws_authentication_method")
+    def serialize_aws_authentication_method(self, value):
+        if isinstance(value, str):
+            try:
+                return models.OutputExabeamAuthenticationMethod(value)
+            except ValueError:
+                return value
+        return value
+
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):
         optional_fields = set(
@@ -361,9 +422,14 @@ class OutputExabeam(BaseModel):
                 "orphans",
                 "maxFileSizeMB",
                 "encodedConfiguration",
+                "awsAuthenticationMethod",
                 "siteName",
                 "siteId",
                 "timezoneOffset",
+                "hostname",
+                "forwarder",
+                "origin",
+                "logtags",
                 "awsApiKey",
                 "awsSecretKey",
                 "description",
@@ -371,6 +437,7 @@ class OutputExabeam(BaseModel):
                 "directoryBatchSize",
                 "deadletterPath",
                 "maxRetryNum",
+                "awsSecret",
                 "__template_streamtags",
                 "__template_region",
                 "__template_endpoint",

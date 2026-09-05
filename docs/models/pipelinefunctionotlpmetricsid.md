@@ -1,6 +1,6 @@
 # PipelineFunctionOtlpMetricsID
 
-Function ID
+Identifier of the Function. Always <code>otlp_metrics</code>
 
 ## Example Usage
 

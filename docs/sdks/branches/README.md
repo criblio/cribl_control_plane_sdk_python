@@ -13,7 +13,7 @@ Get a list of all branches in the Git repository used for Cribl configuration.
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getVersionBranch" method="get" path="/version/branch" -->
+<!-- UsageSnippet language="python" operationID="getVersionBranch" method="get" path="/version/branch" example="VersionBranchResponseExamplesListBranches" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -47,6 +47,7 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |
 
@@ -56,7 +57,7 @@ Get the name of the Git branch that the Cribl configuration is checked out to. U
 
 ### Example Usage
 
-<!-- UsageSnippet language="python" operationID="getVersionCurrentBranch" method="get" path="/version/current-branch" -->
+<!-- UsageSnippet language="python" operationID="getVersionCurrentBranch" method="get" path="/version/current-branch" example="VersionCurrentBranchResponseExamplesCurrentBranch" -->
 ```python
 from cribl_control_plane import CriblControlPlane, models
 import os
@@ -90,5 +91,6 @@ with CriblControlPlane(
 
 | Error Type       | Status Code      | Content Type     |
 | ---------------- | ---------------- | ---------------- |
+| errors.Error     | 401              | application/json |
 | errors.Error     | 500              | application/json |
 | errors.APIError  | 4XX, 5XX         | \*/\*            |

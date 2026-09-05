@@ -26,6 +26,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputSystemMetricsType(str, Enum):
+    r"""Connector type identifier."""
+
     SYSTEM_METRICS = "system_metrics"
 
 
@@ -432,7 +434,7 @@ class InputSystemMetricsHost(BaseModel):
         return m
 
 
-class InputSystemMetricsContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
+class ContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
     r"""Select the level of detail for container metrics"""
 
     # Basic
@@ -447,14 +449,16 @@ class InputSystemMetricsContainerMode(str, Enum, metaclass=utils.OpenEnumMeta):
 
 class InputSystemMetricsFilterTypedDict(TypedDict):
     expr: str
+    r"""Expression"""
 
 
 class InputSystemMetricsFilter(BaseModel):
     expr: str
+    r"""Expression"""
 
 
-class InputSystemMetricsContainerTypedDict(TypedDict):
-    mode: NotRequired[InputSystemMetricsContainerMode]
+class ContainerTypedDict(TypedDict):
+    mode: NotRequired[ContainerMode]
     r"""Select the level of detail for container metrics"""
     docker_socket: NotRequired[List[str]]
     r"""Full paths for Docker's UNIX-domain socket"""
@@ -470,8 +474,8 @@ class InputSystemMetricsContainerTypedDict(TypedDict):
     r"""Generate full container metrics"""
 
 
-class InputSystemMetricsContainer(BaseModel):
-    mode: Optional[InputSystemMetricsContainerMode] = None
+class Container(BaseModel):
+    mode: Optional[ContainerMode] = None
     r"""Select the level of detail for container metrics"""
 
     docker_socket: Annotated[
@@ -502,7 +506,7 @@ class InputSystemMetricsContainer(BaseModel):
     def serialize_mode(self, value):
         if isinstance(value, str):
             try:
-                return models.InputSystemMetricsContainerMode(value)
+                return models.ContainerMode(value)
             except ValueError:
                 return value
         return value
@@ -535,6 +539,8 @@ class InputSystemMetricsContainer(BaseModel):
 
 
 class InputSystemMetricsPersistenceTypedDict(TypedDict):
+    r"""persistence"""
+
     enable: NotRequired[bool]
     r"""Spool metrics to disk for Cribl Edge and Search"""
     time_window: NotRequired[str]
@@ -544,11 +550,14 @@ class InputSystemMetricsPersistenceTypedDict(TypedDict):
     max_data_time: NotRequired[str]
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
     compress: NotRequired[DataCompressionFormatOptionsPersistence]
+    r"""Data compression format"""
     dest_path: NotRequired[str]
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
 
 
 class InputSystemMetricsPersistence(BaseModel):
+    r"""persistence"""
+
     enable: Optional[bool] = None
     r"""Spool metrics to disk for Cribl Edge and Search"""
 
@@ -562,6 +571,7 @@ class InputSystemMetricsPersistence(BaseModel):
     r"""Maximum amount of time to retain data (examples: 2h, 4d). When limit is reached, older data will be deleted."""
 
     compress: Optional[DataCompressionFormatOptionsPersistence] = None
+    r"""Data compression format"""
 
     dest_path: Annotated[Optional[str], pydantic.Field(alias="destPath")] = None
     r"""Path to use to write metrics. Defaults to $CRIBL_HOME/state/system_metrics"""
@@ -603,9 +613,11 @@ class InputSystemMetricsPersistence(BaseModel):
 
 class InputSystemMetricsInputTypedDict(TypedDict):
     type: InputSystemMetricsType
+    r"""Connector type identifier."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -615,7 +627,7 @@ class InputSystemMetricsInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -623,12 +635,14 @@ class InputSystemMetricsInputTypedDict(TypedDict):
     r"""Time, in seconds, between consecutive metric collections. Default is 10 seconds."""
     host: NotRequired[InputSystemMetricsHostTypedDict]
     process: NotRequired[ProcessTypeTypedDict]
-    container: NotRequired[InputSystemMetricsContainerTypedDict]
+    container: NotRequired[ContainerTypedDict]
     gpu: NotRequired[GpuTypeTypedDict]
     metadata: NotRequired[List[MetadataConfInputCollectionTypedDict]]
     r"""Fields to add to events from this input"""
     persistence: NotRequired[InputSystemMetricsPersistenceTypedDict]
+    r"""persistence"""
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -637,11 +651,13 @@ class InputSystemMetricsInputTypedDict(TypedDict):
 
 class InputSystemMetricsInput(BaseModel):
     type: InputSystemMetricsType
+    r"""Connector type identifier."""
 
     id: Optional[str] = None
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -658,7 +674,7 @@ class InputSystemMetricsInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -672,7 +688,7 @@ class InputSystemMetricsInput(BaseModel):
 
     process: Optional[ProcessType] = None
 
-    container: Optional[InputSystemMetricsContainer] = None
+    container: Optional[Container] = None
 
     gpu: Optional[GpuType] = None
 
@@ -680,8 +696,10 @@ class InputSystemMetricsInput(BaseModel):
     r"""Fields to add to events from this input"""
 
     persistence: Optional[InputSystemMetricsPersistence] = None
+    r"""persistence"""
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -745,7 +763,7 @@ try:
 except NameError:
     pass
 try:
-    InputSystemMetricsContainer.model_rebuild()
+    Container.model_rebuild()
 except NameError:
     pass
 try:

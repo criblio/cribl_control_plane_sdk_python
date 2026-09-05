@@ -1,6 +1,6 @@
 # PipelineFunctionSuppressID
 
-Function ID
+Identifier of the Function. Always <code>suppress</code>
 
 ## Example Usage
 

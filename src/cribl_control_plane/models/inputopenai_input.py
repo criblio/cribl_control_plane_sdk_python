@@ -5,15 +5,15 @@ from .connectionconfinputcollection import (
     ConnectionConfInputCollection,
     ConnectionConfInputCollectionTypedDict,
 )
-from .httpdiscoveryheaderconfinputprometheus import (
-    HTTPDiscoveryHeaderConfInputPrometheus,
-    HTTPDiscoveryHeaderConfInputPrometheusTypedDict,
-)
 from .metadataconfinputcollection import (
     MetadataConfInputCollection,
     MetadataConfInputCollectionTypedDict,
 )
 from .pqtype import PqType, PqTypeTypedDict
+from .refreshrequestparamconfhealthcheckauthenticationoauthsecret import (
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecret,
+    RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict,
+)
 from .retryrulestype import RetryRulesType, RetryRulesTypeTypedDict
 from cribl_control_plane import models, utils
 from cribl_control_plane.types import BaseModel, UNSET_SENTINEL
@@ -25,6 +25,8 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class InputOpenaiType(str, Enum):
+    r"""Connector type identifier."""
+
     OPENAI = "openai"
 
 
@@ -36,7 +38,9 @@ class InputOpenaiManageState(BaseModel):
     pass
 
 
-class InputOpenaiPaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
+class PaginationType(str, Enum, metaclass=utils.OpenEnumMeta):
+    r"""Pagination type"""
+
     # None
     NONE = "none"
     # Response Body Attribute
@@ -57,10 +61,13 @@ class InputOpenaiLogLevel(str, Enum, metaclass=utils.OpenEnumMeta):
     SILLY = "silly"
 
 
-class InputOpenaiContentConfigTypedDict(TypedDict):
-    request_params: List[HTTPDiscoveryHeaderConfInputPrometheusTypedDict]
+class ContentConfigInputTypedDict(TypedDict):
+    request_params: List[
+        RefreshRequestParamConfHealthCheckAuthenticationOauthSecretTypedDict
+    ]
     r"""Query-string parameters to send with this endpoint"""
-    pagination_type: InputOpenaiPaginationType
+    pagination_type: PaginationType
+    r"""Pagination type"""
     cron_schedule: str
     r"""A cron schedule on which to run this job"""
     earliest: str
@@ -68,15 +75,18 @@ class InputOpenaiContentConfigTypedDict(TypedDict):
     latest: str
     r"""Relative to the current time"""
     disabled: NotRequired[bool]
+    r"""Enabled"""
     state_tracking: NotRequired[bool]
     r"""Track collection progress between consecutive scheduled executions."""
     state_update_expression: NotRequired[str]
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
     state_merge_expression: NotRequired[str]
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
     manage_state: NotRequired[InputOpenaiManageStateTypedDict]
     pagination_attribute: NotRequired[List[str]]
+    r"""Pagination attributes"""
     pagination_last_page_expr: NotRequired[str]
+    r"""Last page expression"""
     max_pages: NotRequired[float]
     r"""Maximum number of pages to retrieve per collection task. Set to 0 only when unlimited pagination is required."""
     pagination_next_relation_attribute: NotRequired[str]
@@ -91,16 +101,15 @@ class InputOpenaiContentConfigTypedDict(TypedDict):
     r"""Fields automatically added to events from this Content Type"""
 
 
-class InputOpenaiContentConfig(BaseModel):
+class ContentConfigInput(BaseModel):
     request_params: Annotated[
-        List[HTTPDiscoveryHeaderConfInputPrometheus],
+        List[RefreshRequestParamConfHealthCheckAuthenticationOauthSecret],
         pydantic.Field(alias="requestParams"),
     ]
     r"""Query-string parameters to send with this endpoint"""
 
-    pagination_type: Annotated[
-        InputOpenaiPaginationType, pydantic.Field(alias="paginationType")
-    ]
+    pagination_type: Annotated[PaginationType, pydantic.Field(alias="paginationType")]
+    r"""Pagination type"""
 
     cron_schedule: Annotated[str, pydantic.Field(alias="cronSchedule")]
     r"""A cron schedule on which to run this job"""
@@ -112,6 +121,7 @@ class InputOpenaiContentConfig(BaseModel):
     r"""Relative to the current time"""
 
     disabled: Optional[bool] = None
+    r"""Enabled"""
 
     state_tracking: Annotated[Optional[bool], pydantic.Field(alias="stateTracking")] = (
         None
@@ -121,12 +131,12 @@ class InputOpenaiContentConfig(BaseModel):
     state_update_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateUpdateExpression")
     ] = None
-    r"""JavaScript expression that defines how to update the state from an event"""
+    r"""JavaScript expression that defines how to update the state from an event. Use the event's data and the current state to compute the new state. See [Understanding State Expression Fields](https://docs.cribl.io/stream/collectors-rest#state-tracking-expression-fields) for more information."""
 
     state_merge_expression: Annotated[
         Optional[str], pydantic.Field(alias="stateMergeExpression")
     ] = None
-    r"""JavaScript expression that defines which state to keep when merging task state"""
+    r"""JavaScript expression that defines which state to keep when merging a task's newly reported state with previously saved state. Evaluates `prevState` and `newState` variables, resolving to the state to keep."""
 
     manage_state: Annotated[
         Optional[InputOpenaiManageState], pydantic.Field(alias="manageState")
@@ -135,10 +145,12 @@ class InputOpenaiContentConfig(BaseModel):
     pagination_attribute: Annotated[
         Optional[List[str]], pydantic.Field(alias="paginationAttribute")
     ] = None
+    r"""Pagination attributes"""
 
     pagination_last_page_expr: Annotated[
         Optional[str], pydantic.Field(alias="paginationLastPageExpr")
     ] = None
+    r"""Last page expression"""
 
     max_pages: Annotated[Optional[float], pydantic.Field(alias="maxPages")] = None
     r"""Maximum number of pages to retrieve per collection task. Set to 0 only when unlimited pagination is required."""
@@ -171,7 +183,7 @@ class InputOpenaiContentConfig(BaseModel):
     def serialize_pagination_type(self, value):
         if isinstance(value, str):
             try:
-                return models.InputOpenaiPaginationType(value)
+                return models.PaginationType(value)
             except ValueError:
                 return value
         return value
@@ -220,12 +232,15 @@ class InputOpenaiContentConfig(BaseModel):
 
 class InputOpenaiInputTypedDict(TypedDict):
     type: InputOpenaiType
-    content_config: List[InputOpenaiContentConfigTypedDict]
+    r"""Connector type identifier."""
+    content_config: List[ContentConfigInputTypedDict]
+    r"""Content Types"""
     text_secret: str
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
     id: NotRequired[str]
     r"""Unique ID for this input"""
     disabled: NotRequired[bool]
+    r"""If true, the Source is disabled and will not collect data."""
     pipeline: NotRequired[str]
     r"""Pipeline to process data from this Source before sending it through the Routes"""
     send_to_routes: NotRequired[bool]
@@ -235,7 +250,7 @@ class InputOpenaiInputTypedDict(TypedDict):
     pq_enabled: NotRequired[bool]
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
     streamtags: NotRequired[List[str]]
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
     connections: NotRequired[List[ConnectionConfInputCollectionTypedDict]]
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
     pq: NotRequired[PqTypeTypedDict]
@@ -246,6 +261,7 @@ class InputOpenaiInputTypedDict(TypedDict):
     request_timeout: NotRequired[float]
     r"""HTTP request inactivity timeout. Use 0 to disable."""
     api_key: NotRequired[str]
+    r"""API key"""
     keep_alive_time: NotRequired[float]
     r"""How often workers should check in with the scheduler to keep job subscription alive"""
     max_missed_keep_alives: NotRequired[float]
@@ -258,6 +274,7 @@ class InputOpenaiInputTypedDict(TypedDict):
     r"""Fields to add to events from this input"""
     retry_rules: NotRequired[RetryRulesTypeTypedDict]
     description: NotRequired[str]
+    r"""Optional description for this configuration."""
     template_environment: NotRequired[str]
     r"""Binds 'environment' to a variable for dynamic value resolution. Set to variable ID (pack-scoped) or 'cribl.'/'edge.' prefixed ID (group-scoped). Variable value overrides 'environment' at runtime."""
     template_streamtags: NotRequired[str]
@@ -270,10 +287,12 @@ class InputOpenaiInputTypedDict(TypedDict):
 
 class InputOpenaiInput(BaseModel):
     type: InputOpenaiType
+    r"""Connector type identifier."""
 
     content_config: Annotated[
-        List[InputOpenaiContentConfig], pydantic.Field(alias="contentConfig")
+        List[ContentConfigInput], pydantic.Field(alias="contentConfig")
     ]
+    r"""Content Types"""
 
     text_secret: Annotated[str, pydantic.Field(alias="textSecret")]
     r"""Select or create a stored API key. Visit [OpenAI's organization admin keys page](https://platform.openai.com/settings/organization/admin-keys) to create an organization admin key."""
@@ -282,6 +301,7 @@ class InputOpenaiInput(BaseModel):
     r"""Unique ID for this input"""
 
     disabled: Optional[bool] = None
+    r"""If true, the Source is disabled and will not collect data."""
 
     pipeline: Optional[str] = None
     r"""Pipeline to process data from this Source before sending it through the Routes"""
@@ -298,7 +318,7 @@ class InputOpenaiInput(BaseModel):
     r"""Use a disk queue to minimize data loss when connected services block. See [Cribl Docs](https://docs.cribl.io/stream/persistent-queues) for PQ defaults (Cribl-managed Cloud Workers) and configuration options (on-prem and hybrid Workers)."""
 
     streamtags: Optional[List[str]] = None
-    r"""Tags for filtering and grouping in @{product}"""
+    r"""Metadata tags used for categorization and filtering."""
 
     connections: Optional[List[ConnectionConfInputCollection]] = None
     r"""Direct connections to Destinations, and optionally via a Pipeline or a Pack"""
@@ -321,6 +341,7 @@ class InputOpenaiInput(BaseModel):
     r"""HTTP request inactivity timeout. Use 0 to disable."""
 
     api_key: Annotated[Optional[str], pydantic.Field(alias="apiKey")] = None
+    r"""API key"""
 
     keep_alive_time: Annotated[
         Optional[float], pydantic.Field(alias="keepAliveTime")
@@ -348,6 +369,7 @@ class InputOpenaiInput(BaseModel):
     ] = None
 
     description: Optional[str] = None
+    r"""Optional description for this configuration."""
 
     template_environment: Annotated[
         Optional[str], pydantic.Field(alias="__template_environment")
@@ -414,7 +436,7 @@ class InputOpenaiInput(BaseModel):
 
 
 try:
-    InputOpenaiContentConfig.model_rebuild()
+    ContentConfigInput.model_rebuild()
 except NameError:
     pass
 try:

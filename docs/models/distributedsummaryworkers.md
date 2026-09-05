@@ -1,5 +1,7 @@
 # DistributedSummaryWorkers
 
+Worker or Edge Node counts and health statistics in the deployment summary.
+
 
 ## Fields
 

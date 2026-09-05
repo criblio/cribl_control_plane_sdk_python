@@ -1,5 +1,7 @@
 # OutputRouterType
 
+Connector type identifier.
+
 ## Example Usage
 
 ```python

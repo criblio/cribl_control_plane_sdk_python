@@ -20,7 +20,7 @@ from typing_extensions import Annotated, TypeAliasType
 
 HealthOverlayStatusTypedDict = TypeAliasType(
     "HealthOverlayStatusTypedDict",
-    Union[NoActiveHealthOverlayStatusTypedDict, ActiveHealthOverlayStatusTypedDict],
+    Union[ActiveHealthOverlayStatusTypedDict, NoActiveHealthOverlayStatusTypedDict],
 )
 
 

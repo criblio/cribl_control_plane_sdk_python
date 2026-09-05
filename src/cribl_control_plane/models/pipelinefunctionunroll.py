@@ -10,12 +10,14 @@ from typing_extensions import Annotated, NotRequired, TypedDict
 
 
 class PipelineFunctionUnrollID(str, Enum):
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>unroll</code>"""
 
     UNROLL = "unroll"
 
 
 class PipelineFunctionUnrollConfTypedDict(TypedDict):
+    r"""Configuration specific to the Pipeline Function."""
+
     src_expr: str
     r"""Field in which to find/calculate the array to unroll. Example: _raw, _raw.split(/\n/)"""
     dst_field: str
@@ -23,6 +25,8 @@ class PipelineFunctionUnrollConfTypedDict(TypedDict):
 
 
 class PipelineFunctionUnrollConf(BaseModel):
+    r"""Configuration specific to the Pipeline Function."""
+
     src_expr: Annotated[str, pydantic.Field(alias="srcExpr")]
     r"""Field in which to find/calculate the array to unroll. Example: _raw, _raw.split(/\n/)"""
 
@@ -32,40 +36,42 @@ class PipelineFunctionUnrollConf(BaseModel):
 
 class PipelineFunctionUnrollTypedDict(TypedDict):
     id: PipelineFunctionUnrollID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>unroll</code>"""
     conf: PipelineFunctionUnrollConfTypedDict
+    r"""Configuration specific to the Pipeline Function."""
     filter_: NotRequired[str]
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
     description: NotRequired[str]
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
     disabled: NotRequired[bool]
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
     final: NotRequired[bool]
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
     group_id: NotRequired[str]
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
 
 class PipelineFunctionUnroll(BaseModel):
     id: PipelineFunctionUnrollID
-    r"""Function ID"""
+    r"""Identifier of the Function. Always <code>unroll</code>"""
 
     conf: PipelineFunctionUnrollConf
+    r"""Configuration specific to the Pipeline Function."""
 
     filter_: Annotated[Optional[str], pydantic.Field(alias="filter")] = None
-    r"""Filter that selects data to be fed through this Function"""
+    r"""JavaScript expression that selects data to pass through the Function."""
 
     description: Optional[str] = None
-    r"""Simple description of this step"""
+    r"""Brief description of the Pipeline function."""
 
     disabled: Optional[bool] = None
-    r"""If true, data will not be pushed through this function"""
+    r"""If <code>true</code>, disable the Pipeline function so that events are not passed through it. Otherwise, <code>false</code>."""
 
     final: Optional[bool] = None
-    r"""If enabled, stops the results of this Function from being passed to the downstream Functions"""
+    r"""If <code>true</code>, stop passing events to downstream Pipeline Functions after the Function executes. Otherwise, <code>false</code>."""
 
     group_id: Annotated[Optional[str], pydantic.Field(alias="groupId")] = None
-    r"""Group ID"""
+    r"""Unique identifier of the group that contains the Pipeline Function."""
 
     @model_serializer(mode="wrap")
     def serialize_model(self, handler):

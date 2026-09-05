@@ -125,6 +125,12 @@ value: models.OutputResponseOutputHoneycomb = /* values here */
 value: models.OutputResponseOutputAzureEventhub = /* values here */
 ```
 
+### `models.OutputResponseOutputGoogleBigquery`
+
+```python
+value: models.OutputResponseOutputGoogleBigquery = /* values here */
+```
+
 ### `models.OutputResponseOutputGoogleChronicle`
 
 ```python
@@ -287,6 +293,12 @@ value: models.OutputResponseOutputGrafanaCloudUnion = /* values here */
 value: models.OutputResponseOutputLoki = /* values here */
 ```
 
+### `models.OutputResponseOutputAmazonManagedPrometheus`
+
+```python
+value: models.OutputResponseOutputAmazonManagedPrometheus = /* values here */
+```
+
 ### `models.OutputResponseOutputPrometheus`
 
 ```python
@@ -377,6 +389,12 @@ value: models.OutputResponseOutputDiskSpool = /* values here */
 value: models.OutputResponseOutputClickHouse = /* values here */
 ```
 
+### `models.OutputResponseOutputCustomerMetricsStorage`
+
+```python
+value: models.OutputResponseOutputCustomerMetricsStorage = /* values here */
+```
+
 ### `models.OutputResponseOutputLocalSearchStorage`
 
 ```python
@@ -407,6 +425,12 @@ value: models.OutputResponseOutputDynatraceHTTP = /* values here */
 value: models.OutputResponseOutputDynatraceOtlp = /* values here */
 ```
 
+### `models.OutputResponseOutputTraversalOtlp`
+
+```python
+value: models.OutputResponseOutputTraversalOtlp = /* values here */
+```
+
 ### `models.OutputResponseOutputSentinelOneAiSiem`
 
 ```python
@@ -423,6 +447,12 @@ value: models.OutputResponseOutputChronicle = /* values here */
 
 ```python
 value: models.OutputResponseOutputDatabricks = /* values here */
+```
+
+### `models.OutputResponseOutputSnowflakeStreaming`
+
+```python
+value: models.OutputResponseOutputSnowflakeStreaming = /* values here */
 ```
 
 ### `models.OutputResponseOutputMicrosoftFabric`
@@ -477,5 +507,17 @@ value: models.OutputResponseOutputScalityS3 = /* values here */
 
 ```python
 value: models.OutputResponseOutputAlibabaCloudS3 = /* values here */
+```
+
+### `models.OutputResponseOutputIbmCloudS3`
+
+```python
+value: models.OutputResponseOutputIbmCloudS3 = /* values here */
+```
+
+### `models.OutputResponseOutputDatabricksZerobus`
+
+```python
+value: models.OutputResponseOutputDatabricksZerobus = /* values here */
 ```
 
